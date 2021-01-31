@@ -2,11 +2,9 @@ namespace HareDu.Integration.Tests
 {
     using System;
     using System.Threading.Tasks;
-    using Core;
     using Core.Configuration;
     using Core.Extensions;
     using Extensions;
-    using Internal;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using Registration;

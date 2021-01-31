@@ -4,7 +4,6 @@ namespace HareDu
     using System.Threading;
     using System.Threading.Tasks;
     using Core;
-    using Internal;
     using Model;
 
     public interface Queue :

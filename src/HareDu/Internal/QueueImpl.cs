@@ -525,8 +525,4 @@ namespace HareDu.Internal
             }
         }
     }
-
-    public interface BrokerObject
-    {
-    }
 }
