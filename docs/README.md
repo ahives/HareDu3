@@ -1,8 +1,8 @@
-# HareDu 2
+# HareDu 3
 
-HareDu 2 comes with four major APIs; that is, Broker, Snapshot, Diagnostics, and Configuration, respectively.
+HareDu 3 comes with four major APIs; that is, Broker, Snapshot, Diagnostics, and Configuration, respectively.
 
-### HareDu 2 NuGet Packages
+### HareDu 3 NuGet Packages
 
 | Package Name |  | .NET Standard |
 |---| --- | --- |
