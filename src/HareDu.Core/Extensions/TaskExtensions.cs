@@ -16,6 +16,10 @@ namespace HareDu.Core.Extensions
                 ? result.GetAwaiter().GetResult()
                 : default;
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         public static void RequestCanceled(this CancellationToken cancellationToken)
         {
             if (!cancellationToken.IsCancellationRequested)

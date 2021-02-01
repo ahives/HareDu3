@@ -12,6 +12,14 @@ namespace HareDu.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static bool IsNull<T>(this T value) => value == null;
+        
+        /// <summary>
+        /// Returns true if the value is not null, otherwise, returns false.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool IsNotNull<T>(this T value) => !IsNull(value);
 
         /// <summary>
         /// 

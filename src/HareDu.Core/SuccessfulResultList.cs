@@ -10,9 +10,11 @@ namespace HareDu.Core
     {
         public SuccessfulResultList()
         {
+            HasFaulted = false;
             Errors = new List<Error>();
             Timestamp = DateTimeOffset.UtcNow;
-            HasData = !Data.IsNull() && Data.Any();
         }
+
+        public override bool HasData => Data.IsNotNull() && Data.Any();
     }
 }

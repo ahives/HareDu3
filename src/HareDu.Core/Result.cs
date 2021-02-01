@@ -11,7 +11,7 @@ namespace HareDu.Core
 
         public IReadOnlyList<Error> Errors { get; init; }
 
-        public bool HasFaulted { get; init; }
+        public virtual bool HasFaulted { get; init; }
     }
 
     public record Result<T> :
@@ -19,6 +19,6 @@ namespace HareDu.Core
     {
         public T Data { get; init; }
 
-        public bool HasData { get; init; }
+        public virtual bool HasData { get; init; }
     }
 }

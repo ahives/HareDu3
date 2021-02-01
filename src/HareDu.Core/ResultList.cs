@@ -7,6 +7,6 @@ namespace HareDu.Core
     {
         public IReadOnlyList<T> Data { get; init; }
 
-        public bool HasData { get; init; }
+        public virtual bool HasData { get; init; }
     }
 }

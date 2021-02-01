@@ -7,6 +7,7 @@ namespace HareDu.Core
     {
         public FaultedResult()
         {
+            HasFaulted = true;
             Timestamp = DateTimeOffset.UtcNow;
         }
     }
