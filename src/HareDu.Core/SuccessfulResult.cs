@@ -9,6 +9,8 @@ namespace HareDu.Core
     {
         public SuccessfulResult()
         {
+            HasFaulted = false;
+            Errors = new List<Error>();
             Timestamp = DateTimeOffset.UtcNow;
         }
     }

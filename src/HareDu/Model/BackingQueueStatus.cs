@@ -27,7 +27,7 @@ namespace HareDu.Model
         public long Length { get; init; }
         
         [JsonPropertyName("target_ram_count")]
-        public string TargetTotalMessagesInRAM { get; init; }
+        public long TargetTotalMessagesInRAM { get; init; }
         
         [JsonPropertyName("next_seq_id")]
         public long NextSequenceId { get; init; }

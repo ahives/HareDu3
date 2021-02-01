@@ -27,6 +27,14 @@
       <Content Include="TestData\QueueInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\PeekedMessageInfo.json" />
+      <Content Include="TestData\PeekedMessageInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ExchangeInfo.json" />
+      <Content Include="TestData\ExchangeInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

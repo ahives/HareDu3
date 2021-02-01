@@ -41,6 +41,7 @@ namespace HareDu.Core.Extensions
             
             options.Converters.Add(new CustomDecimalConverter());
             options.Converters.Add(new CustomDateTimeConverter());
+            options.Converters.Add(new CustomLongConverter());
             
             return JsonSerializer.Deserialize<T>(rawResponse, options);
         }
@@ -60,6 +61,7 @@ namespace HareDu.Core.Extensions
             
             options.Converters.Add(new CustomDecimalConverter());
             options.Converters.Add(new CustomDateTimeConverter());
+            options.Converters.Add(new CustomLongConverter());
             
             return JsonSerializer.Deserialize<T>(value, options);
         }

@@ -12,7 +12,7 @@ namespace HareDu.Internal
     using Extensions;
     using Model;
 
-    public class QueueImpl :
+    class QueueImpl :
         BaseBrokerObject,
         Queue
     {
