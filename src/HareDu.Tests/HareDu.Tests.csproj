@@ -35,6 +35,18 @@
       <Content Include="TestData\ExchangeInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\ChannelInfo.json" />
+      <Content Include="TestData\ChannelInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ConnectionInfo.json" />
+      <Content Include="TestData\ConnectionInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\GlobalParameterInfo.json" />
+      <Content Include="TestData\GlobalParameterInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
