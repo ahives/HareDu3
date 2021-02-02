@@ -67,6 +67,14 @@
       <Content Include="TestData\PolicyInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\ScopedParameterInfo.json" />
+      <Content Include="TestData\ScopedParameterInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ServerDefinitionInfo.json" />
+      <Content Include="TestData\ServerDefinitionInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
