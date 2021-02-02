@@ -2,8 +2,8 @@ namespace HareDu.Tests
 {
     using Core.Extensions;
     using Core.Serialization;
-    using Internal;
     using Microsoft.Extensions.DependencyInjection;
+    using Model;
     using NUnit.Framework;
     using Registration;
     using Shouldly;
