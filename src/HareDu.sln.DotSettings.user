@@ -10,6 +10,9 @@
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ChannelTests.Verify_can_get_all_channels&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ConnectionTests.Test&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.GlobalParameterTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.NodeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ConsumerTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.PolicyTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb2c34f3_002D6684_002D40f8_002D8c01_002D51fc7c8f9cb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

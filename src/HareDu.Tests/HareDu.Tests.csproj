@@ -47,6 +47,26 @@
       <Content Include="TestData\GlobalParameterInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\NodeInfo.json" />
+      <Content Include="TestData\NodeInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\MemoryUsageInfo.json" />
+      <Content Include="TestData\MemoryUsageInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\NodeHealthInfo.json" />
+      <Content Include="TestData\NodeHealthInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ConsumerInfo.json" />
+      <Content Include="TestData\ConsumerInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\PolicyInfo.json" />
+      <Content Include="TestData\PolicyInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
