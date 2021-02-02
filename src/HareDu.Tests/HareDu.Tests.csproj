@@ -79,6 +79,22 @@
       <Content Include="TestData\SystemOverviewInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\TopicPermissionsInfo.json" />
+      <Content Include="TestData\TopicPermissionsInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\UserPermissionsInfo.json" />
+      <Content Include="TestData\UserPermissionsInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\VirtualHostInfo.json" />
+      <Content Include="TestData\VirtualHostInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\VirtualHostLimitsInfo.json" />
+      <Content Include="TestData\VirtualHostLimitsInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

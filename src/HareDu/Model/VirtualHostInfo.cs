@@ -9,7 +9,7 @@ namespace HareDu.Model
         public string Name { get; init; }
         
         [JsonPropertyName("tracing")]
-        public string Tracing { get; init; }
+        public bool Tracing { get; init; }
         
         [JsonPropertyName("cluster_state")]
         public IDictionary<string, string> ClusterState { get; init; }
