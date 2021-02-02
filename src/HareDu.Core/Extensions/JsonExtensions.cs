@@ -3,7 +3,6 @@ namespace HareDu.Core.Extensions
     using System.Net.Http;
     using System.Text.Json;
     using System.Threading.Tasks;
-    using Serialization;
 
     public static class JsonExtensions
     {
@@ -18,9 +17,8 @@ namespace HareDu.Core.Extensions
             if (obj.IsNull())
                 return string.Empty;
 
-            var options = new JsonSerializerOptions();
-            options.WriteIndented = true;
-            
+            var options = new JsonSerializerOptions {WriteIndented = true};
+
             return JsonSerializer.Serialize(obj, options);
         }
 
@@ -30,21 +28,13 @@ namespace HareDu.Core.Extensions
         /// <param name="responseMessage"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static async Task<T> ToObject<T>(this HttpResponseMessage responseMessage)
+        public static async Task<T> ToObject<T>(this HttpResponseMessage responseMessage, JsonSerializerOptions options)
         {
             string rawResponse = await responseMessage.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrWhiteSpace(rawResponse))
-                return default;
-
-            var options = new JsonSerializerOptions();
-            
-            options.Converters.Add(new CustomDecimalConverter());
-            options.Converters.Add(new CustomDateTimeConverter());
-            options.Converters.Add(new CustomLongConverter());
-            options.Converters.Add(new CustomStringConverter());
-            
-            return JsonSerializer.Deserialize<T>(rawResponse, options);
+            return string.IsNullOrWhiteSpace(rawResponse)
+                ? default
+                : JsonSerializer.Deserialize<T>(rawResponse, options);
         }
 
         /// <summary>
@@ -53,19 +43,9 @@ namespace HareDu.Core.Extensions
         /// <param name="value"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T ToObject<T>(this string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return default;
-
-            var options = new JsonSerializerOptions();
-            
-            options.Converters.Add(new CustomDecimalConverter());
-            options.Converters.Add(new CustomDateTimeConverter());
-            options.Converters.Add(new CustomLongConverter());
-            options.Converters.Add(new CustomStringConverter());
-            
-            return JsonSerializer.Deserialize<T>(value, options);
-        }
+        public static T ToObject<T>(this string value, JsonSerializerOptions options) =>
+            string.IsNullOrWhiteSpace(value)
+                ? default
+                : JsonSerializer.Deserialize<T>(value, options);
     }
 }

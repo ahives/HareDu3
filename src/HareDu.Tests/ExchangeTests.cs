@@ -1,6 +1,7 @@
 namespace HareDu.Tests
 {
     using Core.Extensions;
+    using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
@@ -61,7 +62,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>();
+            ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
 
             result.DebugInfo.URL.ShouldBe("api/exchanges/HareDu/fake_exchange");
             definition.RoutingType.ShouldBe("fanout");

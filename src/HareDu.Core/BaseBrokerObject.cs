@@ -10,6 +10,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Extensions;
+    using Serialization;
 
     public class BaseBrokerObject
     {
@@ -32,7 +33,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResultList<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = null}};
                 
-                var data = await response.ToObject<List<T>>();
+                var data = await response.ToObject<List<T>>(Deserializer.Options);
                 
                 return new SuccessfulResultList<T>{Data = data.GetDataOrEmpty(), DebugInfo = new (){URL = url, Request = null}};
             }
@@ -54,7 +55,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = null}};
 
-                var data = await response.ToObject<T>();
+                var data = await response.ToObject<T>(Deserializer.Options);
                 
                 return new SuccessfulResult<T>{Data = data, DebugInfo = new (){URL = url, Request = null}};
             }
@@ -150,7 +151,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = request}};
 
-                var data = await response.ToObject<T>();
+                var data = await response.ToObject<T>(Deserializer.Options);
 
                 return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new(){URL = url, Request = request}};
             }
@@ -177,7 +178,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResultList<T> {Errors = new List<Error> {GetError(response.StatusCode)}, DebugInfo = new () {URL = url, Request = request}};
 
-                var data = await response.ToObject<List<T>>();
+                var data = await response.ToObject<List<T>>(Deserializer.Options);
 
                 return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request}};
             }

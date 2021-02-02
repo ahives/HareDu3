@@ -1,6 +1,7 @@
 namespace HareDu.Tests
 {
     using Core.Extensions;
+    using Core.Serialization;
     using Internal;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
@@ -62,7 +63,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>();
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
             
             definition.Pattern.ShouldBe("^amq.");
             definition.Priority.ShouldBe(0);
@@ -99,7 +100,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>();
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
             
             definition.Pattern.ShouldBe("^amq.");
             definition.Priority.ShouldBe(0);
@@ -137,7 +138,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>();
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
             
             definition.Pattern.ShouldBe("^amq.");
             definition.Priority.ShouldBe(0);
@@ -175,7 +176,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>();
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
             
             definition.Pattern.ShouldBe("^amq.");
             definition.Priority.ShouldBe(0);
@@ -212,7 +213,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>();
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
             
             definition.Pattern.ShouldBe("^amq.");
             definition.Priority.ShouldBe(0);

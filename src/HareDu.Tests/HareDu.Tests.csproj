@@ -75,6 +75,10 @@
       <Content Include="TestData\ServerDefinitionInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\SystemOverviewInfo.json" />
+      <Content Include="TestData\SystemOverviewInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

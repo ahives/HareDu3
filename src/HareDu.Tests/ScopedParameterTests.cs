@@ -1,6 +1,7 @@
 namespace HareDu.Tests
 {
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
@@ -51,7 +52,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<long> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<long>>();
+            ScopedParameterDefinition<long> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<long>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -79,7 +80,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -108,7 +109,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBeNullOrEmpty();
@@ -136,7 +137,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBeNullOrEmpty();
@@ -165,7 +166,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -193,7 +194,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -222,7 +223,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -250,7 +251,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -279,7 +280,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBe("fake_component");
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -308,7 +309,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBeNullOrEmpty();
@@ -335,7 +336,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBeNullOrEmpty();
@@ -362,7 +363,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -386,7 +387,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBe("fake_parameter");
@@ -409,7 +410,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
-            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>();
+            ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
             
             definition.Component.ShouldBeNullOrEmpty();
             definition.ParameterName.ShouldBeNullOrEmpty();

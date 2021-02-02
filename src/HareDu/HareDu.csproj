@@ -8,4 +8,8 @@
       <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Serialization" />
+    </ItemGroup>
+
 </Project>

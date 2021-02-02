@@ -2,6 +2,7 @@ namespace HareDu.Tests
 {
     using System;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
@@ -117,7 +118,7 @@ namespace HareDu.Tests
             result.Data[0]?.Properties?.Headers.ShouldNotBeNull();
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -154,7 +155,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -187,7 +188,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -221,7 +222,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -255,7 +256,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -288,7 +289,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -322,7 +323,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -355,7 +356,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -387,7 +388,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -421,7 +422,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -454,7 +455,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -488,7 +489,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -520,7 +521,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -551,7 +552,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -576,7 +577,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(4);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBeNullOrEmpty();
             definition.Take.ShouldBe<uint>(0);
@@ -607,7 +608,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>();
+            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBeNullOrEmpty();
             definition.Take.ShouldBe<uint>(0);
@@ -677,7 +678,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -719,7 +720,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -758,7 +759,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -798,7 +799,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -837,7 +838,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -875,7 +876,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -913,7 +914,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
             definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
@@ -952,7 +953,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>();
+            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
             
             definition.Arguments["x-expires"].Cast<long>().ShouldBe(980);
             definition.Durable.ShouldBeTrue();

@@ -2,6 +2,7 @@ namespace HareDu.Tests
 {
     using System.Collections.Generic;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
@@ -27,7 +28,7 @@ namespace HareDu.Tests
             result.Data.Count.ShouldBe(5);
             result.Data[3].Name.ShouldBe("fake_param1");
             
-            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>();
+            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
             
             value.Count.ShouldBe(2);
             value["arg1"].ShouldBe("value1");
@@ -50,7 +51,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBe("fake_param");
             definition.Value.ShouldBe("fake_value");
@@ -76,17 +77,17 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBe("fake_param");
             definition.Value
                 .ToString()
-                .ToObject<IDictionary<string, object>>()["arg1"]
+                .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg1"]
                 .Cast<string>()
                 .ShouldBe("value1");
             definition.Value
                 .ToString()
-                .ToObject<IDictionary<string, object>>()["arg2"]
+                .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg2"]
                 .ShouldBe(5);
         }
         
@@ -107,7 +108,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.ShouldBe("fake_value");
@@ -129,7 +130,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.ShouldBe("fake_value");
@@ -152,7 +153,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBe("fake_param");
             definition.Value.Cast<string>().ShouldBeNullOrEmpty();
@@ -175,7 +176,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.Cast<string>().ShouldBeNullOrEmpty();
@@ -197,7 +198,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.ShouldBeNull();
@@ -219,7 +220,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.Cast<string>().ShouldBeNullOrEmpty();
@@ -240,7 +241,7 @@ namespace HareDu.Tests
             result.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>();
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
             definition.Name.ShouldBeNullOrEmpty();
             definition.Value.ShouldBeNull();

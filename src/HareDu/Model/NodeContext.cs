@@ -1,5 +1,6 @@
 namespace HareDu.Model
 {
+    using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
     public record NodeContext
@@ -12,5 +13,14 @@ namespace HareDu.Model
         
         [JsonPropertyName("port")]
         public string Port { get; init; }
+        
+        [JsonPropertyName("cowboy_opts")]
+        public IList<ServerOptions> ServerOptions { get; init; }
+        
+        [JsonPropertyName("ssl_opts")]
+        public IList<string> SslOptions { get; init; }
+        
+        [JsonPropertyName("node")]
+        public string Node { get; init; }
     }
 }
