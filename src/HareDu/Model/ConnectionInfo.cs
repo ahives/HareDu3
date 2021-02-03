@@ -53,7 +53,7 @@ namespace HareDu.Model
         public ulong Channels { get; init; }
 
         [JsonPropertyName("send_pend")]
-        public ulong SendPending { get; }
+        public ulong SendPending { get; init; }
 
         [JsonPropertyName("type")]
         public string Type { get; init; }

@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Integration.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Tests", "HareDu.Tests\HareDu.Tests.csproj", "{3885D347-AC99-448A-9C32-759AFF04C1BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Snapshotting", "HareDu.Snapshotting\HareDu.Snapshotting.csproj", "{44484524-A509-43F2-9A95-86BF44B3E472}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Snapshotting.Tests", "HareDu.Snapshotting.Tests\HareDu.Snapshotting.Tests.csproj", "{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +36,18 @@ Global
 		{3885D347-AC99-448A-9C32-759AFF04C1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3885D347-AC99-448A-9C32-759AFF04C1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3885D347-AC99-448A-9C32-759AFF04C1BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44484524-A509-43F2-9A95-86BF44B3E472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44484524-A509-43F2-9A95-86BF44B3E472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44484524-A509-43F2-9A95-86BF44B3E472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44484524-A509-43F2-9A95-86BF44B3E472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB586288-61C5-4F40-8EFF-23A307164DB4} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
 		{3885D347-AC99-448A-9C32-759AFF04C1BD} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
+		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
 	EndGlobalSection
 EndGlobal
