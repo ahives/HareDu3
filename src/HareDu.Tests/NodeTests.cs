@@ -64,7 +64,7 @@ namespace HareDu.Tests
             result.Data[0].TotalSocketsAvailable.ShouldBe<ulong>(138);
             result.Data[0].ProcessesUsed.ShouldBe<ulong>(598);
             result.Data[0].ProcessUsageDetails.ShouldNotBeNull();
-            result.Data[0].ProcessUsageDetails.Rate.ShouldBe(0.0M);
+            result.Data[0].ProcessUsageDetails?.Value.ShouldBe(0.0M);
             result.Data[0].TotalProcesses.ShouldBe<ulong>(1048576);
             result.Data[0].OperatingSystemProcessId.ShouldBe("1864");
             result.Data[0].RatesMode.ShouldBe("basic");

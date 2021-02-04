@@ -111,7 +111,7 @@ namespace HareDu.Model
         public ulong ProcessesUsed { get; init; }
 
         [JsonPropertyName("proc_used_details")]
-        public ProcessUsageDetails ProcessUsageDetails { get; init; }
+        public Rate ProcessUsageDetails { get; init; }
 
         [JsonPropertyName("disk_free")]
         public ulong FreeDiskSpace { get; init; }
