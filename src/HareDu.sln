@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Snapshotting", "Hare
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Snapshotting.Tests", "HareDu.Snapshotting.Tests\HareDu.Snapshotting.Tests.csproj", "{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Diagnostics", "HareDu.Diagnostics\HareDu.Diagnostics.csproj", "{D63690C7-2B0A-4794-8289-DB92259A7F8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Diagnostics.Tests", "HareDu.Diagnostics.Tests\HareDu.Diagnostics.Tests.csproj", "{77FCCD4C-22A5-4D34-8D24-A61F390A933F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,10 +48,19 @@ Global
 		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63690C7-2B0A-4794-8289-DB92259A7F8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63690C7-2B0A-4794-8289-DB92259A7F8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63690C7-2B0A-4794-8289-DB92259A7F8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63690C7-2B0A-4794-8289-DB92259A7F8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FCCD4C-22A5-4D34-8D24-A61F390A933F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FCCD4C-22A5-4D34-8D24-A61F390A933F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FCCD4C-22A5-4D34-8D24-A61F390A933F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FCCD4C-22A5-4D34-8D24-A61F390A933F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FB586288-61C5-4F40-8EFF-23A307164DB4} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
 		{3885D347-AC99-448A-9C32-759AFF04C1BD} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
 		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
+		{77FCCD4C-22A5-4D34-8D24-A61F390A933F} = {D342D234-7AEB-4C0D-B641-E3FC0C55160A}
 	EndGlobalSection
 EndGlobal
