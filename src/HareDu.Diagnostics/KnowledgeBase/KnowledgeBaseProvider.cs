@@ -7,43 +7,43 @@ namespace HareDu.Diagnostics.KnowledgeBase
     {
         protected override void Load()
         {
-            // Add<MessagePagingProbe>(ProbeResultStatus.Unhealthy, "", null);
-            // Add<MessagePagingProbe>(ProbeResultStatus.Healthy, "", null);
-            //
-            // Add<QueueNoFlowProbe>(ProbeResultStatus.Unhealthy, "There are no messages being published to the queue", null);
-            // Add<QueueNoFlowProbe>(ProbeResultStatus.Healthy, "", null);
-            //
-            // Add<QueueHighFlowProbe>(ProbeResultStatus.Unhealthy, "", null);
-            // Add<QueueHighFlowProbe>(ProbeResultStatus.Healthy, "", null);
-            // Add<QueueHighFlowProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<QueueLowFlowProbe>(ProbeResultStatus.Unhealthy, "", null);
-            // Add<QueueLowFlowProbe>(ProbeResultStatus.Healthy, "", null);
-            // Add<QueueLowFlowProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<UnroutableMessageProbe>(ProbeResultStatus.Unhealthy,
-            //     "Some messages were published to an exchange but there is no queue bound to the exchange.",
-            //     "Bind an appropriate queue to the exchange or stop publishing to the exchange.");
-            // Add<UnroutableMessageProbe>(ProbeResultStatus.Healthy, "No exchanges were published to that is not bound to a corresponding queue.", null);
-            //
-            // Add<ConsumerUtilizationProbe>(ProbeResultStatus.Warning,
-            //     "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
-            //     "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit.");
-            // Add<ConsumerUtilizationProbe>(ProbeResultStatus.Unhealthy,
-            //     "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
-            //     "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit.");
-            // Add<ConsumerUtilizationProbe>(ProbeResultStatus.Healthy, "The queue is able to efficiently push messages to consumers as fast as possible without delay.", null);
-            //
-            // Add<BlockedConnectionProbe>(ProbeResultStatus.Unhealthy,
-            //     "The connection is blocked meaning that an application has published but is now prevented from consuming. This is not the case with consume only connections.", null;
-            // Add<BlockedConnectionProbe>(ProbeResultStatus.Healthy, "Client applications are able to publish and/or consume on this connection.", null);
-            //
-            // Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Unhealthy,
-            //     "The max limit of available file descriptors that are in use has been reached. This will prevent applications from being able to open more connections to the broker and the RabbitMQ node from opening any files in support of current transactions.",
-            //     "Increase the max number of allowed file handles (see https://www.rabbitmq.com/networking.html#open-file-handle-limit).");
-            // Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Warning, "", null);
-            // Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Healthy, "The number of file handles currently in use is below the max number allowed.", null);
-            // Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.NA, "", null);
+            Add<MessagePagingProbe>(ProbeResultStatus.Unhealthy, "", null);
+            Add<MessagePagingProbe>(ProbeResultStatus.Healthy, "", null);
+            
+            Add<QueueNoFlowProbe>(ProbeResultStatus.Unhealthy, "There are no messages being published to the queue", null);
+            Add<QueueNoFlowProbe>(ProbeResultStatus.Healthy, "", null);
+            
+            Add<QueueHighFlowProbe>(ProbeResultStatus.Unhealthy, "", null);
+            Add<QueueHighFlowProbe>(ProbeResultStatus.Healthy, "", null);
+            Add<QueueHighFlowProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<QueueLowFlowProbe>(ProbeResultStatus.Unhealthy, "", null);
+            Add<QueueLowFlowProbe>(ProbeResultStatus.Healthy, "", null);
+            Add<QueueLowFlowProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<UnroutableMessageProbe>(ProbeResultStatus.Unhealthy,
+            "Some messages were published to an exchange but there is no queue bound to the exchange.",
+            "Bind an appropriate queue to the exchange or stop publishing to the exchange.");
+            Add<UnroutableMessageProbe>(ProbeResultStatus.Healthy, "No exchanges were published to that is not bound to a corresponding queue.", null);
+            
+            Add<ConsumerUtilizationProbe>(ProbeResultStatus.Warning,
+            "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
+            "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit.");
+            Add<ConsumerUtilizationProbe>(ProbeResultStatus.Unhealthy,
+            "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
+            "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit.");
+            Add<ConsumerUtilizationProbe>(ProbeResultStatus.Healthy, "The queue is able to efficiently push messages to consumers as fast as possible without delay.", null);
+            
+            Add<BlockedConnectionProbe>(ProbeResultStatus.Unhealthy,
+            "The connection is blocked meaning that an application has published but is now prevented from consuming. This is not the case with consume only connections.", null);
+            Add<BlockedConnectionProbe>(ProbeResultStatus.Healthy, "Client applications are able to publish and/or consume on this connection.", null);
+            
+            Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Unhealthy,
+            "The max limit of available file descriptors that are in use has been reached. This will prevent applications from being able to open more connections to the broker and the RabbitMQ node from opening any files in support of current transactions.",
+            "Increase the max number of allowed file handles (see https://www.rabbitmq.com/networking.html#open-file-handle-limit).");
+            Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Warning, "", null);
+            Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.Healthy, "The number of file handles currently in use is below the max number allowed.", null);
+            Add<FileDescriptorThrottlingProbe>(ProbeResultStatus.NA, "", null);
             
             Add<AvailableCpuCoresProbe>(ProbeResultStatus.Unhealthy,
                 "Could not detect any CPU cores or none are available to the RabbitMQ broker.",
