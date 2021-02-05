@@ -50,26 +50,26 @@ namespace HareDu.Diagnostics.KnowledgeBase
                 "Add more CPU cores to the RabbitMQ node.");
             Add<AvailableCpuCoresProbe>(ProbeResultStatus.Healthy, "Detected at least 1 CPU core available to the RabbitMQ broker.", null);
             
-            // Add<NetworkPartitionProbe>(ProbeResultStatus.Unhealthy,
-            //     "Network partitions detected between one or more nodes.",
-            //     "Please consult the RabbitMQ documentation (https://www.rabbitmq.com/partitions.html) on which strategy best fits your scenario.");
-            // Add<NetworkPartitionProbe>(ProbeResultStatus.Healthy, "No network partitions were detected between nodes.", null);
-            //
-            // Add<RuntimeProcessLimitProbe>(ProbeResultStatus.Unhealthy,
-            //     "The number of Erlang runtime processes in use is greater than or equal to the max number available.", null);
-            // Add<RuntimeProcessLimitProbe>(ProbeResultStatus.Healthy, "The number of Erlang runtime processes in use is less than the max number available.", null);
-            // Add<RuntimeProcessLimitProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<MemoryAlarmProbe>(ProbeResultStatus.Unhealthy,
-            //     "The threshold was reached for how much RAM can be used by the RabbitMQ Broker.",
-            //     "Do one or a combination of the following:\n1) Increase the threshold of available RAM by changing either the vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative broker configuration values.\n2) Spawn more consumers so that messages are not held in RAM for long periods.\n3) Increase the cluster hardware specification by adding more RAM.");
-            // Add<MemoryAlarmProbe>(ProbeResultStatus.Healthy, "The amount of RAM used is less than the current threshold (i.e. vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative).", null);
-            //
-            // Add<DiskAlarmProbe>(ProbeResultStatus.Unhealthy,
-            //     "The node has reached the threshold for usable disk space.",
-            //     "Increase message consumption throughput by spawning more consumers and/or increase disk size to keep up with incoming demand.");
-            // Add<DiskAlarmProbe>(ProbeResultStatus.Healthy, "The node is under the allowable threshold for usable disk space.", null);
-            //
+            Add<NetworkPartitionProbe>(ProbeResultStatus.Unhealthy,
+            "Network partitions detected between one or more nodes.",
+            "Please consult the RabbitMQ documentation (https://www.rabbitmq.com/partitions.html) on which strategy best fits your scenario.");
+            Add<NetworkPartitionProbe>(ProbeResultStatus.Healthy, "No network partitions were detected between nodes.", null);
+            
+            Add<RuntimeProcessLimitProbe>(ProbeResultStatus.Unhealthy,
+            "The number of Erlang runtime processes in use is greater than or equal to the max number available.", null);
+            Add<RuntimeProcessLimitProbe>(ProbeResultStatus.Healthy, "The number of Erlang runtime processes in use is less than the max number available.", null);
+            Add<RuntimeProcessLimitProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<MemoryAlarmProbe>(ProbeResultStatus.Unhealthy,
+            "The threshold was reached for how much RAM can be used by the RabbitMQ Broker.",
+            "Do one or a combination of the following:\n1) Increase the threshold of available RAM by changing either the vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative broker configuration values.\n2) Spawn more consumers so that messages are not held in RAM for long periods.\n3) Increase the cluster hardware specification by adding more RAM.");
+            Add<MemoryAlarmProbe>(ProbeResultStatus.Healthy, "The amount of RAM used is less than the current threshold (i.e. vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative).", null);
+            
+            Add<DiskAlarmProbe>(ProbeResultStatus.Unhealthy,
+            "The node has reached the threshold for usable disk space.",
+            "Increase message consumption throughput by spawning more consumers and/or increase disk size to keep up with incoming demand.");
+            Add<DiskAlarmProbe>(ProbeResultStatus.Healthy, "The node is under the allowable threshold for usable disk space.", null);
+            
             // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Warning,
             //     "The number of network sockets being used is greater than the calculated high watermark but less than max number available.",
             //     null);
