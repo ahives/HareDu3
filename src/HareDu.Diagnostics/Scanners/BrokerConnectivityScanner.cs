@@ -22,17 +22,17 @@ namespace HareDu.Diagnostics.Scanners
                 throw new ArgumentNullException(nameof(probes));
 
             _connectionProbes = probes
-                .Where(x => !x.IsNull()
+                .Where(x => x.IsNotNull()
                             && x.ComponentType == ComponentType.Connection
                             && x.Category != ProbeCategory.Connectivity)
                 .ToList();
             _channelProbes = probes
-                .Where(x => !x.IsNull()
+                .Where(x => x.IsNotNull()
                             && x.ComponentType == ComponentType.Channel
                             && x.Category != ProbeCategory.Connectivity)
                 .ToList();
             _connectivityProbes = probes
-                .Where(x => !x.IsNull()
+                .Where(x => x.IsNotNull()
                             && (x.ComponentType == ComponentType.Connection || x.ComponentType == ComponentType.Channel)
                             && x.Category == ProbeCategory.Connectivity)
                 .ToList();

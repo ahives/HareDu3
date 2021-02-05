@@ -27,8 +27,8 @@ namespace HareDu.Diagnostics
 
         public ScannerFactory(HareDuConfig config, IKnowledgeBaseProvider kb)
         {
-            _config = !config.IsNull() ? config : throw new HareDuDiagnosticsException($"{nameof(config)} argument missing.");
-            _kb = !kb.IsNull() ? kb : throw new HareDuDiagnosticsException($"{nameof(kb)} argument missing.");
+            _config = config.IsNotNull() ? config : throw new HareDuDiagnosticsException($"{nameof(config)} argument missing.");
+            _kb = kb.IsNotNull() ? kb : throw new HareDuDiagnosticsException($"{nameof(kb)} argument missing.");
             _scannerCache = new ConcurrentDictionary<string, object>();
             _probeCache = new ConcurrentDictionary<string, DiagnosticProbe>();
             _observers = new List<IDisposable>();
@@ -65,9 +65,7 @@ namespace HareDu.Diagnostics
                     continue;
                 
                 for (int j = 0; j < probes.Count; j++)
-                {
                     _observers.Add(probes[j].Subscribe(observers[i]));
-                }
             }
         }
 
@@ -81,9 +79,7 @@ namespace HareDu.Diagnostics
                     continue;
                 
                 for (int j = 0; j < probes.Count; j++)
-                {
                     _observers.Add(probes[j].Subscribe(observers[i]));
-                }
             }
         }
 
@@ -94,10 +90,8 @@ namespace HareDu.Diagnostics
             
             var probes = _probeCache.Values.ToList();
             
-            for (int j = 0; j < probes.Count; j++)
-            {
-                _observers.Add(probes[j].Subscribe(observer));
-            }
+            for (int i = 0; i < probes.Count; i++)
+                _observers.Add(probes[i].Subscribe(observer));
         }
 
         public void RegisterObserver(IObserver<ProbeConfigurationContext> observer)
@@ -107,10 +101,8 @@ namespace HareDu.Diagnostics
             
             var probes = _probeCache.Values.ToList();
             
-            for (int j = 0; j < probes.Count; j++)
-            {
-                _observers.Add(probes[j].Subscribe(observer));
-            }
+            for (int i = 0; i < probes.Count; i++)
+                _observers.Add(probes[i].Subscribe(observer));
         }
 
         public bool RegisterProbe<T>(T probe)
@@ -167,19 +159,6 @@ namespace HareDu.Diagnostics
                 _scannerCache.Clear();
 
             return registered;
-        }
-
-        public void UpdateConfiguration(HareDuConfig config)
-        {
-            _config = config;
-            
-            var probes = _probeCache.Values.ToList();
-            
-            for (int i = 0; i < probes.Count; i++)
-            {
-                if (probes[i] is IUpdateProbeConfiguration)
-                    probes[i].Cast<IUpdateProbeConfiguration>().UpdateConfiguration(config.Diagnostics);
-            }
         }
 
         protected virtual bool RegisterScannerInstance(Type type, string key)

@@ -9,15 +9,13 @@ namespace HareDu.Diagnostics.Probes
 
     public class SocketDescriptorThrottlingProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "Socket Descriptor Throttling Probe";
-        public string Description =>
-            "Checks network to see if the number of sockets currently in use is less than or equal to the number available.";
+        public string Description => "Checks network to see if the number of sockets currently in use is less than or equal to the number available.";
         public ComponentType ComponentType => ComponentType.Node;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -37,8 +35,8 @@ namespace HareDu.Diagnostics.Probes
                 _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
-                    ParentComponentId = !data.IsNull() ? data.ClusterIdentifier : null,
-                    ComponentId = !data.IsNull() ? data.Identifier : null,
+                    ParentComponentId = data.IsNotNull() ? data.ClusterIdentifier : null,
+                    ComponentId = data.IsNotNull() ? data.Identifier : null,
                     Id = Id,
                     Name = Name,
                     ComponentType = ComponentType,
@@ -105,14 +103,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
                 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
 
         ulong ComputeThreshold(ulong socketsAvailable)

@@ -430,8 +430,8 @@ namespace HareDu.Internal
 
             public void Validate()
             {
-                if (!_arguments.IsNull())
-                    _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => !error.IsNull()).ToList());
+                if (_arguments.IsNotNull())
+                    _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => error.IsNotNull()).ToList());
 
                 if (string.IsNullOrWhiteSpace(_vhost))
                     _errors.Add(new Error{Reason = "The name of the virtual host is missing."});

@@ -8,10 +8,9 @@ namespace HareDu.Diagnostics.Probes
 
     public class ConsumerUtilizationProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "Consumer Utilization Probe";
@@ -35,8 +34,8 @@ namespace HareDu.Diagnostics.Probes
                 _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
-                    ParentComponentId = !data.IsNull() ? data.Node : null,
-                    ComponentId = !data.IsNull() ? data.Identifier : null,
+                    ParentComponentId = data.IsNotNull() ? data.Node : null,
+                    ComponentId = data.IsNotNull() ? data.Identifier : null,
                     Id = Id,
                     Name = Name,
                     ComponentType = ComponentType,
@@ -103,14 +102,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
                 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
     }
 }

@@ -289,7 +289,7 @@ namespace HareDu.Internal
                 
                 _errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
-                    .Where(error => !error.IsNull())
+                    .Where(error => error.IsNotNull())
                     .ToList());
             }
 

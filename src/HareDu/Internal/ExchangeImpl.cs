@@ -212,8 +212,8 @@ namespace HareDu.Internal
                 if (string.IsNullOrWhiteSpace(_routingType))
                     _errors.Add(new () {Reason = "The routing type of the exchange is missing."});
 
-                if (!_arguments.IsNull())
-                    _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => !error.IsNull()).ToList());
+                if (_arguments.IsNotNull())
+                    _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => error.IsNotNull()).ToList());
 
                 if (string.IsNullOrWhiteSpace(_exchange))
                     _errors.Add(new () {Reason = "The name of the exchange is missing."});

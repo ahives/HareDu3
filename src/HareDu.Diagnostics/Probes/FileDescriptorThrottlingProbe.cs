@@ -9,10 +9,9 @@ namespace HareDu.Diagnostics.Probes
 
     public class FileDescriptorThrottlingProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "File Descriptor Throttling Probe";
@@ -36,8 +35,8 @@ namespace HareDu.Diagnostics.Probes
                 _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
-                    ParentComponentId = !data.IsNull() ? data.NodeIdentifier : null,
-                    ComponentId = !data.IsNull() ? data.ProcessId : null,
+                    ParentComponentId = data.IsNotNull() ? data.NodeIdentifier : null,
+                    ComponentId = data.IsNotNull() ? data.ProcessId : null,
                     Id = Id,
                     Name = Name,
                     ComponentType = ComponentType,
@@ -105,14 +104,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
 
         ulong ComputeThreshold(ulong fileDescriptorsAvailable)

@@ -8,10 +8,9 @@ namespace HareDu.Diagnostics.Probes
 
     public class HighConnectionCreationRateProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "High Connection Creation Rate Probe";
@@ -86,14 +85,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
     }
 }

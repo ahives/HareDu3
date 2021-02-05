@@ -23,8 +23,8 @@ namespace HareDu.Core.Configuration
         bool Validate(HareDuConfig config) => Validate(config.Broker) && Validate(config.Diagnostics);
 
         static bool Validate(DiagnosticsConfig config) =>
-            !config.IsNull()
-            && !config.Probes.IsNull()
+            config.IsNotNull()
+            && config.Probes.IsNotNull()
             && config.Probes.ConsumerUtilizationThreshold > 0
             && config.Probes.HighConnectionClosureRateThreshold > 0
             && config.Probes.HighConnectionCreationRateThreshold > 0
@@ -36,8 +36,8 @@ namespace HareDu.Core.Configuration
             && config.Probes.RuntimeProcessUsageThresholdCoefficient > 0;
 
         static bool Validate(BrokerConfig config)
-            => !config.IsNull() &&
-                !config.Credentials.IsNull() &&
+            => config.IsNotNull() &&
+                config.Credentials.IsNotNull() &&
                 !string.IsNullOrWhiteSpace(config.Credentials.Username) &&
                 !string.IsNullOrWhiteSpace(config.Credentials.Password) &&
                 !string.IsNullOrWhiteSpace(config.Url);

@@ -7,7 +7,7 @@ namespace HareDu.Core.Extensions
     {
         public static bool IsDerivedFrom(this Type type, Type fromType)
         {
-            while (!type.IsNull() && type != typeof(object))
+            while (type.IsNotNull() && type != typeof(object))
             {
                 Type currentType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
 

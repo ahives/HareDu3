@@ -9,10 +9,9 @@ namespace HareDu.Diagnostics.Probes
 
     public class RuntimeProcessLimitProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "Runtime Process Limit Probe";
@@ -104,14 +103,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
 
         ulong ComputeThreshold(ulong limit)

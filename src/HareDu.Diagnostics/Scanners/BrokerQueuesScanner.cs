@@ -21,10 +21,10 @@ namespace HareDu.Diagnostics.Scanners
                 throw new ArgumentNullException(nameof(probes));
             
             _queueProbes = probes
-                .Where(x => !x.IsNull() && x.ComponentType == ComponentType.Queue)
+                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Queue)
                 .ToList();
             _exchangeProbes = probes
-                .Where(x => !x.IsNull() && x.ComponentType == ComponentType.Exchange)
+                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Exchange)
                 .ToList();
         }
 
@@ -39,7 +39,7 @@ namespace HareDu.Diagnostics.Scanners
             
             for (int i = 0; i < snapshot.Queues.Count; i++)
             {
-                if (!snapshot.Queues[i].IsNull())
+                if (snapshot.Queues[i].IsNotNull())
                     results.AddRange(_queueProbes.Select(x => x.Execute(snapshot.Queues[i])));
             }
 

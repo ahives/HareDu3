@@ -25,6 +25,6 @@ namespace HareDu.Core
             Timestamp = DateTimeOffset.UtcNow;
         }
         
-        public override bool HasData => !Data.IsNull();
+        public override bool HasData => Data.IsNotNull();
     }
 }

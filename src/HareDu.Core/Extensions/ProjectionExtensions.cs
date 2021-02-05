@@ -21,7 +21,7 @@ namespace HareDu.Core.Extensions
                 
             Result<T> result = source.GetResult();
 
-            return !result.IsNull() && result.HasData ? projector(result) : default;
+            return result.IsNotNull() && result.HasData ? projector(result) : default;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace HareDu.Core.Extensions
             if (source.IsNull() || !source.HasData || projector.IsNull())
                 return default;
             
-            return !source.IsNull() && source.HasData ? projector(source) : default;
+            return source.IsNotNull() && source.HasData ? projector(source) : default;
         }
         
         /// <summary>
@@ -55,7 +55,7 @@ namespace HareDu.Core.Extensions
                 
             ResultList<T> result = source.GetResult();
 
-            return !result.IsNull() && result.HasData ? projector(result) : default;
+            return result.IsNotNull() && result.HasData ? projector(result) : default;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace HareDu.Core.Extensions
             if (source.IsNull() || !source.HasData || projector.IsNull())
                 return Array.Empty<T>();
 
-            return !source.IsNull() && source.HasData ? projector(source) : Array.Empty<T>();
+            return source.IsNotNull() && source.HasData ? projector(source) : Array.Empty<T>();
         }
     }
 }

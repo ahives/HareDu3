@@ -9,10 +9,9 @@ namespace HareDu.Diagnostics.Probes
 
     public class RedeliveredMessagesProbe :
         BaseDiagnosticProbe,
-        IUpdateProbeConfiguration,
         DiagnosticProbe
     {
-        DiagnosticsConfig _config;
+        readonly DiagnosticsConfig _config;
         
         public string Id => GetType().GetIdentifier();
         public string Name => "Redelivered Messages Probe";
@@ -36,8 +35,8 @@ namespace HareDu.Diagnostics.Probes
                 _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
-                    ParentComponentId = !data.IsNull() ? data.Node : string.Empty,
-                    ComponentId = !data.IsNull() ? data.Identifier : string.Empty,
+                    ParentComponentId = data.IsNotNull() ? data.Node : string.Empty,
+                    ComponentId = data.IsNotNull() ? data.Identifier : string.Empty,
                     Id = Id,
                     Name = Name,
                     ComponentType = ComponentType,
@@ -107,14 +106,6 @@ namespace HareDu.Diagnostics.Probes
             NotifyObservers(result);
 
             return result;
-        }
-
-        public void UpdateConfiguration(DiagnosticsConfig config)
-        {
-            DiagnosticsConfig current = _config;
-            _config = config;
-            
-            NotifyObservers(Id, Name, current, config);
         }
 
         ulong ComputeThreshold(ulong total)

@@ -12,7 +12,7 @@ namespace HareDu.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static T GetResult<T>(this Task<T> result)
-            => !result.IsNull() && !result.IsCanceled && !result.IsFaulted
+            => result.IsNotNull() && !result.IsCanceled && !result.IsFaulted
                 ? result.GetAwaiter().GetResult()
                 : default;
         

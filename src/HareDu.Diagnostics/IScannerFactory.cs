@@ -2,7 +2,6 @@ namespace HareDu.Diagnostics
 {
     using System;
     using System.Collections.Generic;
-    using Core.Configuration;
     using Probes;
     using Scanners;
     using Snapshotting;
@@ -33,7 +32,5 @@ namespace HareDu.Diagnostics
         bool TryRegisterAllProbes();
 
         bool TryRegisterAllScanners();
-
-        void UpdateConfiguration(HareDuConfig config);
     }
 }
