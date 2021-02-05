@@ -70,26 +70,26 @@ namespace HareDu.Diagnostics.KnowledgeBase
             "Increase message consumption throughput by spawning more consumers and/or increase disk size to keep up with incoming demand.");
             Add<DiskAlarmProbe>(ProbeResultStatus.Healthy, "The node is under the allowable threshold for usable disk space.", null);
             
-            // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Warning,
-            //     "The number of network sockets being used is greater than the calculated high watermark but less than max number available.",
-            //     null);
-            // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Unhealthy,
-            //     "The number of network sockets being used is equal to the max number available.",
-            //     null);
-            // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Inconclusive,
-            //     "Either the sensor was not configured correctly or there was no data captured to analyze.",
-            //     "Check the sensor configuration and the resultant snapshot data.");
-            // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Healthy, "The number of network sockets used is less than the calculated high watermark.", null);
-            // Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<RedeliveredMessagesProbe>(ProbeResultStatus.Warning,
-            //     "The number of redelivered messages is less than or equal to the number of incoming messages and greater than or equal to the number of incoming messages multiplied a configurable coefficient.",
-            //     null);
-            // Add<RedeliveredMessagesProbe>(ProbeResultStatus.Unhealthy,
-            //     "The number of redelivered messages is less than or equal to the number of incoming messages.", "");
-            // Add<RedeliveredMessagesProbe>(ProbeResultStatus.Healthy, "", null);
-            // Add<RedeliveredMessagesProbe>(ProbeResultStatus.NA, "", null);
-            //
+            Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Warning,
+            "The number of network sockets being used is greater than the calculated high watermark but less than max number available.",
+            null);
+            Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Unhealthy,
+            "The number of network sockets being used is equal to the max number available.",
+            null);
+            Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Inconclusive,
+            "Either the sensor was not configured correctly or there was no data captured to analyze.",
+            "Check the sensor configuration and the resultant snapshot data.");
+            Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.Healthy, "The number of network sockets used is less than the calculated high watermark.", null);
+            Add<SocketDescriptorThrottlingProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<RedeliveredMessagesProbe>(ProbeResultStatus.Warning,
+            "The number of redelivered messages is less than or equal to the number of incoming messages and greater than or equal to the number of incoming messages multiplied a configurable coefficient.",
+            null);
+            Add<RedeliveredMessagesProbe>(ProbeResultStatus.Unhealthy,
+            "The number of redelivered messages is less than or equal to the number of incoming messages.", "");
+            Add<RedeliveredMessagesProbe>(ProbeResultStatus.Healthy, "", null);
+            Add<RedeliveredMessagesProbe>(ProbeResultStatus.NA, "", null);
+            
             // Add<QueueGrowthProbe>(ProbeResultStatus.Warning,
             //     "Messages are being published to the queue at a higher rate than are being consumed and acknowledged by consumers.",
             //     "Adjust application settings to spawn more consumers.");
