@@ -1,11 +1,10 @@
-namespace HareDu.Snapshotting.Registration
+namespace HareDu.Snapshotting
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Core.Configuration;
     using Core.Extensions;
-    using HareDu.Registration;
     using Internal;
 
     public class SnapshotFactory :

@@ -4,7 +4,6 @@ namespace HareDu.Snapshotting.Tests.Fakes
     using Core;
     using Core.Configuration;
     using Core.Testing;
-    using HareDu.Registration;
 
     public class FakeBrokerObjectFactory :
         IBrokerObjectFactory,

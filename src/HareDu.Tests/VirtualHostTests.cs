@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Registration;
     using Shouldly;
 
     [TestFixture]

@@ -7,7 +7,6 @@ namespace HareDu.Integration.Tests
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Registration;
 
     [TestFixture]
     public class BindingTests

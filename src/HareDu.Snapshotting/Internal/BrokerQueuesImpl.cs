@@ -6,7 +6,6 @@ namespace HareDu.Snapshotting.Internal
     using System.Threading;
     using Core.Extensions;
     using HareDu.Model;
-    using HareDu.Registration;
     using MassTransit;
     using Model;
 

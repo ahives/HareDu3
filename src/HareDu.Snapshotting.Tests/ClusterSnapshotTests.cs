@@ -3,11 +3,9 @@ namespace HareDu.Snapshotting.Tests
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fakes;
-    using HareDu.Registration;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Registration;
     using Shouldly;
 
     [TestFixture]

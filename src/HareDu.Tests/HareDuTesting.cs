@@ -11,7 +11,6 @@
     using Moq;
     using Moq.Protected;
     using NUnit.Framework;
-    using Registration;
 
     public class HareDuTesting
     {

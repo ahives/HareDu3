@@ -8,7 +8,6 @@ namespace HareDu.Snapshotting.Internal
     using Core.Extensions;
     using Extensions;
     using HareDu.Model;
-    using HareDu.Registration;
     using MassTransit;
     using Model;
 

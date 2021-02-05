@@ -6,11 +6,15 @@ namespace HareDu.Diagnostics
     using MassTransit;
     using Snapshotting.Model;
 
-    public record EmptyScannerResult : ScannerResult
+    public record EmptyScannerResult :
+        ScannerResult
     {
-        public Guid Id => NewId.NextGuid();
-        public string ScannerId => typeof(NoOpScanner<EmptySnapshot>).GetIdentifier();
-        public IReadOnlyList<ProbeResult> Results => new List<ProbeResult>();
-        public DateTimeOffset Timestamp => DateTimeOffset.UtcNow;
+        public EmptyScannerResult()
+        {
+            Id = NewId.NextGuid();
+            ScannerId = typeof(NoOpScanner<EmptySnapshot>).GetIdentifier();
+            Results = new List<ProbeResult>();
+            Timestamp = DateTimeOffset.UtcNow;
+        }
     }
 }

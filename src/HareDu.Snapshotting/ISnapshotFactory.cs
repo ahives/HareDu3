@@ -1,4 +1,4 @@
-namespace HareDu.Snapshotting.Registration
+namespace HareDu.Snapshotting
 {
     public interface ISnapshotFactory
     {

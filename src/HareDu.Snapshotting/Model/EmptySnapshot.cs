@@ -1,6 +1,7 @@
 namespace HareDu.Snapshotting.Model
 {
-    public record EmptySnapshot : Snapshot
+    public record EmptySnapshot :
+        Snapshot
     {
     }
 }

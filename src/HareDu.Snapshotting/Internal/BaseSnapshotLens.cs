@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core.Extensions;
-    using HareDu.Registration;
 
     public abstract class BaseSnapshotLens<T> :
         IObservable<SnapshotContext<T>>

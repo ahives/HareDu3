@@ -1,8 +1,7 @@
-namespace HareDu.Registration
+namespace HareDu
 {
     using System.Collections.Generic;
     using Core;
-    using Internal;
 
     public interface IBrokerObjectFactory
     {
