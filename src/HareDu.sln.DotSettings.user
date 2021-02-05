@@ -36,6 +36,14 @@
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.MemoryAlarmProbeTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.RuntimeProcessLimitProbeTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.DiskAlarmProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.SocketDescriptorThrottlingProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.RedeliveredMessagesProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.QueueGrowthProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.ChannelLimitReachedProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.ChannelThrottlingProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.HighConnectionCreationRateProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.HighConnectionClosureRateProbeTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Probes.UnlimitedPrefetchCountProbeTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb2c34f3_002D6684_002D40f8_002D8c01_002D51fc7c8f9cb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

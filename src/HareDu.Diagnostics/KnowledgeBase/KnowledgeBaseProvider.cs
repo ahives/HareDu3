@@ -90,35 +90,35 @@ namespace HareDu.Diagnostics.KnowledgeBase
             Add<RedeliveredMessagesProbe>(ProbeResultStatus.Healthy, "", null);
             Add<RedeliveredMessagesProbe>(ProbeResultStatus.NA, "", null);
             
-            // Add<QueueGrowthProbe>(ProbeResultStatus.Warning,
-            //     "Messages are being published to the queue at a higher rate than are being consumed and acknowledged by consumers.",
-            //     "Adjust application settings to spawn more consumers.");
-            // Add<QueueGrowthProbe>(ProbeResultStatus.Healthy, "Messages are being consumed and acknowledged at a higher rate than are being published to the queue.", null);
-            //
-            // Add<ChannelLimitReachedProbe>(ProbeResultStatus.Unhealthy,
-            //     "Number of channels on connection exceeds the defined limit.",
-            //     "Adjust application settings to reduce the number of connections to the RabbitMQ broker.");
-            // Add<ChannelLimitReachedProbe>(ProbeResultStatus.Healthy,
-            //     "Number of channels on connection is less than defined limit.", null);
-            //
-            // Add<ChannelThrottlingProbe>(ProbeResultStatus.Unhealthy,
-            //     "Unacknowledged messages on channel exceeds prefetch count causing the RabbitMQ broker to stop delivering messages to consumers.",
-            //     "Acknowledged messages must be greater than or equal to the result of subtracting the number of unacknowledged messages from the prefetch count plus 1. Temporarily increase the number of consumers or prefetch count.");
-            // Add<ChannelThrottlingProbe>(ProbeResultStatus.Healthy,
-            //     "Unacknowledged messages on channel is less than prefetch count.", null);
-            //
-            // Add<HighConnectionClosureRateProbe>(ProbeResultStatus.Warning, "", "");
-            // Add<HighConnectionClosureRateProbe>(ProbeResultStatus.Healthy, "", null);
-            // Add<HighConnectionClosureRateProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<HighConnectionCreationRateProbe>(ProbeResultStatus.Warning, "", "");
-            // Add<HighConnectionCreationRateProbe>(ProbeResultStatus.Healthy, "", null);
-            // Add<HighConnectionCreationRateProbe>(ProbeResultStatus.NA, "", null);
-            //
-            // Add<UnlimitedPrefetchCountProbe>(ProbeResultStatus.Warning,
-            //     "Prefetch count of 0 means unlimited prefetch count, which can translate into high CPU utilization.",
-            //     "Set a prefetch count above zero based on how many consumer cores available.");
-            // Add<UnlimitedPrefetchCountProbe>(ProbeResultStatus.Inconclusive, "Unable to determine whether prefetch count has an inappropriate value.", null);
+            Add<QueueGrowthProbe>(ProbeResultStatus.Warning,
+            "Messages are being published to the queue at a higher rate than are being consumed and acknowledged by consumers.",
+            "Adjust application settings to spawn more consumers.");
+            Add<QueueGrowthProbe>(ProbeResultStatus.Healthy, "Messages are being consumed and acknowledged at a higher rate than are being published to the queue.", null);
+            
+            Add<ChannelLimitReachedProbe>(ProbeResultStatus.Unhealthy,
+            "Number of channels on connection exceeds the defined limit.",
+            "Adjust application settings to reduce the number of connections to the RabbitMQ broker.");
+            Add<ChannelLimitReachedProbe>(ProbeResultStatus.Healthy,
+            "Number of channels on connection is less than defined limit.", null);
+            
+            Add<ChannelThrottlingProbe>(ProbeResultStatus.Unhealthy,
+            "Unacknowledged messages on channel exceeds prefetch count causing the RabbitMQ broker to stop delivering messages to consumers.",
+            "Acknowledged messages must be greater than or equal to the result of subtracting the number of unacknowledged messages from the prefetch count plus 1. Temporarily increase the number of consumers or prefetch count.");
+            Add<ChannelThrottlingProbe>(ProbeResultStatus.Healthy,
+            "Unacknowledged messages on channel is less than prefetch count.", null);
+            
+            Add<HighConnectionClosureRateProbe>(ProbeResultStatus.Warning, "", "");
+            Add<HighConnectionClosureRateProbe>(ProbeResultStatus.Healthy, "", null);
+            Add<HighConnectionClosureRateProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<HighConnectionCreationRateProbe>(ProbeResultStatus.Warning, "", "");
+            Add<HighConnectionCreationRateProbe>(ProbeResultStatus.Healthy, "", null);
+            Add<HighConnectionCreationRateProbe>(ProbeResultStatus.NA, "", null);
+            
+            Add<UnlimitedPrefetchCountProbe>(ProbeResultStatus.Warning,
+            "Prefetch count of 0 means unlimited prefetch count, which can translate into high CPU utilization.",
+            "Set a prefetch count above zero based on how many consumer cores available.");
+            Add<UnlimitedPrefetchCountProbe>(ProbeResultStatus.Inconclusive, "Unable to determine whether prefetch count has an inappropriate value.", null);
         }
     }
 }
