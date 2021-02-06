@@ -19,7 +19,7 @@ namespace HareDu.Diagnostics
         readonly ConcurrentDictionary<string, object> _scannerCache;
         readonly ConcurrentDictionary<string, DiagnosticProbe> _probeCache;
         readonly IList<IDisposable> _observers;
-        HareDuConfig _config;
+        readonly HareDuConfig _config;
 
         public IReadOnlyDictionary<string, DiagnosticProbe> Probes => _probeCache;
 

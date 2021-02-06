@@ -18,8 +18,6 @@
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(GetClient(string.Empty)));
-
             services.AddSingleton<IBrokerObjectFactory>(x =>
                 {
                     string data = File.ReadAllText($"{TestContext.CurrentContext.TestDirectory}/{file}");
