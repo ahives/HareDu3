@@ -6,7 +6,6 @@ namespace HareDu.Diagnostics
     using System.Linq;
     using Core.Configuration;
     using Core.Extensions;
-    using Extensions;
     using KnowledgeBase;
     using Probes;
     using Scanners;
@@ -108,20 +107,26 @@ namespace HareDu.Diagnostics
         public bool RegisterProbe<T>(T probe)
             where T : DiagnosticProbe
         {
-            if (probe.IsNull())
+            bool added = _probeCache.TryAdd(typeof(T).FullName, probe);
+
+            if (probe.IsNull() || !added)
                 return false;
             
-            return _probeCache.TryAdd(typeof(T).FullName, probe);
+            foreach (var scanner in _scannerCache)
+            {
+                var method = scanner.Value
+                    .GetType()
+                    .GetMethod("FilterProbes");
+                
+                method.Invoke(scanner.Value, new[] {_probeCache.Values});
+            }
+
+            return added;
         }
 
         public bool RegisterScanner<T>(DiagnosticScanner<T> scanner)
-            where T : Snapshot
-        {
-            if (scanner.IsNull())
-                return false;
-
-            return _scannerCache.TryAdd(typeof(T).FullName, scanner);
-        }
+            where T : Snapshot =>
+            scanner.IsNotNull() && _scannerCache.TryAdd(typeof(T).FullName, scanner);
 
         public bool TryRegisterAllProbes()
         {

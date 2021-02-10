@@ -10,16 +10,22 @@ namespace HareDu.Diagnostics.Scanners
     public class BrokerQueuesScanner :
         DiagnosticScanner<BrokerQueuesSnapshot>
     {
-        public string Identifier => GetType().GetIdentifier();
+        readonly IReadOnlyList<DiagnosticProbe> _probes;
 
-        readonly IReadOnlyList<DiagnosticProbe> _queueProbes;
-        readonly List<DiagnosticProbe> _exchangeProbes;
+        IReadOnlyList<DiagnosticProbe> _queueProbes;
+        List<DiagnosticProbe> _exchangeProbes;
+        
+        public string Identifier => GetType().GetIdentifier();
 
         public BrokerQueuesScanner(IReadOnlyList<DiagnosticProbe> probes)
         {
-            if (probes.IsNull())
-                throw new ArgumentNullException(nameof(probes));
-            
+            _probes = probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes));
+
+            FilterProbes(_probes);
+        }
+
+        public void FilterProbes(IReadOnlyList<DiagnosticProbe> probes)
+        {
             _queueProbes = probes
                 .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Queue)
                 .ToList();

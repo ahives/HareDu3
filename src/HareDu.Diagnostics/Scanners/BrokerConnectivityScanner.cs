@@ -10,31 +10,37 @@ namespace HareDu.Diagnostics.Scanners
     public class BrokerConnectivityScanner :
         DiagnosticScanner<BrokerConnectivitySnapshot>
     {
-        public string Identifier => GetType().GetIdentifier();
+        readonly IReadOnlyList<DiagnosticProbe> _probes;
 
-        readonly IReadOnlyList<DiagnosticProbe> _channelProbes;
-        readonly IReadOnlyList<DiagnosticProbe> _connectionProbes;
-        readonly IReadOnlyList<DiagnosticProbe> _connectivityProbes;
+        IReadOnlyList<DiagnosticProbe> _channelProbes;
+        IReadOnlyList<DiagnosticProbe> _connectionProbes;
+        IReadOnlyList<DiagnosticProbe> _connectivityProbes;
+        
+        public string Identifier => GetType().GetIdentifier();
 
         public BrokerConnectivityScanner(IReadOnlyList<DiagnosticProbe> probes)
         {
-            if (probes.IsNull())
-                throw new ArgumentNullException(nameof(probes));
+            _probes = probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes));
 
+            FilterProbes(_probes);
+        }
+
+        public void FilterProbes(IReadOnlyList<DiagnosticProbe> probes)
+        {
             _connectionProbes = probes
                 .Where(x => x.IsNotNull()
-                            && x.ComponentType == ComponentType.Connection
-                            && x.Category != ProbeCategory.Connectivity)
+                    && x.ComponentType == ComponentType.Connection
+                    && x.Category != ProbeCategory.Connectivity)
                 .ToList();
             _channelProbes = probes
                 .Where(x => x.IsNotNull()
-                            && x.ComponentType == ComponentType.Channel
-                            && x.Category != ProbeCategory.Connectivity)
+                    && x.ComponentType == ComponentType.Channel
+                    && x.Category != ProbeCategory.Connectivity)
                 .ToList();
             _connectivityProbes = probes
                 .Where(x => x.IsNotNull()
-                            && (x.ComponentType == ComponentType.Connection || x.ComponentType == ComponentType.Channel)
-                            && x.Category == ProbeCategory.Connectivity)
+                    && (x.ComponentType == ComponentType.Connection || x.ComponentType == ComponentType.Channel)
+                    && x.Category == ProbeCategory.Connectivity)
                 .ToList();
         }
 
