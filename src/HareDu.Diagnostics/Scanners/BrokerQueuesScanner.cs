@@ -21,10 +21,10 @@ namespace HareDu.Diagnostics.Scanners
         {
             _probes = probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes));
 
-            FilterProbes(_probes);
+            Configure(_probes);
         }
 
-        public void FilterProbes(IReadOnlyList<DiagnosticProbe> probes)
+        public void Configure(IReadOnlyList<DiagnosticProbe> probes)
         {
             _queueProbes = probes
                 .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Queue)

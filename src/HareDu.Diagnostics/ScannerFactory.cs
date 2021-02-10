@@ -116,7 +116,7 @@ namespace HareDu.Diagnostics
             {
                 var method = scanner.Value
                     .GetType()
-                    .GetMethod("FilterProbes");
+                    .GetMethod("Configure");
                 
                 method.Invoke(scanner.Value, new[] {_probeCache.Values});
             }

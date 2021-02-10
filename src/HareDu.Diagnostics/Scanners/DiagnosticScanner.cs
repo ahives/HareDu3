@@ -11,6 +11,6 @@ namespace HareDu.Diagnostics.Scanners
 
         IReadOnlyList<ProbeResult> Scan(T snapshot);
 
-        void FilterProbes(IReadOnlyList<DiagnosticProbe> probes);
+        void Configure(IReadOnlyList<DiagnosticProbe> probes);
     }
 }

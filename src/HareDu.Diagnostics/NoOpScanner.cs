@@ -14,6 +14,6 @@ namespace HareDu.Diagnostics
 
         public IReadOnlyList<ProbeResult> Scan(T snapshot) => DiagnosticCache.EmptyProbeResults;
         
-        public void FilterProbes(IReadOnlyList<DiagnosticProbe> probes) { }
+        public void Configure(IReadOnlyList<DiagnosticProbe> probes) { }
     }
 }
