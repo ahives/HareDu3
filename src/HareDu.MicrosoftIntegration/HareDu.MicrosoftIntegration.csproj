@@ -9,23 +9,13 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-      <PackageReference Include="NUnit" Version="3.13.1" />
-      <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-      <PackageReference Include="Shouldly" Version="4.0.3" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
       <ProjectReference Include="..\HareDu.Diagnostics\HareDu.Diagnostics.csproj" />
-      <ProjectReference Include="..\HareDu.MicrosoftIntegration\HareDu.MicrosoftIntegration.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="appsettings.json" />
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+      <ProjectReference Include="..\HareDu.Snapshotting\HareDu.Snapshotting.csproj" />
+      <ProjectReference Include="..\HareDu\HareDu.csproj" />
     </ItemGroup>
 
 </Project>
