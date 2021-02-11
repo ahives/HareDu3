@@ -48,6 +48,11 @@
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Scanners.BrokerQueuesScannerTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Scanners.BrokerConnectivityScannerTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Scanners.DiagnosticScannerTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ChannelTests.Should_be_able_to_get_all_channels&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ConnectionTests.Should_be_able_to_get_all_connections&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ConsumerTests.Should_be_able_to_get_all_consumers&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ExchangeTests.Should_be_able_to_get_all_exchanges&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ExchangeTests.Verify_can_create_exchange&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb2c34f3_002D6684_002D40f8_002D8c01_002D51fc7c8f9cb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

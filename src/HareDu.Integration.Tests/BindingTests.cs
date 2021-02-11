@@ -2,10 +2,10 @@ namespace HareDu.Integration.Tests
 {
     using System;
     using System.Threading.Tasks;
-    using Core.Configuration;
     using Core.Extensions;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
+    using MicrosoftIntegration;
     using NUnit.Framework;
 
     [TestFixture]
@@ -17,14 +17,7 @@ namespace HareDu.Integration.Tests
         public void Init()
         {
             _services = new ServiceCollection()
-                .AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(new HareDuConfig()
-                {
-                    Broker = new ()
-                    {
-                        Url = "http://localhost:15672",
-                        Credentials = new (){Username = "guest", Password = "guest"}
-                    }
-                }))
+                .AddHareDu()
                 .BuildServiceProvider();
         }
 
