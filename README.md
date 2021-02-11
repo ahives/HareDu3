@@ -18,7 +18,7 @@ HareDu is Apache 2.0 licensed.
 | [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 2.0 |
 | **Containers** | | |
 | [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 2.0 |
-| [HareDu.CoreIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 2.0 |
+| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 2.0 |
 
 
 # Why HareDu 3?
