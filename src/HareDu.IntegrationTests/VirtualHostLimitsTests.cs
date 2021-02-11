@@ -1,4 +1,4 @@
-namespace HareDu.Integration.Tests
+namespace HareDu.IntegrationTests
 {
     using System;
     using System.Threading.Tasks;
@@ -9,7 +9,7 @@ namespace HareDu.Integration.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class TopicPermissionsTest
+    public class VirtualHostLimitsTests
     {
         ServiceProvider _services;
 
@@ -22,65 +22,61 @@ namespace HareDu.Integration.Tests
         }
 
         [Test]
-        public async Task Verify_can_get_all_topic_permissions()
+        public async Task Verify_can_get_all_limits()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<TopicPermissions>()
+                .Object<VirtualHostLimits>()
                 .GetAll()
                 .ScreenDump();
-
-            Console.WriteLine(result.ToJsonString());
         }
-        
+
         [Test]
-        public void Verify_can_filter_topic_permissions()
+        public void Verify_can_get_limits_of_specified_vhost()
         {
             var result = _services.GetService<IBrokerObjectFactory>()
-                .Object<TopicPermissions>()
+                .Object<VirtualHostLimits>()
                 .GetAll()
-                .Where(x => x.VirtualHost == "HareDu");
-            
-            foreach (var permission in result)
+                .Where(x => x.VirtualHostName == "HareDu");
+
+            foreach (var item in result)
             {
-                Console.WriteLine("VirtualHost: {0}", permission.VirtualHost);
-                Console.WriteLine("Exchange: {0}", permission.Exchange);
-                Console.WriteLine("Read: {0}", permission.Read);
-                Console.WriteLine("Write: {0}", permission.Write);
+                Console.WriteLine("Name: {0}", item.VirtualHostName);
+
+                if (item.Limits.TryGetValue("max-connections", out ulong maxConnections))
+                    Console.WriteLine("max-connections: {0}", maxConnections);
+
+                if (item.Limits.TryGetValue("max-queues", out ulong maxQueues))
+                    Console.WriteLine("max-queues: {0}", maxQueues);
+                
                 Console.WriteLine("****************************************************");
                 Console.WriteLine();
             }
         }
 
         [Test]
-        public async Task Verify_can_create_user_permissions()
+        public async Task Verify_can_define_limits()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<TopicPermissions>()
-                .Create(x =>
+                .Object<VirtualHostLimits>()
+                .Define(x =>
                 {
-                    x.User("guest");
-                    x.VirtualHost("HareDu");
+                    x.VirtualHost("HareDu5");
                     x.Configure(c =>
                     {
-                        c.OnExchange("E4");
-                        c.UsingReadPattern(".*");
-                        c.UsingWritePattern(".*");
+                        c.SetMaxQueueLimit(100);
+                        c.SetMaxConnectionLimit(1000);
                     });
                 });
-
+            
             Console.WriteLine(result.ToJsonString());
         }
 
         [Test]
-        public async Task Verify_can_delete_user_permissions()
+        public async Task Verify_can_delete_limits()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<TopicPermissions>()
-                .Delete(x =>
-                {
-                    x.User("guest");
-                    x.VirtualHost("HareDu7");
-                });
+                .Object<VirtualHostLimits>()
+                .Delete(x => x.For("HareDu3"));
             
             Console.WriteLine(result.ToJsonString());
         }

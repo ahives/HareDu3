@@ -1,4 +1,4 @@
-namespace HareDu.Integration.Tests
+namespace HareDu.IntegrationTests
 {
     using System;
     using System.Threading.Tasks;
@@ -9,7 +9,7 @@ namespace HareDu.Integration.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class GlobalParameterTests
+    public class UserTests
     {
         ServiceProvider _services;
 
@@ -22,43 +22,49 @@ namespace HareDu.Integration.Tests
         }
 
         [Test]
-        public async Task Should_be_able_to_get_all_global_parameters()
+        public async Task Verify_can_get_all_users()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
+                .Object<User>()
                 .GetAll()
                 .ScreenDump();
         }
         
         [Test]
-        public async Task Verify_can_create_parameter()
+        public async Task Verify_can_get_all_users_without_permissions()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Create(x =>
-                {
-                    x.Parameter("fake_param2");
-                    x.Value("fake_value");
-//                    x.Arguments(arg =>
-//                    {
-//                        arg.Set("arg1", "value1");
-//                        arg.Set("arg2", "value2");
-//                    });
-                });
-             
-            // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+                .Object<User>()
+                .GetAllWithoutPermissions()
+                .ScreenDump();
         }
         
         [Test]
-        public async Task Verify_can_delete_parameter()
+        public async Task Verify_can_create()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Delete(x => x.Parameter("Fred"));
+                .Object<User>()
+                .Create(x =>
+                {
+                    x.Username("testuser3");
+                    x.Password("testuserpwd3");
+                    x.PasswordHash("gkgfjjhfjh");
+                    x.WithTags(t =>
+                    {
+                        t.Administrator();
+                    });
+                });
             
-            // Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());
+        }
+
+
+        [Test]
+        public async Task Verify_can_delete()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .Object<User>()
+                .Delete(x => x.User(""));
         }
     }
 }

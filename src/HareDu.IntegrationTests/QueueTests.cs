@@ -1,4 +1,4 @@
-namespace HareDu.Integration.Tests
+namespace HareDu.IntegrationTests
 {
     using System;
     using System.Threading.Tasks;

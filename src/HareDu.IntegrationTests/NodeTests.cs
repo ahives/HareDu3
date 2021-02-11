@@ -1,15 +1,14 @@
-namespace HareDu.Integration.Tests
+namespace HareDu.IntegrationTests
 {
     using System;
     using System.Threading.Tasks;
-    using Core.Extensions;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
 
     [TestFixture]
-    public class UserTests
+    public class NodeTests
     {
         ServiceProvider _services;
 
@@ -22,49 +21,40 @@ namespace HareDu.Integration.Tests
         }
 
         [Test]
-        public async Task Verify_can_get_all_users()
+        public async Task Should_be_able_to_get_all_nodes()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<User>()
+                .Object<Node>()
                 .GetAll()
                 .ScreenDump();
         }
-        
+
         [Test]
-        public async Task Verify_can_get_all_users_without_permissions()
+        public async Task Should_be_able_to_get_all_memory_usage()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<User>()
-                .GetAllWithoutPermissions()
+                .Object<Node>()
+                .GetMemoryUsage("rabbit@localhost")
                 .ScreenDump();
         }
-        
+
         [Test]
-        public async Task Verify_can_create()
+        public async Task Verify_can_check_if_named_node_healthy()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<User>()
-                .Create(x =>
-                {
-                    x.Username("testuser3");
-                    x.Password("testuserpwd3");
-                    x.PasswordHash("gkgfjjhfjh");
-                    x.WithTags(t =>
-                    {
-                        t.Administrator();
-                    });
-                });
-            
-            Console.WriteLine(result.ToJsonString());
+                .Object<Node>()
+                .GetHealth("rabbit@localhost")
+                .ScreenDump();
         }
 
-
         [Test]
-        public async Task Verify_can_delete()
+        public async Task Verify_can_check_if_node_healthy()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<User>()
-                .Delete(x => x.User(""));
+                .Object<Node>()
+                .GetHealth();
+            
+            Console.WriteLine((string) result.DebugInfo.URL);
         }
     }
 }

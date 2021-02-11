@@ -1,4 +1,4 @@
-namespace HareDu.Integration.Tests
+namespace HareDu.IntegrationTests
 {
     using System.Threading.Tasks;
     using Extensions;
@@ -7,7 +7,7 @@ namespace HareDu.Integration.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class ServerTests
+    public class ConnectionTests
     {
         ServiceProvider _services;
 
@@ -19,12 +19,12 @@ namespace HareDu.Integration.Tests
                 .BuildServiceProvider();
         }
 
-        [Test]
-        public async Task Should_be_able_to_get_all_definitions()
+        [Test, Explicit]
+        public async Task Should_be_able_to_get_all_connections()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Server>()
-                .Get()
+                .Object<Connection>()
+                .GetAll()
                 .ScreenDump();
         }
     }
