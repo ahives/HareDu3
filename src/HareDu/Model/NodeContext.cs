@@ -15,7 +15,7 @@ namespace HareDu.Model
         public string Port { get; init; }
         
         [JsonPropertyName("cowboy_opts")]
-        public IList<ServerOptions> ServerOptions { get; init; }
+        public string ServerOptions { get; init; }
         
         [JsonPropertyName("ssl_opts")]
         public IList<string> SslOptions { get; init; }

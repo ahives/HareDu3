@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Should_be_able_to_get_all_user_permissions()
+        public async Task Should_be_able_to_get_all_user_permissions()
         {
             var services = GetContainerBuilder("TestData/UserPermissionsInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -33,124 +34,124 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_delete_user_permissions()
+        public async Task Verify_can_delete_user_permissions()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.User("haredu_user");
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_1()
+        public async Task Verify_cannot_delete_user_permissions_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.User(string.Empty);
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_2()
+        public async Task Verify_cannot_delete_user_permissions_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_3()
+        public async Task Verify_cannot_delete_user_permissions_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.User("haredu_user");
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_4()
+        public async Task Verify_cannot_delete_user_permissions_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.User("haredu_user");
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_5()
+        public async Task Verify_cannot_delete_user_permissions_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_user_permissions_6()
+        public async Task Verify_cannot_delete_user_permissions_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Delete(x =>
                 {
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_can_create_user_permissions()
+        public async Task Verify_can_create_user_permissions()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -163,7 +164,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -176,10 +177,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_1()
+        public async Task Verify_cannot_create_user_permissions_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -192,7 +193,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -206,10 +207,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_2()
+        public async Task Verify_cannot_create_user_permissions_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -221,7 +222,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu5"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -235,10 +236,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_3()
+        public async Task Verify_cannot_create_user_permissions_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -251,7 +252,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -265,10 +266,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_4()
+        public async Task Verify_cannot_create_user_permissions_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -281,7 +282,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -295,10 +296,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_5()
+        public async Task Verify_cannot_create_user_permissions_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -310,7 +311,7 @@ namespace HareDu.Tests
                         c.UsingWritePattern(".*");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -324,10 +325,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_6()
+        public async Task Verify_cannot_create_user_permissions_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -340,7 +341,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -354,10 +355,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_7()
+        public async Task Verify_cannot_create_user_permissions_7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -370,7 +371,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -384,10 +385,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_8()
+        public async Task Verify_cannot_create_user_permissions_8()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -399,7 +400,7 @@ namespace HareDu.Tests
                         c.UsingWritePattern(".*");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -413,10 +414,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_user_permissions_9()
+        public async Task Verify_cannot_create_user_permissions_9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
                 .Create(x =>
                 {
@@ -427,7 +428,7 @@ namespace HareDu.Tests
                         c.UsingWritePattern(".*");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);

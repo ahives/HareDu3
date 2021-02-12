@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Should_be_able_to_get_all_bindings()
+        public async Task Should_be_able_to_get_all_bindings()
         {
             var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasData.ShouldBeTrue();
             result.Data.Count.ShouldBe(12);
@@ -27,10 +28,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_add_arguments()
+        public async Task Verify_can_add_arguments()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -47,7 +48,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -55,14 +56,14 @@ namespace HareDu.Tests
             BindingDefinition definition = result.DebugInfo.Request.ToObject<BindingDefinition>(Deserializer.Options);
 
             definition.RoutingKey.ShouldBe("*.");
-            definition.Arguments["arg1"].ShouldBe("value1");
+            definition.Arguments["arg1"].ToString().ShouldBe("value1");
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_1()
+        public async Task Verify_cannot_add_arguments_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -79,17 +80,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_2()
+        public async Task Verify_cannot_add_arguments_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -106,17 +107,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_3()
+        public async Task Verify_cannot_add_arguments_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -133,17 +134,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_4()
+        public async Task Verify_cannot_add_arguments_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -160,17 +161,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_5()
+        public async Task Verify_cannot_add_arguments_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -187,17 +188,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(3);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_6()
+        public async Task Verify_cannot_add_arguments_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -213,17 +214,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_7()
+        public async Task Verify_cannot_add_arguments_7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -239,17 +240,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_8()
+        public async Task Verify_cannot_add_arguments_8()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -261,17 +262,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_9()
+        public async Task Verify_cannot_add_arguments_9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -287,17 +288,17 @@ namespace HareDu.Tests
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_add_arguments_10()
+        public async Task Verify_cannot_add_arguments_10()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Create(x =>
                 {
@@ -308,17 +309,17 @@ namespace HareDu.Tests
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(3);
         }
 
         [Test]
-        public void Verify_can_delete_binding()
+        public async Task Verify_can_delete_binding()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -331,7 +332,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -339,10 +340,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_1()
+        public async Task Verify_cannot_delete_binding_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -355,17 +356,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_2()
+        public async Task Verify_cannot_delete_binding_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -378,17 +379,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_3()
+        public async Task Verify_cannot_delete_binding_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -401,17 +402,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_4()
+        public async Task Verify_cannot_delete_binding_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -424,17 +425,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(3);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_5()
+        public async Task Verify_cannot_delete_binding_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -447,17 +448,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_6()
+        public async Task Verify_cannot_delete_binding_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -470,17 +471,17 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_7()
+        public async Task Verify_cannot_delete_binding_7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x =>
                 {
@@ -492,33 +493,33 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_8()
+        public async Task Verify_cannot_delete_binding_8()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x => { x.Targeting(t => t.VirtualHost("HareDu")); })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_binding_9()
+        public async Task Verify_cannot_delete_binding_9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(x => { })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(3);

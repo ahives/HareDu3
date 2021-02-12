@@ -1,6 +1,6 @@
 namespace HareDu.Tests
 {
-    using Core.Extensions;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using Shouldly;
@@ -10,13 +10,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Verify_can_get_all_channels()
+        public async Task Verify_can_get_all_channels()
         {
             var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Channel>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeTrue();
             result.Data.Count.ShouldBe(2);

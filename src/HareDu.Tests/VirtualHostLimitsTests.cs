@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Verify_can_get_all_limits()
+        public async Task Verify_can_get_all_limits()
         {
             var services = GetContainerBuilder("TestData/VirtualHostLimitsInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -31,10 +32,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_define_limits()
+        public async Task Verify_can_define_limits()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
@@ -45,7 +46,7 @@ namespace HareDu.Tests
                         c.SetMaxConnectionLimit(1000);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -57,10 +58,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_define_limits_1()
+        public async Task Verify_cannot_define_limits_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
@@ -71,7 +72,7 @@ namespace HareDu.Tests
                         c.SetMaxConnectionLimit(1000);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -84,10 +85,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_define_limits_2()
+        public async Task Verify_cannot_define_limits_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
@@ -97,7 +98,7 @@ namespace HareDu.Tests
                         c.SetMaxConnectionLimit(1000);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -109,10 +110,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_define_limits_3()
+        public async Task Verify_cannot_define_limits_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
@@ -122,7 +123,7 @@ namespace HareDu.Tests
                         c.SetMaxQueueLimit(100);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -134,10 +135,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_define_limits_4()
+        public async Task Verify_cannot_define_limits_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
@@ -146,76 +147,76 @@ namespace HareDu.Tests
                     {
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_define_limits_5()
+        public async Task Verify_cannot_define_limits_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
                     x.VirtualHost("FakeVirtualHost");
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_define_limits_6()
+        public async Task Verify_cannot_define_limits_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Define(x =>
                 {
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(3);
         }
 
         [Test]
-        public void Verify_can_delete_limits()
+        public async Task Verify_can_delete_limits()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Delete(x => x.For("HareDu3"))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public void Verify_can_delete_limits_1()
+        public async Task Verify_can_delete_limits_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Delete(x => x.For(string.Empty))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_can_delete_limits_2()
+        public async Task Verify_can_delete_limits_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Delete(x => {})
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);

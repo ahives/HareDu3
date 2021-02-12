@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
@@ -12,13 +13,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Should_be_able_to_get_all_vhosts()
+        public async Task Should_be_able_to_get_all_vhosts()
         {
             var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeTrue();
             result.Data.Count.ShouldBe(3);
@@ -74,10 +75,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_Create_works()
+        public async Task Verify_Create_works()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Create(x =>
                 {
@@ -87,7 +88,7 @@ namespace HareDu.Tests
                         c.WithTracingEnabled();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.DebugInfo.ShouldNotBeNull();
             
@@ -97,102 +98,102 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_delete()
+        public async Task Verify_can_delete()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Delete(x => x.VirtualHost("HareDu7"))
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public void Verify_cannot_delete_1()
+        public async Task Verify_cannot_delete_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Delete(x => x.VirtualHost(string.Empty))
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_2()
+        public async Task Verify_cannot_delete_2()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Delete(x => {})
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_can_start_vhost()
+        public async Task Verify_can_start_vhost()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Startup("FakeVirtualHost", x => x.On("FakeNode"))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public void Verify_cannot_start_vhost_1()
+        public async Task Verify_cannot_start_vhost_1()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Startup(string.Empty, x => x.On("FakeNode"))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_start_vhost_2()
+        public async Task Verify_cannot_start_vhost_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Startup("FakeVirtualHost", x => x.On(string.Empty))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_start_vhost_3()
+        public async Task Verify_cannot_start_vhost_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Startup(string.Empty, x => x.On(string.Empty))
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_start_vhost_4()
+        public async Task Verify_cannot_start_vhost_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
                 .Startup(string.Empty, x => {})
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);

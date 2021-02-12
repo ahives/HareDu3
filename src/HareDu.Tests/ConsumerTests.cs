@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
@@ -10,13 +11,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Verify_can_get_all_consumers()
+        public async Task Verify_can_get_all_consumers()
         {
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Consumer>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();

@@ -1,6 +1,7 @@
 namespace HareDu.Tests
 {
     using System;
+    using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
     using Extensions;
@@ -14,13 +15,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Should_be_able_to_get_all_queues()
+        public async Task Should_be_able_to_get_all_queues()
         {
             var services = GetContainerBuilder("TestData/QueueInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -78,10 +79,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_peek_messages()
+        public async Task Verify_can_peek_messages()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -95,7 +96,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -103,8 +104,8 @@ namespace HareDu.Tests
             result.Data[0].ShouldNotBeNull();
             result.Data[0]?.Exchange.ShouldBe("HareDu.IntegrationTesting.Core:FakeMessage");
             result.Data[0]?.Payload.ShouldNotBeNull();
-            result.Data[0]?.Payload["messageId"].Cast<string>().ShouldBe("b64a0000-0481-dca9-a948-08d7650c25d3");
-            result.Data[0]?.Payload["conversationId"].Cast<string>().ShouldBe("b64a0000-0481-dca9-aac4-08d7650c25d3");
+            result.Data[0]?.Payload["messageId"].ToString().ShouldBe("b64a0000-0481-dca9-a948-08d7650c25d3");
+            result.Data[0]?.Payload["conversationId"].ToString().ShouldBe("b64a0000-0481-dca9-aac4-08d7650c25d3");
             result.Data[0]?.Properties.ShouldNotBeNull();
             result.Data[0]?.Properties?.ContentType.ShouldNotBeNull();
             result.Data[0]?.Properties?.ContentType.ShouldBe("application/vnd.masstransit+json");
@@ -129,10 +130,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_1()
+        public async Task Verify_cannot_peek_messages_1()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -146,7 +147,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -163,10 +164,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_2()
+        public async Task Verify_cannot_peek_messages_2()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -179,7 +180,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -196,10 +197,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_3()
+        public async Task Verify_cannot_peek_messages_3()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -213,7 +214,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -230,10 +231,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_4()
+        public async Task Verify_cannot_peek_messages_4()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -247,7 +248,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -264,10 +265,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_5()
+        public async Task Verify_cannot_peek_messages_5()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -280,7 +281,7 @@ namespace HareDu.Tests
                         c.Encoding(MessageEncoding.Auto);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -297,10 +298,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_6()
+        public async Task Verify_cannot_peek_messages_6()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -314,7 +315,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -331,10 +332,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_7()
+        public async Task Verify_cannot_peek_messages_7()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -347,7 +348,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -364,10 +365,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_8()
+        public async Task Verify_cannot_peek_messages_8()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -379,7 +380,7 @@ namespace HareDu.Tests
                         c.Encoding(MessageEncoding.Auto);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -396,10 +397,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_9()
+        public async Task Verify_cannot_peek_messages_9()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -413,7 +414,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -430,10 +431,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_10()
+        public async Task Verify_cannot_peek_messages_10()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -446,7 +447,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -463,10 +464,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_11()
+        public async Task Verify_cannot_peek_messages_11()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -480,7 +481,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -497,10 +498,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_12()
+        public async Task Verify_cannot_peek_messages_12()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -512,7 +513,7 @@ namespace HareDu.Tests
                     });
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -529,10 +530,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_13()
+        public async Task Verify_cannot_peek_messages_13()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -543,7 +544,7 @@ namespace HareDu.Tests
                         c.Encoding(MessageEncoding.Auto);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -560,15 +561,15 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_14()
+        public async Task Verify_cannot_peek_messages_14()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -585,10 +586,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_peek_messages_15()
+        public async Task Verify_cannot_peek_messages_15()
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Peek(x =>
                 {
@@ -599,7 +600,7 @@ namespace HareDu.Tests
                         c.TruncateIfAbove(5000);
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
@@ -648,10 +649,10 @@ namespace HareDu.Tests
 //        }
 
         [Test]
-        public void Verify_can_create_queue()
+        public async Task Verify_can_create_queue()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -672,7 +673,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -689,10 +690,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_1()
+        public async Task Verify_cannot_create_queue_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -713,7 +714,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -729,10 +730,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_2()
+        public async Task Verify_cannot_create_queue_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -752,7 +753,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -768,10 +769,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_3()
+        public async Task Verify_cannot_create_queue_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -792,7 +793,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -808,10 +809,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_4()
+        public async Task Verify_cannot_create_queue_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -831,7 +832,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -847,10 +848,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_5()
+        public async Task Verify_cannot_create_queue_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -869,7 +870,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -885,10 +886,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_create_queue_6()
+        public async Task Verify_cannot_create_queue_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -907,7 +908,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -923,10 +924,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_override_arguments()
+        public async Task Verify_can_override_arguments()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Create(x =>
                 {
@@ -947,7 +948,7 @@ namespace HareDu.Tests
                         t.Node("Node1");
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -961,10 +962,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_delete_queue()
+        public async Task Verify_can_delete_queue()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -975,7 +976,7 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -983,10 +984,10 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_1()
+        public async Task Verify_cannot_delete_queue_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -997,17 +998,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_2()
+        public async Task Verify_cannot_delete_queue_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1017,17 +1018,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_3()
+        public async Task Verify_cannot_delete_queue_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1038,17 +1039,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_4()
+        public async Task Verify_cannot_delete_queue_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1059,17 +1060,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_5()
+        public async Task Verify_cannot_delete_queue_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1079,17 +1080,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_6()
+        public async Task Verify_cannot_delete_queue_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1100,17 +1101,17 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_delete_queue_()
+        public async Task Verify_cannot_delete_queue_()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Delete(x =>
                 {
@@ -1119,154 +1120,154 @@ namespace HareDu.Tests
                         c.HasNoConsumers();
                     });
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_can_empty_queue()
+        public async Task Verify_can_empty_queue()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue("Queue1");
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_1()
+        public async Task Verify_cannot_empty_queue_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue(string.Empty);
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_2()
+        public async Task Verify_cannot_empty_queue_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_3()
+        public async Task Verify_cannot_empty_queue_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue("Queue1");
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_4()
+        public async Task Verify_cannot_empty_queue_4()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue("Queue1");
                     x.Targeting(t => {});
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_5()
+        public async Task Verify_cannot_empty_queue_5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Targeting(t => t.VirtualHost("HareDu"));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_6()
+        public async Task Verify_cannot_empty_queue_6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue("Queue1");
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_7()
+        public async Task Verify_cannot_empty_queue_7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                     x.Queue(string.Empty);
                     x.Targeting(t => t.VirtualHost(string.Empty));
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
         }
 
         [Test]
-        public void Verify_cannot_empty_queue_8()
+        public async Task Verify_cannot_empty_queue_8()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(x =>
                 {
                 })
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
