@@ -17,7 +17,7 @@ namespace HareDu.Snapshotting.Tests
         public void Init()
         {
             _services = new ServiceCollection()
-                .AddSingleton<IBrokerObjectFactory>(x => new FakeBrokerObjectFactory())
+                .AddSingleton<IBrokerObjectFactory, FakeBrokerObjectFactory>()
                 .AddSingleton<ISnapshotFactory, SnapshotFactory>()
                 // .AddSingleton<ISnapshotWriter, SnapshotWriter>()
                 .BuildServiceProvider();
