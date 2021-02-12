@@ -20,30 +20,30 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<UserInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<UserInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/users";
             
-            return GetAll<UserInfo>(url, cancellationToken);
+            return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
+        public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/users/without-permissions";
             
-            return GetAll<UserInfo>(url, cancellationToken);
+            return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<UserCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<UserCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new UserCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -52,28 +52,28 @@ namespace HareDu.Internal
             Debug.Assert(definition != null);
                     
             string url = $"api/users/{impl.User.Value}";
-            
-            if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
 
-            return Put(url, definition, cancellationToken);
+            if (impl.Errors.Value.Any())
+                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = definition.ToJsonString()}};
+
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<UserDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<UserDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new UserDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
             string url = $"api/users/{impl.Username}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -143,7 +143,7 @@ namespace HareDu.Internal
             public void WithTags(Action<UserAccessOptions> tags)
             {
                 var impl = new UserAccessOptionsImpl();
-                tags(impl);
+                tags?.Invoke(impl);
 
                 _tags = impl.ToString();
             }

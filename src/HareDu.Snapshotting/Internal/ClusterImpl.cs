@@ -4,6 +4,7 @@ namespace HareDu.Snapshotting.Internal
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
     using Core.Extensions;
     using HareDu.Model;
     using MassTransit;
@@ -23,12 +24,12 @@ namespace HareDu.Snapshotting.Internal
             _observers = new List<IDisposable>();
         }
 
-        public SnapshotResult<ClusterSnapshot> TakeSnapshot(CancellationToken cancellationToken = default)
+        public async Task<SnapshotResult<ClusterSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
-            var cluster = _factory
+            var cluster = await _factory
                 .Object<SystemOverview>()
                 .Get(cancellationToken)
-                .GetResult();
+                .ConfigureAwait(false);
 
             if (cluster.HasFaulted)
             {
@@ -37,10 +38,10 @@ namespace HareDu.Snapshotting.Internal
                 return new EmptySnapshotResult<ClusterSnapshot>();
             }
 
-            var nodes = _factory
+            var nodes = await _factory
                 .Object<Node>()
                 .GetAll(cancellationToken)
-                .GetResult();
+                .ConfigureAwait(false);
 
             if (nodes.HasFaulted)
             {

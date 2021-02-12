@@ -1,6 +1,7 @@
 namespace HareDu.Snapshotting.Tests
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Fakes;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
@@ -23,12 +24,12 @@ namespace HareDu.Snapshotting.Tests
         }
         
         [Test]
-        public void Test()
+        public async Task Test()
         {
             var lens = _services.GetService<ISnapshotFactory>()
                 .Lens<BrokerQueuesSnapshot>();
             
-            var result = lens.TakeSnapshot();
+            var result = await lens.TakeSnapshot();
 
             result.Snapshot.ClusterName.ShouldBe("fake_cluster");
             result.Snapshot.Queues.ShouldNotBeNull();

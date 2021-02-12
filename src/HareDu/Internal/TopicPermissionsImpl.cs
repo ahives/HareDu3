@@ -20,21 +20,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/topic-permissions";
             
-            return GetAll<TopicPermissionsInfo>(url, cancellationToken);
+            return await GetAll<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<TopicPermissionsCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<TopicPermissionsCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new TopicPermissionsCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Verify();
 
@@ -45,26 +45,26 @@ namespace HareDu.Internal
             string url = $"api/topic-permissions/{impl.VirtualHostName.Value.ToSanitizedName()}/{impl.Username.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<TopicPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<TopicPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new TopicPermissionsDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Verify();
 
             string url = $"api/topic-permissions/{impl.VirtualHostName.Value.ToSanitizedName()}/{impl.Username.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         

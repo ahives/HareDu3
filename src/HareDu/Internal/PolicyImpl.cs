@@ -21,21 +21,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/policies";
             
-            return GetAll<PolicyInfo>(url, cancellationToken);
+            return await GetAll<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<PolicyCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<PolicyCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new PolicyCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Verify();
 
@@ -46,26 +46,26 @@ namespace HareDu.Internal
             string url = $"api/policies/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.PolicyName.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<PolicyDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<PolicyDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new PolicyDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Verify();
             
             string url = $"api/policies/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.PolicyName.Value}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}});
+                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
        }
 
         
@@ -103,8 +103,9 @@ namespace HareDu.Internal
             public void Targeting(Action<PolicyTarget> target)
             {
                 _targetCalled = true;
+                
                 var impl = new PolicyTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
 
@@ -179,7 +180,7 @@ namespace HareDu.Internal
             public void Configure(Action<PolicyConfiguration> configuration)
             {
                 var impl = new PolicyConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _applyTo = impl.WhereToApply;
                 _pattern = impl.Pattern;
@@ -201,8 +202,9 @@ namespace HareDu.Internal
             public void Targeting(Action<PolicyTarget> target)
             {
                 _targetCalled = true;
+                
                 var impl = new PolicyTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
 
@@ -242,7 +244,7 @@ namespace HareDu.Internal
                 public void HasArguments(Action<PolicyDefinitionArguments> arguments)
                 {
                     var impl = new PolicyDefinitionArgumentsImpl();
-                    arguments(impl);
+                    arguments?.Invoke(impl);
 
                     Arguments = impl.Arguments;
                 }
@@ -279,96 +281,53 @@ namespace HareDu.Internal
                     SetArgWithConflictingCheck(arg, "alternate-exchange", value);
                 }
 
-                public void SetExpiry(long milliseconds)
-                {
-                    SetArg("expires", milliseconds);
-                }
+                public void SetExpiry(long milliseconds) => SetArg("expires", milliseconds);
 
-                public void SetFederationUpstreamSet(string value)
-                {
+                public void SetFederationUpstreamSet(string value) =>
                     SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
-                }
 
-                public void SetFederationUpstream(string value)
-                {
+                public void SetFederationUpstream(string value) =>
                     SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
-                }
 
-                public void SetHighAvailabilityMode(HighAvailabilityModes mode)
-                {
-                    SetArg("ha-mode", mode.ConvertTo());
-                }
+                public void SetHighAvailabilityMode(HighAvailabilityModes mode) => SetArg("ha-mode", mode.ConvertTo());
 
-                public void SetHighAvailabilityParams(int value)
-                {
-                    SetArg("ha-params", value);
-                }
+                public void SetHighAvailabilityParams(int value) => SetArg("ha-params", value);
 
-                public void SetHighAvailabilitySyncMode(HighAvailabilitySyncModes mode)
-                {
-                    SetArg("ha-sync-mode", mode.ConvertTo());
-                }
+                public void SetHighAvailabilitySyncMode(HighAvailabilitySyncModes mode) => SetArg("ha-sync-mode", mode.ConvertTo());
 
-                public void SetMessageTimeToLive(long milliseconds)
-                {
-                    SetArg("message-ttl", milliseconds);
-                }
+                public void SetMessageTimeToLive(long milliseconds) => SetArg("message-ttl", milliseconds);
 
-                public void SetMessageMaxSizeInBytes(long value)
-                {
-                    SetArg("max-length-bytes", value.ToString());
-                }
+                public void SetMessageMaxSizeInBytes(long value) => SetArg("max-length-bytes", value.ToString());
 
-                public void SetMessageMaxSize(long value)
-                {
-                    SetArg("max-length", value);
-                }
+                public void SetMessageMaxSize(long value) => SetArg("max-length", value);
 
-                public void SetDeadLetterExchange(string value)
-                {
-                    SetArg("dead-letter-exchange", value.Trim());
-                }
+                public void SetDeadLetterExchange(string value) => SetArg("dead-letter-exchange", value.Trim());
 
-                public void SetDeadLetterRoutingKey(string value)
-                {
-                    SetArg("dead-letter-routing-key", value.Trim());
-                }
+                public void SetDeadLetterRoutingKey(string value) => SetArg("dead-letter-routing-key", value.Trim());
 
-                public void SetQueueMode()
-                {
-                    SetArg("queue-mode", "lazy");
-                }
+                public void SetQueueMode() => SetArg("queue-mode", "lazy");
 
-                public void SetAlternateExchange(string value)
-                {
-                    SetArg("alternate-exchange", value.Trim());
-                }
+                public void SetAlternateExchange(string value) => SetArg("alternate-exchange", value.Trim());
 
-                void SetArg(string arg, object value)
-                {
+                void SetArg(string arg, object value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
                             : new ArgumentValue<object>(value));
-                }
 
-                void SetArgWithConflictingCheck(string arg, string targetArg, object value)
-                {
+                void SetArgWithConflictingCheck(string arg, string targetArg, object value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg) || arg == targetArg && Arguments.ContainsKey(targetArg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'")
                             : new ArgumentValue<object>(value));
-                }
 
-                void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value)
-                {
+                void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                         || arg == conflictingArg && Arguments.ContainsKey(targetArg)
                         || arg == targetArg && Arguments.ContainsKey(conflictingArg)
                             ? new ArgumentValue<object>(value, $"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'")
                             : new ArgumentValue<object>(value));
-                }
             }
         }
     }

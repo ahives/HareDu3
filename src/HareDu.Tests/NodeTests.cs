@@ -1,6 +1,6 @@
 namespace HareDu.Tests
 {
-    using Core.Extensions;
+    using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
     using Shouldly;
@@ -10,13 +10,13 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public void Should_be_able_to_get_all_nodes()
+        public async Task Should_be_able_to_get_all_nodes()
         {
             var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetAll()
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasData.ShouldBeTrue();
             result.HasFaulted.ShouldBeFalse();
@@ -154,13 +154,13 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public void Verify_will_return_node_memory_usage()
+        public async Task Verify_will_return_node_memory_usage()
         {
             var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetMemoryUsage("haredu@localhost")
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeTrue();
             result.HasFaulted.ShouldBeFalse();
@@ -193,52 +193,52 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_will_not_return_node_memory_usage_when_node_missing_1()
+        public async Task Verify_will_not_return_node_memory_usage_when_node_missing_1()
         {
             var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetMemoryUsage(string.Empty)
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeFalse();
             result.HasFaulted.ShouldBeTrue();
         }
 
         [Test]
-        public void Verify_will_not_return_node_memory_usage_when_node_missing_2()
+        public async Task Verify_will_not_return_node_memory_usage_when_node_missing_2()
         {
             var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetMemoryUsage(null)
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeFalse();
             result.HasFaulted.ShouldBeTrue();
         }
 
         [Test]
-        public void Verify_will_not_return_node_memory_usage_when_node_missing_3()
+        public async Task Verify_will_not_return_node_memory_usage_when_node_missing_3()
         {
             var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetMemoryUsage("   ")
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasData.ShouldBeFalse();
             result.HasFaulted.ShouldBeTrue();
         }
         
         [Test]
-        public void Verify_can_check_if_named_node_healthy()
+        public async Task Verify_can_check_if_named_node_healthy()
         {
             var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetHealth("rabbit@localhost")
-                .GetResult();
+                .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -246,13 +246,13 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public void Verify_can_check_if_node_healthy()
+        public async Task Verify_can_check_if_node_healthy()
         {
             var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
+            var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetHealth()
-                .GetResult();
+                .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();

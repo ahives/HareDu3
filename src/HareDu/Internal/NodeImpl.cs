@@ -18,27 +18,25 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/nodes";
             
-            return GetAll<NodeInfo>(url, cancellationToken);
+            return await GetAll<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result<NodeHealthInfo>> GetHealth(string node = null,
-            CancellationToken cancellationToken = default)
+        public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}";
 
-            return Get<NodeHealthInfo>(url, cancellationToken);
+            return await Get<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node,
-            CancellationToken cancellationToken = default)
+        public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
@@ -50,9 +48,9 @@ namespace HareDu.Internal
             string url = $"api/nodes/{node}/memory";
             
             if (errors.Any())
-                return Task.FromResult<Result<NodeMemoryUsageInfo>>(new FaultedResult<NodeMemoryUsageInfo>{Errors = errors,  DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult<NodeMemoryUsageInfo>{Errors = errors,  DebugInfo = new (){URL = url, Request = null}};
             
-            return Get<NodeMemoryUsageInfo>(url, cancellationToken);
+            return await Get<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

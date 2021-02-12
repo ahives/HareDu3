@@ -19,21 +19,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/vhost-limits";
             
-            return GetAll<VirtualHostLimitsInfo>(url, cancellationToken);
+            return await GetAll<VirtualHostLimitsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Define(Action<VirtualHostConfigureLimitsAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Define(Action<VirtualHostConfigureLimitsAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new VirtualHostConfigureLimitsActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -42,26 +42,26 @@ namespace HareDu.Internal
             string url = $"api/vhost-limits/vhost/{impl.VirtualHostName.Value.ToSanitizedName()}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<VirtualHostDeleteLimitsAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<VirtualHostDeleteLimitsAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new VirtualHostDeleteLimitsActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
             string url = $"api/vhost-limits/vhost/{impl.VirtualHostName.Value.ToSanitizedName()}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
 
@@ -96,7 +96,7 @@ namespace HareDu.Internal
             public void Configure(Action<VirtualHostLimitsConfiguration> configuration)
             {
                 var impl = new VirtualHostLimitsConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _maxConnectionLimits = impl.MaxConnectionLimit.Value;
                 _maxQueueLimits = impl.MaxQueueLimit.Value;

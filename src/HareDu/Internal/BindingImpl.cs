@@ -21,21 +21,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<BindingInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<BindingInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/bindings";
             
-            return GetAll<BindingInfo>(url, cancellationToken);
+            return await GetAll<BindingInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result<BindingInfo>> Create(Action<BindingCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result<BindingInfo>> Create(Action<BindingCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new BindingCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Verify();
             
@@ -53,18 +53,17 @@ namespace HareDu.Internal
                 : $"api/bindings/{vhost}/e/{sourceBinding}/q/{destinationBinding}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result<BindingInfo>>(
-                    new FaultedResult<BindingInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult<BindingInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken);
+            return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<BindingDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<BindingDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new BindingDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Verify();
 
@@ -79,9 +78,9 @@ namespace HareDu.Internal
                 : $"api/bindings/{vhost}/e/{source}/e/{destination}/{bindingName}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult<BindingInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult<BindingInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -121,7 +120,7 @@ namespace HareDu.Internal
                 _bindingCalled = true;
                 
                 var impl = new BindingDeleteDefinitionImpl();
-                definition(impl);
+                definition?.Invoke(impl);
 
                 _bindingType = impl.BindingType;
                 _bindingName = impl.BindingName;
@@ -138,7 +137,7 @@ namespace HareDu.Internal
                 _targetCalled = true;
                 
                 var impl = new BindingTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
 
@@ -266,7 +265,7 @@ namespace HareDu.Internal
                 _bindingCalled = true;
                 
                 var impl = new BindingCreateDefinitionImpl();
-                definition(impl);
+                definition?.Invoke(impl);
                 
                 _sourceBinding = impl.SourceBinding;
                 _destinationBinding = impl.DestinationBinding;
@@ -282,7 +281,7 @@ namespace HareDu.Internal
             public void Configure(Action<BindingConfiguration> configuration)
             {
                 var impl = new BindingConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _arguments = impl.Arguments;
                 _routingKey = impl.RoutingKey;
@@ -298,7 +297,7 @@ namespace HareDu.Internal
                 _targetCalled = true;
                 
                 var impl = new BindingTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
 
@@ -354,7 +353,7 @@ namespace HareDu.Internal
                 public void HasArguments(Action<BindingArguments> arguments)
                 {
                     var impl = new BindingArgumentsImpl();
-                    arguments(impl);
+                    arguments?.Invoke(impl);
 
                     Arguments = impl.Arguments;
                 }
@@ -371,13 +370,11 @@ namespace HareDu.Internal
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }
 
-                public void Set<T>(string arg, T value)
-                {
+                public void Set<T>(string arg, T value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
                             : new ArgumentValue<object>(value));
-                }
             }
         }
     }

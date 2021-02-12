@@ -21,21 +21,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/global-parameters";
             
-            return GetAll<GlobalParameterInfo>(url, cancellationToken);
+            return await GetAll<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<GlobalParameterCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<GlobalParameterCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
             var impl = new GlobalParameterCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Validate();
             
@@ -46,24 +46,24 @@ namespace HareDu.Internal
             string url = $"api/global-parameters/{definition.Name}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<GlobalParameterDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<GlobalParameterDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new GlobalParameterDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             if (string.IsNullOrWhiteSpace(impl.ParameterName))
-                return Task.FromResult<Result>(new FaultedResult{Errors = new List<Error> {new (){Reason = "The name of the parameter is missing."}}, DebugInfo = new (){URL = @"api/global-parameters/", Request = null}});
+                return new FaultedResult{Errors = new List<Error> {new (){Reason = "The name of the parameter is missing."}}, DebugInfo = new (){URL = @"api/global-parameters/", Request = null}};
 
             string url = $"api/global-parameters/{impl.ParameterName}";
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -105,7 +105,7 @@ namespace HareDu.Internal
             public void Value(Action<GlobalParameterArguments> arguments)
             {
                 var impl = new GlobalParameterArgumentsImpl();
-                arguments(impl);
+                arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
             }
@@ -142,13 +142,11 @@ namespace HareDu.Internal
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; } =
                     new Dictionary<string, ArgumentValue<object>>();
 
-                public void Set<T>(string arg, T value)
-                {
+                public void Set<T>(string arg, T value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
                             : new ArgumentValue<object>(value));
-                }
             }
         }
     }

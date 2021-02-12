@@ -21,21 +21,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/queues";
             
-            return GetAll<QueueInfo>(url, cancellationToken);
+            return await GetAll<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<QueueCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<QueueCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new QueueCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Validate();
             
@@ -46,17 +46,17 @@ namespace HareDu.Internal
             string url = $"api/queues/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.QueueName.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<QueueDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<QueueDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new QueueDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
             
@@ -65,34 +65,34 @@ namespace HareDu.Internal
                 url = $"{url}?{impl.Query.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Empty(Action<QueueEmptyAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Empty(Action<QueueEmptyAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new QueueEmptyActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
             string url = $"api/queues/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.QueueName.Value}/contents";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult<QueueInfo> {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}});
+                return new FaultedResult<QueueInfo> {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<ResultList<PeekedMessageInfo>> Peek(Action<QueuePeekAction> action, CancellationToken cancellationToken = default)
+        public async Task<ResultList<PeekedMessageInfo>> Peek(Action<QueuePeekAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new QueuePeekActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -103,10 +103,9 @@ namespace HareDu.Internal
             string url = $"api/queues/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.QueueName.Value}/get";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<ResultList<PeekedMessageInfo>>(
-                    new FaultedResultList<PeekedMessageInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResultList<PeekedMessageInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return PostList<PeekedMessageInfo, QueuePeekDefinition>(url, definition, cancellationToken);
+            return await PostList<PeekedMessageInfo, QueuePeekDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -148,7 +147,7 @@ namespace HareDu.Internal
             public void Configure(Action<QueuePeekConfiguration> configuration)
             {
                 var impl = new QueuePeekConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _take = impl.TakeAmount;
                 _requeueMode = impl.RequeueModeText;
@@ -159,7 +158,7 @@ namespace HareDu.Internal
             public void Targeting(Action<QueuePeekTarget> target)
             {
                 var impl = new QueuePeekTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -268,7 +267,7 @@ namespace HareDu.Internal
             public void Targeting(Action<QueueTarget> target)
             {
                 var impl = new QueueTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -321,7 +320,7 @@ namespace HareDu.Internal
             public void Targeting(Action<QueueTarget> target)
             {
                 var impl = new QueueTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -329,7 +328,7 @@ namespace HareDu.Internal
             public void When(Action<QueueDeleteCondition> condition)
             {
                 var impl = new QueueDeleteConditionImpl();
-                condition(impl);
+                condition?.Invoke(impl);
                 
                 string query = string.Empty;
 
@@ -412,7 +411,7 @@ namespace HareDu.Internal
             public void Configure(Action<QueueConfiguration> configuration)
             {
                 var impl = new QueueConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _durable = impl.Durable;
                 _autoDelete = impl.AutoDelete;
@@ -422,7 +421,7 @@ namespace HareDu.Internal
             public void Targeting(Action<QueueCreateTarget> target)
             {
                 var impl = new QueueCreateTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _node = impl.NodeName;
                 _vhost = impl.VirtualHostName;
@@ -465,7 +464,7 @@ namespace HareDu.Internal
                 public void HasArguments(Action<QueueCreateArguments> arguments)
                 {
                     var impl = new QueueCreateArgumentsImpl();
-                    arguments(impl);
+                    arguments?.Invoke(impl);
 
                     Arguments = impl.Arguments;
                 }
@@ -484,35 +483,18 @@ namespace HareDu.Internal
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }
 
-                public void Set<T>(string arg, T value)
-                {
-                    SetArg(arg, value);
-                }
+                public void Set<T>(string arg, T value) => SetArg(arg, value);
 
-                public void SetQueueExpiration(ulong milliseconds)
-                {
+                public void SetQueueExpiration(ulong milliseconds) =>
                     SetArg("x-expires", milliseconds, milliseconds < 1 ? "x-expires cannot have a value less than 1" : null);
-                }
 
-                public void SetPerQueuedMessageExpiration(ulong milliseconds)
-                {
-                    SetArg("x-message-ttl", milliseconds);
-                }
+                public void SetPerQueuedMessageExpiration(ulong milliseconds) => SetArg("x-message-ttl", milliseconds);
 
-                public void SetDeadLetterExchange(string exchange)
-                {
-                    SetArg("x-dead-letter-exchange", exchange);
-                }
+                public void SetDeadLetterExchange(string exchange) => SetArg("x-dead-letter-exchange", exchange);
 
-                public void SetDeadLetterExchangeRoutingKey(string routingKey)
-                {
-                    SetArg("x-dead-letter-routing-key", routingKey);
-                }
+                public void SetDeadLetterExchangeRoutingKey(string routingKey) => SetArg("x-dead-letter-routing-key", routingKey);
 
-                public void SetAlternateExchange(string exchange)
-                {
-                    SetArg("alternate-exchange", exchange);
-                }
+                public void SetAlternateExchange(string exchange) => SetArg("alternate-exchange", exchange);
 
                 void SetArg(string arg, object value, string errorMsg = null)
                 {

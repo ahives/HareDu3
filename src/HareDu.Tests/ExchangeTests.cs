@@ -2,6 +2,7 @@ namespace HareDu.Tests
 {
     using Core.Extensions;
     using Core.Serialization;
+    using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
@@ -32,7 +33,7 @@ namespace HareDu.Tests
             result.Data[1].VirtualHost.ShouldBe("HareDu");
             result.Data[1].Arguments.ShouldNotBeNull();
             result.Data[1].Arguments.Count.ShouldBe(1);
-            result.Data[1].Arguments["alternate-exchange"].ShouldBe("exchange");
+            result.Data[1].Arguments["alternate-exchange"].ToString().ShouldBe("exchange");
         }
 
         [Test]
@@ -69,7 +70,7 @@ namespace HareDu.Tests
             definition.Internal.ShouldBeTrue();
             definition.AutoDelete.ShouldBeFalse();
             definition.Arguments.Count.ShouldBe(1);
-            definition.Arguments["fake_arg"].ShouldBe("8238b");
+            definition.Arguments["fake_arg"].ToString().ShouldBe("8238b");
         }
 
         [Test]

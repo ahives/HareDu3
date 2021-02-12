@@ -20,22 +20,22 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/parameters";
             
-            return GetAll<ScopedParameterInfo>(url, cancellationToken);
+            return await GetAll<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create<T>(Action<ScopedParameterCreateAction<T>> action,
+        public async Task<Result> Create<T>(Action<ScopedParameterCreateAction<T>> action,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
             var impl = new ScopedParameterCreateActionImpl<T>();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Validate();
 
@@ -46,12 +46,12 @@ namespace HareDu.Internal
             string url = $"api/parameters/{definition.Component}/{definition.VirtualHost.ToSanitizedName()}/{definition.ParameterName}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<ScopedParameterDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<ScopedParameterDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
@@ -63,9 +63,9 @@ namespace HareDu.Internal
             string url = $"api/parameters/{impl.Component.Value}/{impl.VirtualHost.Value}/{impl.ScopedParameter.Value}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}});
+                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -97,7 +97,7 @@ namespace HareDu.Internal
             public void Targeting(Action<ScopedParameterTarget> target)
             {
                 var impl = new ScopedParameterTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
                 _component = impl.ComponentName;
@@ -165,7 +165,7 @@ namespace HareDu.Internal
             public void Targeting(Action<ScopedParameterTarget> target)
             {
                 var impl = new ScopedParameterTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
                 _component = impl.ComponentName;

@@ -20,21 +20,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/vhosts";
             
-            return GetAll<VirtualHostInfo>(url, cancellationToken);
+            return await GetAll<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<VirtualHostCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<VirtualHostCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new VirtualHostCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -43,43 +43,39 @@ namespace HareDu.Internal
             string url = $"api/vhosts/{impl.VirtualHostName.Value.ToSanitizedName()}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<VirtualHostDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<VirtualHostDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new VirtualHostDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
-            string vHost = impl.VirtualHostName.Value.ToSanitizedName();
+            string vhost = impl.VirtualHostName.Value.ToSanitizedName();
 
-            string url = $"api/vhosts/{vHost}";
+            string url = $"api/vhosts/{vhost}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            if (vHost == "2%f")
-                return Task.FromResult<Result>(new FaultedResult{
-                    Errors = new List<Error>
-                    {
-                        new () {Reason = "Cannot delete the default virtual host."}
-                    }, DebugInfo = new (){URL = url, Request = null}});
+            if (vhost == "2%f")
+                return new FaultedResult{Errors = new List<Error> {new () {Reason = "Cannot delete the default virtual host."}}, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Startup(string vhost, Action<VirtualHostStartupAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Startup(string vhost, Action<VirtualHostStartupAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new VirtualHostStartupActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -92,9 +88,9 @@ namespace HareDu.Internal
                 errors.Add(new() {Reason = "The name of the virtual host is missing."});
             
             if (errors.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
 
-            return PostEmpty(url, cancellationToken);
+            return await PostEmpty(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -185,7 +181,7 @@ namespace HareDu.Internal
             public void Configure(Action<VirtualHostConfigurator> configurator)
             {
                 var impl = new VirtualHostConfiguratorImpl();
-                configurator(impl);
+                configurator?.Invoke(impl);
 
                 _tracing = impl.Tracing;
                 _description = impl.VirtualHostDescription;
@@ -207,12 +203,13 @@ namespace HareDu.Internal
                 public string VirtualHostTags { get; private set; }
 
                 public void WithTracingEnabled() => Tracing = true;
+                
                 public void Description(string description) => VirtualHostDescription = description;
                 
                 public void Tags(Action<VirtualHostTagConfigurator> configurator)
                 {
                     var impl = new VirtualHostTagConfiguratorImpl();
-                    configurator(impl);
+                    configurator?.Invoke(impl);
 
                     StringBuilder builder = new StringBuilder();
                     

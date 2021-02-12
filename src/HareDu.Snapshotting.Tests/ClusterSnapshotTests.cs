@@ -27,7 +27,7 @@ namespace HareDu.Snapshotting.Tests
         {
             var lens = _services.GetService<ISnapshotFactory>()
                 .Lens<ClusterSnapshot>();
-            var result = lens.TakeSnapshot();
+            var result = await lens.TakeSnapshot();
 
             lens.History.Results.Count.ShouldBe(1);
             lens.TakeSnapshot();

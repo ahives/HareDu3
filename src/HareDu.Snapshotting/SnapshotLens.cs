@@ -3,13 +3,14 @@ namespace HareDu.Snapshotting
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public interface SnapshotLens<T>
         where T : Snapshot
     {
         SnapshotHistory<T> History { get; }
         
-        SnapshotResult<T> TakeSnapshot(CancellationToken cancellationToken = default);
+        Task<SnapshotResult<T>> TakeSnapshot(CancellationToken cancellationToken = default);
 
         SnapshotLens<T> RegisterObserver(IObserver<SnapshotContext<T>> observer);
         

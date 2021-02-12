@@ -204,7 +204,10 @@
             }
             catch (MissingMethodException)
             {
-                return new FaultedResult{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult
+                {
+                    Errors = new List<Error> {new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}
+                };
             }
         }
 

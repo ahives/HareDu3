@@ -17,22 +17,22 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default)
+        public async Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/definitions";
             
-            return Get<ServerInfo>(url, cancellationToken);
+            return await Get<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result<ServerHealthInfo>> GetHealth(Action<HealthCheckAction> action,
+        public async Task<Result<ServerHealthInfo>> GetHealth(Action<HealthCheckAction> action,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new HealthCheckActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             string url;
             
@@ -50,7 +50,7 @@ namespace HareDu.Internal
                     throw new ArgumentOutOfRangeException();
             }
 
-            return Get<ServerHealthInfo>(url, cancellationToken);
+            return await Get<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         

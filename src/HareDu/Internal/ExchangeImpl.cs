@@ -21,21 +21,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = $"api/exchanges";
             
-            return GetAll<ExchangeInfo>(url, cancellationToken);
+            return await GetAll<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<ExchangeCreateAction> action, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<Result> Create(Action<ExchangeCreateAction> action, CancellationToken cancellationToken = new CancellationToken())
         {
             cancellationToken.RequestCanceled();
 
             var impl = new ExchangeCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Validate();
             
@@ -46,17 +46,17 @@ namespace HareDu.Internal
             string url = $"api/exchanges/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.ExchangeName.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<ExchangeDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<ExchangeDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new ExchangeDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
             
             impl.Validate();
 
@@ -67,9 +67,9 @@ namespace HareDu.Internal
                 url = $"api/exchanges/{vhost}/{impl.ExchangeName.Value}?{impl.Query.Value}";
 
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult<ExchangeInfo> {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}});
+                return new FaultedResult<ExchangeInfo> {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -101,7 +101,7 @@ namespace HareDu.Internal
             public void When(Action<ExchangeDeleteCondition> condition)
             {
                 var impl = new ExchangeDeleteConditionImpl();
-                condition(impl);
+                condition?.Invoke(impl);
 
                 string query = string.Empty;
                 if (impl.DeleteIfUnused)
@@ -113,7 +113,7 @@ namespace HareDu.Internal
             public void Targeting(Action<ExchangeTarget> target)
             {
                 var impl = new ExchangeTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -187,7 +187,7 @@ namespace HareDu.Internal
             public void Configure(Action<ExchangeConfiguration> configuration)
             {
                 var impl = new ExchangeConfigurationImpl();
-                configuration(impl);
+                configuration?.Invoke(impl);
 
                 _durable = impl.Durable;
                 _routingType = impl.RoutingType;
@@ -199,7 +199,7 @@ namespace HareDu.Internal
             public void Targeting(Action<ExchangeTarget> target)
             {
                 var impl = new ExchangeTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -278,7 +278,7 @@ namespace HareDu.Internal
                 public void HasArguments(Action<ExchangeDefinitionArguments> arguments)
                 {
                     var impl = new ExchangeDefinitionArgumentsImpl();
-                    arguments(impl);
+                    arguments?.Invoke(impl);
 
                     Arguments = impl.Arguments;
                 }
@@ -297,18 +297,13 @@ namespace HareDu.Internal
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }
 
-                public void Set<T>(string arg, T value)
-                {
-                    SetArg(arg, value);
-                }
+                public void Set<T>(string arg, T value) => SetArg(arg, value);
 
-                void SetArg(string arg, object value)
-                {
+                void SetArg(string arg, object value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
                             : new ArgumentValue<object>(value));
-                }
             }
         }
     }

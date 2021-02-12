@@ -20,21 +20,21 @@ namespace HareDu.Internal
         {
         }
 
-        public Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             string url = "api/permissions";
             
-            return GetAll<UserPermissionsInfo>(url, cancellationToken);
+            return await GetAll<UserPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Create(Action<UserPermissionsCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<UserPermissionsCreateAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new UserPermissionsCreateActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
@@ -45,26 +45,26 @@ namespace HareDu.Internal
             string url = $"api/permissions/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.Username.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
-            return Put(url, definition, cancellationToken);
+            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public Task<Result> Delete(Action<UserPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<UserPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new UserPermissionsDeleteActionImpl();
-            action(impl);
+            action?.Invoke(impl);
 
             impl.Validate();
 
             string url = $"api/permissions/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.Username.Value}";
             
             if (impl.Errors.Value.Any())
-                return Task.FromResult<Result>(new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}});
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
 
-            return Delete(url, cancellationToken);
+            return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
@@ -91,7 +91,7 @@ namespace HareDu.Internal
             public void Targeting(Action<UserPermissionsTarget> target)
             {
                 var impl = new UserPermissionsTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
             }
@@ -164,7 +164,7 @@ namespace HareDu.Internal
             public void Configure(Action<UserPermissionsConfiguration> configure)
             {
                 var impl = new UserPermissionsConfigurationImpl();
-                configure(impl);
+                configure?.Invoke(impl);
 
                 _configurePattern = impl.ConfigurePattern;
                 _writePattern = impl.WritePattern;
@@ -176,7 +176,7 @@ namespace HareDu.Internal
                 _targetingCalled = true;
                 
                 var impl = new UserPermissionsTargetImpl();
-                target(impl);
+                target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
 

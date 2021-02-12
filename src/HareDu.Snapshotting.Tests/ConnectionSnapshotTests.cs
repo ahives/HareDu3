@@ -27,7 +27,7 @@ namespace HareDu.Snapshotting.Tests
         {
             var lens = _services.GetService<ISnapshotFactory>()
                 .Lens<BrokerConnectivitySnapshot>();
-            var result = lens.TakeSnapshot();
+            var result = await lens.TakeSnapshot();
             
             result.ShouldNotBeNull();
             result.Snapshot.ShouldNotBeNull();
