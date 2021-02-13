@@ -103,7 +103,7 @@ That's it. So, the resulting output of calling the ```ToJsonString``` extension 
 |   | Version |
 |---| --- |
 | Operating System | macOS Catalina 10.15.3 |
-| RabbitMQ | 3.8.x, 3.8.2 |
+| RabbitMQ | 3.8.x |
 | Erlang OTP | 22.0.4 (x64) |
 | .NET Runtime | Core 2.1 |
 

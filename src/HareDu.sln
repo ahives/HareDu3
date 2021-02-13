@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{16103888-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Snapshotting.IntegrationTests", "HareDu.Snapshotting.IntegrationTests\HareDu.Snapshotting.IntegrationTests.csproj", "{FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HareDu.Diagnostics.IntegrationTests", "HareDu.Diagnostics.IntegrationTests\HareDu.Diagnostics.IntegrationTests.csproj", "{A7313527-BF51-47DA-968C-C5A5BF2BFA18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7313527-BF51-47DA-968C-C5A5BF2BFA18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7313527-BF51-47DA-968C-C5A5BF2BFA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7313527-BF51-47DA-968C-C5A5BF2BFA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7313527-BF51-47DA-968C-C5A5BF2BFA18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4E47BD29-1DF6-4020-9CB1-7E9A224859AA} = {9F1A5A7C-E5CD-4198-B1CF-C57A47DDF896}
@@ -91,5 +97,6 @@ Global
 		{CA8507F9-9794-4E8C-8F31-BC0498AE6E6E} = {16103888-36A8-40AF-B861-05C07C9B6ACA}
 		{3885D347-AC99-448A-9C32-759AFF04C1BD} = {16103888-36A8-40AF-B861-05C07C9B6ACA}
 		{FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8} = {CE809EA8-1A18-4FFA-9819-4864D11A31F9}
+		{A7313527-BF51-47DA-968C-C5A5BF2BFA18} = {CE809EA8-1A18-4FFA-9819-4864D11A31F9}
 	EndGlobalSection
 EndGlobal
