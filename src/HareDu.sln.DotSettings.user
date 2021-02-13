@@ -55,6 +55,9 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ExchangeTests.Should_be_able_to_get_all_exchanges&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.ExchangeTests.Verify_can_create_exchange&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.ClusterSnapshotTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests.Verify_can_observe_analysis&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests.Verify_can_analyze_by_component_type&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;

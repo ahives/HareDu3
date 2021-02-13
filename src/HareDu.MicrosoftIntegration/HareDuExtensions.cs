@@ -23,6 +23,7 @@ namespace HareDu.MicrosoftIntegration
             services.AddSingleton<IScanner, Scanner>();
             services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
             services.AddSingleton<IScannerFactory, ScannerFactory>();
+            services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
             
             return services;
         }

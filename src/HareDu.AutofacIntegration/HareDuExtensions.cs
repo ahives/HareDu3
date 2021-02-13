@@ -40,6 +40,10 @@ namespace HareDu.AutofacIntegration
                 .As<IScannerFactory>()
                 .SingleInstance();
 
+            builder.RegisterType<ScannerResultAnalyzer>()
+                .As<IScannerResultAnalyzer>()
+                .SingleInstance();
+
             return builder;
         }
     }

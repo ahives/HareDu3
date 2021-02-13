@@ -1,19 +1,13 @@
 namespace HareDu.Diagnostics.IntegrationTests
 {
     using System;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
     using Core.Configuration;
-    using Core.Extensions;
     using Formatting;
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
-    using Probes;
     using Snapshotting;
     using Snapshotting.Model;
 
@@ -47,79 +41,6 @@ namespace HareDu.Diagnostics.IntegrationTests
              
             Console.WriteLine(formattedReport);
         }
-
-        [Test]
-        public async Task Test2()
-        {
-            var scanner = _services.GetService<IScanner>();
-            var lens = _services.GetService<ISnapshotFactory>()
-                .Lens<BrokerConnectivitySnapshot>();
-
-            await SendToPrometheus(lens, scanner);
-        }
-
-        async Task SendToPrometheus(SnapshotLens<BrokerConnectivitySnapshot> lens, IScanner scanner)
-        {
-            // var pusher = new MetricPusher(new MetricPusherOptions
-            // {
-            //     Endpoint = "https://pushgateway.example.org:9091/metrics",
-            //     Job = "HareDuDiagnostics"
-            // });
-            //
-            // pusher.Start();
-            // var server = new MetricServer(hostname: "localhost", port: 1234);
-            // server.Start();
-            //
-            // Gauge gauge = Metrics.CreateGauge("Healthy", "blah, blah, blah",
-            //     new GaugeConfiguration());
-            // scanner.RegisterObserver(new DefaultDiagnosticConsoleLogger());
-            // for (int i = 0; i < 10; i++)
-            // {
-            //     var result = lens.TakeSnapshot();
-            //
-            //     var report = scanner.Scan(result.Snapshot);
-            //     PublishSummary(report.Results
-            //         .FirstOrDefault(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()), gauge);
-            //
-            //     Thread.Sleep(TimeSpan.FromSeconds(1));
-            // }
-            //
-            // using (var stream = new MemoryStream())
-            // {
-            //     await Metrics.DefaultRegistry.CollectAndExportAsTextAsync(stream);
-            //
-            //     var text = Encoding.UTF8.GetString(stream.ToArray());
-            //
-            //     Console.WriteLine(text);
-            // }
-            //
-            // server.Stop();
-            // pusher.Stop();
-        }
-
-        // void PublishSummary(ProbeResult result, Gauge gauge)
-        // {
-        //     if (result.IsNull())
-        //         return;
-        //     
-        //     switch (result.Status)
-        //     {
-        //         case ProbeResultStatus.Unhealthy:
-        //             gauge.Dec();
-        //             break;
-        //         case ProbeResultStatus.Healthy:
-        //             gauge.Inc();
-        //             break;
-        //         case ProbeResultStatus.Warning:
-        //             break;
-        //         case ProbeResultStatus.Inconclusive:
-        //             break;
-        //         case ProbeResultStatus.NA:
-        //             break;
-        //         default:
-        //             throw new ArgumentOutOfRangeException(nameof(result), result, null);
-        //     }
-        // }
 
         [Test]
         public async Task Test3()
