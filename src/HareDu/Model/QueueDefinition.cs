@@ -6,15 +6,19 @@ namespace HareDu.Model
     public record QueueDefinition
     {
         [JsonPropertyName("node")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Node { get; init; }
         
         [JsonPropertyName("durable")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool Durable { get; init; }
         
         [JsonPropertyName("auto_delete")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool AutoDelete { get; init; }
                 
         [JsonPropertyName("arguments")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public IDictionary<string, object> Arguments { get; init; }
     }
 }

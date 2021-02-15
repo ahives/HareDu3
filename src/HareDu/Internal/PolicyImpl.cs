@@ -37,7 +37,7 @@ namespace HareDu.Internal
             var impl = new PolicyCreateActionImpl();
             action?.Invoke(impl);
 
-            impl.Verify();
+            impl.Validate();
 
             PolicyDefinition definition = impl.Definition.Value;
 
@@ -58,7 +58,7 @@ namespace HareDu.Internal
             var impl = new PolicyDeleteActionImpl();
             action?.Invoke(impl);
 
-            impl.Verify();
+            impl.Validate();
             
             string url = $"api/policies/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.PolicyName.Value}";
 
@@ -113,7 +113,7 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_policyCalled)
                     _errors.Add(new() {Reason = "The name of the policy is missing."});
@@ -212,7 +212,7 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_policyCalled)
                     _errors.Add(new() {Reason = "The name of the policy is missing."});

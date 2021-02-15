@@ -37,7 +37,7 @@ namespace HareDu.Internal
             var impl = new BindingCreateActionImpl();
             action?.Invoke(impl);
 
-            impl.Verify();
+            impl.Validate();
             
             BindingDefinition definition = impl.Definition.Value;
 
@@ -65,7 +65,7 @@ namespace HareDu.Internal
             var impl = new BindingDeleteActionImpl();
             action?.Invoke(impl);
 
-            impl.Verify();
+            impl.Validate();
 
             string destination = impl.BindingDestination.Value;
             string vhost = impl.VirtualHost.Value.ToSanitizedName();
@@ -145,7 +145,7 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_bindingCalled)
                 {
@@ -305,7 +305,7 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_bindingCalled)
                 {

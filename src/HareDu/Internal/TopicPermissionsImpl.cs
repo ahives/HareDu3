@@ -36,7 +36,7 @@ namespace HareDu.Internal
             var impl = new TopicPermissionsCreateActionImpl();
             action?.Invoke(impl);
 
-            impl.Verify();
+            impl.Validate();
 
             TopicPermissionsDefinition definition = impl.Definition.Value;
 
@@ -57,7 +57,7 @@ namespace HareDu.Internal
             var impl = new TopicPermissionsDeleteActionImpl();
             action?.Invoke(impl);
             
-            impl.Verify();
+            impl.Validate();
 
             string url = $"api/topic-permissions/{impl.VirtualHostName.Value.ToSanitizedName()}/{impl.Username.Value}";
             
@@ -110,7 +110,7 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_userCalled)
                     _errors.Add(new () {Reason = "The username and/or password is missing."});
@@ -196,7 +196,7 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void Verify()
+            public void Validate()
             {
                 if (!_userCalled)
                     _errors.Add(new() {Reason = "The username and/or password is missing."});
