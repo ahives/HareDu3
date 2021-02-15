@@ -39,7 +39,7 @@
             }
             catch (MissingMethodException)
             {
-                return new FaultedResultList<T>{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResultList<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
             }
         }
 
@@ -57,11 +57,11 @@
 
                 var data = await response.ToObject<T>(Deserializer.Options);
                 
-                return new SuccessfulResult<T>{Data = data, DebugInfo = new (){URL = url, Request = null}};
+                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Request = null}};
             }
             catch (MissingMethodException)
             {
-                return new FaultedResult<T>{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
             }
         }
 
@@ -106,7 +106,7 @@
             }
             catch (MissingMethodException)
             {
-                return new FaultedResult{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
             }
         }
 
@@ -126,11 +126,11 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = request}};
 
-                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request}};
+                return new SuccessfulResult{DebugInfo = new () {URL = url, Request = request}};
             }
             catch (MissingMethodException)
             {
-                return new FaultedResult{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
             }
         }
 
@@ -153,11 +153,11 @@
 
                 var data = await response.ToObject<T>(Deserializer.Options);
 
-                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new(){URL = url, Request = request}};
+                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = request}};
             }
             catch (MissingMethodException)
             {
-                return new FaultedResult<T>{Errors = new List<Error>{ new (){Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
             }
         }
 
@@ -200,7 +200,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new () {URL = url, Request = null}};
 
-                return new SuccessfulResult {DebugInfo = new() {URL = url, Request = null}};
+                return new SuccessfulResult {DebugInfo = new () {URL = url, Request = null}};
             }
             catch (MissingMethodException)
             {
@@ -239,17 +239,20 @@
                 case HttpStatusCode.Forbidden:
                     return new () {Reason = "RabbitMQ server rejected the request."};
                 
+                case HttpStatusCode.MethodNotAllowed:
+                    return new () {Reason = "RabbitMQ server rejected the request because the method is not allowed."};
+                
                 case HttpStatusCode.InternalServerError:
                     return new () {Reason = "Internal error happened on RabbitMQ server."};
                 
                 case HttpStatusCode.RequestTimeout:
-                    return new (){Reason = "No response from the RabbitMQ server within the specified window of time."};
+                    return new () {Reason = "No response from the RabbitMQ server within the specified window of time."};
                 
                 case HttpStatusCode.ServiceUnavailable:
-                    return new (){Reason = "RabbitMQ server temporarily not able to handle request"};
+                    return new () {Reason = "RabbitMQ server temporarily not able to handle request"};
                 
                 case HttpStatusCode.Unauthorized:
-                    return new (){Reason = "Unauthorized access to RabbitMQ server resource."};
+                    return new () {Reason = "Unauthorized access to RabbitMQ server resource."};
                 
                 default:
                     return null;

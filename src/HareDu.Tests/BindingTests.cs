@@ -13,6 +13,42 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
+        public async Task Teet()
+        {
+            var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Shovel>()
+                .Create(x =>
+                {
+                    x.Configure(c =>
+                    {
+                        c.Source(s =>
+                        {
+                            s.Protocol(Protocol.Amqp091);
+                            s.Uri("amqp://localhost");
+                            s.Queue("test1");
+                        });
+                        c.Destination(s =>
+                        {
+                            s.Protocol(Protocol.Amqp091);
+                            s.Uri("amqp://localhost");
+                            s.Queue("test2");
+                        });
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("TestOrders");
+                    });
+                })
+                .ConfigureAwait(false);
+
+            // result.HasData.ShouldBeTrue();
+            // result.Data.Count.ShouldBe(12);
+            // result.HasFaulted.ShouldBeFalse();
+            // result.Data.ShouldNotBeNull();
+        }
+
+        [Test]
         public async Task Should_be_able_to_get_all_bindings()
         {
             var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();

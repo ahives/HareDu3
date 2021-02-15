@@ -1,7 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">4294967293</s:Int64>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/usr/local/share/dotnet/sdk/5.0.101/MSBuild.dll</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eaf92765_002Dd50d_002D40c5_002Db5e7_002Df5b89526de12/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Should_be_able_to_get_all_queues #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eaf92765_002Dd50d_002D40c5_002Db5e7_002Df5b89526de12/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
     &lt;TestAncestor&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.BindingTests.Should_be_able_to_get_all_bindings&lt;/TestId&gt;
@@ -62,13 +62,19 @@
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb2c34f3_002D6684_002D40f8_002D8c01_002D51fc7c8f9cb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fb2c34f3_002D6684_002D40f8_002D8c01_002D51fc7c8f9cb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Should_be_able_to_get_all_queues" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
     &lt;TestAncestor&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.Integration.Tests.BindingTests.Should_be_able_to_get_all_bindings&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.ConnectionSnapshotTests.Test&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.QueueSnapshotTests.Test&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Scanners.DiagnosticScannerTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.UserTests.Verify_can_create&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Test2&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Test2&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_delete_shovel&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes&lt;/ProjectFolder&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
