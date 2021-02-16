@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface GlobalParameterDeleteAction
+    public interface DeleteGlobalParameterConfiguration
     {
         /// <summary>
         /// Specify the name of the global parameter.

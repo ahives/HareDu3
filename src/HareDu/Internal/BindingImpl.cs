@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<BindingInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result<BindingInfo>> Create(Action<BindingCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result<BindingInfo>> Create(Action<NewBindingConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new BindingCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewBindingConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
             
@@ -58,12 +58,12 @@ namespace HareDu.Internal
             return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<BindingDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteBindingConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new BindingDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteBindingConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -84,8 +84,8 @@ namespace HareDu.Internal
         }
 
         
-        class BindingDeleteActionImpl :
-            BindingDeleteAction
+        class DeleteBindingConfigurationImpl :
+            DeleteBindingConfiguration
         {
             BindingType _bindingType;
             string _bindingName;
@@ -103,7 +103,7 @@ namespace HareDu.Internal
             public Lazy<string> BindingDestination { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public BindingDeleteActionImpl()
+            public DeleteBindingConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -115,19 +115,19 @@ namespace HareDu.Internal
                 VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Binding(Action<BindingDeleteDefinition> definition)
+            public void Configure(Action<DeleteBindingCriteria> criteria)
             {
                 _bindingCalled = true;
                 
-                var impl = new BindingDeleteDefinitionImpl();
-                definition?.Invoke(impl);
+                var impl = new DeleteBindingCriteriaImpl();
+                criteria?.Invoke(impl);
 
                 _bindingType = impl.BindingType;
                 _bindingName = impl.BindingName;
                 _bindingSource = impl.BindingSource;
-                _bindingDestination = impl.DestinationSource;
+                _bindingDestination = impl.BindingDestination;
 
-                impl.Verify();
+                impl.Validate();
                 
                 _errors.AddRange(impl.Errors.Value);
             }
@@ -167,26 +167,27 @@ namespace HareDu.Internal
             }
 
 
-            class BindingDeleteDefinitionImpl :
-                BindingDeleteDefinition
+            class DeleteBindingCriteriaImpl :
+                DeleteBindingCriteria
             {
-                readonly List<Error> _errors;
                 bool _destinationCalled;
                 bool _nameCalled;
+                bool _sourceCalled;
+
+                readonly List<Error> _errors;
 
                 public Lazy<List<Error>> Errors { get; }
+                public string BindingName { get; private set; }
+                public string BindingSource { get; private set; }
+                public string BindingDestination { get; private set; }
+                public BindingType BindingType { get; private set; }
 
-                public BindingDeleteDefinitionImpl()
+                public DeleteBindingCriteriaImpl()
                 {
                     _errors = new List<Error>();
                 
                     Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 }
-
-                public string BindingName { get; private set; }
-                public string BindingSource { get; private set; }
-                public string DestinationSource { get; private set; }
-                public BindingType BindingType { get; private set; }
 
                 public void Name(string name)
                 {
@@ -198,13 +199,21 @@ namespace HareDu.Internal
                         _errors.Add(new() {Reason = "The name of the binding is missing."});
                 }
 
-                public void Source(string binding) => BindingSource = binding;
+                public void Source(string binding)
+                {
+                    _sourceCalled = true;
+                    
+                    BindingSource = binding;
+
+                    if (string.IsNullOrWhiteSpace(binding))
+                        _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
+                }
 
                 public void Destination(string binding)
                 {
                     _destinationCalled = true;
                     
-                    DestinationSource = binding;
+                    BindingDestination = binding;
 
                     if (string.IsNullOrWhiteSpace(binding))
                         _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
@@ -212,20 +221,23 @@ namespace HareDu.Internal
 
                 public void Type(BindingType bindingType) => BindingType = bindingType;
 
-                public void Verify()
+                public void Validate()
                 {
                     if (!_nameCalled)
                         _errors.Add(new() {Reason = "The name of the binding is missing."});
 
                     if (!_destinationCalled)
                         _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
+
+                    if (!_sourceCalled)
+                        _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
                 }
             }
         }
 
 
-        class BindingCreateActionImpl :
-            BindingCreateAction
+        class NewBindingConfigurationImpl :
+            NewBindingConfiguration
         {
             string _routingKey;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -234,8 +246,8 @@ namespace HareDu.Internal
             string _destinationBinding;
             BindingType _bindingType;
             readonly List<Error> _errors;
-            bool _bindingCalled;
             bool _targetCalled;
+            bool _configureCalled;
 
             public Lazy<BindingDefinition> Definition { get; }
             public Lazy<string> SourceBinding { get; }
@@ -244,29 +256,32 @@ namespace HareDu.Internal
             public Lazy<BindingType> BindingType { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public BindingCreateActionImpl()
+            public NewBindingConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<BindingDefinition>(() => new()
-                {
-                    RoutingKey = _routingKey,
-                    Arguments = _arguments.GetArguments()
-                }, LazyThreadSafetyMode.PublicationOnly);
+                Definition = new Lazy<BindingDefinition>(() =>
+                    new()
+                    {
+                        RoutingKey = _routingKey,
+                        Arguments = _arguments.GetArguments()
+                    }, LazyThreadSafetyMode.PublicationOnly);
                 SourceBinding = new Lazy<string>(() => _sourceBinding, LazyThreadSafetyMode.PublicationOnly);
                 DestinationBinding = new Lazy<string>(() => _destinationBinding, LazyThreadSafetyMode.PublicationOnly);
                 VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
                 BindingType = new Lazy<BindingType>(() => _bindingType, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Binding(Action<BindingCreateDefinition> definition)
+            public void Configure(Action<NewBindingCriteria> criteria)
             {
-                _bindingCalled = true;
+                _configureCalled = true;
                 
-                var impl = new BindingCreateDefinitionImpl();
-                definition?.Invoke(impl);
-                
+                var impl = new NewBindingCriteriaImpl();
+                criteria?.Invoke(impl);
+
+                _arguments = impl.Arguments;
+                _routingKey = impl.RoutingKey;
                 _sourceBinding = impl.SourceBinding;
                 _destinationBinding = impl.DestinationBinding;
                 _bindingType = impl.BindingType;
@@ -276,15 +291,6 @@ namespace HareDu.Internal
 
                 if (string.IsNullOrWhiteSpace(_destinationBinding))
                     _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
-            }
-
-            public void Configure(Action<BindingConfiguration> configuration)
-            {
-                var impl = new BindingConfigurationImpl();
-                configuration?.Invoke(impl);
-
-                _arguments = impl.Arguments;
-                _routingKey = impl.RoutingKey;
                 
                 _errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
@@ -307,14 +313,16 @@ namespace HareDu.Internal
 
             public void Validate()
             {
-                if (!_bindingCalled)
+                if (!_targetCalled)
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+                if (!_configureCalled)
                 {
                     _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
                     _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
+                    _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
+                    _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
                 }
-
-                if (!_targetCalled)
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
             
@@ -327,9 +335,11 @@ namespace HareDu.Internal
             }
 
 
-            class BindingCreateDefinitionImpl :
-                BindingCreateDefinition
+            class NewBindingCriteriaImpl :
+                NewBindingCriteria
             {
+                public string RoutingKey { get; private set; }
+                public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }
                 public string SourceBinding { get; private set; }
                 public string DestinationBinding { get; private set; }
                 public BindingType BindingType { get; private set; }
@@ -339,14 +349,6 @@ namespace HareDu.Internal
                 public void Destination(string binding) => DestinationBinding = binding;
 
                 public void Type(BindingType bindingType) => BindingType = bindingType;
-            }
-
-
-            class BindingConfigurationImpl :
-                BindingConfiguration
-            {
-                public string RoutingKey { get; private set; }
-                public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }
 
                 public void HasRoutingKey(string routingKey) => RoutingKey = routingKey;
 

@@ -40,14 +40,11 @@ namespace HareDu.IntegrationTests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("A1");
-                        b.Destination("Queue2");
-                        b.Type(BindingType.Queue);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("A1");
+                        c.Destination("Queue2");
+                        c.Type(BindingType.Queue);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg =>
                         {
@@ -68,7 +65,7 @@ namespace HareDu.IntegrationTests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name("%2A.");
                         b.Source("E2");

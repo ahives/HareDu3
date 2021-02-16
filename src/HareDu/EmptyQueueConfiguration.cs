@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface QueueDeleteAction
+    public interface EmptyQueueConfiguration
     {
         /// <summary>
         /// Specify the name of the queue.
@@ -15,11 +15,5 @@ namespace HareDu
         /// </summary>
         /// <param name="target"></param>
         void Targeting(Action<QueueTarget> target);
-
-        /// <summary>
-        /// Specify acceptable conditions for which the queue can be deleted.
-        /// </summary>
-        /// <param name="condition"></param>
-        void When(Action<QueueDeleteCondition> condition);
     }
 }

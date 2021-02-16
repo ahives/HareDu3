@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface QueueConfiguration
+    public interface NewQueueCriteria
     {
         /// <summary>
         /// Specify whether the queue is durable. By default this is set to false, which means that it will created as a RAM queue.

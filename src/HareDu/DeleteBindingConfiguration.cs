@@ -2,13 +2,13 @@ namespace HareDu
 {
     using System;
 
-    public interface BindingDeleteAction
+    public interface DeleteBindingConfiguration
     {
         /// <summary>
         /// Specify the source, destination, and binding type.
         /// </summary>
-        /// <param name="definition"></param>
-        void Binding(Action<BindingDeleteDefinition> definition);
+        /// <param name="criteria"></param>
+        void Configure(Action<DeleteBindingCriteria> criteria);
 
         /// <summary>
         /// Specify the target for which the binding will be deleted.

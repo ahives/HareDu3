@@ -2,19 +2,13 @@ namespace HareDu
 {
     using System;
 
-    public interface BindingCreateAction
+    public interface NewBindingConfiguration
     {
-        /// <summary>
-        /// Specify the source, destination, and binding type.
-        /// </summary>
-        /// <param name="definition"></param>
-        void Binding(Action<BindingCreateDefinition> definition);
-        
         /// <summary>
         /// Specify how the binding should be configured.
         /// </summary>
-        /// <param name="configuration"></param>
-        void Configure(Action<BindingConfiguration> configuration);
+        /// <param name="criteria"></param>
+        void Configure(Action<NewBindingCriteria> criteria);
 
         /// <summary>
         /// Specify the target for which the binding will be created.

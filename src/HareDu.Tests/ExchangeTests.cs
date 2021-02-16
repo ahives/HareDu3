@@ -185,8 +185,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange("E3");
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => t.VirtualHost("HareDu"));
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -202,8 +205,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => t.VirtualHost("HareDu"));
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -220,8 +226,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange("E3");
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => t.VirtualHost(string.Empty));
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -238,8 +247,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange("E3");
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => {});
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -256,8 +268,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => t.VirtualHost(string.Empty));
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -274,8 +289,11 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Exchange(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => {});
-                    x.When(c => c.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -291,7 +309,10 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete(x =>
                 {
-                    x.When(c => c.Unused());
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                 })
                 .ConfigureAwait(false);
             

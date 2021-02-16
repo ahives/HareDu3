@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface BindingDeleteDefinition
+    public interface DeleteBindingCriteria
     {
         /// <summary>
         /// Specify the name of the binding.

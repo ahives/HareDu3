@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<GlobalParameterCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
-            var impl = new GlobalParameterCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewGlobalParameterConfigurationImpl();
+            configuration?.Invoke(impl);
             
             impl.Validate();
             
@@ -51,12 +51,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<GlobalParameterDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new GlobalParameterDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteGlobalParameterConfigurationImpl();
+            configuration?.Invoke(impl);
             
             if (string.IsNullOrWhiteSpace(impl.ParameterName))
                 return new FaultedResult{Errors = new List<Error> {new (){Reason = "The name of the parameter is missing."}}, DebugInfo = new (){URL = @"api/global-parameters/", Request = null}};
@@ -67,8 +67,8 @@ namespace HareDu.Internal
         }
 
         
-        class GlobalParameterDeleteActionImpl :
-            GlobalParameterDeleteAction
+        class DeleteGlobalParameterConfigurationImpl :
+            DeleteGlobalParameterConfiguration
         {
             public string ParameterName { get; private set; }
             
@@ -76,8 +76,8 @@ namespace HareDu.Internal
         }
 
 
-        class GlobalParameterCreateActionImpl :
-            GlobalParameterCreateAction
+        class NewGlobalParameterConfigurationImpl :
+            NewGlobalParameterConfiguration
         {
             IDictionary<string, ArgumentValue<object>> _arguments;
             string _name;
@@ -87,7 +87,7 @@ namespace HareDu.Internal
             public Lazy<GlobalParameterDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public GlobalParameterCreateActionImpl()
+            public NewGlobalParameterConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -101,16 +101,51 @@ namespace HareDu.Internal
             }
 
             public void Parameter(string name) => _name = name;
-
-            public void Value(Action<GlobalParameterArguments> arguments)
+            
+            public void Configure(Action<NewGlobalParameterCriteria> configure)
             {
-                var impl = new GlobalParameterArgumentsImpl();
-                arguments?.Invoke(impl);
+                var impl = new NewGlobalParameterCriteriaImpl();
+                configure?.Invoke(impl);
 
-                _arguments = impl.Arguments;
+                _argument = impl.Argument.Value;
+                _arguments = impl.Arguments.Value;
             }
 
-            public void Value<T>(T argument) => _argument = argument;
+            
+            class NewGlobalParameterCriteriaImpl :
+                NewGlobalParameterCriteria
+            {
+                IDictionary<string, ArgumentValue<object>> _arguments;
+                object _argument;
+                
+                readonly List<Error> _errors;
+
+                public Lazy<IDictionary<string, ArgumentValue<object>>> Arguments { get; }
+                public Lazy<object> Argument { get; }
+                public Lazy<List<Error>> Errors { get; }
+
+                public NewGlobalParameterCriteriaImpl()
+                {
+                    _errors = new List<Error>();
+                
+                    Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
+                    Arguments = new Lazy<IDictionary<string, ArgumentValue<object>>>(() => _arguments, LazyThreadSafetyMode.PublicationOnly);
+                    Argument = new Lazy<object>(() => _argument, LazyThreadSafetyMode.PublicationOnly);
+                }
+
+                public void Value(Action<GlobalParameterArguments> arguments)
+                {
+                    var impl = new GlobalParameterArgumentsImpl();
+                    arguments?.Invoke(impl);
+
+                    _arguments = impl.Arguments;
+                }
+
+                public void Value<T>(T argument)
+                {
+                    _argument = argument;
+                }
+            }
 
             public void Validate()
             {
@@ -121,10 +156,10 @@ namespace HareDu.Internal
                 {
                     if (string.IsNullOrWhiteSpace(_argument.ToString()))
                         _errors.Add(new() {Reason = "Parameter value is missing."});
-
+                
                     return;
                 }
-
+                
                 if (_argument == null && _arguments == null)
                     _errors.Add(new() {Reason = "Parameter value is missing."});
                 

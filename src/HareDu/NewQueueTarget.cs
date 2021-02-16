@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface QueueCreateTarget
+    public interface NewQueueTarget
     {
         /// <summary>
         /// Specify the node for which the queue will be created.

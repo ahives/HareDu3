@@ -121,8 +121,11 @@ namespace HareDu.IntegrationTests
                 .Delete(x =>
                 {
                     x.Exchange("E3");
+                    x.Configure(c =>
+                    {
+                        c.When(condition => condition.Unused());
+                    });
                     x.Targeting(t => t.VirtualHost("HareDu"));
-                    x.When(c => c.Unused());
                 });
             
 //            Assert.IsFalse(result.HasFaulted);

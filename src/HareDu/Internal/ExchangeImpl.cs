@@ -25,17 +25,17 @@ namespace HareDu.Internal
         {
             cancellationToken.RequestCanceled();
 
-            string url = $"api/exchanges";
+            string url = "api/exchanges";
             
             return await GetAll<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<ExchangeCreateAction> action, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<Result> Create(Action<NewExchangeConfiguration> configuration, CancellationToken cancellationToken = new CancellationToken())
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new ExchangeCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewExchangeConfigurationImpl();
+            configuration?.Invoke(impl);
             
             impl.Validate();
             
@@ -46,17 +46,17 @@ namespace HareDu.Internal
             string url = $"api/exchanges/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.ExchangeName.Value}";
             
             if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<ExchangeDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteExchangeConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new ExchangeDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteExchangeConfigurationImpl();
+            configuration?.Invoke(impl);
             
             impl.Validate();
 
@@ -73,12 +73,16 @@ namespace HareDu.Internal
         }
 
         
-        class ExchangeDeleteActionImpl :
-            ExchangeDeleteAction
+        class DeleteExchangeConfigurationImpl :
+            DeleteExchangeConfiguration
         {
             string _vhost;
             string _exchange;
             string _query;
+            bool _targetingCalled;
+            bool _configureCalled;
+            bool _exchangeCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> Query { get; }
@@ -86,7 +90,7 @@ namespace HareDu.Internal
             public Lazy<string> ExchangeName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ExchangeDeleteActionImpl()
+            public DeleteExchangeConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -96,35 +100,65 @@ namespace HareDu.Internal
                 ExchangeName = new Lazy<string>(() => _exchange, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Exchange(string name) => _exchange = name;
-
-            public void When(Action<ExchangeDeleteCondition> condition)
+            public void Exchange(string name)
             {
-                var impl = new ExchangeDeleteConditionImpl();
-                condition?.Invoke(impl);
+                _exchangeCalled = true;
+                
+                _exchange = name;
 
-                string query = string.Empty;
-                if (impl.DeleteIfUnused)
-                    query = "if-unused=true";
+                if (string.IsNullOrWhiteSpace(_exchange))
+                    _errors.Add(new () {Reason = "The name of the exchange is missing."});
+            }
 
-                _query = query;
+            public void Configure(Action<DeleteExchangeCriteria> criteria)
+            {
+                _configureCalled = true;
+                
+                var impl = new DeleteExchangeCriteriaImpl();
+                criteria?.Invoke(impl);
+
+                _query = impl.Query;
             }
 
             public void Targeting(Action<ExchangeTarget> target)
             {
+                _targetingCalled = true;
+                
                 var impl = new ExchangeTargetImpl();
                 target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
+                
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
             }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_vhost))
+                if (!_targetingCalled)
                     _errors.Add(new () {Reason = "The name of the virtual host is missing."});
 
-                if (string.IsNullOrWhiteSpace(_exchange))
+                if (!_exchangeCalled)
                     _errors.Add(new() {Reason = "The name of the exchange is missing."});
+            }
+
+            
+            class DeleteExchangeCriteriaImpl :
+                DeleteExchangeCriteria
+            {
+                public string Query { get; private set; }
+
+                public void When(Action<DeleteExchangeCondition> condition)
+                {
+                    var impl = new DeleteExchangeConditionImpl();
+                    condition?.Invoke(impl);
+
+                    string query = string.Empty;
+                    if (impl.DeleteIfUnused)
+                        query = "if-unused=true";
+
+                    Query = query;
+                }
             }
 
             
@@ -137,8 +171,8 @@ namespace HareDu.Internal
             }
 
 
-            class ExchangeDeleteConditionImpl :
-                ExchangeDeleteCondition
+            class DeleteExchangeConditionImpl :
+                DeleteExchangeCondition
             {
                 public bool DeleteIfUnused { get; private set; }
 
@@ -147,8 +181,8 @@ namespace HareDu.Internal
         }
 
 
-        class ExchangeCreateActionImpl :
-            ExchangeCreateAction
+        class NewExchangeConfigurationImpl :
+            NewExchangeConfiguration
         {
             string _routingType;
             bool _durable;
@@ -157,6 +191,10 @@ namespace HareDu.Internal
             IDictionary<string, ArgumentValue<object>> _arguments;
             string _vhost;
             string _exchange;
+            bool _targetingCalled;
+            bool _configureCalled;
+            bool _exchangeCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<ExchangeDefinition> Definition { get; }
@@ -164,7 +202,7 @@ namespace HareDu.Internal
             public Lazy<string> ExchangeName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ExchangeCreateActionImpl()
+            public NewExchangeConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -182,40 +220,58 @@ namespace HareDu.Internal
                 ExchangeName = new Lazy<string>(() => _exchange, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Exchange(string name) => _exchange = name;
-
-            public void Configure(Action<ExchangeConfiguration> configuration)
+            public void Exchange(string name)
             {
-                var impl = new ExchangeConfigurationImpl();
-                configuration?.Invoke(impl);
+                _exchangeCalled = true;
+                
+                _exchange = name;
+
+                if (string.IsNullOrWhiteSpace(_exchange))
+                    _errors.Add(new () {Reason = "The name of the exchange is missing."});
+            }
+
+            public void Configure(Action<NewExchangeCriteria> configure)
+            {
+                _configureCalled = true;
+                
+                var impl = new NewExchangeCriteriaImpl();
+                configure?.Invoke(impl);
 
                 _durable = impl.Durable;
                 _routingType = impl.RoutingType;
                 _autoDelete = impl.AutoDelete;
                 _internal = impl.InternalUse;
                 _arguments = impl.Arguments;
-            }
-
-            public void Targeting(Action<ExchangeTarget> target)
-            {
-                var impl = new ExchangeTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-            }
-
-            public void Validate()
-            {
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
 
                 if (string.IsNullOrWhiteSpace(_routingType))
                     _errors.Add(new () {Reason = "The routing type of the exchange is missing."});
 
                 if (_arguments.IsNotNull())
                     _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => error.IsNotNull()).ToList());
+            }
 
-                if (string.IsNullOrWhiteSpace(_exchange))
+            public void Targeting(Action<ExchangeTarget> target)
+            {
+                _targetingCalled = true;
+                
+                var impl = new ExchangeTargetImpl();
+                target?.Invoke(impl);
+
+                _vhost = impl.VirtualHostName;
+
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
+            }
+
+            public void Validate()
+            {
+                if (!_targetingCalled)
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+                if (!_configureCalled)
+                    _errors.Add(new() {Reason = "The routing type of the exchange is missing."});
+
+                if (!_exchangeCalled)
                     _errors.Add(new () {Reason = "The name of the exchange is missing."});
             }
 
@@ -229,8 +285,8 @@ namespace HareDu.Internal
             }
 
 
-            class ExchangeConfigurationImpl :
-                ExchangeConfiguration
+            class NewExchangeCriteriaImpl :
+                NewExchangeCriteria
             {
                 public string RoutingType { get; private set; }
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }
@@ -238,38 +294,7 @@ namespace HareDu.Internal
                 public bool InternalUse { get; private set; }
                 public bool AutoDelete { get; private set; }
 
-                public void HasRoutingType(ExchangeRoutingType routingType)
-                {
-                    switch (routingType)
-                    {
-                        case ExchangeRoutingType.Fanout:
-                            RoutingType = "fanout";
-                            break;
-                            
-                        case ExchangeRoutingType.Direct:
-                            RoutingType = "direct";
-                            break;
-                            
-                        case ExchangeRoutingType.Topic:
-                            RoutingType = "topic";
-                            break;
-                            
-                        case ExchangeRoutingType.Headers:
-                            RoutingType = "headers";
-                            break;
-                            
-                        case ExchangeRoutingType.Federated:
-                            RoutingType = "federated";
-                            break;
-                            
-                        case ExchangeRoutingType.Match:
-                            RoutingType = "match";
-                            break;
-                            
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(routingType), routingType, null);
-                    }
-                }
+                public void HasRoutingType(ExchangeRoutingType routingType) => RoutingType = routingType.Convert();
 
                 public void IsDurable() => Durable = true;
 

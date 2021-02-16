@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface PolicyDeleteAction
+    public interface DeletePolicyConfiguration
     {
         /// <summary>
         /// Specify the name of the policy.

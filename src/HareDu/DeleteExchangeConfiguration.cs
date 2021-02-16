@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ExchangeDeleteAction
+    public interface DeleteExchangeConfiguration
     {
         /// <summary>
         /// 
@@ -11,15 +11,15 @@ namespace HareDu
         void Exchange(string name);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="criteria"></param>
+        void Configure(Action<DeleteExchangeCriteria> criteria);
+        
+        /// <summary>
         /// Specify the target for which the exchange will be deleted.
         /// </summary>
         /// <param name="target">Define the location where the exchange (i.e. virtual host) will be deleted</param>
         void Targeting(Action<ExchangeTarget> target);
-
-        /// <summary>
-        /// Specify the conditions for which the exchange can be deleted.
-        /// </summary>
-        /// <param name="condition"></param>
-        void When(Action<ExchangeDeleteCondition> condition);
     }
 }

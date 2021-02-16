@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface ExchangeDeleteCondition
+    public interface DeleteExchangeCondition
     {
         void Unused();
     }

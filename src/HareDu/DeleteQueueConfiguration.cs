@@ -2,24 +2,24 @@ namespace HareDu
 {
     using System;
 
-    public interface QueuePeekAction
+    public interface DeleteQueueConfiguration
     {
         /// <summary>
         /// Specify the name of the queue.
         /// </summary>
         /// <param name="name">Name of the queue</param>
         void Queue(string name);
-
-        /// <summary>
-        /// Specify how to redeliver messages to the queue.
-        /// </summary>
-        /// <param name="configuration"></param>
-        void Configure(Action<QueuePeekConfiguration> configuration);
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="criteria"></param>
+        void Configure(Action<DeleteQueueCriteria> criteria);
+
         /// <summary>
         /// Specify where the queue lives (i.e. virtual host, etc.).
         /// </summary>
         /// <param name="target"></param>
-        void Targeting(Action<QueuePeekTarget> target);
+        void Targeting(Action<QueueTarget> target);
     }
 }

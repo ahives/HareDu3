@@ -71,14 +71,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("E2");
-                        b.Destination("Q1");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("E2");
+                        c.Destination("Q1");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -103,14 +100,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source(string.Empty);
-                        b.Destination("Q1");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source(string.Empty);
+                        c.Destination("Q1");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -130,14 +124,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("E2");
-                        b.Destination(string.Empty);
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("E2");
+                        c.Destination(string.Empty);
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -157,14 +148,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source(string.Empty);
-                        b.Destination(string.Empty);
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source(string.Empty);
+                        c.Destination(string.Empty);
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -184,14 +172,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("E2");
-                        b.Destination("Q1");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("E2");
+                        c.Destination("Q1");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -211,14 +196,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source(string.Empty);
-                        b.Destination(string.Empty);
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source(string.Empty);
+                        c.Destination(string.Empty);
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -238,13 +220,10 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Destination("Q1");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Destination("Q1");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -264,13 +243,10 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("E2");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("E2");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -290,9 +266,9 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b => { b.Type(BindingType.Exchange); });
                     x.Configure(c =>
                     {
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -312,14 +288,11 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b =>
-                    {
-                        b.Source("E2");
-                        b.Destination("Q1");
-                        b.Type(BindingType.Exchange);
-                    });
                     x.Configure(c =>
                     {
+                        c.Source("E2");
+                        c.Destination("Q1");
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -338,9 +311,9 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Create(x =>
                 {
-                    x.Binding(b => { b.Type(BindingType.Exchange); });
                     x.Configure(c =>
                     {
+                        c.Type(BindingType.Exchange);
                         c.HasRoutingKey("*.");
                         c.HasArguments(arg => { arg.Set("arg1", "value1"); });
                     });
@@ -359,7 +332,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name("Binding1");
                         b.Source("E2");
@@ -383,7 +356,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name(string.Empty);
                         b.Source("E2");
@@ -406,7 +379,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name("Binding1");
                         b.Source("E2");
@@ -429,7 +402,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name(string.Empty);
                         b.Source("E2");
@@ -452,7 +425,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name(string.Empty);
                         b.Source("E2");
@@ -475,7 +448,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name(string.Empty);
                         b.Source("E2");
@@ -498,7 +471,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Name("Binding1");
                         b.Source("E2");
@@ -521,7 +494,7 @@ namespace HareDu.Tests
                 .Object<Binding>()
                 .Delete(x =>
                 {
-                    x.Binding(b =>
+                    x.Configure(b =>
                     {
                         b.Source("E2");
                         b.Destination("Q4");

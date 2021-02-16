@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ExchangeConfiguration
+    public interface NewExchangeCriteria
     {
         /// <summary>
         /// Specify the message routing type (e.g. fanout, direct, topic, etc.).

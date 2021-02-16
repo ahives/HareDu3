@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<PolicyCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewPolicyConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new PolicyCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewPolicyConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -51,12 +51,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<PolicyDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeletePolicyConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new PolicyDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeletePolicyConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
             
@@ -69,8 +69,8 @@ namespace HareDu.Internal
        }
 
         
-        class PolicyDeleteActionImpl :
-            PolicyDeleteAction
+        class DeletePolicyConfigurationImpl :
+            DeletePolicyConfiguration
         {
             string _vhost;
             string _policy;
@@ -82,7 +82,7 @@ namespace HareDu.Internal
             public Lazy<string> VirtualHost { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public PolicyDeleteActionImpl()
+            public DeletePolicyConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -133,8 +133,8 @@ namespace HareDu.Internal
         }
 
         
-        class PolicyCreateActionImpl :
-            PolicyCreateAction
+        class NewPolicyConfigurationImpl :
+            NewPolicyConfiguration
         {
             string _pattern;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -142,16 +142,17 @@ namespace HareDu.Internal
             string _applyTo;
             string _policy;
             string _vhost;
-            readonly List<Error> _errors;
             bool _targetCalled;
             bool _policyCalled;
+            
+            readonly List<Error> _errors;
 
             public Lazy<PolicyDefinition> Definition { get; }
             public Lazy<string> VirtualHost { get; }
             public Lazy<string> PolicyName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public PolicyCreateActionImpl()
+            public NewPolicyConfigurationImpl()
             {
                 _errors = new List<Error>();
                 

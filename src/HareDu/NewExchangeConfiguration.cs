@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ExchangeCreateAction
+    public interface NewExchangeConfiguration
     {
         /// <summary>
         /// Specify the name of the exchange.
@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// Specify how should the exchange be configured.
         /// </summary>
-        /// <param name="configuration">User-defined configuration</param>
-        void Configure(Action<ExchangeConfiguration> configuration);
+        /// <param name="configure">User-defined configuration</param>
+        void Configure(Action<NewExchangeCriteria> configure);
 
         /// <summary>
         /// Specify the target for which the exchange will be created.

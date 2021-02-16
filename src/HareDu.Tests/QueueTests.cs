@@ -125,8 +125,8 @@ namespace HareDu.Tests
             definition.RequeueMode.ShouldBe("ack_requeue_true");
             definition.TruncateMessageThreshold.ShouldBe<ulong>(5000);
 
-            result.Data[0]?.Properties?.Headers["Content-Type"].ShouldBe("application/vnd.masstransit+json");
-            result.Data[0]?.Properties?.Headers["publishId"].ShouldBe("1");
+            result.Data[0]?.Properties?.Headers["Content-Type"].ToString().ShouldBe("application/vnd.masstransit+json");
+            result.Data[0]?.Properties?.Headers["publishId"].ToString().ShouldBe("1");
         }
 
         [Test]
@@ -970,11 +970,14 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue("Queue1");
-                    x.Targeting(l => l.VirtualHost("HareDu"));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
+                    x.Targeting(l => l.VirtualHost("HareDu"));
                 })
                 .ConfigureAwait(false);
             
@@ -992,11 +995,14 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue(string.Empty);
-                    x.Targeting(l => l.VirtualHost("HareDu"));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
+                    x.Targeting(l => l.VirtualHost("HareDu"));
                 })
                 .ConfigureAwait(false);
             
@@ -1013,9 +1019,12 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Targeting(l => l.VirtualHost("HareDu"));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
                 })
                 .ConfigureAwait(false);
@@ -1033,11 +1042,14 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue("Queue1");
-                    x.Targeting(l => l.VirtualHost(string.Empty));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
+                    x.Targeting(l => l.VirtualHost(string.Empty));
                 })
                 .ConfigureAwait(false);
             
@@ -1054,11 +1066,14 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue("Queue1");
-                    x.Targeting(l => {});
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
+                    x.Targeting(l => {});
                 })
                 .ConfigureAwait(false);
             
@@ -1075,9 +1090,12 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue("Queue1");
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
                 })
                 .ConfigureAwait(false);
@@ -1095,11 +1113,14 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.Queue(string.Empty);
-                    x.Targeting(l => l.VirtualHost(string.Empty));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
+                    x.Targeting(l => l.VirtualHost(string.Empty));
                 })
                 .ConfigureAwait(false);
             
@@ -1115,9 +1136,12 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete(x =>
                 {
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        c.HasNoConsumers();
+                        c.When(condition =>
+                        {
+                            condition.HasNoConsumers();
+                        });
                     });
                 })
                 .ConfigureAwait(false);

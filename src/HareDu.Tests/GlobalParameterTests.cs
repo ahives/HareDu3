@@ -44,7 +44,10 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.Parameter("fake_param");
-                    x.Value("fake_value");
+                    x.Configure(c =>
+                    {
+                        c.Value("fake_value");
+                    });
                 })
                 .ConfigureAwait(false);
              
@@ -66,10 +69,13 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.Parameter("fake_param");
-                    x.Value(arg =>
+                    x.Configure(c =>
                     {
-                        arg.Set("arg1", "value1");
-                        arg.Set("arg2", 5);
+                        c.Value(arg =>
+                        {
+                            arg.Set("arg1", "value1");
+                            arg.Set("arg2", 5);
+                        });
                     });
                 })
                 .ConfigureAwait(false);
@@ -101,7 +107,10 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.Parameter(string.Empty);
-                    x.Value("fake_value");
+                    x.Configure(c =>
+                    {
+                        c.Value("fake_value");
+                    });
                 })
                 .ConfigureAwait(false);
              
@@ -123,7 +132,10 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .Create(x =>
                 {
-                    x.Value("fake_value");
+                    x.Configure(c =>
+                    {
+                        c.Value("fake_value");
+                    });
                 })
                 .ConfigureAwait(false);
              
@@ -146,7 +158,10 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.Parameter("fake_param");
-                    x.Value(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.Value(string.Empty);
+                    });
                 })
                 .ConfigureAwait(false);
              
@@ -169,7 +184,10 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.Parameter(string.Empty);
-                    x.Value(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.Value(string.Empty);
+                    });
                 })
                 .ConfigureAwait(false);
              
@@ -213,7 +231,10 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .Create(x =>
                 {
-                    x.Value(string.Empty);
+                    x.Configure(c =>
+                    {
+                        c.Value(string.Empty);
+                    });
                 })
                 .ConfigureAwait(false);
              

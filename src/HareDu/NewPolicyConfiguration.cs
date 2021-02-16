@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface PolicyCreateAction
+    public interface NewPolicyConfiguration
     {
         /// <summary>
         /// Specify the name of the policy.

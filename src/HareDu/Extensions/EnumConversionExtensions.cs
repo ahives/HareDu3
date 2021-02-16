@@ -4,6 +4,66 @@ namespace HareDu.Extensions
 
     public static class EnumConversionExtensions
     {
+        public static string Convert(this MessageEncoding encoding)
+        {
+            switch (encoding)
+            {
+                case MessageEncoding.Auto:
+                    return "auto";
+
+                case MessageEncoding.Base64:
+                    return "base64";
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
+            }
+        }
+        
+        public static string Convert(this RequeueMode mode)
+        {
+            switch (mode)
+            {
+                case RequeueMode.DoNotAckRequeue:
+                    return "ack_requeue_false";
+
+                case RequeueMode.RejectRequeue:
+                    return "reject_requeue_true";
+
+                case RequeueMode.DoNotRejectRequeue:
+                    return "reject_requeue_false";
+
+                default:
+                    return "ack_requeue_true";
+            }
+        }
+        
+        public static string Convert(this ExchangeRoutingType routingType)
+        {
+            switch (routingType)
+            {
+                case ExchangeRoutingType.Fanout:
+                    return "fanout";
+
+                case ExchangeRoutingType.Direct:
+                    return "direct";
+
+                case ExchangeRoutingType.Topic:
+                    return "topic";
+
+                case ExchangeRoutingType.Headers:
+                    return "headers";
+
+                case ExchangeRoutingType.Federated:
+                    return "federated";
+
+                case ExchangeRoutingType.Match:
+                    return "match";
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(routingType), routingType, null);
+            }
+        }
+        
         public static string Convert(this Protocol protocol)
         {
             switch (protocol)

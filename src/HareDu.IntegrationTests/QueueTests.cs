@@ -79,12 +79,15 @@ namespace HareDu.IntegrationTests
                 .Delete(x =>
                 {
                     x.Queue("TestQueue10");
-                    x.Targeting(l => l.VirtualHost("HareDu"));
-                    x.When(c =>
+                    x.Configure(c =>
                     {
-                        // c.HasNoConsumers();
-                        // c.IsEmpty();
+                        c.When(condition =>
+                        {
+                            // condition.HasNoConsumers();
+                            // condition.IsEmpty();
+                        });
                     });
+                    x.Targeting(l => l.VirtualHost("HareDu"));
                 });
 
 //            Assert.IsFalse(result.HasFaulted);

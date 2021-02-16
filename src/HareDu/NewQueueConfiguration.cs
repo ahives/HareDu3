@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface QueueCreateAction
+    public interface NewQueueConfiguration
     {
         /// <summary>
         /// Specify the name of the queue.
@@ -13,13 +13,13 @@ namespace HareDu
         /// <summary>
         /// Specify how the queue should be configured.
         /// </summary>
-        /// <param name="configuration">User-defined configuration</param>
-        void Configure(Action<QueueConfiguration> configuration);
+        /// <param name="configure">User-defined configuration</param>
+        void Configure(Action<NewQueueCriteria> configure);
 
         /// <summary>
         /// Specify where the queue will live (i.e. virtual host, etc.).
         /// </summary>
         /// <param name="target">Define where the queue will live</param>
-        void Targeting(Action<QueueCreateTarget> target);
+        void Targeting(Action<NewQueueTarget> target);
     }
 }

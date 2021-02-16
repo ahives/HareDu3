@@ -2,14 +2,8 @@ namespace HareDu
 {
     using System;
 
-    public interface GlobalParameterCreateAction
+    public interface NewGlobalParameterCriteria
     {
-        /// <summary>
-        /// Specify the name of the global parameter.
-        /// </summary>
-        /// <param name="name"></param>
-        void Parameter(string name);
-        
         /// <summary>
         /// Specify global parameter arguments.
         /// </summary>

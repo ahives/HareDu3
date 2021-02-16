@@ -19,17 +19,17 @@ namespace HareDu
         /// <summary>
         /// Creates the specified policy on the target virtual host.
         /// </summary>
-        /// <param name="action">Describes how the policy will be created.</param>
+        /// <param name="configuration">Describes how the policy will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Create(Action<PolicyCreateAction> action, CancellationToken cancellationToken = default);
+        Task<Result> Create(Action<NewPolicyConfiguration> configuration, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Delete the specified policy on the target virtual host.
         /// </summary>
-        /// <param name="action">Describes how the policy will be deleted.</param>
+        /// <param name="configuration">Describes how the policy will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(Action<PolicyDeleteAction> action, CancellationToken cancellationToken = default);
+        Task<Result> Delete(Action<DeletePolicyConfiguration> configuration, CancellationToken cancellationToken = default);
     }
 }

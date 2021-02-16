@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface QueueEmptyAction
+    public interface PeekQueueConfiguration
     {
         /// <summary>
         /// Specify the name of the queue.
@@ -10,6 +10,12 @@ namespace HareDu
         /// <param name="name">Name of the queue</param>
         void Queue(string name);
 
+        /// <summary>
+        /// Specify how to redeliver messages to the queue.
+        /// </summary>
+        /// <param name="configuration"></param>
+        void Configure(Action<QueuePeekConfiguration> configuration);
+        
         /// <summary>
         /// Specify where the queue lives (i.e. virtual host, etc.).
         /// </summary>
