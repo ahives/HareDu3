@@ -28,9 +28,9 @@ namespace HareDu.IntegrationTests
                 .Object<Shovel>()
                 .Create(x =>
                 {
+                    x.Shovel("test-shovel2");
                     x.Configure(c =>
                     {
-                        c.Name("test-shovel4");
                         c.Source(s =>
                         {
                             s.Protocol(Protocol.Amqp091);
@@ -61,7 +61,7 @@ namespace HareDu.IntegrationTests
                 .Object<Shovel>()
                 .Delete(x =>
                 {
-                    x.Name("test-shovel2");
+                    x.Shovel("test-shovel2");
                     x.Targeting(t =>
                     {
                         t.VirtualHost("TestHareDu");

@@ -98,7 +98,7 @@ namespace HareDu.Internal
                 ShovelName = new Lazy<string>(() => _shovelName, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Name(string name)
+            public void Shovel(string name)
             {
                 _shovelNameCalled = true;
                 
@@ -152,6 +152,7 @@ namespace HareDu.Internal
             long _sourcePrefetchCount;
             bool _configureCalled;
             bool _virtualHostCalled;
+            bool _shovelCalled;
 
             readonly List<Error> _errors;
 
@@ -190,6 +191,16 @@ namespace HareDu.Internal
                 ShovelName = new Lazy<string>(() => _shovelName, LazyThreadSafetyMode.PublicationOnly);
             }
 
+            public void Shovel(string name)
+            {
+                _shovelCalled = true;
+
+                _shovelName = name;
+
+                if (string.IsNullOrWhiteSpace(_shovelName))
+                    _errors.Add(new () {Reason = "The name of the shovel is missing."});
+            }
+
             public void Configure(Action<ShovelTargetConfiguration> configuration)
             {
                 _configureCalled = true;
@@ -205,15 +216,11 @@ namespace HareDu.Internal
                 _destinationProtocol = impl.DestinationProtocol;
                 _destinationUri = impl.DestinationUri;
                 _destinationQueue = impl.DestinationQueue;
-                _shovelName = impl.ShovelName;
                 _acknowledgeMode = impl.AckMode;
                 _reconnectDelay = impl.ReconnectDelayInSeconds;
                 _destinationAddForwardHeaders = impl.DestinationAddHeaders;
                 _destinationAddTimestampHeader = impl.DestinationAddTimestampHeader;
                 _sourcePrefetchCount = impl.SourcePrefetchCount;
-
-                if (string.IsNullOrWhiteSpace(_shovelName))
-                    _errors.Add(new () {Reason = "The name of the shovel is missing."});
 
                 if (string.IsNullOrWhiteSpace(_sourceProtocol))
                     _errors.Add(new() {Reason = "The name of the source protocol is missing."});
@@ -262,6 +269,9 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the destination URI is missing."});
                     _errors.Add(new() {Reason = "The name of the destination queue is missing."});
                 }
+
+                if (!_shovelCalled)
+                    _errors.Add(new () {Reason = "The name of the shovel is missing."});
             }
 
 
@@ -277,15 +287,12 @@ namespace HareDu.Internal
                 public string DestinationProtocol { get; private set; }
                 public string DestinationUri { get; private set; }
                 public string DestinationQueue { get; private set; }
-                public string ShovelName { get; private set; }
                 public int ReconnectDelayInSeconds { get; private set; }
                 public string AckMode { get; private set; }
                 public string DestinationExchangeName { get; private set; }
                 public string DestinationExchangeRoutingKey { get; private set; }
                 public bool DestinationAddHeaders { get; private set; }
                 public bool DestinationAddTimestampHeader { get; private set; }
-
-                public void Name(string name) => ShovelName = name;
 
                 public void ReconnectDelay(int delay) => ReconnectDelayInSeconds = delay;
 

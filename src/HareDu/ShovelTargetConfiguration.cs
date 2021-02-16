@@ -4,8 +4,6 @@ namespace HareDu
 
     public interface ShovelTargetConfiguration
     {
-        void Name(string name);
-
         void ReconnectDelay(int delay);
 
         void AcknowledgeMode(AcknowledgeMode mode);

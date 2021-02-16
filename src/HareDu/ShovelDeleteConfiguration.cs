@@ -4,7 +4,7 @@ namespace HareDu
 
     public interface ShovelDeleteConfiguration
     {
-        void Name(string name);
+        void Shovel(string name);
         
         void Targeting(Action<ShovelTarget> target);
     }
