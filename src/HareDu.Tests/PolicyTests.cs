@@ -3,6 +3,7 @@ namespace HareDu.Tests
     using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
+    using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
@@ -13,13 +14,12 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public async Task Should_be_able_to_get_all_policies()
+        public async Task Should_be_able_to_get_all_policies1()
         {
             var services = GetContainerBuilder("TestData/PolicyInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .GetAll()
-                .ConfigureAwait(false);
+                .GetAll();
 
             result.HasData.ShouldBeTrue();
             result.HasFaulted.ShouldBeFalse();
@@ -37,28 +37,73 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public async Task Verify_can_create_policy()
+        public async Task Should_be_able_to_get_all_policies2()
+        {
+            var services = GetContainerBuilder("TestData/PolicyInfo.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .GetAllPolicies();
+
+            result.HasData.ShouldBeTrue();
+            result.HasFaulted.ShouldBeFalse();
+            result.Data.ShouldNotBeNull();
+            result.Data.Count.ShouldBe(2);
+            result.Data[0].Name.ShouldBe("P1");
+            result.Data[0].VirtualHost.ShouldBe("HareDu");
+            result.Data[0].Pattern.ShouldBe("!@#@");
+            result.Data[0].AppliedTo.ShouldBe("all");
+            result.Data[0].Definition.ShouldNotBeNull();
+            result.Data[0].Definition["ha-mode"].ShouldBe("exactly");
+            result.Data[0].Definition["ha-sync-mode"].ShouldBe("automatic");
+            result.Data[0].Definition["ha-params"].ShouldBe("2");
+            result.Data[0].Priority.ShouldBe(0);
+        }
+        
+        [Test]
+        public async Task Verify_can_create_policy1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create("P5", "HareDu", x =>
                 {
-                    x.Policy("P5");
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetExpiry(1000);
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
+            
+            result.HasFaulted.ShouldBeFalse();
+            result.DebugInfo.ShouldNotBeNull();
+
+            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
+            
+            definition.Pattern.ShouldBe("^amq.");
+            definition.Priority.ShouldBe(0);
+            definition.Arguments["ha-mode"].ShouldBe("all");
+            definition.Arguments["expires"].ShouldBe("1000");
+            definition.ApplyTo.ShouldBe("all");
+         }
+        
+        [Test]
+        public async Task Verify_can_create_policy2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreatePolicy("P5", "HareDu", x =>
+                {
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
+                    {
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetExpiry(1000);
+                    });
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
             
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -78,24 +123,18 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create(string.Empty, string.Empty, x =>
                 {
-                    x.Policy(string.Empty);
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetFederationUpstreamSet("all");
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
                     });
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
@@ -117,23 +156,18 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create(string.Empty, string.Empty, x =>
                 {
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetFederationUpstreamSet("all");
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
                     });
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
@@ -155,23 +189,18 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create(string.Empty, string.Empty, x =>
                 {
-                    x.Policy(string.Empty);
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetFederationUpstreamSet("all");
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
                     });
-                })
-                .ConfigureAwait(false);
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.ShouldNotBeNull();
@@ -188,54 +217,22 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_create_policy_4()
+        public async Task Verify_can_delete_policy1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
-                {
-                    x.Configure(p =>
-                    {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetFederationUpstreamSet("all");
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
-                    });
-                })
-                .ConfigureAwait(false);
+                .Delete("P4", "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.ShouldNotBeNull();
-
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
-            
-            result.Errors.Count.ShouldBe(2);
+            result.HasFaulted.ShouldBeFalse();
         }
 
         [Test]
-        public async Task Verify_can_delete_policy()
+        public async Task Verify_can_delete_policy2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy("P4");
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                .DeletePolicy("P4", "HareDu");
             
             result.HasFaulted.ShouldBeFalse();
         }
@@ -246,12 +243,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy(string.Empty);
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                .Delete(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -263,12 +255,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy("P4");
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                .Delete("P4", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -280,12 +267,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy(string.Empty);
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                .Delete(string.Empty, string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -297,11 +279,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                .Delete(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -313,29 +291,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy("P4");
-                })
-                .ConfigureAwait(false);
+                .Delete("P4", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
-        }
-
-        [Test]
-        public async Task Verify_cannot_delete_policy_6()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Delete(x =>
-                {
-                })
-                .ConfigureAwait(false);
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
         }
     }
 }

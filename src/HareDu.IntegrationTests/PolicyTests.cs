@@ -35,21 +35,16 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create("P5", "HareDu", x =>
                 {
-                    x.Policy("P5");
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetExpiry(1000);
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
+                    x.ApplyTo(PolicyAppliedTo.All);
                 });
             
 //            Assert.IsFalse(result.HasFaulted);
@@ -61,22 +56,17 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(x =>
+                .Create("P4", "HareDu", x =>
                 {
-                    x.Policy("P4");
-                    x.Configure(p =>
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
                     {
-                        p.UsingPattern("^amq.");
-                        p.HasPriority(0);
-                        p.HasArguments(d =>
-                        {
-                            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                            d.SetFederationUpstreamSet("all");
-                            d.SetExpiry(1000);
-                        });
-                        p.ApplyTo("all");
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
+                    x.ApplyTo(PolicyAppliedTo.All);
                 });
             
             // Assert.IsFalse(result.HasFaulted);
@@ -88,11 +78,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Delete(x =>
-                {
-                    x.Policy("P4");
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                });
+                .Delete("P4", "HareDu");
             
             // Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());

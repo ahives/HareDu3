@@ -5,21 +5,27 @@ namespace HareDu
     public interface NewPolicyConfiguration
     {
         /// <summary>
-        /// Specify the name of the policy.
+        /// Specify the pattern which the policy will be applied.
         /// </summary>
-        /// <param name="name"></param>
-        void Policy(string name);
+        /// <param name="pattern"></param>
+        void UsingPattern(string pattern);
         
         /// <summary>
-        /// Specify how the policy should be configured.
+        /// Specify arguments for the policy.
         /// </summary>
-        /// <param name="configurator">User-defined configuration</param>
-        void Configure(Action<PolicyConfigurator> configurator);
-
+        /// <param name="arguments">Pre-defined arguments applied to the definition of the policy.</param>
+        void HasArguments(Action<PolicyDefinitionArguments> arguments);
+        
         /// <summary>
-        /// Specify what virtual host will the policy be scoped to.
+        /// Specify the priority for which the policy will be executed.
         /// </summary>
-        /// <param name="target">Define where the policy will live</param>
-        void Targeting(Action<PolicyTarget> target);
+        /// <param name="priority"></param>
+        void HasPriority(int priority);
+        
+        /// <summary>
+        /// Specify how the policy is applied.
+        /// </summary>
+        /// <param name="applyTo"></param>
+        void ApplyTo(PolicyAppliedTo appliedTo);
     }
 }

@@ -30,107 +30,54 @@ namespace HareDu.Internal
             return await GetAll<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewPolicyConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string policy, string vhost, Action<NewPolicyConfiguration> configuration = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new NewPolicyConfigurationImpl();
             configuration?.Invoke(impl);
 
-            impl.Validate();
-
             PolicyDefinition definition = impl.Definition.Value;
 
             Debug.Assert(definition != null);
             
-            string url = $"api/policies/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.PolicyName.Value}";
+            var errors = new List<Error>();
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+            errors.AddRange(impl.Errors.Value);
+            
+            if (string.IsNullOrWhiteSpace(policy))
+                errors.Add(new() {Reason = "The name of the policy is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
+            
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeletePolicyConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string policy, string vhost, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeletePolicyConfigurationImpl();
-            configuration?.Invoke(impl);
-
-            impl.Validate();
+            var errors = new List<Error>();
             
-            string url = $"api/policies/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.PolicyName.Value}";
+            if (string.IsNullOrWhiteSpace(policy))
+                errors.Add(new() {Reason = "The name of the policy is missing."});
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+            
+            string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
+
+            if (errors.Any())
+                return new FaultedResult {Errors = errors, DebugInfo = new() {URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
        }
-
-        
-        class DeletePolicyConfigurationImpl :
-            DeletePolicyConfiguration
-        {
-            string _vhost;
-            string _policy;
-            readonly List<Error> _errors;
-            bool _policyCalled;
-            bool _targetCalled;
-
-            public Lazy<string> PolicyName { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeletePolicyConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-                PolicyName = new Lazy<string>(() => _policy, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void Policy(string name)
-            {
-                _policyCalled = true;
-                _policy = name;
-
-                if (string.IsNullOrWhiteSpace(_policy))
-                    _errors.Add(new() {Reason = "The name of the policy is missing."});
-            }
-            
-            public void Targeting(Action<PolicyTarget> target)
-            {
-                _targetCalled = true;
-                
-                var impl = new PolicyTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_policyCalled)
-                    _errors.Add(new() {Reason = "The name of the policy is missing."});
-
-                if (!_targetCalled)
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            
-            class PolicyTargetImpl :
-                PolicyTarget
-            {
-                public string VirtualHostName { get; private set; }
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
-        }
 
         
         class NewPolicyConfigurationImpl :
@@ -140,16 +87,10 @@ namespace HareDu.Internal
             IDictionary<string, ArgumentValue<object>> _arguments;
             int _priority;
             string _applyTo;
-            string _policy;
-            string _vhost;
-            bool _targetCalled;
-            bool _policyCalled;
             
             readonly List<Error> _errors;
 
             public Lazy<PolicyDefinition> Definition { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<string> PolicyName { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewPolicyConfigurationImpl()
@@ -165,27 +106,15 @@ namespace HareDu.Internal
                         Priority = _priority,
                         ApplyTo = _applyTo
                     }, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-                PolicyName = new Lazy<string>(() => _policy, LazyThreadSafetyMode.PublicationOnly);
             }
+            
+            public void UsingPattern(string pattern) => _pattern = pattern;
 
-            public void Policy(string name)
+            public void HasArguments(Action<PolicyDefinitionArguments> arguments)
             {
-                _policyCalled = true;
-                _policy = name;
+                var impl = new PolicyDefinitionArgumentsImpl();
+                arguments?.Invoke(impl);
 
-                if (string.IsNullOrWhiteSpace(_policy))
-                    _errors.Add(new() {Reason = "The name of the policy is missing."});
-            }
-
-            public void Configure(Action<PolicyConfigurator> configurator)
-            {
-                var impl = new PolicyConfiguratorImpl();
-                configurator?.Invoke(impl);
-
-                _applyTo = impl.WhereToApply;
-                _pattern = impl.Pattern;
-                _priority = impl.Priority;
                 _arguments = impl.Arguments;
 
                 foreach (var argument in _arguments?.Where(x => x.Value.IsNull()).Select(x => x.Key))
@@ -200,62 +129,11 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"});
             }
 
-            public void Targeting(Action<PolicyTarget> target)
-            {
-                _targetCalled = true;
-                
-                var impl = new PolicyTargetImpl();
-                target?.Invoke(impl);
+            public void HasPriority(int priority) => _priority = priority;
 
-                _vhost = impl.VirtualHostName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_policyCalled)
-                    _errors.Add(new() {Reason = "The name of the policy is missing."});
-                
-                if (!_targetCalled)
-                    _errors.Add(new (){Reason = "The name of the virtual host is missing."});
-            }
-
-            
-            class PolicyTargetImpl :
-                PolicyTarget
-            {
-                public string VirtualHostName { get; private set; }
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
+            public void ApplyTo(PolicyAppliedTo appliedTo) => _applyTo = appliedTo.Convert();
 
 
-            class PolicyConfiguratorImpl :
-                PolicyConfigurator
-            {
-                public int Priority { get; private set; }
-                public string Pattern { get; private set; }
-                public string WhereToApply { get; private set; }
-                public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }
-
-                public void UsingPattern(string pattern) => Pattern = pattern;
-
-                public void HasArguments(Action<PolicyDefinitionArguments> arguments)
-                {
-                    var impl = new PolicyDefinitionArgumentsImpl();
-                    arguments?.Invoke(impl);
-
-                    Arguments = impl.Arguments;
-                }
-
-                public void HasPriority(int priority) => Priority = priority;
-
-                public void ApplyTo(string applyTo) => WhereToApply = applyTo;
-            }
-            
-            
             class PolicyDefinitionArgumentsImpl :
                 PolicyDefinitionArguments
             {

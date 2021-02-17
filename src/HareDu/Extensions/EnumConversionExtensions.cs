@@ -4,6 +4,21 @@ namespace HareDu.Extensions
 
     public static class EnumConversionExtensions
     {
+        public static string Convert(this PolicyAppliedTo appliedTo)
+        {
+            switch (appliedTo)
+            {
+                case PolicyAppliedTo.All:
+                    return "all";
+                
+                case PolicyAppliedTo.Queues:
+                    return "queues";
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(appliedTo), appliedTo, null);
+            }
+        }
+        
         public static string Convert(this MessageEncoding encoding)
         {
             switch (encoding)
