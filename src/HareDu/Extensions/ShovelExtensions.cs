@@ -16,7 +16,8 @@ namespace HareDu.Extensions
                 throw new ArgumentNullException(nameof(factory));
             
             return await factory.Object<Shovel>()
-                .Create(shovel, vhost, configuration, cancellationToken);
+                .Create(shovel, vhost, configuration, cancellationToken)
+                .ConfigureAwait(false);
         }
 
         public static async Task<Result> DeleteShovel(this IBrokerObjectFactory factory,
@@ -26,16 +27,18 @@ namespace HareDu.Extensions
                 throw new ArgumentNullException(nameof(factory));
             
             return await factory.Object<Shovel>()
-                .Delete(shovel, vhost, cancellationToken);
+                .Delete(shovel, vhost, cancellationToken)
+                .ConfigureAwait(false);
         }
 
-        public static async Task<ResultList<ShovelInfo>> GetAllShovels(this IBrokerObjectFactory factory)
+        public static async Task<ResultList<ShovelInfo>> GetAllShovels(this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
             
             return await factory.Object<Shovel>()
-                .GetAll();
+                .GetAll(cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }

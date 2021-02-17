@@ -22,7 +22,7 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
-        public async Task Should_be_able_to_get_all_bindings()
+        public async Task Should_be_able_to_get_all_bindings1()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
@@ -34,24 +34,28 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
+        public async Task Should_be_able_to_get_all_bindings2()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .GetAllBindings()
+                .ScreenDump();
+            
+            Assert.IsFalse(result.HasFaulted);
+            Console.WriteLine(result.ToJsonString());
+        }
+
+        [Test]
         public async Task Verify_can_add_arguments()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create(x =>
+                .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", x =>
                 {
-                    x.Configure(c =>
+                    x.HasRoutingKey("*.");
+                    x.HasArguments(arg =>
                     {
-                        c.Source("A1");
-                        c.Destination("Queue2");
-                        c.Type(BindingType.Queue);
-                        c.HasRoutingKey("*.");
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("arg1", "value1");
-                        });
+                        arg.Set("arg1", "value1");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
                 });
             
 //            Assert.IsFalse(result.HasFaulted);
@@ -63,16 +67,13 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Delete(x =>
+                .Delete("E2", "Q4", "%2A.","HareDu", x =>
                 {
                     x.Configure(b =>
                     {
-                        b.Name("%2A.");
-                        b.Source("E2");
-                        b.Destination("Q4");
                         b.Type(BindingType.Queue);
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
+                    // x.Targeting(t => t.VirtualHost());
                 });
             
 //            Assert.IsFalse(result.HasFaulted);

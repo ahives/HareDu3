@@ -5,15 +5,15 @@ namespace HareDu
     public interface NewBindingConfiguration
     {
         /// <summary>
-        /// Specify how the binding should be configured.
+        /// Specify how the binding will be set up rout messages.
         /// </summary>
-        /// <param name="configurator"></param>
-        void Configure(Action<NewBindingConfigurator> configurator);
-
+        /// <param name="routingKey"></param>
+        void HasRoutingKey(string routingKey);
+        
         /// <summary>
-        /// Specify the target for which the binding will be created.
+        /// Specify user-defined binding arguments.
         /// </summary>
-        /// <param name="target">Define the location where the binding (i.e. virtual host) will be created</param>
-        void Targeting(Action<BindingTarget> target);
+        /// <param name="arguments"></param>
+        void HasArguments(Action<BindingArguments> arguments);
     }
 }

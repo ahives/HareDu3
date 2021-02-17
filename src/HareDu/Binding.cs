@@ -22,7 +22,8 @@ namespace HareDu
         /// <param name="configuration">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result<BindingInfo>> Create(Action<NewBindingConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding, BindingType bindingType, string vhost,
+            Action<NewBindingConfiguration> configuration = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified exchange on the target virtual host.
@@ -30,6 +31,7 @@ namespace HareDu
         /// <param name="configuration">Describes how the queue will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(Action<DeleteBindingConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string sourceBinding, string destinationBinding, string bindingName,
+            string vhost, Action<DeleteBindingConfiguration> configuration, CancellationToken cancellationToken = default);
     }
 }
