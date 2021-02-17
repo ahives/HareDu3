@@ -35,18 +35,14 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create("fake_param2", x =>
                 {
-                    x.Parameter("fake_param2");
-                    x.Configure(c =>
-                    {
-                        c.Value("fake_value");
-                        // c.Arguments(arg =>
-                        // {
-                        //     arg.Set("arg1", "value1");
-                        //     arg.Set("arg2", "value2");
-                        // });
-                    });
+                    x.Value("fake_value");
+                    // x.Arguments(arg =>
+                    // {
+                    //     arg.Set("arg1", "value1");
+                    //     arg.Set("arg2", "value2");
+                    // });
                 });
              
             // Assert.IsFalse(result.HasFaulted);
@@ -58,7 +54,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Delete(x => x.Parameter("Fred"));
+                .Delete("Fred");
             
             // Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());

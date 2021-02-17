@@ -15,13 +15,31 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public async Task Should_be_able_to_get_all_global_parameters()
+        public async Task Should_be_able_to_get_all_global_parameters1()
         {
             var services = GetContainerBuilder("TestData/GlobalParameterInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .GetAll()
-                .ConfigureAwait(false);
+                .GetAll();
+
+            result.HasFaulted.ShouldBeFalse();
+            result.HasData.ShouldBeTrue();
+            result.Data.Count.ShouldBe(5);
+            result.Data[3].Name.ShouldBe("fake_param1");
+            
+            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
+            
+            value.Count.ShouldBe(2);
+            value["arg1"].ToString().ShouldBe("value1");
+            value["arg2"].ToString().ShouldBe("value2");
+        }
+        
+        [Test]
+        public async Task Should_be_able_to_get_all_global_parameters2()
+        {
+            var services = GetContainerBuilder("TestData/GlobalParameterInfo.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .GetAllGlobalParameters();
 
             result.HasFaulted.ShouldBeFalse();
             result.HasData.ShouldBeTrue();
@@ -41,15 +59,29 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create("fake_param",x =>
                 {
-                    x.Parameter("fake_param");
-                    x.Configure(c =>
-                    {
-                        c.Value("fake_value");
-                    });
-                })
-                .ConfigureAwait(false);
+                    x.Value("fake_value");
+                });
+             
+            result.HasFaulted.ShouldBeFalse();
+            result.DebugInfo.ShouldNotBeNull();
+            
+            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+            
+            definition.Name.ShouldBe("fake_param");
+            definition.Value.ToString().ShouldBe("fake_value");
+        }
+        
+        [Test]
+        public async Task Verify_can_create_parameter2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateGlobalParameter("fake_param",x =>
+                {
+                    x.Value("fake_value");
+                });
              
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -66,19 +98,14 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create("fake_param",x =>
                 {
-                    x.Parameter("fake_param");
-                    x.Configure(c =>
+                    x.Value(arg =>
                     {
-                        c.Value(arg =>
-                        {
-                            arg.Set("arg1", "value1");
-                            arg.Set("arg2", 5);
-                        });
+                        arg.Set("arg1", "value1");
+                        arg.Set("arg2", 5);
                     });
-                })
-                .ConfigureAwait(false);
+                });
              
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -104,40 +131,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create(string.Empty, x =>
                 {
-                    x.Parameter(string.Empty);
-                    x.Configure(c =>
-                    {
-                        c.Value("fake_value");
-                    });
-                })
-                .ConfigureAwait(false);
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
-            
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.ToString().ShouldBe("fake_value");
-        }
-        
-        [Test]
-        public async Task Verify_cannot_create_parameter_2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Create(x =>
-                {
-                    x.Configure(c =>
-                    {
-                        c.Value("fake_value");
-                    });
-                })
-                .ConfigureAwait(false);
+                    x.Value("fake_value");
+                });
              
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -155,15 +152,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create("fake_param", x =>
                 {
-                    x.Parameter("fake_param");
-                    x.Configure(c =>
-                    {
-                        c.Value(string.Empty);
-                    });
-                })
-                .ConfigureAwait(false);
+                    x.Value(string.Empty);
+                });
              
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -181,15 +173,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create(string.Empty, x =>
                 {
-                    x.Parameter(string.Empty);
-                    x.Configure(c =>
-                    {
-                        c.Value(string.Empty);
-                    });
-                })
-                .ConfigureAwait(false);
+                    x.Value(string.Empty);
+                });
              
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -207,11 +194,9 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
+                .Create(string.Empty, x =>
                 {
-                    x.Parameter(string.Empty);
-                })
-                .ConfigureAwait(false);
+                });
              
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
@@ -224,59 +209,22 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public async Task Verify_cannot_create_parameter_6()
+        public async Task Verify_can_delete_parameter1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Create(x =>
-                {
-                    x.Configure(c =>
-                    {
-                        c.Value(string.Empty);
-                    });
-                })
-                .ConfigureAwait(false);
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
+                .Delete("fake_param");
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.Cast<string>().ShouldBeNullOrEmpty();
+            result.HasFaulted.ShouldBeFalse();
         }
         
         [Test]
-        public async Task Verify_cannot_create_parameter_7()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Create(x =>
-                {
-                })
-                .GetResult();
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
-            
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.ShouldBeNull();
-        }
-        
-        [Test]
-        public async Task Verify_can_delete_parameter()
+        public async Task Verify_can_delete_parameter2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Delete(x => x.Parameter("fake_param"))
-                .ConfigureAwait(false);
+                .DeleteGlobalParameter("fake_param");
             
             result.HasFaulted.ShouldBeFalse();
         }
@@ -287,21 +235,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
-                .Delete(x => x.Parameter(string.Empty))
-                .ConfigureAwait(false);
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
-        }
-        
-        [Test]
-        public async Task Verify_cannot_delete_parameter_2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Delete(x => {})
-                .ConfigureAwait(false);
+                .Delete(string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);

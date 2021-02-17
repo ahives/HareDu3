@@ -19,10 +19,10 @@ namespace HareDu
         /// <summary>
         /// Creates the specified global parameter on the current RabbitMQ node.
         /// </summary>
-        /// <param name="configuration">Describes how the global parameter will be created.</param>
+        /// <param name="configurator">Describes how the global parameter will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Create(Action<NewGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Delete the specified global parqmeter on the current RabbitMQ node.
@@ -30,6 +30,6 @@ namespace HareDu
         /// <param name="configuration">Describes how the global parameter will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(Action<DeleteGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string parameter, CancellationToken cancellationToken = default);
     }
 }

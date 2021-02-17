@@ -30,11 +30,11 @@ namespace HareDu.Internal
             return await GetAll<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
-            var impl = new NewGlobalParameterConfigurationImpl();
+            var impl = new NewGlobalParameterConfiguratorImpl(parameter);
             configuration?.Invoke(impl);
             
             impl.Validate();
@@ -43,51 +43,46 @@ namespace HareDu.Internal
 
             Debug.Assert(definition != null);
 
+            var errors = new List<Error>();
+            
+            errors.AddRange(impl.Errors.Value);
+            
+            if (string.IsNullOrWhiteSpace(parameter))
+                errors.Add(new() {Reason = "The name of the parameter is missing."});
+
             string url = $"api/global-parameters/{definition.Name}";
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteGlobalParameterConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
-
-            var impl = new DeleteGlobalParameterConfigurationImpl();
-            configuration?.Invoke(impl);
             
-            if (string.IsNullOrWhiteSpace(impl.ParameterName))
+            if (string.IsNullOrWhiteSpace(parameter))
                 return new FaultedResult{Errors = new List<Error> {new (){Reason = "The name of the parameter is missing."}}, DebugInfo = new (){URL = @"api/global-parameters/", Request = null}};
 
-            string url = $"api/global-parameters/{impl.ParameterName}";
+            string url = $"api/global-parameters/{parameter}";
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        
-        class DeleteGlobalParameterConfigurationImpl :
-            DeleteGlobalParameterConfiguration
-        {
-            public string ParameterName { get; private set; }
-            
-            public void Parameter(string name) => ParameterName = name;
-        }
 
-
-        class NewGlobalParameterConfigurationImpl :
-            NewGlobalParameterConfiguration
+        class NewGlobalParameterConfiguratorImpl :
+            NewGlobalParameterConfigurator
         {
             IDictionary<string, ArgumentValue<object>> _arguments;
-            string _name;
             object _argument;
+            
             readonly List<Error> _errors;
 
             public Lazy<GlobalParameterDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewGlobalParameterConfigurationImpl()
+            public NewGlobalParameterConfiguratorImpl(string name)
             {
                 _errors = new List<Error>();
                 
@@ -95,63 +90,26 @@ namespace HareDu.Internal
                 Definition = new Lazy<GlobalParameterDefinition>(
                     () => new GlobalParameterDefinition
                     {
-                        Name = _name,
+                        Name = name,
                         Value = _argument.IsNotNull() ? _argument : _arguments.GetArguments()
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Parameter(string name) => _name = name;
-            
-            public void Configure(Action<NewGlobalParameterConfigurator> configurator)
+            public void Value(Action<GlobalParameterArguments> arguments)
             {
-                var impl = new NewGlobalParameterConfiguratorImpl();
-                configurator?.Invoke(impl);
+                var impl = new GlobalParameterArgumentsImpl();
+                arguments?.Invoke(impl);
 
-                _argument = impl.Argument.Value;
-                _arguments = impl.Arguments.Value;
+                _arguments = impl.Arguments;
             }
 
-            
-            class NewGlobalParameterConfiguratorImpl :
-                NewGlobalParameterConfigurator
+            public void Value<T>(T argument)
             {
-                IDictionary<string, ArgumentValue<object>> _arguments;
-                object _argument;
-                
-                readonly List<Error> _errors;
-
-                public Lazy<IDictionary<string, ArgumentValue<object>>> Arguments { get; }
-                public Lazy<object> Argument { get; }
-                public Lazy<List<Error>> Errors { get; }
-
-                public NewGlobalParameterConfiguratorImpl()
-                {
-                    _errors = new List<Error>();
-                
-                    Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                    Arguments = new Lazy<IDictionary<string, ArgumentValue<object>>>(() => _arguments, LazyThreadSafetyMode.PublicationOnly);
-                    Argument = new Lazy<object>(() => _argument, LazyThreadSafetyMode.PublicationOnly);
-                }
-
-                public void Value(Action<GlobalParameterArguments> arguments)
-                {
-                    var impl = new GlobalParameterArgumentsImpl();
-                    arguments?.Invoke(impl);
-
-                    _arguments = impl.Arguments;
-                }
-
-                public void Value<T>(T argument)
-                {
-                    _argument = argument;
-                }
+                _argument = argument;
             }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_name))
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
-
                 if (_argument != null && _argument.GetType() == typeof(string))
                 {
                     if (string.IsNullOrWhiteSpace(_argument.ToString()))
