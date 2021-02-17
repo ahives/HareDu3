@@ -4,10 +4,6 @@ namespace HareDu
     {
         void Protocol(Protocol protocol);
 
-        void Uri(string uri);
-
-        void Queue(string queue);
-
         void DeleteAfter();
 
         void MaxCopiedMessages(long messages);

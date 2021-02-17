@@ -50,7 +50,7 @@ namespace HareDu.Model
         
         [JsonPropertyName("src-exchange-key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string SourceExchangeKey { get; init; }
+        public string SourceExchangeRoutingKey { get; init; }
         
         [JsonPropertyName("dest-exchange")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

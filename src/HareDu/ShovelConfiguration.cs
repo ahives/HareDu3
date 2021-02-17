@@ -4,10 +4,12 @@ namespace HareDu
 
     public interface ShovelConfiguration
     {
-        void Shovel(string name);
+        void ReconnectDelay(int delay);
 
-        void Configure(Action<ShovelTargetConfigurator> configurator);
-
-        void Targeting(Action<ShovelTarget> target);
+        void AcknowledgeMode(AcknowledgeMode mode);
+        
+        void Source(string queue, string uri, Action<ShovelSourceConfiguration> configurator = null);
+        
+        void Destination(string queue, string uri, Action<ShovelDestinationConfiguration> configurator = null);
     }
 }
