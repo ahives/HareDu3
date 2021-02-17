@@ -93,20 +93,15 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create(x =>
+                .Create("A2", "HareDu", x =>
                 {
-                    x.Exchange("A2");
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.IsForInternalUse();
+                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.IsForInternalUse();
-                        c.HasRoutingType(ExchangeRoutingType.Fanout);
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("arg1", "blah");
-                        });
+                        arg.Set("arg1", "blah");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
                 });
             
             // Assert.IsFalse(result.HasFaulted);
@@ -118,15 +113,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
-                {
-                    x.Exchange("E3");
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                });
+                .Delete("E3", "HareDu");
             
 //            Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());

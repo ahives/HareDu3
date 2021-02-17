@@ -5,21 +5,30 @@ namespace HareDu
     public interface NewExchangeConfiguration
     {
         /// <summary>
-        /// Specify the name of the exchange.
+        /// Specify the message routing type (e.g. fanout, direct, topic, etc.).
         /// </summary>
-        /// <param name="name">RabbitMQ exchange name</param>
-        void Exchange(string name);
+        /// <param name="routingType"></param>
+        void HasRoutingType(ExchangeRoutingType routingType);
 
         /// <summary>
-        /// Specify how should the exchange be configured.
+        /// Specify that the exchange is durable.
         /// </summary>
-        /// <param name="configurator">User-defined configuration</param>
-        void Configure(Action<NewExchangeConfigurator> configurator);
+        void IsDurable();
 
         /// <summary>
-        /// Specify the target for which the exchange will be created.
+        /// Specify that the exchange is for internal use only.
         /// </summary>
-        /// <param name="target">Define the location of the exchange (i.e. virtual host) that is targeted for deletion</param>
-        void Targeting(Action<ExchangeTarget> target);
+        void IsForInternalUse();
+
+        /// <summary>
+        /// Specify user-defined arguments used to configure the exchange.
+        /// </summary>
+        /// <param name="arguments"></param>
+        void HasArguments(Action<ExchangeDefinitionArguments> arguments);
+
+        /// <summary>
+        /// Specify that the exchange will be deleted when there are no consumers.
+        /// </summary>
+        void AutoDeleteWhenNotInUse();
     }
 }

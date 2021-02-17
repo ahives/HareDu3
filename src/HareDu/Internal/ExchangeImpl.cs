@@ -30,144 +30,85 @@ namespace HareDu.Internal
             return await GetAll<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewExchangeConfiguration> configuration, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfiguration> configuration = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new NewExchangeConfigurationImpl();
             configuration?.Invoke(impl);
             
-            impl.Validate();
-            
             ExchangeDefinition definition = impl.Definition.Value;
 
             Debug.Assert(definition != null);
 
-            string url = $"api/exchanges/{impl.VirtualHost.Value.ToSanitizedName()}/{impl.ExchangeName.Value}";
+            var errors = new List<Error>();
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
+            errors.AddRange(impl.Errors.Value);
+            
+            if (string.IsNullOrWhiteSpace(exchange))
+                errors.Add(new () {Reason = "The name of the exchange is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
+            
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteExchangeConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfiguration2> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new DeleteExchangeConfigurationImpl();
             configuration?.Invoke(impl);
-            
-            impl.Validate();
 
-            string vhost = impl.VirtualHost.Value.ToSanitizedName();
+            var errors = new List<Error>();
             
-            string url = $"api/exchanges/{vhost}/{impl.ExchangeName.Value}";
+            if (string.IsNullOrWhiteSpace(exchange))
+                errors.Add(new () {Reason = "The name of the exchange is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            string virtualHost = vhost.ToSanitizedName();
+            
+            string url = $"api/exchanges/{virtualHost}/{exchange}";
             if (!string.IsNullOrWhiteSpace(impl.Query.Value))
-                url = $"api/exchanges/{vhost}/{impl.ExchangeName.Value}?{impl.Query.Value}";
+                url = $"api/exchanges/{virtualHost}/{exchange}?{impl.Query.Value}";
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult<ExchangeInfo> {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
+            if (errors.Any())
+                return new FaultedResult {Errors = errors, DebugInfo = new() {URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
         
         class DeleteExchangeConfigurationImpl :
-            DeleteExchangeConfiguration
+            DeleteExchangeConfiguration2
         {
-            string _vhost;
-            string _exchange;
             string _query;
-            bool _targetingCalled;
-            bool _configureCalled;
-            bool _exchangeCalled;
-            
-            readonly List<Error> _errors;
 
             public Lazy<string> Query { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<string> ExchangeName { get; }
-            public Lazy<List<Error>> Errors { get; }
 
             public DeleteExchangeConfigurationImpl()
             {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-                ExchangeName = new Lazy<string>(() => _exchange, LazyThreadSafetyMode.PublicationOnly);
             }
-
-            public void Exchange(string name)
-            {
-                _exchangeCalled = true;
-                
-                _exchange = name;
-
-                if (string.IsNullOrWhiteSpace(_exchange))
-                    _errors.Add(new () {Reason = "The name of the exchange is missing."});
-            }
-
-            public void Configure(Action<DeleteExchangeConfigurator> configurator)
-            {
-                _configureCalled = true;
-                
-                var impl = new DeleteExchangeConfiguratorImpl();
-                configurator?.Invoke(impl);
-
-                _query = impl.Query;
-            }
-
-            public void Targeting(Action<ExchangeTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new ExchangeTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-                
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_targetingCalled)
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-
-                if (!_exchangeCalled)
-                    _errors.Add(new() {Reason = "The name of the exchange is missing."});
-            }
-
             
-            class DeleteExchangeConfiguratorImpl :
-                DeleteExchangeConfigurator
+            public void When(Action<DeleteExchangeCondition> condition)
             {
-                public string Query { get; private set; }
+                var impl = new DeleteExchangeConditionImpl();
+                condition?.Invoke(impl);
 
-                public void When(Action<DeleteExchangeCondition> condition)
-                {
-                    var impl = new DeleteExchangeConditionImpl();
-                    condition?.Invoke(impl);
+                string query = string.Empty;
+                if (impl.DeleteIfUnused)
+                    query = "if-unused=true";
 
-                    string query = string.Empty;
-                    if (impl.DeleteIfUnused)
-                        query = "if-unused=true";
-
-                    Query = query;
-                }
-            }
-
-            
-            class ExchangeTargetImpl :
-                ExchangeTarget
-            {
-                public string VirtualHostName { get; private set; }
-
-                public void VirtualHost(string name) => VirtualHostName = name;
+                _query = query;
             }
 
 
@@ -189,17 +130,10 @@ namespace HareDu.Internal
             bool _autoDelete;
             bool _internal;
             IDictionary<string, ArgumentValue<object>> _arguments;
-            string _vhost;
-            string _exchange;
-            bool _targetingCalled;
-            bool _configureCalled;
-            bool _exchangeCalled;
             
             readonly List<Error> _errors;
 
             public Lazy<ExchangeDefinition> Definition { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<string> ExchangeName { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewExchangeConfigurationImpl()
@@ -216,100 +150,26 @@ namespace HareDu.Internal
                         Internal = _internal,
                         Arguments = _arguments.GetArguments()
                     }, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-                ExchangeName = new Lazy<string>(() => _exchange, LazyThreadSafetyMode.PublicationOnly);
             }
+            
+            public void HasRoutingType(ExchangeRoutingType routingType) => _routingType = routingType.Convert();
 
-            public void Exchange(string name)
+            public void IsDurable() => _durable = true;
+
+            public void IsForInternalUse() => _internal = true;
+
+            public void HasArguments(Action<ExchangeDefinitionArguments> arguments)
             {
-                _exchangeCalled = true;
-                
-                _exchange = name;
+                var impl = new ExchangeDefinitionArgumentsImpl();
+                arguments?.Invoke(impl);
 
-                if (string.IsNullOrWhiteSpace(_exchange))
-                    _errors.Add(new () {Reason = "The name of the exchange is missing."});
-            }
-
-            public void Configure(Action<NewExchangeConfigurator> configurator)
-            {
-                _configureCalled = true;
-                
-                var impl = new NewExchangeConfiguratorImpl();
-                configurator?.Invoke(impl);
-
-                _durable = impl.Durable;
-                _routingType = impl.RoutingType;
-                _autoDelete = impl.AutoDelete;
-                _internal = impl.InternalUse;
                 _arguments = impl.Arguments;
-
-                if (string.IsNullOrWhiteSpace(_routingType))
-                    _errors.Add(new () {Reason = "The routing type of the exchange is missing."});
 
                 if (_arguments.IsNotNull())
                     _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => error.IsNotNull()).ToList());
             }
 
-            public void Targeting(Action<ExchangeTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new ExchangeTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_targetingCalled)
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-
-                if (!_configureCalled)
-                    _errors.Add(new() {Reason = "The routing type of the exchange is missing."});
-
-                if (!_exchangeCalled)
-                    _errors.Add(new () {Reason = "The name of the exchange is missing."});
-            }
-
-            
-            class ExchangeTargetImpl :
-                ExchangeTarget
-            {
-                public string VirtualHostName { get; private set; }
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
-
-
-            class NewExchangeConfiguratorImpl :
-                NewExchangeConfigurator
-            {
-                public string RoutingType { get; private set; }
-                public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }
-                public bool Durable { get; private set; }
-                public bool InternalUse { get; private set; }
-                public bool AutoDelete { get; private set; }
-
-                public void HasRoutingType(ExchangeRoutingType routingType) => RoutingType = routingType.Convert();
-
-                public void IsDurable() => Durable = true;
-
-                public void IsForInternalUse() => InternalUse = true;
-
-                public void HasArguments(Action<ExchangeDefinitionArguments> arguments)
-                {
-                    var impl = new ExchangeDefinitionArgumentsImpl();
-                    arguments?.Invoke(impl);
-
-                    Arguments = impl.Arguments;
-                }
-
-                public void AutoDeleteWhenNotInUse() => AutoDelete = true;
-            }
+            public void AutoDeleteWhenNotInUse() => _autoDelete = true;
 
 
             class ExchangeDefinitionArgumentsImpl :

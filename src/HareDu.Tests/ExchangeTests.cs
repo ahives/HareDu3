@@ -42,22 +42,16 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create(x =>
+                .Create("fake_exchange", "HareDu", x =>
                 {
-                    x.Exchange("fake_exchange");
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.IsForInternalUse();
+                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.IsForInternalUse();
-                        c.HasRoutingType(ExchangeRoutingType.Fanout);
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("fake_arg", "8238b");
-                        });
+                        arg.Set("fake_arg", "8238b");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                });
             
             result.HasFaulted.ShouldBeFalse();
             result.DebugInfo.ShouldNotBeNull();
@@ -79,22 +73,16 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create(x =>
+                .Create(string.Empty, "HareDu", x =>
                 {
-                    x.Exchange(string.Empty);
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.IsForInternalUse();
+                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.IsForInternalUse();
-                        c.HasRoutingType(ExchangeRoutingType.Fanout);
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("fake_arg", "8238b");
-                        });
+                        arg.Set("fake_arg", "8238b");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -108,21 +96,16 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create(x =>
+                .Create(string.Empty, "HareDu", x =>
                 {
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.IsForInternalUse();
+                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.IsForInternalUse();
-                        c.HasRoutingType(ExchangeRoutingType.Fanout);
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("fake_arg", "8238b");
-                        });
+                        arg.Set("fake_arg", "8238b");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -136,22 +119,16 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create(x =>
+                .Create("fake_exchange", string.Empty, x =>
                 {
-                    x.Exchange("fake_exchange");
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.IsForInternalUse();
+                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.IsForInternalUse();
-                        c.HasRoutingType(ExchangeRoutingType.Fanout);
-                        c.HasArguments(arg =>
-                        {
-                            arg.Set("fake_arg", "8238b");
-                        });
+                        arg.Set("fake_arg", "8238b");
                     });
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -160,38 +137,15 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_create_exchange_4()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .Create(x =>
-                {
-                })
-                .ConfigureAwait(false);
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(3);
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/exchanges//");
-        }
-
-        [Test]
         public async Task Verify_can_delete_exchange()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
+                .Delete("E3", "HareDu", x =>
                 {
-                    x.Exchange("E3");
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                })
-                .ConfigureAwait(false);
+                    x.When(condition => condition.Unused());
+                });
             
             result.HasFaulted.ShouldBeFalse();
         }
@@ -202,14 +156,9 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
+                .Delete(string.Empty, "HareDu", x =>
                 {
-                    x.Exchange(string.Empty);
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
+                    x.When(condition => condition.Unused());
                 })
                 .ConfigureAwait(false);
             
@@ -223,16 +172,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
+                .Delete("E3", string.Empty, x =>
                 {
-                    x.Exchange("E3");
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
+                    x.When(condition => condition.Unused());
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -244,16 +187,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
+                .Delete("E3", string.Empty, x =>
                 {
-                    x.Exchange("E3");
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => {});
-                })
-                .ConfigureAwait(false);
+                    x.When(condition => condition.Unused());
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(1);
@@ -265,56 +202,10 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Delete(x =>
+                .Delete(string.Empty, string.Empty, x =>
                 {
-                    x.Exchange(string.Empty);
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => t.VirtualHost(string.Empty));
-                })
-                .ConfigureAwait(false);
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
-        }
-
-        [Test]
-        public async Task Verify_cannot_delete_exchange_5()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .Delete(x =>
-                {
-                    x.Exchange(string.Empty);
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                    x.Targeting(t => {});
-                })
-                .ConfigureAwait(false);
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
-        }
-
-        [Test]
-        public async Task Verify_cannot_delete_exchange_6()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .Delete(x =>
-                {
-                    x.Configure(c =>
-                    {
-                        c.When(condition => condition.Unused());
-                    });
-                })
-                .ConfigureAwait(false);
+                    x.When(condition => condition.Unused());
+                });
             
             result.HasFaulted.ShouldBeTrue();
             result.Errors.Count.ShouldBe(2);
