@@ -59,12 +59,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfiguration2> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new DeleteExchangeConfigurationImpl();
-            configuration?.Invoke(impl);
+            configurator?.Invoke(impl);
 
             var errors = new List<Error>();
             
@@ -88,7 +88,7 @@ namespace HareDu.Internal
 
         
         class DeleteExchangeConfigurationImpl :
-            DeleteExchangeConfiguration2
+            DeleteExchangeConfigurator
         {
             string _query;
 
