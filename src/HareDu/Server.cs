@@ -19,9 +19,9 @@ namespace HareDu
         /// <summary>
         /// Perform a health check on a virtual host or node.
         /// </summary>
-        /// <param name="action">Constraints of how the </param>
+        /// <param name="configuration">Constraints of how the </param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns></returns>
-        Task<Result<ServerHealthInfo>> GetHealth(Action<HealthCheckAction> action, CancellationToken cancellationToken = default);
+        Task<Result<ServerHealthInfo>> GetHealth(Action<ServerConfiguration> configuration, CancellationToken cancellationToken = default);
     }
 }

@@ -7,8 +7,8 @@ namespace HareDu
         /// <summary>
         /// Specify how the binding should be configured.
         /// </summary>
-        /// <param name="criteria"></param>
-        void Configure(Action<NewBindingCriteria> criteria);
+        /// <param name="configurator"></param>
+        void Configure(Action<NewBindingConfigurator> configurator);
 
         /// <summary>
         /// Specify the target for which the binding will be created.

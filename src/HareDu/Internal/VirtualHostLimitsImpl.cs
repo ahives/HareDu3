@@ -93,10 +93,10 @@ namespace HareDu.Internal
 
             public void VirtualHost(string name) => _vhost = name;
 
-            public void Configure(Action<VirtualHostLimitsConfiguration> configuration)
+            public void Configure(Action<VirtualHostLimitsConfigurator> configurator)
             {
-                var impl = new VirtualHostLimitsConfigurationImpl();
-                configuration?.Invoke(impl);
+                var impl = new VirtualHostLimitsConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _maxConnectionLimits = impl.MaxConnectionLimit.Value;
                 _maxQueueLimits = impl.MaxQueueLimit.Value;
@@ -115,8 +115,8 @@ namespace HareDu.Internal
             }
 
             
-            class VirtualHostLimitsConfigurationImpl :
-                VirtualHostLimitsConfiguration
+            class VirtualHostLimitsConfiguratorImpl :
+                VirtualHostLimitsConfigurator
             {
                 ulong _maxQueueLimits;
                 ulong _maxConnectionLimits;
@@ -124,7 +124,7 @@ namespace HareDu.Internal
                 public Lazy<ulong> MaxConnectionLimit { get; }
                 public Lazy<ulong> MaxQueueLimit { get; }
                 
-                public VirtualHostLimitsConfigurationImpl()
+                public VirtualHostLimitsConfiguratorImpl()
                 {
                     MaxConnectionLimit = new Lazy<ulong>(() => _maxConnectionLimits, LazyThreadSafetyMode.PublicationOnly);
                     MaxQueueLimit = new Lazy<ulong>(() => _maxQueueLimits, LazyThreadSafetyMode.PublicationOnly);

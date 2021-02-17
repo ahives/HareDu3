@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface VirtualHostLimitsConfiguration
+    public interface VirtualHostLimitsConfigurator
     {
         /// <summary>
         /// 

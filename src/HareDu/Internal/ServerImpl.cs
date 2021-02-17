@@ -26,13 +26,13 @@ namespace HareDu.Internal
             return await Get<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result<ServerHealthInfo>> GetHealth(Action<HealthCheckAction> action,
+        public async Task<Result<ServerHealthInfo>> GetHealth(Action<ServerConfiguration> configuration,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new HealthCheckActionImpl();
-            action?.Invoke(impl);
+            var impl = new ServerConfigurationImpl();
+            configuration?.Invoke(impl);
 
             string url;
             
@@ -54,8 +54,8 @@ namespace HareDu.Internal
         }
 
         
-        class HealthCheckActionImpl :
-            HealthCheckAction
+        class ServerConfigurationImpl :
+            ServerConfiguration
         {
             public string RmqObjectName { get; private set; }
             public HealthCheckType CheckUpType { get; private set; }

@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// Specify how the queue should be configured.
         /// </summary>
-        /// <param name="configure">User-defined configuration</param>
-        void Configure(Action<NewQueueCriteria> configure);
+        /// <param name="configurator">User-defined configuration</param>
+        void Configure(Action<NewQueueConfigurator> configurator);
 
         /// <summary>
         /// Specify where the queue will live (i.e. virtual host, etc.).

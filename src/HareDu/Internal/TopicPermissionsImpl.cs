@@ -29,12 +29,12 @@ namespace HareDu.Internal
             return await GetAll<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<TopicPermissionsCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new TopicPermissionsCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewTopicPermissionsConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -50,12 +50,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<TopicPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new TopicPermissionsDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteTopicPermissionsConfigurationImpl();
+            configuration?.Invoke(impl);
             
             impl.Validate();
 
@@ -68,20 +68,22 @@ namespace HareDu.Internal
         }
 
         
-        class TopicPermissionsDeleteActionImpl :
-            TopicPermissionsDeleteAction
+        class DeleteTopicPermissionsConfigurationImpl :
+            DeleteTopicPermissionsConfiguration
         {
             string _vhost;
             string _user;
             bool _userCalled;
             bool _virtualHostCalled;
+            bool _targetingCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> Username { get; }
             public Lazy<string> VirtualHostName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public TopicPermissionsDeleteActionImpl()
+            public DeleteTopicPermissionsConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -100,11 +102,14 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The user is missing."});
             }
 
-            public void VirtualHost(string name)
+            public void Targeting(Action<TopicPermissionsTarget> target)
             {
-                _virtualHostCalled = true;
+                _targetingCalled = true;
                 
-                _vhost = name;
+                var impl = new TopicPermissionsTargetImpl();
+                target?.Invoke(impl);
+                
+                _vhost = impl.VirtualHostName;
             
                 if (string.IsNullOrWhiteSpace(_vhost))
                     _errors.Add(new () {Reason = "The name of the virtual host is missing."});
@@ -115,14 +120,23 @@ namespace HareDu.Internal
                 if (!_userCalled)
                     _errors.Add(new () {Reason = "The username and/or password is missing."});
 
-                if (!_virtualHostCalled)
+                if (!_targetingCalled)
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
         }
 
 
-        class TopicPermissionsCreateActionImpl :
-            TopicPermissionsCreateAction
+        class TopicPermissionsTargetImpl :
+            TopicPermissionsTarget
+        {
+            public string VirtualHostName { get; private set; }
+
+            public void VirtualHost(string name) => VirtualHostName = name;
+        }
+
+
+        class NewTopicPermissionsConfigurationImpl :
+            NewTopicPermissionsConfiguration
         {
             string _exchange;
             string _writePattern;
@@ -131,7 +145,8 @@ namespace HareDu.Internal
             string _user;
             bool _userCalled;
             bool _configureCalled;
-            bool _virtualHostCalled;
+            bool _targetingCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<TopicPermissionsDefinition> Definition { get; }
@@ -139,7 +154,7 @@ namespace HareDu.Internal
             public Lazy<string> Username { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public TopicPermissionsCreateActionImpl()
+            public NewTopicPermissionsConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -165,12 +180,12 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The username and/or password is missing."});
             }
 
-            public void Configure(Action<TopicPermissionsConfiguration> configure)
+            public void Configure(Action<TopicPermissionsConfigurator> configurator)
             {
                 _configureCalled = true;
                 
-                var impl = new TopicPermissionsConfigurationImpl();
-                configure(impl);
+                var impl = new TopicPermissionsConfiguratorImpl();
+                configurator(impl);
 
                 _exchange = impl.ExchangeName;
                 _writePattern = impl.WritePattern;
@@ -186,14 +201,17 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The read pattern is missing."});
             }
 
-            public void VirtualHost(string name)
+            public void Targeting(Action<TopicPermissionsTarget> target)
             {
-                _virtualHostCalled = true;
+                _targetingCalled = true;
                 
-                _vhost = name;
-
+                var impl = new TopicPermissionsTargetImpl();
+                target?.Invoke(impl);
+                
+                _vhost = impl.VirtualHostName;
+            
                 if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
             }
 
             public void Validate()
@@ -201,7 +219,7 @@ namespace HareDu.Internal
                 if (!_userCalled)
                     _errors.Add(new() {Reason = "The username and/or password is missing."});
                 
-                if (!_virtualHostCalled)
+                if (!_targetingCalled)
                     _errors.Add(new () {Reason = "The name of the virtual host is missing."});
 
                 if (!_configureCalled)
@@ -213,8 +231,8 @@ namespace HareDu.Internal
             }
 
             
-            class TopicPermissionsConfigurationImpl :
-                TopicPermissionsConfiguration
+            class TopicPermissionsConfiguratorImpl :
+                TopicPermissionsConfigurator
             {
                 public string ExchangeName { get; private set; }
                 public string WritePattern { get; private set; }

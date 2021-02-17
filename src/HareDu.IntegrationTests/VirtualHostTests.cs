@@ -95,7 +95,14 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup("", x => x.On(""));
+                .Startup(x =>
+                {
+                    x.VirtualHost("");
+                    x.Targeting(t =>
+                    {
+                        t.Node("");
+                    });
+                });
             
             Console.WriteLine(result.ToJsonString());
         }

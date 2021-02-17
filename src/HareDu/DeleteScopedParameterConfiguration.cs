@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ScopedParameterDeleteAction
+    public interface DeleteScopedParameterConfiguration
     {
         /// <summary>
         /// Specify the name of the scoped parameter.

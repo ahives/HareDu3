@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface TopicPermissionsCreateAction
+    public interface NewTopicPermissionsConfiguration
     {
         /// <summary>
         /// Specify the user for which the permission should be assigned to.
@@ -14,12 +14,12 @@ namespace HareDu
         /// Define how the user permission is to be created.
         /// </summary>
         /// <param name="definition"></param>
-        void Configure(Action<TopicPermissionsConfiguration> configure);
+        void Configure(Action<TopicPermissionsConfigurator> configurator);
 
         /// <summary>
-        /// Specify the target for which the user permission will be created.
+        /// 
         /// </summary>
-        /// <param name="target">Define which user is associated with the permissions that are being created.</param>
-        void VirtualHost(string name);
+        /// <param name="target"></param>
+        void Targeting(Action<TopicPermissionsTarget> target);
     }
 }

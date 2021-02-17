@@ -92,9 +92,10 @@ namespace HareDu.Internal
             string _bindingSource;
             string _bindingDestination;
             string _vhost;
-            readonly List<Error> _errors;
             bool _bindingCalled;
             bool _targetCalled;
+            
+            readonly List<Error> _errors;
 
             public Lazy<string> VirtualHost { get; }
             public Lazy<BindingType> BindingType { get; }
@@ -115,12 +116,12 @@ namespace HareDu.Internal
                 VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Configure(Action<DeleteBindingCriteria> criteria)
+            public void Configure(Action<DeleteBindingConfigurator> configurator)
             {
                 _bindingCalled = true;
                 
-                var impl = new DeleteBindingCriteriaImpl();
-                criteria?.Invoke(impl);
+                var impl = new DeleteBindingConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _bindingType = impl.BindingType;
                 _bindingName = impl.BindingName;
@@ -167,8 +168,8 @@ namespace HareDu.Internal
             }
 
 
-            class DeleteBindingCriteriaImpl :
-                DeleteBindingCriteria
+            class DeleteBindingConfiguratorImpl :
+                DeleteBindingConfigurator
             {
                 bool _destinationCalled;
                 bool _nameCalled;
@@ -182,7 +183,7 @@ namespace HareDu.Internal
                 public string BindingDestination { get; private set; }
                 public BindingType BindingType { get; private set; }
 
-                public DeleteBindingCriteriaImpl()
+                public DeleteBindingConfiguratorImpl()
                 {
                     _errors = new List<Error>();
                 
@@ -273,12 +274,12 @@ namespace HareDu.Internal
                 BindingType = new Lazy<BindingType>(() => _bindingType, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Configure(Action<NewBindingCriteria> criteria)
+            public void Configure(Action<NewBindingConfigurator> configurator)
             {
                 _configureCalled = true;
                 
-                var impl = new NewBindingCriteriaImpl();
-                criteria?.Invoke(impl);
+                var impl = new NewBindingConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _arguments = impl.Arguments;
                 _routingKey = impl.RoutingKey;
@@ -335,8 +336,8 @@ namespace HareDu.Internal
             }
 
 
-            class NewBindingCriteriaImpl :
-                NewBindingCriteria
+            class NewBindingConfiguratorImpl :
+                NewBindingConfigurator
             {
                 public string RoutingKey { get; private set; }
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }

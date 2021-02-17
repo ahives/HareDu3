@@ -7,8 +7,8 @@ namespace HareDu
         /// <summary>
         /// Specify the source, destination, and binding type.
         /// </summary>
-        /// <param name="criteria"></param>
-        void Configure(Action<DeleteBindingCriteria> criteria);
+        /// <param name="configurator"></param>
+        void Configure(Action<DeleteBindingConfigurator> configurator);
 
         /// <summary>
         /// Specify the target for which the binding will be deleted.

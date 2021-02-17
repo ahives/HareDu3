@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface UserCreateAction
+    public interface NewUserConfiguration
     {
         /// <summary>
         /// Specify the login username for the corresponding user.

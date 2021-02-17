@@ -201,12 +201,12 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the shovel is missing."});
             }
 
-            public void Configure(Action<ShovelTargetConfiguration> configuration)
+            public void Configure(Action<ShovelTargetConfigurator> configurator)
             {
                 _configureCalled = true;
                 
-                var impl = new ShovelTargetConfigurationImpl();
-                configuration?.Invoke(impl);
+                var impl = new ShovelTargetConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _sourceProtocol = impl.SourceProtocol;
                 _sourceUri = impl.SourceUri;
@@ -275,8 +275,8 @@ namespace HareDu.Internal
             }
 
 
-            class ShovelTargetConfigurationImpl :
-                ShovelTargetConfiguration
+            class ShovelTargetConfiguratorImpl :
+                ShovelTargetConfigurator
             {
                 public string SourceProtocol { get; private set; }
                 public string SourceUri { get; private set; }

@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface HealthCheckAction
+    public interface ServerConfiguration
     {
         /// <summary>
         /// Specify the name of the virtual host for which the health check should be performed on.

@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface DeleteExchangeCriteria
+    public interface DeleteExchangeConfigurator
     {
         /// <summary>
         /// Specify the conditions for which the exchange can be deleted.

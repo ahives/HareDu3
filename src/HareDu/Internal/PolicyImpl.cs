@@ -178,10 +178,10 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "The name of the policy is missing."});
             }
 
-            public void Configure(Action<PolicyConfiguration> configuration)
+            public void Configure(Action<PolicyConfigurator> configurator)
             {
-                var impl = new PolicyConfigurationImpl();
-                configuration?.Invoke(impl);
+                var impl = new PolicyConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _applyTo = impl.WhereToApply;
                 _pattern = impl.Pattern;
@@ -232,8 +232,8 @@ namespace HareDu.Internal
             }
 
 
-            class PolicyConfigurationImpl :
-                PolicyConfiguration
+            class PolicyConfiguratorImpl :
+                PolicyConfigurator
             {
                 public int Priority { get; private set; }
                 public string Pattern { get; private set; }

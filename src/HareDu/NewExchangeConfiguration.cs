@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// Specify how should the exchange be configured.
         /// </summary>
-        /// <param name="configure">User-defined configuration</param>
-        void Configure(Action<NewExchangeCriteria> configure);
+        /// <param name="configurator">User-defined configuration</param>
+        void Configure(Action<NewExchangeConfigurator> configurator);
 
         /// <summary>
         /// Specify the target for which the exchange will be created.

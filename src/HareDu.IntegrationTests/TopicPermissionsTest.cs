@@ -59,12 +59,15 @@ namespace HareDu.IntegrationTests
                 .Create(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 });
 
@@ -79,7 +82,10 @@ namespace HareDu.IntegrationTests
                 .Delete(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu7");
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu7");
+                    });
                 });
             
             Console.WriteLine(result.ToJsonString());

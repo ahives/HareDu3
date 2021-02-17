@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="criteria"></param>
-        void Configure(Action<DeleteExchangeCriteria> criteria);
+        /// <param name="configurator"></param>
+        void Configure(Action<DeleteExchangeConfigurator> configurator);
         
         /// <summary>
         /// Specify the target for which the exchange will be deleted.

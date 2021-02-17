@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="criteria"></param>
-        void Configure(Action<DeleteQueueCriteria> criteria);
+        /// <param name="configurator"></param>
+        void Configure(Action<DeleteQueueConfigurator> configurator);
 
         /// <summary>
         /// Specify where the queue lives (i.e. virtual host, etc.).

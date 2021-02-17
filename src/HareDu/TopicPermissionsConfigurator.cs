@@ -1,12 +1,12 @@
 namespace HareDu
 {
-    public interface UserPermissionsConfiguration
+    public interface TopicPermissionsConfigurator
     {
         /// <summary>
-        /// Specify the pattern of what users to configure the permissions for.
+        /// 
         /// </summary>
-        /// <param name="pattern"></param>
-        void UsingConfigurePattern(string pattern);
+        /// <param name="name"></param>
+        void OnExchange(string name);
 
         /// <summary>
         /// Specify the pattern of what types of writes are allowable for this permission.

@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface VirtualHostCreateAction
+    public interface NewVirtualHostConfiguration
     {
         /// <summary>
         /// Specify the name of the virtual host.

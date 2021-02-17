@@ -102,18 +102,18 @@ namespace HareDu.Internal
 
             public void Parameter(string name) => _name = name;
             
-            public void Configure(Action<NewGlobalParameterCriteria> configure)
+            public void Configure(Action<NewGlobalParameterConfigurator> configurator)
             {
-                var impl = new NewGlobalParameterCriteriaImpl();
-                configure?.Invoke(impl);
+                var impl = new NewGlobalParameterConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _argument = impl.Argument.Value;
                 _arguments = impl.Arguments.Value;
             }
 
             
-            class NewGlobalParameterCriteriaImpl :
-                NewGlobalParameterCriteria
+            class NewGlobalParameterConfiguratorImpl :
+                NewGlobalParameterConfigurator
             {
                 IDictionary<string, ArgumentValue<object>> _arguments;
                 object _argument;
@@ -124,7 +124,7 @@ namespace HareDu.Internal
                 public Lazy<object> Argument { get; }
                 public Lazy<List<Error>> Errors { get; }
 
-                public NewGlobalParameterCriteriaImpl()
+                public NewGlobalParameterConfiguratorImpl()
                 {
                     _errors = new List<Error>();
                 

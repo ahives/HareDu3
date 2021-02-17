@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ScopedParameterCreateAction<T>
+    public interface NewScopedParameterConfiguration<in T>
     {
         /// <summary>
         /// Specify the name of the scoped parameter.

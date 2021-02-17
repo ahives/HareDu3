@@ -141,7 +141,14 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup("FakeVirtualHost", x => x.On("FakeNode"))
+                .Startup(x =>
+                {
+                    x.VirtualHost("FakeVirtualHost");
+                    x.Targeting(t =>
+                    {
+                        t.Node("FakeNode");
+                    });
+                })
                 .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeFalse();
@@ -153,7 +160,14 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup(string.Empty, x => x.On("FakeNode"))
+                .Startup(x =>
+                {
+                    x.VirtualHost(string.Empty);
+                    x.Targeting(t =>
+                    {
+                        t.Node("FakeNode");
+                    });
+                })
                 .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
@@ -166,7 +180,14 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup("FakeVirtualHost", x => x.On(string.Empty))
+                .Startup(x =>
+                {
+                    x.VirtualHost("FakeVirtualHost");
+                    x.Targeting(t =>
+                    {
+                        t.Node(string.Empty);
+                    });
+                })
                 .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
@@ -179,7 +200,14 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup(string.Empty, x => x.On(string.Empty))
+                .Startup(x =>
+                {
+                    x.VirtualHost(string.Empty);
+                    x.Targeting(t =>
+                    {
+                        t.Node(string.Empty);
+                    });
+                })
                 .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();
@@ -192,7 +220,13 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup(string.Empty, x => {})
+                .Startup(x =>
+                {
+                    x.VirtualHost(string.Empty);
+                    x.Targeting(t =>
+                    {
+                    });
+                })
                 .ConfigureAwait(false);
             
             result.HasFaulted.ShouldBeTrue();

@@ -1,6 +1,8 @@
 namespace HareDu
 {
-    public interface TopicPermissionsDeleteAction
+    using System;
+
+    public interface NewUserPermissionsConfiguration
     {
         /// <summary>
         /// Specify the user for which the permission should be assigned to.
@@ -9,9 +11,15 @@ namespace HareDu
         void User(string username);
 
         /// <summary>
+        /// Define how the user permission is to be created.
+        /// </summary>
+        /// <param name="configurator"></param>
+        void Configure(Action<NewUserPermissionsConfigurator> configurator);
+
+        /// <summary>
         /// Specify the target for which the user permission will be created.
         /// </summary>
         /// <param name="target">Define which user is associated with the permissions that are being created.</param>
-        void VirtualHost(string name);
+        void Targeting(Action<UserPermissionsTarget> target);
     }
 }

@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewGlobalParameterCriteria
+    public interface NewGlobalParameterConfigurator
     {
         /// <summary>
         /// Specify global parameter arguments.

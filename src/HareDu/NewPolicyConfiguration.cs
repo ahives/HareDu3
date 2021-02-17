@@ -13,8 +13,8 @@ namespace HareDu
         /// <summary>
         /// Specify how the policy should be configured.
         /// </summary>
-        /// <param name="configuration">User-defined configuration</param>
-        void Configure(Action<PolicyConfiguration> configuration);
+        /// <param name="configurator">User-defined configuration</param>
+        void Configure(Action<PolicyConfigurator> configurator);
 
         /// <summary>
         /// Specify what virtual host will the policy be scoped to.

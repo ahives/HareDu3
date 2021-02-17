@@ -110,12 +110,12 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the exchange is missing."});
             }
 
-            public void Configure(Action<DeleteExchangeCriteria> criteria)
+            public void Configure(Action<DeleteExchangeConfigurator> configurator)
             {
                 _configureCalled = true;
                 
-                var impl = new DeleteExchangeCriteriaImpl();
-                criteria?.Invoke(impl);
+                var impl = new DeleteExchangeConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _query = impl.Query;
             }
@@ -143,8 +143,8 @@ namespace HareDu.Internal
             }
 
             
-            class DeleteExchangeCriteriaImpl :
-                DeleteExchangeCriteria
+            class DeleteExchangeConfiguratorImpl :
+                DeleteExchangeConfigurator
             {
                 public string Query { get; private set; }
 
@@ -230,12 +230,12 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the exchange is missing."});
             }
 
-            public void Configure(Action<NewExchangeCriteria> configure)
+            public void Configure(Action<NewExchangeConfigurator> configurator)
             {
                 _configureCalled = true;
                 
-                var impl = new NewExchangeCriteriaImpl();
-                configure?.Invoke(impl);
+                var impl = new NewExchangeConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _durable = impl.Durable;
                 _routingType = impl.RoutingType;
@@ -285,8 +285,8 @@ namespace HareDu.Internal
             }
 
 
-            class NewExchangeCriteriaImpl :
-                NewExchangeCriteria
+            class NewExchangeConfiguratorImpl :
+                NewExchangeConfigurator
             {
                 public string RoutingType { get; private set; }
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }

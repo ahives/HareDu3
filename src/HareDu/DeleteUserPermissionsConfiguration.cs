@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface UserPermissionsDeleteAction
+    public interface DeleteUserPermissionsConfiguration
     {
         /// <summary>
         /// Specify the user for which the permission should be deleted.

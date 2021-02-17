@@ -29,12 +29,12 @@ namespace HareDu.Internal
             return await GetAll<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<VirtualHostCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new VirtualHostCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewVirtualHostConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -48,12 +48,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<VirtualHostDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new VirtualHostDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteVirtualHostConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -70,22 +70,19 @@ namespace HareDu.Internal
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Startup(string vhost, Action<VirtualHostStartupAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Startup(Action<StartupVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new VirtualHostStartupActionImpl();
-            action?.Invoke(impl);
+            var impl = new StartupVirtualHostConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
-            string url = $"/api/vhosts/{vhost.ToSanitizedName()}/start/{impl.Node.Value}";
+            string url = $"/api/vhosts/{impl.VirtualHostName.Value.ToSanitizedName()}/start/{impl.Node.Value}";
 
             var errors = new List<Error>();
             errors.AddRange(impl.Errors.Value);
-
-            if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
             
             if (errors.Any())
                 return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
@@ -94,43 +91,84 @@ namespace HareDu.Internal
         }
 
         
-        class VirtualHostStartupActionImpl :
-            VirtualHostStartupAction
+        class StartupVirtualHostConfigurationImpl :
+            StartupVirtualHostConfiguration
         {
             string _node;
+            string _vhost;
+            bool _virtualHostCalled;
+            bool _targetingCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<List<Error>> Errors { get; }
             public Lazy<string> Node { get; }
+            public Lazy<string> VirtualHostName { get; }
 
-            public VirtualHostStartupActionImpl()
+            public StartupVirtualHostConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 Node = new Lazy<string>(() => _node, LazyThreadSafetyMode.PublicationOnly);
+                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void On(string node) => _node = node;
+            public void VirtualHost(string name)
+            {
+                _virtualHostCalled = true;
+
+                _vhost = name;
+
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
+            }
+
+            public void Targeting(Action<StartupVirtualHostTarget> target)
+            {
+                _targetingCalled = true;
+                
+                var impl = new StartupVirtualHostTargetImpl();
+                target?.Invoke(impl);
+
+                _node = impl.NodeName;
+
+                if (string.IsNullOrWhiteSpace(_node))
+                    _errors.Add(new() {Reason = "RabbitMQ node is missing."});
+            }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_node))
+                if (!_targetingCalled)
                     _errors.Add(new() {Reason = "RabbitMQ node is missing."});
+
+                if (!_virtualHostCalled)
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
+            }
+
+            
+            class StartupVirtualHostTargetImpl :
+                StartupVirtualHostTarget
+            {
+                public string NodeName { get; private set; }
+                
+                public void Node(string name) => NodeName = name;
             }
         }
 
 
-        class VirtualHostDeleteActionImpl :
-            VirtualHostDeleteAction
+        class DeleteVirtualHostConfigurationImpl :
+            DeleteVirtualHostConfiguration
         {
             string _vhost;
+            bool _virtualHostCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> VirtualHostName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public VirtualHostDeleteActionImpl()
+            public DeleteVirtualHostConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -138,30 +176,40 @@ namespace HareDu.Internal
                 VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void VirtualHost(string name) => _vhost = name;
+            public void VirtualHost(string name)
+            {
+                _virtualHostCalled = true;
+
+                _vhost = name;
+                
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+            }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                if (!_virtualHostCalled)
+                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
             }
         }
 
         
-        class VirtualHostCreateActionImpl :
-            VirtualHostCreateAction
+        class NewVirtualHostConfigurationImpl :
+            NewVirtualHostConfiguration
         {
             bool _tracing;
             string _vhost;
             string _description;
             string _tags;
+            bool _virtualHostCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<VirtualHostDefinition> Definition { get; }
             public Lazy<string> VirtualHostName { get; }
             public Lazy<List<Error>> Errors { get; }
             
-            public VirtualHostCreateActionImpl()
+            public NewVirtualHostConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -176,7 +224,15 @@ namespace HareDu.Internal
                 VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void VirtualHost(string name) => _vhost = name;
+            public void VirtualHost(string name)
+            {
+                _virtualHostCalled = true;
+
+                _vhost = name;
+                
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+            }
 
             public void Configure(Action<VirtualHostConfigurator> configurator)
             {
@@ -190,11 +246,11 @@ namespace HareDu.Internal
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_vhost))
+                if (!_virtualHostCalled)
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            
+
             class VirtualHostConfiguratorImpl :
                 VirtualHostConfigurator
             {

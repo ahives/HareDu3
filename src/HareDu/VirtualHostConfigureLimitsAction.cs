@@ -13,7 +13,7 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="configuration"></param>
-        void Configure(Action<VirtualHostLimitsConfiguration> configuration);
+        /// <param name="configurator"></param>
+        void Configure(Action<VirtualHostLimitsConfigurator> configurator);
     }
 }

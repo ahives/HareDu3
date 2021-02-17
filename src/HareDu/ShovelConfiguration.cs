@@ -6,7 +6,7 @@ namespace HareDu
     {
         void Shovel(string name);
 
-        void Configure(Action<ShovelTargetConfiguration> configuration);
+        void Configure(Action<ShovelTargetConfigurator> configurator);
 
         void Targeting(Action<ShovelTarget> target);
     }

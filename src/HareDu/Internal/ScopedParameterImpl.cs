@@ -29,13 +29,13 @@ namespace HareDu.Internal
             return await GetAll<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create<T>(Action<ScopedParameterCreateAction<T>> action,
+        public async Task<Result> Create<T>(Action<NewScopedParameterConfiguration<T>> configuration,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
-            var impl = new ScopedParameterCreateActionImpl<T>();
-            action?.Invoke(impl);
+            var impl = new NewScopedParameterConfigurationImpl<T>();
+            configuration?.Invoke(impl);
             
             impl.Validate();
 
@@ -51,12 +51,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<ScopedParameterDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteScopedParameterConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new ScopedParameterDeleteActionImpl();
-            action(impl);
+            var impl = new DeleteScopedParameterConfigurationImpl();
+            configuration(impl);
             
             impl.Validate();
 
@@ -69,12 +69,15 @@ namespace HareDu.Internal
         }
 
         
-        class ScopedParameterDeleteActionImpl :
-            ScopedParameterDeleteAction
+        class DeleteScopedParameterConfigurationImpl :
+            DeleteScopedParameterConfiguration
         {
             string _vhost;
             string _component;
             string _scopedParamName;
+            bool _targetingCalled;
+            bool _parameterCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> ScopedParameter { get; }
@@ -82,7 +85,7 @@ namespace HareDu.Internal
             public Lazy<string> VirtualHost { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ScopedParameterDeleteActionImpl()
+            public DeleteScopedParameterConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -92,27 +95,43 @@ namespace HareDu.Internal
                 VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Parameter(string name) => _scopedParamName = name;
+            public void Parameter(string name)
+            {
+                _parameterCalled = true;
+                
+                _scopedParamName = name;
+                
+                if (string.IsNullOrWhiteSpace(_scopedParamName))
+                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
+            }
 
             public void Targeting(Action<ScopedParameterTarget> target)
             {
+                _targetingCalled = true;
+                
                 var impl = new ScopedParameterTargetImpl();
                 target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
                 _component = impl.ComponentName;
-            }
-
-            public void Validate()
-            {
-                if (string.IsNullOrWhiteSpace(_scopedParamName))
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
 
                 if (string.IsNullOrWhiteSpace(_vhost))
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
                 if (string.IsNullOrWhiteSpace(_component))
                     _errors.Add(new() {Reason = "The component name is missing."});
+            }
+
+            public void Validate()
+            {
+                if (!_parameterCalled)
+                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
+
+                if (!_targetingCalled)
+                {
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                    _errors.Add(new() {Reason = "The component name is missing."});
+                }
             }
 
             
@@ -129,19 +148,22 @@ namespace HareDu.Internal
         }
 
         
-        class ScopedParameterCreateActionImpl<T> :
-            ScopedParameterCreateAction<T>
+        class NewScopedParameterConfigurationImpl<T> :
+            NewScopedParameterConfiguration<T>
         {
             string _component;
             string _vhost;
             T _scopedParamValue;
             string _scopedParamName;
+            bool _targetingCalled;
+            bool _parameterCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<ScopedParameterDefinition<T>> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ScopedParameterCreateActionImpl()
+            public NewScopedParameterConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -158,29 +180,42 @@ namespace HareDu.Internal
 
             public void Parameter(string name, T value)
             {
+                _parameterCalled = true;
+                
                 _scopedParamName = name;
                 _scopedParamValue = value;
+                
+                if (string.IsNullOrWhiteSpace(_scopedParamName))
+                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
             }
 
             public void Targeting(Action<ScopedParameterTarget> target)
             {
+                _targetingCalled = true;
+                
                 var impl = new ScopedParameterTargetImpl();
                 target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
                 _component = impl.ComponentName;
-            }
-
-            public void Validate()
-            {
-                if (string.IsNullOrWhiteSpace(_scopedParamName))
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
 
                 if (string.IsNullOrWhiteSpace(_vhost))
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
                 if (string.IsNullOrWhiteSpace(_component))
                     _errors.Add(new() {Reason = "The component name is missing."});
+            }
+
+            public void Validate()
+            {
+                if (!_parameterCalled)
+                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
+
+                if (!_targetingCalled)
+                {
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                    _errors.Add(new() {Reason = "The component name is missing."});
+                }
             }
 
             

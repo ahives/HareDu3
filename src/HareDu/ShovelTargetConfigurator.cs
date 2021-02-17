@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface ShovelTargetConfiguration
+    public interface ShovelTargetConfigurator
     {
         void ReconnectDelay(int delay);
 

@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface UserDeleteAction
+    public interface DeleteUserConfiguration
     {
         /// <summary>
         /// Specify the user targeted for deletion.

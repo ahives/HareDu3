@@ -14,7 +14,7 @@ namespace HareDu
         /// Specify how to redeliver messages to the queue.
         /// </summary>
         /// <param name="configuration"></param>
-        void Configure(Action<QueuePeekConfiguration> configuration);
+        void Configure(Action<QueuePeekConfigurator> configuration);
         
         /// <summary>
         /// Specify where the queue lives (i.e. virtual host, etc.).

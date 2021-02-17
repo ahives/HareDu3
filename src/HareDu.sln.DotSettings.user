@@ -81,6 +81,9 @@
       &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.GlobalParameterTests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.PolicyTests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ScopedParameterTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.TopicPermissionsTest&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.VirtualHostTests&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes&lt;/ProjectFolder&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;

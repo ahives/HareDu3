@@ -29,12 +29,12 @@ namespace HareDu.Internal
             return await GetAll<UserPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<UserPermissionsCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewUserPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new UserPermissionsCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewUserPermissionsConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -50,12 +50,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<UserPermissionsDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteUserPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new UserPermissionsDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteUserPermissionsConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -68,18 +68,21 @@ namespace HareDu.Internal
         }
 
         
-        class UserPermissionsDeleteActionImpl :
-            UserPermissionsDeleteAction
+        class DeleteUserPermissionsConfigurationImpl :
+            DeleteUserPermissionsConfiguration
         {
             string _vhost;
             string _user;
+            bool _userCalled;
+            bool _targetingCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> Username { get; }
             public Lazy<string> VirtualHost { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public UserPermissionsDeleteActionImpl()
+            public DeleteUserPermissionsConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -90,20 +93,33 @@ namespace HareDu.Internal
 
             public void Targeting(Action<UserPermissionsTarget> target)
             {
+                _targetingCalled = true;
+                
                 var impl = new UserPermissionsTargetImpl();
                 target?.Invoke(impl);
 
                 _vhost = impl.VirtualHostName;
+                
+                if (string.IsNullOrWhiteSpace(_vhost))
+                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
             }
 
-            public void User(string name) => _user = name;
+            public void User(string name)
+            {
+                _userCalled = true;
+                
+                _user = name;
+
+                if (string.IsNullOrWhiteSpace(_user))
+                    _errors.Add(new() {Reason = "The username and/or password is missing."});
+            }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_vhost))
+                if (!_targetingCalled)
                     _errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
-                if (string.IsNullOrWhiteSpace(_user))
+                if (!_userCalled)
                     _errors.Add(new() {Reason = "The username and/or password is missing."});
             }
 
@@ -118,8 +134,8 @@ namespace HareDu.Internal
         }
 
         
-        class UserPermissionsCreateActionImpl :
-            UserPermissionsCreateAction
+        class NewUserPermissionsConfigurationImpl :
+            NewUserPermissionsConfiguration
         {
             string _configurePattern;
             string _writePattern;
@@ -135,7 +151,7 @@ namespace HareDu.Internal
             public Lazy<string> Username { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public UserPermissionsCreateActionImpl()
+            public NewUserPermissionsConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -161,10 +177,10 @@ namespace HareDu.Internal
                     _errors.Add(new (){Reason = "The username and/or password is missing."});
             }
 
-            public void Configure(Action<UserPermissionsConfiguration> configure)
+            public void Configure(Action<NewUserPermissionsConfigurator> configurator)
             {
-                var impl = new UserPermissionsConfigurationImpl();
-                configure?.Invoke(impl);
+                var impl = new NewUserPermissionsConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _configurePattern = impl.ConfigurePattern;
                 _writePattern = impl.WritePattern;
@@ -203,8 +219,8 @@ namespace HareDu.Internal
             }
 
             
-            class UserPermissionsConfigurationImpl :
-                UserPermissionsConfiguration
+            class NewUserPermissionsConfiguratorImpl :
+                NewUserPermissionsConfigurator
             {
                 public string ConfigurePattern { get; private set; }
                 public string ReadPattern { get; private set; }

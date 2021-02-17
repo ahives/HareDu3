@@ -38,12 +38,12 @@ namespace HareDu.Internal
             return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<UserCreateAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(Action<NewUserConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new UserCreateActionImpl();
-            action?.Invoke(impl);
+            var impl = new NewUserConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -59,12 +59,12 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<UserDeleteAction> action, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(Action<DeleteUserConfiguration> configuration, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new UserDeleteActionImpl();
-            action?.Invoke(impl);
+            var impl = new DeleteUserConfigurationImpl();
+            configuration?.Invoke(impl);
 
             impl.Validate();
 
@@ -77,16 +77,18 @@ namespace HareDu.Internal
         }
 
         
-        class UserDeleteActionImpl :
-            UserDeleteAction
+        class DeleteUserConfigurationImpl :
+            DeleteUserConfiguration
         {
             string _user;
+            bool _nameCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<string> Username { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public UserDeleteActionImpl()
+            public DeleteUserConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -94,30 +96,40 @@ namespace HareDu.Internal
                 Username = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void User(string name) => _user = name;
+            public void User(string name)
+            {
+                _nameCalled = true;
+                
+                _user = name;
+                
+                if (string.IsNullOrWhiteSpace(_user))
+                    _errors.Add(new () {Reason = "The username is missing."});
+            }
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_user))
+                if (!_nameCalled)
                     _errors.Add(new () {Reason = "The username is missing."});
             }
         }
 
 
-        class UserCreateActionImpl :
-            UserCreateAction
+        class NewUserConfigurationImpl :
+            NewUserConfiguration
         {
             string _password;
             string _passwordHash;
             string _tags;
             string _user;
+            bool _usernameCalled;
+            
             readonly List<Error> _errors;
 
             public Lazy<UserDefinition> Definition { get; }
             public Lazy<string> User { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public UserCreateActionImpl()
+            public NewUserConfigurationImpl()
             {
                 _errors = new List<Error>();
                 
@@ -134,7 +146,15 @@ namespace HareDu.Internal
                 User = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Username(string username) => _user = username;
+            public void Username(string username)
+            {
+                _usernameCalled = true;
+                
+                _user = username;
+                
+                if (string.IsNullOrWhiteSpace(_user))
+                    _errors.Add(new () {Reason = "The username is missing."});
+            }
 
             public void Password(string password) => _password = password;
 
@@ -150,7 +170,7 @@ namespace HareDu.Internal
 
             public void Validate()
             {
-                if (string.IsNullOrWhiteSpace(_user))
+                if (!_usernameCalled)
                     _errors.Add(new () {Reason = "The username is missing."});
 
                 if (string.IsNullOrWhiteSpace(_password))

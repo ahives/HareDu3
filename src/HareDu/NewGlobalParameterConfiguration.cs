@@ -13,7 +13,7 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="configure"></param>
-        void Configure(Action<NewGlobalParameterCriteria> configure);
+        /// <param name="configurator"></param>
+        void Configure(Action<NewGlobalParameterConfigurator> configurator);
     }
 }

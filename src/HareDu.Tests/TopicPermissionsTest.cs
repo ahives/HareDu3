@@ -33,12 +33,15 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 })
                 .ConfigureAwait(false);
@@ -55,12 +58,15 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User(string.Empty);
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 })
                 .ConfigureAwait(false);
@@ -84,12 +90,15 @@ namespace HareDu.Tests
                 .Object<TopicPermissions>()
                 .Create(x =>
                 {
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 })
                 .ConfigureAwait(false);
@@ -114,12 +123,15 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost(string.Empty);
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost(string.Empty);
                     });
                 })
                 .ConfigureAwait(false);
@@ -173,12 +185,15 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.OnExchange(string.Empty);
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 })
                 .ConfigureAwait(false);
@@ -203,11 +218,14 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu");
                     x.Configure(c =>
                     {
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu");
                     });
                 })
                 .ConfigureAwait(false);
@@ -232,12 +250,15 @@ namespace HareDu.Tests
                 .Create(x =>
                 {
                     x.User(string.Empty);
-                    x.VirtualHost(string.Empty);
                     x.Configure(c =>
                     {
                         c.OnExchange("E4");
                         c.UsingReadPattern(".*");
                         c.UsingWritePattern(".*");
+                    });
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost(string.Empty);
                     });
                 })
                 .ConfigureAwait(false);
@@ -369,7 +390,10 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost("HareDu7");
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu7");
+                    });
                 })
                 .ConfigureAwait(false);
             
@@ -385,7 +409,10 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.User(string.Empty);
-                    x.VirtualHost("HareDu7");
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu7");
+                    });
                 })
                 .ConfigureAwait(false);
             
@@ -401,7 +428,10 @@ namespace HareDu.Tests
                 .Object<TopicPermissions>()
                 .Delete(x =>
                 {
-                    x.VirtualHost("HareDu7");
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost("HareDu7");
+                    });
                 })
                 .ConfigureAwait(false);
             
@@ -418,7 +448,10 @@ namespace HareDu.Tests
                 .Delete(x =>
                 {
                     x.User("guest");
-                    x.VirtualHost(string.Empty);
+                    x.Targeting(t =>
+                    {
+                        t.VirtualHost(string.Empty);
+                    });
                 })
                 .ConfigureAwait(false);
             

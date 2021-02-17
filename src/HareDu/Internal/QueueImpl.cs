@@ -157,11 +157,11 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the queue is missing."});
             }
 
-            public void Configure(Action<QueuePeekConfiguration> configuration)
+            public void Configure(Action<QueuePeekConfigurator> configuration)
             {
                 _configureCalled = true;
                 
-                var impl = new QueuePeekConfigurationImpl();
+                var impl = new QueuePeekConfiguratorImpl();
                 configuration?.Invoke(impl);
 
                 _take = impl.TakeAmount;
@@ -205,8 +205,8 @@ namespace HareDu.Internal
             }
 
             
-            class QueuePeekConfigurationImpl :
-                QueuePeekConfiguration
+            class QueuePeekConfiguratorImpl :
+                QueuePeekConfigurator
             {
                 public uint TakeAmount { get; private set; }
                 public string RequeueModeText { get; private set; }
@@ -326,10 +326,10 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the queue is missing."});
             }
             
-            public void Configure(Action<DeleteQueueCriteria> criteria)
+            public void Configure(Action<DeleteQueueConfigurator> configurator)
             {
-                var impl = new DeleteQueueCriteriaImpl();
-                criteria?.Invoke(impl);
+                var impl = new DeleteQueueConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _query = impl.Query;
             }
@@ -357,8 +357,8 @@ namespace HareDu.Internal
             }
 
             
-            class DeleteQueueCriteriaImpl :
-                DeleteQueueCriteria
+            class DeleteQueueConfiguratorImpl :
+                DeleteQueueConfigurator
             {
                 public string Query { get; private set; }
                 
@@ -439,10 +439,10 @@ namespace HareDu.Internal
                     _errors.Add(new () {Reason = "The name of the queue is missing."});
             }
 
-            public void Configure(Action<NewQueueCriteria> configure)
+            public void Configure(Action<NewQueueConfigurator> configurator)
             {
-                var impl = new NewQueueCriteriaImpl();
-                configure?.Invoke(impl);
+                var impl = new NewQueueConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _durable = impl.Durable;
                 _autoDelete = impl.AutoDelete;
@@ -488,8 +488,8 @@ namespace HareDu.Internal
             }
 
 
-            class NewQueueCriteriaImpl :
-                NewQueueCriteria
+            class NewQueueConfiguratorImpl :
+                NewQueueConfigurator
             {
                 public bool Durable { get; private set; }
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; private set; }

@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface VirtualHostDeleteAction
+    public interface DeleteVirtualHostConfiguration
     {
         /// <summary>
         /// Define which virtual host will be deleted.
