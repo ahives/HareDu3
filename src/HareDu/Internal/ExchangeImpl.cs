@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfiguration> configuration = null, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewExchangeConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new NewExchangeConfiguratorImpl();
+            configurator?.Invoke(impl);
             
             ExchangeDefinition definition = impl.Definition.Value;
 
@@ -122,8 +122,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewExchangeConfigurationImpl :
-            NewExchangeConfiguration
+        class NewExchangeConfiguratorImpl :
+            NewExchangeConfigurator
         {
             string _routingType;
             bool _durable;
@@ -136,7 +136,7 @@ namespace HareDu.Internal
             public Lazy<ExchangeDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewExchangeConfigurationImpl()
+            public NewExchangeConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
