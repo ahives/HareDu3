@@ -5,21 +5,9 @@ namespace HareDu
     public interface DeleteQueueConfiguration
     {
         /// <summary>
-        /// Specify the name of the queue.
+        /// Specify acceptable conditions for which the queue can be deleted.
         /// </summary>
-        /// <param name="name">Name of the queue</param>
-        void Queue(string name);
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="configurator"></param>
-        void Configure(Action<DeleteQueueConfigurator> configurator);
-
-        /// <summary>
-        /// Specify where the queue lives (i.e. virtual host, etc.).
-        /// </summary>
-        /// <param name="target"></param>
-        void Targeting(Action<QueueTarget> target);
+        /// <param name="condition"></param>
+        void When(Action<QueueDeleteCondition> condition);
     }
 }

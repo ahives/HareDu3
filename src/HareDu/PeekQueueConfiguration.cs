@@ -1,25 +1,29 @@
 namespace HareDu
 {
-    using System;
-
     public interface PeekQueueConfiguration
     {
         /// <summary>
-        /// Specify the name of the queue.
+        /// Specify how many messages to take from the queue.
         /// </summary>
-        /// <param name="name">Name of the queue</param>
-        void Queue(string name);
+        /// <param name="count"></param>
+        void Take(uint count);
 
         /// <summary>
-        /// Specify how to redeliver messages to the queue.
+        /// Specify how to encode messages when requeued. 
         /// </summary>
-        /// <param name="configuration"></param>
-        void Configure(Action<QueuePeekConfigurator> configuration);
-        
+        /// <param name="encoding"></param>
+        void Encoding(MessageEncoding encoding);
+
         /// <summary>
-        /// Specify where the queue lives (i.e. virtual host, etc.).
+        /// Specify the size of messages in bytes that are acceptable before having to truncate.
         /// </summary>
-        /// <param name="target"></param>
-        void Targeting(Action<QueueTarget> target);
+        /// <param name="bytes"></param>
+        void TruncateIfAbove(uint bytes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mode"></param>
+        void AckMode(RequeueMode mode);
     }
 }

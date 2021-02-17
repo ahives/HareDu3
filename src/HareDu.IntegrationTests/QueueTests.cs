@@ -26,22 +26,17 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Create(x =>
+                .Create("TestQueue31", "HareDu",null, x =>
                 {
-                    x.Queue("TestQueue31");
-                    x.Configure(c =>
+                    x.IsDurable();
+                    x.HasArguments(arg =>
                     {
-                        c.IsDurable();
-                        c.HasArguments(arg =>
-                        {
-                            arg.SetQueueExpiration(1000);
-                            arg.SetAlternateExchange("your_alternate_exchange_name");
-                            arg.SetDeadLetterExchange("your_deadletter_exchange_name");
-                            arg.SetPerQueuedMessageExpiration(1000);
-                            arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
-                        });
+                        arg.SetQueueExpiration(1000);
+                        arg.SetAlternateExchange("your_alternate_exchange_name");
+                        arg.SetDeadLetterExchange("your_deadletter_exchange_name");
+                        arg.SetPerQueuedMessageExpiration(1000);
+                        arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
                     });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
                 });
             
             Assert.IsFalse(result.HasFaulted);
@@ -76,18 +71,13 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Delete(x =>
+                .Delete("TestQueue10", "HareDu",x =>
                 {
-                    x.Queue("TestQueue10");
-                    x.Configure(c =>
+                    x.When(condition =>
                     {
-                        c.When(condition =>
-                        {
-                            // condition.HasNoConsumers();
-                            // condition.IsEmpty();
-                        });
+                        // condition.HasNoConsumers();
+                        // condition.IsEmpty();
                     });
-                    x.Targeting(l => l.VirtualHost("HareDu"));
                 });
 
 //            Assert.IsFalse(result.HasFaulted);
@@ -99,17 +89,12 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek(x =>
+                .Peek("Queue1", "HareDu",x =>
                 {
-                    x.Queue("Queue1");
-                    x.Configure(c =>
-                    {
-                        c.Take(5);
-                        c.AckMode(RequeueMode.AckRequeue);
-                        c.TruncateIfAbove(5000);
-                        c.Encoding(MessageEncoding.Auto);
-                    });
-                    x.Targeting(t => t.VirtualHost("HareDu"));
+                    x.Take(5);
+                    x.AckMode(RequeueMode.AckRequeue);
+                    x.TruncateIfAbove(5000);
+                    x.Encoding(MessageEncoding.Auto);
                 });
             
 //            Assert.IsFalse(result.HasFaulted);
@@ -121,11 +106,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Empty(x =>
-                {
-                    x.Queue("");
-                    x.Targeting(t => t.VirtualHost("HareDu"));
-                });
+                .Empty("", "HareDu");
             
             Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());

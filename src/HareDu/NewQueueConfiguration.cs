@@ -5,21 +5,19 @@ namespace HareDu
     public interface NewQueueConfiguration
     {
         /// <summary>
-        /// Specify the name of the queue.
+        /// Specify whether the queue is durable. By default this is set to false, which means that it will created as a RAM queue.
         /// </summary>
-        /// <param name="name">Name of the queue</param>
-        void Queue(string name);
+        void IsDurable();
 
         /// <summary>
-        /// Specify how the queue should be configured.
+        /// Specify arguments for the queue.
         /// </summary>
-        /// <param name="configurator">User-defined configuration</param>
-        void Configure(Action<NewQueueConfigurator> configurator);
+        /// <param name="arguments">Pre-defined arguments applied to the definition of the queue.</param>
+        void HasArguments(Action<QueueCreateArguments> arguments);
 
         /// <summary>
-        /// Specify where the queue will live (i.e. virtual host, etc.).
+        /// Specify whether the queue is deleted when there are no consumers.
         /// </summary>
-        /// <param name="target">Define where the queue will live</param>
-        void Targeting(Action<NewQueueTarget> target);
+        void AutoDeleteWhenNotInUse();
     }
 }
