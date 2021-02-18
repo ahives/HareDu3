@@ -67,14 +67,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Delete("E2", "Q4", "%2A.","HareDu", x =>
-                {
-                    x.Configure(b =>
-                    {
-                        b.Type(BindingType.Queue);
-                    });
-                    // x.Targeting(t => t.VirtualHost());
-                });
+                .Delete("E2", "Q4", "%2A.","HareDu", BindingType.Queue);
             
 //            Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());

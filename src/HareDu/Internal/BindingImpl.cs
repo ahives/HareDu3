@@ -31,8 +31,7 @@ namespace HareDu.Internal
         }
 
         public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding,
-            BindingType bindingType, string vhost,
-            Action<NewBindingConfiguration> configuration = null, CancellationToken cancellationToken = default)
+            BindingType bindingType, string vhost, Action<NewBindingConfiguration> configuration = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
@@ -65,166 +64,34 @@ namespace HareDu.Internal
             return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(string sourceBinding, string destinationBinding, string bindingName,
-            string vhost, Action<DeleteBindingConfiguration> configuration,
-            CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
+            string vhost, BindingType bindingType, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteBindingConfigurationImpl();
-            configuration?.Invoke(impl);
+            var errors = new List<Error>();
+            
+            if (string.IsNullOrWhiteSpace(sourceBinding))
+                errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
 
-            impl.Validate();
+            if (string.IsNullOrWhiteSpace(destinationBinding))
+                errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
             string virtualHost = vhost.ToSanitizedName();
 
-            string url = impl.BindingType.Value == BindingType.Queue
-                ? $"api/bindings/{virtualHost}/e/{sourceBinding}/q/{destinationBinding}/{bindingName}"
-                : $"api/bindings/{virtualHost}/e/{sourceBinding}/e/{destinationBinding}/{bindingName}";
+            string Normalize(string value) => string.IsNullOrWhiteSpace(value) ? string.Empty : value;
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult<BindingInfo>{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
+            string url = bindingType == BindingType.Queue
+                ? $"api/bindings/{virtualHost}/e/{sourceBinding}/q/{destinationBinding}/{Normalize(propertiesKey)}"
+                : $"api/bindings/{virtualHost}/e/{sourceBinding}/e/{destinationBinding}/{Normalize(propertiesKey)}";
+            
+            if (errors.Any())
+                return new FaultedResult<BindingInfo>{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
-        }
-
-        
-        class DeleteBindingConfigurationImpl :
-            DeleteBindingConfiguration
-        {
-            BindingType _bindingType;
-            string _vhost;
-            bool _bindingCalled;
-            bool _targetCalled;
-            
-            readonly List<Error> _errors;
-
-            public Lazy<BindingType> BindingType { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeleteBindingConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                BindingType = new Lazy<BindingType>(() => _bindingType, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void Configure(Action<DeleteBindingConfigurator> configurator)
-            {
-                _bindingCalled = true;
-                
-                var impl = new DeleteBindingConfiguratorImpl();
-                configurator?.Invoke(impl);
-
-                _bindingType = impl.BindingType;
-
-                impl.Validate();
-                
-                _errors.AddRange(impl.Errors.Value);
-            }
-
-            public void Targeting(Action<BindingTarget> target)
-            {
-                _targetCalled = true;
-                
-                var impl = new BindingTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_bindingCalled)
-                {
-                    _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
-                    _errors.Add(new() {Reason = "The name of the binding is missing."});
-                }
-
-                if (!_targetCalled)
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            
-            class BindingTargetImpl :
-                BindingTarget
-            {
-                public string VirtualHostName { get; private set; }
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
-
-
-            class DeleteBindingConfiguratorImpl :
-                DeleteBindingConfigurator
-            {
-                bool _destinationCalled;
-                bool _nameCalled;
-                bool _sourceCalled;
-
-                readonly List<Error> _errors;
-
-                public Lazy<List<Error>> Errors { get; }
-                public string BindingName { get; private set; }
-                public string BindingSource { get; private set; }
-                public string BindingDestination { get; private set; }
-                public BindingType BindingType { get; private set; }
-
-                public DeleteBindingConfiguratorImpl()
-                {
-                    _errors = new List<Error>();
-                
-                    Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                }
-
-                public void Name(string name)
-                {
-                    _nameCalled = true;
-                    
-                    BindingName = name;
-
-                    if (string.IsNullOrWhiteSpace(name))
-                        _errors.Add(new() {Reason = "The name of the binding is missing."});
-                }
-
-                public void Source(string binding)
-                {
-                    _sourceCalled = true;
-                    
-                    BindingSource = binding;
-
-                    if (string.IsNullOrWhiteSpace(binding))
-                        _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
-                }
-
-                public void Destination(string binding)
-                {
-                    _destinationCalled = true;
-                    
-                    BindingDestination = binding;
-
-                    if (string.IsNullOrWhiteSpace(binding))
-                        _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
-                }
-
-                public void Type(BindingType bindingType) => BindingType = bindingType;
-
-                public void Validate()
-                {
-                    if (!_nameCalled)
-                        _errors.Add(new() {Reason = "The name of the binding is missing."});
-
-                    if (!_destinationCalled)
-                        _errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
-
-                    if (!_sourceCalled)
-                        _errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
-                }
-            }
         }
 
 

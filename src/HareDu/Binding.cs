@@ -31,7 +31,7 @@ namespace HareDu
         /// <param name="configuration">Describes how the queue will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(string sourceBinding, string destinationBinding, string bindingName,
-            string vhost, Action<DeleteBindingConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
+            string vhost, BindingType bindingType, CancellationToken cancellationToken = default);
     }
 }

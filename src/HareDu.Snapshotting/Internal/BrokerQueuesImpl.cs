@@ -6,6 +6,7 @@ namespace HareDu.Snapshotting.Internal
     using System.Threading;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using HareDu.Extensions;
     using HareDu.Model;
     using MassTransit;
     using Model;
@@ -27,8 +28,7 @@ namespace HareDu.Snapshotting.Internal
         public async Task<SnapshotResult<BrokerQueuesSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
             var cluster = await _factory
-                .Object<SystemOverview>()
-                .Get(cancellationToken)
+                .GetSystemOverview(cancellationToken)
                 .ConfigureAwait(false);
 
             if (cluster.HasFaulted)
@@ -39,8 +39,7 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var queues = await _factory
-                .Object<Queue>()
-                .GetAll(cancellationToken)
+                .GetAllQueues(cancellationToken)
                 .ConfigureAwait(false);
 
             if (queues.HasFaulted)
@@ -51,6 +50,7 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var systemOverview = cluster.Select(x => x.Data);
+            
             var snapshot = new BrokerQueuesSnapshot
             {
                 ClusterName = systemOverview.ClusterName,

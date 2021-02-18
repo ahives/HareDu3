@@ -8,6 +8,7 @@ namespace HareDu.Snapshotting.Internal
     using Core;
     using Core.Extensions;
     using Extensions;
+    using HareDu.Extensions;
     using HareDu.Model;
     using MassTransit;
     using Model;
@@ -29,8 +30,7 @@ namespace HareDu.Snapshotting.Internal
         public async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
             var cluster = await _factory
-                .Object<SystemOverview>()
-                .Get(cancellationToken)
+                .GetSystemOverview(cancellationToken)
                 .ConfigureAwait(false);
 
             if (cluster.HasFaulted)
@@ -41,8 +41,7 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var connections = await _factory
-                .Object<Connection>()
-                .GetAll(cancellationToken)
+                .GetAllConnections(cancellationToken)
                 .ConfigureAwait(false);
 
             if (connections.HasFaulted)
@@ -53,8 +52,7 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var channels = await _factory
-                .Object<Channel>()
-                .GetAll(cancellationToken)
+                .GetAllChannels(cancellationToken)
                 .ConfigureAwait(false);
 
             if (channels.HasFaulted)

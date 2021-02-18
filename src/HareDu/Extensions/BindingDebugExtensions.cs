@@ -21,6 +21,7 @@ namespace HareDu.Extensions
                 Console.WriteLine($"Destination: {item.Destination}");
                 Console.WriteLine($"Destination Type: {item.DestinationType}");
                 Console.WriteLine($"Routing Key: {item.RoutingKey}");
+                Console.WriteLine($"Properties Key: {item.PropertiesKey}");
                 Console.WriteLine();
             }
 

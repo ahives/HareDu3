@@ -6,6 +6,7 @@ namespace HareDu.Snapshotting.Internal
     using System.Threading;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using HareDu.Extensions;
     using HareDu.Model;
     using MassTransit;
     using Model;
@@ -27,8 +28,7 @@ namespace HareDu.Snapshotting.Internal
         public async Task<SnapshotResult<ClusterSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
             var cluster = await _factory
-                .Object<SystemOverview>()
-                .Get(cancellationToken)
+                .GetSystemOverview(cancellationToken)
                 .ConfigureAwait(false);
 
             if (cluster.HasFaulted)
@@ -39,8 +39,7 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var nodes = await _factory
-                .Object<Node>()
-                .GetAll(cancellationToken)
+                .GetAllNodes(cancellationToken)
                 .ConfigureAwait(false);
 
             if (nodes.HasFaulted)
@@ -51,13 +50,14 @@ namespace HareDu.Snapshotting.Internal
             }
 
             var systemOverview = cluster.Select(x => x.Data);
+            
             var snapshot = new ClusterSnapshot
             {
                 ClusterName = systemOverview.ClusterName,
                 BrokerVersion = systemOverview.RabbitMqVersion,
                 Nodes = nodes
                     .Select(x => x.Data)
-                    .Select(x => GetNodeSnapshot(systemOverview, x))
+                    .Select(x => MapNodeSnapshot(systemOverview, x))
                     .ToList()
             };
             
@@ -90,16 +90,16 @@ namespace HareDu.Snapshotting.Internal
             return this;
         }
 
-        NodeSnapshot GetNodeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
+        NodeSnapshot MapNodeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
             new ()
             {
                 Identifier = node.Name,
                 Uptime = node.Uptime,
                 ClusterIdentifier = systemOverview.ClusterName,
-                OS = GetOperatingSystemSnapshot(node),
-                Runtime = GetRuntimeSnapshot(systemOverview, node),
+                OS = MapOperatingSystemSnapshot(node),
+                Runtime = MapRuntimeSnapshot(systemOverview, node),
                 ContextSwitching = new () {Total = node.ContextSwitches, Rate = node.ContextSwitchDetails?.Value ?? 0},
-                Disk = GetDiskSnapshot(node),
+                Disk = MapDiskSnapshot(node),
                 NetworkPartitions = node.Partitions.ToList(),
                 AvailableCoresDetected = node.AvailableCoresDetected,
                 Memory = new ()
@@ -114,7 +114,7 @@ namespace HareDu.Snapshotting.Internal
                 InterNodeHeartbeat = node.NetworkTickTime
             };
 
-        OperatingSystemSnapshot GetOperatingSystemSnapshot(NodeInfo node) =>
+        OperatingSystemSnapshot MapOperatingSystemSnapshot(NodeInfo node) =>
             new ()
             {
                 NodeIdentifier = node.Name,
@@ -137,7 +137,7 @@ namespace HareDu.Snapshotting.Internal
                 }
             };
 
-        DiskSnapshot GetDiskSnapshot(NodeInfo node) =>
+        DiskSnapshot MapDiskSnapshot(NodeInfo node) =>
             new ()
             {
                 NodeIdentifier = node.Name,
@@ -171,7 +171,7 @@ namespace HareDu.Snapshotting.Internal
                 }
             };
 
-        BrokerRuntimeSnapshot GetRuntimeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
+        BrokerRuntimeSnapshot MapRuntimeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
             new ()
             {
                 ClusterIdentifier = systemOverview.ClusterName,
