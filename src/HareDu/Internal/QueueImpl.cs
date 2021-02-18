@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string queue, string vhost, string node, Action<NewQueueConfiguration> configuration = null,
+        public async Task<Result> Create(string queue, string vhost, string node, Action<NewQueueConfigurator> configuration = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewQueueConfigurationImpl(node);
+            var impl = new NewQueueConfiguratorImpl(node);
             configuration?.Invoke(impl);
             
             impl.Validate();
@@ -62,13 +62,13 @@ namespace HareDu.Internal
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfiguration> configuration = null,
+        public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteQueueConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new DeleteQueueConfiguratorImpl();
+            configurator?.Invoke(impl);
 
             var errors = new List<Error>();
             
@@ -207,14 +207,14 @@ namespace HareDu.Internal
         }
 
 
-        class DeleteQueueConfigurationImpl :
-            DeleteQueueConfiguration
+        class DeleteQueueConfiguratorImpl :
+            DeleteQueueConfigurator
         {
             string _query;
 
             public Lazy<string> Query { get; }
 
-            public DeleteQueueConfigurationImpl()
+            public DeleteQueueConfiguratorImpl()
             {
                 Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
             }
@@ -249,8 +249,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewQueueConfigurationImpl :
-            NewQueueConfiguration
+        class NewQueueConfiguratorImpl :
+            NewQueueConfigurator
         {
             bool _durable;
             bool _autoDelete;
@@ -261,7 +261,7 @@ namespace HareDu.Internal
             public Lazy<QueueDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewQueueConfigurationImpl(string node)
+            public NewQueueConfiguratorImpl(string node)
             {
                 _errors = new List<Error>();
                 

@@ -30,13 +30,13 @@ namespace HareDu.Internal
             return await GetAll<ShovelInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string shovel, string vhost, Action<ShovelConfiguration> configuration = null,
+        public async Task<Result> Create(string shovel, string vhost, Action<ShovelConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new ShovelConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new ShovelConfiguratorImpl();
+            configurator?.Invoke(impl);
 
             impl.Validate();
             
@@ -83,8 +83,8 @@ namespace HareDu.Internal
         }
 
 
-        class ShovelConfigurationImpl :
-            ShovelConfiguration
+        class ShovelConfiguratorImpl :
+            ShovelConfigurator
         {
             string _destinationQueue;
             string _destinationUri;
@@ -111,7 +111,7 @@ namespace HareDu.Internal
             public Lazy<string> ShovelName { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ShovelConfigurationImpl()
+            public ShovelConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
@@ -145,11 +145,11 @@ namespace HareDu.Internal
 
             public void AcknowledgeMode(AcknowledgeMode mode) => _acknowledgeMode = mode.Convert();
 
-            public void Source(string queue, string uri, Action<ShovelSourceConfiguration> configurator)
+            public void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator)
             {
                 _sourceCalled = true;
                 
-                var impl = new ShovelSourceConfigurationImpl();
+                var impl = new ShovelSourceConfiguratorImpl();
                 configurator?.Invoke(impl);
 
                 _sourceProtocol = impl.ShovelProtocol;
@@ -160,11 +160,11 @@ namespace HareDu.Internal
                 _sourcePrefetchCount = impl.PrefetchCount;
             }
 
-            public void Destination(string queue, string uri, Action<ShovelDestinationConfiguration> configurator)
+            public void Destination(string queue, string uri, Action<ShovelDestinationConfigurator> configurator)
             {
                 _destinationCalled = true;
                 
-                var impl = new ShovelDestinationConfigurationImpl();
+                var impl = new ShovelDestinationConfiguratorImpl();
                 configurator?.Invoke(impl);
 
                 _destinationProtocol = impl.ShovelProtocol;
@@ -194,8 +194,8 @@ namespace HareDu.Internal
             }
 
 
-            class ShovelSourceConfigurationImpl :
-                ShovelSourceConfiguration
+            class ShovelSourceConfiguratorImpl :
+                ShovelSourceConfigurator
             {
                 public string ShovelProtocol { get; private set; }
                 public string ExchangeName { get; private set; }
@@ -219,22 +219,16 @@ namespace HareDu.Internal
             }
 
                 
-            class ShovelDestinationConfigurationImpl :
-                ShovelDestinationConfiguration
+            class ShovelDestinationConfiguratorImpl :
+                ShovelDestinationConfigurator
             {
                 public string ShovelProtocol { get; private set; }
-                public string ShovelUri { get; private set; }
-                public string ShovelQueue { get; private set; }
                 public string ExchangeName { get; private set; }
                 public string ExchangeRoutingKey { get; private set; }
                 public bool AddHeaders { get; private set; }
                 public bool AddTimestampHeader { get; private set; }
 
                 public void Protocol(Protocol protocol) => ShovelProtocol = protocol.Convert();
-
-                public void Uri(string uri) => ShovelUri = uri;
-
-                public void Queue(string queue) => ShovelQueue = queue;
 
                 public void Exchange(string exchange, string routingKey)
                 {

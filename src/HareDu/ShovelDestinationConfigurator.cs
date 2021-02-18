@@ -1,12 +1,8 @@
 namespace HareDu
 {
-    public interface ShovelDestinationConfiguration
+    public interface ShovelDestinationConfigurator
     {
         void Protocol(Protocol protocol);
-
-        void Uri(string uri);
-
-        void Queue(string queue);
 
         void Exchange(string exchange, string routingKey);
 

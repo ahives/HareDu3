@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface ShovelSourceConfiguration
+    public interface ShovelSourceConfigurator
     {
         void Protocol(Protocol protocol);
 
