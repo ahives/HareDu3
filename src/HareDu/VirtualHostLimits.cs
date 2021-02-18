@@ -19,10 +19,10 @@ namespace HareDu
         /// <summary>
         /// Defines specified limits on the virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="configurator"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Define(Action<VirtualHostConfigureLimitsAction> action, CancellationToken cancellationToken = default);
+        Task<Result> Define(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the limits for the specified virtual host on the current RabbitMQ server.
@@ -30,6 +30,6 @@ namespace HareDu
         /// <param name="action"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Delete(Action<VirtualHostDeleteLimitsAction> action, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string vhost, CancellationToken cancellationToken = default);
     }
 }

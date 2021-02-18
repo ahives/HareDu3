@@ -58,14 +58,10 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
-                .Define(x =>
+                .Define("HareDu5", x =>
                 {
-                    x.VirtualHost("HareDu5");
-                    x.Configure(c =>
-                    {
-                        c.SetMaxQueueLimit(100);
-                        c.SetMaxConnectionLimit(1000);
-                    });
+                    x.SetMaxQueueLimit(100);
+                    x.SetMaxConnectionLimit(1000);
                 });
             
             Console.WriteLine(result.ToJsonString());
@@ -76,7 +72,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
-                .Delete(x => x.For("HareDu3"));
+                .Delete("HareDu3");
             
             Console.WriteLine(result.ToJsonString());
         }
