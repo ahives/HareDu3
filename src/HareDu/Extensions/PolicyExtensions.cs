@@ -10,7 +10,7 @@ namespace HareDu.Extensions
     public static class PolicyExtensions
     {
         public static async Task<Result> CreatePolicy(this IBrokerObjectFactory factory,
-            string policy, string vhost, Action<NewPolicyConfiguration> configuration = null, CancellationToken cancellationToken = default)
+            string policy, string vhost, Action<NewPolicyConfigurator> configuration = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

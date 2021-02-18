@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
             var impl = new NewGlobalParameterConfiguratorImpl(parameter);
-            configuration?.Invoke(impl);
+            configurator?.Invoke(impl);
             
             impl.Validate();
             
@@ -50,7 +50,7 @@ namespace HareDu.Internal
             if (string.IsNullOrWhiteSpace(parameter))
                 errors.Add(new() {Reason = "The name of the parameter is missing."});
 
-            string url = $"api/global-parameters/{definition.Name}";
+            string url = $"api/global-parameters/{parameter}";
             
             if (errors.Any())
                 return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};

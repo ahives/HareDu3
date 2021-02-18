@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewPolicyConfiguration
+    public interface NewPolicyConfigurator
     {
         /// <summary>
         /// Specify the pattern which the policy will be applied.

@@ -93,15 +93,15 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
-                .Create("A2", "HareDu", x =>
+                .Create("HareDuExchange2", "TestHareDu", x =>
                 {
                     x.IsDurable();
                     x.IsForInternalUse();
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
-                    x.HasArguments(arg =>
-                    {
-                        arg.Set("arg1", "blah");
-                    });
+                    // x.HasArguments(arg =>
+                    // {
+                    //     arg.Set("arg1", "blah");
+                    // });
                 });
             
             // Assert.IsFalse(result.HasFaulted);

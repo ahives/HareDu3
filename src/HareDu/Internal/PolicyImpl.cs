@@ -30,12 +30,12 @@ namespace HareDu.Internal
             return await GetAll<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string policy, string vhost, Action<NewPolicyConfiguration> configuration = null, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string policy, string vhost, Action<NewPolicyConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewPolicyConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new NewPolicyConfiguratorImpl();
+            configurator?.Invoke(impl);
 
             PolicyDefinition definition = impl.Definition.Value;
 
@@ -80,8 +80,8 @@ namespace HareDu.Internal
        }
 
         
-        class NewPolicyConfigurationImpl :
-            NewPolicyConfiguration
+        class NewPolicyConfiguratorImpl :
+            NewPolicyConfigurator
         {
             string _pattern;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -93,7 +93,7 @@ namespace HareDu.Internal
             public Lazy<PolicyDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewPolicyConfigurationImpl()
+            public NewPolicyConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 

@@ -45,6 +45,24 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
+        public async Task Test1()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .CreateExchangeBinding("HareDuExchange1", "HareDuExchange2", "TestHareDu");
+            
+            Console.WriteLine(result.ToJsonString());
+        }
+
+        [Test]
+        public async Task Test2()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .DeleteExchangeBinding("HareDuExchange1", "HareDuExchange2", "~", "TestHareDu");
+            
+            Console.WriteLine(result.ToJsonString());
+        }
+
+        [Test]
         public async Task Verify_can_add_arguments()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
