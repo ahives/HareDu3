@@ -56,19 +56,11 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<TopicPermissions>()
-                .Create(x =>
+                .Create("guest", "HareDu", x =>
                 {
-                    x.User("guest");
-                    x.Configure(c =>
-                    {
-                        c.OnExchange("E4");
-                        c.UsingReadPattern(".*");
-                        c.UsingWritePattern(".*");
-                    });
-                    x.Targeting(t =>
-                    {
-                        t.VirtualHost("HareDu");
-                    });
+                    x.OnExchange("E4");
+                    x.UsingReadPattern(".*");
+                    x.UsingWritePattern(".*");
                 });
 
             Console.WriteLine(result.ToJsonString());
@@ -79,14 +71,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<TopicPermissions>()
-                .Delete(x =>
-                {
-                    x.User("guest");
-                    x.Targeting(t =>
-                    {
-                        t.VirtualHost("HareDu7");
-                    });
-                });
+                .Delete("guest", "HareDu7");
             
             Console.WriteLine(result.ToJsonString());
         }

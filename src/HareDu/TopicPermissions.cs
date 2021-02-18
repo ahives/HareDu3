@@ -19,17 +19,18 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="configuration"></param>
+        /// <param name="username"></param>
+        /// <param name="vhost"></param>
+        /// <param name="configurator"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Create(Action<NewTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="configuration"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Delete(Action<DeleteTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default);
     }
 }

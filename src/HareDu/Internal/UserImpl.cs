@@ -38,127 +38,74 @@ namespace HareDu.Internal
             return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewUserConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string username, string password, string passwordHash = null,
+            Action<NewUserConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewUserConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new NewUserConfiguratorImpl();
+            configurator?.Invoke(impl);
 
-            impl.Validate();
+            string Normalize(string value) => string.IsNullOrWhiteSpace(value) ? null : value;
 
-            UserDefinition definition = impl.Definition.Value;
+            UserDefinition definition =
+                new ()
+                {
+                    Password = Normalize(password),
+                    PasswordHash = !string.IsNullOrWhiteSpace(Normalize(password)) ? null : passwordHash,
+                    Tags = Normalize(impl.Tags.Value)
+                };
 
             Debug.Assert(definition != null);
                     
-            string url = $"api/users/{impl.User.Value}";
+            var errors = new List<Error>();
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = definition.ToJsonString()}};
+            if (string.IsNullOrWhiteSpace(username))
+                errors.Add(new () {Reason = "The username is missing."});
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                if (string.IsNullOrWhiteSpace(passwordHash))
+                    errors.Add(new () {Reason = "The password/hash is missing."});
+            }
+            
+            string url = $"api/users/{username}";
+
+            if (errors.Any())
+                return new FaultedResult {Errors = errors, DebugInfo = new() {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteUserConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
+                
+            var errors = new List<Error>();
 
-            var impl = new DeleteUserConfigurationImpl();
-            configuration?.Invoke(impl);
+            if (string.IsNullOrWhiteSpace(username))
+                errors.Add(new () {Reason = "The username is missing."});
 
-            impl.Validate();
+            string url = $"api/users/{username}";
 
-            string url = $"api/users/{impl.Username}";
-
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        
-        class DeleteUserConfigurationImpl :
-            DeleteUserConfiguration
+
+        class NewUserConfiguratorImpl :
+            NewUserConfigurator
         {
-            string _user;
-            bool _nameCalled;
-            
-            readonly List<Error> _errors;
-
-            public Lazy<string> Username { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeleteUserConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Username = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void User(string name)
-            {
-                _nameCalled = true;
-                
-                _user = name;
-                
-                if (string.IsNullOrWhiteSpace(_user))
-                    _errors.Add(new () {Reason = "The username is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_nameCalled)
-                    _errors.Add(new () {Reason = "The username is missing."});
-            }
-        }
-
-
-        class NewUserConfigurationImpl :
-            NewUserConfiguration
-        {
-            string _password;
-            string _passwordHash;
             string _tags;
-            string _user;
-            bool _usernameCalled;
-            
-            readonly List<Error> _errors;
 
-            public Lazy<UserDefinition> Definition { get; }
-            public Lazy<string> User { get; }
-            public Lazy<List<Error>> Errors { get; }
+            public Lazy<string> Tags { get; }
 
-            public NewUserConfigurationImpl()
+            public NewUserConfiguratorImpl()
             {
-                _errors = new List<Error>();
-                
-                string Normalize(string value) => string.IsNullOrWhiteSpace(value) ? null : value;
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<UserDefinition>(
-                    () => new UserDefinition
-                    {
-                        Password = Normalize(_password),
-                        PasswordHash = !string.IsNullOrWhiteSpace(Normalize(_password)) ? null : _passwordHash,
-                        Tags = Normalize(_tags)
-                    }, LazyThreadSafetyMode.PublicationOnly);
-                User = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
+                Tags = new Lazy<string>(() => _tags, LazyThreadSafetyMode.PublicationOnly);
             }
-
-            public void Username(string username)
-            {
-                _usernameCalled = true;
-                
-                _user = username;
-                
-                if (string.IsNullOrWhiteSpace(_user))
-                    _errors.Add(new () {Reason = "The username is missing."});
-            }
-
-            public void Password(string password) => _password = password;
-
-            public void PasswordHash(string passwordHash) => _passwordHash = passwordHash;
 
             public void WithTags(Action<UserAccessOptions> tags)
             {
@@ -166,18 +113,6 @@ namespace HareDu.Internal
                 tags?.Invoke(impl);
 
                 _tags = impl.ToString();
-            }
-
-            public void Validate()
-            {
-                if (!_usernameCalled)
-                    _errors.Add(new () {Reason = "The username is missing."});
-
-                if (string.IsNullOrWhiteSpace(_password))
-                {
-                    if (string.IsNullOrWhiteSpace(_passwordHash))
-                        _errors.Add(new () {Reason = "The password/hash is missing."});
-                }
             }
 
             

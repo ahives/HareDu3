@@ -29,220 +29,132 @@ namespace HareDu.Internal
             return await GetAll<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewTopicPermissionsConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new TopicPermissionsConfiguratorImpl();
+            configurator(impl);
 
             impl.Validate();
 
-            TopicPermissionsDefinition definition = impl.Definition.Value;
+            TopicPermissionsDefinition definition =
+                new()
+                {
+                    Exchange = impl.ExchangeName.Value,
+                    Read = impl.ReadPattern.Value,
+                    Write = impl.WritePattern.Value
+                };
 
             Debug.Assert(definition != null);
 
-            string url = $"api/topic-permissions/{impl.VirtualHostName.Value.ToSanitizedName()}/{impl.Username.Value}";
+            var errors = new List<Error>();
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+            errors.AddRange(impl.Errors.Value);
+            
+            if (string.IsNullOrWhiteSpace(username))
+                errors.Add(new() {Reason = "The username and/or password is missing."});
+            
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
+            
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteTopicPermissionsConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteTopicPermissionsConfigurationImpl();
-            configuration?.Invoke(impl);
+            var errors = new List<Error>();
             
-            impl.Validate();
+            if (string.IsNullOrWhiteSpace(username))
+                errors.Add(new() {Reason = "The username and/or password is missing."});
+            
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
 
-            string url = $"api/topic-permissions/{impl.VirtualHostName.Value.ToSanitizedName()}/{impl.Username.Value}";
+            string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
             
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        
-        class DeleteTopicPermissionsConfigurationImpl :
-            DeleteTopicPermissionsConfiguration
-        {
-            string _vhost;
-            string _user;
-            bool _userCalled;
-            bool _virtualHostCalled;
-            bool _targetingCalled;
-            
-            readonly List<Error> _errors;
 
-            public Lazy<string> Username { get; }
-            public Lazy<string> VirtualHostName { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeleteTopicPermissionsConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Username = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void User(string username)
-            {
-                _userCalled = true;
-                
-                _user = username;
-            
-                if (string.IsNullOrWhiteSpace(_user))
-                    _errors.Add(new () {Reason = "The user is missing."});
-            }
-
-            public void Targeting(Action<TopicPermissionsTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new TopicPermissionsTargetImpl();
-                target?.Invoke(impl);
-                
-                _vhost = impl.VirtualHostName;
-            
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_userCalled)
-                    _errors.Add(new () {Reason = "The username and/or password is missing."});
-
-                if (!_targetingCalled)
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-        }
-
-
-        class TopicPermissionsTargetImpl :
-            TopicPermissionsTarget
-        {
-            public string VirtualHostName { get; private set; }
-
-            public void VirtualHost(string name) => VirtualHostName = name;
-        }
-
-
-        class NewTopicPermissionsConfigurationImpl :
-            NewTopicPermissionsConfiguration
+        class TopicPermissionsConfiguratorImpl :
+            TopicPermissionsConfigurator
         {
             string _exchange;
             string _writePattern;
             string _readPattern;
-            string _vhost;
-            string _user;
-            bool _userCalled;
-            bool _configureCalled;
-            bool _targetingCalled;
+            bool _onExchangeCalled;
+            bool _usingWritePatternCalled;
+            bool _usingReadPatternCalled;
             
             readonly List<Error> _errors;
 
-            public Lazy<TopicPermissionsDefinition> Definition { get; }
-            public Lazy<string> VirtualHostName { get; }
-            public Lazy<string> Username { get; }
+            public Lazy<string> ExchangeName { get; }
+            public Lazy<string> WritePattern { get; }
+            public Lazy<string> ReadPattern { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewTopicPermissionsConfigurationImpl()
+            public TopicPermissionsConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<TopicPermissionsDefinition>(
-                    () => new TopicPermissionsDefinition
-                    {
-                        Exchange = _exchange,
-                        Read = _readPattern,
-                        Write = _writePattern
-                    }, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-                Username = new Lazy<string>(() => _user, LazyThreadSafetyMode.PublicationOnly);
+                ExchangeName = new Lazy<string>(() => _exchange, LazyThreadSafetyMode.PublicationOnly);
+                WritePattern = new Lazy<string>(() => _writePattern, LazyThreadSafetyMode.PublicationOnly);
+                ReadPattern = new Lazy<string>(() => _readPattern, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void User(string username)
+            public void OnExchange(string name)
             {
-                _userCalled = true;
+                _onExchangeCalled = true;
                 
-                _user = username;
-
-                if (string.IsNullOrWhiteSpace(_user))
-                    _errors.Add(new() {Reason = "The username and/or password is missing."});
-            }
-
-            public void Configure(Action<TopicPermissionsConfigurator> configurator)
-            {
-                _configureCalled = true;
-                
-                var impl = new TopicPermissionsConfiguratorImpl();
-                configurator(impl);
-
-                _exchange = impl.ExchangeName;
-                _writePattern = impl.WritePattern;
-                _readPattern = impl.ReadPattern;
+                _exchange = name;
 
                 if (string.IsNullOrWhiteSpace(_exchange))
                     _errors.Add(new() {Reason = "Then name of the exchange is missing."});
+            }
+
+            public void UsingWritePattern(string pattern)
+            {
+                _usingWritePatternCalled = true;
+                
+                _writePattern = pattern;
                 
                 if (string.IsNullOrWhiteSpace(_writePattern))
                     _errors.Add(new () {Reason = "The write pattern is missing."});
+            }
+
+            public void UsingReadPattern(string pattern)
+            {
+                _usingReadPatternCalled = true;
+                
+                _readPattern = pattern;
                 
                 if (string.IsNullOrWhiteSpace(_readPattern))
                     _errors.Add(new () {Reason = "The read pattern is missing."});
             }
 
-            public void Targeting(Action<TopicPermissionsTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new TopicPermissionsTargetImpl();
-                target?.Invoke(impl);
-                
-                _vhost = impl.VirtualHostName;
-            
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
             public void Validate()
             {
-                if (!_userCalled)
-                    _errors.Add(new() {Reason = "The username and/or password is missing."});
-                
-                if (!_targetingCalled)
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-
-                if (!_configureCalled)
-                {
+                if (!_onExchangeCalled)
                     _errors.Add(new() {Reason = "Then name of the exchange is missing."});
-                    _errors.Add(new() {Reason = "The write pattern is missing."});
-                    _errors.Add(new() {Reason = "The read pattern is missing."});
-                }
-            }
-
-            
-            class TopicPermissionsConfiguratorImpl :
-                TopicPermissionsConfigurator
-            {
-                public string ExchangeName { get; private set; }
-                public string WritePattern { get; private set; }
-                public string ReadPattern { get; private set; }
-
-                public void OnExchange(string name) => ExchangeName = name;
-
-                public void UsingWritePattern(string pattern) => WritePattern = pattern;
-
-                public void UsingReadPattern(string pattern) => ReadPattern = pattern;
+                
+                if (!_usingWritePatternCalled)
+                    _errors.Add(new () {Reason = "The write pattern is missing."});
+                
+                if (!_usingReadPatternCalled)
+                    _errors.Add(new () {Reason = "The read pattern is missing."});
             }
         }
     }

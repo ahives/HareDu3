@@ -44,11 +44,8 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
-                .Create(x =>
+                .Create("testuser3", "testuserpwd3", "gkgfjjhfjh", x =>
                 {
-                    x.Username("testuser3");
-                    x.Password("testuserpwd3");
-                    x.PasswordHash("gkgfjjhfjh");
                     x.WithTags(t =>
                     {
                         t.Administrator();
@@ -64,7 +61,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
-                .Delete(x => x.User(""));
+                .Delete("");
         }
     }
 }
