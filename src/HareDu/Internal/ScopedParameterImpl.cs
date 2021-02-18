@@ -1,6 +1,5 @@
 namespace HareDu.Internal
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -29,206 +28,62 @@ namespace HareDu.Internal
             return await GetAll<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create<T>(Action<NewScopedParameterConfiguration<T>> configuration,
+        public async Task<Result> Create<T>(string parameter, T value, string component, string vhost,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
-            
-            var impl = new NewScopedParameterConfigurationImpl<T>();
-            configuration?.Invoke(impl);
-            
-            impl.Validate();
 
-            ScopedParameterDefinition<T> definition = impl.Definition.Value;
+            ScopedParameterDefinition<T> definition =
+                new()
+                {
+                    VirtualHost = vhost,
+                    Component = component,
+                    ParameterName = parameter,
+                    ParameterValue = value
+                };
 
             Debug.Assert(definition != null);
-                    
-            string url = $"api/parameters/{definition.Component}/{definition.VirtualHost.ToSanitizedName()}/{definition.ParameterName}";
+                
+            var errors = new List<Error>();
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+            if (string.IsNullOrWhiteSpace(parameter))
+                errors.Add(new() {Reason = "The name of the parameter is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+            if (string.IsNullOrWhiteSpace(component))
+                errors.Add(new() {Reason = "The component name is missing."});
+                    
+            string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{parameter}";
+
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteScopedParameterConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
+                
+            var errors = new List<Error>();
 
-            var impl = new DeleteScopedParameterConfigurationImpl();
-            configuration(impl);
-            
-            impl.Validate();
+            if (string.IsNullOrWhiteSpace(parameter))
+                errors.Add(new() {Reason = "The name of the parameter is missing."});
 
-            string url = $"api/parameters/{impl.Component.Value}/{impl.VirtualHost.Value}/{impl.ScopedParameter.Value}";
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult {Errors = impl.Errors.Value, DebugInfo = new() {URL = url, Request = null}};
+            if (string.IsNullOrWhiteSpace(component))
+                errors.Add(new() {Reason = "The component name is missing."});
+
+            string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{parameter}";
+
+            if (errors.Any())
+                return new FaultedResult {Errors = errors, DebugInfo = new() {URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
-        }
-
-        
-        class DeleteScopedParameterConfigurationImpl :
-            DeleteScopedParameterConfiguration
-        {
-            string _vhost;
-            string _component;
-            string _scopedParamName;
-            bool _targetingCalled;
-            bool _parameterCalled;
-            
-            readonly List<Error> _errors;
-
-            public Lazy<string> ScopedParameter { get; }
-            public Lazy<string> Component { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeleteScopedParameterConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                ScopedParameter = new Lazy<string>(() => _scopedParamName, LazyThreadSafetyMode.PublicationOnly);
-                Component = new Lazy<string>(() => _component, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHost = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void Parameter(string name)
-            {
-                _parameterCalled = true;
-                
-                _scopedParamName = name;
-                
-                if (string.IsNullOrWhiteSpace(_scopedParamName))
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
-            }
-
-            public void Targeting(Action<ScopedParameterTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new ScopedParameterTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-                _component = impl.ComponentName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-
-                if (string.IsNullOrWhiteSpace(_component))
-                    _errors.Add(new() {Reason = "The component name is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_parameterCalled)
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
-
-                if (!_targetingCalled)
-                {
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-                    _errors.Add(new() {Reason = "The component name is missing."});
-                }
-            }
-
-            
-            class ScopedParameterTargetImpl :
-                ScopedParameterTarget
-            {
-                public string ComponentName { get; private set; }
-                public string VirtualHostName { get; private set; }
-
-                public void Component(string component) => ComponentName = component;
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
-        }
-
-        
-        class NewScopedParameterConfigurationImpl<T> :
-            NewScopedParameterConfiguration<T>
-        {
-            string _component;
-            string _vhost;
-            T _scopedParamValue;
-            string _scopedParamName;
-            bool _targetingCalled;
-            bool _parameterCalled;
-            
-            readonly List<Error> _errors;
-
-            public Lazy<ScopedParameterDefinition<T>> Definition { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public NewScopedParameterConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<ScopedParameterDefinition<T>>(
-                    () => new ScopedParameterDefinition<T>
-                    {
-                        VirtualHost = _vhost,
-                        Component = _component,
-                        ParameterName = _scopedParamName,
-                        ParameterValue = _scopedParamValue
-                    }, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void Parameter(string name, T value)
-            {
-                _parameterCalled = true;
-                
-                _scopedParamName = name;
-                _scopedParamValue = value;
-                
-                if (string.IsNullOrWhiteSpace(_scopedParamName))
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
-            }
-
-            public void Targeting(Action<ScopedParameterTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new ScopedParameterTargetImpl();
-                target?.Invoke(impl);
-
-                _vhost = impl.VirtualHostName;
-                _component = impl.ComponentName;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-
-                if (string.IsNullOrWhiteSpace(_component))
-                    _errors.Add(new() {Reason = "The component name is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_parameterCalled)
-                    _errors.Add(new() {Reason = "The name of the parameter is missing."});
-
-                if (!_targetingCalled)
-                {
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-                    _errors.Add(new() {Reason = "The component name is missing."});
-                }
-            }
-
-            
-            class ScopedParameterTargetImpl :
-                ScopedParameterTarget
-            {
-                public string ComponentName { get; private set; }
-                public string VirtualHostName { get; private set; }
-
-                public void Component(string component) => ComponentName = component;
-
-                public void VirtualHost(string name) => VirtualHostName = name;
-            }
         }
     }
 }

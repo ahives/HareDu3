@@ -34,15 +34,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<ScopedParameter>()
-                .Create<string>(x =>
-                {
-                    x.Parameter("test", "me");
-                    x.Targeting(t =>
-                    {
-                        t.Component("federation");
-                        t.VirtualHost("HareDu");
-                    });
-                });
+                .Create<string>("test", "me", "federation", "HareDu");
             
             Console.WriteLine("****************************************************");
             Console.WriteLine();
@@ -53,15 +45,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<ScopedParameter>()
-                .Delete(x =>
-                {
-                    x.Parameter("");
-                    x.Targeting(t =>
-                    {
-                        t.Component("federation");
-                        t.VirtualHost("HareDu");
-                    });
-                });
+                .Delete("", "federation", "HareDu");
         }
     }
 }
