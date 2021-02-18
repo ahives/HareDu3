@@ -62,18 +62,14 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Create(x =>
+                .Create("HareDu9",x =>
                 {
-                    x.VirtualHost("HareDu9");
-                    x.Configure(c =>
+                    x.WithTracingEnabled();
+                    x.Description("My test vhost.");
+                    x.Tags(t =>
                     {
-                        c.WithTracingEnabled();
-                        c.Description("My test vhost.");
-                        c.Tags(t =>
-                        {
-                            t.Add("accounts");
-                            t.Add("production");
-                        });
+                        t.Add("accounts");
+                        t.Add("production");
                     });
                 });
 
@@ -85,7 +81,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Delete(x => x.VirtualHost("HareDu7"));
+                .Delete("HareDu7");
 
             Console.WriteLine(result.ToJsonString());
         }
@@ -95,14 +91,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHost>()
-                .Startup(x =>
-                {
-                    x.VirtualHost("");
-                    x.Targeting(t =>
-                    {
-                        t.Node("");
-                    });
-                });
+                .Startup("", "");
             
             Console.WriteLine(result.ToJsonString());
         }

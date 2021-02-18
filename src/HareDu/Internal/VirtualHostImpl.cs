@@ -29,60 +29,63 @@ namespace HareDu.Internal
             return await GetAll<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(Action<NewVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewVirtualHostConfigurationImpl();
-            configuration?.Invoke(impl);
-
-            impl.Validate();
+            var impl = new NewVirtualHostConfiguratorImpl();
+            configurator?.Invoke(impl);
 
             VirtualHostDefinition definition = impl.Definition.Value;
 
-            string url = $"api/vhosts/{impl.VirtualHostName.Value.ToSanitizedName()}";
+            var errors = new List<Error>();
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            string url = $"api/vhosts/{vhost.ToSanitizedName()}";
+
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(Action<DeleteVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteVirtualHostConfigurationImpl();
-            configuration?.Invoke(impl);
+            var errors = new List<Error>();
 
-            impl.Validate();
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
-            string vhost = impl.VirtualHostName.Value.ToSanitizedName();
+            string virtualHost = vhost.ToSanitizedName();
 
-            string url = $"api/vhosts/{vhost}";
+            if (string.IsNullOrWhiteSpace(virtualHost) || virtualHost == "2%f")
+                errors.Add(new() {Reason = "Cannot delete the default virtual host."});
 
-            if (impl.Errors.Value.Any())
-                return new FaultedResult{Errors = impl.Errors.Value, DebugInfo = new (){URL = url, Request = null}};
+            string url = $"api/vhosts/{virtualHost}";
 
-            if (vhost == "2%f")
-                return new FaultedResult{Errors = new List<Error> {new () {Reason = "Cannot delete the default virtual host."}}, DebugInfo = new (){URL = url, Request = null}};
+            if (errors.Any())
+                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Startup(Action<StartupVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default)
+        public async Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new StartupVirtualHostConfigurationImpl();
-            configuration?.Invoke(impl);
-
-            impl.Validate();
-
-            string url = $"/api/vhosts/{impl.VirtualHostName.Value.ToSanitizedName()}/start/{impl.Node.Value}";
-
             var errors = new List<Error>();
-            errors.AddRange(impl.Errors.Value);
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+
+            if (string.IsNullOrWhiteSpace(node))
+                errors.Add(new() {Reason = "RabbitMQ node is missing."});
+
+            string url = $"/api/vhosts/{vhost.ToSanitizedName()}/start/{node}";
             
             if (errors.Any())
                 return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
@@ -90,130 +93,28 @@ namespace HareDu.Internal
             return await PostEmpty(url, cancellationToken).ConfigureAwait(false);
         }
 
-        
-        class StartupVirtualHostConfigurationImpl :
-            StartupVirtualHostConfiguration
+        public async Task<Result<ServerHealthInfo>> GetHealth(string vhost,
+            CancellationToken cancellationToken = default)
         {
-            string _node;
-            string _vhost;
-            bool _virtualHostCalled;
-            bool _targetingCalled;
-            
-            readonly List<Error> _errors;
+            cancellationToken.RequestCanceled();
 
-            public Lazy<List<Error>> Errors { get; }
-            public Lazy<string> Node { get; }
-            public Lazy<string> VirtualHostName { get; }
+            string url = $"api/aliveness-test/{vhost.ToSanitizedName()}";;
 
-            public StartupVirtualHostConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Node = new Lazy<string>(() => _node, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void VirtualHost(string name)
-            {
-                _virtualHostCalled = true;
-
-                _vhost = name;
-
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Targeting(Action<StartupVirtualHostTarget> target)
-            {
-                _targetingCalled = true;
-                
-                var impl = new StartupVirtualHostTargetImpl();
-                target?.Invoke(impl);
-
-                _node = impl.NodeName;
-
-                if (string.IsNullOrWhiteSpace(_node))
-                    _errors.Add(new() {Reason = "RabbitMQ node is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_targetingCalled)
-                    _errors.Add(new() {Reason = "RabbitMQ node is missing."});
-
-                if (!_virtualHostCalled)
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-
-            
-            class StartupVirtualHostTargetImpl :
-                StartupVirtualHostTarget
-            {
-                public string NodeName { get; private set; }
-                
-                public void Node(string name) => NodeName = name;
-            }
+            return await Get<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
 
-        class DeleteVirtualHostConfigurationImpl :
-            DeleteVirtualHostConfiguration
-        {
-            string _vhost;
-            bool _virtualHostCalled;
-            
-            readonly List<Error> _errors;
-
-            public Lazy<string> VirtualHostName { get; }
-            public Lazy<List<Error>> Errors { get; }
-
-            public DeleteVirtualHostConfigurationImpl()
-            {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
-            }
-
-            public void VirtualHost(string name)
-            {
-                _virtualHostCalled = true;
-
-                _vhost = name;
-                
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
-
-            public void Validate()
-            {
-                if (!_virtualHostCalled)
-                    _errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            }
-        }
-
-        
-        class NewVirtualHostConfigurationImpl :
-            NewVirtualHostConfiguration
+        class NewVirtualHostConfiguratorImpl :
+            VirtualHostConfigurator
         {
             bool _tracing;
-            string _vhost;
             string _description;
             string _tags;
-            bool _virtualHostCalled;
-            
-            readonly List<Error> _errors;
 
             public Lazy<VirtualHostDefinition> Definition { get; }
-            public Lazy<string> VirtualHostName { get; }
-            public Lazy<List<Error>> Errors { get; }
-            
-            public NewVirtualHostConfigurationImpl()
+
+            public NewVirtualHostConfiguratorImpl()
             {
-                _errors = new List<Error>();
-                
-                Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 Definition = new Lazy<VirtualHostDefinition>(
                     () => new VirtualHostDefinition
                     {
@@ -221,79 +122,43 @@ namespace HareDu.Internal
                         Description = _description,
                         Tags = _tags
                     }, LazyThreadSafetyMode.PublicationOnly);
-                VirtualHostName = new Lazy<string>(() => _vhost, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void VirtualHost(string name)
-            {
-                _virtualHostCalled = true;
+            public void WithTracingEnabled() => _tracing = true;
 
-                _vhost = name;
-                
-                if (string.IsNullOrWhiteSpace(_vhost))
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
-            }
+            public void Description(string description) => _description = description;
 
-            public void Configure(Action<VirtualHostConfigurator> configurator)
+            public void Tags(Action<VirtualHostTagConfigurator> configurator)
             {
-                var impl = new VirtualHostConfiguratorImpl();
+                var impl = new VirtualHostTagConfiguratorImpl();
                 configurator?.Invoke(impl);
 
-                _tracing = impl.Tracing;
-                _description = impl.VirtualHostDescription;
-                _tags = impl.VirtualHostTags;
-            }
+                StringBuilder builder = new StringBuilder();
 
-            public void Validate()
-            {
-                if (!_virtualHostCalled)
-                    _errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
+
+                _tags = builder.ToString().TrimEnd(',');
             }
 
 
-            class VirtualHostConfiguratorImpl :
-                VirtualHostConfigurator
+            class VirtualHostTagConfiguratorImpl :
+                VirtualHostTagConfigurator
             {
-                public bool Tracing { get; private set; }
-                public string VirtualHostDescription { get; private set; }
-                public string VirtualHostTags { get; private set; }
+                readonly List<string> _tags;
 
-                public void WithTracingEnabled() => Tracing = true;
-                
-                public void Description(string description) => VirtualHostDescription = description;
-                
-                public void Tags(Action<VirtualHostTagConfigurator> configurator)
+                public List<string> Tags => _tags;
+
+                public VirtualHostTagConfiguratorImpl()
                 {
-                    var impl = new VirtualHostTagConfiguratorImpl();
-                    configurator?.Invoke(impl);
-
-                    StringBuilder builder = new StringBuilder();
-                    
-                    impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
-
-                    VirtualHostTags = builder.ToString().TrimEnd(',');
+                    _tags = new List<string>();
                 }
 
-                
-                class VirtualHostTagConfiguratorImpl :
-                    VirtualHostTagConfigurator
+                public void Add(string tag)
                 {
-                    readonly List<string> _tags;
+                    if (_tags.Contains(tag))
+                        return;
 
-                    public List<string> Tags => _tags;
-
-                    public VirtualHostTagConfiguratorImpl()
-                    {
-                        _tags = new List<string>();
-                    }
-                    
-                    public void Add(string tag)
-                    {
-                        if (_tags.Contains(tag))
-                            return;
-                        
-                        _tags.Add(tag);
-                    }
+                    _tags.Add(tag);
                 }
             }
         }

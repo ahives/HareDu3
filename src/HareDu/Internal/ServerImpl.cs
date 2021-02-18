@@ -25,52 +25,5 @@ namespace HareDu.Internal
             
             return await Get<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
         }
-
-        public async Task<Result<ServerHealthInfo>> GetHealth(Action<ServerConfiguration> configuration,
-            CancellationToken cancellationToken = default)
-        {
-            cancellationToken.RequestCanceled();
-
-            var impl = new ServerConfigurationImpl();
-            configuration?.Invoke(impl);
-
-            string url;
-            
-            switch (impl.CheckUpType)
-            {
-                case HealthCheckType.VirtualHost:
-                    url = $"api/aliveness-test/{impl.RmqObjectName.ToSanitizedName()}";
-                    break;
-                    
-                case HealthCheckType.Node:
-                    url = $"api/healthchecks/node/{impl.RmqObjectName}";
-                    break;
-                    
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return await Get<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
-        }
-
-        
-        class ServerConfigurationImpl :
-            ServerConfiguration
-        {
-            public string RmqObjectName { get; private set; }
-            public HealthCheckType CheckUpType { get; private set; }
-            
-            public void VirtualHost(string name)
-            {
-                CheckUpType = HealthCheckType.VirtualHost;
-                RmqObjectName = name;
-            }
-
-            public void Node(string name)
-            {
-                CheckUpType = HealthCheckType.Node;
-                RmqObjectName = name;
-            }
-        }
     }
 }

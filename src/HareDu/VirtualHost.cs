@@ -19,26 +19,31 @@ namespace HareDu
         /// <summary>
         /// Creates the specified virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="configuration">Describes how the virtual host will be created.</param>
+        /// <param name="configurator">Describes how the virtual host will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns></returns>
-        Task<Result> Create(Action<NewVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="configuration">Describes how the virtual host will be delete.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns></returns>
-        Task<Result> Delete(Action<DeleteVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string vhost, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="vhost"></param>
-        /// <param name="configuration"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Startup(Action<StartupVirtualHostConfiguration> configuration, CancellationToken cancellationToken = default);
+        Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// Perform a health check on a virtual host or node.
+        /// </summary>
+        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <returns></returns>
+        Task<Result<ServerHealthInfo>> GetHealth(string vhost, CancellationToken cancellationToken = default);
     }
 }
