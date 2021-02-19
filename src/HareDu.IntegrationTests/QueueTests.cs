@@ -111,5 +111,22 @@ namespace HareDu.IntegrationTests
             Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString());
         }
+
+        [Test]
+        public async Task Verify_can_peek_messages2()
+        {
+            // var result = await _services.GetService<IBrokerObjectFactory>()
+            //     .PeekQueue("order-state", "TestOrders");
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .PeekQueue("order-state", "TestOrders", x =>
+                {
+                    x.Take(2);
+                    x.AckMode(RequeueMode.AckRequeue);
+                    x.Encoding(MessageEncoding.Auto);
+                    x.TruncateIfAbove(5000);
+                });
+            
+            Console.WriteLine(result.ToJsonString());
+        }
     }
 }

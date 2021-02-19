@@ -108,13 +108,13 @@ namespace HareDu.Internal
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfiguration> configuration = null,
+        public async Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new PeekQueueConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new PeekQueueConfiguratorImpl();
+            configurator?.Invoke(impl);
 
             impl.Validate();
                 
@@ -141,8 +141,8 @@ namespace HareDu.Internal
         }
 
         
-        class PeekQueueConfigurationImpl :
-            PeekQueueConfiguration
+        class PeekQueueConfiguratorImpl :
+            PeekQueueConfigurator
         {
             uint _take;
             string _encoding;
@@ -156,7 +156,7 @@ namespace HareDu.Internal
             public Lazy<QueuePeekDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public PeekQueueConfigurationImpl()
+            public PeekQueueConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
@@ -168,7 +168,6 @@ namespace HareDu.Internal
                         RequeueMode = _requeueMode,
                         Encoding = _encoding,
                         TruncateMessageThreshold = _truncateIfAbove
-
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
             

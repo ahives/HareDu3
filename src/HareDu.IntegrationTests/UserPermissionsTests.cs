@@ -33,11 +33,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
-                .Delete(x =>
-                {
-                    x.User("");
-                    x.Targeting(t => t.VirtualHost("HareDu5"));
-                });
+                .Delete("", "HareDu5");
         }
 
         [Test]
@@ -45,16 +41,11 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<UserPermissions>()
-                .Create(x =>
+                .Create("", "HareDu5", x =>
                 {
-                    x.User("");
-                    x.Configure(c =>
-                    {
-                        c.UsingConfigurePattern("");
-                        c.UsingReadPattern("");
-                        c.UsingWritePattern("");
-                    });
-                    x.Targeting(t => t.VirtualHost("HareDu5"));
+                    x.UsingConfigurePattern("");
+                    x.UsingReadPattern("");
+                    x.UsingWritePattern("");
                 });
         }
     }

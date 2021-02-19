@@ -55,7 +55,6 @@ namespace HareDu.Snapshotting.Tests.Fakes
 
         public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
         public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
-        public async Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfiguration> configuration = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+        public async Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
     }
 }

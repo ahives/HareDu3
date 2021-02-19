@@ -31,12 +31,12 @@ namespace HareDu.Internal
         }
 
         public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding,
-            BindingType bindingType, string vhost, Action<NewBindingConfiguration> configuration = null, CancellationToken cancellationToken = default)
+            BindingType bindingType, string vhost, Action<NewBindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewBindingConfigurationImpl();
-            configuration?.Invoke(impl);
+            var impl = new NewBindingConfiguratorImpl();
+            configurator?.Invoke(impl);
             
             BindingDefinition definition = impl.Definition.Value;
 
@@ -95,8 +95,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewBindingConfigurationImpl :
-            NewBindingConfiguration
+        class NewBindingConfiguratorImpl :
+            NewBindingConfigurator
         {
             string _routingKey;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -106,7 +106,7 @@ namespace HareDu.Internal
             public Lazy<BindingDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewBindingConfigurationImpl()
+            public NewBindingConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 

@@ -20,7 +20,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateExchangeBindingToQueue(this IBrokerObjectFactory factory,
-            string sourceBinding, string destinationBinding, string vhost, Action<NewBindingConfiguration> configuration = null,
+            string sourceBinding, string destinationBinding, string vhost, Action<NewBindingConfigurator> configuration = null,
             CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
@@ -32,7 +32,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateExchangeBinding(this IBrokerObjectFactory factory,
-            string sourceBinding, string destinationBinding, string vhost, Action<NewBindingConfiguration> configuration = null,
+            string sourceBinding, string destinationBinding, string vhost, Action<NewBindingConfigurator> configuration = null,
             CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())

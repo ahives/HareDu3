@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewBindingConfiguration
+    public interface NewBindingConfigurator
     {
         /// <summary>
         /// Specify how the binding will be set up rout messages.

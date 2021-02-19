@@ -19,11 +19,11 @@ namespace HareDu
         /// <summary>
         /// Creates the specified binding between source (i.e. queue/exchange) and target (i.e. queue/exchange) on the target virtual host.
         /// </summary>
-        /// <param name="configuration">Describes how the queue will be created.</param>
+        /// <param name="configurator">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
         Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding, BindingType bindingType, string vhost,
-            Action<NewBindingConfiguration> configuration = null, CancellationToken cancellationToken = default);
+            Action<NewBindingConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified exchange on the target virtual host.
