@@ -245,7 +245,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -273,7 +273,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -301,7 +301,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -329,7 +329,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -357,7 +357,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -385,7 +385,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -413,7 +413,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -439,7 +439,7 @@ namespace HareDu.Tests
             result.HasFaulted.ShouldBeTrue();
             result.HasData.ShouldBeFalse();
             result.Data.ShouldBeEmpty();
-            result.Errors.Count.ShouldBe(3);
+            result.DebugInfo.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
             QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
@@ -529,7 +529,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -559,7 +559,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -589,7 +589,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -620,7 +620,7 @@ namespace HareDu.Tests
                 .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -650,7 +650,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -680,7 +680,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
@@ -772,7 +772,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -790,7 +790,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -808,7 +808,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -826,7 +826,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -844,7 +844,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -862,7 +862,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -880,7 +880,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -913,7 +913,7 @@ namespace HareDu.Tests
                 .Empty(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -925,7 +925,7 @@ namespace HareDu.Tests
                 .Empty(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -937,7 +937,7 @@ namespace HareDu.Tests
                 .Empty("Queue1", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -949,7 +949,7 @@ namespace HareDu.Tests
                 .Empty("Queue1", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -961,7 +961,7 @@ namespace HareDu.Tests
                 .Empty(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -973,7 +973,7 @@ namespace HareDu.Tests
                 .Empty("Queue1", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -985,7 +985,7 @@ namespace HareDu.Tests
                 .Empty(string.Empty, string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
     }
 }

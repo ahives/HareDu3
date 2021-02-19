@@ -79,7 +79,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -103,7 +103,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -127,7 +127,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -151,7 +151,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -175,7 +175,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -198,7 +198,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -222,7 +222,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -245,7 +245,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(4);
+            result.DebugInfo.Errors.Count.ShouldBe(4);
             result.DebugInfo.ShouldNotBeNull();
 
             TopicPermissionsDefinition definition = result.DebugInfo.Request.ToObject<TopicPermissionsDefinition>(Deserializer.Options);
@@ -285,7 +285,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "HareDu7");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -297,7 +297,7 @@ namespace HareDu.Tests
                 .Delete("guest", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -309,7 +309,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
     }
 }

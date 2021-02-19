@@ -102,7 +102,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
@@ -123,7 +123,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
@@ -143,7 +143,7 @@ namespace HareDu.Tests
                 });
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
@@ -160,7 +160,7 @@ namespace HareDu.Tests
                 .Define("FakeVirtualHost");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
     }
 }

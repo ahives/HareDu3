@@ -7,6 +7,7 @@
     using System.Net.Http.Headers;
     using System.Reflection;
     using System.Text;
+    using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
     using Extensions;
@@ -15,78 +16,136 @@
     public class BaseBrokerObject
     {
         readonly HttpClient _client;
+        readonly IDictionary<string, Error> _errors;
 
         protected BaseBrokerObject(HttpClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
+            _errors = new Dictionary<string, Error>
+            {
+                {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
+                {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
+                {nameof(JsonException), new() {Reason = $"The JSON is invalid or T is not compatible with the JSON."}},
+                {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}}
+            };
         }
 
         protected async Task<ResultList<T>> GetAll<T>(string url, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
                 var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-                
+
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResultList<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = null}};
-                
-                var data = await response.ToObject<List<T>>(Deserializer.Options);
-                
-                return new SuccessfulResultList<T>{Data = data.GetDataOrEmpty(), DebugInfo = new (){URL = url, Request = null}};
+                    return new FaultedResultList<T> {DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
+
+                var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
+
+                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new() {URL = url, Response = rawResponse}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResultList<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result<T>> Get<T>(string url, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
                 var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
-                
-                if (!response.IsSuccessStatusCode)
-                    return new FaultedResult<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = null}};
 
-                var data = await response.ToObject<T>(Deserializer.Options);
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    return new FaultedResult<T>{DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+
+                var data = rawResponse.ToObject<T>(Deserializer.Options);
                 
-                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Request = null}};
+                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Response = rawResponse}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result> Delete(string url, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
                 var response = await _client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
-                
-                if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = null}};
 
-                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = null}};
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                    return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Response = rawResponse}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result> Put<TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
@@ -98,20 +157,36 @@
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
-                
+
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new () {URL = url, Request = request}};
+                    return new FaultedResult{DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
                 return new SuccessfulResult{DebugInfo = new () {URL = url, Request = request}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result> Put(string url, string request, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
@@ -122,20 +197,36 @@
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
-                
+
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = request}};
+                    return new FaultedResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
                 return new SuccessfulResult{DebugInfo = new () {URL = url, Request = request}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result<T>> Post<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
@@ -147,22 +238,38 @@
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
-                
-                if (!response.IsSuccessStatusCode)
-                    return new FaultedResult<T>{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new (){URL = url, Request = request}};
 
-                var data = await response.ToObject<T>(Deserializer.Options);
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    return new FaultedResult<T>{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+
+                var data = rawResponse.ToObject<T>(Deserializer.Options);
 
                 return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = request}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult<T>{Errors = new List<Error>{ new () {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<ResultList<T>> PostList<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
@@ -175,39 +282,66 @@
 
                 var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResultList<T> {Errors = new List<Error> {GetError(response.StatusCode)}, DebugInfo = new () {URL = url, Request = request}};
+                    return new FaultedResultList<T> {DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
 
-                var data = await response.ToObject<List<T>>(Deserializer.Options);
+                var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
 
-                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request}};
+                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse}};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResultList<T> {Errors = new List<Error> {new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}};
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 
         protected async Task<Result> PostEmpty(string url, CancellationToken cancellationToken = default)
         {
+            string rawResponse = null;
+
             try
             {
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
                 var response = await _client.PostAsync(url, null, cancellationToken).ConfigureAwait(false);
-                
-                if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{Errors = new List<Error> { GetError(response.StatusCode) }, DebugInfo = new () {URL = url, Request = null}};
 
-                return new SuccessfulResult {DebugInfo = new () {URL = url, Request = null}};
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                    return new FaultedResult {DebugInfo = new () {URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+
+                return new SuccessfulResult {DebugInfo = new () {URL = url, }};
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException e)
             {
-                return new FaultedResult
-                {
-                    Errors = new List<Error> {new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}}
-                };
+                return new FaultedResult {DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
             }
         }
 

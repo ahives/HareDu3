@@ -113,7 +113,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, "value", "fake_component", "HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -133,7 +133,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, "fake_component", "HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -153,7 +153,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", string.Empty, "HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -173,7 +173,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", string.Empty, "HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -193,7 +193,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", "fake_component", string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -213,7 +213,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", "fake_component", string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -233,7 +233,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", "fake_component", string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -253,7 +253,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, "value", string.Empty, "HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -273,7 +273,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, string.Empty,"HareDu");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -293,7 +293,7 @@ namespace HareDu.Tests
                 .Create("fake_parameter", "value", string.Empty, string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -313,7 +313,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, string.Empty, string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(3);
+            result.DebugInfo.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
             ScopedParameterDefinition<string> definition = result.DebugInfo.Request.ToObject<ScopedParameterDefinition<string>>(Deserializer.Options);
@@ -354,7 +354,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "fake_component", "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -366,7 +366,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "fake_component", "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -378,7 +378,7 @@ namespace HareDu.Tests
                 .Delete("fake_parameter", string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -390,7 +390,7 @@ namespace HareDu.Tests
                 .Delete("fake_parameter", string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -402,7 +402,7 @@ namespace HareDu.Tests
                 .Delete("fake_parameter", "fake_component", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -414,7 +414,7 @@ namespace HareDu.Tests
                 .Delete("fake_parameter", "fake_component", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -426,7 +426,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -438,7 +438,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty,string.Empty,"HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -450,7 +450,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "fake_component", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -462,7 +462,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty,"fake_component", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -474,7 +474,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, string.Empty,string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(3);
+            result.DebugInfo.Errors.Count.ShouldBe(3);
         }
     }
 }

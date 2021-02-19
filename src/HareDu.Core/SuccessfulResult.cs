@@ -1,7 +1,6 @@
 namespace HareDu.Core
 {
     using System;
-    using System.Collections.Generic;
     using Extensions;
 
     public record SuccessfulResult :
@@ -10,7 +9,6 @@ namespace HareDu.Core
         public SuccessfulResult()
         {
             HasFaulted = false;
-            Errors = new List<Error>();
             Timestamp = DateTimeOffset.UtcNow;
         }
     }
@@ -21,7 +19,6 @@ namespace HareDu.Core
         public SuccessfulResult()
         {
             HasFaulted = false;
-            Errors = new List<Error>();
             Timestamp = DateTimeOffset.UtcNow;
         }
         

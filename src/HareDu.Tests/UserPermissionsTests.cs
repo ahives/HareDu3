@@ -53,7 +53,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "HareDu5");
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace HareDu.Tests
                 .Delete("haredu_user", string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             UserPermissionsDefinition definition = result.DebugInfo.Request.ToObject<UserPermissionsDefinition>(Deserializer.Options);
@@ -141,7 +141,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             UserPermissionsDefinition definition = result.DebugInfo.Request.ToObject<UserPermissionsDefinition>(Deserializer.Options);
@@ -165,7 +165,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             UserPermissionsDefinition definition = result.DebugInfo.Request.ToObject<UserPermissionsDefinition>(Deserializer.Options);
@@ -189,7 +189,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
 
             UserPermissionsDefinition definition = result.DebugInfo.Request.ToObject<UserPermissionsDefinition>(Deserializer.Options);
@@ -213,7 +213,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
 
             UserPermissionsDefinition definition = result.DebugInfo.Request.ToObject<UserPermissionsDefinition>(Deserializer.Options);

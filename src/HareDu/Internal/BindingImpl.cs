@@ -59,7 +59,7 @@ namespace HareDu.Internal
                 : $"api/bindings/{virtualHost}/e/{sourceBinding}/q/{destinationBinding}";
 
             if (errors.Any())
-                return new FaultedResult<BindingInfo>{Errors = errors, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -89,7 +89,7 @@ namespace HareDu.Internal
                 : $"api/bindings/{virtualHost}/e/{sourceBinding}/e/{destinationBinding}/{Normalize(propertiesKey)}";
             
             if (errors.Any())
-                return new FaultedResult<BindingInfo>{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
+                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

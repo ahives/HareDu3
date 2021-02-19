@@ -53,7 +53,7 @@ namespace HareDu.Internal
             string url = $"api/global-parameters/{parameter}";
             
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -62,10 +62,15 @@ namespace HareDu.Internal
         {
             cancellationToken.RequestCanceled();
             
+            var errors = new List<Error>();
+            
             if (string.IsNullOrWhiteSpace(parameter))
-                return new FaultedResult{Errors = new List<Error> {new (){Reason = "The name of the parameter is missing."}}, DebugInfo = new (){URL = @"api/global-parameters/", Request = null}};
+                errors.Add(new (){Reason = "The name of the parameter is missing."});
 
             string url = $"api/global-parameters/{parameter}";
+            
+            if (errors.Any())
+                return new FaultedResult{DebugInfo = new () {URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

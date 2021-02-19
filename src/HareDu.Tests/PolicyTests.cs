@@ -147,7 +147,7 @@ namespace HareDu.Tests
             definition.Arguments["expires"].ShouldBe("1000");
             definition.ApplyTo.ShouldBe("all");
             
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -180,7 +180,7 @@ namespace HareDu.Tests
             definition.Arguments["expires"].ShouldBe("1000");
             definition.ApplyTo.ShouldBe("all");
             
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -213,7 +213,7 @@ namespace HareDu.Tests
             definition.Arguments["expires"].ShouldBe("1000");
             definition.ApplyTo.ShouldBe("all");
             
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace HareDu.Tests
                 .Delete("P4", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -282,7 +282,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "HareDu");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -294,7 +294,7 @@ namespace HareDu.Tests
                 .Delete("P4", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
     }
 }

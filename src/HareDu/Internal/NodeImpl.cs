@@ -48,7 +48,7 @@ namespace HareDu.Internal
             string url = $"api/nodes/{node}/memory";
             
             if (errors.Any())
-                return new FaultedResult<NodeMemoryUsageInfo>{Errors = errors,  DebugInfo = new (){URL = url, Request = null}};
+                return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
             
             return await Get<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
         }

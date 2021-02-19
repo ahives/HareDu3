@@ -54,7 +54,7 @@ namespace HareDu.Internal
             string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
             
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -81,7 +81,7 @@ namespace HareDu.Internal
                 url = $"api/exchanges/{virtualHost}/{exchange}?{impl.Query.Value}";
 
             if (errors.Any())
-                return new FaultedResult {Errors = errors, DebugInfo = new() {URL = url, Request = null}};
+                return new FaultedResult {DebugInfo = new() {URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

@@ -57,7 +57,7 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}";
             
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -83,7 +83,7 @@ namespace HareDu.Internal
                 url = $"{url}?{impl.Query.Value}";
             
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new (){URL = url, Request = null}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
@@ -103,7 +103,7 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/contents";
 
             if (errors.Any())
-                return new FaultedResult<QueueInfo> {Errors = errors, DebugInfo = new() {URL = url, Request = null}};
+                return new FaultedResult<QueueInfo> {DebugInfo = new() {URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
@@ -135,7 +135,7 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/get";
             
             if (errors.Any())
-                return new FaultedResultList<PeekedMessageInfo>{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResultList<PeekedMessageInfo>{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await PostList<PeekedMessageInfo, QueuePeekDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }

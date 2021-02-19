@@ -57,7 +57,7 @@ namespace HareDu.Internal
             string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
 
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = definition.ToJsonString()}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -77,7 +77,7 @@ namespace HareDu.Internal
             string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
 
             if (errors.Any())
-                return new FaultedResult{Errors = errors, DebugInfo = new () {URL = url, Request = null}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

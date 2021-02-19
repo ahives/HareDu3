@@ -62,7 +62,7 @@ namespace HareDu.Tests
                 .ConfigureAwait(false);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(3);
+            result.DebugInfo.Errors.Count.ShouldBe(3);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -174,7 +174,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -220,7 +220,7 @@ namespace HareDu.Tests
                 });
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(3);
+            result.DebugInfo.Errors.Count.ShouldBe(3);
         }
 
         [Test]

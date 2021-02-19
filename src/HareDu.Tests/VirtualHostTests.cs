@@ -199,7 +199,7 @@ namespace HareDu.Tests
                 .Delete(string.Empty);
 
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -232,7 +232,7 @@ namespace HareDu.Tests
                 .Startup(string.Empty, "FakeNode");
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace HareDu.Tests
                 .Startup("FakeVirtualHost", string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(1);
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
@@ -256,7 +256,7 @@ namespace HareDu.Tests
                 .Startup(string.Empty, string.Empty);
             
             result.HasFaulted.ShouldBeTrue();
-            result.Errors.Count.ShouldBe(2);
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
     }
 }
