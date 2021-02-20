@@ -140,7 +140,7 @@ namespace HareDu.Internal
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; } =
                     new Dictionary<string, ArgumentValue<object>>();
 
-                public void Set<T>(string arg, T value) =>
+                public void Add<T>(string arg, T value) =>
                     Arguments.Add(arg.Trim(),
                         Arguments.ContainsKey(arg)
                             ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")

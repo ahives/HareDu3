@@ -18,8 +18,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .GetAll()
-                .ConfigureAwait(false);
+                .GetAll();
 
             result.HasData.ShouldBeTrue();
             result.Data.Count.ShouldBe(12);
@@ -36,7 +35,7 @@ namespace HareDu.Tests
                 .Create("E2", "Q1", BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeFalse();
@@ -57,9 +56,8 @@ namespace HareDu.Tests
                 .Create(string.Empty, "Q1", BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
-                })
-                .ConfigureAwait(false);
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
+                });
 
             result.HasFaulted.ShouldBeTrue();
             result.DebugInfo.Errors.Count.ShouldBe(1);
@@ -74,7 +72,7 @@ namespace HareDu.Tests
                 .Create("E2", string.Empty, BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -90,7 +88,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -106,7 +104,7 @@ namespace HareDu.Tests
                 .Create("E2", "Q1", BindingType.Exchange, string.Empty, x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -122,7 +120,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, BindingType.Exchange, string.Empty, x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -138,7 +136,7 @@ namespace HareDu.Tests
                 .Create("Q1", string.Empty, BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -154,7 +152,7 @@ namespace HareDu.Tests
                 .Create("E2", string.Empty, BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -170,7 +168,7 @@ namespace HareDu.Tests
                 .Create(string.Empty, string.Empty, BindingType.Exchange, "HareDu", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                 });
 
             result.HasFaulted.ShouldBeTrue();
@@ -186,7 +184,7 @@ namespace HareDu.Tests
                 .Create("E2", "Q1", BindingType.Exchange, "", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                     // x.Configure(c =>
                     // {
                     //     c.Source();
@@ -210,7 +208,7 @@ namespace HareDu.Tests
                 .Create("", "", BindingType.Exchange, "", x =>
                 {
                     x.HasRoutingKey("*.");
-                    x.HasArguments(arg => { arg.Set("arg1", "value1"); });
+                    x.HasArguments(arg => { arg.Add("arg1", "value1"); });
                     // x.Configure(c =>
                     // {
                     //     c.Type(BindingType.Exchange);
@@ -223,97 +221,65 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(3);
         }
 
-        [Test]
-        public async Task Verify_can_delete_binding()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            // var result = await services.GetService<IBrokerObjectFactory>()
-            //     .Object<Binding>()
-            //     .Delete(x =>
-            //     {
-            //         x.Configure(b =>
-            //         {
-            //             b.Name("Binding1");
-            //             b.Source("E2");
-            //             b.Destination("Q4");
-            //             b.Type(BindingType.Queue);
-            //         });
-            //         x.Targeting(t => t.VirtualHost("HareDu"));
-            //     })
-            //     .ConfigureAwait(false);
-            //
-            // result.HasFaulted.ShouldBeFalse();
-            // result.DebugInfo.ShouldNotBeNull();
-            // result.DebugInfo.URL.ShouldBe("api/bindings/HareDu/e/E2/q/Q4/Binding1");
-        }
+        // [Test]
+        // public async Task Verify_can_delete_binding()
+        // {
+        //     var services = GetContainerBuilder().BuildServiceProvider();
+        //     var result = await services.GetService<IBrokerObjectFactory>()
+        //         .Object<Binding>()
+        //         .Delete("E2", "Q4", string.Empty, "HareDu", BindingType.Queue);
+        //         .Delete(x =>
+        //         {
+        //             x.Configure(b =>
+        //             {
+        //                 b.Name("Binding1");
+        //                 b.Source("E2");
+        //                 b.Destination("Q4");
+        //                 b.Type(BindingType.Queue);
+        //             });
+        //             x.Targeting(t => t.VirtualHost("HareDu"));
+        //         })
+        //         .ConfigureAwait(false);
+        //     
+        //     result.HasFaulted.ShouldBeFalse();
+        //     result.DebugInfo.ShouldNotBeNull();
+        //     result.DebugInfo.URL.ShouldBe("api/bindings/HareDu/e/E2/q/Q4/Binding1");
+        // }
 
         [Test]
         public async Task Verify_cannot_delete_binding_1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            // var result = await services.GetService<IBrokerObjectFactory>()
-            //     .Object<Binding>()
-            //     .Delete(x =>
-            //     {
-            //         x.Configure(b =>
-            //         {
-            //             b.Name(string.Empty);
-            //             b.Source("E2");
-            //             b.Destination("Q4");
-            //             b.Type(BindingType.Queue);
-            //         });
-            //         x.Targeting(t => t.VirtualHost("HareDu"));
-            //     })
-            //     .ConfigureAwait(false);
-            //
-            // result.HasFaulted.ShouldBeTrue();
-            // result.Errors.Count.ShouldBe(1);
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete("E2", "Q4", string.Empty, "HareDu", BindingType.Queue);
+            
+            result.HasFaulted.ShouldBeTrue();
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
         public async Task Verify_cannot_delete_binding_2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            // var result = await services.GetService<IBrokerObjectFactory>()
-            //     .Object<Binding>()
-            //     .Delete(x =>
-            //     {
-            //         x.Configure(b =>
-            //         {
-            //             b.Name("Binding1");
-            //             b.Source("E2");
-            //             b.Destination(string.Empty);
-            //             b.Type(BindingType.Queue);
-            //         });
-            //         x.Targeting(t => t.VirtualHost("HareDu"));
-            //     })
-            //     .ConfigureAwait(false);
-            //
-            // result.HasFaulted.ShouldBeTrue();
-            // result.Errors.Count.ShouldBe(1);
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Queue);
+            
+            result.HasFaulted.ShouldBeTrue();
+            result.DebugInfo.Errors.Count.ShouldBe(1);
         }
 
         [Test]
         public async Task Verify_cannot_delete_binding_3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
-            // var result = await services.GetService<IBrokerObjectFactory>()
-            //     .Object<Binding>()
-            //     .Delete(x =>
-            //     {
-            //         x.Configure(b =>
-            //         {
-            //             b.Name(string.Empty);
-            //             b.Source("E2");
-            //             b.Destination(string.Empty);
-            //             b.Type(BindingType.Queue);
-            //         });
-            //         x.Targeting(t => t.VirtualHost("HareDu"));
-            //     })
-            //     .ConfigureAwait(false);
-            //
-            // result.HasFaulted.ShouldBeTrue();
-            // result.Errors.Count.ShouldBe(2);
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Queue);
+            
+            result.HasFaulted.ShouldBeTrue();
+            result.DebugInfo.Errors.Count.ShouldBe(2);
         }
 
         [Test]

@@ -8,6 +8,12 @@
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel1&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel2&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel3&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.BindingTests.Verify_cannot_delete_binding_3&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.BindingTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ChannelTests.Verify_can_get_all_channels&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ChannelTests.Verify_can_get_all_channels2&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ConnectionTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ConsumerTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eaf92765_002Dd50d_002D40c5_002Db5e7_002Df5b89526de12/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

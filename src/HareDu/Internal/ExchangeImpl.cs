@@ -182,7 +182,7 @@ namespace HareDu.Internal
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }
 
-                public void Set<T>(string arg, T value) => SetArg(arg, value);
+                public void Add<T>(string arg, T value) => SetArg(arg, value);
 
                 void SetArg(string arg, object value) =>
                     Arguments.Add(arg.Trim(),

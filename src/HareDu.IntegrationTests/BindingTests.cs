@@ -79,7 +79,7 @@ namespace HareDu.IntegrationTests
                     x.HasRoutingKey("*.");
                     x.HasArguments(arg =>
                     {
-                        arg.Set("arg1", "value1");
+                        arg.Add("arg1", "value1");
                     });
                 });
             

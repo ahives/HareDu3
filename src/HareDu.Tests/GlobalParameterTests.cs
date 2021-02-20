@@ -102,8 +102,8 @@ namespace HareDu.Tests
                 {
                     x.Value(arg =>
                     {
-                        arg.Set("arg1", "value1");
-                        arg.Set("arg2", 5);
+                        arg.Add("arg1", "value1");
+                        arg.Add("arg2", 5);
                     });
                 });
              

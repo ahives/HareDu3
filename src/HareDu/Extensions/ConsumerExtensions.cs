@@ -5,10 +5,11 @@ namespace HareDu.Extensions
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Model;
 
     public static class ConsumerExtensions
     {
-        public static async Task<Result> GetAllConsumers(this IBrokerObjectFactory factory,
+        public static async Task<ResultList<ConsumerInfo>> GetAllConsumers(this IBrokerObjectFactory factory,
             CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())

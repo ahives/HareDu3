@@ -8,6 +8,6 @@ namespace HareDu
         /// <param name="arg"></param>
         /// <param name="value"></param>
         /// <typeparam name="T"></typeparam>
-        void Set<T>(string arg, T value);
+        void Add<T>(string arg, T value);
     }
 }

@@ -20,20 +20,23 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Exchange>()
                 .GetAll();
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(9);
-            result.Data[1].Durable.ShouldBeTrue();
-            result.Data[1].Internal.ShouldBeFalse();
-            result.Data[1].AutoDelete.ShouldBeFalse();
-            result.Data[1].Name.ShouldBe("E2");
-            result.Data[1].RoutingType.ShouldBe("direct");
-            result.Data[1].VirtualHost.ShouldBe("HareDu");
-            result.Data[1].Arguments.ShouldNotBeNull();
-            result.Data[1].Arguments.Count.ShouldBe(1);
-            result.Data[1].Arguments["alternate-exchange"].ToString().ShouldBe("exchange");
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(9, result.Data.Count);
+                Assert.IsTrue(result.Data[1].Durable);
+                Assert.IsFalse(result.Data[1].Internal);
+                Assert.IsFalse(result.Data[1].AutoDelete);
+                Assert.AreEqual("E2", result.Data[1].Name);
+                Assert.AreEqual("direct", result.Data[1].RoutingType);
+                Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
+                Assert.IsNotNull(result.Data[1].Arguments);
+                Assert.AreEqual(1, result.Data[1].Arguments.Count);
+                Assert.AreEqual(result.Data[1].Arguments["alternate-exchange"].ToString(), "exchange");
+            });
         }
 
         [Test]
@@ -43,19 +46,22 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllExchanges();
             
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(9);
-            result.Data[1].Durable.ShouldBeTrue();
-            result.Data[1].Internal.ShouldBeFalse();
-            result.Data[1].AutoDelete.ShouldBeFalse();
-            result.Data[1].Name.ShouldBe("E2");
-            result.Data[1].RoutingType.ShouldBe("direct");
-            result.Data[1].VirtualHost.ShouldBe("HareDu");
-            result.Data[1].Arguments.ShouldNotBeNull();
-            result.Data[1].Arguments.Count.ShouldBe(1);
-            result.Data[1].Arguments["alternate-exchange"].ToString().ShouldBe("exchange");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(9, result.Data.Count);
+                Assert.IsTrue(result.Data[1].Durable);
+                Assert.IsFalse(result.Data[1].Internal);
+                Assert.IsFalse(result.Data[1].AutoDelete);
+                Assert.AreEqual("E2", result.Data[1].Name);
+                Assert.AreEqual("direct", result.Data[1].RoutingType);
+                Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
+                Assert.IsNotNull(result.Data[1].Arguments);
+                Assert.AreEqual(1, result.Data[1].Arguments.Count);
+                Assert.AreEqual(result.Data[1].Arguments["alternate-exchange"].ToString(), "exchange");
+            });
         }
 
         [Test]
@@ -71,7 +77,7 @@ namespace HareDu.Tests
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
                     x.HasArguments(arg =>
                     {
-                        arg.Set("fake_arg", "8238b");
+                        arg.Add("fake_arg", "8238b");
                     });
                 });
             
@@ -101,7 +107,7 @@ namespace HareDu.Tests
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
                     x.HasArguments(arg =>
                     {
-                        arg.Set("fake_arg", "8238b");
+                        arg.Add("fake_arg", "8238b");
                     });
                 });
             
@@ -132,7 +138,7 @@ namespace HareDu.Tests
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
                     x.HasArguments(arg =>
                     {
-                        arg.Set("fake_arg", "8238b");
+                        arg.Add("fake_arg", "8238b");
                     });
                 });
             
@@ -155,7 +161,7 @@ namespace HareDu.Tests
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
                     x.HasArguments(arg =>
                     {
-                        arg.Set("fake_arg", "8238b");
+                        arg.Add("fake_arg", "8238b");
                     });
                 });
             
@@ -178,7 +184,7 @@ namespace HareDu.Tests
                     x.HasRoutingType(ExchangeRoutingType.Fanout);
                     x.HasArguments(arg =>
                     {
-                        arg.Set("fake_arg", "8238b");
+                        arg.Add("fake_arg", "8238b");
                     });
                 });
             
