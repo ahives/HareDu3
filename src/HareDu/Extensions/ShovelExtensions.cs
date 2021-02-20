@@ -10,13 +10,13 @@ namespace HareDu.Extensions
     public static class ShovelExtensions
     {
         public static async Task<Result> CreateShovel(this IBrokerObjectFactory factory,
-            string shovel, string vhost, Action<ShovelConfigurator> configuration = null, CancellationToken cancellationToken = default)
+            string shovel, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
-            
+
             return await factory.Object<Shovel>()
-                .Create(shovel, vhost, configuration, cancellationToken)
+                .Create(shovel, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
 

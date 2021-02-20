@@ -34,9 +34,12 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Shovel>()
-                .Create("test-shovel2", "TestHareDu", x =>
+                .Create("test-shovel1", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost");
+                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    {
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
                     x.Destination("queue2", "amqp://user1@localhost");
                 });
 
@@ -49,7 +52,26 @@ namespace HareDu.IntegrationTests
             Result result = await _services.GetService<IBrokerObjectFactory>()
                 .CreateShovel("test-shovel2", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost");
+                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    {
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination("queue2", "amqp://user1@localhost");
+                });
+
+            Console.WriteLine(result.ToJsonString());
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel3()
+        {
+            Result result = await _services.GetService<IBrokerObjectFactory>()
+                .CreateShovel("test-shovel5", "TestHareDu", x =>
+                {
+                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    {
+                        c.DeleteAfter(5);
+                    });
                     x.Destination("queue2", "amqp://user1@localhost");
                 });
 

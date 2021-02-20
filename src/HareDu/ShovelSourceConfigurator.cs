@@ -2,9 +2,11 @@ namespace HareDu
 {
     public interface ShovelSourceConfigurator
     {
-        void Protocol(Protocol protocol);
+        void Protocol(ShovelProtocolType protocol);
 
-        void DeleteAfter();
+        void DeleteAfter(DeleteShovelAfterMode mode);
+        
+        void DeleteAfter(int value);
 
         void MaxCopiedMessages(long messages);
 

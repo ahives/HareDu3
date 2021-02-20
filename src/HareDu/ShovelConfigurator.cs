@@ -6,7 +6,7 @@ namespace HareDu
     {
         void ReconnectDelay(int delay);
 
-        void AcknowledgeMode(AcknowledgeMode mode);
+        void AcknowledgeMode(AckMode mode);
         
         void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator = null);
         

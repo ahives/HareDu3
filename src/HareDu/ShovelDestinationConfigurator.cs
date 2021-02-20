@@ -2,7 +2,7 @@ namespace HareDu
 {
     public interface ShovelDestinationConfigurator
     {
-        void Protocol(Protocol protocol);
+        void Protocol(ShovelProtocolType protocol);
 
         void Exchange(string exchange, string routingKey);
 

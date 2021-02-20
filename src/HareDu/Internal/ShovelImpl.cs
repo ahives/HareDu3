@@ -35,6 +35,14 @@ namespace HareDu.Internal
         {
             cancellationToken.RequestCanceled();
 
+            var errors = new List<Error>();
+            
+            if (configurator.IsNull())
+                errors.Add(new () {Reason = "The shovel configurator is missing."});
+
+            if (errors.Any())
+                return new FaultedResult{DebugInfo = new () {Errors = errors}};
+
             var impl = new ShovelConfiguratorImpl();
             configurator?.Invoke(impl);
 
@@ -44,8 +52,6 @@ namespace HareDu.Internal
 
             Debug.Assert(definition != null);
 
-            var errors = new List<Error>();
-            
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(shovel))
@@ -105,10 +111,9 @@ namespace HareDu.Internal
             bool _destinationCalled;
 
             readonly List<Error> _errors;
+            object _deleteShovelAfter;
 
             public Lazy<ShovelDefinition> Definition { get; }
-            public Lazy<string> VirtualHost { get; }
-            public Lazy<string> ShovelName { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public ShovelConfiguratorImpl()
@@ -121,7 +126,7 @@ namespace HareDu.Internal
                     {
                         Value = new()
                         {
-                            AcknowledgeMode = _acknowledgeMode,
+                            AcknowledgeMode = string.IsNullOrWhiteSpace(_acknowledgeMode) ? AckMode.OnConfirm.Convert() : _acknowledgeMode,
                             ReconnectDelay = _reconnectDelay,
                             SourceProtocol = _sourceProtocol,
                             SourceUri = _sourceUri,
@@ -129,7 +134,7 @@ namespace HareDu.Internal
                             SourceExchange = _sourceExchangeName,
                             SourceExchangeRoutingKey = _sourceExchangeRoutingKey,
                             SourcePrefetchCount = _sourcePrefetchCount,
-                            // SourceDeleteAfter = 
+                            SourceDeleteAfter = _deleteShovelAfter,
                             DestinationProtocol = _destinationProtocol,
                             DestinationExchange = _destinationExchangeName,
                             DestinationExchangeKey = _destinationExchangeRoutingKey,
@@ -143,7 +148,7 @@ namespace HareDu.Internal
 
             public void ReconnectDelay(int delay) => _reconnectDelay = delay;
 
-            public void AcknowledgeMode(AcknowledgeMode mode) => _acknowledgeMode = mode.Convert();
+            public void AcknowledgeMode(AckMode mode) => _acknowledgeMode = mode.Convert();
 
             public void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator)
             {
@@ -158,6 +163,7 @@ namespace HareDu.Internal
                 _sourceExchangeName = impl.ExchangeName;
                 _sourceExchangeRoutingKey = impl.ExchangeRoutingKey;
                 _sourcePrefetchCount = impl.PrefetchCount;
+                _deleteShovelAfter = impl.DeleteAfterShovel;
             }
 
             public void Destination(string queue, string uri, Action<ShovelDestinationConfigurator> configurator)
@@ -201,13 +207,18 @@ namespace HareDu.Internal
                 public string ExchangeName { get; private set; }
                 public string ExchangeRoutingKey { get; private set; }
                 public long PrefetchCount { get; private set; }
+                public object DeleteAfterShovel { get; private set; }
 
-                public void Protocol(Protocol protocol) => ShovelProtocol = protocol.Convert();
-                    
-                public void DeleteAfter()
+                public ShovelSourceConfiguratorImpl()
                 {
-                    throw new NotImplementedException();
+                    ShovelProtocol = ShovelProtocolType.Amqp091.Convert();
                 }
+
+                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol.Convert();
+                
+                public void DeleteAfter(DeleteShovelAfterMode mode) => DeleteAfterShovel = mode.Convert();
+
+                public void DeleteAfter(int value) => DeleteAfterShovel = value;
 
                 public void MaxCopiedMessages(long messages) => PrefetchCount = messages < 1000 ? 1000 : messages;
 
@@ -228,7 +239,12 @@ namespace HareDu.Internal
                 public bool AddHeaders { get; private set; }
                 public bool AddTimestampHeader { get; private set; }
 
-                public void Protocol(Protocol protocol) => ShovelProtocol = protocol.Convert();
+                public ShovelDestinationConfiguratorImpl()
+                {
+                    ShovelProtocol = ShovelProtocolType.Amqp091.Convert();
+                }
+
+                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol.Convert();
 
                 public void Exchange(string exchange, string routingKey)
                 {

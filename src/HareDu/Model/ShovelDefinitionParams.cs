@@ -38,7 +38,7 @@ namespace HareDu.Model
         
         [JsonPropertyName("src-delete-after")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string SourceDeleteAfter { get; init; }
+        public object SourceDeleteAfter { get; init; }
         
         [JsonPropertyName("src-prefetch-count")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
