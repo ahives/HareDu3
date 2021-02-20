@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record QueuePeekDefinition
+    public record DequeueMessageDefinition
     {
         [JsonPropertyName("count")]
         public uint Take { get; init; }
@@ -11,6 +11,7 @@ namespace HareDu.Model
         public string Encoding { get; init; }
         
         [JsonPropertyName("truncate")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ulong TruncateMessageThreshold { get; init; }
         
         [JsonPropertyName("ackmode")]

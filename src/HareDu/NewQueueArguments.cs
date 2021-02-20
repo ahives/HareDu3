@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface QueueCreateArguments
+    public interface NewQueueArguments
     {
         /// <summary>
         /// Add a new argument.

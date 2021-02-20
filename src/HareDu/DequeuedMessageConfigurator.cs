@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface PeekQueueConfigurator
+    public interface DequeuedMessageConfigurator
     {
         /// <summary>
         /// Specify how many messages to take from the queue.

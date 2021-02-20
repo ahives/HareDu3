@@ -9,8 +9,8 @@ namespace HareDu.Extensions
 
     public static class ScopedParameterExtensions
     {
-        public static async Task<ResultList<ScopedParameterInfo>> GetAllScopedParameters(
-            this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
+        public static async Task<ResultList<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerObjectFactory factory,
+            CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

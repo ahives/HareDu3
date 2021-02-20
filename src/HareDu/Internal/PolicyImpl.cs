@@ -110,9 +110,9 @@ namespace HareDu.Internal
             
             public void UsingPattern(string pattern) => _pattern = pattern;
 
-            public void HasArguments(Action<PolicyDefinitionArguments> arguments)
+            public void HasArguments(Action<NewPolicyArguments> arguments)
             {
-                var impl = new PolicyDefinitionArgumentsImpl();
+                var impl = new NewPolicyArgumentsImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -134,12 +134,12 @@ namespace HareDu.Internal
             public void ApplyTo(PolicyAppliedTo appliedTo) => _applyTo = appliedTo.Convert();
 
 
-            class PolicyDefinitionArgumentsImpl :
-                PolicyDefinitionArguments
+            class NewPolicyArgumentsImpl :
+                NewPolicyArguments
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public PolicyDefinitionArgumentsImpl()
+                public NewPolicyArgumentsImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

@@ -158,9 +158,9 @@ namespace HareDu.Internal
 
             public void IsForInternalUse() => _internal = true;
 
-            public void HasArguments(Action<ExchangeDefinitionArguments> arguments)
+            public void HasArguments(Action<NewExchangeArguments> arguments)
             {
-                var impl = new ExchangeDefinitionArgumentsImpl();
+                var impl = new NewExchangeArgumentsImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -172,12 +172,12 @@ namespace HareDu.Internal
             public void AutoDeleteWhenNotInUse() => _autoDelete = true;
 
 
-            class ExchangeDefinitionArgumentsImpl :
-                ExchangeDefinitionArguments
+            class NewExchangeArgumentsImpl :
+                NewExchangeArguments
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public ExchangeDefinitionArgumentsImpl()
+                public NewExchangeArgumentsImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

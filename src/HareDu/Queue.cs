@@ -47,6 +47,6 @@ namespace HareDu
         /// <param name="configurator">Describes how the queue will be purged.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfigurator> configurator = null, CancellationToken cancellationToken = default);
+        Task<ResultList<DequeuedMessageInfo>> Get(string queue, string vhost, Action<DequeuedMessageConfigurator> configurator = null, CancellationToken cancellationToken = default);
     }
 }

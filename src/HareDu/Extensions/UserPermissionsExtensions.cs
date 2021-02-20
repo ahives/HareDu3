@@ -9,8 +9,8 @@ namespace HareDu.Extensions
 
     public static class UserPermissionsExtensions
     {
-        public static async Task<ResultList<UserPermissionsInfo>> GetAllUserPermissions(
-            this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
+        public static async Task<ResultList<UserPermissionsInfo>> GetAllUserPermissions(this IBrokerObjectFactory factory,
+            CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
@@ -26,6 +26,16 @@ namespace HareDu.Extensions
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
 
+            if (configurator.IsNull())
+            {
+                configurator = x =>
+                {
+                    x.UsingConfigurePattern(".*");
+                    x.UsingReadPattern(".*");
+                    x.UsingWritePattern(".*");
+                };
+            }
+            
             return await factory.Object<UserPermissions>()
                 .Create(username, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);

@@ -89,7 +89,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", "HareDu",x =>
+                .Get("Queue1", "HareDu",x =>
                 {
                     x.Take(5);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -102,7 +102,7 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
-        public async Task Verify_can_empty_queue()
+        public async Task Verify_can_empty_queue1()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
@@ -113,12 +113,22 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
+        public async Task Verify_can_empty_queue2()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue("", "HareDu");
+            
+            Assert.IsFalse(result.HasFaulted);
+            Console.WriteLine(result.ToJsonString());
+        }
+
+        [Test]
         public async Task Verify_can_peek_messages2()
         {
             // var result = await _services.GetService<IBrokerObjectFactory>()
-            //     .PeekQueue("order-state", "TestOrders");
+            //     .GetMessagesFromQueue("order-state", "TestOrders");
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .PeekQueue("order-state", "TestOrders", x =>
+                .GetMessagesFromQueue("order-state", "TestOrders", x =>
                 {
                     x.Take(2);
                     x.AckMode(RequeueMode.AckRequeue);

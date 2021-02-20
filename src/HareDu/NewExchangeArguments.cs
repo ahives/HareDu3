@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface ExchangeDefinitionArguments
+    public interface NewExchangeArguments
     {
         void Set<T>(string arg, T value);
     }

@@ -8,7 +8,7 @@ namespace HareDu
         /// Specify global parameter arguments.
         /// </summary>
         /// <param name="arguments"></param>
-        void Value(Action<GlobalParameterArguments> arguments);
+        void Value(Action<NewGlobalParameterArguments> arguments);
         
         /// <summary>
         /// Specify global parameter argument.

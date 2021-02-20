@@ -1,9 +1,9 @@
 namespace HareDu
 {
-    public interface GlobalParameterArguments
+    public interface NewBindingArguments
     {
         /// <summary>
-        /// Create a new argument.
+        /// Set a user-defined argument.
         /// </summary>
         /// <param name="arg"></param>
         /// <param name="value"></param>

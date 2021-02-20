@@ -97,6 +97,8 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_peek_messages2&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Should_be_able_to_get_all_bindings1&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Should_be_able_to_get_all_bindings2&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_all_queues&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_empty_queue2&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes&lt;/ProjectFolder&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;

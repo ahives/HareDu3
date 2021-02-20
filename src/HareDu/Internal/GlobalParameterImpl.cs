@@ -100,9 +100,9 @@ namespace HareDu.Internal
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Value(Action<GlobalParameterArguments> arguments)
+            public void Value(Action<NewGlobalParameterArguments> arguments)
             {
-                var impl = new GlobalParameterArgumentsImpl();
+                var impl = new NewGlobalParameterArgumentsImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -134,8 +134,8 @@ namespace HareDu.Internal
             }
 
 
-            class GlobalParameterArgumentsImpl :
-                GlobalParameterArguments
+            class NewGlobalParameterArgumentsImpl :
+                NewGlobalParameterArguments
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; } =
                     new Dictionary<string, ArgumentValue<object>>();

@@ -108,12 +108,12 @@ namespace HareDu.Internal
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<ResultList<PeekedMessageInfo>> Peek(string queue, string vhost, Action<PeekQueueConfigurator> configurator = null,
+        public async Task<ResultList<DequeuedMessageInfo>> Get(string queue, string vhost, Action<DequeuedMessageConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new PeekQueueConfiguratorImpl();
+            var impl = new DequeuedMessageConfiguratorImpl();
             configurator?.Invoke(impl);
 
             impl.Validate();
@@ -128,21 +128,21 @@ namespace HareDu.Internal
             if (string.IsNullOrWhiteSpace(queue))
                 errors.Add(new () {Reason = "The name of the queue is missing."});
 
-            QueuePeekDefinition definition = impl.Definition.Value;
+            DequeueMessageDefinition definition = impl.Definition.Value;
 
             Debug.Assert(definition != null);
 
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/get";
             
             if (errors.Any())
-                return new FaultedResultList<PeekedMessageInfo>{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResultList<DequeuedMessageInfo>{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
 
-            return await PostList<PeekedMessageInfo, QueuePeekDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PostList<DequeuedMessageInfo, DequeueMessageDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         
-        class PeekQueueConfiguratorImpl :
-            PeekQueueConfigurator
+        class DequeuedMessageConfiguratorImpl :
+            DequeuedMessageConfigurator
         {
             uint _take;
             string _encoding;
@@ -153,15 +153,15 @@ namespace HareDu.Internal
             
             readonly List<Error> _errors;
 
-            public Lazy<QueuePeekDefinition> Definition { get; }
+            public Lazy<DequeueMessageDefinition> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public PeekQueueConfiguratorImpl()
+            public DequeuedMessageConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<QueuePeekDefinition>(
+                Definition = new Lazy<DequeueMessageDefinition>(
                     () => new()
                     {
                         Take = _take,
@@ -277,9 +277,9 @@ namespace HareDu.Internal
             
             public void IsDurable() => _durable = true;
 
-            public void HasArguments(Action<QueueCreateArguments> arguments)
+            public void HasArguments(Action<NewQueueArguments> arguments)
             {
-                var impl = new QueueCreateArgumentsImpl();
+                var impl = new NewQueueArgumentsImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -294,12 +294,12 @@ namespace HareDu.Internal
             }
 
             
-            class QueueCreateArgumentsImpl :
-                QueueCreateArguments
+            class NewQueueArgumentsImpl :
+                NewQueueArguments
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public QueueCreateArgumentsImpl()
+                public NewQueueArgumentsImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

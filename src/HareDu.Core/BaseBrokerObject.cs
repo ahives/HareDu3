@@ -26,7 +26,8 @@
                 {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
                 {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
                 {nameof(JsonException), new() {Reason = $"The JSON is invalid or T is not compatible with the JSON."}},
-                {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}}
+                {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}},
+                {nameof(TaskCanceledException), new() {Reason = "Request failed due to timeout."}}
             };
         }
 
@@ -61,6 +62,10 @@
             catch (JsonException e)
             {
                 return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
             }
             catch (Exception e)
             {
@@ -100,6 +105,10 @@
             {
                 return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
             }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
             catch (Exception e)
             {
                 return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
@@ -135,6 +144,10 @@
             catch (JsonException e)
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
             }
             catch (Exception e)
             {
@@ -177,6 +190,10 @@
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
             }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
             catch (Exception e)
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
@@ -216,6 +233,10 @@
             catch (JsonException e)
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
             }
             catch (Exception e)
             {
@@ -260,6 +281,10 @@
             {
                 return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
             }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
             catch (Exception e)
             {
                 return new FaultedResult<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
@@ -303,6 +328,10 @@
             {
                 return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
             }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
             catch (Exception e)
             {
                 return new FaultedResultList<T> {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
@@ -339,6 +368,10 @@
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
             }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
             catch (Exception e)
             {
                 return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
@@ -347,17 +380,17 @@
 
         void HandleDotsAndSlashes()
         {
-            var getSyntaxMethod = typeof(UriParser).GetMethod("GetSyntax", BindingFlags.Static | BindingFlags.NonPublic);
-            if (getSyntaxMethod == null)
+            var method = typeof(UriParser).GetMethod("GetSyntax", BindingFlags.Static | BindingFlags.NonPublic);
+            if (method.IsNull())
                 throw new MissingMethodException("UriParser", "GetSyntax");
 
-            var uriParser = getSyntaxMethod.Invoke(null, new object[] {"http"});
+            var uriParser = method.Invoke(null, new object[] {"http"});
 
             var setUpdatableFlagsMethod = uriParser
                 .GetType()
                 .GetMethod("SetUpdatableFlags", BindingFlags.Instance | BindingFlags.NonPublic);
             
-            if (setUpdatableFlagsMethod == null)
+            if (setUpdatableFlagsMethod.IsNull())
                 throw new MissingMethodException("UriParser", "SetUpdatableFlags");
 
             setUpdatableFlagsMethod.Invoke(uriParser, new object[] {0});

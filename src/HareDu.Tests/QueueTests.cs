@@ -145,7 +145,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", "HareDu", x =>
+                .Get("Queue1", "HareDu", x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -173,7 +173,7 @@ namespace HareDu.Tests
             result.Data[0]?.Properties?.Headers.ShouldNotBeNull();
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -189,7 +189,7 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .PeekQueue("Queue1", "HareDu", x =>
+                .GetMessagesFromQueue("Queue1", "HareDu", x =>
                 {
                     x.Take(2);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -217,7 +217,7 @@ namespace HareDu.Tests
             result.Data[0]?.Properties?.Headers.ShouldNotBeNull();
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -234,7 +234,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek(string.Empty, "HareDu", x =>
+                .Get(string.Empty, "HareDu", x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -248,7 +248,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -262,7 +262,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek(string.Empty,"HareDu",x =>
+                .Get(string.Empty,"HareDu",x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -276,7 +276,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -290,7 +290,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", string.Empty, x =>
+                .Get("Queue1", string.Empty, x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -304,7 +304,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -318,7 +318,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", string.Empty, x =>
+                .Get("Queue1", string.Empty, x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -332,7 +332,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -346,7 +346,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", string.Empty, x =>
+                .Get("Queue1", string.Empty, x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -360,7 +360,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -374,7 +374,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek(string.Empty, string.Empty, x =>
+                .Get(string.Empty, string.Empty, x =>
                 {
                     x.Take(1);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -388,7 +388,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(2);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(1);
@@ -402,7 +402,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", "HareDu", x =>
+                .Get("Queue1", "HareDu", x =>
                 {
                     x.Take(0);
                     x.AckMode(RequeueMode.AckRequeue);
@@ -416,7 +416,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(1);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBe("auto");
             definition.Take.ShouldBe<uint>(0);
@@ -430,7 +430,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder("TestData/PeekedMessageInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Peek("Queue1", string.Empty, x =>
+                .Get("Queue1", string.Empty, x =>
                 {
                     x.AckMode(RequeueMode.AckRequeue);
                     x.TruncateIfAbove(5000);
@@ -442,7 +442,7 @@ namespace HareDu.Tests
             result.DebugInfo.Errors.Count.ShouldBe(3);
             result.DebugInfo.ShouldNotBeNull();
             
-            QueuePeekDefinition definition = result.DebugInfo.Request.ToObject<QueuePeekDefinition>(Deserializer.Options);
+            DequeueMessageDefinition definition = result.DebugInfo.Request.ToObject<DequeueMessageDefinition>(Deserializer.Options);
             
             definition.Encoding.ShouldBeNullOrEmpty();
             definition.Take.ShouldBe<uint>(0);

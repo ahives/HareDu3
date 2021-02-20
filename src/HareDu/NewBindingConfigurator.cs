@@ -14,6 +14,6 @@ namespace HareDu
         /// Specify user-defined binding arguments.
         /// </summary>
         /// <param name="arguments"></param>
-        void HasArguments(Action<BindingArguments> arguments);
+        void HasArguments(Action<NewBindingArguments> arguments);
     }
 }

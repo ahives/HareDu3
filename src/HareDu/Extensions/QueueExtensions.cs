@@ -42,8 +42,8 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
-        public static async Task<ResultList<PeekedMessageInfo>> PeekQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, Action<PeekQueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        public static async Task<ResultList<DequeuedMessageInfo>> GetMessagesFromQueue(this IBrokerObjectFactory factory,
+            string queue, string vhost, Action<DequeuedMessageConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
@@ -59,7 +59,7 @@ namespace HareDu.Extensions
             }
             
             return await factory.Object<Queue>()
-                .Peek(queue, vhost, configurator, cancellationToken)
+                .Get(queue, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
 

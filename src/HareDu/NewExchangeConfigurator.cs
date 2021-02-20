@@ -24,7 +24,7 @@ namespace HareDu
         /// Specify user-defined arguments used to configure the exchange.
         /// </summary>
         /// <param name="arguments"></param>
-        void HasArguments(Action<ExchangeDefinitionArguments> arguments);
+        void HasArguments(Action<NewExchangeArguments> arguments);
 
         /// <summary>
         /// Specify that the exchange will be deleted when there are no consumers.

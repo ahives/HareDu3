@@ -121,9 +121,9 @@ namespace HareDu.Internal
 
             public void HasRoutingKey(string routingKey) => _routingKey = routingKey;
 
-            public void HasArguments(Action<BindingArguments> arguments)
+            public void HasArguments(Action<NewBindingArguments> arguments)
             {
-                var impl = new BindingArgumentsImpl();
+                var impl = new NewBindingArgumentsImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -135,12 +135,12 @@ namespace HareDu.Internal
             }
 
             
-            class BindingArgumentsImpl :
-                BindingArguments
+            class NewBindingArgumentsImpl :
+                NewBindingArguments
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public BindingArgumentsImpl()
+                public NewBindingArgumentsImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

@@ -3,7 +3,7 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public record PeekedMessageInfo
+    public record DequeuedMessageInfo
     {
         [JsonPropertyName("payload_bytes")]
         public ulong PayloadBytes { get; init; }

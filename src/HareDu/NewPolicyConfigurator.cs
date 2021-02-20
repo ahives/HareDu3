@@ -14,7 +14,7 @@ namespace HareDu
         /// Specify arguments for the policy.
         /// </summary>
         /// <param name="arguments">Pre-defined arguments applied to the definition of the policy.</param>
-        void HasArguments(Action<PolicyDefinitionArguments> arguments);
+        void HasArguments(Action<NewPolicyArguments> arguments);
         
         /// <summary>
         /// Specify the priority for which the policy will be executed.
