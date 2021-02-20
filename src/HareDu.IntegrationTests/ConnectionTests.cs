@@ -15,7 +15,14 @@ namespace HareDu.IntegrationTests
         public void Init()
         {
             _services = new ServiceCollection()
-                .AddHareDu()
+                .AddHareDu(x =>
+                {
+                    x.Broker(b =>
+                    {
+                        b.ConnectTo("http://localhost:15672");
+                        b.UsingCredentials("guest", "guest");
+                    });
+                })
                 .BuildServiceProvider();
         }
 

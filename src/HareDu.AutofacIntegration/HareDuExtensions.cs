@@ -1,5 +1,6 @@
 namespace HareDu.AutofacIntegration
 {
+    using System;
     using Autofac;
     using Core.Configuration;
     using Diagnostics;
@@ -12,13 +13,47 @@ namespace HareDu.AutofacIntegration
         {
             builder.Register(x =>
                 {
+                    HareDuConfig config = new HareDuConfig();
+
                     IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile(settingsFile, false)
                         .Build();
 
-                    HareDuConfig config = new HareDuConfig();
-
                     configuration.Bind(configSection, config);
+
+                    return config;
+                })
+                .SingleInstance();
+            
+            builder.RegisterType<BrokerObjectFactory>()
+                .As<IBrokerObjectFactory>()
+                .SingleInstance();
+            
+            builder.RegisterType<Scanner>()
+                .As<IScanner>()
+                .SingleInstance();
+            
+            builder.RegisterType<KnowledgeBaseProvider>()
+                .As<IKnowledgeBaseProvider>()
+                .SingleInstance();
+            
+            builder.RegisterType<ScannerFactory>()
+                .As<IScannerFactory>()
+                .SingleInstance();
+
+            builder.RegisterType<ScannerResultAnalyzer>()
+                .As<IScannerResultAnalyzer>()
+                .SingleInstance();
+
+            return builder;
+        }
+
+        public static ContainerBuilder AddHareDu(this ContainerBuilder builder, Action<HareDuConfigurator> configurator)
+        {
+            builder.Register(x =>
+                {
+                    HareDuConfig config = new HareDuConfigProvider()
+                        .Configure(configurator);
 
                     return config;
                 })

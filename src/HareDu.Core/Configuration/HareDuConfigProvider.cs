@@ -9,11 +9,11 @@ namespace HareDu.Core.Configuration
     {
         public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
         {
-            if (configurator == null)
+            if (configurator.IsNull())
                 return ConfigCache.Default;
             
             var impl = new HareDuConfiguratorImpl();
-            configurator(impl);
+            configurator?.Invoke(impl);
 
             HareDuConfig config = impl.Settings.Value;
 
@@ -53,17 +53,16 @@ namespace HareDu.Core.Configuration
 
             public HareDuConfiguratorImpl()
             {
-                Settings =
-                    new Lazy<HareDuConfig>(() => new HareDuConfig{Broker = _brokerConfig, Diagnostics = _diagnosticsSettings}, LazyThreadSafetyMode.PublicationOnly);
+                Settings = new Lazy<HareDuConfig>(() => new HareDuConfig{Broker = _brokerConfig, Diagnostics = _diagnosticsSettings}, LazyThreadSafetyMode.PublicationOnly);
             }
 
             public void Diagnostics(Action<DiagnosticsConfigurator> configurator)
             {
-                if (configurator == null)
+                if (configurator.IsNull())
                     _diagnosticsSettings = ConfigCache.Default.Diagnostics;
 
                 var impl = new DiagnosticsConfiguratorImpl();
-                configurator(impl);
+                configurator?.Invoke(impl);
 
                 DiagnosticsConfig config = impl.Settings.Value;
 
@@ -72,11 +71,11 @@ namespace HareDu.Core.Configuration
 
             public void Broker(Action<BrokerConfigurator> configurator)
             {
-                if (configurator == null)
+                if (configurator.IsNull())
                     _brokerConfig = ConfigCache.Default.Broker;
 
                 var impl = new BrokerConfiguratorImpl();
-                configurator(impl);
+                configurator?.Invoke(impl);
 
                 BrokerConfig config = impl.Settings.Value;
 
@@ -184,14 +183,13 @@ namespace HareDu.Core.Configuration
 
                 public DiagnosticsConfiguratorImpl()
                 {
-                    Settings = new Lazy<DiagnosticsConfig>(
-                        () => new DiagnosticsConfig{Probes = _probes}, LazyThreadSafetyMode.PublicationOnly);
+                    Settings = new Lazy<DiagnosticsConfig>(() => new DiagnosticsConfig{Probes = _probes}, LazyThreadSafetyMode.PublicationOnly);
                 }
 
                 public void Probes(Action<DiagnosticProbesConfigurator> configurator)
                 {
                     var impl = new DiagnosticProbesConfiguratorImpl();
-                    configurator(impl);
+                    configurator?.Invoke(impl);
 
                     _probes = impl.Settings.Value;
                 }
