@@ -12,12 +12,10 @@ namespace HareDu.Core.Extensions
         /// <param name="obj"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static string ToJsonString<T>(this T obj)
+        public static string ToJsonString<T>(this T obj, JsonSerializerOptions options)
         {
             if (obj.IsNull())
                 return string.Empty;
-
-            var options = new JsonSerializerOptions {WriteIndented = true};
 
             return JsonSerializer.Serialize(obj, options);
         }

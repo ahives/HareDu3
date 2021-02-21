@@ -23,11 +23,11 @@
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _errors = new Dictionary<string, Error>
             {
-                {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
-                {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
-                {nameof(JsonException), new() {Reason = $"The JSON is invalid or T is not compatible with the JSON."}},
-                {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}},
-                {nameof(TaskCanceledException), new() {Reason = "Request failed due to timeout."}}
+                {nameof(MissingMethodException), new(){Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
+                {nameof(HttpRequestException), new(){Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
+                {nameof(JsonException), new(){Reason = $"The JSON is invalid or T is not compatible with the JSON."}},
+                {nameof(Exception), new(){Reason = "Something went bad in BaseBrokerObject.GetAll method."}},
+                {nameof(TaskCanceledException), new(){Reason = "Request failed due to timeout."}}
             };
         }
 
@@ -164,7 +164,7 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString();
+                string request = value.ToJsonString(Deserializer.Options);
                 byte[] requestBytes = Encoding.UTF8.GetBytes(request);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -174,9 +174,9 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+                    return new FaultedResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult{DebugInfo = new () {URL = url, Request = request}};
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request}};
             }
             catch (MissingMethodException e)
             {
@@ -220,7 +220,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult{DebugInfo = new () {URL = url, Request = request}};
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request}};
             }
             catch (MissingMethodException e)
             {
@@ -253,7 +253,7 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString();
+                string request = value.ToJsonString(Deserializer.Options);
                 byte[] requestBytes = Encoding.UTF8.GetBytes(request);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -300,7 +300,7 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString();
+                string request = value.ToJsonString(Deserializer.Options);
                 byte[] requestBytes = Encoding.UTF8.GetBytes(request);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -310,7 +310,7 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResultList<T> {DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
+                    return new FaultedResultList<T> {DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
 
                 var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
 
@@ -352,9 +352,9 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult {DebugInfo = new () {URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+                    return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult {DebugInfo = new () {URL = url, }};
+                return new SuccessfulResult {DebugInfo = new (){URL = url, }};
             }
             catch (MissingMethodException e)
             {

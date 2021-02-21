@@ -3,6 +3,7 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -53,7 +54,7 @@ namespace HareDu.IntegrationTests
                 });
              
             // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
         
         [Test]
@@ -64,7 +65,7 @@ namespace HareDu.IntegrationTests
                 .Delete("Fred");
             
             // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

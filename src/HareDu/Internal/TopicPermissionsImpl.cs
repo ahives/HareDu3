@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Model;
 
     class TopicPermissionsImpl :
@@ -54,15 +55,15 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(username))
-                errors.Add(new() {Reason = "The username and/or password is missing."});
+                errors.Add(new(){Reason = "The username and/or password is missing."});
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -74,10 +75,10 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(username))
-                errors.Add(new() {Reason = "The username and/or password is missing."});
+                errors.Add(new(){Reason = "The username and/or password is missing."});
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
             

@@ -4,6 +4,7 @@ namespace HareDu.IntegrationTests
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -43,7 +44,7 @@ namespace HareDu.IntegrationTests
                     x.Destination("queue2", "amqp://user1@localhost");
                 });
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -59,14 +60,14 @@ namespace HareDu.IntegrationTests
                     x.Destination("queue2", "amqp://user1@localhost");
                 });
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
         public async Task Verify_can_create_dynamic_shovel3()
         {
             Result result = await _services.GetService<IBrokerObjectFactory>()
-                .CreateShovel("test-shovel5", "TestHareDu", x =>
+                .CreateShovel("test-shovel6", "TestHareDu", x =>
                 {
                     x.Source("queue1", "amqp://user1@localhost", c =>
                     {
@@ -75,7 +76,7 @@ namespace HareDu.IntegrationTests
                     x.Destination("queue2", "amqp://user1@localhost");
                 });
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -85,7 +86,7 @@ namespace HareDu.IntegrationTests
                 .Object<Shovel>()
                 .Delete("test-shovel2","TestHareDu");
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -94,7 +95,7 @@ namespace HareDu.IntegrationTests
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .DeleteShovel("test-shovel2","TestHareDu");
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
         
         [Test]
@@ -106,7 +107,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
         
         [Test]
@@ -117,7 +118,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

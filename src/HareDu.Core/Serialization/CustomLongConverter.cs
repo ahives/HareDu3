@@ -12,7 +12,7 @@ namespace HareDu.Core.Serialization
             if (reader.TokenType == JsonTokenType.String)
             {
                 string stringValue = reader.GetString();
-                if (long.TryParse(stringValue, out var value))
+                if (long.TryParse(stringValue, out long value))
                     return value;
                 
                 return stringValue == "infinity" ? long.MaxValue : default;

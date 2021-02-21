@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Model;
 
     class UserImpl :
@@ -61,18 +62,18 @@ namespace HareDu.Internal
             var errors = new List<Error>();
 
             if (string.IsNullOrWhiteSpace(username))
-                errors.Add(new () {Reason = "The username is missing."});
+                errors.Add(new (){Reason = "The username is missing."});
 
             if (string.IsNullOrWhiteSpace(password))
             {
                 if (string.IsNullOrWhiteSpace(passwordHash))
-                    errors.Add(new () {Reason = "The password/hash is missing."});
+                    errors.Add(new (){Reason = "The password/hash is missing."});
             }
             
             string url = $"api/users/{username}";
 
             if (errors.Any())
-                return new FaultedResult {DebugInfo = new() {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult {DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -84,12 +85,12 @@ namespace HareDu.Internal
             var errors = new List<Error>();
 
             if (string.IsNullOrWhiteSpace(username))
-                errors.Add(new () {Reason = "The username is missing."});
+                errors.Add(new (){Reason = "The username is missing."});
 
             string url = $"api/users/{username}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

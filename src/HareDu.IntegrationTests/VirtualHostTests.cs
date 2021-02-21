@@ -3,6 +3,7 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -80,7 +81,7 @@ namespace HareDu.IntegrationTests
                     });
                 });
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -90,7 +91,7 @@ namespace HareDu.IntegrationTests
                 .Object<VirtualHost>()
                 .Delete("HareDu7");
 
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -100,7 +101,7 @@ namespace HareDu.IntegrationTests
                 .Object<VirtualHost>()
                 .Startup("", "");
             
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

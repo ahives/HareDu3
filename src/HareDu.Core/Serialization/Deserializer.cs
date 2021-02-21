@@ -7,6 +7,7 @@ namespace HareDu.Core.Serialization
         public static JsonSerializerOptions Options =>
             new()
             {
+                WriteIndented = true,
                 Converters =
                 {
                     new CustomDecimalConverter(),

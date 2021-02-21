@@ -3,6 +3,7 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -47,7 +48,7 @@ namespace HareDu.IntegrationTests
                 });
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -59,7 +60,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
 
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace HareDu.IntegrationTests
                 .GetAll();
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -88,7 +89,7 @@ namespace HareDu.IntegrationTests
                 });
 
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -105,7 +106,7 @@ namespace HareDu.IntegrationTests
                 });
             
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -116,7 +117,7 @@ namespace HareDu.IntegrationTests
                 .Empty("", "HareDu");
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -126,7 +127,7 @@ namespace HareDu.IntegrationTests
                 .EmptyQueue("", "HareDu");
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -143,7 +144,7 @@ namespace HareDu.IntegrationTests
                     x.TruncateIfAbove(5000);
                 });
             
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

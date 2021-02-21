@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Model;
 
@@ -47,10 +48,13 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(sourceBinding))
-                errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
+                errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
 
             if (string.IsNullOrWhiteSpace(destinationBinding))
-                errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
+                errors.Add(new(){Reason = "The name of the destination binding (queue/exchange) is missing."});
+
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
             string virtualHost = vhost.ToSanitizedName();
 
@@ -59,7 +63,7 @@ namespace HareDu.Internal
                 : $"api/bindings/{virtualHost}/e/{sourceBinding}/q/{destinationBinding}";
 
             if (errors.Any())
-                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -72,13 +76,13 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(sourceBinding))
-                errors.Add(new() {Reason = "The name of the source binding (queue/exchange) is missing."});
+                errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
 
             if (string.IsNullOrWhiteSpace(destinationBinding))
-                errors.Add(new() {Reason = "The name of the destination binding (queue/exchange) is missing."});
+                errors.Add(new(){Reason = "The name of the destination binding (queue/exchange) is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
             string virtualHost = vhost.ToSanitizedName();
 
@@ -115,13 +119,13 @@ namespace HareDu.Internal
                     new()
                     {
                         RoutingKey = _routingKey,
-                        Arguments = _arguments.GetArguments()
+                        Arguments = _arguments.GetArgumentsOrNull()
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void HasRoutingKey(string routingKey) => _routingKey = routingKey;
+            public void WithRoutingKey(string routingKey) => _routingKey = routingKey;
 
-            public void HasArguments(Action<NewBindingArguments> arguments)
+            public void WithArguments(Action<NewBindingArguments> arguments)
             {
                 var impl = new NewBindingArgumentsImpl();
                 arguments?.Invoke(impl);

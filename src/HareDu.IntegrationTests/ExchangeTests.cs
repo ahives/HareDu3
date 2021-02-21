@@ -4,6 +4,7 @@ namespace HareDu.IntegrationTests
     using System.Threading.Tasks;
     using Core.Configuration;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -38,7 +39,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
 
             // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -61,7 +62,7 @@ namespace HareDu.IntegrationTests
             }
             
             // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -77,7 +78,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -92,7 +93,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -112,7 +113,7 @@ namespace HareDu.IntegrationTests
                 });
             
             // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -123,7 +124,7 @@ namespace HareDu.IntegrationTests
                 .Delete("E3", "HareDu");
             
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

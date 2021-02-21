@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Model;
 
     class UserPermissionsImpl :
@@ -58,7 +59,7 @@ namespace HareDu.Internal
             string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -73,12 +74,12 @@ namespace HareDu.Internal
                 errors.Add(new (){Reason = "The username and/or password is missing."});
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }

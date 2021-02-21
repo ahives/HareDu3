@@ -3,6 +3,7 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -37,7 +38,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
         
         [Test]

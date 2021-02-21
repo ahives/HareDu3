@@ -3,6 +3,7 @@ namespace HareDu.Snapshotting.IntegrationTests.Observers
     using System;
     using System.IO;
     using Core.Extensions;
+    using Core.Serialization;
     using Model;
 
     public class BrokerQueuesJsonExporter :
@@ -21,7 +22,7 @@ namespace HareDu.Snapshotting.IntegrationTests.Observers
                 var directory = Directory.CreateDirectory(path);
                 
                 if (directory.Exists)
-                    File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", value.ToJsonString());
+                    File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", value.ToJsonString(Deserializer.Options));
             }
         }
     }

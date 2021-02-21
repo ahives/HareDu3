@@ -8,12 +8,12 @@ namespace HareDu
         /// Specify how the binding will be set up rout messages.
         /// </summary>
         /// <param name="routingKey"></param>
-        void HasRoutingKey(string routingKey);
+        void WithRoutingKey(string routingKey);
         
         /// <summary>
         /// Specify user-defined binding arguments.
         /// </summary>
         /// <param name="arguments"></param>
-        void HasArguments(Action<NewBindingArguments> arguments);
+        void WithArguments(Action<NewBindingArguments> arguments);
     }
 }

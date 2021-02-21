@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Model;
 
@@ -46,15 +47,15 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(policy))
-                errors.Add(new() {Reason = "The name of the policy is missing."});
+                errors.Add(new(){Reason = "The name of the policy is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -66,15 +67,15 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(policy))
-                errors.Add(new() {Reason = "The name of the policy is missing."});
+                errors.Add(new(){Reason = "The name of the policy is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
             
             string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
 
             if (errors.Any())
-                return new FaultedResult {DebugInfo = new() {URL = url, Errors = errors}};
+                return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
        }

@@ -8,6 +8,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Model;
 
     class VirtualHostLimitsImpl :
@@ -48,7 +49,7 @@ namespace HareDu.Internal
             string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }

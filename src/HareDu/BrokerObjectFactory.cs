@@ -40,7 +40,7 @@ namespace HareDu
         {
             Type type = typeof(T);
             
-            if (type == null)
+            if (type.IsNull())
                 throw new HareDuBrokerObjectInitException($"Failed to find implementation class for interface {typeof(T)}");
 
             var typeMap = GetTypeMap(typeof(T));

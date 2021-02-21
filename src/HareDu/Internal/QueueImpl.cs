@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Model;
 
@@ -49,15 +50,15 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(queue))
-                errors.Add(new () {Reason = "The name of the queue is missing."});
+                errors.Add(new (){Reason = "The name of the queue is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -103,7 +104,7 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/contents";
 
             if (errors.Any())
-                return new FaultedResult<QueueInfo> {DebugInfo = new() {URL = url, Errors = errors}};
+                return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
@@ -135,7 +136,7 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/get";
             
             if (errors.Any())
-                return new FaultedResultList<DequeuedMessageInfo>{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResultList<DequeuedMessageInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await PostList<DequeuedMessageInfo, DequeueMessageDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -188,7 +189,7 @@ namespace HareDu.Internal
                 _encoding = encoding.Convert();
 
                 if (string.IsNullOrWhiteSpace(_encoding))
-                    _errors.Add(new () {Reason = "Encoding must be set to auto or base64."});
+                    _errors.Add(new (){Reason = "Encoding must be set to auto or base64."});
             }
 
             public void TruncateIfAbove(uint bytes) => _truncateIfAbove = bytes;
@@ -198,10 +199,10 @@ namespace HareDu.Internal
             public void Validate()
             {
                 if (!_takeCalled)
-                    _errors.Add(new() {Reason = "Must be set a value greater than 1."});
+                    _errors.Add(new(){Reason = "Must be set a value greater than 1."});
 
                 if (!_encodingCalled)
-                    _errors.Add(new() {Reason = "Encoding must be set to auto or base64."});
+                    _errors.Add(new(){Reason = "Encoding must be set to auto or base64."});
             }
         }
 
@@ -266,12 +267,12 @@ namespace HareDu.Internal
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 Definition = new Lazy<QueueDefinition>(
-                    () => new QueueDefinition
+                    () => new ()
                     {
                         Durable = _durable,
                         AutoDelete = _autoDelete,
                         Node = node,
-                        Arguments = _arguments.GetArguments()
+                        Arguments = _arguments.GetArgumentsOrNull()
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
             

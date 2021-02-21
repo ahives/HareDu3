@@ -9,6 +9,7 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Model;
 
@@ -38,10 +39,10 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (configurator.IsNull())
-                errors.Add(new () {Reason = "The shovel configurator is missing."});
+                errors.Add(new (){Reason = "The shovel configurator is missing."});
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){Errors = errors}};
 
             var impl = new ShovelConfiguratorImpl();
             configurator?.Invoke(impl);
@@ -55,15 +56,15 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(shovel))
-                errors.Add(new () {Reason = "The name of the shovel is missing."});
+                errors.Add(new (){Reason = "The name of the shovel is missing."});
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await Put(url, definition, cancellationToken).ConfigureAwait(false);
         }
@@ -75,15 +76,15 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(shovel))
-                errors.Add(new () {Reason = "The name of the shovel is missing."});
+                errors.Add(new (){Reason = "The name of the shovel is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
             return await Delete(url, cancellationToken).ConfigureAwait(false);
         }
@@ -186,16 +187,16 @@ namespace HareDu.Internal
             {
                 if (!_sourceCalled)
                 {
-                    _errors.Add(new() {Reason = "The name of the source protocol is missing."});
-                    _errors.Add(new() {Reason = "The name of the source URI is missing."});
-                    _errors.Add(new() {Reason = "The name of the source queue is missing."});
+                    _errors.Add(new(){Reason = "The name of the source protocol is missing."});
+                    _errors.Add(new(){Reason = "The name of the source URI is missing."});
+                    _errors.Add(new(){Reason = "The name of the source queue is missing."});
                 }
 
                 if (!_destinationCalled)
                 {
-                    _errors.Add(new() {Reason = "The name of the destination protocol is missing."});
-                    _errors.Add(new() {Reason = "The name of the destination URI is missing."});
-                    _errors.Add(new() {Reason = "The name of the destination queue is missing."});
+                    _errors.Add(new(){Reason = "The name of the destination protocol is missing."});
+                    _errors.Add(new(){Reason = "The name of the destination URI is missing."});
+                    _errors.Add(new(){Reason = "The name of the destination queue is missing."});
                 }
             }
 

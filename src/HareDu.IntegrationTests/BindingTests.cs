@@ -3,6 +3,7 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
+    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
@@ -37,7 +38,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -48,7 +49,7 @@ namespace HareDu.IntegrationTests
                 .ScreenDump();
             
             Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace HareDu.IntegrationTests
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .CreateExchangeBinding("HareDuExchange1", "HareDuExchange2", "TestHareDu");
             
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -66,7 +67,7 @@ namespace HareDu.IntegrationTests
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .DeleteExchangeBinding("HareDuExchange1", "HareDuExchange2", "~", "TestHareDu");
             
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -76,15 +77,15 @@ namespace HareDu.IntegrationTests
                 .Object<Binding>()
                 .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", x =>
                 {
-                    x.HasRoutingKey("*.");
-                    x.HasArguments(arg =>
+                    x.WithRoutingKey("*.");
+                    x.WithArguments(arg =>
                     {
                         arg.Add("arg1", "value1");
                     });
                 });
             
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace HareDu.IntegrationTests
                 .Delete("E2", "Q4", "%2A.","HareDu", BindingType.Queue);
             
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString());
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }
