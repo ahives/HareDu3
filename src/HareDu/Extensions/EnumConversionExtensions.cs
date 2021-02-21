@@ -34,39 +34,6 @@ namespace HareDu.Extensions
             }
         }
         
-        public static string Convert(this MessageEncoding encoding)
-        {
-            switch (encoding)
-            {
-                case MessageEncoding.Auto:
-                    return "auto";
-
-                case MessageEncoding.Base64:
-                    return "base64";
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(encoding), encoding, null);
-            }
-        }
-        
-        public static string Convert(this RequeueMode mode)
-        {
-            switch (mode)
-            {
-                case RequeueMode.DoNotAckRequeue:
-                    return "ack_requeue_false";
-
-                case RequeueMode.RejectRequeue:
-                    return "reject_requeue_true";
-
-                case RequeueMode.DoNotRejectRequeue:
-                    return "reject_requeue_false";
-
-                default:
-                    return "ack_requeue_true";
-            }
-        }
-        
         public static string Convert(this ExchangeRoutingType routingType)
         {
             switch (routingType)

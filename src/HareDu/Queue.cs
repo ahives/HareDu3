@@ -40,13 +40,5 @@ namespace HareDu
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
         Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Pull a specified number of messages from the specified queue on the target virtual host on the current RabbitMQ node.
-        /// </summary>
-        /// <param name="configurator">Describes how the queue will be purged.</param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
-        /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<ResultList<DequeuedMessageInfo>> Get(string queue, string vhost, Action<DequeuedMessageConfigurator> configurator = null, CancellationToken cancellationToken = default);
     }
 }

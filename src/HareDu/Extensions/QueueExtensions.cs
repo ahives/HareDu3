@@ -42,27 +42,6 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
-        public static async Task<ResultList<DequeuedMessageInfo>> GetMessagesFromQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, Action<DequeuedMessageConfigurator> configurator = null, CancellationToken cancellationToken = default)
-        {
-            if (factory.IsNull())
-                throw new ArgumentNullException(nameof(factory));
-
-            if (configurator.IsNull())
-            {
-                configurator = x =>
-                {
-                    x.Take(1);
-                    x.Encoding(MessageEncoding.Auto);
-                    x.AckMode(RequeueMode.AckRequeue);
-                };
-            }
-            
-            return await factory.Object<Queue>()
-                .Get(queue, vhost, configurator, cancellationToken)
-                .ConfigureAwait(false);
-        }
-
         public static async Task<Result> DeleteQueue(this IBrokerObjectFactory factory,
             string queue, string vhost, Action<DeleteQueueConfigurator> configuration = null, CancellationToken cancellationToken = default)
         {
