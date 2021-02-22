@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record VirtualHostDefinition
+    public record VirtualHostRequest
     {
         [JsonPropertyName("tracing")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

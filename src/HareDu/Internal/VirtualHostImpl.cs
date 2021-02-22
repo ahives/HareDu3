@@ -37,7 +37,7 @@ namespace HareDu.Internal
             var impl = new NewVirtualHostConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            VirtualHostDefinition definition = impl.Definition.Value;
+            VirtualHostRequest request = impl.Request.Value;
 
             var errors = new List<Error>();
 
@@ -47,9 +47,9 @@ namespace HareDu.Internal
             string url = $"api/vhosts/{vhost.ToSanitizedName()}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -114,12 +114,12 @@ namespace HareDu.Internal
             string _description;
             string _tags;
 
-            public Lazy<VirtualHostDefinition> Definition { get; }
+            public Lazy<VirtualHostRequest> Request { get; }
 
             public NewVirtualHostConfiguratorImpl()
             {
-                Definition = new Lazy<VirtualHostDefinition>(
-                    () => new VirtualHostDefinition
+                Request = new Lazy<VirtualHostRequest>(
+                    () => new VirtualHostRequest
                     {
                         Tracing = _tracing,
                         Description = _description,

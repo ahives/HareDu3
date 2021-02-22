@@ -155,7 +155,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                VirtualHostDefinition request = result.DebugInfo.Request.ToObject<VirtualHostDefinition>(Deserializer.Options);
+                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(Deserializer.Options);
 
                 Assert.IsTrue(request.Tracing);
             });
@@ -176,7 +176,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                VirtualHostDefinition request = result.DebugInfo.Request.ToObject<VirtualHostDefinition>(Deserializer.Options);
+                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(Deserializer.Options);
 
                 Assert.IsTrue(request.Tracing);
             });

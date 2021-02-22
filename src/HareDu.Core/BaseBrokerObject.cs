@@ -244,7 +244,7 @@
             }
         }
 
-        protected async Task<Result<T>> PostRequest<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<Result<T>> PostRequest<T, TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -253,8 +253,8 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString(Deserializer.Options);
-                byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+                string requestContent = request.ToJsonString(Deserializer.Options);
+                byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -263,11 +263,11 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult<T>{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+                    return new FaultedResult<T>{DebugInfo = new (){URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
                 var data = rawResponse.ToObject<T>(Deserializer.Options);
 
-                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error>()}};
+                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -291,7 +291,7 @@
             }
         }
 
-        protected async Task<ResultList<T>> PostListRequest<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<ResultList<T>> PostListRequest<T, TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -300,8 +300,8 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString(Deserializer.Options);
-                byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+                string requestContent = request.ToJsonString(Deserializer.Options);
+                byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -310,11 +310,11 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResultList<T> {DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
+                    return new FaultedResultList<T> {DebugInfo = new (){URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
 
                 var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
 
-                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error>()}};
+                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {

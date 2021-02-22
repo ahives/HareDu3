@@ -39,7 +39,7 @@ namespace HareDu.Internal
 
             impl.Validate();
             
-            VirtualHostLimitsRequest request = impl.Definition.Value;
+            VirtualHostLimitsRequest request = impl.Request.Value;
 
             var errors = new List<Error>();
             
@@ -84,7 +84,7 @@ namespace HareDu.Internal
 
             readonly List<Error> _errors;
 
-            public Lazy<VirtualHostLimitsRequest> Definition { get; }
+            public Lazy<VirtualHostLimitsRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public VirtualHostLimitsConfiguratorImpl()
@@ -92,8 +92,8 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<VirtualHostLimitsRequest>(
-                    () => new VirtualHostLimitsRequest
+                Request = new Lazy<VirtualHostLimitsRequest>(
+                    () => new ()
                     {
                         MaxConnectionLimit = _maxConnectionLimits,
                         MaxQueueLimit = _maxQueueLimits
