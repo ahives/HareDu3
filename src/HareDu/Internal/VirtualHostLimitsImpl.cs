@@ -37,7 +37,9 @@ namespace HareDu.Internal
             var impl = new VirtualHostLimitsConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            VirtualHostLimitsDefinition definition = impl.Definition.Value;
+            impl.Validate();
+            
+            VirtualHostLimitsRequest request = impl.Definition.Value;
 
             var errors = new List<Error>();
             
@@ -49,9 +51,9 @@ namespace HareDu.Internal
             string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new () {URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -82,7 +84,7 @@ namespace HareDu.Internal
 
             readonly List<Error> _errors;
 
-            public Lazy<VirtualHostLimitsDefinition> Definition { get; }
+            public Lazy<VirtualHostLimitsRequest> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public VirtualHostLimitsConfiguratorImpl()
@@ -90,8 +92,8 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<VirtualHostLimitsDefinition>(
-                    () => new VirtualHostLimitsDefinition
+                Definition = new Lazy<VirtualHostLimitsRequest>(
+                    () => new VirtualHostLimitsRequest
                     {
                         MaxConnectionLimit = _maxConnectionLimits,
                         MaxQueueLimit = _maxQueueLimits
@@ -116,6 +118,12 @@ namespace HareDu.Internal
                 
                 if (_maxQueueLimits < 1)
                     _errors.Add(new () {Reason = "Max queue limit value is missing."});
+            }
+
+            public void Validate()
+            {
+                if (!_setMaxConnectionLimitCalled && !_setMaxQueueLimitCalled)
+                    _errors.Add(new () {Reason = "There are no limits to define."});
             }
         }
     }

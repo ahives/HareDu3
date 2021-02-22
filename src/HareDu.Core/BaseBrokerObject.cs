@@ -49,7 +49,7 @@
 
                 var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
 
-                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new() {URL = url, Response = rawResponse}};
+                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -91,7 +91,7 @@
 
                 var data = rawResponse.ToObject<T>(Deserializer.Options);
                 
-                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Response = rawResponse}};
+                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -131,7 +131,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult{DebugInfo = new (){URL = url, Response = rawResponse}};
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -155,7 +155,7 @@
             }
         }
 
-        protected async Task<Result> PutRequest<TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<Result> PutRequest<TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -164,8 +164,8 @@
                 if (url.Contains("/%2f"))
                     HandleDotsAndSlashes();
 
-                string request = value.ToJsonString(Deserializer.Options);
-                byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+                string requestContent = request.ToJsonString(Deserializer.Options);
+                byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
                 var content = new ByteArrayContent(requestBytes);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -174,9 +174,9 @@
                 rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
-                    return new FaultedResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+                    return new FaultedResult{DebugInfo = new (){URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request}};
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -220,7 +220,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request}};
+                return new SuccessfulResult{DebugInfo = new (){URL = url, Request = request, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -267,7 +267,7 @@
 
                 var data = rawResponse.ToObject<T>(Deserializer.Options);
 
-                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = request}};
+                return new SuccessfulResult<T>{Data = data.GetDataOrDefault(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -314,7 +314,7 @@
 
                 var data = rawResponse.ToObject<List<T>>(Deserializer.Options);
 
-                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse}};
+                return new SuccessfulResultList<T> {Data = data.GetDataOrEmpty(), DebugInfo = new () {URL = url, Request = request, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {
@@ -354,7 +354,7 @@
                 if (!response.IsSuccessStatusCode)
                     return new FaultedResult {DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
 
-                return new SuccessfulResult {DebugInfo = new (){URL = url, }};
+                return new SuccessfulResult {DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {

@@ -58,13 +58,15 @@ namespace HareDu.Internal
 
             var errors = new List<Error>();
 
-            if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
-
             string virtualHost = vhost.ToSanitizedName();
 
-            if (string.IsNullOrWhiteSpace(virtualHost) || virtualHost == "2%f")
+            if (virtualHost == "2%f")
                 errors.Add(new() {Reason = "Cannot delete the default virtual host."});
+            else
+            {
+                if (string.IsNullOrWhiteSpace(virtualHost))
+                    errors.Add(new() {Reason = "The name of the virtual host is missing."});
+            }
 
             string url = $"api/vhosts/{virtualHost}";
 

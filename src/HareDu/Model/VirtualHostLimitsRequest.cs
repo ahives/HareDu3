@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record VirtualHostLimitsDefinition
+    public record VirtualHostLimitsRequest
     {
         [JsonPropertyName("max-connections")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

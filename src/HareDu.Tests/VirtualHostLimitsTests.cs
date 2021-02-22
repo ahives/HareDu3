@@ -7,7 +7,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class VirtualHostLimitsTests :
@@ -21,14 +20,17 @@ namespace HareDu.Tests
                 .Object<VirtualHostLimits>()
                 .GetAll();
             
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(3);
-            result.Data[0].VirtualHostName.ShouldBe("HareDu1");
-            result.Data[0].Limits.Count.ShouldBe(2);
-            result.Data[0].Limits["max-connections"].ShouldBe<ulong>(10);
-            result.Data[0].Limits["max-queues"].ShouldBe<ulong>(10);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(3, result.Data.Count);
+                Assert.AreEqual("HareDu1", result.Data[0].VirtualHostName);
+                Assert.AreEqual(2, result.Data[0].Limits.Count);
+                Assert.AreEqual(10, result.Data[0].Limits["max-connections"]);
+                Assert.AreEqual(10, result.Data[0].Limits["max-queues"]);
+            });
         }
 
         [Test]
@@ -38,14 +40,17 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllVirtualHostLimits();
             
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(3);
-            result.Data[0].VirtualHostName.ShouldBe("HareDu1");
-            result.Data[0].Limits.Count.ShouldBe(2);
-            result.Data[0].Limits["max-connections"].ShouldBe<ulong>(10);
-            result.Data[0].Limits["max-queues"].ShouldBe<ulong>(10);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(3, result.Data.Count);
+                Assert.AreEqual("HareDu1", result.Data[0].VirtualHostName);
+                Assert.AreEqual(2, result.Data[0].Limits.Count);
+                Assert.AreEqual(10, result.Data[0].Limits["max-connections"]);
+                Assert.AreEqual(10, result.Data[0].Limits["max-queues"]);
+            });
         }
 
         [Test]
@@ -56,17 +61,15 @@ namespace HareDu.Tests
                 .Object<VirtualHostLimits>()
                 .Define("HareDu5", x =>
                 {
-                    x.SetMaxQueueLimit(100);
-                    x.SetMaxConnectionLimit(1000);
+                    x.SetMaxQueueLimit(1);
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-
-            VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
-            
-            definition.MaxConnectionLimit.ShouldBe<ulong>(1000);
-            definition.MaxQueueLimit.ShouldBe<ulong>(100);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+            });
         }
 
         [Test]
@@ -76,21 +79,109 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DefineVirtualHostLimits("HareDu5", x =>
                 {
-                    x.SetMaxQueueLimit(100);
-                    x.SetMaxConnectionLimit(1000);
+                    x.SetMaxQueueLimit(1);
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-
-            VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
-            
-            definition.MaxConnectionLimit.ShouldBe<ulong>(1000);
-            definition.MaxQueueLimit.ShouldBe<ulong>(100);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_define_limits_1()
+        public async Task Verify_cannot_define_limits1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<VirtualHostLimits>()
+                .Define("HareDu5", x =>
+                {
+                    x.SetMaxQueueLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DefineVirtualHostLimits("HareDu5", x =>
+                {
+                    x.SetMaxQueueLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<VirtualHostLimits>()
+                .Define("HareDu5", x =>
+                {
+                    x.SetMaxConnectionLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DefineVirtualHostLimits("HareDu5", x =>
+                {
+                    x.SetMaxConnectionLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -101,78 +192,246 @@ namespace HareDu.Tests
                     x.SetMaxConnectionLimit(1000);
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
 
-            VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
-            
-            definition.MaxConnectionLimit.ShouldBe<ulong>(1000);
-            definition.MaxQueueLimit.ShouldBe<ulong>(100);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(100, request.MaxQueueLimit);
+                Assert.AreEqual(1000, request.MaxConnectionLimit);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_define_limits_2()
+        public async Task Verify_cannot_define_limits6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<VirtualHostLimits>()
-                .Define("FakeVirtualHost", x =>
+                .DefineVirtualHostLimits(string.Empty, x =>
                 {
+                    x.SetMaxQueueLimit(100);
                     x.SetMaxConnectionLimit(1000);
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
 
-            VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
-            
-            definition.MaxConnectionLimit.ShouldBe<ulong>(1000);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(100, request.MaxQueueLimit);
+                Assert.AreEqual(1000, request.MaxConnectionLimit);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_define_limits_3()
+        public async Task Verify_cannot_define_limits7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
-                .Define("FakeVirtualHost", x =>
+                .Define(string.Empty, x =>
                 {
-                    x.SetMaxQueueLimit(100);
+                    x.SetMaxQueueLimit(0);
+                    x.SetMaxConnectionLimit(1000);
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
 
-            VirtualHostLimitsDefinition definition = result.DebugInfo.Request.ToObject<VirtualHostLimitsDefinition>(Deserializer.Options);
-            
-            definition.MaxQueueLimit.ShouldBe<ulong>(100);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+                Assert.AreEqual(1000, request.MaxConnectionLimit);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_define_limits_4()
+        public async Task Verify_cannot_define_limits8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DefineVirtualHostLimits(string.Empty, x =>
+                {
+                    x.SetMaxQueueLimit(0);
+                    x.SetMaxConnectionLimit(1000);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+                Assert.AreEqual(1000, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
-                .Define("FakeVirtualHost");
+                .Define(string.Empty, x =>
+                {
+                    x.SetMaxQueueLimit(100);
+                    x.SetMaxConnectionLimit(0);
+                });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(100, request.MaxQueueLimit);
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
         }
 
         [Test]
-        public async Task Verify_can_delete_limits_1()
+        public async Task Verify_cannot_define_limits10()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DefineVirtualHostLimits(string.Empty, x =>
+                {
+                    x.SetMaxQueueLimit(100);
+                    x.SetMaxConnectionLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(100, request.MaxQueueLimit);
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits11()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<VirtualHostLimits>()
+                .Define(string.Empty, x =>
+                {
+                    x.SetMaxQueueLimit(0);
+                    x.SetMaxConnectionLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_define_limits12()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DefineVirtualHostLimits(string.Empty, x =>
+                {
+                    x.SetMaxQueueLimit(0);
+                    x.SetMaxConnectionLimit(0);
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(0, request.MaxQueueLimit);
+                Assert.AreEqual(0, request.MaxConnectionLimit);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete_limits1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<VirtualHostLimits>()
+                .Delete("HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete_limits2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteVirtualHostLimits("HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_limits1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<VirtualHostLimits>()
                 .Delete(string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_limits2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteVirtualHostLimits(string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }
