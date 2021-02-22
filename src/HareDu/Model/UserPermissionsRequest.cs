@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record UserPermissionsDefinition
+    public record UserPermissionsRequest
     {
         [JsonPropertyName("configure")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record UserDefinition
+    public record UserRequest
     {
         [JsonPropertyName("password_hash")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

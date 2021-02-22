@@ -95,6 +95,14 @@
       <Content Include="TestData\VirtualHostLimitsInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\UserInfo2.json" />
+      <Content Include="TestData\UserInfo2.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\UserInfo1.json" />
+      <Content Include="TestData\UserInfo1.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class UserTests :
@@ -21,15 +20,18 @@ namespace HareDu.Tests
                 .Object<User>()
                 .GetAll();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(2);
-            result.Data[0].ShouldNotBeNull();
-            result.Data[0].Tags.ShouldBe("administrator");
-            result.Data[0].Username.ShouldBe("testuser1");
-            result.Data[0].PasswordHash.ShouldBe("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx");
-            result.Data[0].HashingAlgorithm.ShouldBe("rabbit_password_hashing_sha256");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(2, result.Data.Count);
+                Assert.IsNotNull(result.Data[0]);
+                Assert.AreEqual("administrator", result.Data[0].Tags);
+                Assert.AreEqual("testuser1", result.Data[0].Username);
+                Assert.AreEqual("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx", result.Data[0].PasswordHash);
+                Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            });
         }
         
         [Test]
@@ -39,15 +41,18 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllUsers();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(2);
-            result.Data[0].ShouldNotBeNull();
-            result.Data[0].Tags.ShouldBe("administrator");
-            result.Data[0].Username.ShouldBe("testuser1");
-            result.Data[0].PasswordHash.ShouldBe("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx");
-            result.Data[0].HashingAlgorithm.ShouldBe("rabbit_password_hashing_sha256");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(2, result.Data.Count);
+                Assert.IsNotNull(result.Data[0]);
+                Assert.AreEqual("administrator", result.Data[0].Tags);
+                Assert.AreEqual("testuser1", result.Data[0].Username);
+                Assert.AreEqual("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx", result.Data[0].PasswordHash);
+                Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            });
         }
         
         [Test]
@@ -58,15 +63,18 @@ namespace HareDu.Tests
                 .Object<User>()
                 .GetAllWithoutPermissions();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(1);
-            result.Data[0].ShouldNotBeNull();
-            result.Data[0].Tags.ShouldBe("administrator");
-            result.Data[0].Username.ShouldBe("testuser2");
-            result.Data[0].PasswordHash.ShouldBe("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB");
-            result.Data[0].HashingAlgorithm.ShouldBe("rabbit_password_hashing_sha256");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(1, result.Data.Count);
+                Assert.IsNotNull(result.Data[0]);
+                Assert.AreEqual("administrator", result.Data[0].Tags);
+                Assert.AreEqual("testuser2", result.Data[0].Username);
+                Assert.AreEqual("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB", result.Data[0].PasswordHash);
+                Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            });
         }
         
         [Test]
@@ -76,15 +84,18 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllUsersWithoutPermissions();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(1);
-            result.Data[0].ShouldNotBeNull();
-            result.Data[0].Tags.ShouldBe("administrator");
-            result.Data[0].Username.ShouldBe("testuser2");
-            result.Data[0].PasswordHash.ShouldBe("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB");
-            result.Data[0].HashingAlgorithm.ShouldBe("rabbit_password_hashing_sha256");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(1, result.Data.Count);
+                Assert.IsNotNull(result.Data[0]);
+                Assert.AreEqual("administrator", result.Data[0].Tags);
+                Assert.AreEqual("testuser2", result.Data[0].Username);
+                Assert.AreEqual("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB", result.Data[0].PasswordHash);
+                Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            });
         }
         
         [Test]
@@ -100,15 +111,18 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Password.ShouldBe("testuserpwd3");
-            definition.Tags.ShouldBe("administrator");
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("testuserpwd3", request.Password);
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -123,15 +137,18 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Password.ShouldBe("testuserpwd3");
-            definition.Tags.ShouldBe("administrator");
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("testuserpwd3", request.Password);
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -142,22 +159,25 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
-                .Create("testuser3", passwordHash, configurator:x =>
+                .Create("testuser3", string.Empty, passwordHash, configurator:x =>
                 {
                     x.WithTags(t =>
                     {
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBe(passwordHash);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.AreEqual(passwordHash, request.PasswordHash);
+            });
         }
         
         [Test]
@@ -173,15 +193,18 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBe("testuserpwd3");
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.AreEqual("testuserpwd3", request.Password);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -199,15 +222,18 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBe(passwordHash);
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.AreEqual(passwordHash, request.PasswordHash);
+            });
         }
         
         [Test]
@@ -223,16 +249,19 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Password.ShouldBe("testuserpwd3");
-            definition.Tags.ShouldBe("administrator");
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.AreEqual("testuserpwd3", request.Password);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -248,16 +277,19 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -273,16 +305,19 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -298,16 +333,19 @@ namespace HareDu.Tests
                         t.Administrator();
                     });
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -317,16 +355,19 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
                 .Create(string.Empty, string.Empty, configurator:x => x.WithTags(t => { t.Administrator(); }));
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
 
-            UserDefinition definition = result.DebugInfo.Request.ToObject<UserDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>(Deserializer.Options);
             
-            definition.Tags.ShouldBe("administrator");
-            definition.Password.ShouldBeNullOrEmpty();
-            definition.PasswordHash.ShouldBeNullOrEmpty();
+                Assert.AreEqual("administrator", request.Tags);
+                Assert.That(request.Password, Is.Empty.Or.Null);
+                Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+            });
         }
 
         [Test]
@@ -337,7 +378,7 @@ namespace HareDu.Tests
                 .Object<User>()
                 .Delete("fake_user");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -347,7 +388,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteUser("fake_user");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -358,8 +399,11 @@ namespace HareDu.Tests
                 .Object<User>()
                 .Delete(string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }
