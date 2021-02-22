@@ -28,7 +28,7 @@ namespace HareDu.Internal
 
             string url = "api/queues";
             
-            return await GetAll<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string queue, string vhost, string node, Action<NewQueueConfigurator> configuration = null,
@@ -60,7 +60,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null,
@@ -86,7 +86,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default)
@@ -106,7 +106,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 

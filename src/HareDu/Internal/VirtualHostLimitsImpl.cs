@@ -26,7 +26,7 @@ namespace HareDu.Internal
 
             string url = "api/vhost-limits";
             
-            return await GetAll<VirtualHostLimitsInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<VirtualHostLimitsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Define(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
@@ -51,7 +51,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new () {URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -68,7 +68,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 

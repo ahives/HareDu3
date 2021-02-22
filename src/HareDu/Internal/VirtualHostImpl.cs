@@ -27,7 +27,7 @@ namespace HareDu.Internal
 
             string url = "api/vhosts";
             
-            return await GetAll<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -49,7 +49,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -71,7 +71,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default)
@@ -91,7 +91,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await PostEmpty(url, cancellationToken).ConfigureAwait(false);
+            return await PostEmptyRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result<ServerHealthInfo>> GetHealth(string vhost,
@@ -101,7 +101,7 @@ namespace HareDu.Internal
 
             string url = $"api/aliveness-test/{vhost.ToSanitizedName()}";;
 
-            return await Get<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetRequest<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
 

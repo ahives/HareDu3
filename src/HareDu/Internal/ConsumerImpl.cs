@@ -22,7 +22,7 @@ namespace HareDu.Internal
 
             string url = "api/consumers";
             
-            return await GetAll<ConsumerInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<ConsumerInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

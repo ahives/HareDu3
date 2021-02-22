@@ -28,7 +28,7 @@ namespace HareDu.Internal
 
             string url = "api/global-parameters";
             
-            return await GetAll<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -56,7 +56,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
@@ -73,7 +73,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 

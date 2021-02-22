@@ -22,7 +22,7 @@ namespace HareDu.Internal
 
             string url = "api/channels";
             
-            return await GetAll<ChannelInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<ChannelInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

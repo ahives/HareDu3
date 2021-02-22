@@ -24,7 +24,7 @@ namespace HareDu.Internal
 
             string url = "api/nodes";
             
-            return await GetAll<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
@@ -33,7 +33,7 @@ namespace HareDu.Internal
 
             string url = string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}";
 
-            return await Get<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetRequest<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)
@@ -50,7 +50,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
             
-            return await Get<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

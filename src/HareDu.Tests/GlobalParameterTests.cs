@@ -22,16 +22,19 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .GetAll();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.Count.ShouldBe(5);
-            result.Data[3].Name.ShouldBe("fake_param1");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(5, result.Data.Count);
+                Assert.AreEqual("fake_param1", result.Data[3].Name);
             
-            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
+                var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
             
-            value.Count.ShouldBe(2);
-            value["arg1"].ToString().ShouldBe("value1");
-            value["arg2"].ToString().ShouldBe("value2");
+                Assert.AreEqual(2, value.Count);
+                Assert.AreEqual("value1", value["arg1"].ToString());
+                Assert.AreEqual("value2", value["arg2"].ToString());
+            });
         }
         
         [Test]
@@ -41,16 +44,19 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllGlobalParameters();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.Count.ShouldBe(5);
-            result.Data[3].Name.ShouldBe("fake_param1");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(5, result.Data.Count);
+                Assert.AreEqual("fake_param1", result.Data[3].Name);
             
-            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
+                var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
             
-            value.Count.ShouldBe(2);
-            value["arg1"].ToString().ShouldBe("value1");
-            value["arg2"].ToString().ShouldBe("value2");
+                Assert.AreEqual(2, value.Count);
+                Assert.AreEqual("value1", value["arg1"].ToString());
+                Assert.AreEqual("value2", value["arg2"].ToString());
+            });
         }
         
         [Test]
@@ -63,14 +69,17 @@ namespace HareDu.Tests
                 {
                     x.Value("fake_value");
                 });
-             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBe("fake_param");
-            definition.Value.ToString().ShouldBe("fake_value");
+                Assert.AreEqual("fake_param", request.Name);
+                Assert.AreEqual("fake_value", request.Value.ToString());
+            });
         }
         
         [Test]
@@ -82,14 +91,17 @@ namespace HareDu.Tests
                 {
                     x.Value("fake_value");
                 });
-             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBe("fake_param");
-            definition.Value.ToString().ShouldBe("fake_value");
+                Assert.AreEqual("fake_param", request.Name);
+                Assert.AreEqual("fake_value", request.Value.ToString());
+            });
         }
         
         [Test]
@@ -106,23 +118,22 @@ namespace HareDu.Tests
                         arg.Add("arg2", 5);
                     });
                 });
-             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBe("fake_param");
-            definition.Value
-                .ToString()
-                .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg1"]
-                .ToString()
-                .ShouldBe("value1");
-            definition.Value
-                .ToString()
-                .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg2"]
-                .Cast<int>()
-                .ShouldBe(5);
+                Assert.AreEqual("fake_param", request.Name);
+                Assert.AreEqual("value1", request.Value
+                    .ToString()
+                    .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg1"].ToString());
+                Assert.AreEqual(5, request.Value
+                    .ToString()
+                    .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg2"].ToString().Cast<int>());
+            });
         }
         
         [Test]
@@ -135,15 +146,18 @@ namespace HareDu.Tests
                 {
                     x.Value("fake_value");
                 });
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.ToString().ShouldBe("fake_value");
+                Assert.AreEqual("fake_param", request.Name);
+                Assert.AreEqual("fake_value", request.Value);
+            });
         }
         
         [Test]
@@ -156,15 +170,19 @@ namespace HareDu.Tests
                 {
                     x.Value(string.Empty);
                 });
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBe("fake_param");
-            definition.Value.Cast<string>().ShouldBeNullOrEmpty();
+                Assert.AreEqual("fake_param", request.Name);
+                Assert.IsNotNull(request.Value.Cast<string>());
+                Assert.IsNotEmpty(request.Value.Cast<string>());
+            });
         }
         
         [Test]
@@ -177,15 +195,18 @@ namespace HareDu.Tests
                 {
                     x.Value(string.Empty);
                 });
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.Cast<string>().ShouldBeNullOrEmpty();
+                Assert.That(request.Name, Is.Empty.Or.Null);
+                Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
+            });
         }
         
         [Test]
@@ -197,15 +218,18 @@ namespace HareDu.Tests
                 .Create(string.Empty, x =>
                 {
                 });
-             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
             
-            GlobalParameterDefinition definition = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
-            
-            definition.Name.ShouldBeNullOrEmpty();
-            definition.Value.ShouldBeNull();
+                Assert.That(request.Name, Is.Empty.Or.Null);
+                Assert.IsNull(request.Value);
+            });
         }
         
         [Test]
@@ -216,7 +240,7 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .Delete("fake_param");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsTrue(result.HasFaulted);
         }
         
         [Test]
@@ -226,7 +250,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteGlobalParameter("fake_param");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
         
         [Test]
@@ -237,8 +261,11 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .Delete(string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }

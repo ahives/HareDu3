@@ -27,7 +27,7 @@ namespace HareDu.Internal
 
             string url = "api/users";
             
-            return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
@@ -36,7 +36,7 @@ namespace HareDu.Internal
 
             string url = "api/users/without-permissions";
             
-            return await GetAll<UserInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<UserInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string username, string password, string passwordHash = null,
@@ -75,7 +75,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult {DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
@@ -92,7 +92,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 

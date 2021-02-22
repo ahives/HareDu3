@@ -28,7 +28,7 @@ namespace HareDu.Internal
 
             string url = "api/exchanges";
             
-            return await GetAll<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -57,7 +57,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -84,7 +84,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
         

@@ -22,7 +22,7 @@ namespace HareDu.Internal
 
             string url = "api/definitions";
             
-            return await Get<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetRequest<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

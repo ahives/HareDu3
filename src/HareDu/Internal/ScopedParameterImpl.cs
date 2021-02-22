@@ -26,7 +26,7 @@ namespace HareDu.Internal
 
             string url = "api/parameters";
             
-            return await GetAll<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create<T>(string parameter, T value, string component, string vhost,
@@ -61,7 +61,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default)
@@ -84,7 +84,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

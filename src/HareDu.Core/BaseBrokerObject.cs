@@ -31,7 +31,7 @@
             };
         }
 
-        protected async Task<ResultList<T>> GetAll<T>(string url, CancellationToken cancellationToken = default)
+        protected async Task<ResultList<T>> GetAllRequest<T>(string url, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -73,7 +73,7 @@
             }
         }
 
-        protected async Task<Result<T>> Get<T>(string url, CancellationToken cancellationToken = default)
+        protected async Task<Result<T>> GetRequest<T>(string url, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -115,7 +115,7 @@
             }
         }
 
-        protected async Task<Result> Delete(string url, CancellationToken cancellationToken = default)
+        protected async Task<Result> DeleteRequest(string url, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -155,7 +155,7 @@
             }
         }
 
-        protected async Task<Result> Put<TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<Result> PutRequest<TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -200,7 +200,7 @@
             }
         }
 
-        protected async Task<Result> Put(string url, string request, CancellationToken cancellationToken = default)
+        protected async Task<Result> PutRequest(string url, string request, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -244,7 +244,7 @@
             }
         }
 
-        protected async Task<Result<T>> Post<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<Result<T>> PostRequest<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -291,7 +291,7 @@
             }
         }
 
-        protected async Task<ResultList<T>> PostList<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
+        protected async Task<ResultList<T>> PostListRequest<T, TValue>(string url, TValue value, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 
@@ -338,7 +338,7 @@
             }
         }
 
-        protected async Task<Result> PostEmpty(string url, CancellationToken cancellationToken = default)
+        protected async Task<Result> PostEmptyRequest(string url, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;
 

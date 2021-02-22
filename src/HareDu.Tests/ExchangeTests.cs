@@ -81,18 +81,21 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-            
-            ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                
+                ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
 
-            result.DebugInfo.URL.ShouldBe("api/exchanges/HareDu/fake_exchange");
-            definition.RoutingType.ShouldBe("fanout");
-            definition.Durable.ShouldBeTrue();
-            definition.Internal.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeFalse();
-            definition.Arguments.Count.ShouldBe(1);
-            definition.Arguments["fake_arg"].ToString().ShouldBe("8238b");
+                Assert.IsTrue(definition.Durable);
+                Assert.IsTrue(definition.Internal);
+                Assert.AreEqual(1, definition.Arguments.Count);
+                Assert.IsFalse(definition.AutoDelete);
+                Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
+                Assert.AreEqual("fanout", definition.RoutingType);
+                Assert.AreEqual("8238b", definition.Arguments["fake_arg"].ToString());
+            });
         }
 
         [Test]
@@ -111,18 +114,21 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-            
-            ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                
+                ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
 
-            result.DebugInfo.URL.ShouldBe("api/exchanges/HareDu/fake_exchange");
-            definition.RoutingType.ShouldBe("fanout");
-            definition.Durable.ShouldBeTrue();
-            definition.Internal.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeFalse();
-            definition.Arguments.Count.ShouldBe(1);
-            definition.Arguments["fake_arg"].ToString().ShouldBe("8238b");
+                Assert.IsTrue(definition.Durable);
+                Assert.IsTrue(definition.Internal);
+                Assert.AreEqual(1, definition.Arguments.Count);
+                Assert.IsFalse(definition.AutoDelete);
+                Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
+                Assert.AreEqual("fanout", definition.RoutingType);
+                Assert.AreEqual("8238b", definition.Arguments["fake_arg"].ToString());
+            });
         }
 
         [Test]
@@ -142,10 +148,13 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/exchanges/HareDu/");
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual("api/exchanges/HareDu/", result.DebugInfo.URL);
+            });
         }
 
         [Test]
@@ -165,10 +174,13 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/exchanges/HareDu/");
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual("api/exchanges/HareDu/", result.DebugInfo.URL);
+            });
         }
 
         [Test]
@@ -188,10 +200,13 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/exchanges//fake_exchange");
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual("api/exchanges//fake_exchange", result.DebugInfo.URL);
+            });
         }
 
         [Test]
@@ -205,7 +220,7 @@ namespace HareDu.Tests
                     x.When(condition => condition.Unused());
                 });
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -218,7 +233,7 @@ namespace HareDu.Tests
                     x.When(condition => condition.Unused());
                 });
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -230,11 +245,13 @@ namespace HareDu.Tests
                 .Delete(string.Empty, "HareDu", x =>
                 {
                     x.When(condition => condition.Unused());
-                })
-                .ConfigureAwait(false);
+                });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
@@ -248,8 +265,11 @@ namespace HareDu.Tests
                     x.When(condition => condition.Unused());
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
@@ -263,8 +283,11 @@ namespace HareDu.Tests
                     x.When(condition => condition.Unused());
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
@@ -278,8 +301,11 @@ namespace HareDu.Tests
                     x.When(condition => condition.Unused());
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }

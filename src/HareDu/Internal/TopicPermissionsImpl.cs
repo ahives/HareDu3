@@ -27,7 +27,7 @@ namespace HareDu.Internal
 
             string url = "api/topic-permissions";
             
-            return await GetAll<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator,
@@ -65,7 +65,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Put(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
@@ -85,7 +85,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 

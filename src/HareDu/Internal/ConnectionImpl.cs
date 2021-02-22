@@ -22,7 +22,7 @@ namespace HareDu.Internal
 
             string url = "api/connections";
             
-            return await GetAll<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
         }
     }
 }

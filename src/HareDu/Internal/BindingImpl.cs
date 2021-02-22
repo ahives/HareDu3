@@ -28,7 +28,7 @@ namespace HareDu.Internal
 
             string url = "api/bindings";
             
-            return await GetAll<BindingInfo>(url, cancellationToken).ConfigureAwait(false);
+            return await GetAllRequest<BindingInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding,
@@ -65,7 +65,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await Post<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PostRequest<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
@@ -95,7 +95,7 @@ namespace HareDu.Internal
             if (errors.Any())
                 return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Errors = errors}};
 
-            return await Delete(url, cancellationToken).ConfigureAwait(false);
+            return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
 
