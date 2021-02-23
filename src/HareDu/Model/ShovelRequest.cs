@@ -2,9 +2,9 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record ShovelDefinition
+    public record ShovelRequest
     {
         [JsonPropertyName("value")]
-        public ShovelDefinitionParams Value { get; init; }
+        public ShovelRequestParams Value { get; init; }
     }
 }

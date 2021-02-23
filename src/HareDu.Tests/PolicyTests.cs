@@ -7,7 +7,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class PolicyTests :
@@ -21,19 +20,22 @@ namespace HareDu.Tests
                 .Object<Policy>()
                 .GetAll();
 
-            result.HasData.ShouldBeTrue();
-            result.HasFaulted.ShouldBeFalse();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(2);
-            result.Data[0].Name.ShouldBe("P1");
-            result.Data[0].VirtualHost.ShouldBe("HareDu");
-            result.Data[0].Pattern.ShouldBe("!@#@");
-            result.Data[0].AppliedTo.ShouldBe("all");
-            result.Data[0].Definition.ShouldNotBeNull();
-            result.Data[0].Definition["ha-mode"].ShouldBe("exactly");
-            result.Data[0].Definition["ha-sync-mode"].ShouldBe("automatic");
-            result.Data[0].Definition["ha-params"].ShouldBe("2");
-            result.Data[0].Priority.ShouldBe(0);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasData);
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(2, result.Data.Count);
+                Assert.AreEqual("P1", result.Data[0].Name);
+                Assert.AreEqual("HareDu", result.Data[0].VirtualHost);
+                Assert.AreEqual("!@#@", result.Data[0].Pattern);
+                Assert.AreEqual("all", result.Data[0].AppliedTo);
+                Assert.IsNotNull(result.Data[0].Definition);
+                Assert.AreEqual("exactly", result.Data[0].Definition["ha-mode"]);
+                Assert.AreEqual("automatic", result.Data[0].Definition["ha-sync-mode"]);
+                Assert.AreEqual("2", result.Data[0].Definition["ha-params"]);
+                Assert.AreEqual(0, result.Data[0].Priority);
+            });
         }
         
         [Test]
@@ -43,19 +45,22 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllPolicies();
 
-            result.HasData.ShouldBeTrue();
-            result.HasFaulted.ShouldBeFalse();
-            result.Data.ShouldNotBeNull();
-            result.Data.Count.ShouldBe(2);
-            result.Data[0].Name.ShouldBe("P1");
-            result.Data[0].VirtualHost.ShouldBe("HareDu");
-            result.Data[0].Pattern.ShouldBe("!@#@");
-            result.Data[0].AppliedTo.ShouldBe("all");
-            result.Data[0].Definition.ShouldNotBeNull();
-            result.Data[0].Definition["ha-mode"].ShouldBe("exactly");
-            result.Data[0].Definition["ha-sync-mode"].ShouldBe("automatic");
-            result.Data[0].Definition["ha-params"].ShouldBe("2");
-            result.Data[0].Priority.ShouldBe(0);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasData);
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.Data);
+                Assert.AreEqual(2, result.Data.Count);
+                Assert.AreEqual("P1", result.Data[0].Name);
+                Assert.AreEqual("HareDu", result.Data[0].VirtualHost);
+                Assert.AreEqual("!@#@", result.Data[0].Pattern);
+                Assert.AreEqual("all", result.Data[0].AppliedTo);
+                Assert.IsNotNull(result.Data[0].Definition);
+                Assert.AreEqual("exactly", result.Data[0].Definition["ha-mode"]);
+                Assert.AreEqual("automatic", result.Data[0].Definition["ha-sync-mode"]);
+                Assert.AreEqual("2", result.Data[0].Definition["ha-params"]);
+                Assert.AreEqual(0, result.Data[0].Priority);
+            });
         }
         
         [Test]
@@ -75,17 +80,20 @@ namespace HareDu.Tests
                     });
                     x.ApplyTo(PolicyAppliedTo.All);
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
          }
         
         [Test]
@@ -104,21 +112,24 @@ namespace HareDu.Tests
                     });
                     x.ApplyTo(PolicyAppliedTo.All);
                 });
-            
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
          }
 
         [Test]
-        public async Task Verify_cannot_create_policy_1()
+        public async Task Verify_cannot_create_policy1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -135,28 +146,29 @@ namespace HareDu.Tests
                     });
                     x.ApplyTo(PolicyAppliedTo.All);
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
-            
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_policy_2()
+        public async Task Verify_cannot_create_policy2()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Create(string.Empty, string.Empty, x =>
+                .CreatePolicy(string.Empty, string.Empty, x =>
                 {
                     x.UsingPattern("^amq.");
                     x.HasPriority(0);
@@ -168,23 +180,25 @@ namespace HareDu.Tests
                     });
                     x.ApplyTo(PolicyAppliedTo.All);
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
-            
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_policy_3()
+        public async Task Verify_cannot_create_policy3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -201,19 +215,124 @@ namespace HareDu.Tests
                     });
                     x.ApplyTo(PolicyAppliedTo.All);
                 });
-            
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.ShouldNotBeNull();
 
-            PolicyDefinition definition = result.DebugInfo.Request.ToObject<PolicyDefinition>(Deserializer.Options);
-            
-            definition.Pattern.ShouldBe("^amq.");
-            definition.Priority.ShouldBe(0);
-            definition.Arguments["ha-mode"].ShouldBe("all");
-            definition.Arguments["expires"].ShouldBe("1000");
-            definition.ApplyTo.ShouldBe("all");
-            
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_policy4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreatePolicy(string.Empty, string.Empty, x =>
+                {
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
+                    {
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
+                    });
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_policy5()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Policy>()
+                .Create(string.Empty, string.Empty, x =>
+                {
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
+                    {
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
+                    });
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_policy6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreatePolicy(string.Empty, string.Empty, x =>
+                {
+                    x.UsingPattern("^amq.");
+                    x.HasPriority(0);
+                    x.HasArguments(d =>
+                    {
+                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        d.SetFederationUpstreamSet("all");
+                        d.SetExpiry(1000);
+                    });
+                    x.ApplyTo(PolicyAppliedTo.All);
+                });
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
+
+                Assert.AreEqual("^amq.", request.Pattern);
+                Assert.AreEqual(0, request.Priority);
+                Assert.AreEqual("all", request.Arguments["ha-mode"]);
+                Assert.AreEqual("1000", request.Arguments["expires"]);
+                Assert.AreEqual("all", request.ApplyTo);
+            });
         }
 
         [Test]
@@ -224,7 +343,7 @@ namespace HareDu.Tests
                 .Object<Policy>()
                 .Delete("P4", "HareDu");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -234,67 +353,152 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeletePolicy("P4", "HareDu");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
-        public async Task Verify_cannot_delete_policy_1()
+        public async Task Verify_cannot_delete_policy1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
                 .Delete(string.Empty, "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_policy_2()
+        public async Task Verify_cannot_delete_policy2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeletePolicy(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_policy3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
                 .Delete("P4", string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_policy_3()
+        public async Task Verify_cannot_delete_policy4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeletePolicy("P4", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_policy5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
                 .Delete(string.Empty, string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_policy_4()
+        public async Task Verify_cannot_delete_policy6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeletePolicy(string.Empty, string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_policy7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
                 .Delete(string.Empty, "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_policy_5()
+        public async Task Verify_cannot_delete_policy8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeletePolicy(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_policy9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
                 .Delete("P4", string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_policy10()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeletePolicy("P4", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }

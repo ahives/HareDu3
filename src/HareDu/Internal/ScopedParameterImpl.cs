@@ -34,7 +34,7 @@ namespace HareDu.Internal
         {
             cancellationToken.RequestCanceled();
 
-            ScopedParameterDefinition<T> definition =
+            ScopedParameterRequest<T> request =
                 new()
                 {
                     VirtualHost = vhost,
@@ -43,7 +43,7 @@ namespace HareDu.Internal
                     ParameterValue = value
                 };
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
                 
             var errors = new List<Error>();
 
@@ -59,9 +59,9 @@ namespace HareDu.Internal
             string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{parameter}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default)

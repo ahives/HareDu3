@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record ScopedParameterDefinition<T>
+    public record ScopedParameterRequest<T>
     {
         [JsonPropertyName("vhost")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

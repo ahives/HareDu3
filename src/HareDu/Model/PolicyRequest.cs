@@ -3,7 +3,7 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public record PolicyDefinition
+    public record PolicyRequest
     {
         [JsonPropertyName("pattern")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

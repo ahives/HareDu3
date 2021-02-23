@@ -3,7 +3,7 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public record QueueDefinition
+    public record QueueRequest
     {
         [JsonPropertyName("node")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

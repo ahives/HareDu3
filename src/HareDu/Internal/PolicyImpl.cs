@@ -38,9 +38,9 @@ namespace HareDu.Internal
             var impl = new NewPolicyConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            PolicyDefinition definition = impl.Definition.Value;
+            PolicyRequest request = impl.Request.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
             
             var errors = new List<Error>();
             
@@ -55,9 +55,9 @@ namespace HareDu.Internal
             string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string policy, string vhost, CancellationToken cancellationToken = default)
@@ -91,7 +91,7 @@ namespace HareDu.Internal
             
             readonly List<Error> _errors;
 
-            public Lazy<PolicyDefinition> Definition { get; }
+            public Lazy<PolicyRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewPolicyConfiguratorImpl()
@@ -99,8 +99,8 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<PolicyDefinition>(
-                    () => new PolicyDefinition
+                Request = new Lazy<PolicyRequest>(
+                    () => new PolicyRequest
                     {
                         Pattern = _pattern,
                         Arguments = _arguments.GetStringArguments(),

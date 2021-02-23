@@ -41,9 +41,9 @@ namespace HareDu.Internal
             
             impl.Validate();
             
-            QueueDefinition definition = impl.Definition.Value;
+            QueueRequest request = impl.Definition.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
 
             var errors = new List<Error>();
             
@@ -58,9 +58,9 @@ namespace HareDu.Internal
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null,
@@ -161,7 +161,7 @@ namespace HareDu.Internal
             
             readonly List<Error> _errors;
 
-            public Lazy<QueueDefinition> Definition { get; }
+            public Lazy<QueueRequest> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewQueueConfiguratorImpl(string node)
@@ -169,7 +169,7 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<QueueDefinition>(
+                Definition = new Lazy<QueueRequest>(
                     () => new ()
                     {
                         Durable = _durable,

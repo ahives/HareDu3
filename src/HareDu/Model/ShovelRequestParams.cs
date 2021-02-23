@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record ShovelDefinitionParams
+    public record ShovelRequestParams
     {
         [JsonPropertyName("src-protocol")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

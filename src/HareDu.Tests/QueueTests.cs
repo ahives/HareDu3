@@ -22,59 +22,62 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .GetAll();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data[5].MessageStats.ShouldNotBeNull();
-            result.Data[5].MessageStats.TotalMessageGets.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessageGetDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageGetDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesAcknowledged.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessagesAcknowledgedDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesAcknowledgedDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesDelivered.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessageDeliveryDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageDeliveryDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesPublished.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessagesPublishedDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesPublishedDetails.Value.ShouldBe(1000.0M);
-            result.Data[5].MessageStats.TotalMessagesRedelivered.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessagesRedeliveredDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesRedeliveredDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageDeliveryGets.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessageDeliveryGetDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageDeliveryGetDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageDeliveredWithoutAck.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessagesDeliveredWithoutAckDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesDeliveredWithoutAckDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageGetsWithoutAck.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessageGetsWithoutAckDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageGetsWithoutAckDetails.Value.ShouldBe(0.0M);
-            result.Data[5].Consumers.ShouldBe<ulong>(1);
-            result.Data[5].Durable.ShouldBeTrue();
-            result.Data[5].Exclusive.ShouldBeFalse();
-            result.Data[5].AutoDelete.ShouldBeFalse();
-            result.Data[5].Memory.ShouldBe<ulong>(17628);
-            result.Data[5].MessageBytesPersisted.ShouldBe<ulong>(0);
-            result.Data[5].MessageBytesInRAM.ShouldBe<ulong>(100);
-            result.Data[5].MessageBytesPagedOut.ShouldBe<ulong>(10);
-            result.Data[5].TotalBytesOfAllMessages.ShouldBe<ulong>(10000);
-            result.Data[5].UnacknowledgedMessages.ShouldBe<ulong>(30);
-            result.Data[5].ReadyMessages.ShouldBe<ulong>(50);
-            result.Data[5].MessagesInRAM.ShouldBe<ulong>(50);
-            result.Data[5].TotalMessages.ShouldBe<ulong>(6700);
-            result.Data[5].UnacknowledgedMessagesInRAM.ShouldBe<ulong>(30000);
-            result.Data[5].TotalReductions.ShouldBe(77349645);
-            result.Data[5].ReductionDetails.ShouldNotBeNull();
-            result.Data[5].ReductionDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].UnacknowledgedMessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].ReadyMessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].MessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].Name.ShouldBe("consumer_queue");
-            result.Data[5].Node.ShouldBe("rabbit@localhost");
-            result.Data[5].IdleSince.ShouldBe(DateTimeOffset.Parse("2019-11-09 11:57:45"));
-            result.Data[5].State.ShouldBe("running");
-            result.Data[5].VirtualHost.ShouldBe("HareDu");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.IsNotNull(result.Data[5].MessageStats);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGets);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetDetails.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats.TotalMessagesAcknowledged);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesAcknowledgedDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesDelivered);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesPublished);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesPublishedDetails);
+                Assert.AreEqual(1000.0M, result.Data[5].MessageStats?.MessagesPublishedDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessagesRedelivered);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesRedeliveredDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessageDeliveryGets);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryGetDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGetsWithoutAck);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value);
+                Assert.AreEqual(1, result.Data[5].Consumers);
+                Assert.IsTrue(result.Data[5].Durable);
+                Assert.IsFalse(result.Data[5].Exclusive);
+                Assert.IsFalse(result.Data[5].AutoDelete);
+                Assert.AreEqual(17628, result.Data[5].Memory);
+                Assert.AreEqual(0, result.Data[5].MessageBytesPersisted);
+                Assert.AreEqual(100, result.Data[5].MessageBytesInRAM);
+                Assert.AreEqual(10, result.Data[5].MessageBytesPagedOut);
+                Assert.AreEqual(10000, result.Data[5].TotalBytesOfAllMessages);
+                Assert.AreEqual(30, result.Data[5].UnacknowledgedMessages);
+                Assert.AreEqual(50, result.Data[5].ReadyMessages);
+                Assert.AreEqual(50, result.Data[5].MessagesInRAM);
+                Assert.AreEqual(6700, result.Data[5].TotalMessages);
+                Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
+                Assert.AreEqual(77349645, result.Data[5].TotalReductions);
+                Assert.IsNotNull(result.Data[5].ReductionDetails);
+                Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].MessageDetails?.Value);
+                Assert.AreEqual("consumer_queue", result.Data[5].Name);
+                Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
+                Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
+                Assert.AreEqual("running", result.Data[5].State);
+                Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
+            });
         }
 
         [Test]
@@ -84,59 +87,62 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetAllQueues();
 
-            result.HasFaulted.ShouldBeFalse();
-            result.HasData.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data[5].MessageStats.ShouldNotBeNull();
-            result.Data[5].MessageStats.TotalMessageGets.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessageGetDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageGetDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesAcknowledged.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessagesAcknowledgedDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesAcknowledgedDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesDelivered.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessageDeliveryDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageDeliveryDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessagesPublished.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessagesPublishedDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesPublishedDetails.Value.ShouldBe(1000.0M);
-            result.Data[5].MessageStats.TotalMessagesRedelivered.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessagesRedeliveredDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesRedeliveredDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageDeliveryGets.ShouldBe<ulong>(50000);
-            result.Data[5].MessageStats.MessageDeliveryGetDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageDeliveryGetDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageDeliveredWithoutAck.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessagesDeliveredWithoutAckDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessagesDeliveredWithoutAckDetails.Value.ShouldBe(0.0M);
-            result.Data[5].MessageStats.TotalMessageGetsWithoutAck.ShouldBe<ulong>(0);
-            result.Data[5].MessageStats.MessageGetsWithoutAckDetails.ShouldNotBeNull();
-            result.Data[5].MessageStats.MessageGetsWithoutAckDetails.Value.ShouldBe(0.0M);
-            result.Data[5].Consumers.ShouldBe<ulong>(1);
-            result.Data[5].Durable.ShouldBeTrue();
-            result.Data[5].Exclusive.ShouldBeFalse();
-            result.Data[5].AutoDelete.ShouldBeFalse();
-            result.Data[5].Memory.ShouldBe<ulong>(17628);
-            result.Data[5].MessageBytesPersisted.ShouldBe<ulong>(0);
-            result.Data[5].MessageBytesInRAM.ShouldBe<ulong>(100);
-            result.Data[5].MessageBytesPagedOut.ShouldBe<ulong>(10);
-            result.Data[5].TotalBytesOfAllMessages.ShouldBe<ulong>(10000);
-            result.Data[5].UnacknowledgedMessages.ShouldBe<ulong>(30);
-            result.Data[5].ReadyMessages.ShouldBe<ulong>(50);
-            result.Data[5].MessagesInRAM.ShouldBe<ulong>(50);
-            result.Data[5].TotalMessages.ShouldBe<ulong>(6700);
-            result.Data[5].UnacknowledgedMessagesInRAM.ShouldBe<ulong>(30000);
-            result.Data[5].TotalReductions.ShouldBe(77349645);
-            result.Data[5].ReductionDetails.ShouldNotBeNull();
-            result.Data[5].ReductionDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].UnacknowledgedMessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].ReadyMessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].MessageDetails?.Value.ShouldBe(0.0M);
-            result.Data[5].Name.ShouldBe("consumer_queue");
-            result.Data[5].Node.ShouldBe("rabbit@localhost");
-            result.Data[5].IdleSince.ShouldBe(DateTimeOffset.Parse("2019-11-09 11:57:45"));
-            result.Data[5].State.ShouldBe("running");
-            result.Data[5].VirtualHost.ShouldBe("HareDu");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.IsNotNull(result.Data);
+                Assert.IsNotNull(result.Data[5].MessageStats);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGets);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetDetails.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats.TotalMessagesAcknowledged);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesAcknowledgedDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesDelivered);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesPublished);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesPublishedDetails);
+                Assert.AreEqual(1000.0M, result.Data[5].MessageStats?.MessagesPublishedDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessagesRedelivered);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesRedeliveredDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value);
+                Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessageDeliveryGets);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryGetDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
+                Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGetsWithoutAck);
+                Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails);
+                Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value);
+                Assert.AreEqual(1, result.Data[5].Consumers);
+                Assert.IsTrue(result.Data[5].Durable);
+                Assert.IsFalse(result.Data[5].Exclusive);
+                Assert.IsFalse(result.Data[5].AutoDelete);
+                Assert.AreEqual(17628, result.Data[5].Memory);
+                Assert.AreEqual(0, result.Data[5].MessageBytesPersisted);
+                Assert.AreEqual(100, result.Data[5].MessageBytesInRAM);
+                Assert.AreEqual(10, result.Data[5].MessageBytesPagedOut);
+                Assert.AreEqual(10000, result.Data[5].TotalBytesOfAllMessages);
+                Assert.AreEqual(30, result.Data[5].UnacknowledgedMessages);
+                Assert.AreEqual(50, result.Data[5].ReadyMessages);
+                Assert.AreEqual(50, result.Data[5].MessagesInRAM);
+                Assert.AreEqual(6700, result.Data[5].TotalMessages);
+                Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
+                Assert.AreEqual(77349645, result.Data[5].TotalReductions);
+                Assert.IsNotNull(result.Data[5].ReductionDetails);
+                Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
+                Assert.AreEqual(0.0M, result.Data[5].MessageDetails?.Value);
+                Assert.AreEqual("consumer_queue", result.Data[5].Name);
+                Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
+                Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
+                Assert.AreEqual("running", result.Data[5].State);
+                Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
+            });
         }
 
         [Test]
@@ -155,19 +161,20 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-//            definition.Arguments["x-expires"].ShouldBe(1000);
-//            definition.Arguments["x-message-ttl"].ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
@@ -185,23 +192,24 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-//            definition.Arguments["x-expires"].ShouldBe(1000);
-//            definition.Arguments["x-message-ttl"].ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_1()
+        public async Task Verify_cannot_create_queue1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -216,22 +224,57 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_2()
+        public async Task Verify_cannot_create_queue2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue(string.Empty, "HareDu", "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -246,22 +289,57 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_3()
+        public async Task Verify_cannot_create_queue4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue(string.Empty, "HareDu", "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -276,22 +354,57 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_4()
+        public async Task Verify_cannot_create_queue6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue("TestQueue31", string.Empty, "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -305,24 +418,58 @@ namespace HareDu.Tests
                         arg.SetQueueExpiration(1000);
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
-                })
-                .ConfigureAwait(false);
-
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
-            result.DebugInfo.ShouldNotBeNull();
+                });
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_5()
+        public async Task Verify_cannot_create_queue8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue(string.Empty,"HareDu", "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -337,22 +484,57 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
-
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_create_queue_6()
+        public async Task Verify_cannot_create_queue10()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue(string.Empty, string.Empty, "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue11()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -367,18 +549,53 @@ namespace HareDu.Tests
                         arg.SetPerQueuedMessageExpiration(2000);
                     });
                 });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
-            result.DebugInfo.ShouldNotBeNull();
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_create_queue12()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateQueue(string.Empty, string.Empty, "Node1", x =>
+                {
+                    x.IsDurable();
+                    x.AutoDeleteWhenNotInUse();
+                    x.HasArguments(arg =>
+                    {
+                        arg.SetQueueExpiration(1000);
+                        arg.SetPerQueuedMessageExpiration(2000);
+                    });
+                });
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
-            
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(1000);
-            definition.Arguments["x-message-ttl"].Cast<long>().ShouldBe(2000);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+
+                Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
+                Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
@@ -397,16 +614,19 @@ namespace HareDu.Tests
                         arg.Set<long>("x-expires", 980);
                     });
                 });
-
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
             
-            QueueDefinition definition = result.DebugInfo.Request.ToObject<QueueDefinition>(Deserializer.Options);
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
             
-            definition.Arguments["x-expires"].Cast<long>().ShouldBe(980);
-            definition.Durable.ShouldBeTrue();
-            definition.AutoDelete.ShouldBeTrue();
-            definition.Node.ShouldBe("Node1");
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                
+                Assert.AreEqual("980", request.Arguments["x-expires"].ToString());
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.AutoDelete);
+                Assert.AreEqual("Node1", request.Node);
+            });
         }
 
         [Test]
@@ -423,9 +643,12 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/queues/HareDu/Queue1?if-unused=true");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual("api/queues/HareDu/Queue1?if-unused=true", result.DebugInfo.URL);
+            });
         }
 
         [Test]
@@ -441,13 +664,16 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeFalse();
-            result.DebugInfo.ShouldNotBeNull();
-            result.DebugInfo.URL.ShouldBe("api/queues/HareDu/Queue1?if-unused=true");
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual("api/queues/HareDu/Queue1?if-unused=true", result.DebugInfo.URL);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_1()
+        public async Task Verify_cannot_delete_queue1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -460,12 +686,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_2()
+        public async Task Verify_cannot_delete_queue2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue(string.Empty, "HareDu", x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -478,12 +727,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_3()
+        public async Task Verify_cannot_delete_queue4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue(string.Empty, "HareDu", x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -496,12 +768,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_4()
+        public async Task Verify_cannot_delete_queue6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue("Queue1", string.Empty, x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -514,12 +809,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_5()
+        public async Task Verify_cannot_delete_queue8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue("Queue1", string.Empty, x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -532,12 +850,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_6()
+        public async Task Verify_cannot_delete_queue10()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue("Queue1", string.Empty, x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue11()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -550,12 +891,35 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_delete_queue_()
+        public async Task Verify_cannot_delete_queue12()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue(string.Empty, string.Empty, x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue13()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -568,8 +932,31 @@ namespace HareDu.Tests
                     });
                 });
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue14()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueue(string.Empty, string.Empty, x =>
+                {
+                    x.When(condition =>
+                    {
+                        condition.HasNoConsumers();
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
@@ -580,7 +967,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Empty("Queue1", "HareDu");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
@@ -590,91 +977,210 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .EmptyQueue("Queue1", "HareDu");
             
-            result.HasFaulted.ShouldBeFalse();
+            Assert.IsFalse(result.HasFaulted);
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_1()
+        public async Task Verify_cannot_empty_queue1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(string.Empty, "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_2()
+        public async Task Verify_cannot_empty_queue2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(string.Empty, "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_3()
+        public async Task Verify_cannot_empty_queue4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty("Queue1", string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_4()
+        public async Task Verify_cannot_empty_queue6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue("Queue1", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue7()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty("Queue1", string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_5()
+        public async Task Verify_cannot_empty_queue8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue("Queue1", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue9()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(string.Empty, "HareDu");
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_6()
+        public async Task Verify_cannot_empty_queue10()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue11()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty("Queue1", string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue_7()
+        public async Task Verify_cannot_empty_queue12()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue("Queue1", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue13()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
                 .Empty(string.Empty, string.Empty);
             
-            result.HasFaulted.ShouldBeTrue();
-            result.DebugInfo.Errors.Count.ShouldBe(2);
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_empty_queue14()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .EmptyQueue(string.Empty, string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
         }
     }
 }

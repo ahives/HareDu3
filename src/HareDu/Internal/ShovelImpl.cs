@@ -49,9 +49,9 @@ namespace HareDu.Internal
 
             impl.Validate();
             
-            ShovelDefinition definition = impl.Definition.Value;
+            ShovelRequest request = impl.Request.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
 
             errors.AddRange(impl.Errors.Value);
             
@@ -64,9 +64,9 @@ namespace HareDu.Internal
             string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string shovel, string vhost, CancellationToken cancellationToken = default)
@@ -114,7 +114,7 @@ namespace HareDu.Internal
             readonly List<Error> _errors;
             object _deleteShovelAfter;
 
-            public Lazy<ShovelDefinition> Definition { get; }
+            public Lazy<ShovelRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public ShovelConfiguratorImpl()
@@ -122,7 +122,7 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<ShovelDefinition>(() =>
+                Request = new Lazy<ShovelRequest>(() =>
                     new()
                     {
                         Value = new()
