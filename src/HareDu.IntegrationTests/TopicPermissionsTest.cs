@@ -64,9 +64,8 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<TopicPermissions>()
-                .Create("guest", "HareDu", x =>
+                .Create("guest", "E4", "HareDu", x =>
                 {
-                    x.OnExchange("E4");
                     x.UsingReadPattern(".*");
                     x.UsingWritePattern(".*");
                 });

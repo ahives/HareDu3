@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record TopicPermissionsDefinition
+    public record TopicPermissionsRequest
     {
         [JsonPropertyName("exchange")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

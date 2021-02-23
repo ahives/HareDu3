@@ -24,7 +24,7 @@ namespace HareDu
         /// <param name="configurator"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
+        Task<Result> Create(string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 

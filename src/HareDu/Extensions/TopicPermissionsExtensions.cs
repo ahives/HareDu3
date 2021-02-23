@@ -21,13 +21,13 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateTopicPermission(this IBrokerObjectFactory factory,
-            string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+            string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
 
             return await factory.Object<TopicPermissions>()
-                .Create(username, vhost, configurator, cancellationToken)
+                .Create(username, exchange, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
 
