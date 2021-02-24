@@ -4,7 +4,6 @@ namespace HareDu.Tests
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class SystemOverviewTests :
