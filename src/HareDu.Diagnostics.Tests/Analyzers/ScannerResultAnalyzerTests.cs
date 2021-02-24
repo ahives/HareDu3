@@ -9,7 +9,6 @@ namespace HareDu.Diagnostics.Tests.Analyzers
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -65,36 +64,37 @@ namespace HareDu.Diagnostics.Tests.Analyzers
                 .Scan(snapshot)
                 .Analyze(analyzer, x => x.ComponentType.ToString());
             
-            summary.ShouldNotBeNull();
-            summary.Count.ShouldBe(2);
-            
-            summary.Any(x => x.Id == "Queue").ShouldBeTrue();
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotNull(summary);
+                Assert.AreEqual(2, summary.Count);
+                Assert.IsTrue(summary.Any(x => x.Id == "Queue"));
 
-            var queueSummary = summary
-                .SingleOrDefault(x => x.Id == "Queue");
-            queueSummary.ShouldNotBeNull();
-            queueSummary.Healthy.Total.ShouldBe<uint>(26);
-            Decimal.Round(queueSummary.Healthy.Percentage, 2).ShouldBe(46.43M);
-            queueSummary.Unhealthy.Total.ShouldBe<uint>(30);
-            Decimal.Round(queueSummary.Unhealthy.Percentage, 2).ShouldBe(53.57M);
-            queueSummary.Warning.Total.ShouldBe<uint>(0);
-            queueSummary.Warning.Percentage.ShouldBe(0);
-            queueSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            queueSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == "Exchange").ShouldBeTrue();
+                var queueSummary = summary.SingleOrDefault(x => x.Id == "Queue");
+                
+                Assert.IsNotNull(queueSummary);
+                Assert.AreEqual(24, queueSummary.Healthy.Total);
+                Assert.AreEqual(42.86M, Decimal.Round(queueSummary.Healthy.Percentage, 2));
+                Assert.AreEqual(32, queueSummary.Unhealthy.Total);
+                Assert.AreEqual(57.14M, Decimal.Round(queueSummary.Unhealthy.Percentage, 2));
+                Assert.AreEqual(0, queueSummary.Warning.Total);
+                Assert.AreEqual(0, queueSummary.Warning.Percentage);
+                Assert.AreEqual(0, queueSummary.Inconclusive.Total);
+                Assert.AreEqual(0, queueSummary.Inconclusive.Percentage);
+                Assert.IsTrue(summary.Any(x => x.Id == "Exchange"));
 
-            var exchangeSummary = summary
-                .SingleOrDefault(x => x.Id == "Exchange");
-            exchangeSummary.ShouldNotBeNull();
-            exchangeSummary.Healthy.Total.ShouldBe<uint>(0);
-            exchangeSummary.Healthy.Percentage.ShouldBe(0);
-            exchangeSummary.Unhealthy.Total.ShouldBe<uint>(1);
-            exchangeSummary.Unhealthy.Percentage.ShouldBe(100);
-            exchangeSummary.Warning.Total.ShouldBe<uint>(0);
-            exchangeSummary.Warning.Percentage.ShouldBe(0);
-            exchangeSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            exchangeSummary.Inconclusive.Percentage.ShouldBe(0);
+                var exchangeSummary = summary.SingleOrDefault(x => x.Id == "Exchange");
+                
+                Assert.IsNotNull(exchangeSummary);
+                Assert.AreEqual(0, exchangeSummary.Healthy.Total);
+                Assert.AreEqual(0, exchangeSummary.Healthy.Percentage);
+                Assert.AreEqual(1, exchangeSummary.Unhealthy.Total);
+                Assert.AreEqual(100, exchangeSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, exchangeSummary.Warning.Total);
+                Assert.AreEqual(0, exchangeSummary.Warning.Percentage);
+                Assert.AreEqual(0, exchangeSummary.Inconclusive.Total);
+                Assert.AreEqual(0, exchangeSummary.Inconclusive.Percentage);
+            });
         }
         
         [Test]
@@ -114,35 +114,37 @@ namespace HareDu.Diagnostics.Tests.Analyzers
                 .Scan(snapshot)
                 .Analyze(_services.GetService<IScannerResultAnalyzer>(), x => x.ParentComponentId);
             
-            summary.Count.ShouldBe(2);
-            
-            summary.Any(x => x.Id == "Cluster 1").ShouldBeTrue();
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotNull(summary);
+                Assert.AreEqual(2, summary.Count);
+                Assert.IsTrue(summary.Any(x => x.Id == "Cluster 1"));
+                Assert.IsTrue(summary.Any(x => x.Id == "Node0"));
 
-            var clusterSummary = summary
-                .SingleOrDefault(x => x.Id == "Cluster 1");
-            clusterSummary.ShouldNotBeNull();
-            clusterSummary.Healthy.Total.ShouldBe<uint>(0);
-            clusterSummary.Healthy.Percentage.ShouldBe(0);
-            clusterSummary.Unhealthy.Total.ShouldBe<uint>(1);
-            clusterSummary.Unhealthy.Percentage.ShouldBe(100);
-            clusterSummary.Warning.Total.ShouldBe<uint>(0);
-            clusterSummary.Warning.Percentage.ShouldBe(0);
-            clusterSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            clusterSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == "Node0").ShouldBeTrue();
+                var nodeSummary = summary.SingleOrDefault(x => x.Id == "Node0");
+                
+                Assert.IsNotNull(nodeSummary);
+                Assert.AreEqual(24, nodeSummary.Healthy.Total);
+                Assert.AreEqual(42.86M, Decimal.Round(nodeSummary.Healthy.Percentage, 2));
+                Assert.AreEqual(32, nodeSummary.Unhealthy.Total);
+                Assert.AreEqual(57.14M, Decimal.Round(nodeSummary.Unhealthy.Percentage, 2));
+                Assert.AreEqual(0, nodeSummary.Warning.Total);
+                Assert.AreEqual(0, nodeSummary.Warning.Percentage);
+                Assert.AreEqual(0, nodeSummary.Inconclusive.Total);
+                Assert.AreEqual(0, nodeSummary.Inconclusive.Percentage);
 
-            var nodeSummary = summary
-                .SingleOrDefault(x => x.Id == "Node0");
-            nodeSummary.ShouldNotBeNull();
-            nodeSummary.Healthy.Total.ShouldBe<uint>(26);
-            Decimal.Round(nodeSummary.Healthy.Percentage, 2).ShouldBe(46.43M);
-            nodeSummary.Unhealthy.Total.ShouldBe<uint>(30);
-            Decimal.Round(nodeSummary.Unhealthy.Percentage, 2).ShouldBe(53.57M);
-            nodeSummary.Warning.Total.ShouldBe<uint>(0);
-            nodeSummary.Warning.Percentage.ShouldBe(0);
-            nodeSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            nodeSummary.Inconclusive.Percentage.ShouldBe(0);
+                var clusterSummary = summary.SingleOrDefault(x => x.Id == "Cluster 1");
+                
+                Assert.IsNotNull(clusterSummary);
+                Assert.AreEqual(0, clusterSummary.Healthy.Total);
+                Assert.AreEqual(0, clusterSummary.Healthy.Percentage);
+                Assert.AreEqual(1, clusterSummary.Unhealthy.Total);
+                Assert.AreEqual(100, clusterSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, clusterSummary.Warning.Total);
+                Assert.AreEqual(0, clusterSummary.Warning.Percentage);
+                Assert.AreEqual(0, clusterSummary.Inconclusive.Total);
+                Assert.AreEqual(0, clusterSummary.Inconclusive.Percentage);
+            });
         }
         
         [Test]
@@ -161,120 +163,123 @@ namespace HareDu.Diagnostics.Tests.Analyzers
             var summary = _services.GetService<IScanner>()
                 .Scan(snapshot)
                 .Analyze(_services.GetService<IScannerResultAnalyzer>(), x => x.Id);
-            
-            summary.Count.ShouldBe(8);
-            
-            summary.Any(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()).ShouldBeTrue();
 
-            var unroutableSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier());
-            unroutableSummary.ShouldNotBeNull();
-            unroutableSummary.Healthy.Total.ShouldBe<uint>(0);
-            unroutableSummary.Healthy.Percentage.ShouldBe(0);
-            unroutableSummary.Unhealthy.Total.ShouldBe<uint>(1);
-            unroutableSummary.Unhealthy.Percentage.ShouldBe(100);
-            unroutableSummary.Warning.Total.ShouldBe<uint>(0);
-            unroutableSummary.Warning.Percentage.ShouldBe(0);
-            unroutableSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            unroutableSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()).ShouldBeTrue();
+            Assert.Multiple(() =>
+            {
+                Assert.IsNotNull(summary);
+                Assert.AreEqual(8, summary.Count);
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()));
 
-            var memoryPagedOutSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(MessagePagingProbe).GetIdentifier());
-            memoryPagedOutSummary.ShouldNotBeNull();
-            memoryPagedOutSummary.Healthy.Total.ShouldBe<uint>(5);
-            memoryPagedOutSummary.Healthy.Percentage.ShouldBe(62.5M);
-            memoryPagedOutSummary.Unhealthy.Total.ShouldBe<uint>(3);
-            memoryPagedOutSummary.Unhealthy.Percentage.ShouldBe(37.5M);
-            memoryPagedOutSummary.Warning.Total.ShouldBe<uint>(0);
-            memoryPagedOutSummary.Warning.Percentage.ShouldBe(0);
-            memoryPagedOutSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            memoryPagedOutSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()).ShouldBeTrue();
+                var unroutableSummary = summary.SingleOrDefault(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier());
+                
+                Assert.IsNotNull(unroutableSummary);
+                Assert.AreEqual(0, unroutableSummary.Healthy.Total);
+                Assert.AreEqual(0, unroutableSummary.Healthy.Percentage);
+                Assert.AreEqual(1, unroutableSummary.Unhealthy.Total);
+                Assert.AreEqual(100, unroutableSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, unroutableSummary.Warning.Total);
+                Assert.AreEqual(0, unroutableSummary.Warning.Percentage);
+                Assert.AreEqual(0, unroutableSummary.Inconclusive.Total);
+                Assert.AreEqual(0, unroutableSummary.Inconclusive.Percentage);
+                
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()));
+                
+                var memoryPagedOutSummary = summary.SingleOrDefault(x => x.Id == typeof(MessagePagingProbe).GetIdentifier());
+                
+                Assert.IsNotNull(memoryPagedOutSummary);
+                Assert.AreEqual(5, memoryPagedOutSummary.Healthy.Total);
+                Assert.AreEqual(62.5M, memoryPagedOutSummary.Healthy.Percentage);
+                Assert.AreEqual(3, memoryPagedOutSummary.Unhealthy.Total);
+                Assert.AreEqual(37.5M, memoryPagedOutSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, memoryPagedOutSummary.Warning.Total);
+                Assert.AreEqual(0, memoryPagedOutSummary.Warning.Percentage);
+                Assert.AreEqual(0, memoryPagedOutSummary.Inconclusive.Total);
+                Assert.AreEqual(0, memoryPagedOutSummary.Inconclusive.Percentage);
+                
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()));
+                
+                var redeliveredMessagesSummary = summary.SingleOrDefault(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier());
 
-            var redeliveredMessagesSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier());
-            redeliveredMessagesSummary.ShouldNotBeNull();
-            redeliveredMessagesSummary.Healthy.Total.ShouldBe<uint>(0);
-            redeliveredMessagesSummary.Healthy.Percentage.ShouldBe(0);
-            redeliveredMessagesSummary.Unhealthy.Total.ShouldBe<uint>(8);
-            redeliveredMessagesSummary.Unhealthy.Percentage.ShouldBe(100);
-            redeliveredMessagesSummary.Warning.Total.ShouldBe<uint>(0);
-            redeliveredMessagesSummary.Warning.Percentage.ShouldBe(0);
-            redeliveredMessagesSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            redeliveredMessagesSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()).ShouldBeTrue();
+                Assert.IsNotNull(redeliveredMessagesSummary);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Healthy.Total);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Healthy.Percentage);
+                Assert.AreEqual(8, redeliveredMessagesSummary.Unhealthy.Total);
+                Assert.AreEqual(100, redeliveredMessagesSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Warning.Total);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Warning.Percentage);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Inconclusive.Total);
+                Assert.AreEqual(0, redeliveredMessagesSummary.Inconclusive.Percentage);
 
-            var noFlowQueueSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier());
-            noFlowQueueSummary.ShouldNotBeNull();
-            noFlowQueueSummary.Healthy.Total.ShouldBe<uint>(3);
-            noFlowQueueSummary.Healthy.Percentage.ShouldBe(37.5M);
-            noFlowQueueSummary.Unhealthy.Total.ShouldBe<uint>(5);
-            noFlowQueueSummary.Unhealthy.Percentage.ShouldBe(62.5M);
-            noFlowQueueSummary.Warning.Total.ShouldBe<uint>(0);
-            noFlowQueueSummary.Warning.Percentage.ShouldBe(0);
-            noFlowQueueSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            noFlowQueueSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()).ShouldBeTrue();
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()));
+                
+                var noFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier());
 
-            var queueGrowthSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier());
-            queueGrowthSummary.ShouldNotBeNull();
-            queueGrowthSummary.Healthy.Total.ShouldBe<uint>(8);
-            queueGrowthSummary.Healthy.Percentage.ShouldBe(100);
-            queueGrowthSummary.Unhealthy.Total.ShouldBe<uint>(0);
-            queueGrowthSummary.Unhealthy.Percentage.ShouldBe(0);
-            queueGrowthSummary.Warning.Total.ShouldBe<uint>(0);
-            queueGrowthSummary.Warning.Percentage.ShouldBe(0);
-            queueGrowthSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            queueGrowthSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()).ShouldBeTrue();
+                Assert.IsNotNull(noFlowQueueSummary);
+                Assert.AreEqual(3, noFlowQueueSummary.Healthy.Total);
+                Assert.AreEqual(37.5M, noFlowQueueSummary.Healthy.Percentage);
+                Assert.AreEqual(5, noFlowQueueSummary.Unhealthy.Total);
+                Assert.AreEqual(62.5M, noFlowQueueSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, noFlowQueueSummary.Warning.Total);
+                Assert.AreEqual(0, noFlowQueueSummary.Warning.Percentage);
+                Assert.AreEqual(0, noFlowQueueSummary.Inconclusive.Total);
+                Assert.AreEqual(0, noFlowQueueSummary.Inconclusive.Percentage);
+                
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()));
 
-            var lowFlowQueueSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier());
-            lowFlowQueueSummary.ShouldNotBeNull();
-            lowFlowQueueSummary.Healthy.Total.ShouldBe<uint>(3);
-            lowFlowQueueSummary.Healthy.Percentage.ShouldBe(37.5M);
-            lowFlowQueueSummary.Unhealthy.Total.ShouldBe<uint>(5);
-            lowFlowQueueSummary.Unhealthy.Percentage.ShouldBe(62.5M);
-            lowFlowQueueSummary.Warning.Total.ShouldBe<uint>(0);
-            lowFlowQueueSummary.Warning.Percentage.ShouldBe(0);
-            lowFlowQueueSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            lowFlowQueueSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()).ShouldBeTrue();
+                var queueGrowthSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier());
 
-            var highFlowQueueSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier());
-            highFlowQueueSummary.ShouldNotBeNull();
-            highFlowQueueSummary.Healthy.Total.ShouldBe<uint>(7);
-            highFlowQueueSummary.Healthy.Percentage.ShouldBe(87.5M);
-            highFlowQueueSummary.Unhealthy.Total.ShouldBe<uint>(1);
-            highFlowQueueSummary.Unhealthy.Percentage.ShouldBe(12.5M);
-            highFlowQueueSummary.Warning.Total.ShouldBe<uint>(0);
-            highFlowQueueSummary.Warning.Percentage.ShouldBe(0);
-            highFlowQueueSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            highFlowQueueSummary.Inconclusive.Percentage.ShouldBe(0);
-            
-            summary.Any(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()).ShouldBeTrue();
+                Assert.IsNotNull(queueGrowthSummary);
+                Assert.AreEqual(8, queueGrowthSummary.Healthy.Total);
+                Assert.AreEqual(100, queueGrowthSummary.Healthy.Percentage);
+                Assert.AreEqual(0, queueGrowthSummary.Unhealthy.Total);
+                Assert.AreEqual(0, queueGrowthSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, queueGrowthSummary.Warning.Total);
+                Assert.AreEqual(0, queueGrowthSummary.Warning.Percentage);
+                Assert.AreEqual(0, queueGrowthSummary.Inconclusive.Total);
+                Assert.AreEqual(0, queueGrowthSummary.Inconclusive.Percentage);
 
-            var consumerUtilizationSummary = summary
-                .SingleOrDefault(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier());
-            consumerUtilizationSummary.ShouldNotBeNull();
-            consumerUtilizationSummary.Healthy.Total.ShouldBe<uint>(0);
-            consumerUtilizationSummary.Healthy.Percentage.ShouldBe(0);
-            consumerUtilizationSummary.Unhealthy.Total.ShouldBe<uint>(8);
-            consumerUtilizationSummary.Unhealthy.Percentage.ShouldBe(100);
-            consumerUtilizationSummary.Warning.Total.ShouldBe<uint>(0);
-            consumerUtilizationSummary.Warning.Percentage.ShouldBe(0);
-            consumerUtilizationSummary.Inconclusive.Total.ShouldBe<uint>(0);
-            consumerUtilizationSummary.Inconclusive.Percentage.ShouldBe(0);
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()));
+                
+                var lowFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier());
+
+                Assert.IsNotNull(lowFlowQueueSummary);
+                Assert.AreEqual(1, lowFlowQueueSummary.Healthy.Total);
+                Assert.AreEqual(12.5M, lowFlowQueueSummary.Healthy.Percentage);
+                Assert.AreEqual(7, lowFlowQueueSummary.Unhealthy.Total);
+                Assert.AreEqual(87.5M, lowFlowQueueSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, lowFlowQueueSummary.Warning.Total);
+                Assert.AreEqual(0, lowFlowQueueSummary.Warning.Percentage);
+                Assert.AreEqual(0, lowFlowQueueSummary.Inconclusive.Total);
+                Assert.AreEqual(0, lowFlowQueueSummary.Inconclusive.Percentage);
+                
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()));
+
+                var highFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier());
+
+                Assert.IsNotNull(highFlowQueueSummary);
+                Assert.AreEqual(7, highFlowQueueSummary.Healthy.Total);
+                Assert.AreEqual(87.5M, highFlowQueueSummary.Healthy.Percentage);
+                Assert.AreEqual(1, highFlowQueueSummary.Unhealthy.Total);
+                Assert.AreEqual(12.5M, highFlowQueueSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, highFlowQueueSummary.Warning.Total);
+                Assert.AreEqual(0, highFlowQueueSummary.Warning.Percentage);
+                Assert.AreEqual(0, highFlowQueueSummary.Inconclusive.Total);
+                Assert.AreEqual(0, highFlowQueueSummary.Inconclusive.Percentage);
+                
+                Assert.IsTrue(summary.Any(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()));
+
+                var consumerUtilizationSummary = summary.SingleOrDefault(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier());
+
+                Assert.IsNotNull(consumerUtilizationSummary);
+                Assert.AreEqual(0, consumerUtilizationSummary.Healthy.Total);
+                Assert.AreEqual(0, consumerUtilizationSummary.Healthy.Percentage);
+                Assert.AreEqual(8, consumerUtilizationSummary.Unhealthy.Total);
+                Assert.AreEqual(100, consumerUtilizationSummary.Unhealthy.Percentage);
+                Assert.AreEqual(0, consumerUtilizationSummary.Warning.Total);
+                Assert.AreEqual(0, consumerUtilizationSummary.Warning.Percentage);
+                Assert.AreEqual(0, consumerUtilizationSummary.Inconclusive.Total);
+                Assert.AreEqual(0, consumerUtilizationSummary.Inconclusive.Percentage);
+            });
         }
         
         IEnumerable<QueueSnapshot> GetQueues()

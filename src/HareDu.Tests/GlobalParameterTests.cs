@@ -129,9 +129,9 @@ namespace HareDu.Tests
                 Assert.AreEqual("value1", request.Value
                     .ToString()
                     .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg1"].ToString());
-                Assert.AreEqual(5, request.Value
+                Assert.AreEqual("5", request.Value
                     .ToString()
-                    .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg2"].ToString().Cast<int>());
+                    .ToObject<IDictionary<string, object>>(Deserializer.Options)["arg2"].ToString());
             });
         }
         
@@ -148,14 +148,14 @@ namespace HareDu.Tests
 
             Assert.Multiple(() =>
             {
-                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
                 GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
-                Assert.AreEqual("fake_param", request.Name);
-                Assert.AreEqual("fake_value", request.Value);
+                Assert.AreEqual(string.Empty, request.Name);
+                Assert.AreEqual("fake_value", request.Value.ToString());
             });
         }
         
@@ -238,7 +238,7 @@ namespace HareDu.Tests
                 .Object<GlobalParameter>()
                 .Delete("fake_param");
             
-            Assert.IsTrue(result.HasFaulted);
+            Assert.IsFalse(result.HasFaulted);
         }
         
         [Test]

@@ -5,7 +5,6 @@ namespace HareDu.Diagnostics.Tests.Probes
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -27,12 +26,15 @@ namespace HareDu.Diagnostics.Tests.Probes
             var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
             var probe = new QueueNoFlowProbe(knowledgeBaseProvider);
 
-            QueueSnapshot snapshot = new () {Messages = new () {Incoming = new () {Total = 0}}};
+            QueueSnapshot snapshot = new () {Messages = new () {Incoming = new (){Total = 0}}};
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Unhealthy);
-            result.KB.Id.ShouldBe(typeof(QueueNoFlowProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+                Assert.AreEqual(typeof(QueueNoFlowProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -45,8 +47,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Healthy);
-            result.KB.Id.ShouldBe(typeof(QueueNoFlowProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+                Assert.AreEqual(typeof(QueueNoFlowProbe).GetIdentifier(), result.KB.Id);
+            });
         }
     }
 }

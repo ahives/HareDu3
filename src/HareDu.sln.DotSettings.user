@@ -30,7 +30,11 @@
     &lt;/And&gt;
     &lt;TestAncestor&gt;
       &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net5.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.ClusterSnapshotTests&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
+    &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Snapshotting.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Snapshotting.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eaf92765_002Dd50d_002D40c5_002Db5e7_002Df5b89526de12/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_be_able_to_get_all_queues #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;

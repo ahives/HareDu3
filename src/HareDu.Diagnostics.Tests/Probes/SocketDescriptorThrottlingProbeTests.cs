@@ -6,7 +6,6 @@ namespace HareDu.Diagnostics.Tests.Probes
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -33,8 +32,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Warning);
-            result.KB.Id.ShouldBe(typeof(SocketDescriptorThrottlingProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
+                Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test(Description = "When sockets used >= calculated high watermark and calculated high watermark >= max sockets available")]
@@ -48,8 +50,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Unhealthy);
-            result.KB.Id.ShouldBe(typeof(SocketDescriptorThrottlingProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+                Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -63,8 +68,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Healthy);
-            result.KB.Id.ShouldBe(typeof(SocketDescriptorThrottlingProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+                Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -77,8 +85,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.NA);
-            result.KB.Id.ShouldBe(typeof(SocketDescriptorThrottlingProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.NA, result.Status);
+                Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            });
         }
     }
 }

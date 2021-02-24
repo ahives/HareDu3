@@ -6,7 +6,6 @@ namespace HareDu.Snapshotting.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class ClusterSnapshotTests
@@ -29,43 +28,47 @@ namespace HareDu.Snapshotting.Tests
                 .Lens<ClusterSnapshot>();
             var result = await lens.TakeSnapshot();
 
-            lens.History.Results.Count.ShouldBe(1);
-            lens.TakeSnapshot();
-            lens.History.Results.Count.ShouldBe(2);
-
-            result.ShouldNotBeNull();
-            result.Snapshot.BrokerVersion.ShouldBe("3.7.18");
-            result.Snapshot.ClusterName.ShouldBe("fake_cluster");
-            result.Snapshot.Nodes[0].ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Memory.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Memory?.AlarmInEffect.ShouldBeTrue();
-            result.Snapshot.Nodes[0]?.Memory?.Limit.ShouldBe<ulong>(723746434);
-            result.Snapshot.Nodes[0]?.OS.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.OS?.ProcessId.ShouldBe("OS123");
-            result.Snapshot.Nodes[0]?.OS?.FileDescriptors.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.OS?.FileDescriptors?.Used.ShouldBe<ulong>(9203797);
-            result.Snapshot.Nodes[0]?.OS?.SocketDescriptors.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.OS?.SocketDescriptors?.Used.ShouldBe<ulong>(8298347);
-            result.Snapshot.Nodes[0]?.Disk.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.AlarmInEffect.ShouldBeTrue();
-            result.Snapshot.Nodes[0]?.Disk?.Capacity.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.Capacity?.Available.ShouldBe<ulong>(7265368234);
-            result.Snapshot.Nodes[0]?.Disk?.Limit.ShouldBe<ulong>(8928739432);
-            result.Snapshot.Nodes[0]?.AvailableCoresDetected.ShouldBe<ulong>(8);
-            result.Snapshot.Nodes[0]?.Disk?.IO.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Writes.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Writes?.Total.ShouldBe<ulong>(36478608776);
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Writes?.Bytes.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Writes?.Bytes?.Total.ShouldBe<ulong>(728364283);
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Reads.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Reads?.Total.ShouldBe<ulong>(892793874982);
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Reads?.Bytes.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Disk?.IO?.Reads?.Bytes?.Total.ShouldBe<ulong>(78738764);
-            result.Snapshot.Nodes[0]?.Runtime.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Runtime.Processes.ShouldNotBeNull();
-            result.Snapshot.Nodes[0]?.Runtime.Processes.Used.ShouldBe<ulong>(9199849);
-            result.Snapshot.Nodes[0]?.IsRunning.ShouldBeTrue();
-            result.Snapshot.Nodes[0]?.NetworkPartitions.ShouldBe(new List<string>{"partition1", "partition2", "partition3", "partition4"});
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(1, lens.History.Results.Count);
+                
+                lens.TakeSnapshot();
+                
+                Assert.AreEqual(2, lens.History.Results.Count);
+                Assert.IsNotNull(result);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Memory);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.OS);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.OS?.FileDescriptors);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.OS?.SocketDescriptors);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.Capacity);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.IO?.Writes);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.IO);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.IO?.Writes?.Bytes);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.IO?.Reads);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Disk?.IO?.Reads?.Bytes);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Runtime);
+                Assert.IsNotNull(result.Snapshot.Nodes[0]?.Runtime.Processes);
+                Assert.IsTrue(result.Snapshot.Nodes[0]?.Memory?.AlarmInEffect);
+                Assert.IsTrue(result.Snapshot.Nodes[0]?.Disk?.AlarmInEffect);
+                Assert.IsTrue(result.Snapshot.Nodes[0]?.IsRunning);
+                Assert.AreEqual("3.7.18", result.Snapshot.BrokerVersion);
+                Assert.AreEqual("fake_cluster", result.Snapshot.ClusterName);
+                Assert.AreEqual(723746434, result.Snapshot.Nodes[0].Memory?.Limit);
+                Assert.AreEqual("OS123", result.Snapshot.Nodes[0].OS?.ProcessId);
+                Assert.AreEqual(9203797, result.Snapshot.Nodes[0].OS?.FileDescriptors?.Used);
+                Assert.AreEqual(8298347, result.Snapshot.Nodes[0].OS?.SocketDescriptors?.Used);
+                Assert.AreEqual(7265368234, result.Snapshot.Nodes[0].Disk?.Capacity?.Available);
+                Assert.AreEqual(8928739432, result.Snapshot.Nodes[0].Disk?.Limit);
+                Assert.AreEqual(8, result.Snapshot.Nodes[0].AvailableCoresDetected);
+                Assert.AreEqual(36478608776, result.Snapshot.Nodes[0].Disk?.IO?.Writes?.Total);
+                Assert.AreEqual(728364283, result.Snapshot.Nodes[0].Disk?.IO?.Writes?.Bytes?.Total);
+                Assert.AreEqual(892793874982, result.Snapshot.Nodes[0].Disk?.IO?.Reads?.Total);
+                Assert.AreEqual(78738764, result.Snapshot.Nodes[0].Disk?.IO?.Reads?.Bytes?.Total);
+                Assert.AreEqual(9199849, result.Snapshot.Nodes[0].Runtime.Processes.Used);
+                Assert.AreEqual(new List<string>{"partition1", "partition2", "partition3", "partition4"}, result.Snapshot.Nodes[0]?.NetworkPartitions);
+            });
         }
     }
 }

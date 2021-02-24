@@ -8,7 +8,6 @@ namespace HareDu.Diagnostics.Tests.Scanners
     using Diagnostics.Scanners;
     using KnowledgeBase;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -84,13 +83,16 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new BrokerConnectivityScanner(_probes)
                 .Scan(snapshot);
 
-            result.Count.ShouldBe(6);
-            result.Count(x => x.Id == typeof(HighConnectionCreationRateProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(HighConnectionClosureRateProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(UnlimitedPrefetchCountProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(ChannelThrottlingProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(ChannelLimitReachedProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(BlockedConnectionProbe).GetIdentifier()).ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(6, result.Count);
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(HighConnectionCreationRateProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(HighConnectionClosureRateProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(UnlimitedPrefetchCountProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(ChannelThrottlingProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(ChannelLimitReachedProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(BlockedConnectionProbe).GetIdentifier()));
+            });
         }
 
         [Test]
@@ -101,7 +103,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new BrokerConnectivityScanner(_probes)
                 .Scan(snapshot);
 
-            result.ShouldBeEmpty();
+            Assert.IsEmpty(result);
         }
     }
 }

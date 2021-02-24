@@ -2,18 +2,12 @@ namespace HareDu.Diagnostics.Tests.Scanners
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Core.Configuration;
     using Core.Extensions;
-    using Diagnostics.Probes;
     using Diagnostics.Scanners;
     using Fakes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -27,60 +21,6 @@ namespace HareDu.Diagnostics.Tests.Scanners
             _services = new ServiceCollection()
                 .AddHareDu()
                 .BuildServiceProvider();
-        }
-
-        [Test]
-        public void Test()
-        {
-            BrokerConnectivitySnapshot snapshot = new ()
-            {
-                ConnectionsCreated = new () {Total = 100000, Rate = 102},
-                ConnectionsClosed = new () {Total = 174000, Rate = 100},
-                Connections = new List<ConnectionSnapshot>
-                {
-                    new ()
-                    {
-                        Identifier = "Connection1",
-                        OpenChannelsLimit = 2,
-                        Channels = new List<ChannelSnapshot>
-                        {
-                            new ()
-                            {
-                                PrefetchCount = 4,
-                                UncommittedAcknowledgements = 2,
-                                UncommittedMessages = 5,
-                                UnconfirmedMessages = 8,
-                                UnacknowledgedMessages = 5,
-                                Consumers = 1,
-                                Identifier = "Channel1"
-                            }
-                        },
-                        State = ConnectionState.Blocked
-                    }
-                }
-            };
-
-            var newProbe = new NewProbe(null);
-            var isRegistered = _services.GetService<IScannerFactory>()
-                .RegisterProbe(newProbe);
-            
-            var result = _services.GetService<IScanner>()
-                .Scan(snapshot);
-            
-            Console.WriteLine($"Id: {result.Id}");
-            Console.WriteLine($"Scanner Id: {result.ScannerId}");
-            
-            for (int i = 0; i < result.Results.Count; i++)
-            {
-                Console.WriteLine($"Id: {result.Results[i].Id}");
-                Console.WriteLine($"Name: {result.Results[i].Name}");
-                Console.WriteLine($"Status: {result.Results[i].Status}");
-                Console.WriteLine($"Component Id: {result.Results[i].ComponentId}");
-                Console.WriteLine($"Component Type: {result.Results[i].ComponentType}");
-                Console.WriteLine($"Parent Component Id: {result.Results[i].ParentComponentId}");
-                Console.WriteLine();
-            }
-
         }
 
         [Test]
@@ -117,7 +57,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = _services.GetService<IScanner>()
                 .Scan(snapshot);
             
-            result.ScannerId.ShouldBe(typeof(BrokerConnectivityScanner).GetIdentifier());
+            Assert.AreEqual(typeof(BrokerConnectivityScanner).GetIdentifier(), result.ScannerId);
         }
 
         [Test]
@@ -151,7 +91,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = _services.GetService<IScanner>()
                 .Scan(snapshot);
             
-            result.ScannerId.ShouldBe(typeof(ClusterScanner).GetIdentifier());
+            Assert.AreEqual(typeof(ClusterScanner).GetIdentifier(), result.ScannerId);
         }
 
         [Test]
@@ -196,7 +136,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = _services.GetService<IScanner>()
                 .Scan(snapshot);
             
-            result.ScannerId.ShouldBe(typeof(BrokerQueuesScanner).GetIdentifier());
+            Assert.AreEqual(typeof(BrokerQueuesScanner).GetIdentifier(), result.ScannerId);
         }
 
         [Test]
@@ -243,60 +183,11 @@ namespace HareDu.Diagnostics.Tests.Scanners
 
             var report = result.Scan(snapshot);
             
-            report.ScannerId.ShouldBe(typeof(NoOpScanner<EmptySnapshot>).GetIdentifier());
-            report.ShouldBe(DiagnosticCache.EmptyScannerResult);
-        }
-    }
-
-    public class NewProbe :
-        BaseDiagnosticProbe,
-        DiagnosticProbe
-    {
-        public NewProbe(IKnowledgeBaseProvider kb) : base(kb)
-        {
-        }
-
-        public string Id => GetType().GetIdentifier();
-        public string Name => "New Probe";
-        public string Description => "";
-        public ComponentType ComponentType => ComponentType.Connection;
-        public ProbeCategory Category => ProbeCategory.Connectivity;
-
-        public ProbeResult Execute<T>(T snapshot)
-        {
-            ProbeResult result;
-            BrokerConnectivitySnapshot data = snapshot as BrokerConnectivitySnapshot;
-            
-            if (data.Connections.Any(x => x.Identifier == "Connection1"))
+            Assert.Multiple(() =>
             {
-                result = new HealthyProbeResult
-                {
-                    ParentComponentId = null,
-                    ComponentId = null,
-                    Id = Id,
-                    Name = Name,
-                    ComponentType = ComponentType,
-                    Data = null,
-                    KB = null
-                };
-            }
-            else
-            {
-                result = new UnhealthyProbeResult
-                {
-                    ParentComponentId = null,
-                    ComponentId = null,
-                    Id = Id,
-                    Name = Name,
-                    ComponentType = ComponentType,
-                    Data = null,
-                    KB = null
-                };
-            }
-
-            NotifyObservers(result);
-
-            return result;
+                Assert.AreEqual(typeof(NoOpScanner<EmptySnapshot>).GetIdentifier(), report.ScannerId);
+                Assert.AreEqual(DiagnosticCache.EmptyScannerResult, report);
+            });
         }
     }
 }

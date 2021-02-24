@@ -8,7 +8,6 @@ namespace HareDu.Diagnostics.Tests.Scanners
     using Diagnostics.Scanners;
     using KnowledgeBase;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -79,14 +78,17 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new ClusterScanner(_probes)
                 .Scan(snapshot);
 
-            result.Count.ShouldBe(7);
-            result.Count(x => x.Id == typeof(RuntimeProcessLimitProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(SocketDescriptorThrottlingProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(NetworkPartitionProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(MemoryAlarmProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(DiskAlarmProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(AvailableCpuCoresProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(FileDescriptorThrottlingProbe).GetIdentifier()).ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(7, result.Count);
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(RuntimeProcessLimitProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(NetworkPartitionProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(MemoryAlarmProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(DiskAlarmProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(AvailableCpuCoresProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(FileDescriptorThrottlingProbe).GetIdentifier()));
+            });
         }
 
         [Test]
@@ -97,7 +99,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new ClusterScanner(_probes)
                 .Scan(snapshot);
 
-            result.ShouldBeEmpty();
+            Assert.IsEmpty(result);
         }
     }
 }

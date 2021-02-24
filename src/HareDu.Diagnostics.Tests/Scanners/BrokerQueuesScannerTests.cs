@@ -9,7 +9,6 @@ namespace HareDu.Diagnostics.Tests.Scanners
     using Diagnostics.Scanners;
     using KnowledgeBase;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -95,15 +94,18 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new BrokerQueuesScanner(_probes)
                 .Scan(snapshot);
 
-            result.Count.ShouldBe(8);
-            result.Count(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()).ShouldBe(1);
-            result.Count(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()).ShouldBe(1);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(8, result.Count);
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()));
+                Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()));
+            });
         }
 
         [Test]
@@ -114,7 +116,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
             var result = new BrokerQueuesScanner(_probes)
                 .Scan(snapshot);
 
-            result.ShouldBeEmpty();
+            Assert.IsEmpty(result);
         }
     }
 }

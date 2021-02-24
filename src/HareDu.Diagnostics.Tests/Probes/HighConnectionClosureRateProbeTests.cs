@@ -7,7 +7,6 @@ namespace HareDu.Diagnostics.Tests.Probes
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -33,8 +32,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Warning);
-            result.KB.Id.ShouldBe(typeof(HighConnectionClosureRateProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
+                Assert.AreEqual(typeof(HighConnectionClosureRateProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -48,8 +50,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Warning);
-            result.KB.Id.ShouldBe(typeof(HighConnectionClosureRateProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
+                Assert.AreEqual(typeof(HighConnectionClosureRateProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -63,8 +68,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Healthy);
-            result.KB.Id.ShouldBe(typeof(HighConnectionClosureRateProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+                Assert.AreEqual(typeof(HighConnectionClosureRateProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -77,7 +85,7 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.NA);
+            Assert.AreEqual(ProbeResultStatus.NA, result.Status);
         }
 
         BrokerConnectivitySnapshot GetSnapshot(decimal connectionsCreatedRate, decimal connectionsClosedRate) =>

@@ -6,7 +6,6 @@ namespace HareDu.Diagnostics.Tests.Probes
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using Shouldly;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -69,8 +68,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Unhealthy);
-            result.KB.Id.ShouldBe(typeof(ChannelLimitReachedProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+                Assert.AreEqual(typeof(ChannelLimitReachedProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -120,8 +122,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Unhealthy);
-            result.KB.Id.ShouldBe(typeof(ChannelLimitReachedProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+                Assert.AreEqual(typeof(ChannelLimitReachedProbe).GetIdentifier(), result.KB.Id);
+            });
         }
 
         [Test]
@@ -161,8 +166,11 @@ namespace HareDu.Diagnostics.Tests.Probes
 
             var result = probe.Execute(snapshot);
             
-            result.Status.ShouldBe(ProbeResultStatus.Healthy);
-            result.KB.Id.ShouldBe(typeof(ChannelLimitReachedProbe).GetIdentifier());
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+                Assert.AreEqual(typeof(ChannelLimitReachedProbe).GetIdentifier(), result.KB.Id);
+            });
         }
     }
 }
