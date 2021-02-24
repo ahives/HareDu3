@@ -40,9 +40,9 @@ namespace HareDu.Internal
             
             impl.Validate();
             
-            GlobalParameterDefinition definition = impl.Definition.Value;
+            GlobalParameterRequest request = impl.Request.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
 
             var errors = new List<Error>();
             
@@ -54,9 +54,9 @@ namespace HareDu.Internal
             string url = $"api/global-parameters/{parameter}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
@@ -85,7 +85,7 @@ namespace HareDu.Internal
             
             readonly List<Error> _errors;
 
-            public Lazy<GlobalParameterDefinition> Definition { get; }
+            public Lazy<GlobalParameterRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewGlobalParameterConfiguratorImpl(string name)
@@ -93,8 +93,8 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<GlobalParameterDefinition>(
-                    () => new GlobalParameterDefinition
+                Request = new Lazy<GlobalParameterRequest>(
+                    () => new ()
                     {
                         Name = name,
                         Value = _argument.IsNotNull() ? _argument : _arguments.GetArgumentsOrNull()
@@ -128,10 +128,12 @@ namespace HareDu.Internal
                     _errors.Add(new() {Reason = "Parameter value is missing."});
                 
                 if (_arguments != null)
+                {
                     _errors.AddRange(_arguments
                         .Select(x => x.Value?.Error)
                         .Where(error => error.IsNotNull())
                         .ToList());
+                }
             }
 
 

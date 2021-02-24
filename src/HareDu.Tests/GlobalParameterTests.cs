@@ -8,7 +8,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class GlobalParameterTests :
@@ -60,7 +59,7 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public async Task Verify_can_create_parameter_1()
+        public async Task Verify_can_create_parameter1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -75,7 +74,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.AreEqual("fake_param", request.Name);
                 Assert.AreEqual("fake_value", request.Value.ToString());
@@ -97,7 +96,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.AreEqual("fake_param", request.Name);
                 Assert.AreEqual("fake_value", request.Value.ToString());
@@ -124,7 +123,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.AreEqual("fake_param", request.Name);
                 Assert.AreEqual("value1", request.Value
@@ -153,7 +152,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.AreEqual("fake_param", request.Name);
                 Assert.AreEqual("fake_value", request.Value);
@@ -177,11 +176,10 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.AreEqual("fake_param", request.Name);
-                Assert.IsNotNull(request.Value.Cast<string>());
-                Assert.IsNotEmpty(request.Value.Cast<string>());
+                Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
             });
         }
         
@@ -202,7 +200,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.That(request.Name, Is.Empty.Or.Null);
                 Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
@@ -225,7 +223,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                GlobalParameterDefinition request = result.DebugInfo.Request.ToObject<GlobalParameterDefinition>(Deserializer.Options);
+                GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
             
                 Assert.That(request.Name, Is.Empty.Or.Null);
                 Assert.IsNull(request.Value);
@@ -254,12 +252,26 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public async Task Verify_cannot_delete_parameter_1()
+        public async Task Verify_cannot_delete_parameter3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<GlobalParameter>()
                 .Delete(string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+        
+        [Test]
+        public async Task Verify_cannot_delete_parameter4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteGlobalParameter(string.Empty);
             
             Assert.Multiple(() =>
             {

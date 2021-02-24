@@ -2,7 +2,7 @@ namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
 
-    public record GlobalParameterDefinition
+    public record GlobalParameterRequest
     {
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

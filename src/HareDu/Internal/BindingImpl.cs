@@ -39,9 +39,9 @@ namespace HareDu.Internal
             var impl = new NewBindingConfiguratorImpl();
             configurator?.Invoke(impl);
             
-            BindingDefinition definition = impl.Definition.Value;
+            BindingRequest request = impl.Request.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
 
             var errors = new List<Error>();
             
@@ -63,9 +63,9 @@ namespace HareDu.Internal
                 : $"api/bindings/{virtualHost}/e/{sourceBinding}/q/{destinationBinding}";
 
             if (errors.Any())
-                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PostRequest<BindingInfo, BindingDefinition>(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PostRequest<BindingInfo, BindingRequest>(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
@@ -107,7 +107,7 @@ namespace HareDu.Internal
 
             readonly List<Error> _errors;
 
-            public Lazy<BindingDefinition> Definition { get; }
+            public Lazy<BindingRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewBindingConfiguratorImpl()
@@ -115,7 +115,7 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<BindingDefinition>(() =>
+                Request = new Lazy<BindingRequest>(() =>
                     new()
                     {
                         RoutingKey = _routingKey,

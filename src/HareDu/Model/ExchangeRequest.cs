@@ -3,7 +3,7 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public class ExchangeDefinition
+    public class ExchangeRequest
     {
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

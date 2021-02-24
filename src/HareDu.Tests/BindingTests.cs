@@ -125,10 +125,10 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingDefinition definition = result.DebugInfo.Request.ToObject<BindingDefinition>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", definition.RoutingKey);
-                Assert.AreEqual("value1", definition.Arguments["arg1"].ToString());
+                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
 
@@ -149,10 +149,10 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingDefinition definition = result.DebugInfo.Request.ToObject<BindingDefinition>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", definition.RoutingKey);
-                Assert.AreEqual("value1", definition.Arguments["arg1"].ToString());
+                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
 
@@ -174,10 +174,10 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingDefinition definition = result.DebugInfo.Request.ToObject<BindingDefinition>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", definition.RoutingKey);
-                Assert.AreEqual("value1", definition.Arguments["arg1"].ToString());
+                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
 
@@ -198,10 +198,10 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingDefinition definition = result.DebugInfo.Request.ToObject<BindingDefinition>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", definition.RoutingKey);
-                Assert.AreEqual("value1", definition.Arguments["arg1"].ToString());
+                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
 
@@ -320,7 +320,7 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_delete_binding_2()
+        public async Task Verify_cannot_delete_queue_binding1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -335,7 +335,21 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_delete_binding_3()
+        public async Task Verify_cannot_delete_queue_binding2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueueBinding("E2", string.Empty, string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue_binding3()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -350,12 +364,127 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_delete_binding_4()
+        public async Task Verify_cannot_delete_queue_binding4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue_binding5()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
                 .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Queue);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_queue_binding6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteExchangeBinding("E2", string.Empty, string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding5()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Exchange);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete_exchange_binding6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, string.Empty);
             
             Assert.Multiple(() =>
             {

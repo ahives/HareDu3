@@ -3,7 +3,7 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public record BindingDefinition
+    public record BindingRequest
     {
         [JsonPropertyName("routing_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

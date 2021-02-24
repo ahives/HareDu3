@@ -38,9 +38,9 @@ namespace HareDu.Internal
             var impl = new NewExchangeConfiguratorImpl();
             configurator?.Invoke(impl);
             
-            ExchangeDefinition definition = impl.Definition.Value;
+            ExchangeRequest request = impl.Request.Value;
 
-            Debug.Assert(definition != null);
+            Debug.Assert(request != null);
 
             var errors = new List<Error>();
             
@@ -55,9 +55,9 @@ namespace HareDu.Internal
             string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
             
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new (){URL = url, Request = definition.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
-            return await PutRequest(url, definition, cancellationToken).ConfigureAwait(false);
+            return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -134,7 +134,7 @@ namespace HareDu.Internal
             
             readonly List<Error> _errors;
 
-            public Lazy<ExchangeDefinition> Definition { get; }
+            public Lazy<ExchangeRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public NewExchangeConfiguratorImpl()
@@ -142,8 +142,8 @@ namespace HareDu.Internal
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Definition = new Lazy<ExchangeDefinition>(
-                    () => new ExchangeDefinition
+                Request = new Lazy<ExchangeRequest>(
+                    () => new ()
                     {
                         RoutingType = _routingType,
                         Durable = _durable,

@@ -7,7 +7,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Shouldly;
 
     [TestFixture]
     public class ExchangeTests :
@@ -86,15 +85,15 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
+                ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(Deserializer.Options);
 
-                Assert.IsTrue(definition.Durable);
-                Assert.IsTrue(definition.Internal);
-                Assert.AreEqual(1, definition.Arguments.Count);
-                Assert.IsFalse(definition.AutoDelete);
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.Internal);
+                Assert.AreEqual(1, request.Arguments.Count);
+                Assert.IsFalse(request.AutoDelete);
                 Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-                Assert.AreEqual("fanout", definition.RoutingType);
-                Assert.AreEqual("8238b", definition.Arguments["fake_arg"].ToString());
+                Assert.AreEqual("fanout", request.RoutingType);
+                Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
             });
         }
 
@@ -119,15 +118,15 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                ExchangeDefinition definition = result.DebugInfo.Request.ToObject<ExchangeDefinition>(Deserializer.Options);
+                ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(Deserializer.Options);
 
-                Assert.IsTrue(definition.Durable);
-                Assert.IsTrue(definition.Internal);
-                Assert.AreEqual(1, definition.Arguments.Count);
-                Assert.IsFalse(definition.AutoDelete);
+                Assert.IsTrue(request.Durable);
+                Assert.IsTrue(request.Internal);
+                Assert.AreEqual(1, request.Arguments.Count);
+                Assert.IsFalse(request.AutoDelete);
                 Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-                Assert.AreEqual("fanout", definition.RoutingType);
-                Assert.AreEqual("8238b", definition.Arguments["fake_arg"].ToString());
+                Assert.AreEqual("fanout", request.RoutingType);
+                Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
             });
         }
 
