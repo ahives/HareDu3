@@ -71,8 +71,6 @@ Note: if you are using JetBrains Rider you can simply configure both projects an
 # Dependencies
 .NET Core 2.1 or above
 
-ASP.NET WebAPI 5.2.3 or above
-
 
 # Debugging
 
