@@ -7,8 +7,8 @@ The Broker API allows you to create an exchange on the RabbitMQ broker. To do so
 for creating exchange to exchange bindings...
 ```c#
 var result = await new BrokerObjectFactory(config)
-                .Object<Binding>()
-                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
+    .Object<Binding>()
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
 ```
 
 <br>
@@ -17,8 +17,8 @@ var result = await new BrokerObjectFactory(config)
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
+    .Object<Binding>()
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
 ```
 <br>
 
@@ -26,8 +26,8 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
+    .Object<Binding>()
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
 ```
 <br>
 
@@ -36,8 +36,8 @@ The above examples show how you would bind a source exchange to a destination ex
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-                .Object<Binding>()
-                .Create("source_exchange", "destination_queue", BindingType.Queue, "your_vhost");
+    .Object<Binding>()
+    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost");
 ```
 <br>
 
@@ -63,7 +63,7 @@ A complete example would look something like this...
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Binding>()
-    .Create("source_exchange", "destination_queue", BindingType.Queue, "your_vhost", x =>
+    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", x =>
     {
         x.WithRoutingKey("*.");
         x.WithArguments(arg =>
@@ -75,17 +75,17 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 
 <br>
 
-The other way to create bindings is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a binding is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("source_exchange", "destination_exchange", "your_vhost");
+    .CreateExchangeBinding("source_exchange", "destination_exchange", "vhost");
 ```
 or...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("source_exchange", "destination_queue", "your_vhost");
+    .CreateExchangeBindingToQueue("source_exchange", "destination_queue", "vhost");
 ```
 
 

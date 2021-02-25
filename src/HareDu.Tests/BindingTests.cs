@@ -320,6 +320,64 @@ namespace HareDu.Tests
         }
 
         [Test]
+        public async Task Verify_can_delete_queue_binding1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Queue);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete_queue_binding2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateExchangeBindingToQueue("E1", "Q1", "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete_queue_binding3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Binding>()
+                .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Exchange);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete_queue_binding4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateExchangeBinding("E1", "Q1", "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
         public async Task Verify_cannot_delete_queue_binding1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
