@@ -1,77 +1,43 @@
 # Creating Bindings
 
-The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 2. You can do it yourself or the IoC way.
+The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
-```csharp
+for creating exchange to exchange bindings...
+```c#
 var result = await new BrokerObjectFactory(config)
                 .Object<Binding>()
-                .Create(x =>
-                {
-                    x.Binding(b =>
-                    {
-                        b.Source("your_exchange");
-                        b.Destination("your_exchange");
-                        b.Type(BindingType.Exchange);
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
 ```
+
 <br>
 
 **Autofac**
 
-```csharp
+```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create(x =>
-                {
-                    x.Binding(b =>
-                    {
-                        b.Source("your_exchange");
-                        b.Destination("your_exchange");
-                        b.Type(BindingType.Exchange);
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
 ```
 <br>
 
-**.NET Core DI**
+**Microsoft DI**
 
-```csharp
+```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create(x =>
-                {
-                    x.Binding(b =>
-                    {
-                        b.Source("your_exchange");
-                        b.Destination("your_exchange");
-                        b.Type(BindingType.Exchange);
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+                .Create("source_exchange", "destination_exchange", BindingType.Exchange, "your_vhost");
 ```
 <br>
 
-The above examples show how you would bind source exchange to a destination exchange. However, RabbitMQ allows you to bind an exchange to a queue. In this scenario, you would set the exchange as the source and the destination as the queue like so...
+The above examples show how you would bind a source exchange to a destination exchange. However, RabbitMQ allows you to bind an exchange to a queue. In this scenario, you would set the exchange as the source and the destination as the queue like so...
 
 
-```csharp
+```c#
 var result = await new BrokerObjectFactory(config)
                 .Object<Binding>()
-                .Create(x =>
-                {
-                    x.Binding(b =>
-                    {
-                        b.Source("your_exchange");
-                        b.Destination("your_queue");
-                        b.Type(BindingType.Queue);
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+                .Create("source_exchange", "destination_queue", BindingType.Queue, "your_vhost");
 ```
 <br>
 
@@ -94,34 +60,38 @@ c.HasArguments(arg =>
 
 A complete example would look something like this...
 
-```csharp
-var result = await _container.Resolve<IBrokerObjectFactory>()
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Binding>()
-    .Create(x =>
+    .Create("source_exchange", "destination_queue", BindingType.Queue, "your_vhost", x =>
     {
-        x.Binding(b =>
+        x.WithRoutingKey("*.");
+        x.WithArguments(arg =>
         {
-            b.Source("your_exchange");
-            b.Destination("your_queue");
-            b.Type(BindingType.Queue);
+            arg.Add("arg", "value");
         });
-        x.Configure(c =>
-        {
-            c.HasRoutingKey("your_routing_key");
-            c.HasArguments(arg =>
-            {
-                arg.Set("your_arg", "your_value");
-            });
-        });
-        x.Targeting(t => t.VirtualHost("your_vhost"));
     });
 ```
 
 <br>
 
+The other way to create bindings is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+                .CreateExchangeBinding("source_exchange", "destination_exchange", "your_vhost");
+```
+or...
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+                .CreateExchangeBindingToQueue("source_exchange", "destination_queue", "your_vhost");
+```
+
+
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
 
 <br>
 
-All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu2/blob/master/docs/configuration.md) .
+All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md) .
 
