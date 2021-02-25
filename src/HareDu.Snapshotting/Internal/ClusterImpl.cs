@@ -98,7 +98,7 @@ namespace HareDu.Snapshotting.Internal
                 ClusterIdentifier = systemOverview.ClusterName,
                 OS = MapOperatingSystemSnapshot(node),
                 Runtime = MapRuntimeSnapshot(systemOverview, node),
-                ContextSwitching = new () {Total = node.ContextSwitches, Rate = node.ContextSwitchDetails?.Value ?? 0},
+                ContextSwitching = new (){Total = node.ContextSwitches, Rate = node.ContextSwitchDetails?.Value ?? 0},
                 Disk = MapDiskSnapshot(node),
                 NetworkPartitions = node.Partitions.ToList(),
                 AvailableCoresDetected = node.AvailableCoresDetected,
