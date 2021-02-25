@@ -3,7 +3,6 @@ namespace HareDu.Diagnostics
     using System;
     using System.Collections.Generic;
     using KnowledgeBase;
-    using Probes;
 
     public record ProbeResult
     {

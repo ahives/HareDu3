@@ -97,7 +97,7 @@ namespace HareDu.Snapshotting.Internal
                 VirtualHost = queueInfo.VirtualHost,
                 Node = queueInfo.Node,
                 Messages = GetQueueChurnMetrics(queueInfo),
-                Memory = new QueueMemoryDetails
+                Memory = new ()
                 {
                     Total = queueInfo.Memory,
                     RAM = new ()

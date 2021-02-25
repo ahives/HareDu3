@@ -17,9 +17,7 @@ namespace HareDu.Diagnostics.Formatting
             builder.AppendLine("Results");
             
             foreach (var result in report.Results)
-            {
                 Format(result, ref builder);
-            }
 
             return builder.ToString();
         }

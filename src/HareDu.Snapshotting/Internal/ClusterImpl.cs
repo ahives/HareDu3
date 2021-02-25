@@ -141,7 +141,7 @@ namespace HareDu.Snapshotting.Internal
             new ()
             {
                 NodeIdentifier = node.Name,
-                Capacity = new () {Available = node.FreeDiskSpace, Rate = node.FreeDiskSpaceDetails?.Value ?? 0},
+                Capacity = new (){Available = node.FreeDiskSpace, Rate = node.FreeDiskSpaceDetails?.Value ?? 0},
                 Limit = node.FreeDiskLimit,
                 AlarmInEffect = node.FreeDiskAlarm,
                 IO = new ()
@@ -150,24 +150,24 @@ namespace HareDu.Snapshotting.Internal
                     {
                         Total = node.TotalIOReads,
                         Rate = node.IOReadDetails?.Value ?? 0,
-                        Bytes = new () {Total = node.TotalIOBytesRead, Rate = node.IOBytesReadDetails?.Value ?? 0},
-                        WallTime = new () {Average = node.AvgIOReadTime, Rate = node.AvgIOReadTimeDetails?.Value ?? 0}
+                        Bytes = new (){Total = node.TotalIOBytesRead, Rate = node.IOBytesReadDetails?.Value ?? 0},
+                        WallTime = new (){Average = node.AvgIOReadTime, Rate = node.AvgIOReadTimeDetails?.Value ?? 0}
                     },
                     Writes = new ()
                     {
                         Total = node.TotalIOWrites,
                         Rate = node.IOWriteDetails?.Value ?? 0,
-                        Bytes = new () {Total = node.TotalIOBytesWritten, Rate = node.IOBytesWrittenDetails?.Value ?? 0},
-                        WallTime = new () {Average = node.AvgTimePerIOWrite, Rate = node.AvgTimePerIOWriteDetails?.Value ?? 0}
+                        Bytes = new (){Total = node.TotalIOBytesWritten, Rate = node.IOBytesWrittenDetails?.Value ?? 0},
+                        WallTime = new (){Average = node.AvgTimePerIOWrite, Rate = node.AvgTimePerIOWriteDetails?.Value ?? 0}
                     },
                     Seeks = new ()
                     {
                         Total = node.IOSeekCount,
                         Rate = node.IOSeeksDetails?.Value ?? 0,
                         Bytes = new () {Total = 0, Rate = 0},
-                        WallTime = new () {Average = node.AverageIOSeekTime, Rate = node.AvgIOSeekTimeDetails?.Value ?? 0}
+                        WallTime = new (){Average = node.AverageIOSeekTime, Rate = node.AvgIOSeekTimeDetails?.Value ?? 0}
                     },
-                    FileHandles = new () {Recycled = node.TotalIOReopened, Rate = node.IOReopenedDetails?.Value ?? 0}
+                    FileHandles = new (){Recycled = node.TotalIOReopened, Rate = node.IOReopenedDetails?.Value ?? 0}
                 }
             };
 
@@ -187,27 +187,27 @@ namespace HareDu.Snapshotting.Internal
                 {
                     Transactions = new ()
                     {
-                        RAM = new () {Total = node.TotalMnesiaRamTransactions, Rate = node.MnesiaRAMTransactionCountDetails?.Value ?? 0},
-                        Disk = new () {Total = node.TotalMnesiaDiskTransactions, Rate = node.MnesiaDiskTransactionCountDetails?.Value ?? 0}
+                        RAM = new (){Total = node.TotalMnesiaRamTransactions, Rate = node.MnesiaRAMTransactionCountDetails?.Value ?? 0},
+                        Disk = new (){Total = node.TotalMnesiaDiskTransactions, Rate = node.MnesiaDiskTransactionCountDetails?.Value ?? 0}
                     },
                     Index = new ()
                     {
-                        Reads = new () {Total = node.TotalQueueIndexReads, Rate = node.QueueIndexReadDetails?.Value ?? 0},
-                        Writes = new () {Total = node.TotalQueueIndexWrites, Rate = node.QueueIndexWriteDetails?.Value ?? 0},
-                        Journal = new () {Writes = new (){Total = node.TotalQueueIndexJournalWrites, Rate = node.QueueIndexJournalWriteDetails?.Value ?? 0}}
+                        Reads = new (){Total = node.TotalQueueIndexReads, Rate = node.QueueIndexReadDetails?.Value ?? 0},
+                        Writes = new (){Total = node.TotalQueueIndexWrites, Rate = node.QueueIndexWriteDetails?.Value ?? 0},
+                        Journal = new (){Writes = new (){Total = node.TotalQueueIndexJournalWrites, Rate = node.QueueIndexJournalWriteDetails?.Value ?? 0}}
                     },
                     Storage = new ()
                     {
-                        Reads = new () {Total = node.TotalMessageStoreReads, Rate = node.MessageStoreReadDetails?.Value ?? 0},
-                        Writes = new () {Total = node.TotalMessageStoreWrites, Rate = node.MessageStoreWriteDetails?.Value ?? 0}
+                        Reads = new (){Total = node.TotalMessageStoreReads, Rate = node.MessageStoreReadDetails?.Value ?? 0},
+                        Writes = new (){Total = node.TotalMessageStoreWrites, Rate = node.MessageStoreWriteDetails?.Value ?? 0}
                     }
                 },
                 GC = new ()
                 {
-                    ChannelsClosed = new () {Total = node.TotalChannelsClosed, Rate = node.ClosedChannelDetails?.Value ?? 0},
-                    ConnectionsClosed = new () {Total = node.TotalConnectionsClosed, Rate = node.ClosedConnectionDetails?.Value ?? 0},
-                    QueuesDeleted = new () {Total = node.TotalQueuesDeleted, Rate = node.DeletedQueueDetails?.Value ?? 0},
-                    ReclaimedBytes = new () {Total = node.BytesReclaimedByGarbageCollector, Rate = node.ReclaimedBytesFromGCDetails?.Value ?? 0}
+                    ChannelsClosed = new (){Total = node.TotalChannelsClosed, Rate = node.ClosedChannelDetails?.Value ?? 0},
+                    ConnectionsClosed = new (){Total = node.TotalConnectionsClosed, Rate = node.ClosedConnectionDetails?.Value ?? 0},
+                    QueuesDeleted = new (){Total = node.TotalQueuesDeleted, Rate = node.DeletedQueueDetails?.Value ?? 0},
+                    ReclaimedBytes = new (){Total = node.BytesReclaimedByGarbageCollector, Rate = node.ReclaimedBytesFromGCDetails?.Value ?? 0}
                 }
             };
     }
