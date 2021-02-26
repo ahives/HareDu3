@@ -1,49 +1,37 @@
 # Deleting Queues
 
-The Broker API allows you to delete a queue from the RabbitMQ broker. To do so is pretty simple with HareDu 2. You can do it yourself or the IoC way.
+The Broker API allows you to delete a queue from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
-```csharp
+```c#
 var result = await new BrokerObjectFactory(config)
-                .Object<Queue>()
-                .Delete(x =>
-                {
-                    x.Queue("your_queue");
-                    x.Targeting(l => l.VirtualHost("your_vhost"));
-                });
+    .Object<Queue>()
+    .Delete("queue", "vhost");
 ```
 <br>
 
 **Autofac**
 
-```csharp
+```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Delete(x =>
-                {
-                    x.Queue("your_queue");
-                    x.Targeting(l => l.VirtualHost("your_vhost"));
-                });
+    .Object<Queue>()
+    .Delete("queue", "vhost");
 ```
 <br>
 
-**.NET Core DI**
+**Microsoft DI**
 
-```csharp
+```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Delete(x =>
-                {
-                    x.Queue("your_queue");
-                    x.Targeting(l => l.VirtualHost("your_vhost"));
-                });
+    .Object<Queue>()
+    .Delete("queue", "vhost");
 ```
 <br>
 
 Since deleting a queue will also purge the queue of all messages as well, HareDu provides a conditional way to perform said action. You can delete a queue when there are no consumers and/or when the queue is empty. You need only add the ```When``` clause to the ```Delete``` action like so...
 
-```csharp
+```c#
 x.When(c =>
 {
     c.HasNoConsumers();
@@ -54,21 +42,33 @@ x.When(c =>
 
 A complete example would look something like this...
 
-```csharp
+```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Delete(x =>
-                {
-                    x.Queue("your_queue");
-                    x.Targeting(l => l.VirtualHost("your_vhost"));
-                    x.When(c =>
-                    {
-                        c.HasNoConsumers();
-                        c.IsEmpty();
-                    });
-                });
+    .Object<Queue>()
+    .Delete("queue", "vhost", x =>
+    {
+        x.When(condition =>
+        {
+            condition.HasNoConsumers();
+            condition.IsEmpty();
+        });
+    });
 ```
 <br>
 
-All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu2/blob/master/docs/configuration.md) .
+The other way to delete a queue is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .DeleteQueue("queue", "vhost", x =>
+    {
+        x.When(condition =>
+        {
+            condition.HasNoConsumers();
+            condition.IsEmpty();
+        });
+    });
+```
+
+All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 
