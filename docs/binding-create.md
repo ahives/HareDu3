@@ -43,14 +43,14 @@ var result = await new BrokerObjectFactory(config)
 
 If you want to add a routing key to the binding then you just need to call the ```HasRoutingKey``` method within ```Configure``` like so...
 
-```csharp
+```c#
 c.HasRoutingKey("your_routing_key");
 ```
 <br>
 
 If you want to add adhoc arguments to the binding then you just need to call the ```Set``` method within ```HasArguments```, which is within ```Configure``` like so...
 
-```csharp
+```c#
 c.HasArguments(arg =>
 {
     arg.Set("your_arg", "your_value");
