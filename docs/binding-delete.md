@@ -51,5 +51,5 @@ var result = await _services.GetService<IBrokerObjectFactory>()
     .DeleteQueueBinding("source_exchange", "destination_queue", "properties_key", "vhost");
 ```
 
-All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md) .
+All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 
