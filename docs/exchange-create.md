@@ -1,6 +1,6 @@
 # Creating Exchanges
 
-The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the IoC way.
+The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
@@ -98,7 +98,6 @@ var result = await _services.GetService<IBrokerObjectFactory>()
         });
     });
 ```
-
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
 
