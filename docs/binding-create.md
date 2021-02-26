@@ -1,4 +1,4 @@
-# Creating Bindings
+# Create Binding
 
 The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
