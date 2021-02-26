@@ -1,78 +1,72 @@
-# Creating Policies
+# Create Policies
 
-The Broker API allows you to create a queue on the RabbitMQ broker. To do so is pretty simple with HareDu 2. You can do it yourself or the IoC way.
+The Broker API allows you to create a queue on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
-```csharp
+```c#
 var result = await new BrokerObjectFactory(config)
-                .Object<Policy>()
-                .Create(x =>
-                {
-                    x.Policy("your_policy");
-                    x.Configure(p =>
-                    {
-                        p.UsingPattern("your_regex");
-                        p.HasArguments(d =>
-                        {
-                            ...
-                        });
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+    .Object<Policy>()
+    .Create("policy", "vhost", x =>
+    {
+        x.UsingPattern("^amq.");
+        x.HasPriority(0);
+        x.HasArguments(d =>
+        {
+            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+            d.SetExpiry(1000);
+        });
+        x.ApplyTo(PolicyAppliedTo.All);
+    });
 ```
 <br>
 
 **Autofac**
 
-```csharp
+```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Create(x =>
-                {
-                    x.Policy("your_policy");
-                    x.Configure(p =>
-                    {
-                        p.UsingPattern("your_regex");
-                        p.HasArguments(d =>
-                        {
-                            ...
-                        });
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+    .Object<Policy>()
+    .Create("policy", "vhost", x =>
+    {
+        x.UsingPattern("^amq.");
+        x.HasPriority(0);
+        x.HasArguments(d =>
+        {
+            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+            d.SetExpiry(1000);
+        });
+        x.ApplyTo(PolicyAppliedTo.All);
+    });
 ```
 <br>
 
-**.NET Core DI**
+**Microsoft DI**
 
-```csharp
+```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Create(x =>
-                {
-                    x.Policy("your_policy");
-                    x.Configure(p =>
-                    {
-                        p.UsingPattern("your_regex");
-                        p.HasArguments(d =>
-                        {
-                            ...
-                        });
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+    .Object<Policy>()
+    .Create("policy", "vhost", x =>
+    {
+        x.UsingPattern("^amq.");
+        x.HasPriority(0);
+        x.HasArguments(d =>
+        {
+            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+            d.SetExpiry(1000);
+        });
+        x.ApplyTo(PolicyAppliedTo.All);
+    });
 ```
 <br>
 
-RabbitMQ supports the concept of [durability](https://www.rabbitmq.com/queues.html), which means that if the broker restarts the queues will survive. To configure a queue to be durable during creation, add the ```IsDurable``` method within ```Configure``` like so...
+RabbitMQ supports the concept of [durability](https://www.rabbitmq.com/queues.html), which means that if the broker restarts the queues will survive. To configure a queue to be durable during creation, add the ```IsDurable``` method like so...
 
-```csharp
+```c#
 c.IsDurable();
 ```
 <br>
 
-HareDu 2 supports the below RabbitMQ arguments during queue creation.
+HareDu 3 supports the below RabbitMQ arguments during queue creation.
 
 <br>
 
@@ -96,9 +90,9 @@ HareDu 2 supports the below RabbitMQ arguments during queue creation.
 | []() |  |
 | []() |  |
 
-The addition of the below code in ```HasArguments``` within ```Configure``` will set the above RabbitMQ arguments.
+The addition of the below code in ```HasArguments``` method will set the above RabbitMQ arguments.
 
-```csharp
+```c#
 p.HasArguments(d =>
 {
     d.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -121,29 +115,44 @@ p.HasArguments(d =>
 
 A complete example would look something like this...
 
-```csharp
+```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-                .Object<Policy>()
-                .Create(x =>
-                {
-                    x.Policy("your_policy");
-                    x.Configure(y =>
-                    {
-                        y.UsingPattern("your_regex");
-                        y.HasArguments(z =>
-                        {
-                            ...
-                        });
-                    });
-                    x.Targeting(t => t.VirtualHost("your_vhost"));
-                });
+    .Object<Policy>()
+    .Create("policy", "vhost", x =>
+    {
+        x.UsingPattern("^amq.");
+        x.HasPriority(0);
+        x.HasArguments(d =>
+        {
+            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+            d.SetExpiry(1000);
+        });
+        x.ApplyTo(PolicyAppliedTo.All);
+    });
 ```
 
 <br>
+
+The other way to create a policy is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .CreatePolicy("policy", "vhost", x =>
+    {
+        x.UsingPattern("^amq.");
+        x.HasPriority(0);
+        x.HasArguments(d =>
+        {
+            d.SetHighAvailabilityMode(HighAvailabilityModes.All);
+            d.SetExpiry(1000);
+        });
+        x.ApplyTo(PolicyAppliedTo.All);
+    });
+```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
 
 <br>
 
-All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu2/blob/master/docs/configuration.md) .
+All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 
