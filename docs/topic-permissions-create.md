@@ -1,13 +1,17 @@
-# Create Scoped Parameter
+# Create Topic Permissions
 
-The Broker API allows you to create a scoped parameter on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to create a topic permission on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
 ```c#
 var result = await new BrokerObjectFactory(config)
     .Object<Exchange>()
-    .Create<long>("parameter", 89, "component", "vhost");
+    .Create("username", "exchange", "vhost", x =>
+    {
+        x.UsingReadPattern(".*");
+        x.UsingWritePattern(".*");
+    });
 ```
 <br>
 
@@ -16,7 +20,11 @@ var result = await new BrokerObjectFactory(config)
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
     .Object<Exchange>()
-    .Create<long>("parameter", 89, "component", "vhost");
+    .Create("username", "exchange", "vhost", x =>
+    {
+        x.UsingReadPattern(".*");
+        x.UsingWritePattern(".*");
+    });
 ```
 <br>
 
@@ -25,7 +33,11 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Exchange>()
-    .Create<long>("parameter", 89, "component", "vhost");
+    .Create("username", "exchange", "vhost", x =>
+    {
+        x.UsingReadPattern(".*");
+        x.UsingWritePattern(".*");
+    });
 ```
 <br>
 
@@ -33,7 +45,11 @@ The other way to create an exchange is to call the extension methods off of ```I
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .CreateScopeParameter<long>("parameter", 89, "component", "vhost");
+    .CreateTopicPermission("username", "exchange", "vhost", x =>
+    {
+        x.UsingReadPattern(".*");
+        x.UsingWritePattern(".*");
+    });
 ```
 
 <br>

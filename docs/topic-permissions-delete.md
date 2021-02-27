@@ -1,4 +1,4 @@
-# Delete Scoped Parameter
+# Delete Topic Permissions
 
 The Broker API allows you to delete a scoped parameter from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
@@ -7,7 +7,7 @@ The Broker API allows you to delete a scoped parameter from the RabbitMQ broker.
 ```c#
 var result = await new BrokerObjectFactory(config)
     .Object<Exchange>()
-    .Delete("parameter", "component", "vhost");
+    .Delete("username", "vhost");
 ```
 <br>
 
@@ -16,7 +16,7 @@ var result = await new BrokerObjectFactory(config)
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
     .Object<Exchange>()
-    .Delete("parameter", "component", "vhost");
+    .Delete("username", "vhost");
 ```
 <br>
 
@@ -25,7 +25,7 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Exchange>()
-    .Delete("parameter", "component", "vhost");
+    .Delete("username", "vhost");
 ```
 <br>
 
@@ -33,7 +33,7 @@ The other way to delete an exchange is to call the extension methods off of ```I
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-    .DeleteScopedParameter("parameter", "component", "vhost");
+    .DeleteTopicPermission("username", "vhost");
 ```
 
 <br>
