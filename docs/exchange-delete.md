@@ -1,4 +1,4 @@
-# Deleting Exchanges
+# Delete Exchange
 
 The Broker API allows you to delete an exchange from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 

@@ -9,7 +9,7 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 | **Connection** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/connection-get.md) |
 | **Consumer** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/consumer-get.md) |
 | **Exchange** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/exchange-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/exchange-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/exchange-delete.md) |
-| **Queue** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/queue-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/queue-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/queue-delete.md), [Empty](https://github.com/ahives/HareDu3/blob/master/docs/queue-empty.md), [Peek](https://github.com/ahives/HareDu3/blob/master/docs/queue-peek.md) |
+| **Queue** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/queue-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/queue-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/queue-delete.md), [Empty](https://github.com/ahives/HareDu3/blob/master/docs/queue-empty.md) |
 | **SystemOverview** | [Get](https://github.com/ahives/HareDu3/blob/master/docs/system-overview-get.md) |
 | **VirtualHost** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/vhost-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/vhost-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/vhost-delete.md), [Startup](https://github.com/ahives/HareDu3/blob/master/docs/vhost-startup.md) |
 | **VirtualHostLimits** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-get.md), [Define](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-define.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-delete.md) |
@@ -24,8 +24,6 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 
 #### Registering API objects
 The very first thing you need to do is register/initialize the appropriate objects you will need to perform operations on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported IoC containers. Currently, HareDu 2 supports only two IoC containers; Autofac and .NET Core, respectively.
-
-Note: The IoC container code that comes with HareDu currently defaults to file based configuration so you will need to make the appropriate changes to the haredu.yaml file.
 
 <br>
 
@@ -80,17 +78,13 @@ Here is the code...
 
 ```c#
 var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Create("TestQueue31", "HareDu", null, x =>
-                {
-                    x.IsDurable();
-                    x.HasArguments(arg =>
-                    {
-                        arg.SetQueueExpiration(1000);
-                        arg.SetAlternateExchange("your_alternate_exchange_name");
-                        arg.SetDeadLetterExchange("your_deadletter_exchange_name");
-                        arg.SetPerQueuedMessageExpiration(1000);
-                        arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
-                    });
-                });
+    .Object<Queue>()
+    .Create("TestQueue31", "HareDu", null, x =>
+    {
+        x.IsDurable();
+        x.HasArguments(arg =>
+        {
+            arg.SetPerQueuedMessageExpiration(2000);
+        });
+    });
 ```
