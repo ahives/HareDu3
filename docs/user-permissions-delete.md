@@ -6,7 +6,7 @@ The Broker API allows you to delete user permissions from the RabbitMQ broker. T
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Delete("username", "vhost");
 ```
 <br>
@@ -15,7 +15,7 @@ var result = await new BrokerObjectFactory(config)
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Delete("username", "vhost");
 ```
 <br>
@@ -24,7 +24,7 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Delete("username", "vhost");
 ```
 <br>

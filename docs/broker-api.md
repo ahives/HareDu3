@@ -79,7 +79,7 @@ Here is the code...
 ```c#
 var result = await services.GetService<IBrokerObjectFactory>()
     .Object<Queue>()
-    .Create("TestQueue31", "HareDu", null, x =>
+    .Create("queue", "vhost", null, x =>
     {
         x.IsDurable();
         x.HasArguments(arg =>

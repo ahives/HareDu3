@@ -6,7 +6,7 @@ The Broker API allows you to create a user on the RabbitMQ broker. To do so is p
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-    .Object<Exchange>()
+    .Object<User>()
     .Create("user", "password", "password_hash");
 ```
 <br>
@@ -15,7 +15,7 @@ var result = await new BrokerObjectFactory(config)
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<User>()
     .Create("user", "password", "password_hash");
 ```
 <br>
@@ -24,7 +24,7 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<User>()
     .Create("user", "password", "password_hash");
 ```
 <br>
@@ -43,7 +43,7 @@ A complete example would look something like this...
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-    .Object<Exchange>()
+    .Object<User>()
     .Create("user", "password", "password_hash", x =>
     {
         x.WithTags(t =>

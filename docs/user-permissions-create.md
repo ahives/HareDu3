@@ -6,7 +6,7 @@ The Broker API allows you to create user permissions on the RabbitMQ broker. To 
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Create("username", "vhost", x =>
     {
         x.UsingConfigurePattern(".*");
@@ -20,7 +20,7 @@ var result = await new BrokerObjectFactory(config)
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Create("username", "vhost", x =>
     {
         x.UsingConfigurePattern(".*");
@@ -34,7 +34,7 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Exchange>()
+    .Object<UserPermissions>()
     .Create("username", "vhost", x =>
     {
         x.UsingConfigurePattern(".*");
