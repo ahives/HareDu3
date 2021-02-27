@@ -1,6 +1,6 @@
 # Delete Topic Permissions
 
-The Broker API allows you to delete a scoped parameter from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to delete topic permissions from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
@@ -29,7 +29,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-The other way to delete an exchange is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to delete topic permissions is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()

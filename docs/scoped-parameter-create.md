@@ -29,7 +29,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-The other way to create an exchange is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a scoped parameter is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
