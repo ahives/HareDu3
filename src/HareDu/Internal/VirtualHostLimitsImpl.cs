@@ -46,12 +46,12 @@ namespace HareDu.Internal
             errors.AddRange(impl.Errors.Value);
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
 
             if (errors.Any())
-                return new FaultedResult{DebugInfo = new () {URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
+                return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
             return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
@@ -63,7 +63,7 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
 
@@ -107,7 +107,7 @@ namespace HareDu.Internal
                 _maxConnectionLimits = value;
                 
                 if (_maxConnectionLimits < 1)
-                    _errors.Add(new () {Reason = "Max connection limit value is missing."});
+                    _errors.Add(new (){Reason = "Max connection limit value is missing."});
             }
 
             public void SetMaxQueueLimit(ulong value)
@@ -117,13 +117,13 @@ namespace HareDu.Internal
                 _maxQueueLimits = value;
                 
                 if (_maxQueueLimits < 1)
-                    _errors.Add(new () {Reason = "Max queue limit value is missing."});
+                    _errors.Add(new (){Reason = "Max queue limit value is missing."});
             }
 
             public void Validate()
             {
                 if (!_setMaxConnectionLimitCalled && !_setMaxQueueLimitCalled)
-                    _errors.Add(new () {Reason = "There are no limits to define."});
+                    _errors.Add(new (){Reason = "There are no limits to define."});
             }
         }
     }

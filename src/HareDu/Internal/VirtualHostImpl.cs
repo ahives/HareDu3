@@ -42,7 +42,7 @@ namespace HareDu.Internal
             var errors = new List<Error>();
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = $"api/vhosts/{vhost.ToSanitizedName()}";
 
@@ -61,11 +61,11 @@ namespace HareDu.Internal
             string virtualHost = vhost.ToSanitizedName();
 
             if (virtualHost == "2%f")
-                errors.Add(new() {Reason = "Cannot delete the default virtual host."});
+                errors.Add(new(){Reason = "Cannot delete the default virtual host."});
             else
             {
                 if (string.IsNullOrWhiteSpace(virtualHost))
-                    errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                    errors.Add(new(){Reason = "The name of the virtual host is missing."});
             }
 
             string url = $"api/vhosts/{virtualHost}";
@@ -83,10 +83,10 @@ namespace HareDu.Internal
             var errors = new List<Error>();
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             if (string.IsNullOrWhiteSpace(node))
-                errors.Add(new() {Reason = "RabbitMQ node is missing."});
+                errors.Add(new(){Reason = "RabbitMQ node is missing."});
 
             string url = $"/api/vhosts/{vhost.ToSanitizedName()}/start/{node}";
             

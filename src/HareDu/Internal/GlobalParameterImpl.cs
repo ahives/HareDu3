@@ -119,13 +119,13 @@ namespace HareDu.Internal
                 if (_argument != null && _argument.GetType() == typeof(string))
                 {
                     if (string.IsNullOrWhiteSpace(_argument.ToString()))
-                        _errors.Add(new() {Reason = "Parameter value is missing."});
+                        _errors.Add(new(){Reason = "Parameter value is missing."});
                 
                     return;
                 }
                 
                 if (_argument == null && _arguments == null)
-                    _errors.Add(new() {Reason = "Parameter value is missing."});
+                    _errors.Add(new(){Reason = "Parameter value is missing."});
                 
                 if (_arguments != null)
                 {

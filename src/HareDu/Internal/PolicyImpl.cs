@@ -119,7 +119,7 @@ namespace HareDu.Internal
                 _arguments = impl.Arguments;
 
                 foreach (var argument in _arguments?.Where(x => x.Value.IsNull()).Select(x => x.Key))
-                    _errors.Add(new() {Reason = $"Argument '{argument}' has been set without a corresponding value."});
+                    _errors.Add(new(){Reason = $"Argument '{argument}' has been set without a corresponding value."});
 
                 if (!_arguments.TryGetValue("ha-mode", out var haMode))
                     return;
@@ -127,7 +127,7 @@ namespace HareDu.Internal
                 string mode = haMode.Value.ToString().Trim();
                 if ((mode.ConvertTo() == HighAvailabilityModes.Exactly ||
                     mode.ConvertTo() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params"))
-                    _errors.Add(new() {Reason = $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"});
+                    _errors.Add(new(){Reason = $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"});
             }
 
             public void HasPriority(int priority) => _priority = priority;

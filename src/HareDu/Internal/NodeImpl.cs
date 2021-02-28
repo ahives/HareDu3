@@ -43,7 +43,7 @@ namespace HareDu.Internal
             var errors = new List<Error>();
 
             if (string.IsNullOrWhiteSpace(node))
-                errors.Add(new() {Reason = "Name of the node for which to return memory usage data is missing."});
+                errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
             
             string url = $"api/nodes/{node}/memory";
             

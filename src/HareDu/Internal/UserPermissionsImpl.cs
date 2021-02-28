@@ -54,7 +54,7 @@ namespace HareDu.Internal
                 errors.Add(new (){Reason = "The username and/or password is missing."});
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
             
             string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
             

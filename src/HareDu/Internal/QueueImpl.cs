@@ -74,10 +74,10 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(queue))
-                errors.Add(new () {Reason = "The name of the queue is missing."});
+                errors.Add(new (){Reason = "The name of the queue is missing."});
 
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new () {Reason = "The name of the virtual host is missing."});
+                errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string url = string.IsNullOrWhiteSpace(impl.Query.Value)
                 ? $"api/queues/{vhost.ToSanitizedName()}/{queue}"
@@ -96,10 +96,10 @@ namespace HareDu.Internal
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(vhost))
-                errors.Add(new() {Reason = "The name of the virtual host is missing."});
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
             if (string.IsNullOrWhiteSpace(queue))
-                errors.Add(new () {Reason = "The name of the queue is missing."});
+                errors.Add(new (){Reason = "The name of the queue is missing."});
 
             string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/contents";
 
