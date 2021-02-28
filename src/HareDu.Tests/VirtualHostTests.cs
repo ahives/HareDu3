@@ -140,6 +140,37 @@ namespace HareDu.Tests
         }
 
         [Test]
+        public async Task Verify_can_get_health1()
+        {
+            var services = GetContainerBuilder("TestData/VirtualHostHealthInfo.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<VirtualHost>()
+                .GetHealth("TestHareDu");
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasData);
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual("ok", result.Data.Status);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_get_health2()
+        {
+            var services = GetContainerBuilder("TestData/VirtualHostHealthInfo.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .GetVirtualHostHealth("TestHareDu");
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasData);
+                Assert.IsFalse(result.HasFaulted);
+                Assert.AreEqual("ok", result.Data.Status);
+            });
+        }
+
+        [Test]
         public async Task Verify_Create_works1()
         {
             var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();

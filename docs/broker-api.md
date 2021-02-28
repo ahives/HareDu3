@@ -11,11 +11,11 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 | **Exchange** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/exchange-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/exchange-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/exchange-delete.md) |
 | **Queue** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/queue-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/queue-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/queue-delete.md), [Empty](https://github.com/ahives/HareDu3/blob/master/docs/queue-empty.md) |
 | **SystemOverview** | [Get](https://github.com/ahives/HareDu3/blob/master/docs/system-overview-get.md) |
-| **VirtualHost** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/vhost-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/vhost-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/vhost-delete.md), [Startup](https://github.com/ahives/HareDu3/blob/master/docs/vhost-startup.md) |
+| **VirtualHost** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/vhost-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/vhost-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/vhost-delete.md), [Startup](https://github.com/ahives/HareDu3/blob/master/docs/vhost-startup.md), [GetHealth](https://github.com/ahives/HareDu3/blob/master/docs/vhost-health.md) |
 | **VirtualHostLimits** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-get.md), [Define](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-define.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/vhost-limits-delete.md) |
 | **GlobalParameter** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/global-parameter-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/global-parameter-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/global-parameter-delete.md) |
-| **Server**  | [Get](https://github.com/ahives/HareDu3/blob/master/docs/server-get.md), [GetHealth](https://github.com/ahives/HareDu3/blob/master/docs/server-health.md) |
-| **Node** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/node-get.md), [GetHealth](https://github.com/ahives/HareDu3/blob/master/docs/node-health-get.md), [GetMemoryUsage](https://github.com/ahives/HareDu3/blob/master/docs/node-memory-get.md) |
+| **Server**  | [Get](https://github.com/ahives/HareDu3/blob/master/docs/server-get.md) |
+| **Node** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/node-get.md), [GetHealth](https://github.com/ahives/HareDu3/blob/master/docs/node-health.md), [GetMemoryUsage](https://github.com/ahives/HareDu3/blob/master/docs/node-memory-get.md) |
 | **ScopedParameter** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/scoped-parameter-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/scoped-parameter-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/scoped-parameter-delete.md) |
 | **TopicPermissions** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/topic-permissions-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/topic-permissions-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/topic-permissions-delete.md) |
 | **User** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/user-get.md), [GetAllWithoutPermissions](https://github.com/ahives/HareDu3/blob/master/docs/user-get-without-permissions.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/user-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/user-delete.md) |
@@ -23,7 +23,7 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 | **Policy** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/policy-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/policy-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/policy-delete.md) |
 
 #### Registering API objects
-The very first thing you need to do is register/initialize the appropriate objects you will need to perform operations on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported IoC containers. Currently, HareDu 2 supports only two IoC containers; Autofac and .NET Core, respectively.
+The very first thing you need to do is register/initialize the appropriate objects you will need to perform operations on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported DI containers. Currently, HareDu 3 supports only two DI containers; Autofac and Microsoft, respectively.
 
 <br>
 
@@ -54,7 +54,7 @@ Using the HareDu *GetResult* extension method...
 var result = obj.GetAll().GetResult();
 ```
 
-The above steps represent the minimum required code to get something up and working without an IoC container. However, if you want to use IoC then its even easier. Since HareDu is a fluent API, you can method chain everything together like so...
+The above steps represent the minimum required code to get something up and working without an IoC container. However, if you want to use DI then its even easier. Since HareDu is a fluent API, you can method chain everything together like so...
 
 *Autofac*
 ```c#
