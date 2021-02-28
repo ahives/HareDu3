@@ -40,11 +40,11 @@ namespace HareDu.Internal
         }
 
         public async Task<Result> Create(string username, string password, string passwordHash = null,
-            Action<NewUserConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewUserConfiguratorImpl();
+            var impl = new UserConfiguratorImpl();
             configurator?.Invoke(impl);
 
             string Normalize(string value) => string.IsNullOrWhiteSpace(value) ? null : value;
@@ -96,14 +96,14 @@ namespace HareDu.Internal
         }
 
 
-        class NewUserConfiguratorImpl :
-            NewUserConfigurator
+        class UserConfiguratorImpl :
+            UserConfigurator
         {
             string _tags;
 
             public Lazy<string> Tags { get; }
 
-            public NewUserConfiguratorImpl()
+            public UserConfiguratorImpl()
             {
                 Tags = new Lazy<string>(() => _tags, LazyThreadSafetyMode.PublicationOnly);
             }

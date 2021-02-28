@@ -636,10 +636,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete("Queue1", "HareDu",x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -657,10 +654,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue("Queue1", "HareDu",x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -679,10 +673,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete(string.Empty, "HareDu", x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -699,10 +690,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue(string.Empty, "HareDu", x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -720,10 +708,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete(string.Empty, "HareDu", x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -740,10 +725,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue(string.Empty, "HareDu", x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -761,10 +743,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -781,10 +760,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -802,10 +778,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -822,10 +795,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -843,10 +813,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -863,10 +830,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue("Queue1", string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -884,10 +848,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete(string.Empty, string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -904,10 +865,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue(string.Empty, string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -925,10 +883,7 @@ namespace HareDu.Tests
                 .Object<Queue>()
                 .Delete(string.Empty, string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>
@@ -945,10 +900,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteQueue(string.Empty, string.Empty, x =>
                 {
-                    x.When(condition =>
-                    {
-                        condition.HasNoConsumers();
-                    });
+                    x.WhenHasNoConsumers();
                 });
             
             Assert.Multiple(() =>

@@ -32,7 +32,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateUser(this IBrokerObjectFactory factory,
-            string username, string password, string passwordHash = null, Action<NewUserConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

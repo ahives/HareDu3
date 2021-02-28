@@ -21,7 +21,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateGlobalParameter(this IBrokerObjectFactory factory,
-            string parameter, Action<NewGlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
+            string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

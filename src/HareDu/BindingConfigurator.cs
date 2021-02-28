@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewBindingConfigurator
+    public interface BindingConfigurator
     {
         /// <summary>
         /// Specify how the binding will be set up rout messages.
@@ -14,6 +14,6 @@ namespace HareDu
         /// Specify user-defined binding arguments.
         /// </summary>
         /// <param name="arguments"></param>
-        void WithArguments(Action<NewBindingArguments> arguments);
+        void WithArguments(Action<BindingArgumentConfigurator> arguments);
     }
 }

@@ -81,11 +81,7 @@ namespace HareDu.IntegrationTests
                 .Object<Queue>()
                 .Delete("TestQueue10", "HareDu",x =>
                 {
-                    x.When(condition =>
-                    {
-                        // condition.HasNoConsumers();
-                        // condition.IsEmpty();
-                    });
+                    x.WhenHasNoConsumers();
                 });
 
 //            Assert.IsFalse(result.HasFaulted);

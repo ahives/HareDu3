@@ -21,7 +21,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, string node, Action<NewQueueConfigurator> configuration, CancellationToken cancellationToken = default)
+            string queue, string vhost, string node, Action<QueueConfigurator> configuration, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
@@ -43,7 +43,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> DeleteQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, Action<DeleteQueueConfigurator> configuration = null, CancellationToken cancellationToken = default)
+            string queue, string vhost, Action<QueueDeletionConfigurator> configuration = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

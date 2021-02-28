@@ -32,11 +32,11 @@ namespace HareDu.Internal
         }
 
         public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding,
-            BindingType bindingType, string vhost, Action<NewBindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            BindingType bindingType, string vhost, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewBindingConfiguratorImpl();
+            var impl = new BindingConfiguratorImpl();
             configurator?.Invoke(impl);
             
             BindingRequest request = impl.Request.Value;
@@ -99,8 +99,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewBindingConfiguratorImpl :
-            NewBindingConfigurator
+        class BindingConfiguratorImpl :
+            BindingConfigurator
         {
             string _routingKey;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -110,7 +110,7 @@ namespace HareDu.Internal
             public Lazy<BindingRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewBindingConfiguratorImpl()
+            public BindingConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
@@ -125,9 +125,9 @@ namespace HareDu.Internal
 
             public void WithRoutingKey(string routingKey) => _routingKey = routingKey;
 
-            public void WithArguments(Action<NewBindingArguments> arguments)
+            public void WithArguments(Action<BindingArgumentConfigurator> arguments)
             {
-                var impl = new NewBindingArgumentsImpl();
+                var impl = new BindingArgumentConfiguratorImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -139,12 +139,12 @@ namespace HareDu.Internal
             }
 
             
-            class NewBindingArgumentsImpl :
-                NewBindingArguments
+            class BindingArgumentConfiguratorImpl :
+                BindingArgumentConfigurator
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public NewBindingArgumentsImpl()
+                public BindingArgumentConfiguratorImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

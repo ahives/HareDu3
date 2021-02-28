@@ -31,11 +31,11 @@ namespace HareDu.Internal
             return await GetAllRequest<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string parameter, Action<NewGlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
             
-            var impl = new NewGlobalParameterConfiguratorImpl(parameter);
+            var impl = new GlobalParameterConfiguratorImpl(parameter);
             configurator?.Invoke(impl);
             
             impl.Validate();
@@ -77,8 +77,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewGlobalParameterConfiguratorImpl :
-            NewGlobalParameterConfigurator
+        class GlobalParameterConfiguratorImpl :
+            GlobalParameterConfigurator
         {
             IDictionary<string, ArgumentValue<object>> _arguments;
             object _argument;
@@ -88,7 +88,7 @@ namespace HareDu.Internal
             public Lazy<GlobalParameterRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewGlobalParameterConfiguratorImpl(string name)
+            public GlobalParameterConfiguratorImpl(string name)
             {
                 _errors = new List<Error>();
                 
@@ -101,10 +101,10 @@ namespace HareDu.Internal
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Value(Action<NewGlobalParameterArguments> arguments)
+            public void Value(Action<GlobalParameterArgumentConfigurator> configurator)
             {
-                var impl = new NewGlobalParameterArgumentsImpl();
-                arguments?.Invoke(impl);
+                var impl = new GlobalParameterArgumentConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _arguments = impl.Arguments;
             }
@@ -137,8 +137,8 @@ namespace HareDu.Internal
             }
 
 
-            class NewGlobalParameterArgumentsImpl :
-                NewGlobalParameterArguments
+            class GlobalParameterArgumentConfiguratorImpl :
+                GlobalParameterArgumentConfigurator
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; } =
                     new Dictionary<string, ArgumentValue<object>>();

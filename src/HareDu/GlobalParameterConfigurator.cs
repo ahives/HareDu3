@@ -2,13 +2,13 @@ namespace HareDu
 {
     using System;
 
-    public interface NewGlobalParameterConfigurator
+    public interface GlobalParameterConfigurator
     {
         /// <summary>
         /// Specify global parameter arguments.
         /// </summary>
-        /// <param name="arguments"></param>
-        void Value(Action<NewGlobalParameterArguments> arguments);
+        /// <param name="configurator"></param>
+        void Value(Action<GlobalParameterArgumentConfigurator> configurator);
         
         /// <summary>
         /// Specify global parameter argument.

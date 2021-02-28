@@ -23,7 +23,7 @@ namespace HareDu
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
         Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding, BindingType bindingType, string vhost,
-            Action<NewBindingConfigurator> configurator = null, CancellationToken cancellationToken = default);
+            Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified exchange on the target virtual host.

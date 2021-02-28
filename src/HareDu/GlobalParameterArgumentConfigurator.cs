@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface NewGlobalParameterArguments
+    public interface GlobalParameterArgumentConfigurator
     {
         /// <summary>
         /// Create a new argument.

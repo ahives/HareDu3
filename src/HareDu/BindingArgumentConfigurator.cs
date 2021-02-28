@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface NewBindingArguments
+    public interface BindingArgumentConfigurator
     {
         /// <summary>
         /// Set a user-defined argument.

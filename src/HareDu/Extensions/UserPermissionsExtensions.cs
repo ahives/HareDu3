@@ -21,7 +21,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateUserPermissions(this IBrokerObjectFactory factory,
-            string username, string vhost, Action<NewUserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+            string username, string vhost, Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

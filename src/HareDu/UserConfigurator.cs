@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewUserConfigurator
+    public interface UserConfigurator
     {
         /// <summary>
         /// Specify the type of access the corresponding user has.

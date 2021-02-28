@@ -29,13 +29,12 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-Since deleting an exchange will cause messages to not be routed to queues, HareDu provides a means to conditional perform said action. You can delete an exchange when its not in use. You need only add the ```When``` clause to the above code samples like so...
+Since deleting an exchange will cause messages to not be routed to queues, HareDu provides a means to conditional perform said action. You can delete an exchange when its not in use. You need only call the ```WhenUnused``` method like so...
 
 ```c#
-.Delete("exchange", "vhost", x =>
-    {
-        x.When(condition => condition.Unused());
-    });
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .Object<Exchange>()
+    .Delete("exchange", "vhost", x => x.WhenUnused());
 ```
 
 <br>
@@ -45,6 +44,13 @@ The other way to delete an exchange is to call the extension methods off of ```I
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
     .DeleteExchange("exchange", "vhost");
+```
+
+...or
+
+```c#
+var result = await _container.Resolve<IBrokerObjectFactory>()
+    .DeleteExchange("exchange", "vhost", x => x.WhenUnused());
 ```
 
 <br>

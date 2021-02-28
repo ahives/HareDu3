@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewQueueConfigurator
+    public interface QueueConfigurator
     {
         /// <summary>
         /// Specify whether the queue is durable. By default this is set to false, which means that it will created as a RAM queue.
@@ -12,8 +12,8 @@ namespace HareDu
         /// <summary>
         /// Specify arguments for the queue.
         /// </summary>
-        /// <param name="arguments">Pre-defined arguments applied to the definition of the queue.</param>
-        void HasArguments(Action<NewQueueArguments> arguments);
+        /// <param name="configurator">Pre-defined arguments applied to the definition of the queue.</param>
+        void HasArguments(Action<QueueArgumentConfigurator> configurator);
 
         /// <summary>
         /// Specify whether the queue is deleted when there are no consumers.

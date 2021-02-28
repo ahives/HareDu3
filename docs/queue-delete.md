@@ -29,16 +29,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-Since deleting a queue will also purge the queue of all messages as well, HareDu provides a conditional way to perform said action. You can delete a queue when there are no consumers and/or when the queue is empty. You need only add the ```When``` clause to the ```Delete``` action like so...
-
-```c#
-x.When(c =>
-{
-    c.HasNoConsumers();
-    c.IsEmpty();
-});
-```
-<br>
+Since deleting a queue will also purge the queue of all messages as well, HareDu provides a conditional way to perform said action. You can delete a queue when there are no consumers and/or when the queue is empty. You need only call the ```WhenHasNoConsumers``` and/or the ```WhenEmpty``` method...
 
 A complete example would look something like this...
 
@@ -47,11 +38,8 @@ var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Queue>()
     .Delete("queue", "vhost", x =>
     {
-        x.When(condition =>
-        {
-            condition.HasNoConsumers();
-            condition.IsEmpty();
-        });
+        x.WhenHasNoConsumers();
+        x.WhenEmpty();
     });
 ```
 <br>
@@ -60,13 +48,17 @@ The other way to delete a queue is to call the extension methods off of ```IBrok
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
+    .DeleteQueue("queue", "vhost");
+```
+
+...or
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
     .DeleteQueue("queue", "vhost", x =>
     {
-        x.When(condition =>
-        {
-            condition.HasNoConsumers();
-            condition.IsEmpty();
-        });
+        x.WhenHasNoConsumers();
+        x.WhenEmpty();
     });
 ```
 

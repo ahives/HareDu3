@@ -61,6 +61,19 @@ var result = await _services.GetService<IBrokerObjectFactory>()
     .CreateUser("user", "password", "password_hash");
 ```
 
+...or
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .CreateUser("user", "password", "password_hash", x =>
+    {
+        x.WithTags(t =>
+        {
+            t.Administrator();
+        });
+    });
+```
+
 <br>
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).

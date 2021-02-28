@@ -21,7 +21,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> CreateExchange(this IBrokerObjectFactory factory,
-            string exchange, string vhost, Action<NewExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
@@ -32,7 +32,7 @@ namespace HareDu.Extensions
         }
 
         public static async Task<Result> DeleteExchange(this IBrokerObjectFactory factory,
-            string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));

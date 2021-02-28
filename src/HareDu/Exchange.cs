@@ -22,7 +22,7 @@ namespace HareDu
         /// <param name="configurator">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
+        Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Delete the specified exchange on the target virtual host.
@@ -30,6 +30,6 @@ namespace HareDu
         /// <param name="configurator">Describes how the queue will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);
     }
 }

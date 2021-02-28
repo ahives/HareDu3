@@ -31,11 +31,11 @@ namespace HareDu.Internal
         }
 
         public async Task<Result> Create(string username, string vhost,
-            Action<NewUserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+            Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewUserPermissionsConfiguratorImpl();
+            var impl = new UserPermissionsConfiguratorImpl();
             configurator?.Invoke(impl);
 
             UserPermissionsRequest request =
@@ -85,8 +85,8 @@ namespace HareDu.Internal
         }
 
 
-        class NewUserPermissionsConfiguratorImpl :
-            NewUserPermissionsConfigurator
+        class UserPermissionsConfiguratorImpl :
+            UserPermissionsConfigurator
         {
             public string ConfigurePattern { get; private set; }
             public string ReadPattern { get; private set; }

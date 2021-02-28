@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface NewUserPermissionsConfigurator
+    public interface UserPermissionsConfigurator
     {
         /// <summary>
         /// Specify the pattern of what users to configure the permissions for.

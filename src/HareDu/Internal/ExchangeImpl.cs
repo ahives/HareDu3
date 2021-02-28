@@ -31,11 +31,11 @@ namespace HareDu.Internal
             return await GetAllRequest<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string exchange, string vhost, Action<NewExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewExchangeConfiguratorImpl();
+            var impl = new ExchangeConfiguratorImpl();
             configurator?.Invoke(impl);
             
             ExchangeRequest request = impl.Request.Value;
@@ -60,11 +60,11 @@ namespace HareDu.Internal
             return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(string exchange, string vhost, Action<DeleteExchangeConfigurator> configurator, CancellationToken cancellationToken = default)
+        public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteExchangeConfigurationImpl();
+            var impl = new ExchangeDeletionConfigurationImpl();
             configurator?.Invoke(impl);
 
             var errors = new List<Error>();
@@ -76,10 +76,10 @@ namespace HareDu.Internal
                 errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
             string virtualHost = vhost.ToSanitizedName();
-            
-            string url = $"api/exchanges/{virtualHost}/{exchange}";
-            if (!string.IsNullOrWhiteSpace(impl.Query.Value))
-                url = $"api/exchanges/{virtualHost}/{exchange}?{impl.Query.Value}";
+
+            string url = string.IsNullOrWhiteSpace(impl.Query.Value)
+                ? $"api/exchanges/{virtualHost}/{exchange}"
+                : $"api/exchanges/{virtualHost}/{exchange}?{impl.Query.Value}";
 
             if (errors.Any())
                 return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
@@ -88,43 +88,27 @@ namespace HareDu.Internal
         }
 
         
-        class DeleteExchangeConfigurationImpl :
-            DeleteExchangeConfigurator
+        class ExchangeDeletionConfigurationImpl :
+            ExchangeDeletionConfigurator
         {
             string _query;
 
             public Lazy<string> Query { get; }
 
-            public DeleteExchangeConfigurationImpl()
+            public ExchangeDeletionConfigurationImpl()
             {
                 Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
             }
-            
-            public void When(Action<DeleteExchangeCondition> condition)
+
+            public void WhenUnused()
             {
-                var impl = new DeleteExchangeConditionImpl();
-                condition?.Invoke(impl);
-
-                string query = string.Empty;
-                if (impl.DeleteIfUnused)
-                    query = "if-unused=true";
-
-                _query = query;
-            }
-
-
-            class DeleteExchangeConditionImpl :
-                DeleteExchangeCondition
-            {
-                public bool DeleteIfUnused { get; private set; }
-
-                public void Unused() => DeleteIfUnused = true;
+                _query = "if-unused=true";
             }
         }
 
 
-        class NewExchangeConfiguratorImpl :
-            NewExchangeConfigurator
+        class ExchangeConfiguratorImpl :
+            ExchangeConfigurator
         {
             string _routingType;
             bool _durable;
@@ -137,7 +121,7 @@ namespace HareDu.Internal
             public Lazy<ExchangeRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewExchangeConfiguratorImpl()
+            public ExchangeConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
@@ -159,9 +143,9 @@ namespace HareDu.Internal
 
             public void IsForInternalUse() => _internal = true;
 
-            public void HasArguments(Action<NewExchangeArguments> arguments)
+            public void HasArguments(Action<ExchangeArgumentConfigurator> arguments)
             {
-                var impl = new NewExchangeArgumentsImpl();
+                var impl = new ExchangeArgumentConfiguratorImpl();
                 arguments?.Invoke(impl);
 
                 _arguments = impl.Arguments;
@@ -173,12 +157,12 @@ namespace HareDu.Internal
             public void AutoDeleteWhenNotInUse() => _autoDelete = true;
 
 
-            class NewExchangeArgumentsImpl :
-                NewExchangeArguments
+            class ExchangeArgumentConfiguratorImpl :
+                ExchangeArgumentConfigurator
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public NewExchangeArgumentsImpl()
+                public ExchangeArgumentConfiguratorImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

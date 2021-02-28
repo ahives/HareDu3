@@ -31,11 +31,11 @@ namespace HareDu.Internal
             return await GetAllRequest<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string policy, string vhost, Action<NewPolicyConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string policy, string vhost, Action<PolicyConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewPolicyConfiguratorImpl();
+            var impl = new PolicyConfiguratorImpl();
             configurator?.Invoke(impl);
 
             PolicyRequest request = impl.Request.Value;
@@ -81,8 +81,8 @@ namespace HareDu.Internal
        }
 
         
-        class NewPolicyConfiguratorImpl :
-            NewPolicyConfigurator
+        class PolicyConfiguratorImpl :
+            PolicyConfigurator
         {
             string _pattern;
             IDictionary<string, ArgumentValue<object>> _arguments;
@@ -94,13 +94,13 @@ namespace HareDu.Internal
             public Lazy<PolicyRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewPolicyConfiguratorImpl()
+            public PolicyConfiguratorImpl()
             {
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
                 Request = new Lazy<PolicyRequest>(
-                    () => new PolicyRequest
+                    () => new ()
                     {
                         Pattern = _pattern,
                         Arguments = _arguments.GetStringArguments(),
@@ -111,10 +111,10 @@ namespace HareDu.Internal
             
             public void UsingPattern(string pattern) => _pattern = pattern;
 
-            public void HasArguments(Action<NewPolicyArguments> arguments)
+            public void HasArguments(Action<PolicyArgumentConfigurator> configurator)
             {
-                var impl = new NewPolicyArgumentsImpl();
-                arguments?.Invoke(impl);
+                var impl = new PolicyArgumentConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _arguments = impl.Arguments;
 
@@ -135,12 +135,12 @@ namespace HareDu.Internal
             public void ApplyTo(PolicyAppliedTo appliedTo) => _applyTo = appliedTo.Convert();
 
 
-            class NewPolicyArgumentsImpl :
-                NewPolicyArguments
+            class PolicyArgumentConfiguratorImpl :
+                PolicyArgumentConfigurator
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public NewPolicyArgumentsImpl()
+                public PolicyArgumentConfiguratorImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

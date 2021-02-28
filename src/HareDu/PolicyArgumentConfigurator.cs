@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public interface NewPolicyArguments
+    public interface PolicyArgumentConfigurator
     {
         /// <summary>
         /// Set user-defined argument on the policy.

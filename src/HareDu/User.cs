@@ -29,7 +29,7 @@ namespace HareDu
         /// <param name="configurator">Describes how the user permission will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
-        Task<Result> Create(string username, string password, string passwordHash = null, Action<NewUserConfigurator> configurator = null, CancellationToken cancellationToken = default);
+        Task<Result> Create(string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified user on the current RabbitMQ server.

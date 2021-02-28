@@ -22,7 +22,7 @@ namespace HareDu
         /// <param name="configuration">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Create(string queue, string vhost, string node, Action<NewQueueConfigurator> configuration = null,
+        Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configuration = null,
             CancellationToken cancellationToken = default);
         
         /// <summary>
@@ -31,10 +31,10 @@ namespace HareDu
         /// <param name="configurator">Describes how the queue will be deleted.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-        Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null, CancellationToken cancellationToken = default);
+        Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Purge all messages in the specified queue on the target virtual host on the current RAbbitMQ node.
+        /// Purge all messages in the specified queue on the target virtual host on the current RabbitMQ node.
         /// </summary>
         /// <param name="configuration">Describes how the queue will be purged.</param>
         /// <param name="cancellationToken">Token used cancel the current thread</param>

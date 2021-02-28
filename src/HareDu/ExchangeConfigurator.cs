@@ -2,7 +2,7 @@ namespace HareDu
 {
     using System;
 
-    public interface NewExchangeConfigurator
+    public interface ExchangeConfigurator
     {
         /// <summary>
         /// Specify the message routing type (e.g. fanout, direct, topic, etc.).
@@ -24,7 +24,7 @@ namespace HareDu
         /// Specify user-defined arguments used to configure the exchange.
         /// </summary>
         /// <param name="arguments"></param>
-        void HasArguments(Action<NewExchangeArguments> arguments);
+        void HasArguments(Action<ExchangeArgumentConfigurator> arguments);
 
         /// <summary>
         /// Specify that the exchange will be deleted when there are no consumers.

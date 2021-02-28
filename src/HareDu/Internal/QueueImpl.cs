@@ -31,12 +31,12 @@ namespace HareDu.Internal
             return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string queue, string vhost, string node, Action<NewQueueConfigurator> configuration = null,
+        public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configuration = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewQueueConfiguratorImpl(node);
+            var impl = new QueueConfiguratorImpl(node);
             configuration?.Invoke(impl);
             
             impl.Validate();
@@ -63,12 +63,12 @@ namespace HareDu.Internal
             return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Delete(string queue, string vhost, Action<DeleteQueueConfigurator> configurator = null,
+        public async Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new DeleteQueueConfiguratorImpl();
+            var impl = new QueueDeletionConfiguratorImpl();
             configurator?.Invoke(impl);
 
             var errors = new List<Error>();
@@ -78,10 +78,10 @@ namespace HareDu.Internal
 
             if (string.IsNullOrWhiteSpace(vhost))
                 errors.Add(new () {Reason = "The name of the virtual host is missing."});
-            
-            string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}";
-            if (!string.IsNullOrWhiteSpace(impl.Query.Value))
-                url = $"{url}?{impl.Query.Value}";
+
+            string url = string.IsNullOrWhiteSpace(impl.Query.Value)
+                ? $"api/queues/{vhost.ToSanitizedName()}/{queue}"
+                : $"api/queues/{vhost.ToSanitizedName()}/{queue}?{impl.Query.Value}";
             
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
@@ -110,50 +110,36 @@ namespace HareDu.Internal
         }
 
 
-        class DeleteQueueConfiguratorImpl :
-            DeleteQueueConfigurator
+        class QueueDeletionConfiguratorImpl :
+            QueueDeletionConfigurator
         {
             string _query;
 
             public Lazy<string> Query { get; }
 
-            public DeleteQueueConfiguratorImpl()
+            public QueueDeletionConfiguratorImpl()
             {
                 Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void When(Action<QueueDeleteCondition> condition)
+            public void WhenHasNoConsumers()
             {
-                var impl = new QueueDeleteConditionImpl();
-                condition?.Invoke(impl);
-                
-                string query = string.Empty;
-
-                if (impl.DeleteIfUnused)
-                    query = "if-unused=true";
-
-                if (impl.DeleteIfEmpty)
-                    query = !string.IsNullOrWhiteSpace(query) ? $"{query}&if-empty=true" : "if-empty=true";
-
-                _query = query;
+                _query = string.IsNullOrWhiteSpace(_query)
+                    ? "if-unused=true"
+                    : _query.Contains("if-unused=true") ? _query : $"{_query}&if-unused=true";
             }
 
-
-            class QueueDeleteConditionImpl :
-                QueueDeleteCondition
+            public void WhenEmpty()
             {
-                public bool DeleteIfUnused { get; private set; }
-                public bool DeleteIfEmpty { get; private set; }
-
-                public void HasNoConsumers() => DeleteIfUnused = true;
-
-                public void IsEmpty() => DeleteIfEmpty = true;
+                _query = string.IsNullOrWhiteSpace(_query)
+                    ? "if-empty=true"
+                    : _query.Contains("if-empty=true") ? _query : $"{_query}&if-empty=true";
             }
         }
 
 
-        class NewQueueConfiguratorImpl :
-            NewQueueConfigurator
+        class QueueConfiguratorImpl :
+            QueueConfigurator
         {
             bool _durable;
             bool _autoDelete;
@@ -164,7 +150,7 @@ namespace HareDu.Internal
             public Lazy<QueueRequest> Definition { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public NewQueueConfiguratorImpl(string node)
+            public QueueConfiguratorImpl(string node)
             {
                 _errors = new List<Error>();
                 
@@ -181,10 +167,10 @@ namespace HareDu.Internal
             
             public void IsDurable() => _durable = true;
 
-            public void HasArguments(Action<NewQueueArguments> arguments)
+            public void HasArguments(Action<QueueArgumentConfigurator> configurator)
             {
-                var impl = new NewQueueArgumentsImpl();
-                arguments?.Invoke(impl);
+                var impl = new QueueArgumentConfiguratorImpl();
+                configurator?.Invoke(impl);
 
                 _arguments = impl.Arguments;
             }
@@ -198,12 +184,12 @@ namespace HareDu.Internal
             }
 
             
-            class NewQueueArgumentsImpl :
-                NewQueueArguments
+            class QueueArgumentConfiguratorImpl :
+                QueueArgumentConfigurator
             {
                 public IDictionary<string, ArgumentValue<object>> Arguments { get; }
 
-                public NewQueueArgumentsImpl()
+                public QueueArgumentConfiguratorImpl()
                 {
                     Arguments = new Dictionary<string, ArgumentValue<object>>();
                 }

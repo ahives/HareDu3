@@ -216,7 +216,7 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete("E3", "HareDu", x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.IsFalse(result.HasFaulted);
@@ -229,7 +229,7 @@ namespace HareDu.Tests
             var result = await services.GetService<IBrokerObjectFactory>()
                 .DeleteExchange("E3", "HareDu", x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.IsFalse(result.HasFaulted);
@@ -243,7 +243,7 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete(string.Empty, "HareDu", x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.Multiple(() =>
@@ -261,7 +261,7 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete("E3", string.Empty, x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.Multiple(() =>
@@ -279,7 +279,7 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete("E3", string.Empty, x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.Multiple(() =>
@@ -297,7 +297,7 @@ namespace HareDu.Tests
                 .Object<Exchange>()
                 .Delete(string.Empty, string.Empty, x =>
                 {
-                    x.When(condition => condition.Unused());
+                    x.WhenUnused();
                 });
             
             Assert.Multiple(() =>

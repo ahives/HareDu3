@@ -1,13 +1,11 @@
 namespace HareDu
 {
-    using System;
-
-    public interface DeleteExchangeConfigurator
+    public interface ExchangeDeletionConfigurator
     {
         /// <summary>
         /// Specify the conditions for which the exchange can be deleted.
         /// </summary>
         /// <param name="condition"></param>
-        void When(Action<DeleteExchangeCondition> condition);
+        void WhenUnused();
     }
 }
