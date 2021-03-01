@@ -6,6 +6,7 @@ namespace HareDu.MicrosoftIntegration
     using Diagnostics.KnowledgeBase;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Snapshotting;
 
     public static class HareDuExtensions
     {
@@ -25,6 +26,7 @@ namespace HareDu.MicrosoftIntegration
             services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
             services.AddSingleton<IScannerFactory, ScannerFactory>();
             services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
+            services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerObjectFactory>()));
             
             return services;
         }
@@ -40,6 +42,7 @@ namespace HareDu.MicrosoftIntegration
             services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
             services.AddSingleton<IScannerFactory, ScannerFactory>();
             services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
+            services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerObjectFactory>()));
             
             return services;
         }

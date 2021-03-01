@@ -7,13 +7,13 @@ HareDu 3 comes with four major APIs; that is, Broker, Snapshot, Diagnostics, and
 | Package Name |  | .NET Standard |
 |---| --- | --- |
 | **API** |  |  |
-| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 2.0 |
-| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 2.0 |
-| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 2.0 |
-| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 2.0 |
-| **Containers** | | |
-| [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 2.0 |
-| [HareDu.CoreIntegration](https://www.nuget.org/packages/HareDu.CoreIntegration/) | .NET Core DI Integration API| 2.0 |
+| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 3.0.1 |
+| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 3.0.1 |
+| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 3.0.1 |
+| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 3.0.1 |
+| **DI Containers** | | |
+| [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 3.0.1 |
+| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 3.0.1 |
 
 <br>
 

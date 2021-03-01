@@ -99,6 +99,8 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Test&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BindingTests.Test2&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_peek_messages2&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.SystemOverviewTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ClusterSnapshotTests.Test&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;

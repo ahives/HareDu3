@@ -6,6 +6,7 @@ namespace HareDu.AutofacIntegration
     using Diagnostics;
     using Diagnostics.KnowledgeBase;
     using Microsoft.Extensions.Configuration;
+    using Snapshotting;
 
     public static class HareDuExtensions
     {
@@ -45,6 +46,10 @@ namespace HareDu.AutofacIntegration
                 .As<IScannerResultAnalyzer>()
                 .SingleInstance();
 
+            builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerObjectFactory>()))
+                .As<ISnapshotFactory>()
+                .SingleInstance();
+
             return builder;
         }
 
@@ -77,6 +82,10 @@ namespace HareDu.AutofacIntegration
 
             builder.RegisterType<ScannerResultAnalyzer>()
                 .As<IScannerResultAnalyzer>()
+                .SingleInstance();
+
+            builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerObjectFactory>()))
+                .As<ISnapshotFactory>()
                 .SingleInstance();
 
             return builder;
