@@ -53,9 +53,6 @@ The above applies for any NuGet package you wish to install.
 
 ## Using HareDu with RabbitMQ
 
-Under the "IntegrationTesting" solution folder you will find two projects of note, HareDu.IntegrationTesting.Publisher and HareDu.IntegrationTesting.Consumer, respectively. These projects use the popular OSS project MassTransit to interact with the RabbitMQ broker for sending and receiving messages. Follow the below steps in order to test the Diagnostic API.
-
-
 1. Ensure that your RabbitMQ broker has the proper plugins enabled by following the [RabbitMQ documentation](https://www.rabbitmq.com/management.html#clustering).
 2. Create a RabbitMQ Virtual Host
    Note: This can be done by either using the Broker API or by logging in to the RabbitMQ UI and creating a vhost
@@ -63,8 +60,6 @@ Under the "IntegrationTesting" solution folder you will find two projects of not
 4. Create an exchange and queue, then bind them together
    Note: This can be done by either using the Broker API or by logging in to the RabbitMQ UI and creating a vhost
 5. Publish and consume messages to and from the queue
-
-Note: if you are using JetBrains Rider you can simply configure both projects and run them within the IDE.
 
 **Enough with the talking, go check out the docs [here](https://github.com/ahives/HareDu3/blob/master/docs/README.md)**
 
