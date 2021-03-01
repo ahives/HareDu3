@@ -65,7 +65,7 @@ The above applies for any NuGet package you wish to install.
 
 
 # Dependencies
-.NET Core 2.1 or above
+.NET 5 or above
 
 
 # Debugging
