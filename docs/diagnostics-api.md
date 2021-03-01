@@ -7,7 +7,7 @@ The very first thing you need to do is register/initialize the appropriate objec
 
 <br>
 
-Registering objects without IoC containers is pretty simple as well...
+Registering objects without DI containers is pretty simple as well...
 
 ```c#
 var scanner = new Scanner(factory);
@@ -49,11 +49,26 @@ public class BrokerQueuesScannerObserver :
     public void OnNext(ProbeContext value) => throw new NotImplementedException();
 }
 
-var snapshot = await _services.GetService<ISnapshotFactory>()
-    .Lens<BrokerQueuesSnapshot>()
-    .TakeSnapshot();
+// Get the configuration
+HareDuConfig config = new HareDuConfig();
 
-var scanner = _services.GetService<IScanner>()
-    .RegisterObserver(new BrokerQueuesScannerObserver())
-    .Scan(snapshot);
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", false)
+    .Build();
+
+configuration.Bind("HareDuConfig", config);
+
+// Initialize a snapshot factory
+var snapshotFactory = new SnapshotFactory(new BrokerObjectFactory(config))
+    .Lens<BrokerQueuesSnapshot>();
+    
+// Get a snapshot
+var snapshot = await snapshotFactory.TakeSnapshot();
+
+// Initialize a diagnostic scanner
+var scanner = new Scanner(new ScannerFactory(config, new KnowledgeBaseProvider()))
+    .RegisterObserver(new BrokerQueuesScannerObserver());
+
+// Execute the scanner against the snapshot
+var result = scanner.Scan(snapshot);
 ```
