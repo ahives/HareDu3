@@ -26,7 +26,7 @@ HareDu is Apache 2.0 licensed.
 If you are familiar with HareDu, you should know that HareDu 3 introduces some really cool new functionality. HareDu 3 came about from feedback of production deployments and because the original API was lacking in some key areas. In particular, HareDu 3 introduces the following enhancements:
 1. Increased test coverage
 2. Improved low level administrative API (i.e. Broker API)
-3. .NET Core and .NET 5 support
+3. .NET 5 support
 
 HareDu 3 was rewritten with C# 9.0 and .NET 5 in mind using such features as record classes for API immutability and the built in Json parser.
 
@@ -113,4 +113,6 @@ That's it. So, the resulting output of calling the ```ToJsonString``` extension 
 
 Broker API throws a json parsing exception when attempting to access socket_opts (SystemOverviewInfo.Listeners.SocketOptions) on RabbitMQ API version 3.8.2 in situations when this value is an array. The issue is with the RabbitMQ HTTP API v3.8.2 returning inconsistent object types for this property. This issue has been reported to RabbitMQ maintainers.
 
+
+# Changelist
 

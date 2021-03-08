@@ -1,6 +1,6 @@
-# Create Policies
+# Create Policy
 
-The Broker API allows you to create a queue on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to create a policy on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
@@ -59,13 +59,6 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-RabbitMQ supports the concept of [durability](https://www.rabbitmq.com/queues.html), which means that if the broker restarts the queues will survive. To configure a queue to be durable during creation, add the ```IsDurable``` method like so...
-
-```c#
-c.IsDurable();
-```
-<br>
-
 HareDu 3 supports the below RabbitMQ arguments during queue creation.
 
 <br>
@@ -73,7 +66,7 @@ HareDu 3 supports the below RabbitMQ arguments during queue creation.
 | Argument | Method |
 | --- | --- |
 | [expires](https://www.rabbitmq.com/ttl.html#queue-ttl) | SetQueueExpiration |
-| [message-ttl](https://www.rabbitmq.com/ttl.html#message-ttl-using-policy) | SetPerQueuedMessageExpiration |
+| [message-ttl](https://www.rabbitmq.com/ttl.html#message-ttl-using-policy) | SetMessageTimeToLive |
 | [dead-letter-exchange](https://www.rabbitmq.com/dlx.html#using-optional-queue-arguments) | SetDeadLetterExchange |
 | [dead-letter-routing-key](https://www.rabbitmq.com/dlx.html#using-optional-queue-arguments) | SetDeadLetterExchangeRoutingKey |
 | [alternate-exchange](https://www.rabbitmq.com/ae.html) | SetAlternateExchange |
@@ -87,8 +80,6 @@ HareDu 3 supports the below RabbitMQ arguments during queue creation.
 | [ha-promote-on-shutdown](https://www.rabbitmq.com/ha.html#cluster-shutdown) | SetQueuePromotionOnShutdown |
 | [ha-promote-on-failure](https://www.rabbitmq.com/ha.html#promoting-unsynchronised-mirrors) | SetQueuePromotionOnFailure |
 | [ha-sync-batch-size](https://www.rabbitmq.com/ha.html#cluster-shutdown) | SetQueuedMessageSyncBatchSize |
-| []() |  |
-| []() |  |
 
 The addition of the below code in ```HasArguments``` method will set the above RabbitMQ arguments.
 

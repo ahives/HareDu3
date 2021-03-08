@@ -1,12 +1,12 @@
-# Delete Policy
+# Delete Operator Policy
 
-The Broker API allows you to delete a policy from RabbitMQ. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to delete an operator policy from RabbitMQ. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
 ```c#
 var result = await new BrokerObjectFactory(config)
-    .Object<Policy>()
+    .Object<OperatorPolicy>()
     .Delete("policy", "vhost");
 ```
 <br>
@@ -15,7 +15,7 @@ var result = await new BrokerObjectFactory(config)
 
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Policy>()
+    .Object<OperatorPolicy>()
     .Delete("policy", "vhost");
 ```
 <br>
@@ -24,16 +24,16 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Policy>()
+    .Object<OperatorPolicy>()
     .Delete("policy", "vhost");
 ```
 <br>
 
-The other way to create a policy is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to delete an operator policy is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .DeletePolicy("policy", "vhost");
+    .DeleteOperatorPolicy("policy", "vhost");
 ```
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).

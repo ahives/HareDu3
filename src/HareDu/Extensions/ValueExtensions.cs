@@ -22,5 +22,13 @@ namespace HareDu.Extensions
             
             return arguments.ToDictionary(x => x.Key, x => x.Value.Value.ToString());
         }
+        
+        public static IDictionary<string, ulong> GetArgumentsOrNull(this IDictionary<string, ArgumentValue<ulong>> arguments)
+        {
+            if (arguments.IsNull() || !arguments.Any())
+                return new Dictionary<string, ulong>();
+            
+            return arguments.ToDictionary(x => x.Key, x => x.Value.Value);
+        }
     }
 }

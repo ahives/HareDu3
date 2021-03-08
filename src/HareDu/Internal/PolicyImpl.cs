@@ -38,6 +38,8 @@ namespace HareDu.Internal
             var impl = new PolicyConfiguratorImpl();
             configurator?.Invoke(impl);
 
+            impl.Validate();
+
             PolicyRequest request = impl.Request.Value;
 
             Debug.Assert(request != null);
@@ -88,6 +90,8 @@ namespace HareDu.Internal
             IDictionary<string, ArgumentValue<object>> _arguments;
             int _priority;
             string _applyTo;
+            bool _usingPatternCalled;
+            bool _hasArgumentsCalled;
             
             readonly List<Error> _errors;
 
@@ -109,10 +113,20 @@ namespace HareDu.Internal
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
             
-            public void UsingPattern(string pattern) => _pattern = pattern;
+            public void UsingPattern(string pattern)
+            {
+                _usingPatternCalled = true;
+                
+                _pattern = pattern;
+                
+                if (string.IsNullOrWhiteSpace(_pattern))
+                    _errors.Add(new(){Reason = "Pattern was not set."});
+            }
 
             public void HasArguments(Action<PolicyArgumentConfigurator> configurator)
             {
+                _hasArgumentsCalled = true;
+                
                 var impl = new PolicyArgumentConfiguratorImpl();
                 configurator?.Invoke(impl);
 
@@ -134,6 +148,14 @@ namespace HareDu.Internal
 
             public void ApplyTo(PolicyAppliedTo appliedTo) => _applyTo = appliedTo.Convert();
 
+            public void Validate()
+            {
+                if (!_usingPatternCalled)
+                    _errors.Add(new(){Reason = "Pattern was not set."});
+                
+                if (!_hasArgumentsCalled)
+                    _errors.Add(new(){Reason = "No arguments have been set."});
+            }
 
             class PolicyArgumentConfiguratorImpl :
                 PolicyArgumentConfigurator

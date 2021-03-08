@@ -34,6 +34,18 @@ namespace HareDu.Extensions
             }
         }
         
+        public static string Convert(this OperatorPolicyAppliedTo appliedTo)
+        {
+            switch (appliedTo)
+            {
+                case OperatorPolicyAppliedTo.Queues:
+                    return "queues";
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(appliedTo), appliedTo, null);
+            }
+        }
+        
         public static string Convert(this ExchangeRoutingType routingType)
         {
             switch (routingType)
