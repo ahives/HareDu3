@@ -62,7 +62,7 @@ HareDu 3 supports the below RabbitMQ arguments during queue creation.
 | [max-length](https://www.rabbitmq.com/parameters.html#operator-policies) | SetMessageMaxSize |
 | [max-in-memory-bytes](https://www.rabbitmq.com/maxlength.html) | SetMaxInMemoryBytes |
 | [max-in-memory-length](https://www.rabbitmq.com/maxlength.html) | SetMaxInMemoryLength |
-| [delivery-limit](https://www.rabbitmq.com/quorum-queues.html) | SetDeliveryLimit |
+| [delivery-limit](https://www.rabbitmq.com/blog/2020/04/20/rabbitmq-gets-an-ha-upgrade/) | SetDeliveryLimit |
 
 <br>
 

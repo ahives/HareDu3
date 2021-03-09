@@ -69,17 +69,11 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create("P5", "HareDu", x =>
+                .Create("P5", "^amq.", "HareDu", x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -101,17 +95,11 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreatePolicy("P5", "HareDu", x =>
+                .CreatePolicy("P5", "^amq.", "HareDu", x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -134,18 +122,12 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(string.Empty, string.Empty, x =>
+                .Create(string.Empty, "^amq.", string.Empty, x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                    x.SetFederationUpstreamSet("all");
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -168,18 +150,11 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreatePolicy(string.Empty, string.Empty, x =>
+                .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -203,18 +178,11 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(string.Empty, string.Empty, x =>
+                .Create(string.Empty, "^amq.", string.Empty, x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -237,18 +205,11 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreatePolicy(string.Empty, string.Empty, x =>
-                {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
+                    .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
                     {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                        x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                        x.SetExpiry(1000);
+                    }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -272,18 +233,12 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create(string.Empty, string.Empty, x =>
+                .Create(string.Empty, "^amq.", string.Empty, x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                    x.SetFederationUpstreamSet("all");
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {
@@ -306,18 +261,12 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreatePolicy(string.Empty, string.Empty, x =>
+                .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetExpiry(1000);
+                    x.SetFederationUpstreamSet("all");
+                }, PolicyAppliedTo.All, 0);
 
             Assert.Multiple(() =>
             {

@@ -35,6 +35,8 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ConnectionTests.Should_be_able_to_get_all_connections&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ConnectionTests.Test&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.OperatorPolicyTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.PolicyTests.Verify_can_create_policy&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.OperatorPolicyTests.Verify_can_create_operator_policy&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
     &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Snapshotting.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Snapshotting.Tests&amp;gt;" /&gt;

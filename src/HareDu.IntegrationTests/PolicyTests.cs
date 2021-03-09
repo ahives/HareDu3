@@ -43,17 +43,12 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create("P5", "HareDu", x =>
+                .Create("policy1", "^amq.", "TestHareDu", x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.Exactly);
+                    x.SetHighAvailabilityParams(5);
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.Queues, 0);
             
 //            Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -64,18 +59,12 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Policy>()
-                .Create("P4", "HareDu", x =>
+                .Create("P4", "^amq.", "HareDu", x =>
                 {
-                    x.UsingPattern("^amq.");
-                    x.HasPriority(0);
-                    x.HasArguments(d =>
-                    {
-                        d.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                        d.SetFederationUpstreamSet("all");
-                        d.SetExpiry(1000);
-                    });
-                    x.ApplyTo(PolicyAppliedTo.All);
-                });
+                    x.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    x.SetFederationUpstreamSet("all");
+                    x.SetExpiry(1000);
+                }, PolicyAppliedTo.All, 0);
             
             // Assert.IsFalse(result.HasFaulted);
             Console.WriteLine(result.ToJsonString(Deserializer.Options));

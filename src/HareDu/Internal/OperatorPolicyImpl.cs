@@ -115,7 +115,7 @@ namespace HareDu.Internal
 
             public void SetMaxInMemoryLength(ulong messages) => SetArg("max-in-memory-length", messages);
 
-            public void SetDeliveryLimit(ulong deliveryAttempts) => SetArg("delivery-limit", deliveryAttempts);
+            public void SetDeliveryLimit(ulong limit) => SetArg("delivery-limit", limit);
 
             public void SetMessageTimeToLive(ulong milliseconds) => SetArg("message-ttl", milliseconds);
 

@@ -31,7 +31,8 @@ namespace HareDu.Internal
             return await GetAllRequest<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string policy, string vhost, Action<PolicyConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string policy, string pattern, string vhost, Action<PolicyConfigurator> configurator,
+            PolicyAppliedTo appliedTo = PolicyAppliedTo.All, int priority = 0, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
@@ -40,7 +41,13 @@ namespace HareDu.Internal
 
             impl.Validate();
 
-            PolicyRequest request = impl.Request.Value;
+            PolicyRequest request = new ()
+            {
+                Pattern = pattern,
+                Priority = priority,
+                Arguments = impl.Arguments.Value,
+                ApplyTo = appliedTo.Convert()
+            };
 
             Debug.Assert(request != null);
             
@@ -53,6 +60,9 @@ namespace HareDu.Internal
 
             if (string.IsNullOrWhiteSpace(vhost))
                 errors.Add(new (){Reason = "The name of the virtual host is missing."});
+
+            if (string.IsNullOrWhiteSpace(pattern))
+                errors.Add(new(){Reason = "Pattern was not set."});
 
             string url = $"api/policies/{vhost.ToSanitizedName()}/{policy}";
             
@@ -82,155 +92,112 @@ namespace HareDu.Internal
             return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
        }
 
-        
+
         class PolicyConfiguratorImpl :
             PolicyConfigurator
         {
-            string _pattern;
-            IDictionary<string, ArgumentValue<object>> _arguments;
-            int _priority;
-            string _applyTo;
-            bool _usingPatternCalled;
-            bool _hasArgumentsCalled;
-            
+            readonly IDictionary<string, ArgumentValue<object>> _arguments;
             readonly List<Error> _errors;
 
-            public Lazy<PolicyRequest> Request { get; }
+            public Lazy<IDictionary<string, string>> Arguments { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public PolicyConfiguratorImpl()
             {
                 _errors = new List<Error>();
-                
+                _arguments = new Dictionary<string, ArgumentValue<object>>();
+
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Request = new Lazy<PolicyRequest>(
-                    () => new ()
-                    {
-                        Pattern = _pattern,
-                        Arguments = _arguments.GetStringArguments(),
-                        Priority = _priority,
-                        ApplyTo = _applyTo
-                    }, LazyThreadSafetyMode.PublicationOnly);
-            }
-            
-            public void UsingPattern(string pattern)
-            {
-                _usingPatternCalled = true;
-                
-                _pattern = pattern;
-                
-                if (string.IsNullOrWhiteSpace(_pattern))
-                    _errors.Add(new(){Reason = "Pattern was not set."});
+                Arguments = new Lazy<IDictionary<string, string>>(() => _arguments.GetStringArguments(), LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void HasArguments(Action<PolicyArgumentConfigurator> configurator)
+            public void Validate()
             {
-                _hasArgumentsCalled = true;
-                
-                var impl = new PolicyArgumentConfiguratorImpl();
-                configurator?.Invoke(impl);
-
-                _arguments = impl.Arguments;
-
                 foreach (var argument in _arguments?.Where(x => x.Value.IsNull()).Select(x => x.Key))
                     _errors.Add(new(){Reason = $"Argument '{argument}' has been set without a corresponding value."});
 
                 if (!_arguments.TryGetValue("ha-mode", out var haMode))
                     return;
-                
+
                 string mode = haMode.Value.ToString().Trim();
-                if ((mode.ConvertTo() == HighAvailabilityModes.Exactly ||
-                    mode.ConvertTo() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params"))
+                if ((mode.Convert() == HighAvailabilityModes.Exactly ||
+                    mode.Convert() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params"))
                     _errors.Add(new(){Reason = $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"});
             }
 
-            public void HasPriority(int priority) => _priority = priority;
-
-            public void ApplyTo(PolicyAppliedTo appliedTo) => _applyTo = appliedTo.Convert();
-
-            public void Validate()
+            public void Set<T>(string arg, T value)
             {
-                if (!_usingPatternCalled)
-                    _errors.Add(new(){Reason = "Pattern was not set."});
-                
-                if (!_hasArgumentsCalled)
-                    _errors.Add(new(){Reason = "No arguments have been set."});
+                SetArgWithConflictingCheck(arg, "federation-upstream", "federation-upstream-set", value);
+                SetArgWithConflictingCheck(arg, "ha-mode", value);
+                SetArgWithConflictingCheck(arg, "ha-sync-mode", value);
+                SetArgWithConflictingCheck(arg, "ha-params", value);
+                SetArgWithConflictingCheck(arg, "expires", value);
+                SetArgWithConflictingCheck(arg, "message-ttl", value);
+                SetArgWithConflictingCheck(arg, "max-length-bytes", value);
+                SetArgWithConflictingCheck(arg, "max-length", value);
+                SetArgWithConflictingCheck(arg, "dead-letter-exchange", value);
+                SetArgWithConflictingCheck(arg, "dead-letter-routing-key", value);
+                SetArgWithConflictingCheck(arg, "queue-mode", value);
+                SetArgWithConflictingCheck(arg, "alternate-exchange", value);
+                SetArgWithConflictingCheck(arg, "queue-master-locator", value);
+                SetArgWithConflictingCheck(arg, "ha-promote-on-shutdown", value);
+                SetArgWithConflictingCheck(arg, "ha-promote-on-failure", value);
+                SetArgWithConflictingCheck(arg, "delivery-limit", value);
             }
 
-            class PolicyArgumentConfiguratorImpl :
-                PolicyArgumentConfigurator
-            {
-                public IDictionary<string, ArgumentValue<object>> Arguments { get; }
+            public void SetExpiry(ulong milliseconds) => SetArg("expires", milliseconds);
 
-                public PolicyArgumentConfiguratorImpl()
-                {
-                    Arguments = new Dictionary<string, ArgumentValue<object>>();
-                }
+            public void SetFederationUpstreamSet(string value) => SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
 
-                public void Set<T>(string arg, T value)
-                {
-                    SetArgWithConflictingCheck(arg, "federation-upstream", "federation-upstream-set", value);
-                    SetArgWithConflictingCheck(arg, "ha-mode", value);
-                    SetArgWithConflictingCheck(arg, "ha-sync-mode", value);
-                    SetArgWithConflictingCheck(arg, "ha-params", value);
-                    SetArgWithConflictingCheck(arg, "expires", value);
-                    SetArgWithConflictingCheck(arg, "message-ttl", value);
-                    SetArgWithConflictingCheck(arg, "max-length-bytes", value);
-                    SetArgWithConflictingCheck(arg, "max-length", value);
-                    SetArgWithConflictingCheck(arg, "dead-letter-exchange", value);
-                    SetArgWithConflictingCheck(arg, "dead-letter-routing-key", value);
-                    SetArgWithConflictingCheck(arg, "queue-mode", value);
-                    SetArgWithConflictingCheck(arg, "alternate-exchange", value);
-                }
+            public void SetFederationUpstream(string value) => SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
 
-                public void SetExpiry(long milliseconds) => SetArg("expires", milliseconds);
+            public void SetHighAvailabilityMode(HighAvailabilityModes mode) => SetArg("ha-mode", mode.Convert());
 
-                public void SetFederationUpstreamSet(string value) =>
-                    SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
+            public void SetHighAvailabilityParams(uint value) => SetArg("ha-params", value);
 
-                public void SetFederationUpstream(string value) =>
-                    SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
+            public void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode) => SetArg("ha-sync-mode", mode.Convert());
 
-                public void SetHighAvailabilityMode(HighAvailabilityModes mode) => SetArg("ha-mode", mode.ConvertTo());
+            public void SetMessageTimeToLive(ulong milliseconds) => SetArg("message-ttl", milliseconds);
 
-                public void SetHighAvailabilityParams(int value) => SetArg("ha-params", value);
+            public void SetMessageMaxSizeInBytes(ulong value) => SetArg("max-length-bytes", value.ToString());
 
-                public void SetHighAvailabilitySyncMode(HighAvailabilitySyncModes mode) => SetArg("ha-sync-mode", mode.ConvertTo());
+            public void SetMessageMaxSize(ulong value) => SetArg("max-length", value);
 
-                public void SetMessageTimeToLive(long milliseconds) => SetArg("message-ttl", milliseconds);
+            public void SetDeadLetterExchange(string value) => SetArg("dead-letter-exchange", value.Trim());
 
-                public void SetMessageMaxSizeInBytes(long value) => SetArg("max-length-bytes", value.ToString());
+            public void SetDeadLetterRoutingKey(string value) => SetArg("dead-letter-routing-key", value.Trim());
+            
+            public void SetQueueMode(QueueMode mode) => SetArg("queue-mode", mode.Convert());
 
-                public void SetMessageMaxSize(long value) => SetArg("max-length", value);
+            public void SetAlternateExchange(string value) => SetArg("alternate-exchange", value.Trim());
+            
+            public void SetQueueMasterLocator(string key) => SetArg("queue-master-locator", key.Trim());
+            
+            public void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode) => SetArg("ha-promote-on-shutdown", mode.Convert());
 
-                public void SetDeadLetterExchange(string value) => SetArg("dead-letter-exchange", value.Trim());
+            public void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode) => SetArg("ha-promote-on-failure", mode.Convert());
 
-                public void SetDeadLetterRoutingKey(string value) => SetArg("dead-letter-routing-key", value.Trim());
+            public void SetDeliveryLimit(ulong limit) => SetArg("delivery-limit", limit);
 
-                public void SetQueueMode() => SetArg("queue-mode", "lazy");
+            void SetArg(string arg, object value) =>
+                _arguments.Add(arg.Trim(),
+                    _arguments.ContainsKey(arg)
+                        ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                        : new ArgumentValue<object>(value));
 
-                public void SetAlternateExchange(string value) => SetArg("alternate-exchange", value.Trim());
+            void SetArgWithConflictingCheck(string arg, string targetArg, object value) =>
+                _arguments.Add(arg.Trim(),
+                    _arguments.ContainsKey(arg) || arg == targetArg && _arguments.ContainsKey(targetArg)
+                        ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'")
+                        : new ArgumentValue<object>(value));
 
-                void SetArg(string arg, object value) =>
-                    Arguments.Add(arg.Trim(),
-                        Arguments.ContainsKey(arg)
-                            ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
-                            : new ArgumentValue<object>(value));
-
-                void SetArgWithConflictingCheck(string arg, string targetArg, object value) =>
-                    Arguments.Add(arg.Trim(),
-                        Arguments.ContainsKey(arg) || arg == targetArg && Arguments.ContainsKey(targetArg)
-                            ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'")
-                            : new ArgumentValue<object>(value));
-
-                void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value) =>
-                    Arguments.Add(arg.Trim(),
-                        Arguments.ContainsKey(arg)
-                        || arg == conflictingArg && Arguments.ContainsKey(targetArg)
-                        || arg == targetArg && Arguments.ContainsKey(conflictingArg)
-                            ? new ArgumentValue<object>(value, $"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'")
-                            : new ArgumentValue<object>(value));
-            }
+            void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value) =>
+                _arguments.Add(arg.Trim(),
+                    _arguments.ContainsKey(arg)
+                    || arg == conflictingArg && _arguments.ContainsKey(targetArg)
+                    || arg == targetArg && _arguments.ContainsKey(conflictingArg)
+                        ? new ArgumentValue<object>(value, $"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'")
+                        : new ArgumentValue<object>(value));
         }
     }
 }

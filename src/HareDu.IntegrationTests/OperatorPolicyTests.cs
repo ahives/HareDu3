@@ -33,7 +33,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<OperatorPolicy>()
-                .Create("test6", ".*", "TestHareDu", x =>
+                .Create("test7", ".*", "TestHareDu", x =>
                 {
                     x.SetMaxInMemoryBytes(9803129);
                     x.SetMaxInMemoryLength(283);

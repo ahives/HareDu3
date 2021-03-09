@@ -39,8 +39,8 @@ namespace HareDu
         void SetMaxInMemoryLength(ulong messages);
         
         /// <summary>
-        /// The number of allowed unsuccessful delivery attempts.
+        /// Set 'delivery-limit' argument on the operator policy.
         /// </summary>
-        void SetDeliveryLimit(ulong deliveryAttempts);
+        void SetDeliveryLimit(ulong limit);
     }
 }

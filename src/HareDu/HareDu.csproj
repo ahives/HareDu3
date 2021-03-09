@@ -9,4 +9,8 @@
       <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Extensions\ConverterExtensions.cs" />
+    </ItemGroup>
+
 </Project>

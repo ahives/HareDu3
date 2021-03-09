@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public enum HighAvailabilitySyncModes
+    public enum HighAvailabilitySyncMode
     {
         Manual,
         Automatic
