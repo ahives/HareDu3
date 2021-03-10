@@ -473,26 +473,6 @@ namespace HareDu.Extensions
             Console.WriteLine($"Total Disk Reads: {item.MessageStats?.TotalDiskReads}");
             Console.WriteLine($"Node: {item.StatsDatabaseEventQueue}");
             Console.WriteLine();
-
-            foreach (var listener in item.Listeners)
-            {
-                Console.WriteLine($"\tNode: {listener.Node}");
-                Console.WriteLine($"\tPort: {listener.Port}");
-                Console.WriteLine($"\tProtocol: {listener.Protocol}");
-                Console.WriteLine($"\tIP Address: {listener.IPAddress}");
-
-                // Console.WriteLine("\tSocket Options");
-                // Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
-                // Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
-                // Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
-                // foreach (var option in listener.SocketOptions)
-                // {
-                //     Console.WriteLine($"\t\tBacklog: {option.Backlog}");
-                //     Console.WriteLine($"\t\tNo Delay: {option.NoDelay}");
-                //     Console.WriteLine($"\t\tExit on Close: {option.ExitOnClose}");
-                // }
-                Console.WriteLine("\t-------------------");
-            }
             
             Console.WriteLine($"Node: {item.Listeners}");
             Console.WriteLine($"Product Version: {item.ProductVersion}");
@@ -542,18 +522,13 @@ namespace HareDu.Extensions
                 Console.WriteLine($"\tProtocol: {listener.Protocol}");
                 Console.WriteLine($"\tIP Address: {listener.IPAddress}");
 
-                // Console.WriteLine("\tSocket Options");
-                // Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
-                // Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
-                // Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
+                if (listener.SocketOptions.IsNull())
+                    continue;
 
-                // foreach (var option in listener.SocketOptions)
-                // {
-                //     Console.WriteLine("\t\t-------------------");
-                //     Console.WriteLine($"\t\tBacklog: {option.Backlog}");
-                //     Console.WriteLine($"\t\tNo Delay: {option.NoDelay}");
-                //     Console.WriteLine($"\t\tExit on Close: {option.ExitOnClose}");
-                // }
+                Console.WriteLine("\tSocket Options");
+                Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
+                Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
+                Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
                 
                 Console.WriteLine("\t-------------------");
             }

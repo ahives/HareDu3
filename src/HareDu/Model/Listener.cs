@@ -1,6 +1,7 @@
 namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
+    using Serialization;
 
     public record Listener
     {
@@ -17,6 +18,7 @@ namespace HareDu.Model
         public string Port { get; init; }
         
         [JsonPropertyName("socket_opts")]
+        [JsonConverter(typeof(InconsistentObjectDataConverter))]
         public SocketOptions SocketOptions { get; init; }
     }
 }

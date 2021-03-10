@@ -34,17 +34,13 @@
         protected virtual void NotifyObservers(string identifier, T snapshot, DateTimeOffset timestamp)
         {
             foreach (var observer in _observers)
-            {
                 observer.OnNext(new SnapshotContext<T>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp});
-            }
         }
 
         protected virtual void NotifyObserversOfError(HareDuSnapshotException e)
         {
             foreach (var observer in _observers)
-            {
                 observer.OnError(e);
-            }
         }
 
         protected virtual void SaveSnapshot(string identifier, T snapshot, DateTimeOffset timestamp)

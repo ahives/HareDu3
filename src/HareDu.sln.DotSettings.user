@@ -8,6 +8,7 @@
     &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ConnectionSnapshotTests.Test1&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BrokerSystemTests.Test&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.OperatorPolicyTests.Should_be_able_to_get_all_policies&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.QueueSnapshotTests.Test&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

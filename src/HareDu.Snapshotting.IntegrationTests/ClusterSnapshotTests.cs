@@ -1,6 +1,9 @@
 namespace HareDu.Snapshotting.IntegrationTests
 {
+    using System;
     using System.Threading.Tasks;
+    using Core.Extensions;
+    using Core.Serialization;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using Model;
@@ -26,8 +29,9 @@ namespace HareDu.Snapshotting.IntegrationTests
             var lens = _services.GetService<ISnapshotFactory>()
                 .Lens<ClusterSnapshot>()
                 .RegisterObserver(new DefaultClusterSnapshotConsoleLogger());
-            var result = lens.TakeSnapshot();
+            var result = await lens.TakeSnapshot();
 
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
 //            var snapshot = resource.Snapshots[0].Select(x => x.Data);
 //            Console.WriteLine($"Cluster: {snapshot.ClusterName}");
         }
