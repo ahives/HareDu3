@@ -28,7 +28,7 @@ namespace HareDu.Snapshotting.Internal
         public async Task<SnapshotResult<BrokerQueuesSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
             var cluster = await _factory
-                .GetSystemOverview(cancellationToken)
+                .GetBrokerSystemOverview(cancellationToken)
                 .ConfigureAwait(false);
 
             if (cluster.HasFaulted)

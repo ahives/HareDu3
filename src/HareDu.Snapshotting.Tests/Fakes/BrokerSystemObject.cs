@@ -6,11 +6,11 @@ namespace HareDu.Snapshotting.Tests.Fakes
     using Core.Testing;
     using HareDu.Model;
 
-    public class SystemOverviewObject :
-        SystemOverview,
+    public class BrokerSystemObject :
+        BrokerSystem,
         HareDuTestingFake
     {
-        public async Task<Result<SystemOverviewInfo>> Get(CancellationToken cancellationToken = default)
+        public async Task<Result<SystemOverviewInfo>> GetSystemOverview(CancellationToken cancellationToken = default)
         {
             var data = new SystemOverviewInfo()
             {
@@ -54,5 +54,7 @@ namespace HareDu.Snapshotting.Tests.Fakes
             
             return new SuccessfulResult<SystemOverviewInfo>{Data = data, DebugInfo = null};
         }
+
+        public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
     }
 }

@@ -30,7 +30,7 @@ namespace HareDu.Snapshotting.Internal
         public async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
         {
             var cluster = await _factory
-                .GetSystemOverview(cancellationToken)
+                .GetBrokerSystemOverview(cancellationToken)
                 .ConfigureAwait(false);
 
             if (cluster.HasFaulted)
@@ -146,7 +146,7 @@ namespace HareDu.Snapshotting.Internal
                         OpenChannelsLimit = x.OpenChannelsLimit,
                         NodeIdentifier = x.Node,
                         VirtualHost = x.VirtualHost,
-                        State = x.State.Convert()
+                        State = x.State.ConvertToState()
                     })
                     .ToList()
             };

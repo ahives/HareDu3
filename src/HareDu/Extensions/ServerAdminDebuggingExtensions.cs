@@ -466,8 +466,8 @@ namespace HareDu.Extensions
             Console.WriteLine($"Node: {item.Node}");
             Console.WriteLine($"Management Version: {item.ManagementVersion}");
             Console.WriteLine($"Cluster Name: {item.ClusterName}");
-            Console.WriteLine($"Erlang Verion: {item.ErlangVersion}");
-            Console.WriteLine($"Erlang Verion (Full): {item.ErlangFullVersion}");
+            Console.WriteLine($"Erlang Version: {item.ErlangVersion}");
+            Console.WriteLine($"Erlang Version (Full): {item.ErlangFullVersion}");
             Console.WriteLine($"RMQ Version: {item.RabbitMqVersion}");
             Console.WriteLine($"Rates Mode: {item.RatesMode}");
             Console.WriteLine($"Total Disk Reads: {item.MessageStats?.TotalDiskReads}");
@@ -481,10 +481,10 @@ namespace HareDu.Extensions
                 Console.WriteLine($"\tProtocol: {listener.Protocol}");
                 Console.WriteLine($"\tIP Address: {listener.IPAddress}");
 
-                Console.WriteLine("\tSocket Options");
-                Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
-                Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
-                Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
+                // Console.WriteLine("\tSocket Options");
+                // Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
+                // Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
+                // Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
                 // foreach (var option in listener.SocketOptions)
                 // {
                 //     Console.WriteLine($"\t\tBacklog: {option.Backlog}");
@@ -495,6 +495,17 @@ namespace HareDu.Extensions
             }
             
             Console.WriteLine($"Node: {item.Listeners}");
+            Console.WriteLine($"Product Version: {item.ProductVersion}");
+            Console.WriteLine($"Product Name: {item.ProductName}");
+
+            foreach (long val in item.SampleRetentionPolicies.Basic)
+                Console.WriteLine($"Basic: {val}");
+
+            foreach (long val in item.SampleRetentionPolicies.Detailed)
+                Console.WriteLine($"Detailed: {val}");
+
+            foreach (long val in item.SampleRetentionPolicies.Global)
+                Console.WriteLine($"Global: {val}");
             
             Console.WriteLine("Totals");
             Console.WriteLine($"\tChannels: {item.ObjectTotals?.TotalChannels}");
@@ -531,10 +542,10 @@ namespace HareDu.Extensions
                 Console.WriteLine($"\tProtocol: {listener.Protocol}");
                 Console.WriteLine($"\tIP Address: {listener.IPAddress}");
 
-                Console.WriteLine("\tSocket Options");
-                Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
-                Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
-                Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
+                // Console.WriteLine("\tSocket Options");
+                // Console.WriteLine($"\t\tBacklog: {listener.SocketOptions.Backlog}");
+                // Console.WriteLine($"\t\tNo Delay: {listener.SocketOptions.NoDelay}");
+                // Console.WriteLine($"\t\tExit on Close: {listener.SocketOptions.ExitOnClose}");
 
                 // foreach (var option in listener.SocketOptions)
                 // {

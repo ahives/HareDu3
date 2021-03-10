@@ -6,7 +6,7 @@ namespace HareDu.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    public class SystemOverviewTests :
+    public class BrokerSystemTests :
         HareDuTesting
     {
         [Test]
@@ -14,8 +14,8 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder("TestData/SystemOverviewInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<SystemOverview>()
-                .Get();
+                .Object<BrokerSystem>()
+                .GetSystemOverview();
 
             Assert.Multiple(() =>
             {
@@ -126,7 +126,7 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder("TestData/SystemOverviewInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .GetSystemOverview();
+                .GetBrokerSystemOverview();
 
             Assert.Multiple(() =>
             {

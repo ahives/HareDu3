@@ -27,7 +27,7 @@ namespace HareDu.Diagnostics.Tests.Probes
             var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
             var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
 
-            ConnectionSnapshot snapshot = new () {State = "blocked".Convert()};
+            ConnectionSnapshot snapshot = new () {State = "blocked".ConvertToState()};
 
             var result = probe.Execute(snapshot);
             
@@ -44,7 +44,7 @@ namespace HareDu.Diagnostics.Tests.Probes
             var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
             var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
             
-            ConnectionSnapshot snapshot = new () {State = "running".Convert()};
+            ConnectionSnapshot snapshot = new () {State = "running".ConvertToState()};
 
             var result = probe.Execute(snapshot);
             

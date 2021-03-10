@@ -91,7 +91,7 @@
 
                 var data = rawResponse.ToObject<T>(Deserializer.Options);
                 
-                return new SuccessfulResult<T>{Data = data, DebugInfo = new () {URL = url, Response = rawResponse, Errors = new List<Error>()}};
+                return new SuccessfulResult<T>{Data = data, DebugInfo = new (){URL = url, Response = rawResponse, Errors = new List<Error>()}};
             }
             catch (MissingMethodException e)
             {

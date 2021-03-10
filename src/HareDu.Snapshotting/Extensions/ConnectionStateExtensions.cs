@@ -4,7 +4,7 @@ namespace HareDu.Snapshotting.Extensions
 
     public static class ConnectionStateExtensions
     {
-        public static ConnectionState Convert(this string value)
+        public static ConnectionState ConvertToState(this string value)
         {
             switch (value)
             {

@@ -7,7 +7,7 @@ namespace HareDu.IntegrationTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class SystemOverviewTests
+    public class BrokerSystemTests
     {
         ServiceProvider _services;
 
@@ -30,8 +30,8 @@ namespace HareDu.IntegrationTests
         public async Task Test()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<SystemOverview>()
-                .Get()
+                .Object<BrokerSystem>()
+                .GetSystemOverview()
                 .ScreenDump();
         }
     }

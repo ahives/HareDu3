@@ -159,6 +159,26 @@ namespace HareDu.Extensions
             return result;
         }
         
+        public static Task<ResultList<OperatorPolicyInfo>> ScreenDump(this Task<ResultList<OperatorPolicyInfo>> result)
+        {
+            var results = result
+                .GetResult()
+                .Select(x => x.Data);
+
+            foreach (var item in results)
+            {
+                Console.WriteLine($"Applied To: {item.AppliedTo}");
+                Console.WriteLine($"Name: {item.Name}");
+                Console.WriteLine($"Pattern: {item.Pattern}");
+                Console.WriteLine($"Priority: {item.Priority}");
+                Console.WriteLine($"Virtual Host: {item.VirtualHost}");
+                Console.WriteLine("****************************************************");
+                Console.WriteLine();
+            }
+
+            return result;
+        }
+        
         public static Task<ResultList<ScopedParameterInfo>> ScreenDump(this Task<ResultList<ScopedParameterInfo>> result)
         {
             var results = result

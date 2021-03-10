@@ -14,9 +14,9 @@ namespace HareDu.Snapshotting.Tests.Fakes
         public T Object<T>()
             where T : BrokerObject
         {
-            if (typeof(T) == typeof(SystemOverview))
+            if (typeof(T) == typeof(BrokerSystem))
             {
-                SystemOverview obj = new SystemOverviewObject();
+                BrokerSystem obj = new BrokerSystemObject();
 
                 return (T) obj;
             }

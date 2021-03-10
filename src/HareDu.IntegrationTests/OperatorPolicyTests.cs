@@ -4,6 +4,7 @@ namespace HareDu.IntegrationTests
     using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
+    using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
@@ -26,6 +27,15 @@ namespace HareDu.IntegrationTests
                     });
                 })
                 .BuildServiceProvider();
+        }
+
+        [Test]
+        public async Task Should_be_able_to_get_all_policies()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .Object<OperatorPolicy>()
+                .GetAll()
+                .ScreenDump();
         }
 
         [Test]

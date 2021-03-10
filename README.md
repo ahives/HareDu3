@@ -9,16 +9,16 @@ HareDu is Apache 2.0 licensed.
 
 ### HareDu 3 NuGet Packages
 
-| Package Name |  | .NET Standard |
+| Package Name |  | .NET Runtime |
 |---| --- | --- |
 | **API** |  |  |
-| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 3.0.1 |
-| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 3.0.1 |
-| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 3.0.1 |
-| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 3.0.1 |
+| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 5.0 |
+| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 5.0 |
+| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 5.0 |
+| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 5.0 |
 | **DI Containers** | | |
-| [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 3.0.1 |
-| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 3.0.1 |
+| [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 5.0 |
+| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 5.0 |
 
 
 # Why HareDu 3?
@@ -46,7 +46,7 @@ Install-Package -Version <version> HareDu
 ex:
 
 ```
-Install-Package -Version 3.0.1 HareDu
+Install-Package -Version 3.1.0 HareDu
 ```
 
 The above applies for any NuGet package you wish to install.
@@ -115,4 +115,8 @@ Broker API throws a json parsing exception when attempting to access socket_opts
 
 
 # Changelist
+
+SystemOverview is now BrokerSystem
+The method signature for the Create method in Policy was changed
+
 
