@@ -11,7 +11,7 @@ HareDu 3 comes with four major APIs; that is, Broker, Snapshot, Diagnostics, and
 | [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 5.0 |
 | [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 5.0 |
 | [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 5.0 |
-| **DI Containers** | | |
+| **Dependency Injection Containers** | | |
 | [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 5.0 |
 | [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 5.0 |
 
