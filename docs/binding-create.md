@@ -1,6 +1,6 @@
 # Create Binding
 
-The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to create a binding to an exchange or queue on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
@@ -8,7 +8,7 @@ for creating exchange to exchange bindings...
 ```c#
 var result = await new BrokerObjectFactory(config)
     .Object<Binding>()
-    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost", "binding_key");
 ```
 
 <br>
@@ -18,7 +18,7 @@ var result = await new BrokerObjectFactory(config)
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
     .Object<Binding>()
-    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost", "binding_key");
 ```
 <br>
 
@@ -27,34 +27,26 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Binding>()
-    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost");
+    .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost", "binding_key");
 ```
 <br>
 
 The above examples show how you would bind a source exchange to a destination exchange. However, RabbitMQ allows you to bind an exchange to a queue. In this scenario, you would set the exchange as the source and the destination as the queue like so...
 
-
 ```c#
 var result = await new BrokerObjectFactory(config)
     .Object<Binding>()
-    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost");
+    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "binding_key");
 ```
 <br>
 
-If you want to add a routing key to the binding then you just need to call the ```HasRoutingKey``` method within ```Configure``` like so...
+If you want to add adhoc arguments to the binding then you just need to call the ```Add``` method like so...
 
 ```c#
-c.HasRoutingKey("your_routing_key");
-```
-<br>
-
-If you want to add adhoc arguments to the binding then you just need to call the ```Set``` method within ```HasArguments```, which is within ```Configure``` like so...
-
-```c#
-c.HasArguments(arg =>
+x =>
 {
-    arg.Set("your_arg", "your_value");
-});
+    x.Add("arg", "value");
+};
 ```
 <br>
 
@@ -63,13 +55,9 @@ A complete example would look something like this...
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Binding>()
-    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", x =>
+    .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "*.", x =>
     {
-        x.WithRoutingKey("*.");
-        x.WithArguments(arg =>
-        {
-            arg.Add("arg", "value");
-        });
+        x.Add("arg", "value");
     });
 ```
 

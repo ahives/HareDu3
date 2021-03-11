@@ -14,7 +14,8 @@
 | **3.0.1** | 1 | Fixed issue with Snapshot API not being registered in HareDu.MicrosoftIntegration and HareDu.AutofacIntegration packages | Bug Fix | No |
 | | | | | |
 | **3.1.0** | 1 | Changed SystemOverview object in Broker API to BrokerSystem | Enhancement | Yes |
-| | 2 | Changed method signature for the Create method in Policy | Enhancement | Yes |
+| | 2 | Changed method signature for the Create method in Policy and corresponding extension method CreatePolicy | Enhancement | Yes |
 | | 3 | Fixed issue with inconsistent values being returned from socket_opts in api/overview | Bug Fix | No |
 | | 4 | Introduced new object in Broker API called OperatorPolicy | New | No |
+| | 5 | Changed method signature for the Create method in Binding and corresponding extension methods CreateExchangeBindingToQueue and CreateExchangeBinding | Enhancement | Yes |
 

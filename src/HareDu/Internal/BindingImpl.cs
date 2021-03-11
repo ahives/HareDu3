@@ -31,15 +31,21 @@ namespace HareDu.Internal
             return await GetAllRequest<BindingInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding,
-            BindingType bindingType, string vhost, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding, BindingType bindingType, string vhost,
+            string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new BindingConfiguratorImpl();
             configurator?.Invoke(impl);
+
+            impl.Validate();
             
-            BindingRequest request = impl.Request.Value;
+            BindingRequest request = new()
+            {
+                BindingKey = bindingKey,
+                Arguments = impl.Arguments.Value
+            };
 
             Debug.Assert(request != null);
 
@@ -102,59 +108,34 @@ namespace HareDu.Internal
         class BindingConfiguratorImpl :
             BindingConfigurator
         {
-            string _routingKey;
-            IDictionary<string, ArgumentValue<object>> _arguments;
-
+            readonly IDictionary<string, ArgumentValue<object>> _arguments;
             readonly List<Error> _errors;
 
-            public Lazy<BindingRequest> Request { get; }
+            public Lazy<IDictionary<string, object>> Arguments { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public BindingConfiguratorImpl()
             {
                 _errors = new List<Error>();
+                _arguments = new Dictionary<string, ArgumentValue<object>>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Request = new Lazy<BindingRequest>(() =>
-                    new()
-                    {
-                        RoutingKey = _routingKey,
-                        Arguments = _arguments.GetArgumentsOrNull()
-                    }, LazyThreadSafetyMode.PublicationOnly);
+                Arguments = new Lazy<IDictionary<string, object>>(() => _arguments.GetArgumentsOrNull(), LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void WithRoutingKey(string routingKey) => _routingKey = routingKey;
-
-            public void WithArguments(Action<BindingArgumentConfigurator> arguments)
+            public void Validate()
             {
-                var impl = new BindingArgumentConfiguratorImpl();
-                arguments?.Invoke(impl);
-
-                _arguments = impl.Arguments;
-                
                 _errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
                     .Where(error => error.IsNotNull())
                     .ToList());
             }
 
-            
-            class BindingArgumentConfiguratorImpl :
-                BindingArgumentConfigurator
-            {
-                public IDictionary<string, ArgumentValue<object>> Arguments { get; }
-
-                public BindingArgumentConfiguratorImpl()
-                {
-                    Arguments = new Dictionary<string, ArgumentValue<object>>();
-                }
-
-                public void Add<T>(string arg, T value) =>
-                    Arguments.Add(arg.Trim(),
-                        Arguments.ContainsKey(arg)
-                            ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
-                            : new ArgumentValue<object>(value));
-            }
+            public void Add<T>(string arg, T value) =>
+                _arguments.Add(arg.Trim(),
+                    _arguments.ContainsKey(arg)
+                        ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                        : new ArgumentValue<object>(value));
         }
     }
 }

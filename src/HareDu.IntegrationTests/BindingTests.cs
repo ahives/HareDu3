@@ -75,13 +75,9 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", x =>
+                .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", "*.", x =>
                 {
-                    x.WithRoutingKey("*.");
-                    x.WithArguments(arg =>
-                    {
-                        arg.Add("arg1", "value1");
-                    });
+                    x.Add("arg1", "value1");
                 });
             
 //            Assert.IsFalse(result.HasFaulted);

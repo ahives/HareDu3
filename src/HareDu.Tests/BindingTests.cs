@@ -13,7 +13,7 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public async Task Should_be_able_to_get_all_bindings1()
+        public async Task Verify_able_to_get_all_bindings1()
         {
             var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -30,7 +30,7 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Should_be_able_to_get_all_bindings2()
+        public async Task Verify_able_to_get_all_bindings2()
         {
             var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -113,10 +113,9 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Exchange, "HareDu", x =>
+                .Create("E2", "Q1", BindingType.Exchange, "HareDu", "*.", x =>
                 {
-                    x.WithRoutingKey("*.");
-                    x.WithArguments(arg => { arg.Add("arg1", "value1"); });
+                    x.Add("arg1", "value1");
                 });
 
             Assert.Multiple(() =>
@@ -127,7 +126,7 @@ namespace HareDu.Tests
                 
                 BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
@@ -137,10 +136,9 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("E2", "Q1", "HareDu", x =>
+                .CreateExchangeBinding("E2", "Q1", "HareDu", "*.", x =>
                 {
-                    x.WithRoutingKey("*.");
-                    x.WithArguments(arg => { arg.Add("arg1", "value1"); });
+                    x.Add("arg1", "value1");
                 });
 
             Assert.Multiple(() =>
@@ -151,7 +149,7 @@ namespace HareDu.Tests
                 
                 BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
@@ -162,10 +160,9 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Queue, "HareDu", x =>
+                .Create("E2", "Q1", BindingType.Queue, "HareDu", "*.", x =>
                 {
-                    x.WithRoutingKey("*.");
-                    x.WithArguments(arg => { arg.Add("arg1", "value1"); });
+                    x.Add("arg1", "value1");
                 });
 
             Assert.Multiple(() =>
@@ -176,7 +173,7 @@ namespace HareDu.Tests
                 
                 BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }
@@ -186,10 +183,9 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E2", "Q1", "HareDu", x =>
+                .CreateExchangeBindingToQueue("E2", "Q1", "HareDu", "*.", x =>
                 {
-                    x.WithRoutingKey("*.");
-                    x.WithArguments(arg => { arg.Add("arg1", "value1"); });
+                    x.Add("arg1", "value1");
                 });
 
             Assert.Multiple(() =>
@@ -200,7 +196,7 @@ namespace HareDu.Tests
                 
                 BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
 
-                Assert.AreEqual("*.", request.RoutingKey);
+                Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
             });
         }

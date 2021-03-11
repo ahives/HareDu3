@@ -1,19 +1,13 @@
 namespace HareDu
 {
-    using System;
-
     public interface BindingConfigurator
     {
         /// <summary>
-        /// Specify how the binding will be set up rout messages.
+        /// Set a user-defined argument.
         /// </summary>
-        /// <param name="routingKey"></param>
-        void WithRoutingKey(string routingKey);
-        
-        /// <summary>
-        /// Specify user-defined binding arguments.
-        /// </summary>
-        /// <param name="arguments"></param>
-        void WithArguments(Action<BindingArgumentConfigurator> arguments);
+        /// <param name="arg"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        void Add<T>(string arg, T value);
     }
 }

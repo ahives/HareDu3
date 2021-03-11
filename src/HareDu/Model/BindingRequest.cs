@@ -7,7 +7,7 @@ namespace HareDu.Model
     {
         [JsonPropertyName("routing_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string RoutingKey { get; init; }
+        public string BindingKey { get; init; }
         
         [JsonPropertyName("arguments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
