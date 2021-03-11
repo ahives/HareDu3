@@ -11,14 +11,14 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken">Token used to cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result<SystemOverviewInfo>> GetSystemOverview(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Rebalances all queues in all virtual hosts.
         /// </summary>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default);
     }

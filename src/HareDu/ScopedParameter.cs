@@ -1,6 +1,5 @@
 namespace HareDu
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Core;
@@ -12,7 +11,7 @@ namespace HareDu
         /// <summary>
         /// Returns all scoped parameters on the current RabbitMQ server.
         /// </summary>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
         Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
 
@@ -23,7 +22,7 @@ namespace HareDu
         /// <param name="value"></param>
         /// <param name="component"></param>
         /// <param name="vhost"></param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         Task<Result> Create<T>(string parameter, T value, string component, string vhost, CancellationToken cancellationToken = default);
@@ -34,7 +33,7 @@ namespace HareDu
         /// <param name="parameter"></param>
         /// <param name="component"></param>
         /// <param name="vhost"></param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
         Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default);
     }

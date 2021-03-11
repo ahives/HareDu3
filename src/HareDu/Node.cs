@@ -11,7 +11,7 @@ namespace HareDu
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default);
         
@@ -19,7 +19,7 @@ namespace HareDu
         /// Runs a test to check if the current RabbitMQ node is healthy.
         /// </summary>
         /// <param name="node"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default);
         
@@ -27,7 +27,7 @@ namespace HareDu
         /// 
         /// </summary>
         /// <param name="node"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default);
     }

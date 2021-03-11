@@ -12,22 +12,26 @@ namespace HareDu
         /// <summary>
         /// Returns information about all user permissions on the current RabbitMQ server.
         /// </summary>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
         /// </summary>
+        /// <param name="username"></param>
+        /// <param name="vhost"></param>
         /// <param name="configurator">Describes how the user permission will be created.</param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Create(string username, string vhost, Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified user permission assigned to a specified user on a specific virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
+        /// <param name="username"></param>
+        /// <param name="vhost"></param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default);
     }

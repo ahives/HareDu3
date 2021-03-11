@@ -28,9 +28,13 @@ namespace HareDu
         /// <summary>
         /// Delete the specified exchange on the target virtual host.
         /// </summary>
-        /// <param name="configuration">Describes how the queue will be deleted.</param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
-        /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
+        /// <param name="sourceBinding">Source binding</param>
+        /// <param name="destinationBinding"></param>
+        /// <param name="propertiesKey"></param>
+        /// <param name="vhost"></param>
+        /// <param name="bindingType"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
             string vhost, BindingType bindingType, CancellationToken cancellationToken = default);
     }
