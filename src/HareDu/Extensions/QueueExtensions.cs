@@ -9,6 +9,13 @@ namespace HareDu.Extensions
 
     public static class QueueExtensions
     {
+        /// <summary>
+        /// Returns all queues on the current RabbitMQ node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<ResultList<QueueInfo>> GetAllQueues(this IBrokerObjectFactory factory,
             CancellationToken cancellationToken = default)
         {
@@ -20,6 +27,17 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Create specified queue on the specified RabbitMQ virtual host and node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="queue">Name of the RabbitMQ broker queue.</param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="node">Name of the RabbitMQ node.</param>
+        /// <param name="configuration">Describes how the queue will be created.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> CreateQueue(this IBrokerObjectFactory factory,
             string queue, string vhost, string node, Action<QueueConfigurator> configuration, CancellationToken cancellationToken = default)
         {
@@ -31,6 +49,15 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Purge all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="queue">Name of the RabbitMQ broker queue.</param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> EmptyQueue(this IBrokerObjectFactory factory,
             string queue, string vhost, CancellationToken cancellationToken = default)
         {
@@ -42,14 +69,24 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Delete specified queue on the specified RabbitMQ virtual host and node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="queue">Name of the RabbitMQ broker queue.</param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="configurator">Describes how the queue should be deleted.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> DeleteQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, Action<QueueDeletionConfigurator> configuration = null, CancellationToken cancellationToken = default)
+            string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
 
             return await factory.Object<Queue>()
-                .Delete(queue, vhost, configuration, cancellationToken)
+                .Delete(queue, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

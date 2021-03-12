@@ -19,8 +19,8 @@ namespace HareDu
         /// <summary>
         /// Creates the specified exchange on the target virtual host.
         /// </summary>
-        /// <param name="exchange">Name of the exchange.</param>
-        /// <param name="vhost">Name of the virtual host.</param>
+        /// <param name="exchange">Name of the RabbitMQ exchange.</param>
+        /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
         /// <param name="configurator">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
@@ -29,8 +29,8 @@ namespace HareDu
         /// <summary>
         /// Delete the specified exchange on the target virtual host.
         /// </summary>
-        /// <param name="exchange">Name of the exchange.</param>
-        /// <param name="vhost">Name of the virtual host.</param>
+        /// <param name="exchange">Name of the RabbitMQ exchange.</param>
+        /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
         /// <param name="configurator">Describes how the queue will be deleted.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>

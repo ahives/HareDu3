@@ -31,8 +31,8 @@ namespace HareDu.Extensions
         /// Creates the specified global parameter on the current RabbitMQ node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="parameter">Name of the parameter.</param>
-        /// <param name="configurator">Describes how the parameter is to be defined.</param>
+        /// <param name="parameter">Name of the RabbitMQ parameter.</param>
+        /// <param name="configurator">Describes how the RabbitMQ parameter is to be defined.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -51,7 +51,7 @@ namespace HareDu.Extensions
         /// Delete the specified global parameter on the current RabbitMQ node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="parameter">Name of the parameter.</param>
+        /// <param name="parameter">Name of the RabbitMQ parameter.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
