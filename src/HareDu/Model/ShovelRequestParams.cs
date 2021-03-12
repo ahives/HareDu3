@@ -42,7 +42,7 @@ namespace HareDu.Model
         
         [JsonPropertyName("src-prefetch-count")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public long SourcePrefetchCount { get; init; }
+        public ulong SourcePrefetchCount { get; init; }
         
         [JsonPropertyName("src-exchange")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

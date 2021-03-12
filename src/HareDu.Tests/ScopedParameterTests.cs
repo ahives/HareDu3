@@ -13,7 +13,7 @@ namespace HareDu.Tests
         HareDuTesting
     {
         [Test]
-        public async Task Should_be_able_to_get_all_scoped_parameters1()
+        public async Task Verify_able_to_get_all_scoped_parameters1()
         {
             var services = GetContainerBuilder("TestData/ScopedParameterInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -34,7 +34,7 @@ namespace HareDu.Tests
         }
         
         [Test]
-        public async Task Should_be_able_to_get_all_scoped_parameters2()
+        public async Task Verify_able_to_get_all_scoped_parameters2()
         {
             var services = GetContainerBuilder("TestData/ScopedParameterInfo.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()

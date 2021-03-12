@@ -110,6 +110,10 @@
       <Content Include="TestData\OperatorPolicyInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\ShovelInfo.json" />
+      <Content Include="TestData\ShovelInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

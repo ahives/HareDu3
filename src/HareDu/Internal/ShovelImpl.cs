@@ -107,7 +107,7 @@ namespace HareDu.Internal
             int _reconnectDelay;
             bool _destinationAddForwardHeaders;
             bool _destinationAddTimestampHeader;
-            long _sourcePrefetchCount;
+            ulong _sourcePrefetchCount;
             bool _sourceCalled;
             bool _destinationCalled;
 
@@ -147,9 +147,9 @@ namespace HareDu.Internal
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void ReconnectDelay(int delay) => _reconnectDelay = delay;
+            public void ReconnectDelay(int delayInSeconds) => _reconnectDelay = delayInSeconds < 1 ? 1 : delayInSeconds;
 
-            public void AcknowledgeMode(AckMode mode) => _acknowledgeMode = mode.Convert();
+            public void AcknowledgementMode(AckMode mode) => _acknowledgeMode = mode.Convert();
 
             public void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator)
             {
@@ -207,21 +207,22 @@ namespace HareDu.Internal
                 public string ShovelProtocol { get; private set; }
                 public string ExchangeName { get; private set; }
                 public string ExchangeRoutingKey { get; private set; }
-                public long PrefetchCount { get; private set; }
+                public ulong PrefetchCount { get; private set; }
                 public object DeleteAfterShovel { get; private set; }
 
                 public ShovelSourceConfiguratorImpl()
                 {
                     ShovelProtocol = ShovelProtocolType.Amqp091.Convert();
+                    PrefetchCount = 1000;
                 }
 
                 public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol.Convert();
                 
                 public void DeleteAfter(DeleteShovelAfterMode mode) => DeleteAfterShovel = mode.Convert();
 
-                public void DeleteAfter(int value) => DeleteAfterShovel = value;
+                public void DeleteAfter(uint messages) => DeleteAfterShovel = messages;
 
-                public void MaxCopiedMessages(long messages) => PrefetchCount = messages < 1000 ? 1000 : messages;
+                public void MaxCopiedMessages(ulong messages) => PrefetchCount = messages < 1000 ? 1000 : messages;
 
                 public void Exchange(string exchange, string routingKey)
                 {

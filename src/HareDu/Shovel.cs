@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// Creates a dynamic shovel.
+        /// Create a dynamic shovel on a specified virtual host.
         /// </summary>
         /// <param name="shovel">The name of the dynamic shovel.</param>
         /// <param name="vhost">The virtual host where the shovel resides.</param>
@@ -27,7 +27,7 @@ namespace HareDu
         Task<Result> Create(string shovel, string vhost, Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// Deletes a dynamic shovel.
+        /// Deletes a dynamic shovel on a specified virtual host.
         /// </summary>
         /// <param name="shovel">The name of the dynamic shovel.</param>
         /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
