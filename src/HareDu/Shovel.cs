@@ -15,16 +15,17 @@ namespace HareDu
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Create a dynamic shovel on a specified virtual host.
         /// </summary>
         /// <param name="shovel">The name of the dynamic shovel.</param>
+        /// <param name="uri">The connection URI of the RabbitMQ broker.</param>
         /// <param name="vhost">The virtual host where the shovel resides.</param>
         /// <param name="configurator">Describes how the dynamic shovel will be created.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
-        Task<Result> Create(string shovel, string vhost, Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default);
+        Task<Result> Create(string shovel, string uri, string vhost, Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default);
         
         /// <summary>
         /// Deletes a dynamic shovel on a specified virtual host.

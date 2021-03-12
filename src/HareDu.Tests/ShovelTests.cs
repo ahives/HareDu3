@@ -63,13 +63,13 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Shovel>()
-                .Create("test-shovel1", "TestHareDu", x =>
+                .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    x.Source("queue1", c =>
                     {
                         c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
                     });
-                    x.Destination("queue2", "amqp://user1@localhost");
+                    x.Destination("queue2");
                 });
             
             Assert.Multiple(() =>
@@ -95,13 +95,13 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateShovel("test-shovel1", "TestHareDu", x =>
+                .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    x.Source("queue1", c =>
                     {
                         c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
                     });
-                    x.Destination("queue2", "amqp://user1@localhost");
+                    x.Destination("queue2");
                 });
             
             Assert.Multiple(() =>

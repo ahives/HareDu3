@@ -18,4 +18,5 @@
 | | 3 | Fixed issue with inconsistent values being returned from socket_opts in api/overview | Bug Fix | No |
 | | 4 | Introduced new object in Broker API called OperatorPolicy | New | No |
 | | 5 | Changed method signature for the Create method in Binding and corresponding extension methods CreateExchangeBindingToQueue and CreateExchangeBinding | Enhancement | Yes |
+| | 6 | Changed method signature for the Create method in Shovel and corresponding extension method CreateShovel | Enhancement | Yes |
 

@@ -22,13 +22,13 @@ namespace HareDu.Extensions
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> CreateShovel(this IBrokerObjectFactory factory,
-            string shovel, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
+            string shovel, string uri, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
 
             return await factory.Object<Shovel>()
-                .Create(shovel, vhost, configurator, cancellationToken)
+                .Create(shovel, uri, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
 

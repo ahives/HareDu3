@@ -7,13 +7,13 @@ The Broker API allows you to create a dynamic shovel on the RabbitMQ broker. To 
 ```c#
 var result = await new BrokerObjectFactory(config)
     .Object<Shovel>()
-    .Create("shovel", "vhost", x =>
+    .Create("shovel", "uri", "vhost", x =>
     {
-        x.Source("queue", "uri", c =>
+        x.Source("source_queue", c =>
         {
             ...
         });
-        x.Destination("queue", "uri", c =>
+        x.Destination("destination_queue", c =>
         {
             ...
         });
@@ -26,13 +26,13 @@ var result = await new BrokerObjectFactory(config)
 ```c#
 var result = await _container.Resolve<IBrokerObjectFactory>()
     .Object<Shovel>()
-    .Create("shovel", "vhost", x =>
+    .Create("shovel", "uri", "vhost", x =>
     {
-        x.Source("queue", "uri", c =>
+        x.Source("source_queue", c =>
         {
             ...
         });
-        x.Destination("queue", "uri", c =>
+        x.Destination("destination_queue", c =>
         {
             ...
         });
@@ -45,13 +45,13 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
     .Object<Shovel>()
-    .Create("shovel", "vhost", x =>
+    .Create("shovel", "uri", "vhost", x =>
     {
-        x.Source("queue", "uri", c =>
+        x.Source("source_queue", c =>
         {
             ...
         });
-        x.Destination("queue", "uri", c =>
+        x.Destination("destination_queue", c =>
         {
             ...
         });
@@ -63,13 +63,13 @@ The other way to create a dynamic shovel is to call the extension methods off of
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .CreateShovel("shovel", "vhost", x =>
+    .CreateShovel("shovel", "uri", "vhost", x =>
     {
-        x.Source("queue", "uri", c =>
+        x.Source("source_queue", c =>
         {
             ...
         });
-        x.Destination("queue", "uri", c =>
+        x.Destination("destination_queue", c =>
         {
             ...
         });
@@ -80,13 +80,13 @@ Putting it altogether looks something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .CreateShovel("test-shovel2", "TestHareDu", x =>
+    .CreateShovel("test-shovel", "TestHareDu", "amqp://user1@localhost", x =>
     {
-        x.Source("queue1", "amqp://user1@localhost", c =>
+        x.Source("queue1", c =>
         {
             c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
         });
-        x.Destination("queue2", "amqp://user1@localhost");
+        x.Destination("queue2");
     });
 ```
 

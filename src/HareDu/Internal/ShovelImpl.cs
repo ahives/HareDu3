@@ -31,8 +31,8 @@ namespace HareDu.Internal
             return await GetAllRequest<ShovelInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string shovel, string vhost, Action<ShovelConfigurator> configurator = null,
-            CancellationToken cancellationToken = default)
+        public async Task<Result> Create(string shovel, string uri, string vhost,
+            Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
@@ -43,8 +43,11 @@ namespace HareDu.Internal
 
             if (errors.Any())
                 return new FaultedResult{DebugInfo = new (){Errors = errors}};
+                
+            if (string.IsNullOrWhiteSpace(uri))
+                errors.Add(new(){Reason = "The connection URI is missing."});
 
-            var impl = new ShovelConfiguratorImpl();
+            var impl = new ShovelConfiguratorImpl(uri);
             configurator?.Invoke(impl);
 
             impl.Validate();
@@ -94,10 +97,8 @@ namespace HareDu.Internal
             ShovelConfigurator
         {
             string _destinationQueue;
-            string _destinationUri;
             string _destinationProtocol;
             string _sourceQueue;
-            string _sourceUri;
             string _sourceProtocol;
             string _sourceExchangeName;
             string _sourceExchangeRoutingKey;
@@ -117,7 +118,7 @@ namespace HareDu.Internal
             public Lazy<ShovelRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
-            public ShovelConfiguratorImpl()
+            public ShovelConfiguratorImpl(string uri)
             {
                 _errors = new List<Error>();
                 
@@ -130,7 +131,7 @@ namespace HareDu.Internal
                             AcknowledgeMode = string.IsNullOrWhiteSpace(_acknowledgeMode) ? AckMode.OnConfirm.Convert() : _acknowledgeMode,
                             ReconnectDelay = _reconnectDelay,
                             SourceProtocol = _sourceProtocol,
-                            SourceUri = _sourceUri,
+                            SourceUri = uri,
                             SourceQueue = _sourceQueue,
                             SourceExchange = _sourceExchangeName,
                             SourceExchangeRoutingKey = _sourceExchangeRoutingKey,
@@ -139,7 +140,7 @@ namespace HareDu.Internal
                             DestinationProtocol = _destinationProtocol,
                             DestinationExchange = _destinationExchangeName,
                             DestinationExchangeKey = _destinationExchangeRoutingKey,
-                            DestinationUri = _destinationUri,
+                            DestinationUri = uri,
                             DestinationQueue = _destinationQueue,
                             DestinationAddForwardHeaders = _destinationAddForwardHeaders,
                             DestinationAddTimestampHeader = _destinationAddTimestampHeader
@@ -151,7 +152,7 @@ namespace HareDu.Internal
 
             public void AcknowledgementMode(AckMode mode) => _acknowledgeMode = mode.Convert();
 
-            public void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator)
+            public void Source(string queue, Action<ShovelSourceConfigurator> configurator)
             {
                 _sourceCalled = true;
                 
@@ -159,7 +160,6 @@ namespace HareDu.Internal
                 configurator?.Invoke(impl);
 
                 _sourceProtocol = impl.ShovelProtocol;
-                _sourceUri = uri;
                 _sourceQueue = queue;
                 _sourceExchangeName = impl.ExchangeName;
                 _sourceExchangeRoutingKey = impl.ExchangeRoutingKey;
@@ -167,7 +167,7 @@ namespace HareDu.Internal
                 _deleteShovelAfter = impl.DeleteAfterShovel;
             }
 
-            public void Destination(string queue, string uri, Action<ShovelDestinationConfigurator> configurator)
+            public void Destination(string queue, Action<ShovelDestinationConfigurator> configurator)
             {
                 _destinationCalled = true;
                 
@@ -175,7 +175,6 @@ namespace HareDu.Internal
                 configurator?.Invoke(impl);
 
                 _destinationProtocol = impl.ShovelProtocol;
-                _destinationUri = uri;
                 _destinationQueue = queue;
                 _destinationExchangeName = impl.ExchangeName;
                 _destinationExchangeRoutingKey = impl.ExchangeRoutingKey;
@@ -188,14 +187,12 @@ namespace HareDu.Internal
                 if (!_sourceCalled)
                 {
                     _errors.Add(new(){Reason = "The name of the source protocol is missing."});
-                    _errors.Add(new(){Reason = "The name of the source URI is missing."});
                     _errors.Add(new(){Reason = "The name of the source queue is missing."});
                 }
 
                 if (!_destinationCalled)
                 {
                     _errors.Add(new(){Reason = "The name of the destination protocol is missing."});
-                    _errors.Add(new(){Reason = "The name of the destination URI is missing."});
                     _errors.Add(new(){Reason = "The name of the destination queue is missing."});
                 }
             }

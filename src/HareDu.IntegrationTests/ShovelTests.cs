@@ -35,13 +35,13 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Shovel>()
-                .Create("test-shovel1", "TestHareDu", x =>
+                .Create("test-shovel8", "amqp://user1@localhost", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    x.Source("queue1", c =>
                     {
                         c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
                     });
-                    x.Destination("queue2", "amqp://user1@localhost");
+                    x.Destination("queue2");
                 });
 
             Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -51,13 +51,13 @@ namespace HareDu.IntegrationTests
         public async Task Verify_can_create_dynamic_shovel2()
         {
             Result result = await _services.GetService<IBrokerObjectFactory>()
-                .CreateShovel("test-shovel2", "TestHareDu", x =>
+                .CreateShovel("test-shovel2", "amqp://user1@localhost", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    x.Source("queue1", c =>
                     {
                         c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
                     });
-                    x.Destination("queue2", "amqp://user1@localhost");
+                    x.Destination("queue2");
                 });
 
             Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -67,13 +67,13 @@ namespace HareDu.IntegrationTests
         public async Task Verify_can_create_dynamic_shovel3()
         {
             Result result = await _services.GetService<IBrokerObjectFactory>()
-                .CreateShovel("test-shovel6", "TestHareDu", x =>
+                .CreateShovel("test-shovel6", "amqp://user1@localhost", "TestHareDu", x =>
                 {
-                    x.Source("queue1", "amqp://user1@localhost", c =>
+                    x.Source("queue1", c =>
                     {
                         c.DeleteAfter(5);
                     });
-                    x.Destination("queue2", "amqp://user1@localhost");
+                    x.Destination("queue2");
                 });
 
             Console.WriteLine(result.ToJsonString(Deserializer.Options));

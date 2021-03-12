@@ -12,24 +12,22 @@ namespace HareDu
 
         /// <summary>
         /// Determine how the shovel should acknowledge consumed messages.
-        /// </summary>shovel
+        /// </summary>
         /// <param name="mode"></param>
         void AcknowledgementMode(AckMode mode);
         
         /// <summary>
         /// Describes how the shovel is confirmed from the source end.
         /// </summary>
-        /// <param name="queue"></param>
-        /// <param name="uri"></param>
+        /// <param name="queue">The name of the source queue.</param>
         /// <param name="configurator"></param>
-        void Source(string queue, string uri, Action<ShovelSourceConfigurator> configurator = null);
+        void Source(string queue, Action<ShovelSourceConfigurator> configurator = null);
         
         /// <summary>
         /// Describes how the shovel is confirmed from the destination end.
         /// </summary>
-        /// <param name="queue"></param>
-        /// <param name="uri"></param>
+        /// <param name="queue">The name of the destination queue.</param>
         /// <param name="configurator"></param>
-        void Destination(string queue, string uri, Action<ShovelDestinationConfigurator> configurator = null);
+        void Destination(string queue, Action<ShovelDestinationConfigurator> configurator = null);
     }
 }
