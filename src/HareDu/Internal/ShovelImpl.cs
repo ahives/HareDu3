@@ -165,6 +165,12 @@ namespace HareDu.Internal
                 _sourceExchangeRoutingKey = impl.ExchangeRoutingKey;
                 _sourcePrefetchCount = impl.PrefetchCount;
                 _deleteShovelAfter = impl.DeleteAfterShovel;
+                
+                if (string.IsNullOrWhiteSpace(queue) && string.IsNullOrWhiteSpace(impl.ExchangeName))
+                    _errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                
+                if (!string.IsNullOrWhiteSpace(queue) && !string.IsNullOrWhiteSpace(impl.ExchangeName))
+                    _errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
             }
 
             public void Destination(string queue, Action<ShovelDestinationConfigurator> configurator)
@@ -180,6 +186,12 @@ namespace HareDu.Internal
                 _destinationExchangeRoutingKey = impl.ExchangeRoutingKey;
                 _destinationAddForwardHeaders = impl.AddHeaders;
                 _destinationAddTimestampHeader = impl.AddTimestampHeader;
+                
+                if (string.IsNullOrWhiteSpace(queue) && string.IsNullOrWhiteSpace(impl.ExchangeName))
+                    _errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                
+                if (!string.IsNullOrWhiteSpace(queue) && !string.IsNullOrWhiteSpace(impl.ExchangeName))
+                    _errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
             }
 
             public void Validate()
@@ -187,13 +199,13 @@ namespace HareDu.Internal
                 if (!_sourceCalled)
                 {
                     _errors.Add(new(){Reason = "The name of the source protocol is missing."});
-                    _errors.Add(new(){Reason = "The name of the source queue is missing."});
+                    _errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
                 }
 
                 if (!_destinationCalled)
                 {
                     _errors.Add(new(){Reason = "The name of the destination protocol is missing."});
-                    _errors.Add(new(){Reason = "The name of the destination queue is missing."});
+                    _errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
                 }
             }
 

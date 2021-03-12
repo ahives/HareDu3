@@ -123,6 +123,243 @@ namespace HareDu.Tests
         }
 
         [Test]
+        public async Task Verify_can_create_dynamic_shovel3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Shovel>()
+                .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source("queue1", c =>
+                    {
+                        c.Exchange("exchange1", null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.AreEqual("queue1", request.Value.SourceQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("queue2", request.Value.DestinationQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.AreEqual("exchange1", request.Value.SourceExchange);
+                Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source("queue1", c =>
+                    {
+                        c.Exchange("exchange1", null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.AreEqual("queue1", request.Value.SourceQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("queue2", request.Value.DestinationQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.AreEqual("exchange1", request.Value.SourceExchange);
+                Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel5()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Shovel>()
+                .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source(string.Empty, c =>
+                    {
+                        c.Exchange(string.Empty, null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("queue2", request.Value.DestinationQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
+                Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source(string.Empty, c =>
+                    {
+                        c.Exchange(string.Empty, null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("queue2", request.Value.DestinationQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
+                Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel7()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Shovel>()
+                .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination(string.Empty, c =>
+                    {
+                        c.Exchange(string.Empty, null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.AreEqual("queue2", request.Value.SourceQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.AreEqual("exchange2", request.Value.SourceExchange);
+                Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);
+                Assert.That(request.Value.DestinationExchange, Is.Empty.Or.Null);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_create_dynamic_shovel8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                {
+                    x.Source("queue2", c =>
+                    {
+                        c.Exchange("exchange2", null);
+                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                    });
+                    x.Destination(string.Empty, c =>
+                    {
+                        c.Exchange(string.Empty, null);
+                    });
+                });
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+
+                ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Value);
+                Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
+                Assert.AreEqual(ShovelProtocolType.Amqp091.Convert(), request.Value.SourceProtocol);
+                Assert.AreEqual("queue2", request.Value.SourceQueue);
+                Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
+                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+                Assert.AreEqual("exchange2", request.Value.SourceExchange);
+                Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);
+                Assert.That(request.Value.DestinationExchange, Is.Empty.Or.Null);
+            });
+        }
+
+        [Test]
         public async Task Verify_can_delete_shovel1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
