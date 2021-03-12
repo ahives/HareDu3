@@ -49,7 +49,7 @@ namespace HareDu.Snapshotting.Tests.Fakes
             return new SuccessfulResultList<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
         }
 
-        public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configuration,
+        public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator,
             CancellationToken cancellationToken = default) =>
             throw new NotImplementedException();
 

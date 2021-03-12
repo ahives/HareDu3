@@ -31,13 +31,13 @@ namespace HareDu.Internal
             return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configuration = null,
+        public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
 
             var impl = new QueueConfiguratorImpl(node);
-            configuration?.Invoke(impl);
+            configurator?.Invoke(impl);
             
             impl.Validate();
             

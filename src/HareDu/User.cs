@@ -26,9 +26,9 @@ namespace HareDu
         /// <summary>
         /// Creates a user on the current RabbitMQ server.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="passwordHash"></param>
+        /// <param name="username">RabbitMQ broker username.</param>
+        /// <param name="password">RabbitMQ broker password.</param>
+        /// <param name="passwordHash">RabbitMQ broker password hash.</param>
         /// <param name="configurator">Describes how the user permission will be created.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
@@ -37,7 +37,7 @@ namespace HareDu
         /// <summary>
         /// Delete the specified user on the current RabbitMQ server.
         /// </summary>
-        /// <param name="username"></param>
+        /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string username, CancellationToken cancellationToken = default);

@@ -34,18 +34,18 @@ namespace HareDu.Extensions
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="node">Name of the RabbitMQ node.</param>
-        /// <param name="configuration">Describes how the queue will be created.</param>
+        /// <param name="configurator">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> CreateQueue(this IBrokerObjectFactory factory,
-            string queue, string vhost, string node, Action<QueueConfigurator> configuration, CancellationToken cancellationToken = default)
+            string queue, string vhost, string node, Action<QueueConfigurator> configurator, CancellationToken cancellationToken = default)
         {
             if (factory.IsNull())
                 throw new ArgumentNullException(nameof(factory));
 
             return await factory.Object<Queue>()
-                .Create(queue, vhost, node, configuration, cancellationToken)
+                .Create(queue, vhost, node, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
 

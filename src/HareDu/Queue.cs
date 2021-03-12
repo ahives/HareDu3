@@ -22,10 +22,10 @@ namespace HareDu
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="node">Name of the RabbitMQ node.</param>
-        /// <param name="configuration">Describes how the queue will be created.</param>
+        /// <param name="configurator">Describes how the queue will be created.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
-        Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configuration = null,
+        Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
