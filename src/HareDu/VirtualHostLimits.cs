@@ -28,7 +28,7 @@ namespace HareDu
         /// <summary>
         /// Delete the limits for the specified virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="vhost"></param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string vhost, CancellationToken cancellationToken = default);
