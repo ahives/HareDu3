@@ -97,6 +97,15 @@ namespace HareDu.IntegrationTests
 
             Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
+
+        [Test]
+        public async Task Verify_can_delete_all_shovels()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .DeleteAllShovels("TestHareDu");
+
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        }
         
         [Test]
         public async Task Verify_can_get_all_shovels1()

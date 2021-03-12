@@ -52,13 +52,27 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Deletes all dynamic shovel on a specified virtual host.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerObjectFactory factory,
             string vhost, CancellationToken cancellationToken = default)
         {
+            if (factory.IsNull())
+                throw new ArgumentNullException(nameof(factory));
+            
             var result = await factory.Object<Shovel>()
                 .GetAll(cancellationToken)
                 .ConfigureAwait(false);
 
+            if (result.HasFaulted)
+                return new List<Result>();
+            
             var shovels = result
                 .Select(x => x.Data)
                 .Where(x => x.VirtualHost == vhost)

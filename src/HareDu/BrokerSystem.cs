@@ -9,7 +9,7 @@ namespace HareDu
         BrokerObject
     {
         /// <summary>
-        /// 
+        /// Returns various bits of random information that describe the RabbitMQ system.
         /// </summary>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>

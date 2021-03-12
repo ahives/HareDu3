@@ -9,6 +9,13 @@ namespace HareDu.Extensions
 
     public static class GlobalParameterExtensions
     {
+        /// <summary>
+        /// Returns all global parameters on the current RabbitMQ node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<ResultList<GlobalParameterInfo>> GetAllGlobalParameters(
             this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
         {
@@ -20,6 +27,15 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Creates the specified global parameter on the current RabbitMQ node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="parameter">Name of the parameter.</param>
+        /// <param name="configurator">Describes how the parameter is to be defined.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> CreateGlobalParameter(this IBrokerObjectFactory factory,
             string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
         {
@@ -31,6 +47,14 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Delete the specified global parameter on the current RabbitMQ node.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="parameter">Name of the parameter.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> DeleteGlobalParameter(this IBrokerObjectFactory factory,
             string parameter, CancellationToken cancellationToken = default)
         {

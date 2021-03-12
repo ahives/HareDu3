@@ -15,19 +15,20 @@ namespace HareDu
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
         Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Creates the specified global parameter on the current RabbitMQ node.
         /// </summary>
-        /// <param name="configurator">Describes how the global parameter will be created.</param>
-        /// <param name="cancellationToken">Token used cancel the current thread</param>
-        /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
+        /// <param name="parameter">Name of the parameter.</param>
+        /// <param name="configurator">Describes how the parameter is to be defined.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
         Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the specified global parameter on the current RabbitMQ node.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">Name of the parameter.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string parameter, CancellationToken cancellationToken = default);

@@ -9,6 +9,13 @@ namespace HareDu.Extensions
 
     public static class BrokerSystemExtensions
     {
+        /// <summary>
+        /// Returns various bits of random information that describe the RabbitMQ system.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result<SystemOverviewInfo>> GetBrokerSystemOverview(this IBrokerObjectFactory factory,
             CancellationToken cancellationToken = default)
         {
@@ -20,6 +27,13 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Rebalances all queues in all virtual hosts.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> RebalanceAllQueues(this IBrokerObjectFactory factory,
             CancellationToken cancellationToken = default)
         {
