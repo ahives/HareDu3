@@ -86,7 +86,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
          }
         
@@ -112,7 +112,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
          }
 
@@ -141,7 +141,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 
@@ -168,7 +168,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 
@@ -196,7 +196,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 
@@ -223,7 +223,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 
@@ -252,7 +252,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 
@@ -280,7 +280,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual("all", request.Arguments["ha-mode"]);
                 Assert.AreEqual("1000", request.Arguments["expires"]);
-                Assert.AreEqual("all", request.ApplyTo);
+                Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
             });
         }
 

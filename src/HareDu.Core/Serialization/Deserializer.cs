@@ -1,6 +1,7 @@
 namespace HareDu.Core.Serialization
 {
     using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     public static class Deserializer
     {
@@ -13,7 +14,8 @@ namespace HareDu.Core.Serialization
                     new CustomDecimalConverter(),
                     new CustomDateTimeConverter(),
                     new CustomLongConverter(),
-                    new CustomStringConverter()
+                    new CustomStringConverter(),
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
                 }
             };
     }

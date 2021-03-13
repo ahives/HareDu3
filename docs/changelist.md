@@ -8,10 +8,10 @@
 | | 4 | Introduced extension methods for Broker API objects to call methods directly off of IBrokerObjectFactory | Enhancement | No |
 | | 5 | Deprecated NuGet package HareDu.CoreIntegration | Deprecated | No |
 | | 6 | Introduced NuGet package HareDu.MicrosoftIntegration | New | No |
-| | 7 | Removed support for YAML for configuring HareDu APIs to JSON | Enhancement | Yes |
+| | 7 | Deprecated support for YAML for configuring HareDu APIs to JSON | Enhancement | Yes |
 | | 8 | Added support for configuring HareDu APIs in JSON | Enhancement | No |
 | | 9 | Added support for configuring HareDu APIs using code via Dependency Injection APIs | Enhancement | No |
-| | 10 | Deprecated Peek method on Queue object | Deprecated | Yes |
+| | 10 | Deprecated Peek method on Queue object in Broker API | Deprecated | Yes |
 | | | | | |
 | **3.0.1** | 1 | Fixed issue with Snapshot API not being registered in HareDu.MicrosoftIntegration and HareDu.AutofacIntegration NuGet packages | Bug Fix | No |
 | | | | | |

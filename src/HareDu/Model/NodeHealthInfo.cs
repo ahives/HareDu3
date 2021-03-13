@@ -5,7 +5,7 @@ namespace HareDu.Model
     public record NodeHealthInfo
     {
         [JsonPropertyName("status")]
-        public string Status { get; init; }
+        public NodeStatus Status { get; init; }
 
         [JsonPropertyName("reason")]
         public long Reason { get; init; }

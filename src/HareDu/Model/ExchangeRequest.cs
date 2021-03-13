@@ -7,7 +7,7 @@ namespace HareDu.Model
     {
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string RoutingType { get; init; }
+        public ExchangeRoutingType RoutingType { get; init; }
         
         [JsonPropertyName("durable")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

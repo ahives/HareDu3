@@ -46,7 +46,7 @@ namespace HareDu.Internal
                 Pattern = pattern,
                 Priority = priority,
                 Arguments = impl.Arguments.Value,
-                ApplyTo = appliedTo.Convert()
+                ApplyTo = appliedTo
             };
 
             Debug.Assert(request != null);

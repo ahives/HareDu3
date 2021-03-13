@@ -97,12 +97,12 @@ namespace HareDu.Internal
             ShovelConfigurator
         {
             string _destinationQueue;
-            string _destinationProtocol;
+            ShovelProtocolType _destinationProtocol;
             string _sourceQueue;
-            string _sourceProtocol;
+            ShovelProtocolType _sourceProtocol;
             string _sourceExchangeName;
             string _sourceExchangeRoutingKey;
-            string _acknowledgeMode;
+            AckMode? _acknowledgeMode;
             string _destinationExchangeName;
             string _destinationExchangeRoutingKey;
             int _reconnectDelay;
@@ -111,9 +111,9 @@ namespace HareDu.Internal
             ulong _sourcePrefetchCount;
             bool _sourceCalled;
             bool _destinationCalled;
+            object _deleteShovelAfter;
 
             readonly List<Error> _errors;
-            object _deleteShovelAfter;
 
             public Lazy<ShovelRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
@@ -128,7 +128,7 @@ namespace HareDu.Internal
                     {
                         Value = new()
                         {
-                            AcknowledgeMode = string.IsNullOrWhiteSpace(_acknowledgeMode) ? AckMode.OnConfirm.Convert() : _acknowledgeMode,
+                            AcknowledgeMode = _acknowledgeMode ?? AckMode.OnConfirm,
                             ReconnectDelay = _reconnectDelay,
                             SourceProtocol = _sourceProtocol,
                             SourceUri = uri,
@@ -150,7 +150,7 @@ namespace HareDu.Internal
 
             public void ReconnectDelay(int delayInSeconds) => _reconnectDelay = delayInSeconds < 1 ? 1 : delayInSeconds;
 
-            public void AcknowledgementMode(AckMode mode) => _acknowledgeMode = mode.Convert();
+            public void AcknowledgementMode(AckMode mode) => _acknowledgeMode = mode;
 
             public void Source(string queue, Action<ShovelSourceConfigurator> configurator)
             {
@@ -213,7 +213,7 @@ namespace HareDu.Internal
             class ShovelSourceConfiguratorImpl :
                 ShovelSourceConfigurator
             {
-                public string ShovelProtocol { get; private set; }
+                public ShovelProtocolType ShovelProtocol { get; private set; }
                 public string ExchangeName { get; private set; }
                 public string ExchangeRoutingKey { get; private set; }
                 public ulong PrefetchCount { get; private set; }
@@ -221,11 +221,11 @@ namespace HareDu.Internal
 
                 public ShovelSourceConfiguratorImpl()
                 {
-                    ShovelProtocol = ShovelProtocolType.Amqp091.Convert();
+                    ShovelProtocol = ShovelProtocolType.Amqp091;
                     PrefetchCount = 1000;
                 }
 
-                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol.Convert();
+                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
                 
                 public void DeleteAfter(DeleteShovelAfterMode mode) => DeleteAfterShovel = mode.Convert();
 
@@ -244,7 +244,7 @@ namespace HareDu.Internal
             class ShovelDestinationConfiguratorImpl :
                 ShovelDestinationConfigurator
             {
-                public string ShovelProtocol { get; private set; }
+                public ShovelProtocolType ShovelProtocol { get; private set; }
                 public string ExchangeName { get; private set; }
                 public string ExchangeRoutingKey { get; private set; }
                 public bool AddHeaders { get; private set; }
@@ -252,10 +252,10 @@ namespace HareDu.Internal
 
                 public ShovelDestinationConfiguratorImpl()
                 {
-                    ShovelProtocol = ShovelProtocolType.Amqp091.Convert();
+                    ShovelProtocol = ShovelProtocolType.Amqp091;
                 }
 
-                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol.Convert();
+                public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
 
                 public void Exchange(string exchange, string routingKey)
                 {

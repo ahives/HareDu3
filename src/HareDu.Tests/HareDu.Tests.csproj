@@ -23,6 +23,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <None Remove="TestData\QueueInfo.json" />
+      <Content Include="TestData\NodeHealthInfo_Failed.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Include="TestData\QueueInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
@@ -55,9 +58,6 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <None Remove="TestData\NodeHealthInfo.json" />
-      <Content Include="TestData\NodeHealthInfo.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="TestData\ConsumerInfo.json" />
       <Content Include="TestData\ConsumerInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -112,6 +112,10 @@
       </Content>
       <None Remove="TestData\ShovelInfo.json" />
       <Content Include="TestData\ShovelInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\NodeHealthInfo_Ok.json" />
+      <Content Include="TestData\NodeHealthInfo_Ok.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

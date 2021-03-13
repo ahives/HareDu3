@@ -110,7 +110,7 @@ namespace HareDu.Internal
         class ExchangeConfiguratorImpl :
             ExchangeConfigurator
         {
-            string _routingType;
+            ExchangeRoutingType _routingType;
             bool _durable;
             bool _autoDelete;
             bool _internal;
@@ -137,7 +137,7 @@ namespace HareDu.Internal
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
             
-            public void HasRoutingType(ExchangeRoutingType routingType) => _routingType = routingType.Convert();
+            public void HasRoutingType(ExchangeRoutingType routingType) => _routingType = routingType;
 
             public void IsDurable() => _durable = true;
 

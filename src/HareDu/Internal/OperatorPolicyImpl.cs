@@ -46,7 +46,7 @@ namespace HareDu.Internal
                 Pattern = pattern,
                 Priority = priority,
                 Arguments = impl.Arguments.Value,
-                ApplyTo = appliedTo.Convert()
+                ApplyTo = appliedTo
             };
         
             Debug.Assert(request != null);
@@ -94,7 +94,6 @@ namespace HareDu.Internal
             OperatorPolicyConfigurator
         {
             readonly IDictionary<string, ArgumentValue<ulong>> _arguments;
-            
             readonly List<Error> _errors;
 
             public Lazy<IDictionary<string, ulong>> Arguments { get; }

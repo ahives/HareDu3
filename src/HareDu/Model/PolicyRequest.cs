@@ -15,6 +15,6 @@ namespace HareDu.Model
         public int Priority { get; init; }
 
         [JsonPropertyName("apply-to")]
-        public string ApplyTo { get; init; }
+        public PolicyAppliedTo ApplyTo { get; init; }
     }
 }

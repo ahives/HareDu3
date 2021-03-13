@@ -3,6 +3,7 @@ namespace HareDu.Tests
     using System.Threading.Tasks;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
+    using Model;
     using NUnit.Framework;
 
     [TestFixture]
@@ -463,7 +464,7 @@ namespace HareDu.Tests
         [Test]
         public async Task Verify_can_check_if_named_node_healthy1()
         {
-            var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetHealth("rabbit@localhost");
@@ -472,14 +473,14 @@ namespace HareDu.Tests
             {
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsTrue(result.HasData);
-                Assert.AreEqual("ok", result.Data.Status);
+                Assert.AreEqual(NodeStatus.Ok, result.Data.Status);
             });
         }
         
         [Test]
         public async Task Verify_can_check_if_named_node_healthy2()
         {
-            var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetNodeHealth("rabbit@localhost");
             
@@ -487,14 +488,45 @@ namespace HareDu.Tests
             {
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsTrue(result.HasData);
-                Assert.AreEqual("ok", result.Data.Status);
+                Assert.AreEqual(NodeStatus.Ok, result.Data.Status);
+            });
+        }
+        
+        [Test]
+        public async Task Verify_can_check_if_named_node_unhealthy1()
+        {
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Node>()
+                .GetHealth("rabbit@localhost");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(NodeStatus.Failed, result.Data.Status);
+            });
+        }
+        
+        [Test]
+        public async Task Verify_can_check_if_named_node_unhealthy2()
+        {
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .GetNodeHealth("rabbit@localhost");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(NodeStatus.Failed, result.Data.Status);
             });
         }
 
         [Test]
         public async Task Verify_can_check_if_node_healthy1()
         {
-            var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Node>()
                 .GetHealth();
@@ -503,14 +535,14 @@ namespace HareDu.Tests
             {
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsTrue(result.HasData);
-                Assert.AreEqual("ok", result.Data.Status);
+                Assert.AreEqual(NodeStatus.Ok, result.Data.Status);
             });
         }
 
         [Test]
         public async Task Verify_can_check_if_node_healthy2()
         {
-            var services = GetContainerBuilder("TestData/NodeHealthInfo.json").BuildServiceProvider();
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .GetNodeHealth();
             
@@ -518,7 +550,38 @@ namespace HareDu.Tests
             {
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsTrue(result.HasData);
-                Assert.AreEqual("ok", result.Data.Status);
+                Assert.AreEqual(NodeStatus.Ok, result.Data.Status);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_check_if_node_unhealthy1()
+        {
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Node>()
+                .GetHealth();
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(NodeStatus.Failed, result.Data.Status);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_check_if_node_unhealthy2()
+        {
+            var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .GetNodeHealth();
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsTrue(result.HasData);
+                Assert.AreEqual(NodeStatus.Failed, result.Data.Status);
             });
         }
     }

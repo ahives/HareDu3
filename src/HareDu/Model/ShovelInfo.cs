@@ -18,9 +18,9 @@ namespace HareDu.Model
         public string VirtualHost { get; init; }
 
         [JsonPropertyName("type")]
-        public string Type { get; init; }
+        public ShovelType Type { get; init; }
 
         [JsonPropertyName("state")]
-        public string State { get; init; }
+        public ShovelState State { get; init; }
     }
 }

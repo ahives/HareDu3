@@ -82,7 +82,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
         
@@ -108,7 +108,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -136,7 +136,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -163,7 +163,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -191,7 +191,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -218,7 +218,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -246,7 +246,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
@@ -273,7 +273,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, request.Priority);
                 Assert.AreEqual(5, request.Arguments["delivery-limit"]);
                 Assert.AreEqual(1000, request.Arguments["expires"]);
-                Assert.AreEqual(OperatorPolicyAppliedTo.Queues.Convert(), request.ApplyTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
             });
         }
 
