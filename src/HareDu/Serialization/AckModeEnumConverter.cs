@@ -4,7 +4,7 @@ namespace HareDu.Serialization
     using System.Text.Json;
     using System.Text.Json.Serialization;
 
-    public class CustomAckModeConverter :
+    public class AckModeEnumConverter :
         JsonConverter<AckMode>
     {
         public override AckMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

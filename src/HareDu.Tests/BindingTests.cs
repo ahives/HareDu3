@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
@@ -58,6 +59,11 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
+
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                
+                Assert.That(request.BindingKey, Is.Empty.Or.Null);
+                Assert.IsNull(request.Arguments);
             });
         }
 
@@ -73,6 +79,11 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
+
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                
+                Assert.That(request.BindingKey, Is.Empty.Or.Null);
+                Assert.IsNull(request.Arguments);
             });
         }
 
@@ -89,6 +100,11 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
+
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                
+                Assert.That(request.BindingKey, Is.Empty.Or.Null);
+                Assert.IsNull(request.Arguments);
             });
         }
 
@@ -104,6 +120,11 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
+
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                
+                Assert.That(request.BindingKey, Is.Empty.Or.Null);
+                Assert.IsNull(request.Arguments);
             });
         }
 

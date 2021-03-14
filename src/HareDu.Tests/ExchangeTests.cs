@@ -92,7 +92,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, request.Arguments.Count);
                 Assert.IsFalse(request.AutoDelete);
                 Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-                Assert.AreEqual("fanout", request.RoutingType);
+                Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
                 Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
             });
         }
@@ -125,7 +125,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, request.Arguments.Count);
                 Assert.IsFalse(request.AutoDelete);
                 Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-                Assert.AreEqual("fanout", request.RoutingType);
+                Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
                 Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
             });
         }

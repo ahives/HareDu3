@@ -35,7 +35,7 @@ namespace HareDu.Model
         
         [JsonPropertyName("ack-mode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(CustomAckModeConverter))]
+        [JsonConverter(typeof(AckModeEnumConverter))]
         public AckMode AcknowledgeMode { get; init; }
         
         [JsonPropertyName("src-delete-after")]
