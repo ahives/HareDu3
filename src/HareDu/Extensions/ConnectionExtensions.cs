@@ -31,7 +31,7 @@ namespace HareDu.Extensions
         /// Deletes an active connection on the current RabbitMQ node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="connection">The name of the connection that is to be deleted.</param>
+        /// <param name="connection">The name of the RabbitMQ connection that is to be deleted.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>

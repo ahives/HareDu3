@@ -22,7 +22,7 @@ namespace HareDu
         /// <param name="policy">Name of the operator policy.</param>
         /// <param name="pattern">The pattern to apply the policy on.</param>
         /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
-        /// <param name="configurator"></param>
+        /// <param name="configurator">Describes how the operator policy will be created by setting arguments through set methods.</param>
         /// <param name="appliedTo">The broker object for which the policy is to be applied to.</param>
         /// <param name="priority"></param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

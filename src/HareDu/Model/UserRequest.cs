@@ -13,7 +13,6 @@ namespace HareDu.Model
         public string Password { get; init; }
         
         [JsonPropertyName("tags")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Tags { get; init; }
     }
 }

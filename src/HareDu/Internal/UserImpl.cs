@@ -54,7 +54,7 @@ namespace HareDu.Internal
                 {
                     Password = Normalize(password),
                     PasswordHash = !string.IsNullOrWhiteSpace(Normalize(password)) ? null : passwordHash,
-                    Tags = Normalize(impl.Tags.Value)
+                    Tags = impl.Tags.Value
                 };
 
             Debug.Assert(request != null);

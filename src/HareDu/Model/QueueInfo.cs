@@ -105,6 +105,9 @@ namespace HareDu.Model
         [JsonPropertyName("exclusive_consumer_tag")]
         public string ExclusiveConsumerTag { get; init; }
         
+        [JsonPropertyName("operator_policy")]
+        public string OperatorPolicy { get; init; }
+        
         [JsonPropertyName("policy")]
         public string Policy { get; init; }
         
