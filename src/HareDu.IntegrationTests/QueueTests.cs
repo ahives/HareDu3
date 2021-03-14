@@ -89,7 +89,18 @@ namespace HareDu.IntegrationTests
         }
 
         [Test]
-        public async Task Verify_can_empty_queue1()
+        public async Task Verify_can_sync_queue()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .Object<Queue>()
+                .Sync("order-state", "TestOrders", QueueSyncAction.Sync);
+            
+            // Assert.IsFalse(result.HasFaulted);
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        }
+
+        [Test]
+        public async Task Verify_can_sync_queue1()
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()

@@ -446,19 +446,22 @@
             switch (statusCode)
             {
                 case HttpStatusCode.BadRequest:
-                    return new () {Reason = "RabbitMQ server did not recognize the request due to malformed syntax."};
+                    return new (){Reason = "RabbitMQ server did not recognize the request due to malformed syntax."};
                 
                 case HttpStatusCode.Forbidden:
-                    return new () {Reason = "RabbitMQ server rejected the request."};
+                    return new (){Reason = "RabbitMQ server rejected the request."};
                 
+                case HttpStatusCode.NotAcceptable:
+                    return new (){Reason = "RabbitMQ server rejected the request because the method is not acceptable."};
+
                 case HttpStatusCode.MethodNotAllowed:
-                    return new () {Reason = "RabbitMQ server rejected the request because the method is not allowed."};
+                    return new (){Reason = "RabbitMQ server rejected the request because the method is not allowed."};
                 
                 case HttpStatusCode.InternalServerError:
-                    return new () {Reason = "Internal error happened on RabbitMQ server."};
+                    return new (){Reason = "Internal error happened on RabbitMQ server."};
                 
                 case HttpStatusCode.RequestTimeout:
-                    return new () {Reason = "No response from the RabbitMQ server within the specified window of time."};
+                    return new (){Reason = "No response from the RabbitMQ server within the specified window of time."};
                 
                 case HttpStatusCode.ServiceUnavailable:
                     return new () {Reason = "RabbitMQ server temporarily not able to handle request"};
