@@ -21,6 +21,7 @@
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ExchangeTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests.Verify_can_create1&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

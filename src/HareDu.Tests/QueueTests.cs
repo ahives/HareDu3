@@ -966,7 +966,7 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Empty(string.Empty, "HareDu");
+                .Empty("Queue1", string.Empty);
             
             Assert.Multiple(() =>
             {
@@ -980,7 +980,7 @@ namespace HareDu.Tests
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
-                .EmptyQueue(string.Empty, "HareDu");
+                .EmptyQueue("Queue1", string.Empty);
             
             Assert.Multiple(() =>
             {
@@ -995,122 +995,6 @@ namespace HareDu.Tests
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .Object<Queue>()
-                .Empty("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue6()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .EmptyQueue("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue7()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Empty("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue8()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .EmptyQueue("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue9()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Empty(string.Empty, "HareDu");
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue10()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .EmptyQueue(string.Empty, "HareDu");
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue11()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
-                .Empty("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue12()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .EmptyQueue("Queue1", string.Empty);
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_cannot_empty_queue13()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Queue>()
                 .Empty(string.Empty, string.Empty);
             
             Assert.Multiple(() =>
@@ -1121,11 +1005,153 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_empty_queue14()
+        public async Task Verify_cannot_empty_queue6()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
                 .EmptyQueue(string.Empty, string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_sync_queue1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Queue>()
+                .Sync("Queue1", "HareDu", QueueSyncAction.Sync);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(QueueSyncAction.Sync, request.Action);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_sync_queue2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .SyncQueue("Queue1", "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(QueueSyncAction.Sync, request.Action);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_sync_queue3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .CancelQueueSync("Queue1", "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+                Assert.IsNotNull(result.DebugInfo);
+
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                
+                Assert.AreEqual(QueueSyncAction.CancelSync, request.Action);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue1()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Queue>()
+                .Sync(string.Empty, "HareDu", QueueSyncAction.Sync);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .SyncQueue(string.Empty, "HareDu");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Queue>()
+                .Sync("Queue1", string.Empty, QueueSyncAction.Sync);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .SyncQueue("Queue1", string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue5()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<Queue>()
+                .Sync(string.Empty, string.Empty, QueueSyncAction.Sync);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_sync_queue6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .SyncQueue(string.Empty, string.Empty);
             
             Assert.Multiple(() =>
             {

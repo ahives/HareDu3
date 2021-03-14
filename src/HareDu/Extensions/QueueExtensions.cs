@@ -89,5 +89,45 @@ namespace HareDu.Extensions
                 .Delete(queue, vhost, configurator, cancellationToken)
                 .ConfigureAwait(false);
         }
+
+        /// <summary>
+        /// Sync of specified RabbitMQ queue.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="queue">Name of the RabbitMQ broker queue.</param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+        public static async Task<Result> SyncQueue(this IBrokerObjectFactory factory, string queue, string vhost,
+            CancellationToken cancellationToken = default)
+        {
+            if (factory.IsNull())
+                throw new ArgumentNullException(nameof(factory));
+
+            return await factory.Object<Queue>()
+                .Sync(queue, vhost, QueueSyncAction.Sync, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Cancel sync of specified RabbitMQ queue.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="queue">Name of the RabbitMQ broker queue.</param>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+        public static async Task<Result> CancelQueueSync(this IBrokerObjectFactory factory, string queue, string vhost,
+            CancellationToken cancellationToken = default)
+        {
+            if (factory.IsNull())
+                throw new ArgumentNullException(nameof(factory));
+
+            return await factory.Object<Queue>()
+                .Sync(queue, vhost, QueueSyncAction.CancelSync, cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 }

@@ -46,5 +46,14 @@ namespace HareDu
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sync or cancel sync of specified RabbitMQ queue.
+        /// </summary>
+        /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+        /// <param name="syncAction">Sync action to be performed on RabbitMQ queue.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        Task<Result> Sync(string queue, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default);
     }
 }

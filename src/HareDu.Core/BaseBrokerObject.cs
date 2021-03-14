@@ -291,6 +291,51 @@
             }
         }
 
+        protected async Task<Result> PostRequest<TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
+        {
+            string rawResponse = null;
+
+            try
+            {
+                if (url.Contains("/%2f"))
+                    HandleDotsAndSlashes();
+
+                string requestContent = request.ToJsonString(Deserializer.Options);
+                byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
+                var content = new ByteArrayContent(requestBytes);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
+
+                rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    return new FaultedResult{DebugInfo = new (){URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+
+                return new SuccessfulResult{DebugInfo = new () {URL = url, Request = requestContent, Response = rawResponse, Errors = new List<Error>()}};
+            }
+            catch (MissingMethodException e)
+            {
+                return new FaultedResult{DebugInfo = new (){URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            }
+            catch (HttpRequestException e)
+            {
+                return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            }
+            catch (JsonException e)
+            {
+                return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            }
+            catch (TaskCanceledException e)
+            {
+                return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            }
+            catch (Exception e)
+            {
+                return new FaultedResult{DebugInfo = new (){URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
+            }
+        }
+
         protected async Task<ResultList<T>> PostListRequest<T, TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
         {
             string rawResponse = null;

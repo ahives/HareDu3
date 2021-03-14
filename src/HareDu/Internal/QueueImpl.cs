@@ -92,7 +92,7 @@ namespace HareDu.Internal
         public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default)
         {
             cancellationToken.RequestCanceled();
-                
+
             var errors = new List<Error>();
             
             if (string.IsNullOrWhiteSpace(vhost))
@@ -107,6 +107,34 @@ namespace HareDu.Internal
                 return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
 
             return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<Result> Sync(string queue, string vhost, QueueSyncAction syncAction,
+            CancellationToken cancellationToken = default)
+        {
+            cancellationToken.RequestCanceled();
+
+            QueueSyncRequest request = new()
+            {
+                Action = syncAction
+            };
+
+            Debug.Assert(request != null);
+            
+            var errors = new List<Error>();
+            
+            if (string.IsNullOrWhiteSpace(vhost))
+                errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+            if (string.IsNullOrWhiteSpace(queue))
+                errors.Add(new (){Reason = "The name of the queue is missing."});
+
+            string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/actions";
+
+            if (errors.Any())
+                return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
+
+            return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
         }
 
 
