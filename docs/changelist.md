@@ -23,5 +23,6 @@
 | | 6 | Changed method signature for the Create method in Shovel and corresponding extension method CreateShovel | Enhancement | Yes |
 | | 7 | Introduced new extension method to delete all shovels for a specified virtual host | New | No |
 | | 8 | Added/changed API developer documentation on selected public methods | Enhancement | No |
-| | 9 | Introduced new method on Queue object in Broker API called Sync to sync and cancel queue sync actions | New | No |
+| | 9 | Introduced new method on Queue object in Broker API called Sync to perform queue sync and cancel sync actions | New | No |
+| | 10 | Introduced new method overload on User object in Broker API called Delete and DeleteUsers extension method to perform bulk delete of users | New | No |
 

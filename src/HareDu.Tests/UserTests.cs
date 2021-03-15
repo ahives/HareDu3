@@ -1,5 +1,6 @@
 namespace HareDu.Tests
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
@@ -392,7 +393,48 @@ namespace HareDu.Tests
         }
 
         [Test]
-        public async Task Verify_cannot_delete_1()
+        public async Task Verify_can_delete3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<User>()
+                .Delete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+
+                BulkUserDeleteRequest request = result.DebugInfo.Request.ToObject<BulkUserDeleteRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Users);
+                Assert.AreEqual("fake_user1", request.Users[0]);
+                Assert.AreEqual("fake_user2", request.Users[1]);
+                Assert.AreEqual("fake_user3", request.Users[2]);
+            });
+        }
+
+        [Test]
+        public async Task Verify_can_delete4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteUsers(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsFalse(result.HasFaulted);
+
+                BulkUserDeleteRequest request = result.DebugInfo.Request.ToObject<BulkUserDeleteRequest>(Deserializer.Options);
+                
+                Assert.IsNotNull(request.Users);
+                Assert.AreEqual("fake_user1", request.Users[0]);
+                Assert.AreEqual("fake_user2", request.Users[1]);
+                Assert.AreEqual("fake_user3", request.Users[2]);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete1()
         {
             var services = GetContainerBuilder().BuildServiceProvider();
             var result = await services.GetService<IBrokerObjectFactory>()
@@ -403,6 +445,107 @@ namespace HareDu.Tests
             {
                 Assert.IsTrue(result.HasFaulted);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete2()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteUser(string.Empty);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete3()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<User>()
+                .Delete(new List<string>());
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete4()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteUsers(new List<string>());
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete5()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<User>()
+                .Delete(new List<string>{"  ", string.Empty, null});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete6()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteUsers(new List<string>{"  ", string.Empty, null});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete7()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .Object<User>()
+                .Delete(new List<string>{"  ", "fake_user1", null});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            });
+        }
+
+        [Test]
+        public async Task Verify_cannot_delete8()
+        {
+            var services = GetContainerBuilder().BuildServiceProvider();
+            var result = await services.GetService<IBrokerObjectFactory>()
+                .DeleteUsers(new List<string>{"  ", "fake_user1", null});
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(result.HasFaulted);
+                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
             });
         }
     }

@@ -1,6 +1,7 @@
 namespace HareDu.IntegrationTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Extensions;
     using Core.Serialization;
@@ -52,17 +53,16 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
-                .Create("testuser3", "testuserpwd3", "gkgfjjhfjh", x =>
+                .Create("username3", "guest", configurator: x =>
                 {
                     x.WithTags(t =>
                     {
-                        t.Administrator();
+                        t.Monitoring();
                     });
                 });
             
             Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
-
 
         [Test]
         public async Task Verify_can_delete()
@@ -70,6 +70,15 @@ namespace HareDu.IntegrationTests
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<User>()
                 .Delete("");
+        }
+
+        [Test]
+        public async Task Verify_can_bulk_delete()
+        {
+            var result = await _services.GetService<IBrokerObjectFactory>()
+                .DeleteUsers(new List<string> {"username1", "username2", "username3"});
+            
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
         }
     }
 }

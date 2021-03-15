@@ -1,6 +1,7 @@
 namespace HareDu
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Core;
@@ -41,5 +42,7 @@ namespace HareDu
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string username, CancellationToken cancellationToken = default);
+        
+        Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default);
     }
 }

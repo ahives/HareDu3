@@ -1,6 +1,7 @@
 namespace HareDu.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Core;
@@ -83,6 +84,17 @@ namespace HareDu.Extensions
 
             return await factory.Object<User>()
                 .Delete(username, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        public static async Task<Result> DeleteUsers(this IBrokerObjectFactory factory, IList<string> usernames,
+            CancellationToken cancellationToken = default)
+        {
+            if (factory.IsNull())
+                throw new ArgumentNullException(nameof(factory));
+
+            return await factory.Object<User>()
+                .Delete(usernames, cancellationToken)
                 .ConfigureAwait(false);
         }
     }

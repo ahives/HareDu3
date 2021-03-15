@@ -95,6 +95,37 @@ namespace HareDu.Internal
             return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
         }
 
+        public async Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.RequestCanceled();
+
+            string url = "api/users/bulk-delete";
+
+            if (usernames.IsEmpty())
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = new List<Error>{new() {Reason = "Valid usernames is missing."}}}};
+                
+            var errors = new List<Error>();
+
+            for (int i = 0; i < usernames.Count; i++)
+            {
+                if (string.IsNullOrWhiteSpace(usernames[i]))
+                    errors.Add(new() {Reason = $"The username at index {i} is missing."});
+            }
+
+            if (errors.Any())
+                return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+
+            BulkUserDeleteRequest request =
+                new()
+                {
+                    Users = usernames
+                };
+
+            Debug.Assert(request != null);
+
+            return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
+        }
+
 
         class UserConfiguratorImpl :
             UserConfigurator
