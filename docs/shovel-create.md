@@ -80,11 +80,11 @@ Putting it altogether looks something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerObjectFactory>()
-    .CreateShovel("test-shovel", "TestHareDu", "amqp://user1@localhost", x =>
+    .CreateShovel("test-shovel", "test-vhost", "amqp://user1@localhost", x =>
     {
         x.Source("queue1", c =>
         {
-            c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+            c.DeleteAfter(DeleteShovelMode.QueueLength);
         });
         x.Destination("queue2");
     });
