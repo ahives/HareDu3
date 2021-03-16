@@ -74,7 +74,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
     .GetAll();
 ```
 
-*Note: if you have one of the above DI usage scenarios, then you can combine steps 1 and 2 because IBrokerObjectFactor is registered using the Singleton pattern and the ```Object``` method uses memoization and therefore will not have a performance hit for subsequent calls to the same object.*
+*Note: if you have one of the above DI usage scenarios, then you can combine steps 1 and 2 because ```IBrokerObjectFactor``` is registered using the Singleton pattern and the ```Object``` method uses memoization and therefore will not take a performance hit for subsequent calls to the same object.*
 
 <br>
 
