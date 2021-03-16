@@ -37,8 +37,6 @@ var obj = factory.Object<Queue>();
 ```
 Note: Initializing BrokerObjectFactory should be a one time activity, therefore, should be initialized using the Singleton pattern.
 
-<br>
-
 **Step 2: Call methods on broker object**
 ```c#
 var result = obj.GetAll();
