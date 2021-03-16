@@ -3,7 +3,7 @@
 ![Join the chat at https://gitter.im/HareDu2/Lobby](https://img.shields.io/gitter/room/haredu2/HareDu2?style=flat)
 ![NuGet downloads](https://img.shields.io/nuget/dt/haredu?style=flat)
 
-HareDu is a .NET library for managing and monitoring RabbitMQ clusters.
+HareDu is a fluent .NET library for managing and monitoring RabbitMQ clusters.
 
 HareDu is Apache 2.0 licensed.
 

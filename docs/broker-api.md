@@ -27,8 +27,6 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 #### Registering API objects
 The very first thing you need to do is register/initialize the appropriate objects you will need to perform operations on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported DI containers. Currently, HareDu 3 supports only two DI containers; Autofac and Microsoft, respectively.
 
-<br>
-
 #### Performing operations on the broker
 The Broker API is considered the low level API because it allows you to administer RabbitMQ (e.g., users, queues, exchanges, etc.).
 
@@ -39,12 +37,14 @@ var obj = factory.Object<Queue>();
 ```
 Note: Initializing BrokerObjectFactory should be a one time activity, therefore, should be initialized using the Singleton pattern.
 
+<br>
+
 **Step 2: Call methods on broker object**
 ```c#
 var result = obj.GetAll();
 ```
 
-Note: The above code will return a `Task<T>` so if you want to return the unwrapped ```Result```, ```Result<T>``` or ```ResultList``` you need to use an ```await``` or call the HareDu ```GetResult``` extension method.
+*Note: The above code will return a ```Task<T>``` so if you want to return the unwrapped ```Result```, ```Result<T>``` or ```ResultList``` you need to use an ```await``` or call the HareDu ```GetResult``` extension method.*
 
 Using the *async/await* pattern...
 ```c#
@@ -56,32 +56,50 @@ Using the HareDu *GetResult* extension method...
 var result = obj.GetAll().GetResult();
 ```
 
-The above steps represent the minimum required code to get something up and working without an IoC container. However, if you want to use DI then its even easier. Since HareDu is a fluent API, you can method chain everything together like so...
+The above steps represent the minimum required code to get something up and working without a DI container. However, if you want to use DI then its even easier. Since HareDu is a fluent API, you can method chain everything together like so...
 
-*Autofac*
+**Autofac**
+
 ```c#
-var result = await container.Resolve<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _container.Resolve<IBrokerObjectFactory>()
+    .Object<Binding>()
     .GetAll();
 ```
 
-*Microsoft DI*
+**Microsoft DI**
+
 ```c#
-var result = await services.GetService<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .Object<Binding>()
     .GetAll();
 ```
+
+*Note: if you have one of the above DI usage scenarios, then you can combine steps 1 and 2 because IBrokerObjectFactor is registered using the Singleton pattern and the ```Object``` method uses memoization and therefore will not have a performance hit for subsequent calls to the same object.*
 
 <br>
 
-*ex: Create a durable queue called *HareDuQueue* on a vhost called *HareDu* on node *rabbit@localhost* that is deleted when not in use with per-message time to live (x-message-ttl) value of 2 seconds*
+*ex: Create a durable queue called *test-queue* on a vhost called *test-vhost* on node *rabbit@localhost* that has a per-message time to live (x-message-ttl) value of 2 seconds*
 
 Here is the code...
 
 ```c#
 var result = await services.GetService<IBrokerObjectFactory>()
     .Object<Queue>()
-    .Create("queue", "vhost", null, x =>
+    .Create("test-queue", "test-vhost", "rabbit@localhost", x =>
+    {
+        x.IsDurable();
+        x.HasArguments(arg =>
+        {
+            arg.SetPerQueuedMessageExpiration(2000);
+        });
+    });
+```
+
+Since HareDu 3 introduces extension methods for ```IBrokerObjectFactory```, you could rewrite the above code example like so...
+
+```c#
+var result = await services.GetService<IBrokerObjectFactory>()
+    .CreateQueue("test-queue", "test-vhost", "rabbit@localhost", x =>
     {
         x.IsDurable();
         x.HasArguments(arg =>

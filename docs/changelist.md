@@ -17,7 +17,7 @@
 | | | | | |
 | **3.1.0** | 1 | Changed SystemOverview object in Broker API to BrokerSystem | Enhancement | Yes |
 | | 2 | Changed method signature for the Create method in Policy and corresponding extension method CreatePolicy | Enhancement | Yes |
-| | 3 | Fixed issue with inconsistent values being returned from socket_opts in api/overview | Bug Fix | No |
+| | 3 | Fixed issue with inconsistent values being returned from socket_opts in RabbitMQ HTTP API api/overview | Bug Fix | No |
 | | 4 | Introduced new object in Broker API called OperatorPolicy | New | No |
 | | 5 | Changed method signature for the Create method in Binding and corresponding extension methods CreateExchangeBindingToQueue and CreateExchangeBinding | Enhancement | Yes |
 | | 6 | Changed method signature for the Create method in Shovel and corresponding extension method CreateShovel | Enhancement | Yes |
