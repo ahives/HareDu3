@@ -24,10 +24,10 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 | **OperatorPolicy** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/operator-policy-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/operator-policy-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/operator-policy-delete.md) |
 | **Shovel** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/shovel-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/shovel-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/shovel-delete.md) |
 
-#### Registering API objects
+### Registering API Objects
 The very first thing you need to do is register/initialize the appropriate objects you will need to perform operations on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported DI containers. Currently, HareDu 3 supports only two DI containers; Autofac and Microsoft, respectively.
 
-#### Performing operations on the broker
+### Performing Broker Operations
 The Broker API is considered the low level API because it allows you to administer RabbitMQ (e.g., users, queues, exchanges, etc.).
 
 **Step 1: Get a broker object**
