@@ -238,6 +238,7 @@ namespace HareDu.Internal
                 void SetArg(string arg, object value, string errorMsg = null)
                 {
                     string normalizedArg = arg.Trim();
+                    
                     if (Arguments.ContainsKey(normalizedArg))
                         Arguments[normalizedArg] = new ArgumentValue<object>(value, errorMsg);
                     else

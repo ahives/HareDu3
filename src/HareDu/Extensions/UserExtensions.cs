@@ -87,6 +87,14 @@ namespace HareDu.Extensions
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Delete specified users on the current RabbitMQ server.
+        /// </summary>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="usernames">List of RabbitMQ broker usernames.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> DeleteUsers(this IBrokerObjectFactory factory, IList<string> usernames,
             CancellationToken cancellationToken = default)
         {

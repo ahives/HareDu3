@@ -73,7 +73,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified exchange on the specified virtual host.
+        /// Delete the specified binding between exchange and queue on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="sourceBinding">Source binding of the exchange/queue.</param>
@@ -95,16 +95,16 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Delete the specified binding between exchanges on the specified RabbitMQ virtual host.
         /// </summary>
-        /// <param name="factory"></param>
-        /// <param name="sourceBinding"></param>
-        /// <param name="destinationBinding"></param>
-        /// <param name="propertiesKey"></param>
-        /// <param name="vhost"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
+        /// <param name="sourceBinding">Source binding of the exchange/queue.</param>
+        /// <param name="destinationBinding">Destination binding of the exchange/queue.</param>
+        /// <param name="propertiesKey">Combination of routing key and hash of its arguments.</param>
+        /// <param name="vhost">The virtual host where the binding is defined.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
         public static async Task<Result> DeleteExchangeBinding(this IBrokerObjectFactory factory,
             string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
         {

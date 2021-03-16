@@ -30,7 +30,7 @@ namespace HareDu.Extensions
         /// <summary>
         /// Create a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
         /// </summary>
-        /// <param name="factory"></param>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="configurator">Describes how the user permissions will be created.</param>
@@ -61,7 +61,7 @@ namespace HareDu.Extensions
         /// <summary>
         /// Delete the specified user on the current RabbitMQ server.
         /// </summary>
-        /// <param name="factory"></param>
+        /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
