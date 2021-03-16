@@ -119,7 +119,7 @@ namespace HareDu.Internal
             public NewVirtualHostConfiguratorImpl()
             {
                 Request = new Lazy<VirtualHostRequest>(
-                    () => new VirtualHostRequest
+                    () => new ()
                     {
                         Tracing = _tracing,
                         Description = _description,

@@ -10,6 +10,7 @@ namespace HareDu.Core.Extensions
         /// Takes an object and returns the JSON text representation of said object.
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="options"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static string ToJsonString<T>(this T obj, JsonSerializerOptions options)
@@ -21,9 +22,10 @@ namespace HareDu.Core.Extensions
         }
 
         /// <summary>
-        /// Deserializes the contents of <see cref="HttpResponseMessage"/> and returns <see cref="Task"/>
+        /// Deserializes the contents of <see cref="HttpResponseMessage"/> and returns <see cref="Task{T}"/>
         /// </summary>
         /// <param name="responseMessage"></param>
+        /// <param name="options"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static async Task<T> ToObject<T>(this HttpResponseMessage responseMessage, JsonSerializerOptions options)
@@ -39,6 +41,7 @@ namespace HareDu.Core.Extensions
         /// Deserializes the contents of a string encoded object and returns <see cref="T"/>
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="options"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static T ToObject<T>(this string value, JsonSerializerOptions options) =>
