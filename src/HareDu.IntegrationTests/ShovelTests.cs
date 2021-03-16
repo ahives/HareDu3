@@ -35,7 +35,7 @@ namespace HareDu.IntegrationTests
         {
             var result = await _services.GetService<IBrokerObjectFactory>()
                 .Object<Shovel>()
-                .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+                .Create("test-shovel3", "amqp://user1@localhost", "TestHareDu", x =>
                 {
                     x.Source("queue1", c =>
                     {

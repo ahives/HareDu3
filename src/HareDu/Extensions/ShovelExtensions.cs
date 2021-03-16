@@ -53,7 +53,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Deletes all dynamic shovel on a specified virtual host.
+        /// Deletes all dynamic shovels on a specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
@@ -75,7 +75,7 @@ namespace HareDu.Extensions
             
             var shovels = result
                 .Select(x => x.Data)
-                .Where(x => x.VirtualHost == vhost)
+                .Where(x => x.VirtualHost == vhost && x.Type == ShovelType.Dynamic)
                 .ToList();
 
             var results = new List<Result>();
