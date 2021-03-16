@@ -363,12 +363,10 @@ The combined JSON configuration looks like this...
   }
 ```
 
-To access the above YAML configuration you can either read said configuration from a file or text.  
-
-If reading from a file, you need to initialize ```YamlFileConfigProvider```...
+If reading from a file, you need to add the following code...
 
 *Do it yourself*
-```csharp
+```c#
 HareDuConfig config = new HareDuConfig();
             
 IConfiguration configuration = new ConfigurationBuilder()
@@ -377,9 +375,8 @@ IConfiguration configuration = new ConfigurationBuilder()
 
 configuration.Bind("HareDuConfig", config);
 ```
-<br>
 
-*Dependency Injection*
+*DI*
 ```c#
 .AddHareDu()
 ```
@@ -389,43 +386,89 @@ configuration.Bind("HareDuConfig", config);
 ```
 <br>
 
-**Dude, I don't care about YAML**
+**Dude, I don't care about configuration files**
 
-First, you need to initialize ```HareDuConfigProvider```...
+Well, first you need to initialize ```HareDuConfigProvider```...
 
 *Do it yourself*
-```csharp
+```c#
 var provider = new HareDuConfigProvider();
 ```
 
 From here you can use the initialized provider to set configuration settings on all the HareDu APIs like so...
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
-    x.Broker(y =>
+    x.Broker(broker =>
     {
-        y.ConnectTo("http://localhost:15672");
-        y.UsingCredentials("guest", "guest");
-        y.TimeoutAfter(new TimeSpan(0, 0, 30));
+        broker.ConnectTo("http://localhost:15672");
+        broker.UsingCredentials("guest", "guest");
+        broker.TimeoutAfter(new TimeSpan(0, 0, 30));
     });
 
-    x.Diagnostics(y =>
+    x.Diagnostics(diagnostic =>
     {
-        y.Probes(z =>
+        diagnostic.Probes(probe =>
         {
-            z.SetMessageRedeliveryThresholdCoefficient(0.60M);
-            z.SetSocketUsageThresholdCoefficient(0.60M);
-            z.SetConsumerUtilizationThreshold(0.65M);
-            z.SetQueueHighFlowThreshold(90);
-            z.SetQueueLowFlowThreshold(10);
-            z.SetRuntimeProcessUsageThresholdCoefficient(0.65M);
-            z.SetFileDescriptorUsageThresholdCoefficient(0.65M);
-            z.SetHighConnectionClosureRateThreshold(90);
-            z.SetHighConnectionCreationRateThreshold(60);
+            probe.SetMessageRedeliveryThresholdCoefficient(0.60M);
+            probe.SetSocketUsageThresholdCoefficient(0.60M);
+            probe.SetConsumerUtilizationThreshold(0.65M);
+            probe.SetQueueHighFlowThreshold(90);
+            probe.SetQueueLowFlowThreshold(10);
+            probe.SetRuntimeProcessUsageThresholdCoefficient(0.65M);
+            probe.SetFileDescriptorUsageThresholdCoefficient(0.65M);
+            probe.SetHighConnectionClosureRateThreshold(90);
+            probe.SetHighConnectionCreationRateThreshold(60);
         });
     });
 });
 ```
-<br>
 
 From here, you need only call ```config.Broker``` or ```config.Diagnostics``` to access configuration data.
+
+<br>
+
+*DI*
+
+```c#
+.AddHareDu(x =>
+    {
+        x.Broker(broker =>
+        {
+            broker.ConnectTo("http://localhost:15672");
+            broker.UsingCredentials("guest", "guest");
+            broker.TimeoutAfter(new TimeSpan(0, 0, 30));
+        });
+
+        x.Diagnostics(diagnostic =>
+        {
+            diagnostic.Probes(probe =>
+            {
+                probe.SetMessageRedeliveryThresholdCoefficient(0.60M);
+                probe.SetSocketUsageThresholdCoefficient(0.60M);
+                probe.SetConsumerUtilizationThreshold(0.65M);
+                probe.SetQueueHighFlowThreshold(90);
+                probe.SetQueueLowFlowThreshold(10);
+                probe.SetRuntimeProcessUsageThresholdCoefficient(0.65M);
+                probe.SetFileDescriptorUsageThresholdCoefficient(0.65M);
+                probe.SetHighConnectionClosureRateThreshold(90);
+                probe.SetHighConnectionCreationRateThreshold(60);
+            });
+        });
+    })
+```
+
+From here, you need only reference ```HareDuConfig``` by either referencing within your constructor or resolving the object from the DI container like so...
+
+**Autofac**
+
+```c#
+var config = _container.Resolve<HareDuConfig>();
+```
+
+**Microsoft DI**
+
+```c#
+var config = _services.GetService<HareDuConfig>();
+```
+
