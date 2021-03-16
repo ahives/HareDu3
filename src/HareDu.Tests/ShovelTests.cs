@@ -69,7 +69,7 @@ namespace HareDu.Tests
                     x.AcknowledgementMode(AckMode.OnPublish);
                     x.Source("queue1", c =>
                     {
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2");
                 });
@@ -89,7 +89,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue1", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 
@@ -106,7 +106,7 @@ namespace HareDu.Tests
                 {
                     x.Source("queue1", c =>
                     {
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2");
                 });
@@ -123,7 +123,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue1", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
             });
@@ -140,7 +140,7 @@ namespace HareDu.Tests
                     x.Source("queue1", c =>
                     {
                         c.Exchange("exchange1", null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2", c =>
                     {
@@ -161,7 +161,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue1", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.AreEqual("exchange1", request.Value.SourceExchange);
@@ -179,7 +179,7 @@ namespace HareDu.Tests
                     x.Source("queue1", c =>
                     {
                         c.Exchange("exchange1", null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2", c =>
                     {
@@ -200,7 +200,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue1", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.AreEqual("exchange1", request.Value.SourceExchange);
@@ -219,7 +219,7 @@ namespace HareDu.Tests
                     x.Source(string.Empty, c =>
                     {
                         c.Exchange(string.Empty, null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2", c =>
                     {
@@ -240,7 +240,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
@@ -258,7 +258,7 @@ namespace HareDu.Tests
                     x.Source(string.Empty, c =>
                     {
                         c.Exchange(string.Empty, null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2", c =>
                     {
@@ -279,7 +279,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("queue2", request.Value.DestinationQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
@@ -298,7 +298,7 @@ namespace HareDu.Tests
                     x.Source("queue2", c =>
                     {
                         c.Exchange("exchange2", null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination(string.Empty, c =>
                     {
@@ -319,7 +319,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue2", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.AreEqual("exchange2", request.Value.SourceExchange);
                 Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);
@@ -337,7 +337,7 @@ namespace HareDu.Tests
                     x.Source("queue2", c =>
                     {
                         c.Exchange("exchange2", null);
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination(string.Empty, c =>
                     {
@@ -358,7 +358,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
                 Assert.AreEqual("queue2", request.Value.SourceQueue);
                 Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-                Assert.AreEqual(DeleteShovelAfterMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
+                Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
                 Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
                 Assert.AreEqual("exchange2", request.Value.SourceExchange);
                 Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);

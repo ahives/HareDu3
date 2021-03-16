@@ -1,6 +1,6 @@
 namespace HareDu
 {
-    public enum DeleteShovelAfterMode
+    public enum DeleteShovelMode
     {
         Never,
         QueueLength

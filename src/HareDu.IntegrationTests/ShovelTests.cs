@@ -39,7 +39,7 @@ namespace HareDu.IntegrationTests
                 {
                     x.Source("queue1", c =>
                     {
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2");
                 });
@@ -55,7 +55,7 @@ namespace HareDu.IntegrationTests
                 {
                     x.Source("queue1", c =>
                     {
-                        c.DeleteAfter(DeleteShovelAfterMode.QueueLength);
+                        c.DeleteAfter(DeleteShovelMode.QueueLength);
                     });
                     x.Destination("queue2");
                 });

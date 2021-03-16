@@ -96,19 +96,19 @@ namespace HareDu.Internal
         class ShovelConfiguratorImpl :
             ShovelConfigurator
         {
-            string _destinationQueue;
             ShovelProtocolType _destinationProtocol;
-            string _sourceQueue;
             ShovelProtocolType _sourceProtocol;
+            AckMode? _acknowledgeMode;
+            string _destinationQueue;
+            string _sourceQueue;
             string _sourceExchangeName;
             string _sourceExchangeRoutingKey;
-            AckMode? _acknowledgeMode;
             string _destinationExchangeName;
             string _destinationExchangeRoutingKey;
             int _reconnectDelay;
+            ulong _sourcePrefetchCount;
             bool _destinationAddForwardHeaders;
             bool _destinationAddTimestampHeader;
-            ulong _sourcePrefetchCount;
             bool _sourceCalled;
             bool _destinationCalled;
             object _deleteShovelAfter;
@@ -227,15 +227,19 @@ namespace HareDu.Internal
 
                 public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
                 
-                public void DeleteAfter(DeleteShovelAfterMode mode) => DeleteAfterShovel = mode.Convert();
+                public void DeleteAfter(DeleteShovelMode mode) => DeleteAfterShovel = EnumConversionExtensions.Convert(mode);
 
                 public void DeleteAfter(uint messages) => DeleteAfterShovel = messages;
 
                 public void MaxCopiedMessages(ulong messages) => PrefetchCount = messages < 1000 ? 1000 : messages;
 
-                public void Exchange(string exchange, string routingKey)
+                public void Exchange(string exchange, string routingKey = null)
                 {
                     ExchangeName = exchange;
+
+                    if (routingKey == null)
+                        return;
+                    
                     ExchangeRoutingKey = routingKey;
                 }
             }
@@ -257,9 +261,13 @@ namespace HareDu.Internal
 
                 public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
 
-                public void Exchange(string exchange, string routingKey)
+                public void Exchange(string exchange, string routingKey = null)
                 {
                     ExchangeName = exchange;
+
+                    if (routingKey == null)
+                        return;
+                    
                     ExchangeRoutingKey = routingKey;
                 }
 

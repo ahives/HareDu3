@@ -4,14 +4,14 @@ namespace HareDu.Extensions
 
     public static class EnumConversionExtensions
     {
-        public static string Convert(this DeleteShovelAfterMode mode)
+        public static string Convert(this DeleteShovelMode mode)
         {
             switch (mode)
             {
-                case DeleteShovelAfterMode.Never:
+                case DeleteShovelMode.Never:
                     return "never";
                 
-                case DeleteShovelAfterMode.QueueLength:
+                case DeleteShovelMode.QueueLength:
                     return "queue-length";
                     
                 default:

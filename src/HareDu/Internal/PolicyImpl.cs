@@ -41,13 +41,14 @@ namespace HareDu.Internal
 
             impl.Validate();
 
-            PolicyRequest request = new ()
-            {
-                Pattern = pattern,
-                Priority = priority,
-                Arguments = impl.Arguments.Value,
-                ApplyTo = appliedTo
-            };
+            PolicyRequest request =
+                new()
+                {
+                    Pattern = pattern,
+                    Priority = priority,
+                    Arguments = impl.Arguments.Value,
+                    ApplyTo = appliedTo
+                };
 
             Debug.Assert(request != null);
             
