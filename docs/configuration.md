@@ -33,8 +33,8 @@ Defines the decrypted username and password of a user that has administrative ac
 *JSON*
 ```json
 "Credentials": {
-        "Username": "guest",
-        "Password": "guest"
+    "Username": "guest",
+    "Password": "guest"
 }
  ```
 
@@ -85,6 +85,7 @@ The Diagnostics API is configured under the following section...
 "Diagnostics": {
   "Probes": {
     ...
+    
   }
 }
 ```
@@ -100,7 +101,7 @@ Defines the maximum acceptable rate of which connections are closed on the Rabbi
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
     ...
@@ -122,12 +123,12 @@ var config = provider.Configure(x =>
 Defines the maximum acceptable rate of which connections to the RabbitMQ broker can be established in order to determine whether or not it is considered healthy. If the rate of which connections are created is greater than or equal to this setting, a warning is generated, which implies that the application communicating with the broker may be experiencing issues. Otherwise, if the rate of created connections is less than this setting then the system is consider to be operating normally.
 
 *JSON*
-```yaml
+```json
 "HighConnectionCreationRateThreshold": 100
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -154,7 +155,7 @@ Defines the maximum acceptable number of messages that can be published to a que
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -182,7 +183,7 @@ Defines the minimum acceptable number of messages that is published to a queue. 
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -209,7 +210,7 @@ Defines the coefficient that will be used to calculate the acceptable number of 
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -236,7 +237,7 @@ Defines the coefficient that will be used to calculate the acceptable number of 
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -264,7 +265,7 @@ Defines the coefficient that will be used to calculate the acceptable number of 
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -291,7 +292,7 @@ Defines the coefficient that will be used to calculate the acceptable number of 
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
@@ -318,7 +319,7 @@ Defines the minimum acceptable percentage of consumers that are consuming messag
 ```
 
 *C#*
-```csharp
+```c#
 var config = provider.Configure(x =>
 {
         ...
