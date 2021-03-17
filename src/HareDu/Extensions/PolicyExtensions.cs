@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Creates the specified policy on the target virtual host.
+        /// Creates the specified policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="policy">The name of the policy.</param>
@@ -53,7 +53,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified policy on the target virtual host.
+        /// Deletes the specified policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="policy">The name of the policy.</param>

@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<BindingInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified virtual host.
+        /// Creates the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="sourceBinding">Source binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
         /// <param name="destinationBinding">Destination binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
@@ -31,7 +31,7 @@ namespace HareDu
             string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified exchange on the specified virtual host.
+        /// Deletes the specified exchange on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="sourceBinding">Source binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
         /// <param name="destinationBinding">Destination binding of the exchange/queue depending on <see cref="bindingType"/>.</param>

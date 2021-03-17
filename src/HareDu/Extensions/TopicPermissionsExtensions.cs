@@ -10,7 +10,7 @@ namespace HareDu.Extensions
     public static class TopicPermissionsExtensions
     {
         /// <summary>
-        /// Returns all the topic permissions.
+        /// Returns all the RabbitMQ topic permissions.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create a new topic permission for the specified user per a particular exchange and virtual host.
+        /// Creates a new topic permission for the specified user per a particular RabbitMQ exchange and virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="username">RabbitMQ broker username to apply topic permission to.</param>
@@ -50,7 +50,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete all topic permissions associate with the specified user on the specified virtual host.
+        /// Deletes all topic permissions associate with the specified user on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="username">RabbitMQ broker username used to delete topic permission.</param>

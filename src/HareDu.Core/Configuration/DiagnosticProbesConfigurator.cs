@@ -2,22 +2,58 @@ namespace HareDu.Core.Configuration
 {
     public interface DiagnosticProbesConfigurator
     {
-        void SetHighConnectionClosureRateThreshold(uint value);
+        /// <summary>
+        /// Sets the maximum acceptable rate at which connections can be closed on the RabbitMQ broker.
+        /// </summary>
+        /// <param name="threshold">Maximum acceptable rate at which connections can be closed.</param>
+        void SetHighConnectionClosureRateThreshold(uint threshold);
         
-        void SetHighConnectionCreationRateThreshold(uint value);
+        /// <summary>
+        /// Sets the maximum acceptable rate at which connections to the RabbitMQ broker can be established in order to determine whether or not it is considered healthy.
+        /// </summary>
+        /// <param name="threshold">Maximum acceptable rate at which connections to the RabbitMQ broker can be established</param>
+        void SetHighConnectionCreationRateThreshold(uint threshold);
         
-        void SetQueueHighFlowThreshold(uint value);
+        /// <summary>
+        /// Sets the maximum acceptable number of messages that can be published to a queue.
+        /// </summary>
+        /// <param name="threshold">Maximum acceptable number of messages that can be published to a queue.</param>
+        void SetQueueHighFlowThreshold(uint threshold);
         
-        void SetQueueLowFlowThreshold(uint value);
+        /// <summary>
+        /// Sets the minimum acceptable number of messages that can be published to a queue.
+        /// </summary>
+        /// <param name="threshold">Minimum acceptable number of messages that can be published to a queue.</param>
+        void SetQueueLowFlowThreshold(uint threshold);
         
-        void SetMessageRedeliveryThresholdCoefficient(decimal value);
+        /// <summary>
+        /// Sets the coefficient that is used to calculate the acceptable number of message redelivers.
+        /// </summary>
+        /// <param name="coefficient">Coefficient that is used to calculate the acceptable number of message redelivers.</param>
+        void SetMessageRedeliveryThresholdCoefficient(decimal coefficient);
         
-        void SetSocketUsageThresholdCoefficient(decimal value);
+        /// <summary>
+        /// Sets the coefficient used to calculate the acceptable number of sockets that can be used.
+        /// </summary>
+        /// <param name="coefficient">Coefficient used to calculate the acceptable number of sockets that can be used.</param>
+        void SetSocketUsageThresholdCoefficient(decimal coefficient);
         
-        void SetRuntimeProcessUsageThresholdCoefficient(decimal value);
+        /// <summary>
+        /// Sets the coefficient used to calculate the acceptable number of runtime processes that can be used.
+        /// </summary>
+        /// <param name="coefficient">Coefficient used to calculate the acceptable number of runtime processes that can be used.</param>
+        void SetRuntimeProcessUsageThresholdCoefficient(decimal coefficient);
         
-        void SetFileDescriptorUsageThresholdCoefficient(decimal value);
+        /// <summary>
+        /// Sets the coefficient used to calculate the acceptable number of file descriptors/handles that can be used.
+        /// </summary>
+        /// <param name="coefficient">Coefficient used to calculate the acceptable number of file descriptors/handles that can be used.</param>
+        void SetFileDescriptorUsageThresholdCoefficient(decimal coefficient);
         
-        void SetConsumerUtilizationThreshold(decimal value);
+        /// <summary>
+        /// Sets the minimum acceptable percentage of consumers that are consuming messages from a particular queue.
+        /// </summary>
+        /// <param name="threshold">Minimum acceptable percentage of consumers that are consuming messages from a particular queue.</param>
+        void SetConsumerUtilizationThreshold(decimal threshold);
     }
 }

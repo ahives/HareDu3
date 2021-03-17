@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Creates the specified operator policy on the target virtual host.
+        /// Creates the specified operator policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="policy">Name of the operator policy.</param>
         /// <param name="pattern">The pattern to apply the policy on.</param>
@@ -31,7 +31,7 @@ namespace HareDu
             OperatorPolicyAppliedTo appliedTo = default, int priority = default, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified operator policy on the target virtual host.
+        /// Deletes the specified operator policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="policy">Name of the operator policy.</param>
         /// <param name="vhost">The virtual host for which the policy should be applied to.</param>

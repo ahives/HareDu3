@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Creates the specified exchange on the target virtual host.
+        /// Creates the specified exchange on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="exchange">Name of the RabbitMQ exchange.</param>
         /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
@@ -27,7 +27,7 @@ namespace HareDu
         Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified exchange on the target virtual host.
+        /// Deletes the specified exchange on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="exchange">Name of the RabbitMQ exchange.</param>
         /// <param name="vhost">Name of the RabbitMQ virtual host.</param>

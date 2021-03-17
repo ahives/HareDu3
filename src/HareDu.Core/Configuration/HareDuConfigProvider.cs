@@ -96,7 +96,7 @@ namespace HareDu.Core.Configuration
                 public BrokerConfiguratorImpl()
                 {
                     Settings = new Lazy<BrokerConfig>(
-                        () => new BrokerConfig
+                        () => new ()
                         {
                             Url = _url,
                             Timeout = _timeout,
@@ -150,27 +150,23 @@ namespace HareDu.Core.Configuration
                         }, LazyThreadSafetyMode.PublicationOnly);
                 }
 
-                public void SetHighConnectionClosureRateThreshold(uint value) => _highClosureRateWarningThreshold = value;
+                public void SetHighConnectionClosureRateThreshold(uint threshold) => _highClosureRateWarningThreshold = threshold;
 
-                public void SetHighConnectionCreationRateThreshold(uint value) => _highCreationRateWarningThreshold = value;
+                public void SetHighConnectionCreationRateThreshold(uint threshold) => _highCreationRateWarningThreshold = threshold;
 
-                public void SetQueueHighFlowThreshold(uint value) => _queueHighFlowThreshold = value;
+                public void SetQueueHighFlowThreshold(uint threshold) => _queueHighFlowThreshold = threshold;
 
-                public void SetQueueLowFlowThreshold(uint value) => _queueLowFlowThreshold = value;
+                public void SetQueueLowFlowThreshold(uint threshold) => _queueLowFlowThreshold = threshold;
 
-                public void SetMessageRedeliveryThresholdCoefficient(decimal value) =>
-                    _messageRedeliveryCoefficient = value;
+                public void SetMessageRedeliveryThresholdCoefficient(decimal coefficient) => _messageRedeliveryCoefficient = coefficient;
 
-                public void SetSocketUsageThresholdCoefficient(decimal value) => _socketUsageCoefficient = value;
+                public void SetSocketUsageThresholdCoefficient(decimal coefficient) => _socketUsageCoefficient = coefficient;
 
-                public void SetRuntimeProcessUsageThresholdCoefficient(decimal value) =>
-                    _runtimeProcessUsageCoefficient = value;
+                public void SetRuntimeProcessUsageThresholdCoefficient(decimal coefficient) => _runtimeProcessUsageCoefficient = coefficient;
 
-                public void SetFileDescriptorUsageThresholdCoefficient(decimal value) =>
-                    _fileDescriptorUsageWarningCoefficient = value;
+                public void SetFileDescriptorUsageThresholdCoefficient(decimal coefficient) => _fileDescriptorUsageWarningCoefficient = coefficient;
 
-                public void SetConsumerUtilizationThreshold(decimal value) =>
-                    _consumerUtilizationWarningCoefficient = value;
+                public void SetConsumerUtilizationThreshold(decimal threshold) => _consumerUtilizationWarningCoefficient = threshold;
             }
 
             

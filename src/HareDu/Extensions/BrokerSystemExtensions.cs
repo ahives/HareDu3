@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Rebalances all queues in all virtual hosts.
+        /// Rebalances all queues in all RabbitMQ virtual hosts.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

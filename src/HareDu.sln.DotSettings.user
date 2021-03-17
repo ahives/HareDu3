@@ -2,32 +2,37 @@
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">4294967293</s:Int64>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/usr/local/share/dotnet/sdk/5.0.101/MSBuild.dll</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c20ae268_002D1776_002D41d6_002Da49c_002Dd7cdb9da832f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ClusterSnapshotTests.Test&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.ClusterSnapshotTests.Verify_can_return_snapshot1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ConnectionSnapshotTests.Test1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BrokerSystemTests.Test&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.OperatorPolicyTests.Should_be_able_to_get_all_policies&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.QueueSnapshotTests.Test&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.BindingTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ShovelTests.Verify_able_to_get_all_scoped_parameters1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ShovelTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_delete_all_shovels&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.NodeTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.OperatorPolicyTests.Verify_can_create_policy1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.OperatorPolicyTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.PolicyTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ExchangeTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests.Verify_can_create1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_empty_queue1&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_sync_queue&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.UserTests.Verify_can_create&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.UserTests.Verify_can_bulk_delete&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel2&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Or&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ClusterSnapshotTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net5.0::HareDu.Snapshotting.Tests.ClusterSnapshotTests.Verify_can_return_snapshot1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.ConnectionSnapshotTests.Test1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.BrokerSystemTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.OperatorPolicyTests.Should_be_able_to_get_all_policies&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FA6B1E55-A6B5-4BB8-BF2A-8D8B14562FE8::net5.0::HareDu.Snapshotting.IntegrationTests.QueueSnapshotTests.Test&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.BindingTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ShovelTests.Verify_able_to_get_all_scoped_parameters1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ShovelTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_delete_all_shovels&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.NodeTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.OperatorPolicyTests.Verify_can_create_policy1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.OperatorPolicyTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.PolicyTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.ExchangeTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests.Verify_can_create1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.UserTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net5.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_empty_queue1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.QueueTests.Verify_can_sync_queue&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.UserTests.Verify_can_create&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.UserTests.Verify_can_bulk_delete&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net5.0::HareDu.IntegrationTests.ShovelTests.Verify_can_create_dynamic_shovel2&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+    &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Snapshotting.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Snapshotting.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/albert/Documents/Git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	

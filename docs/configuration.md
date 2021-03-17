@@ -93,7 +93,7 @@ The Diagnostics API is configured under the following section...
 
 **HighConnectionClosureRateProbe**
 
-Defines the maximum acceptable rate of which connections are closed on the RabbitMQ broker. If the rate of which connections are closed is greater than or equal to this setting, a warning is generated, which implies that the application communicating with the broker may be experiencing issues. If the rate of closed connections is less than this setting then the system is considered to be operating normally.
+Defines the maximum acceptable rate at which connections can be closed on the RabbitMQ broker. If the rate of which connections are closed is greater than or equal to this setting, a warning is generated, which implies that the application communicating with the broker may be experiencing issues. If the rate of closed connections is less than this setting then the system is considered to be operating normally.
 
 *JSON*
 ```json
@@ -120,7 +120,7 @@ var config = provider.Configure(x =>
 
 **HighConnectionCreationRateProbe**
 
-Defines the maximum acceptable rate of which connections to the RabbitMQ broker can be established in order to determine whether or not it is considered healthy. If the rate of which connections are created is greater than or equal to this setting, a warning is generated, which implies that the application communicating with the broker may be experiencing issues. Otherwise, if the rate of created connections is less than this setting then the system is consider to be operating normally.
+Defines the maximum acceptable rate at which connections to the RabbitMQ broker can be established in order to determine whether or not it is considered healthy. If the rate of which connections are created is greater than or equal to this setting, a warning is generated, which implies that the application communicating with the broker may be experiencing issues. Otherwise, if the rate of created connections is less than this setting then the system is consider to be operating normally.
 
 *JSON*
 ```json
@@ -175,7 +175,7 @@ var config = provider.Configure(x =>
 
 **QueueLowFlowProbe**
 
-Defines the minimum acceptable number of messages that is published to a queue. If the number of published messages is less than or equal to this setting, then, a queue is considered unhealthy. Otherwise, the queue is considered healthy.
+Defines the minimum acceptable number of messages that can be published to a queue. If the number of published messages is less than or equal to this setting, then, a queue is considered unhealthy. Otherwise, the queue is considered healthy.
 
 *JSON*
 ```json
@@ -229,7 +229,7 @@ var config = provider.Configure(x =>
 
 **SocketDescriptorThrottlingProbe**
 
-Defines the coefficient that will be used to calculate the acceptable number of sockets that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the number of available sockets. A fractional value less than 1 will result in the calculated threshold being derived from said value times the number of available sockets. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
+Defines the coefficient used to calculate the acceptable number of sockets that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the number of available sockets. A fractional value less than 1 will result in the calculated threshold being derived from said value times the number of available sockets. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
 
 *JSON*
 ```json
@@ -257,7 +257,7 @@ var config = provider.Configure(x =>
 
 **RuntimeProcessLimitProbe**
 
-Defines the coefficient that will be used to calculate the acceptable number of runtime processes that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the upper limit of available runtime processes. A fractional value less than 1 will result in the calculated threshold being derived from said value times the predefined upper limit of available runtime processes. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
+Defines the coefficient used to calculate the acceptable number of runtime processes that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the upper limit of available runtime processes. A fractional value less than 1 will result in the calculated threshold being derived from said value times the predefined upper limit of available runtime processes. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
 
 *JSON*
 ```json
@@ -284,7 +284,7 @@ var config = provider.Configure(x =>
 
 **FileDescriptorThrottlingProbe**
 
-Defines the coefficient that will be used to calculate the acceptable number of file descriptors/handles that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the number of available file descriptors/handles. A fractional value less than 1 will result in the calculated threshold being derived from said value times the number of available file descriptors/handles. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
+Defines the coefficient used to calculate the acceptable number of file descriptors/handles that can be used. A fractional value of 1 or greater will result in the calculated threshold being equal to the number of available file descriptors/handles. A fractional value less than 1 will result in the calculated threshold being derived from said value times the number of available file descriptors/handles. The resultant value will determine whether the corresponding RabbitMQ component is *healthy*, *unhealthy*, or *warning*.
 
 *JSON*
 ```json

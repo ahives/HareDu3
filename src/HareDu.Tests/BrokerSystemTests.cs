@@ -26,8 +26,8 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.Data.MessageStats);
                 Assert.IsNotNull(result.Data.ChurnRates);
                 Assert.AreEqual("rabbit@haredu", result.Data.ClusterName);
-                Assert.AreEqual("22.0.4", result.Data.ErlangVersion);
-                Assert.AreEqual("Erlang/OTP 22 [erts-10.4.3] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:64] [hipe] [dtrace]", result.Data.ErlangFullVersion);
+                Assert.AreEqual("23.2", result.Data.ErlangVersion);
+                Assert.AreEqual("Erlang/OTP 23 [erts-11.1.4] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:64] [hipe] [dtrace]", result.Data.ErlangFullVersion);
                 Assert.AreEqual("rabbit@localhost", result.Data.Node);
                 Assert.AreEqual(3, result.Data.ObjectTotals?.TotalChannels);
                 Assert.AreEqual(3, result.Data.ObjectTotals?.TotalConsumers);
@@ -114,8 +114,8 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.Data.ChurnRates?.DeletedQueueDetails);
                 Assert.AreEqual(0.0M, result.Data.ChurnRates?.DeletedQueueDetails?.Value);
                 Assert.AreEqual(5, result.Data.ChurnRates?.TotalQueuesDeleted);
-                Assert.AreEqual("3.7.15", result.Data.RabbitMqVersion);
-                Assert.AreEqual("3.7.15", result.Data.ManagementVersion);
+                Assert.AreEqual("3.8.9", result.Data.RabbitMqVersion);
+                Assert.AreEqual("3.8.9", result.Data.ManagementVersion);
                 Assert.AreEqual("basic", result.Data.RatesMode);
                 Assert.AreEqual(4, result.Data.ExchangeTypes.Count);
             });
@@ -137,8 +137,8 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.Data.MessageStats);
                 Assert.IsNotNull(result.Data.ChurnRates);
                 Assert.AreEqual("rabbit@haredu", result.Data.ClusterName);
-                Assert.AreEqual("22.0.4", result.Data.ErlangVersion);
-                Assert.AreEqual("Erlang/OTP 22 [erts-10.4.3] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:64] [hipe] [dtrace]", result.Data.ErlangFullVersion);
+                Assert.AreEqual("23.2", result.Data.ErlangVersion);
+                Assert.AreEqual("Erlang/OTP 23 [erts-11.1.4] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:64] [hipe] [dtrace]", result.Data.ErlangFullVersion);
                 Assert.AreEqual("rabbit@localhost", result.Data.Node);
                 Assert.AreEqual(3, result.Data.ObjectTotals?.TotalChannels);
                 Assert.AreEqual(3, result.Data.ObjectTotals?.TotalConsumers);
@@ -225,8 +225,8 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.Data.ChurnRates?.DeletedQueueDetails);
                 Assert.AreEqual(0.0M, result.Data.ChurnRates?.DeletedQueueDetails?.Value);
                 Assert.AreEqual(5, result.Data.ChurnRates?.TotalQueuesDeleted);
-                Assert.AreEqual("3.7.15", result.Data.RabbitMqVersion);
-                Assert.AreEqual("3.7.15", result.Data.ManagementVersion);
+                Assert.AreEqual("3.8.9", result.Data.RabbitMqVersion);
+                Assert.AreEqual("3.8.9", result.Data.ManagementVersion);
                 Assert.AreEqual("basic", result.Data.RatesMode);
                 Assert.AreEqual(4, result.Data.ExchangeTypes.Count);
             });

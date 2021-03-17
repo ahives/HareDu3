@@ -68,20 +68,6 @@ namespace HareDu.Diagnostics
             }
         }
 
-        public void RegisterObservers(IReadOnlyList<IObserver<ProbeConfigurationContext>> observers)
-        {
-            var probes = _probeCache.Values.ToList();
-            
-            for (int i = 0; i < observers.Count; i++)
-            {
-                if (observers[i].IsNull())
-                    continue;
-                
-                for (int j = 0; j < probes.Count; j++)
-                    _observers.Add(probes[j].Subscribe(observers[i]));
-            }
-        }
-
         public void RegisterObserver(IObserver<ProbeContext> observer)
         {
             if (observer.IsNull())
@@ -93,18 +79,7 @@ namespace HareDu.Diagnostics
                 _observers.Add(probes[i].Subscribe(observer));
         }
 
-        public void RegisterObserver(IObserver<ProbeConfigurationContext> observer)
-        {
-            if (observer.IsNull())
-                return;
-            
-            var probes = _probeCache.Values.ToList();
-            
-            for (int i = 0; i < probes.Count; i++)
-                _observers.Add(probes[i].Subscribe(observer));
-        }
-
-        public bool RegisterProbe<T>(T probe)
+        public bool TryRegisterProbe<T>(T probe)
             where T : DiagnosticProbe
         {
             bool added = _probeCache.TryAdd(typeof(T).FullName, probe);
@@ -124,7 +99,7 @@ namespace HareDu.Diagnostics
             return added;
         }
 
-        public bool RegisterScanner<T>(DiagnosticScanner<T> scanner)
+        public bool TryRegisterScanner<T>(DiagnosticScanner<T> scanner)
             where T : Snapshot =>
             scanner.IsNotNull() && _scannerCache.TryAdd(typeof(T).FullName, scanner);
 

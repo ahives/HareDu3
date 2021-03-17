@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Creates the specified policy on the target virtual host.
+        /// Creates the specified policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="policy">The name of the policy.</param>
         /// <param name="pattern">The pattern for which the policy is to be applied.</param>
@@ -31,7 +31,7 @@ namespace HareDu
             PolicyAppliedTo appliedTo = PolicyAppliedTo.All, int priority = 0, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified policy on the target virtual host.
+        /// Deletes the specified policy on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="policy">The name of the policy.</param>
         /// <param name="vhost">The name of the virtual host.</param>

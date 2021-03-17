@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Creates the specified exchange on the target virtual host.
+        /// Creates the specified exchange on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="exchange">Name of the RabbitMQ exchange.</param>
@@ -49,7 +49,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified exchange on the target virtual host.
+        /// Deletes the specified exchange on the target RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="exchange">Name of the RabbitMQ exchange.</param>

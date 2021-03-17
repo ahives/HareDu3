@@ -27,11 +27,11 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create the specified binding between source queue and destination queue on the specified virtual host.
+        /// Creates the specified binding between source queue and destination queue on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="sourceBinding">Source binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
-        /// <param name="destinationBinding">Destination binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
+        /// <param name="sourceBinding">Source binding of the exchange.</param>
+        /// <param name="destinationBinding">Destination binding of the exchange.</param>
         /// <param name="vhost">The virtual host where the binding is defined.</param>
         /// <param name="bindingKey">The routing pattern for a source to destination binding.</param>
         /// <param name="configurator">Describes how the binding will be created.</param>
@@ -50,11 +50,11 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create the specified binding between source exchange and destination exchange on the specified virtual host.
+        /// Creates the specified binding between source exchange and destination exchange on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="sourceBinding">Source binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
-        /// <param name="destinationBinding">Destination binding of the exchange/queue depending on <see cref="bindingType"/>.</param>
+        /// <param name="sourceBinding">Source binding of the exchange.</param>
+        /// <param name="destinationBinding">Destination binding of the exchange.</param>
         /// <param name="vhost">The virtual host where the binding is defined.</param>
         /// <param name="bindingKey">The routing pattern for a source to destination binding.</param>
         /// <param name="configurator">Describes how the binding will be created.</param>
@@ -73,11 +73,11 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified binding between exchange and queue on the specified RabbitMQ virtual host.
+        /// Deletes the specified binding between exchange and queue on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="sourceBinding">Source binding of the exchange/queue.</param>
-        /// <param name="destinationBinding">Destination binding of the exchange/queue.</param>
+        /// <param name="sourceBinding">Source binding of the queue.</param>
+        /// <param name="destinationBinding">Destination binding of the queue.</param>
         /// <param name="propertiesKey">Combination of routing key and hash of its arguments.</param>
         /// <param name="vhost">The virtual host where the binding is defined.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -95,11 +95,11 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified binding between exchanges on the specified RabbitMQ virtual host.
+        /// Deletes the specified binding between exchanges on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
-        /// <param name="sourceBinding">Source binding of the exchange/queue.</param>
-        /// <param name="destinationBinding">Destination binding of the exchange/queue.</param>
+        /// <param name="sourceBinding">Source binding of the exchange.</param>
+        /// <param name="destinationBinding">Destination binding of the exchange.</param>
         /// <param name="propertiesKey">Combination of routing key and hash of its arguments.</param>
         /// <param name="vhost">The virtual host where the binding is defined.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

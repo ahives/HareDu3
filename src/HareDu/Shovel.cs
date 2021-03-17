@@ -10,14 +10,14 @@ namespace HareDu
         BrokerObject
     {
         /// <summary>
-        /// Return all dynamic shovels that have been created.
+        /// Returns all dynamic shovels that have been created.
         /// </summary>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create a dynamic shovel on a specified virtual host.
+        /// Creates a dynamic shovel on a specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="shovel">The name of the dynamic shovel.</param>
         /// <param name="uri">The connection URI of the RabbitMQ broker.</param>
@@ -28,7 +28,7 @@ namespace HareDu
         Task<Result> Create(string shovel, string uri, string vhost, Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// Deletes a dynamic shovel on a specified virtual host.
+        /// Deletes a dynamic shovel on a specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="shovel">The name of the dynamic shovel.</param>
         /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>

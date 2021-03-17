@@ -12,7 +12,7 @@ namespace HareDu.Extensions
     public static class ShovelExtensions
     {
         /// <summary>
-        /// Create a dynamic shovel on a specified virtual host.
+        /// Creates a dynamic shovel on a specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="shovel">The name of the dynamic shovel.</param>
@@ -33,7 +33,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Deletes a dynamic shovel on a specified virtual host.
+        /// Deletes a dynamic shovel on a specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="shovel">The name of the dynamic shovel.</param>
@@ -93,7 +93,7 @@ namespace HareDu.Extensions
         }
         
         /// <summary>
-        /// Return all dynamic shovels that have been created.
+        /// Returns all dynamic shovels that have been created.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

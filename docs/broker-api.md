@@ -6,7 +6,7 @@ The Broker API is the lowest level API because it interacts directly with the Ra
 |---| --- |
 | **Binding** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/binding-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/binding-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/binding-delete.md) |
 | **Channel** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/channel-get.md) |
-| **Connection** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/connection-get.md) |
+| **Connection** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/connection-get.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/connection-delete.md) |
 | **Consumer** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/consumer-get.md) |
 | **Exchange** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/exchange-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/exchange-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/exchange-delete.md) |
 | **Queue** | [GetAll](https://github.com/ahives/HareDu3/blob/master/docs/queue-get.md), [Create](https://github.com/ahives/HareDu3/blob/master/docs/queue-create.md), [Delete](https://github.com/ahives/HareDu3/blob/master/docs/queue-delete.md), [Empty](https://github.com/ahives/HareDu3/blob/master/docs/queue-empty.md), [Sync](https://github.com/ahives/HareDu3/blob/master/docs/queue-sync.md) |
