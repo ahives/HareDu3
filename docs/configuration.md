@@ -426,7 +426,7 @@ var config = provider.Configure(x =>
 });
 ```
 
-From here, you need only call ```config.Broker``` or ```config.Diagnostics``` to access configuration data.
+...and now you need only call ```config.Broker``` or ```config.Diagnostics``` to access configuration data.
 
 <br>
 
@@ -460,7 +460,7 @@ From here, you need only call ```config.Broker``` or ```config.Diagnostics``` to
     })
 ```
 
-From here, you need only reference ```HareDuConfig``` by either referencing within your constructor or resolving the object from the DI container like so...
+...and now you need only reference ```HareDuConfig``` by either referencing within your constructor or resolving the object from the DI container like so...
 
 **Autofac**
 
