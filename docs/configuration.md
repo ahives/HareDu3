@@ -376,7 +376,8 @@ IConfiguration configuration = new ConfigurationBuilder()
 configuration.Bind("HareDuConfig", config);
 ```
 
-*DI*
+*Using Dependency Injection*
+
 ```c#
 .AddHareDu()
 ```
@@ -428,7 +429,7 @@ From here, you need only call ```config.Broker``` or ```config.Diagnostics``` to
 
 <br>
 
-*DI*
+*Using Dependency Injection*
 
 ```c#
 .AddHareDu(x =>
