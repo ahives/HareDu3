@@ -10,9 +10,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Network Partition Probe";
-        public string Description { get; }
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Network Partition Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Node;
         public ProbeCategory Category => ProbeCategory.Connectivity;
 
@@ -33,13 +37,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (data.NetworkPartitions.Any())
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -47,13 +51,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

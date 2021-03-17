@@ -10,9 +10,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Channel Limit Reached Probe";
-        public string Description => "Measures actual number of channels to the defined limit on connection";
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Channel Limit Reached Probe",
+                Description = "Measures actual number of channels to the defined limit on connection"
+            };
         public ComponentType ComponentType => ComponentType.Connection;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -34,13 +38,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (Convert.ToUInt64(data.Channels.Count) >= data.OpenChannelsLimit)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -48,13 +52,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

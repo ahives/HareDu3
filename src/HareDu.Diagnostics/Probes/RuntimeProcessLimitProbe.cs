@@ -12,10 +12,14 @@ namespace HareDu.Diagnostics.Probes
         DiagnosticProbe
     {
         readonly DiagnosticsConfig _config;
-        
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Runtime Process Limit Probe";
-        public string Description { get; }
+
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Runtime Process Limit Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Runtime;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -32,13 +36,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (_config.IsNull() || _config.Probes.IsNull())
             {
-                _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
                     ParentComponentId = null,
                     ComponentId = null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     KB = article
                 };
@@ -59,13 +63,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (data.Processes.Used >= data.Processes.Limit)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -73,13 +77,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else if (data.Processes.Used >= threshold && threshold < data.Processes.Limit)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -87,13 +91,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

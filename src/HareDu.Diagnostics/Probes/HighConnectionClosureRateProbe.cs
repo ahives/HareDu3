@@ -11,10 +11,14 @@ namespace HareDu.Diagnostics.Probes
         DiagnosticProbe
     {
         readonly DiagnosticsConfig _config;
-        
-        public string Id => GetType().GetIdentifier();
-        public string Name => "High Connection Closure Rate Probe";
-        public string Description => "";
+
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "High Connection Closure Rate Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Connection;
         public ProbeCategory Category => ProbeCategory.Connectivity;
 
@@ -31,13 +35,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (_config.IsNull() || _config.Probes.IsNull())
             {
-                _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
                     ParentComponentId = null,
                     ComponentId = null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     KB = article
                 };
@@ -55,13 +59,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (data.ConnectionsClosed.Rate >= _config.Probes.HighConnectionClosureRateThreshold)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Warning, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = null,
                     ComponentId = null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -69,13 +73,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = null,
                     ComponentId = null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

@@ -25,4 +25,11 @@
 | | 8 | Added/changed API developer documentation on selected public methods | Enhancement | No |
 | | 9 | Introduced new method on Queue object in Broker API called Sync to perform queue sync and cancel sync actions | New | No |
 | | 10 | Introduced new method overload on User object in Broker API called Delete and DeleteUsers extension method to perform bulk delete of users | New | No |
+| | 11 | Introduced new method on Connection object in Broker API called Delete and DeleteConnection extension method to delete a connection to the RabbitMQ broker | New | No |
+| | | | | |
+| **3.2.0** | 1 | Deprecated method overloads for RegisterObserver and RegisterObservers in IScannerFactory | Deprecated | Yes |
+| | 2 | Changed method names of RegisterScanner and RegisterProbe to TryRegisterScanner and TryRegisterProbe, respectively, in IScannerFactory | Enhancement | Yes |
+| | 3 | Added more developer documentation (e.g., API intellisense) | Enhancement | No |
+| | 4 | Deprecated metadata properties Id, Name, and Description implemented by diagnostic probes | Deprecated | Yes |
+| | 5 | Added new metadata property called DiagnosticProbeMetadata on all diagnostic probes that encapsulates miscellaneous information pertinent to putting the specified probe in the proper context | New | No |
 

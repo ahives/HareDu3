@@ -9,9 +9,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Queue Growth Probe";
-        public string Description { get; }
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Queue Growth Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Queue;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -33,13 +37,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (data.Messages.Incoming.Rate > data.Messages.Acknowledged.Rate)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Warning, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -47,13 +51,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

@@ -9,9 +9,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Queue No Flow Probe";
-        public string Description { get; }
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Queue No Flow Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Queue;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -32,13 +36,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (data.Messages.Incoming.Total == 0)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -46,13 +50,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

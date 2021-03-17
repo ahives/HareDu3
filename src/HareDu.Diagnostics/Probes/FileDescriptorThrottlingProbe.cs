@@ -12,10 +12,14 @@ namespace HareDu.Diagnostics.Probes
         DiagnosticProbe
     {
         readonly DiagnosticsConfig _config;
-        
-        public string Id => GetType().GetIdentifier();
-        public string Name => "File Descriptor Throttling Probe";
-        public string Description { get; }
+
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "File Descriptor Throttling Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.OperatingSystem;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -32,13 +36,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (_config.IsNull() || _config.Probes.IsNull())
             {
-                _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
                     ParentComponentId = data.IsNotNull() ? data.NodeIdentifier : null,
                     ComponentId = data.IsNotNull() ? data.ProcessId : null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     KB = article
                 };
@@ -60,13 +64,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (data.FileDescriptors.Used < threshold && threshold < data.FileDescriptors.Available)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -74,13 +78,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else if (data.FileDescriptors.Used == data.FileDescriptors.Available)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -88,13 +92,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Warning, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

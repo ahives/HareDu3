@@ -12,10 +12,14 @@ namespace HareDu.Diagnostics.Probes
         DiagnosticProbe
     {
         readonly DiagnosticsConfig _config;
-        
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Socket Descriptor Throttling Probe";
-        public string Description => "Checks network to see if the number of sockets currently in use is less than or equal to the number available.";
+
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Socket Descriptor Throttling Probe",
+                Description = "Checks network to see if the number of sockets currently in use is less than or equal to the number available."
+            };
         public ComponentType ComponentType => ComponentType.Node;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -32,13 +36,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (_config.IsNull() || _config.Probes.IsNull())
             {
-                _kb.TryGet(Id, ProbeResultStatus.NA, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
                 result = new NotApplicableProbeResult
                 {
                     ParentComponentId = data.IsNotNull() ? data.ClusterIdentifier : null,
                     ComponentId = data.IsNotNull() ? data.Identifier : null,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     KB = article
                 };
@@ -59,13 +63,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (data.OS.SocketDescriptors.Used < warningThreshold && warningThreshold < data.OS.SocketDescriptors.Available)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -73,13 +77,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else if (data.OS.SocketDescriptors.Used == data.OS.SocketDescriptors.Available)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -87,13 +91,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Warning, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = data.ClusterIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

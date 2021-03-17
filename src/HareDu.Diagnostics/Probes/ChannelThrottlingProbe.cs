@@ -9,9 +9,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Channel Throttling Probe";
-        public string Description => "Monitors connections to the RabbitMQ broker to determine whether channels are being throttled.";
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Channel Throttling Probe",
+                Description = "Monitors connections to the RabbitMQ broker to determine whether channels are being throttled."
+            };
         public ComponentType ComponentType => ComponentType.Channel;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -33,13 +37,13 @@ namespace HareDu.Diagnostics.Probes
             
             if (data.UnacknowledgedMessages > data.PrefetchCount)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Unhealthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
                 result = new UnhealthyProbeResult
                 {
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -47,13 +51,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Healthy, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
                 result = new HealthyProbeResult
                 {
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article

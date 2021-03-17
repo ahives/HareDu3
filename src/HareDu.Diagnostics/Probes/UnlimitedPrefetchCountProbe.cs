@@ -9,9 +9,13 @@ namespace HareDu.Diagnostics.Probes
         BaseDiagnosticProbe,
         DiagnosticProbe
     {
-        public string Id => GetType().GetIdentifier();
-        public string Name => "Unlimited Prefetch Count Probe";
-        public string Description { get; }
+        public DiagnosticProbeMetadata Metadata =>
+            new()
+            {
+                Id = GetType().GetIdentifier(),
+                Name = "Unlimited Prefetch Count Probe",
+                Description = ""
+            };
         public ComponentType ComponentType => ComponentType.Channel;
         public ProbeCategory Category => ProbeCategory.Throughput;
 
@@ -32,13 +36,13 @@ namespace HareDu.Diagnostics.Probes
 
             if (data.PrefetchCount == 0)
             {
-                _kb.TryGet(Id, ProbeResultStatus.Warning, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
                 result = new WarningProbeResult
                 {
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
@@ -46,13 +50,13 @@ namespace HareDu.Diagnostics.Probes
             }
             else
             {
-                _kb.TryGet(Id, ProbeResultStatus.Inconclusive, out var article);
+                _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
                 result = new InconclusiveProbeResult
                 {
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
-                    Id = Id,
-                    Name = Name,
+                    Id = Metadata.Id,
+                    Name = Metadata.Name,
                     ComponentType = ComponentType,
                     Data = probeData,
                     KB = article
