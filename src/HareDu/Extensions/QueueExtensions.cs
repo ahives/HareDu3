@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create specified queue on the specified RabbitMQ virtual host and node.
+        /// Creates specified queue on the specified RabbitMQ virtual host and node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
@@ -50,7 +50,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Purge all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
+        /// Purges all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
@@ -70,7 +70,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete specified queue on the specified RabbitMQ virtual host and node.
+        /// Deletes specified queue on the specified RabbitMQ virtual host and node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
@@ -91,7 +91,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Sync of specified RabbitMQ queue.
+        /// Syncs of specified RabbitMQ queue.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
@@ -111,7 +111,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Cancel sync of specified RabbitMQ queue.
+        /// Cancels sync of specified RabbitMQ queue.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>

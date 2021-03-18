@@ -36,13 +36,19 @@ namespace HareDu
         Task<Result> Create(string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified user on the current RabbitMQ server.
+        /// Deletes the specified user on the current RabbitMQ server.
         /// </summary>
         /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
         /// <returns></returns>
         Task<Result> Delete(string username, CancellationToken cancellationToken = default);
         
+        /// <summary>
+        /// Bulk deletes the specified user on the current RabbitMQ server.
+        /// </summary>
+        /// <param name="usernames">List of RabbitMQ broker usernames.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns></returns>
         Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default);
     }
 }

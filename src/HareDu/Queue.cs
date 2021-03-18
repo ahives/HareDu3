@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create specified queue on the specified RabbitMQ virtual host and node.
+        /// Creates specified queue on the specified RabbitMQ virtual host and node.
         /// </summary>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -29,7 +29,7 @@ namespace HareDu
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete specified queue on the specified RabbitMQ virtual host and node.
+        /// Deletes specified queue on the specified RabbitMQ virtual host and node.
         /// </summary>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -39,7 +39,7 @@ namespace HareDu
         Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Purge all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
+        /// Purges all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
         /// </summary>
         /// <param name="queue">Name of the RabbitMQ broker queue.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -48,7 +48,7 @@ namespace HareDu
         Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Sync or cancel sync of specified RabbitMQ queue.
+        /// Syncs or cancels sync of specified RabbitMQ queue.
         /// </summary>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="syncAction">Sync action to be performed on RabbitMQ queue.</param>

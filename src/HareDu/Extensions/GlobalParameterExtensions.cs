@@ -48,7 +48,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified global parameter on the current RabbitMQ node.
+        /// Deletes the specified global parameter on the current RabbitMQ node.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>

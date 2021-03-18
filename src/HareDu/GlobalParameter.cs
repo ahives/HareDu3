@@ -26,7 +26,7 @@ namespace HareDu
         Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified global parameter on the current RabbitMQ node.
+        /// Deletes the specified global parameter on the current RabbitMQ node.
         /// </summary>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

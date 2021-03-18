@@ -48,7 +48,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the limits for the specified virtual host on the current RabbitMQ server.
+        /// Deletes the limits for the specified virtual host on the current RabbitMQ server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>

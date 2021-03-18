@@ -16,7 +16,7 @@ namespace HareDu
         Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create a scoped parameter for a particular RabbitMQ component and virtual host on the current server.
+        /// Creates a scoped parameter for a particular RabbitMQ component and virtual host on the current server.
         /// </summary>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>
         /// <param name="value">Value of the RabbitMQ parameter.</param>
@@ -28,7 +28,7 @@ namespace HareDu
         Task<Result> Create<T>(string parameter, T value, string component, string vhost, CancellationToken cancellationToken = default);
         
         /// <summary>
-        /// Delete the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
+        /// Deletes the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
         /// </summary>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>
         /// <param name="component">Name of the RabbitMQ component.</param>

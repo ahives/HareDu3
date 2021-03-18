@@ -26,7 +26,7 @@ namespace HareDu
         Task<Result> Define(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the limits for the specified virtual host on the current RabbitMQ server.
+        /// Deletes the limits for the specified virtual host on the current RabbitMQ server.
         /// </summary>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

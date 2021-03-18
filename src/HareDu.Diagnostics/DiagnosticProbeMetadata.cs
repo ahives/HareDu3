@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics.Probes
+namespace HareDu.Diagnostics
 {
     public record DiagnosticProbeMetadata
     {

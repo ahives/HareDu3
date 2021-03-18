@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create a scoped parameter for a particular RabbitMQ component and virtual host on the current server.
+        /// Creates a scoped parameter for a particular RabbitMQ component and virtual host on the current server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>
@@ -51,7 +51,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
+        /// Deletes the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="parameter">Name of the RabbitMQ parameter.</param>

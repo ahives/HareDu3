@@ -28,7 +28,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Create the specified RabbitMQ virtual host on the current server.
+        /// Creates the specified RabbitMQ virtual host on the current server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -48,7 +48,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified RabbitMQ virtual host on the current server.
+        /// Deletes the specified RabbitMQ virtual host on the current server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -87,7 +87,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Perform a health check on the specified RabbitMQ virtual host.
+        /// Performs a health check on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>

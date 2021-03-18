@@ -27,7 +27,7 @@
 | | 10 | Introduced new method overload on User object in Broker API called Delete and DeleteUsers extension method to perform bulk delete of users | New | No |
 | | 11 | Introduced new method on Connection object in Broker API called Delete and DeleteConnection extension method to delete a connection to the RabbitMQ broker | New | No |
 | | | | | |
-| **3.2.0** | 1 | Deprecated method overloads for RegisterObserver and RegisterObservers in IScannerFactory | Deprecated | Yes |
+| **3.1.1** | 1 | Deprecated method overloads for RegisterObserver and RegisterObservers in IScannerFactory | Deprecated | Yes |
 | | 2 | Changed method names of RegisterScanner and RegisterProbe to TryRegisterScanner and TryRegisterProbe, respectively, in IScannerFactory | Enhancement | Yes |
 | | 3 | Added more developer documentation (e.g., API intellisense) | Enhancement | No |
 | | 4 | Deprecated metadata properties Id, Name, and Description implemented by diagnostic probes | Deprecated | Yes |

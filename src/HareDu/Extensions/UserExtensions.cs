@@ -69,7 +69,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete the specified user on the current RabbitMQ server.
+        /// Deletes the specified user on the current RabbitMQ server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="username">RabbitMQ broker username.</param>
@@ -88,7 +88,7 @@ namespace HareDu.Extensions
         }
 
         /// <summary>
-        /// Delete specified users on the current RabbitMQ server.
+        /// Deletes specified users on the current RabbitMQ server.
         /// </summary>
         /// <param name="factory">The object factory that implements the underlying functionality.</param>
         /// <param name="usernames">List of RabbitMQ broker usernames.</param>

@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create the specified RabbitMQ virtual host on the current server.
+        /// Creates the specified RabbitMQ virtual host on the current server.
         /// </summary>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="configurator">Describes how the virtual host will be created.</param>
@@ -26,7 +26,7 @@ namespace HareDu
         Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified RabbitMQ virtual host on the current server.
+        /// Deletes the specified RabbitMQ virtual host on the current server.
         /// </summary>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -43,7 +43,7 @@ namespace HareDu
         Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Perform a health check on the specified RabbitMQ virtual host.
+        /// Performs a health check on the specified RabbitMQ virtual host.
         /// </summary>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
         /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

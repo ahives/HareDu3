@@ -17,7 +17,7 @@ namespace HareDu
         Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Create a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
+        /// Creates a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
         /// </summary>
         /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
@@ -27,7 +27,7 @@ namespace HareDu
         Task<Result> Create(string username, string vhost, Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Delete the specified user permission assigned to a specified user on a specific virtual host on the current RabbitMQ server.
+        /// Deletes the specified user permission assigned to a specified user on a specific virtual host on the current RabbitMQ server.
         /// </summary>
         /// <param name="username">RabbitMQ broker username.</param>
         /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
