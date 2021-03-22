@@ -1,4 +1,4 @@
-namespace HareDu.Core.Serialization
+namespace HareDu.Serialization.Converters
 {
     using System.Text.Json;
     using System.Text.Json.Serialization;

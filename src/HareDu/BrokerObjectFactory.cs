@@ -10,6 +10,7 @@ namespace HareDu
     using Core;
     using Core.Configuration;
     using Core.Extensions;
+    using Internal;
 
     public class BrokerObjectFactory :
         IBrokerObjectFactory

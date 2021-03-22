@@ -1,4 +1,4 @@
-﻿namespace HareDu.Core
+﻿namespace HareDu.Internal
 {
     using System;
     using System.Collections.Generic;
@@ -10,8 +10,10 @@
     using System.Text.Json;
     using System.Threading;
     using System.Threading.Tasks;
+    using Core;
+    using Core.Extensions;
     using Extensions;
-    using Serialization;
+    using Serialization.Converters;
 
     public class BaseBrokerObject
     {

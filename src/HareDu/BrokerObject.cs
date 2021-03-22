@@ -1,4 +1,4 @@
-namespace HareDu.Core
+namespace HareDu
 {
     public interface BrokerObject
     {

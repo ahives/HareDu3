@@ -3,11 +3,11 @@ namespace HareDu.IntegrationTests
     using System;
     using System.Threading.Tasks;
     using Core.Extensions;
-    using Core.Serialization;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
+    using Serialization.Converters;
 
     [TestFixture]
     public class GlobalParameterTests

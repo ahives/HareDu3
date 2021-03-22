@@ -9,9 +9,9 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
-    using Core.Serialization;
     using Extensions;
     using Model;
+    using Serialization.Converters;
 
     class OperatorPolicyImpl :
         BaseBrokerObject,

@@ -1,8 +1,9 @@
-namespace HareDu.Core.Extensions
+namespace HareDu.Extensions
 {
     using System.Net.Http;
     using System.Text.Json;
     using System.Threading.Tasks;
+    using Core.Extensions;
 
     public static class JsonExtensions
     {

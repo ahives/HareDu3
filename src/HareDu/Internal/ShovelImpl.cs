@@ -9,9 +9,9 @@ namespace HareDu.Internal
     using System.Threading.Tasks;
     using Core;
     using Core.Extensions;
-    using Core.Serialization;
     using Extensions;
     using Model;
+    using Serialization.Converters;
 
     class ShovelImpl :
         BaseBrokerObject,
@@ -227,7 +227,7 @@ namespace HareDu.Internal
 
                 public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
                 
-                public void DeleteAfter(DeleteShovelMode mode) => DeleteAfterShovel = EnumConversionExtensions.Convert(mode);
+                public void DeleteAfter(DeleteShovelMode mode) => DeleteAfterShovel = mode.Convert();
 
                 public void DeleteAfter(uint messages) => DeleteAfterShovel = messages;
 
