@@ -26,7 +26,7 @@ namespace HareDu.Snapshotting.Tests.Fakes
                 PacketsSent = 871998847,
                 PacketBytesSent = 83008482374,
                 PacketsReceived = 68721979894793,
-                State = "blocked"
+                State = BrokerConnectionState.Blocked
             };
             var connection2 = new ConnectionInfo
             {
@@ -41,7 +41,7 @@ namespace HareDu.Snapshotting.Tests.Fakes
                 PacketsSent = 871998847,
                 PacketBytesSent = 83008482374,
                 PacketsReceived = 68721979894793,
-                State = "blocked"
+                State = BrokerConnectionState.Blocked
             };
             var connection3 = new ConnectionInfo
             {
@@ -56,7 +56,7 @@ namespace HareDu.Snapshotting.Tests.Fakes
                 PacketsSent = 871998847,
                 PacketBytesSent = 83008482374,
                 PacketsReceived = 68721979894793,
-                State = "blocked"
+                State = BrokerConnectionState.Blocked
             };
 
             return new SuccessfulResultList<ConnectionInfo>{Data = new List<ConnectionInfo> {connection1, connection2, connection3}, DebugInfo = null};

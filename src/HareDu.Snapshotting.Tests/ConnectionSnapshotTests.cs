@@ -3,6 +3,7 @@ namespace HareDu.Snapshotting.Tests
     using System.Linq;
     using System.Threading.Tasks;
     using Fakes;
+    using HareDu.Model;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
@@ -40,7 +41,7 @@ namespace HareDu.Snapshotting.Tests
                 Assert.AreEqual("3.7.18", result.Snapshot.BrokerVersion);
                 Assert.AreEqual("fake_cluster", result.Snapshot.ClusterName);
                 Assert.AreEqual("Connection 1", result.Snapshot.Connections[0]?.Identifier);
-                Assert.AreEqual(ConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
+                Assert.AreEqual(BrokerConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
                 Assert.AreEqual(982738, result.Snapshot.Connections[0]?.OpenChannelsLimit);
                 Assert.AreEqual("TestVirtualHost", result.Snapshot.Connections[0]?.VirtualHost);
                 Assert.AreEqual("Node 1", result.Snapshot.Connections[0]?.NodeIdentifier);
@@ -76,7 +77,7 @@ namespace HareDu.Snapshotting.Tests
                 Assert.AreEqual("3.7.18", result.Snapshot.BrokerVersion);
                 Assert.AreEqual("fake_cluster", result.Snapshot.ClusterName);
                 Assert.AreEqual("Connection 1", result.Snapshot.Connections[0]?.Identifier);
-                Assert.AreEqual(ConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
+                Assert.AreEqual(BrokerConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
                 Assert.AreEqual(982738, result.Snapshot.Connections[0]?.OpenChannelsLimit);
                 Assert.AreEqual("TestVirtualHost", result.Snapshot.Connections[0]?.VirtualHost);
                 Assert.AreEqual("Node 1", result.Snapshot.Connections[0]?.NodeIdentifier);

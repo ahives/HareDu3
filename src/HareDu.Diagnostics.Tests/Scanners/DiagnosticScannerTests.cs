@@ -7,6 +7,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
     using Fakes;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
+    using Model;
     using NUnit.Framework;
     using Snapshotting.Model;
 
@@ -49,7 +50,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
                                 Identifier = "Channel1"
                             }
                         },
-                        State = ConnectionState.Blocked
+                        State = BrokerConnectionState.Blocked
                     }
                 }
             };

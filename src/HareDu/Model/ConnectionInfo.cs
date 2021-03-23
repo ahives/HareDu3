@@ -62,7 +62,7 @@ namespace HareDu.Model
         public GarbageCollectionDetails GarbageCollectionDetails { get; init; }
 
         [JsonPropertyName("state")]
-        public string State { get; init; }
+        public BrokerConnectionState State { get; init; }
 
         [JsonPropertyName("ssl_hash")]
         public string SslHashFunction { get; init; }

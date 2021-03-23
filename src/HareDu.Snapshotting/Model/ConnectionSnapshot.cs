@@ -1,6 +1,7 @@
 namespace HareDu.Snapshotting.Model
 {
     using System.Collections.Generic;
+    using HareDu.Model;
 
     public record ConnectionSnapshot :
         Snapshot
@@ -15,7 +16,7 @@ namespace HareDu.Snapshotting.Model
         
         public string VirtualHost { get; init; }
         
-        public ConnectionState State { get; init; }
+        public BrokerConnectionState State { get; init; }
 
         public IReadOnlyList<ChannelSnapshot> Channels { get; init; }
     }

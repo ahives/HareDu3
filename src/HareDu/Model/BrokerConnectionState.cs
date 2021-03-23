@@ -1,6 +1,6 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Model
 {
-    public enum ConnectionState
+    public enum BrokerConnectionState
     {
         Starting,
         Tuning,

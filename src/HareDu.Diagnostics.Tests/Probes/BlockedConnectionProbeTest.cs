@@ -4,8 +4,8 @@ namespace HareDu.Diagnostics.Tests.Probes
     using Diagnostics.Probes;
     using KnowledgeBase;
     using Microsoft.Extensions.DependencyInjection;
+    using Model;
     using NUnit.Framework;
-    using Snapshotting.Extensions;
     using Snapshotting.Model;
 
     [TestFixture]
@@ -27,7 +27,7 @@ namespace HareDu.Diagnostics.Tests.Probes
             var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
             var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
 
-            ConnectionSnapshot snapshot = new () {State = "blocked".ConvertToState()};
+            ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Blocked};
 
             var result = probe.Execute(snapshot);
             
@@ -44,7 +44,7 @@ namespace HareDu.Diagnostics.Tests.Probes
             var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
             var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
             
-            ConnectionSnapshot snapshot = new () {State = "running".ConvertToState()};
+            ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Running};
 
             var result = probe.Execute(snapshot);
             

@@ -146,7 +146,7 @@ namespace HareDu.Snapshotting.Internal
                         OpenChannelsLimit = x.OpenChannelsLimit,
                         NodeIdentifier = x.Node,
                         VirtualHost = x.VirtualHost,
-                        State = x.State.ConvertToState()
+                        State = x.State
                     })
                     .ToList()
             };

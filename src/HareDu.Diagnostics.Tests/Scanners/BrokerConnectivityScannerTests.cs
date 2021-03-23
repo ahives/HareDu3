@@ -7,6 +7,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
     using Diagnostics.Probes;
     using Diagnostics.Scanners;
     using KnowledgeBase;
+    using Model;
     using NUnit.Framework;
     using Snapshotting.Model;
 
@@ -75,7 +76,7 @@ namespace HareDu.Diagnostics.Tests.Scanners
                                 Identifier = "Channel1"
                             }
                         },
-                        State = ConnectionState.Blocked
+                        State = BrokerConnectionState.Blocked
                     }
                 }
             };
