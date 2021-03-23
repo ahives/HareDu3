@@ -6,7 +6,7 @@ namespace HareDu.IntegrationTests
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using NUnit.Framework;
-    using Serialization.Converters;
+    using Serialization;
 
     [TestFixture]
     public class ConnectionTests

@@ -1,7 +1,7 @@
 namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
-    using Serialization;
+    using Serialization.Converters;
 
     public record ShovelRequestParams
     {

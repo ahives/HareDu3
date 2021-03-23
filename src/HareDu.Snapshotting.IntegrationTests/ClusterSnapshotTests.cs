@@ -2,14 +2,13 @@ namespace HareDu.Snapshotting.IntegrationTests
 {
     using System;
     using System.Threading.Tasks;
-    using Core.Extensions;
     using HareDu.Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using MicrosoftIntegration;
     using Model;
     using NUnit.Framework;
     using Observers;
-    using Serialization.Converters;
+    using Serialization;
 
     [TestFixture]
     public class ClusterSnapshotTests

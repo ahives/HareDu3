@@ -3,10 +3,9 @@ namespace HareDu.Model
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
 
-    public class ExchangeRequest
+    public record ExchangeRequest
     {
         [JsonPropertyName("type")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ExchangeRoutingType RoutingType { get; init; }
         
         [JsonPropertyName("durable")]

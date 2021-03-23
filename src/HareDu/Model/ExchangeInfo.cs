@@ -12,7 +12,7 @@ namespace HareDu.Model
         public string VirtualHost { get; init; }
         
         [JsonPropertyName("type")]
-        public string RoutingType { get; init; }
+        public ExchangeRoutingType RoutingType { get; init; }
         
         [JsonPropertyName("durable")]
         public bool Durable { get; init; }

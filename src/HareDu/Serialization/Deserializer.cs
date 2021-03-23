@@ -1,7 +1,8 @@
-namespace HareDu.Serialization.Converters
+namespace HareDu.Serialization
 {
     using System.Text.Json;
     using System.Text.Json.Serialization;
+    using Converters;
 
     public static class Deserializer
     {

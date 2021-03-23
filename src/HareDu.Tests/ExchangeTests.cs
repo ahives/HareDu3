@@ -1,12 +1,12 @@
 namespace HareDu.Tests
 {
+    using System;
     using System.Threading.Tasks;
-    using Core.Extensions;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization.Converters;
+    using Serialization;
 
     [TestFixture]
     public class ExchangeTests :
@@ -30,7 +30,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.Data[1].Internal);
                 Assert.IsFalse(result.Data[1].AutoDelete);
                 Assert.AreEqual("E2", result.Data[1].Name);
-                Assert.AreEqual("direct", result.Data[1].RoutingType);
+                Assert.AreEqual(ExchangeRoutingType.Direct, result.Data[1].RoutingType);
                 Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
                 Assert.IsNotNull(result.Data[1].Arguments);
                 Assert.AreEqual(1, result.Data[1].Arguments.Count);
@@ -55,7 +55,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.Data[1].Internal);
                 Assert.IsFalse(result.Data[1].AutoDelete);
                 Assert.AreEqual("E2", result.Data[1].Name);
-                Assert.AreEqual("direct", result.Data[1].RoutingType);
+                Assert.AreEqual(ExchangeRoutingType.Direct, result.Data[1].RoutingType);
                 Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
                 Assert.IsNotNull(result.Data[1].Arguments);
                 Assert.AreEqual(1, result.Data[1].Arguments.Count);
@@ -73,12 +73,14 @@ namespace HareDu.Tests
                 {
                     x.IsDurable();
                     x.IsForInternalUse();
-                    x.HasRoutingType(ExchangeRoutingType.Fanout);
+                    x.HasRoutingType(ExchangeRoutingType.Direct);
                     x.HasArguments(arg =>
                     {
                         arg.Add("fake_arg", "8238b");
                     });
                 });
+            
+            Console.WriteLine(result.ToJsonString(Deserializer.Options));
             
             Assert.Multiple(() =>
             {
@@ -92,7 +94,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, request.Arguments.Count);
                 Assert.IsFalse(request.AutoDelete);
                 Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-                Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
+                Assert.AreEqual(ExchangeRoutingType.Direct, request.RoutingType);
                 Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
             });
         }

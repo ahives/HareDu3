@@ -1,12 +1,11 @@
 namespace HareDu.Tests
 {
     using System.Threading.Tasks;
-    using Core.Extensions;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization.Converters;
+    using Serialization;
 
     [TestFixture]
     public class ScopedParameterTests :

@@ -13,7 +13,7 @@
     using Core;
     using Core.Extensions;
     using Extensions;
-    using Serialization.Converters;
+    using Serialization;
 
     public class BaseBrokerObject
     {

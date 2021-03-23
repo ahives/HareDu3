@@ -32,4 +32,6 @@
 | | 3 | Added more developer documentation (e.g., API intellisense) | Enhancement | No |
 | | 4 | Deprecated metadata properties Id, Name, and Description implemented by diagnostic probes | Deprecated | Yes |
 | | 5 | Added new metadata property called DiagnosticProbeMetadata on all diagnostic probes that encapsulates miscellaneous information pertinent to putting the specified probe in the proper context | New | No |
+| | | | | |
+| **3.1.2** | 1 | Fixed issue with create exchange not serializing request properly for type property | Bug Fix | No |
 

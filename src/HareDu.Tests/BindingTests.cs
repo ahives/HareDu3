@@ -5,7 +5,7 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization.Converters;
+    using Serialization;
 
     [TestFixture]
     public class BindingTests :

@@ -11,7 +11,7 @@ namespace HareDu.Internal
     using Core.Extensions;
     using Extensions;
     using Model;
-    using Serialization.Converters;
+    using Serialization;
 
     class PolicyImpl :
         BaseBrokerObject,
