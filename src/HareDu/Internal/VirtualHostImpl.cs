@@ -35,7 +35,7 @@ namespace HareDu.Internal
         {
             cancellationToken.RequestCanceled();
 
-            var impl = new NewVirtualHostConfiguratorImpl();
+            var impl = new VirtualHostConfiguratorImpl();
             configurator?.Invoke(impl);
 
             VirtualHostRequest request = impl.Request.Value;
@@ -108,7 +108,7 @@ namespace HareDu.Internal
         }
 
 
-        class NewVirtualHostConfiguratorImpl :
+        class VirtualHostConfiguratorImpl :
             VirtualHostConfigurator
         {
             bool _tracing;
@@ -117,7 +117,7 @@ namespace HareDu.Internal
 
             public Lazy<VirtualHostRequest> Request { get; }
 
-            public NewVirtualHostConfiguratorImpl()
+            public VirtualHostConfiguratorImpl()
             {
                 Request = new Lazy<VirtualHostRequest>(
                     () => new ()

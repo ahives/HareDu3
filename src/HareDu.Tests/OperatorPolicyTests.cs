@@ -28,7 +28,7 @@ namespace HareDu.Tests
                 Assert.AreEqual("test", result.Data[0].Name);
                 Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
                 Assert.AreEqual(".*", result.Data[0].Pattern);
-                Assert.AreEqual("queues", result.Data[0].AppliedTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, result.Data[0].AppliedTo);
                 Assert.IsNotNull(result.Data[0].Definition);
                 Assert.AreEqual(100, result.Data[0].Definition["max-length"]);
                 Assert.AreEqual(0, result.Data[0].Priority);
@@ -51,7 +51,7 @@ namespace HareDu.Tests
                 Assert.AreEqual("test", result.Data[0].Name);
                 Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
                 Assert.AreEqual(".*", result.Data[0].Pattern);
-                Assert.AreEqual("queues", result.Data[0].AppliedTo);
+                Assert.AreEqual(OperatorPolicyAppliedTo.Queues, result.Data[0].AppliedTo);
                 Assert.IsNotNull(result.Data[0].Definition);
                 Assert.AreEqual(100, result.Data[0].Definition["max-length"]);
                 Assert.AreEqual(0, result.Data[0].Priority);

@@ -52,7 +52,7 @@ namespace HareDu.Internal
 
             impl.Validate();
             
-            ShovelRequest request = impl.Request.Value;
+            ShovelRequest request = impl.BuildRequest();
 
             Debug.Assert(request != null);
 
@@ -96,9 +96,10 @@ namespace HareDu.Internal
         class ShovelConfiguratorImpl :
             ShovelConfigurator
         {
+            readonly string _uri;
             ShovelProtocolType _destinationProtocol;
             ShovelProtocolType _sourceProtocol;
-            AckMode? _acknowledgeMode;
+            AckMode _acknowledgeMode;
             string _destinationQueue;
             string _sourceQueue;
             string _sourceExchangeName;
@@ -115,37 +116,14 @@ namespace HareDu.Internal
 
             readonly List<Error> _errors;
 
-            public Lazy<ShovelRequest> Request { get; }
             public Lazy<List<Error>> Errors { get; }
 
             public ShovelConfiguratorImpl(string uri)
             {
+                _uri = uri;
                 _errors = new List<Error>();
                 
                 Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-                Request = new Lazy<ShovelRequest>(() =>
-                    new()
-                    {
-                        Value = new()
-                        {
-                            AcknowledgeMode = _acknowledgeMode ?? AckMode.OnConfirm,
-                            ReconnectDelay = _reconnectDelay,
-                            SourceProtocol = _sourceProtocol,
-                            SourceUri = uri,
-                            SourceQueue = _sourceQueue,
-                            SourceExchange = _sourceExchangeName,
-                            SourceExchangeRoutingKey = _sourceExchangeRoutingKey,
-                            SourcePrefetchCount = _sourcePrefetchCount,
-                            SourceDeleteAfter = _deleteShovelAfter,
-                            DestinationProtocol = _destinationProtocol,
-                            DestinationExchange = _destinationExchangeName,
-                            DestinationExchangeKey = _destinationExchangeRoutingKey,
-                            DestinationUri = uri,
-                            DestinationQueue = _destinationQueue,
-                            DestinationAddForwardHeaders = _destinationAddForwardHeaders,
-                            DestinationAddTimestampHeader = _destinationAddTimestampHeader
-                        }
-                    }, LazyThreadSafetyMode.PublicationOnly);
             }
 
             public void ReconnectDelay(int delayInSeconds) => _reconnectDelay = delayInSeconds < 1 ? 1 : delayInSeconds;
@@ -192,6 +170,35 @@ namespace HareDu.Internal
                 
                 if (!string.IsNullOrWhiteSpace(queue) && !string.IsNullOrWhiteSpace(impl.ExchangeName))
                     _errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
+            }
+
+            public ShovelRequest BuildRequest()
+            {
+                var requestParams = new ShovelRequestParams
+                {
+                    AcknowledgeMode = _acknowledgeMode,
+                    SourceExchange = _sourceExchangeName,
+                    SourceProtocol = _sourceProtocol,
+                    SourceQueue = _sourceQueue,
+                    SourceUri = _uri,
+                    SourceDeleteAfter = _deleteShovelAfter,
+                    SourcePrefetchCount = _sourcePrefetchCount,
+                    SourceExchangeRoutingKey = _sourceExchangeRoutingKey,
+                    ReconnectDelay = _reconnectDelay,
+                    DestinationExchange = _destinationExchangeName,
+                    DestinationProtocol = _destinationProtocol,
+                    DestinationQueue = _destinationQueue,
+                    DestinationUri = _uri,
+                    DestinationExchangeKey = _destinationExchangeRoutingKey,
+                    DestinationAddForwardHeaders = _destinationAddForwardHeaders,
+                    DestinationAddTimestampHeader = _destinationAddTimestampHeader
+                };
+                var request = new ShovelRequest
+                {
+                    Value = requestParams
+                };
+
+                return request;
             }
 
             public void Validate()

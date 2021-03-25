@@ -1,12 +1,10 @@
 namespace HareDu.Model
 {
     using System.Text.Json.Serialization;
-    using Serialization.Converters;
 
     public record ShovelRequestParams
     {
         [JsonPropertyName("src-protocol")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ShovelProtocolType SourceProtocol { get; init; }
         
         [JsonPropertyName("src-uri")]
@@ -18,7 +16,6 @@ namespace HareDu.Model
         public string SourceQueue { get; init; }
 
         [JsonPropertyName("dest-protocol")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public ShovelProtocolType DestinationProtocol { get; init; }
         
         [JsonPropertyName("dest-uri")]
@@ -34,8 +31,6 @@ namespace HareDu.Model
         public int ReconnectDelay { get; init; }
         
         [JsonPropertyName("ack-mode")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(AckModeEnumConverter))]
         public AckMode AcknowledgeMode { get; init; }
         
         [JsonPropertyName("src-delete-after")]

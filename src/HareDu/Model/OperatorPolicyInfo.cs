@@ -19,7 +19,7 @@ namespace HareDu.Model
         
         [JsonPropertyName("apply-to")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AppliedTo { get; init; }
+        public OperatorPolicyAppliedTo AppliedTo { get; init; }
         
         [JsonPropertyName("definition")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
