@@ -1,6 +1,6 @@
 # Get Node Memory Details
 
-The Broker API allows you to get memory details of a RabbitMQ node. To do so is pretty simple with HareDu 3. You can do it yourself or the IoC way.
+The Broker API allows you to get memory details of a RabbitMQ node. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
 
 **Do It Yourself**
 
