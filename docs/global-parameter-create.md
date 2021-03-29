@@ -12,6 +12,22 @@ var result = await new BrokerObjectFactory(config)
         x.Value("value");
     });
 ```
+...or
+
+```c#
+var result = await new BrokerObjectFactory(config)
+    .Object<GlobalParameter>()
+    .Create("param", x =>
+    {
+        x.Parameter("param");
+        x.Value(arg =>
+        {
+            arg.Set("arg1", "value");
+            arg.Set("arg2", 5);
+        });
+    });
+```
+
 <br>
 
 **Autofac**
@@ -24,6 +40,21 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
         x.Value("value");
     });
 ```
+...or
+
+```c#
+var result = await _container.Resolve<IBrokerObjectFactory>()
+    .Object<GlobalParameter>()
+    .Create("param", x =>
+    {
+        x.Value(arg =>
+        {
+            arg.Set("arg1", "value");
+            arg.Set("arg2", 5);
+        });
+    });
+```
+
 <br>
 
 **Microsoft DI**
@@ -36,6 +67,21 @@ var result = await _services.GetService<IBrokerObjectFactory>()
         x.Value("value");
     });
 ```
+...or
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .Object<GlobalParameter>()
+    .Create("param", x =>
+    {
+        x.Value(arg =>
+        {
+            arg.Set("arg1", "value");
+            arg.Set("arg2", 5);
+        });
+    });
+```
+
 <br>
 
 The other way to create a global parameter is to call the extension methods off of ```IBrokerObjectFactory``` like so...
@@ -47,10 +93,23 @@ var result = await _services.GetService<IBrokerObjectFactory>()
         x.Value("value");
     });
 ```
+...or
+
+```c#
+var result = await _services.GetService<IBrokerObjectFactory>()
+    .CreateGlobalParameter("param", x =>
+    {
+        x.Value(arg =>
+        {
+            arg.Set("arg1", "value");
+            arg.Set("arg2", 5);
+        });
+    });
+```
 
 <br>
 
-*Please note that subsequent calls to any of the above methods will result in overriding the argument.*
+*Please note that subsequent calls to any of the above methods within the Create method will result in overriding the argument.*
 
 <br>
 

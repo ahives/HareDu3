@@ -4,9 +4,9 @@
     <!-- These properties will be shared for all projects -->
     <PropertyGroup>
         <Title>HareDu</Title>
-        <Version>3.1.1</Version>
-        <FileVersion>3.1.1.0</FileVersion>
-        <InformationalVersion>3.1.1.0</InformationalVersion>
+        <Version>3.1.2</Version>
+        <FileVersion>3.1.2.0</FileVersion>
+        <InformationalVersion>3.1.2.0</InformationalVersion>
         <Product>HareDu</Product>
         <Description>HareDu is a fluent .NET library for managing and monitoring RabbitMQ clusters.</Description>
         <PackageProjectUrl>https://github.com/ahives/HareDu3</PackageProjectUrl>

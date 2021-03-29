@@ -36,3 +36,4 @@
 | **3.1.2** | 1 | Fixed issue with create exchange not serializing request properly for type property | Bug Fix | No |
 | | 2 | Changed AppliedTo property on OperatorPolicyInfo to be a enumeration | Enhancement | Yes |
 | | 3 | Fixed issue with shovel request not serializing correctly so that shovels are not being created correctly | Bug Fix | No |
+| | 4 | Added extension method overloads for JSON serialization | Enhancement | No |
