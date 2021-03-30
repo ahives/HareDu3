@@ -66,6 +66,13 @@ namespace HareDu.Tests
                 Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
                 Assert.AreEqual(77349645, result.Data[5].TotalReductions);
                 Assert.IsNotNull(result.Data[5].ReductionDetails);
+                Assert.IsNotNull(result.Data[5].BackingQueueStatus);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q1);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q2);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q3);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q4);
+                Assert.AreEqual(BackingQueueMode.Default, result.Data[5].BackingQueueStatus.Mode);
+                Assert.AreEqual(QueueState.Running, result.Data[5].State);
                 Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
                 Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
                 Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
@@ -73,7 +80,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("consumer_queue", result.Data[5].Name);
                 Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
                 Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
-                Assert.AreEqual("running", result.Data[5].State);
                 Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
             });
         }
@@ -131,6 +137,13 @@ namespace HareDu.Tests
                 Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
                 Assert.AreEqual(77349645, result.Data[5].TotalReductions);
                 Assert.IsNotNull(result.Data[5].ReductionDetails);
+                Assert.IsNotNull(result.Data[5].BackingQueueStatus);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q1);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q2);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q3);
+                Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q4);
+                Assert.AreEqual(BackingQueueMode.Default, result.Data[5].BackingQueueStatus.Mode);
+                Assert.AreEqual(QueueState.Running, result.Data[5].State);
                 Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
                 Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
                 Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
@@ -138,7 +151,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("consumer_queue", result.Data[5].Name);
                 Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
                 Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
-                Assert.AreEqual("running", result.Data[5].State);
                 Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
             });
         }

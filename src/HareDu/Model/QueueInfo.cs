@@ -94,7 +94,7 @@ namespace HareDu.Model
         public GarbageCollectionDetails GC { get; init; }
         
         [JsonPropertyName("state")]
-        public string State { get; init; }
+        public QueueState State { get; init; }
         
         [JsonPropertyName("recoverable_slaves")]
         public IList<string> RecoverableSlaves { get; init; }

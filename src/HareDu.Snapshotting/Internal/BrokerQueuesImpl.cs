@@ -102,7 +102,7 @@ namespace HareDu.Snapshotting.Internal
                     Total = queueInfo.Memory,
                     RAM = new ()
                     {
-                        Target = queueInfo.BackingQueueStatus.IsNull() ? 0 : (ulong)queueInfo.BackingQueueStatus.TargetTotalMessagesInRAM,
+                        Target = queueInfo.BackingQueueStatus.IsNull() ? 0 : queueInfo.BackingQueueStatus.TargetTotalMessagesInRAM.ToLong(),
                         Total = queueInfo.MessagesInRAM,
                         Bytes = queueInfo.MessageBytesInRAM,
                         Unacknowledged = queueInfo.UnacknowledgedMessagesInRAM,

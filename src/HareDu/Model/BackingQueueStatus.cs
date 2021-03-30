@@ -6,7 +6,7 @@ namespace HareDu.Model
     public record BackingQueueStatus
     {
         [JsonPropertyName("mode")]
-        public string Mode { get; init; }
+        public BackingQueueMode Mode { get; init; }
         
         [JsonPropertyName("q1")]
         public long Q1 { get; init; }
@@ -27,7 +27,7 @@ namespace HareDu.Model
         public long Length { get; init; }
         
         [JsonPropertyName("target_ram_count")]
-        public long TargetTotalMessagesInRAM { get; init; }
+        public string TargetTotalMessagesInRAM { get; init; }
         
         [JsonPropertyName("next_seq_id")]
         public long NextSequenceId { get; init; }
