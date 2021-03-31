@@ -2,6 +2,7 @@ namespace HareDu.Snapshotting.Tests
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Extensions;
     using Fakes;
     using HareDu.Model;
     using Microsoft.Extensions.DependencyInjection;
