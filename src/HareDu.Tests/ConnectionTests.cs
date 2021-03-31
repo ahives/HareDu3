@@ -57,7 +57,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("guest", result.Data[0].User);
                 Assert.AreEqual("guest", result.Data[0].UserWhoPerformedAction);
                 Assert.AreEqual(60, result.Data[0].ConnectionTimeout);
-                Assert.AreEqual(BrokerConnectionState.Running, result.Data[0].State);
                 Assert.IsNotNull(result.Data[0].ConnectionClientProperties);
                 Assert.AreEqual("MassTransit", result.Data[0].ConnectionClientProperties?.ClientApi);
                 Assert.AreEqual("undefined", result.Data[0].ConnectionClientProperties?.ConnectionName);
@@ -127,7 +126,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("guest", result.Data[0].User);
                 Assert.AreEqual("guest", result.Data[0].UserWhoPerformedAction);
                 Assert.AreEqual(60, result.Data[0].ConnectionTimeout);
-                Assert.AreEqual(BrokerConnectionState.Running, result.Data[0].State);
                 Assert.IsNotNull(result.Data[0].ConnectionClientProperties);
                 Assert.AreEqual("MassTransit", result.Data[0].ConnectionClientProperties?.ClientApi);
                 Assert.AreEqual("undefined", result.Data[0].ConnectionClientProperties?.ConnectionName);

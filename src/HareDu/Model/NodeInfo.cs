@@ -33,7 +33,7 @@ namespace HareDu.Model
         public ulong TotalProcesses { get; init; }
 
         [JsonPropertyName("rates_mode")]
-        public string RatesMode { get; init; }
+        public RatesMode RatesMode { get; init; }
 
         [JsonPropertyName("uptime")]
         public long Uptime { get; init; }

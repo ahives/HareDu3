@@ -3,6 +3,7 @@ namespace HareDu.Tests
     using System.Threading.Tasks;
     using Extensions;
     using Microsoft.Extensions.DependencyInjection;
+    using Model;
     using NUnit.Framework;
 
     [TestFixture]
@@ -49,6 +50,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, result.Data[1].PrefetchCount);
                 Assert.AreEqual(2, result.Data[1].Number);
                 Assert.AreEqual(19755338, result.Data[1].TotalReductions);
+                Assert.AreEqual(ChannelState.Running, result.Data[1].State);
                 Assert.IsFalse(result.Data[1].Transactional);
                 Assert.IsNotNull(result.Data[1].ReductionDetails);
                 Assert.AreEqual(0.0M, result.Data[1].ReductionDetails.Value);
@@ -57,7 +59,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("guest", result.Data[1].User);
                 Assert.AreEqual("guest", result.Data[1].UserWhoPerformedAction);
                 Assert.AreEqual("TestVirtualHost", result.Data[1].VirtualHost);
-                Assert.AreEqual("running", result.Data[1].State);
                 Assert.IsNotNull(result.Data[1].ConnectionDetails);
                 Assert.AreEqual("127.0.0.0:72368 -> 127.0.0.0:5672", result.Data[1].ConnectionDetails.Name);
                 Assert.AreEqual("127.0.0.0", result.Data[1].ConnectionDetails.PeerHost);
@@ -135,6 +136,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, result.Data[1].PrefetchCount);
                 Assert.AreEqual(2, result.Data[1].Number);
                 Assert.AreEqual(19755338, result.Data[1].TotalReductions);
+                Assert.AreEqual(ChannelState.Running, result.Data[1].State);
                 Assert.IsFalse(result.Data[1].Transactional);
                 Assert.IsNotNull(result.Data[1].ReductionDetails);
                 Assert.AreEqual(0.0M, result.Data[1].ReductionDetails.Value);
@@ -143,7 +145,6 @@ namespace HareDu.Tests
                 Assert.AreEqual("guest", result.Data[1].User);
                 Assert.AreEqual("guest", result.Data[1].UserWhoPerformedAction);
                 Assert.AreEqual("TestVirtualHost", result.Data[1].VirtualHost);
-                Assert.AreEqual("running", result.Data[1].State);
                 Assert.IsNotNull(result.Data[1].ConnectionDetails);
                 Assert.AreEqual("127.0.0.0:72368 -> 127.0.0.0:5672", result.Data[1].ConnectionDetails.Name);
                 Assert.AreEqual("127.0.0.0", result.Data[1].ConnectionDetails.PeerHost);

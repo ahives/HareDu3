@@ -34,12 +34,14 @@
 | | 5 | Added new metadata property called DiagnosticProbeMetadata on all diagnostic probes that encapsulates miscellaneous information pertinent to putting the specified probe in the proper context | New | No |
 | | | | | |
 | **3.1.2** | 1 | Fixed issue with create exchange not serializing request properly for type property | Bug Fix | No |
-| | 2 | Changed AppliedTo property on OperatorPolicyInfo to be a enumeration | Enhancement | Yes |
+| | 2 | Changed OperatorPolicyInfo.AppliedTo property to be a enumeration | Enhancement | Yes |
 | | 3 | Fixed issue with shovel request not serializing correctly so that shovels are not being created correctly | Bug Fix | No |
 | | 4 | Added extension method overloads for JSON serialization | Enhancement | No |
 | | | | | |
 | **3.1.3** | 1 | Fixed issue with QueueInfo.BackingQueueStatus.TargetTotalMessagesInRAM property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
 | | 2 | Fixed issue with QueueInfo.BackingQueueStatus.BackingQueueMode property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
 | | 3 | Fixed issue with QueueInfo.State property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
+| | 4 | Fixed issue with ChannelInfo.State property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
+| | 5 | Fixed issue with NodeInfo.RatesMode property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
 
 
