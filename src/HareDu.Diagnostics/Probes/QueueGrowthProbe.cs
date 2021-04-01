@@ -38,8 +38,9 @@ namespace HareDu.Diagnostics.Probes
             if (data.Messages.Incoming.Rate > data.Messages.Acknowledged.Rate)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-                result = new WarningProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Warning,
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,
@@ -52,8 +53,9 @@ namespace HareDu.Diagnostics.Probes
             else
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-                result = new HealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Healthy,
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,

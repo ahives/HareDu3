@@ -39,8 +39,9 @@ namespace HareDu.Diagnostics.Probes
             if (Convert.ToUInt64(data.Channels.Count) >= data.OpenChannelsLimit)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-                result = new UnhealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Unhealthy,
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,
@@ -53,8 +54,9 @@ namespace HareDu.Diagnostics.Probes
             else
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-                result = new HealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Healthy,
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,

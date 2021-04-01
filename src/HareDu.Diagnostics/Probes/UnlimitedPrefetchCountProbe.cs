@@ -37,8 +37,9 @@ namespace HareDu.Diagnostics.Probes
             if (data.PrefetchCount == 0)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-                result = new WarningProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Warning,
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,
@@ -51,8 +52,9 @@ namespace HareDu.Diagnostics.Probes
             else
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
-                result = new InconclusiveProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Inconclusive,
                     ParentComponentId = data.ConnectionIdentifier,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,

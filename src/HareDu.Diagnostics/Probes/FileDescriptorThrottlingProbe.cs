@@ -37,8 +37,10 @@ namespace HareDu.Diagnostics.Probes
             if (_config.IsNull() || _config.Probes.IsNull())
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-                result = new NotApplicableProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.NA,
+                    Data = Array.Empty<ProbeData>(),
                     ParentComponentId = data.IsNotNull() ? data.NodeIdentifier : null,
                     ComponentId = data.IsNotNull() ? data.ProcessId : null,
                     Id = Metadata.Id,
@@ -65,8 +67,9 @@ namespace HareDu.Diagnostics.Probes
             if (data.FileDescriptors.Used < threshold && threshold < data.FileDescriptors.Available)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-                result = new HealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Healthy,
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
                     Id = Metadata.Id,
@@ -79,8 +82,9 @@ namespace HareDu.Diagnostics.Probes
             else if (data.FileDescriptors.Used == data.FileDescriptors.Available)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-                result = new UnhealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Unhealthy,
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
                     Id = Metadata.Id,
@@ -93,8 +97,9 @@ namespace HareDu.Diagnostics.Probes
             else
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-                result = new WarningProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Warning,
                     ParentComponentId = data.NodeIdentifier,
                     ComponentId = data.ProcessId,
                     Id = Metadata.Id,

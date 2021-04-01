@@ -1,5 +1,6 @@
 namespace HareDu.Diagnostics.Probes
 {
+    using System;
     using System.Collections.Generic;
     using Core.Configuration;
     using Core.Extensions;
@@ -36,8 +37,10 @@ namespace HareDu.Diagnostics.Probes
             if (_config.IsNull() || _config.Probes.IsNull())
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-                result = new NotApplicableProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.NA,
+                    Data = Array.Empty<ProbeData>(),
                     ParentComponentId = null,
                     ComponentId = null,
                     Id = Metadata.Id,
@@ -60,8 +63,9 @@ namespace HareDu.Diagnostics.Probes
             if (data.Messages.Incoming.Total <= _config.Probes.QueueLowFlowThreshold)
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-                result = new UnhealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Unhealthy,
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,
@@ -74,8 +78,9 @@ namespace HareDu.Diagnostics.Probes
             else
             {
                 _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-                result = new HealthyProbeResult
+                result = new ProbeResult
                 {
+                    Status = ProbeResultStatus.Healthy,
                     ParentComponentId = data.Node,
                     ComponentId = data.Identifier,
                     Id = Metadata.Id,

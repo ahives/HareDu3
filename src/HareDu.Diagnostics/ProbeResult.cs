@@ -6,6 +6,11 @@ namespace HareDu.Diagnostics
 
     public record ProbeResult
     {
+        public ProbeResult()
+        {
+            Timestamp = DateTimeOffset.UtcNow;
+        }
+
         public string ParentComponentId { get; init; }
         
         public string ComponentId { get; init; }
