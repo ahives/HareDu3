@@ -7,7 +7,7 @@ namespace HareDu.Snapshotting.Extensions
 
     public static class FilterExtensions
     {
-        internal static IReadOnlyList<ChannelSnapshot> FilterByConnection(this IReadOnlyList<ChannelInfo> channels, string connection)
+        public static IReadOnlyList<ChannelSnapshot> FilterByConnection(this IReadOnlyList<ChannelInfo> channels, string connection)
         {
             if (channels == null || !channels.Any())
                 return new List<ChannelSnapshot>();
@@ -77,7 +77,7 @@ namespace HareDu.Snapshotting.Extensions
                 .ToList();
         }
 
-        internal static IEnumerable<ConnectionInfo> FilterByNode(this IReadOnlyList<ConnectionInfo> connections, string node)
+        public static IEnumerable<ConnectionInfo> FilterByNode(this IReadOnlyList<ConnectionInfo> connections, string node)
         {
             if (connections == null || !connections.Any())
                 return Enumerable.Empty<ConnectionInfo>();

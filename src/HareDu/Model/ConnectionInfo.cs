@@ -56,7 +56,7 @@ namespace HareDu.Model
         public ulong SendPending { get; init; }
 
         [JsonPropertyName("type")]
-        public string Type { get; init; }
+        public ConnectionType Type { get; init; }
 
         [JsonPropertyName("garbage_collection")]
         public GarbageCollectionDetails GarbageCollectionDetails { get; init; }

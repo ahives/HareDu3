@@ -78,8 +78,7 @@ namespace HareDu.Snapshotting.Internal
             return this;
         }
 
-        public SnapshotLens<ClusterSnapshot> RegisterObservers(
-            IReadOnlyList<IObserver<SnapshotContext<ClusterSnapshot>>> observers)
+        public SnapshotLens<ClusterSnapshot> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<ClusterSnapshot>>> observers)
         {
             if (observers == null)
                 return this;
@@ -164,7 +163,7 @@ namespace HareDu.Snapshotting.Internal
                     {
                         Total = node.IOSeekCount,
                         Rate = node.IOSeeksDetails?.Value ?? 0,
-                        Bytes = new () {Total = 0, Rate = 0},
+                        Bytes = new (){Total = 0, Rate = 0},
                         WallTime = new (){Average = node.AverageIOSeekTime, Rate = node.AvgIOSeekTimeDetails?.Value ?? 0}
                     },
                     FileHandles = new (){Recycled = node.TotalIOReopened, Rate = node.IOReopenedDetails?.Value ?? 0}

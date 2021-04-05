@@ -65,16 +65,10 @@
                 _snapshots = snapshots;
             }
 
-            public void PurgeAll()
-            {
-                _snapshots.Clear();
-            }
+            public void PurgeAll() => _snapshots.Clear();
 
             public void Purge<U>(SnapshotResult<U> result)
-                where U : Snapshot
-            {
-                _snapshots.Remove(result.Identifier);
-            }
+                where U : Snapshot => _snapshots.Remove(result.Identifier);
         }
 
 
