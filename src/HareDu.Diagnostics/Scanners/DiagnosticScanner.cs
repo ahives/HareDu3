@@ -8,9 +8,9 @@ namespace HareDu.Diagnostics.Scanners
         where T : Snapshot
     {
         /// <summary>
-        /// Identifier of the diagnostic scanner.
+        /// Miscellaneous information pertinent to describing the diagnostic scanner.
         /// </summary>
-        string Identifier { get; }
+        DiagnosticScannerMetadata Metadata { get; }
 
         /// <summary>
         /// Executes the diagnostic probes against the specified snapshot.

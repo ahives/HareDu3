@@ -131,7 +131,7 @@ namespace HareDu.Diagnostics
             {
                 if (_scannerCache.ContainsKey(type.Key))
                     continue;
-                
+
                 registered = RegisterScannerInstance(type.Value, type.Key) & registered;
             }
 

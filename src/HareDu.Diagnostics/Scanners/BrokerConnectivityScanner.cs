@@ -10,19 +10,18 @@ namespace HareDu.Diagnostics.Scanners
     public class BrokerConnectivityScanner :
         DiagnosticScanner<BrokerConnectivitySnapshot>
     {
-        readonly IReadOnlyList<DiagnosticProbe> _probes;
-
         IReadOnlyList<DiagnosticProbe> _channelProbes;
         IReadOnlyList<DiagnosticProbe> _connectionProbes;
         IReadOnlyList<DiagnosticProbe> _connectivityProbes;
-        
-        public string Identifier => GetType().GetIdentifier();
+
+        public DiagnosticScannerMetadata Metadata => new()
+        {
+            Identifier = GetType().GetIdentifier()
+        };
 
         public BrokerConnectivityScanner(IReadOnlyList<DiagnosticProbe> probes)
         {
-            _probes = probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes));
-
-            Configure(_probes);
+            Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
         }
 
         public void Configure(IReadOnlyList<DiagnosticProbe> probes)

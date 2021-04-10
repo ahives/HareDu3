@@ -4,6 +4,7 @@ namespace HareDu.Diagnostics
     using System.Collections.Generic;
     using Core.Extensions;
     using MassTransit;
+    using Scanners;
     using Snapshotting.Model;
 
     public record EmptyScannerResult :

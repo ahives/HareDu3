@@ -10,21 +10,20 @@ namespace HareDu.Diagnostics.Scanners
     public class ClusterScanner :
         DiagnosticScanner<ClusterSnapshot>
     {
-        readonly IReadOnlyList<DiagnosticProbe> _probes;
-
         IReadOnlyList<DiagnosticProbe> _nodeProbes;
         IReadOnlyList<DiagnosticProbe> _diskProbes;
         IReadOnlyList<DiagnosticProbe> _memoryProbes;
         IReadOnlyList<DiagnosticProbe> _runtimeProbes;
         IReadOnlyList<DiagnosticProbe> _osProbes;
-        
-        public string Identifier => GetType().GetIdentifier();
+
+        public DiagnosticScannerMetadata Metadata => new()
+        {
+            Identifier = GetType().GetIdentifier()
+        };
 
         public ClusterScanner(IReadOnlyList<DiagnosticProbe> probes)
         {
-            _probes = probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes));
-
-            Configure(_probes);
+            Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
         }
 
         public void Configure(IReadOnlyList<DiagnosticProbe> probes)

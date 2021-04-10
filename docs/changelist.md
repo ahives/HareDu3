@@ -31,7 +31,7 @@
 | | 2 | Changed method names of RegisterScanner and RegisterProbe to TryRegisterScanner and TryRegisterProbe, respectively, in IScannerFactory | Enhancement | Yes |
 | | 3 | Added more developer documentation (e.g., API intellisense) | Enhancement | No |
 | | 4 | Deprecated metadata properties Id, Name, and Description implemented by diagnostic probes | Deprecated | Yes |
-| | 5 | Added new metadata property called DiagnosticProbeMetadata on all diagnostic probes that encapsulates miscellaneous information pertinent to putting the specified probe in the proper context | New | No |
+| | 5 | Added new metadata property called DiagnosticProbeMetadata on all diagnostic probes that encapsulates miscellaneous information pertinent to putting the specified probe into the proper context | New | No |
 | | | | | |
 | **3.1.2** | 1 | Fixed issue with create exchange not serializing request properly for type property | Bug Fix | No |
 | | 2 | Changed OperatorPolicyInfo.AppliedTo property to be a enumeration | Enhancement | Yes |
@@ -44,5 +44,7 @@
 | | 4 | Fixed issue with ChannelInfo.State property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
 | | 5 | Fixed issue with NodeInfo.RatesMode property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
 | | 6 | Fixed issue with ConnectionInfo.Type property not being deserialized correctly from the RabbitMQ HTTP queues API | Bug Fix | Yes |
+| **3.1.4** | 1 | Deprecated metadata properties Identifier implemented by diagnostic scanners | Deprecated | Yes |
+| | 2 | Added new metadata property called DiagnosticScannerMetadata on all diagnostic scanners that encapsulates miscellaneous information pertinent to putting the specified scanner into the proper context | New | No |
 
 

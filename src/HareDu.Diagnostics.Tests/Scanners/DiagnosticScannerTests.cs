@@ -190,5 +190,36 @@ namespace HareDu.Diagnostics.Tests.Scanners
                 Assert.AreEqual(DiagnosticCache.EmptyScannerResult, report);
             });
         }
+
+        [Test]
+        public void Verify_can_add_new_probe()
+        {
+            var factory = _services.GetService<IScannerFactory>();
+
+            bool registered = factory.TryRegisterProbe(new FakeProbe());
+            
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(registered);
+                Assert.AreEqual(typeof(FakeProbe).GetIdentifier(), factory.Probes[typeof(FakeProbe).FullName].Metadata.Id);
+            });
+        }
+
+        [Test]
+        public void Verify_can_add_scanner()
+        {
+            var factory = _services.GetService<IScannerFactory>();
+
+            bool registered = factory.TryRegisterScanner(new FakeDiagnosticScanner());
+
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(registered);
+                
+                var scanner = (FakeDiagnosticScanner)factory.Scanners[typeof(FakeDiagnosticScanner).FullName];
+                
+                Assert.AreEqual(typeof(FakeDiagnosticScanner).GetIdentifier(), scanner.Metadata.Identifier);
+            });
+        }
     }
 }
