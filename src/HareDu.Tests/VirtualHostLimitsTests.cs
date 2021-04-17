@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class VirtualHostLimitsTests :
@@ -106,7 +105,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
             });
@@ -128,7 +127,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
             });
@@ -151,7 +150,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxConnectionLimit);
             });
@@ -173,7 +172,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxConnectionLimit);
             });
@@ -197,7 +196,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(100, request.MaxQueueLimit);
                 Assert.AreEqual(1000, request.MaxConnectionLimit);
@@ -221,7 +220,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(100, request.MaxQueueLimit);
                 Assert.AreEqual(1000, request.MaxConnectionLimit);
@@ -246,7 +245,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
                 Assert.AreEqual(1000, request.MaxConnectionLimit);
@@ -270,7 +269,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
                 Assert.AreEqual(1000, request.MaxConnectionLimit);
@@ -295,7 +294,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(100, request.MaxQueueLimit);
                 Assert.AreEqual(0, request.MaxConnectionLimit);
@@ -319,7 +318,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(100, request.MaxQueueLimit);
                 Assert.AreEqual(0, request.MaxConnectionLimit);
@@ -344,7 +343,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
                 Assert.AreEqual(0, request.MaxConnectionLimit);
@@ -368,7 +367,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>(Deserializer.Options);
+                VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
                 
                 Assert.AreEqual(0, request.MaxQueueLimit);
                 Assert.AreEqual(0, request.MaxConnectionLimit);

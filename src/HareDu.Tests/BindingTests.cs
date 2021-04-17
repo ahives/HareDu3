@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class BindingTests :
@@ -58,7 +57,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
                 Assert.That(request.BindingKey, Is.Empty.Or.Null);
                 Assert.IsNull(request.Arguments);
@@ -78,7 +77,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
                 Assert.That(request.BindingKey, Is.Empty.Or.Null);
                 Assert.IsNull(request.Arguments);
@@ -99,7 +98,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
                 Assert.That(request.BindingKey, Is.Empty.Or.Null);
                 Assert.IsNull(request.Arguments);
@@ -119,7 +118,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
                 Assert.That(request.BindingKey, Is.Empty.Or.Null);
                 Assert.IsNull(request.Arguments);
@@ -143,7 +142,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
                 Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
@@ -166,7 +165,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
                 Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
@@ -190,7 +189,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
                 Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
@@ -213,7 +212,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>(Deserializer.Options);
+                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
                 Assert.AreEqual("*.", request.BindingKey);
                 Assert.AreEqual("value1", request.Arguments["arg1"].ToString());

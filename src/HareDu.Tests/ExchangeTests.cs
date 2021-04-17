@@ -6,7 +6,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class ExchangeTests :
@@ -80,7 +79,7 @@ namespace HareDu.Tests
                     });
                 });
             
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
+            Console.WriteLine(result.ToJsonString());
             
             Assert.Multiple(() =>
             {

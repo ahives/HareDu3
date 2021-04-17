@@ -6,7 +6,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class QueueTests :
@@ -177,7 +176,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -208,7 +207,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -241,7 +240,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -273,7 +272,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -306,7 +305,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -338,7 +337,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -371,7 +370,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -403,7 +402,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -436,7 +435,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -468,7 +467,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -501,7 +500,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -533,7 +532,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -566,7 +565,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -598,7 +597,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
 
                 Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
                 Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
@@ -630,7 +629,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
+                QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
                 
                 Assert.AreEqual("980", request.Arguments["x-expires"].ToString());
                 Assert.IsTrue(request.Durable);
@@ -1042,7 +1041,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
                 
                 Assert.AreEqual(QueueSyncAction.Sync, request.Action);
             });
@@ -1060,7 +1059,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
                 
                 Assert.AreEqual(QueueSyncAction.Sync, request.Action);
             });
@@ -1078,7 +1077,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
 
-                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
+                QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
                 
                 Assert.AreEqual(QueueSyncAction.CancelSync, request.Action);
             });

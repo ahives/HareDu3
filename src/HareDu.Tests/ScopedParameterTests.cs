@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class ScopedParameterTests :
@@ -65,7 +64,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>(Deserializer.Options);
+                ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -86,7 +85,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>(Deserializer.Options);
+                ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -108,7 +107,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -129,7 +128,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -152,7 +151,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -174,7 +173,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -197,7 +196,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -219,7 +218,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -242,7 +241,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -264,7 +263,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -287,7 +286,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -309,7 +308,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -332,7 +331,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -354,7 +353,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -377,7 +376,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -399,7 +398,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -422,7 +421,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -444,7 +443,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.AreEqual("fake_component", request.Component);
                 Assert.AreEqual("fake_parameter", request.ParameterName);
@@ -467,7 +466,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -489,7 +488,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -512,7 +511,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -534,7 +533,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -557,7 +556,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -579,7 +578,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -602,7 +601,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -624,7 +623,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
 
-                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(Deserializer.Options);
+                ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
                 Assert.That(request.Component, Is.Empty.Or.Null);
                 Assert.That(request.VirtualHost, Is.Empty.Or.Null);

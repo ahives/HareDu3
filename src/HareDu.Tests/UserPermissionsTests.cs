@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class UserPermissionsTests :
@@ -191,7 +190,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -217,7 +216,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(0, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -244,7 +243,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -270,7 +269,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -297,7 +296,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -323,7 +322,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -350,7 +349,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);
@@ -376,7 +375,7 @@ namespace HareDu.Tests
                 Assert.AreEqual(2, result.DebugInfo.Errors.Count);
                 Assert.IsNotNull(result.DebugInfo);
 
-                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(Deserializer.Options);
+                UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
                 Assert.AreEqual(".*", request.Configure);
                 Assert.AreEqual(".*", request.Write);

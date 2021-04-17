@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class VirtualHostTests :
@@ -185,7 +184,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(Deserializer.Options);
+                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
                 Assert.IsTrue(request.Tracing);
             });
@@ -206,7 +205,7 @@ namespace HareDu.Tests
                 Assert.IsFalse(result.HasFaulted);
                 Assert.IsNotNull(result.DebugInfo);
                 
-                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(Deserializer.Options);
+                VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
                 Assert.IsTrue(request.Tracing);
             });

@@ -5,7 +5,6 @@ namespace HareDu.Tests
     using Microsoft.Extensions.DependencyInjection;
     using Model;
     using NUnit.Framework;
-    using Serialization;
 
     [TestFixture]
     public class TopicPermissionsTest :
@@ -87,7 +86,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.AreEqual("E4", request.Exchange);
                 Assert.AreEqual(".*", request.Read);
@@ -112,7 +111,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.AreEqual("E4", request.Exchange);
                 Assert.AreEqual(".*", request.Read);
@@ -138,7 +137,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.AreEqual("E4", request.Exchange);
                 Assert.AreEqual(".*", request.Read);
@@ -163,7 +162,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(1, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.AreEqual("E4", request.Exchange);
                 Assert.AreEqual(".*", request.Read);
@@ -189,7 +188,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.AreEqual(".*", request.Read);
@@ -214,7 +213,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(3, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.AreEqual(".*", request.Read);
@@ -240,7 +239,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(4, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Read, Is.Empty.Or.Null);
@@ -265,7 +264,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(4, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Read, Is.Empty.Or.Null);
@@ -291,7 +290,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(4, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Write, Is.Empty.Or.Null);
@@ -316,7 +315,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(4, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Write, Is.Empty.Or.Null);
@@ -342,7 +341,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(5, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Read, Is.Empty.Or.Null);
@@ -367,7 +366,7 @@ namespace HareDu.Tests
                 Assert.IsNotNull(result.DebugInfo);
                 Assert.AreEqual(5, result.DebugInfo.Errors.Count);
 
-                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(Deserializer.Options);
+                TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
                 Assert.That(request.Exchange, Is.Empty.Or.Null);
                 Assert.That(request.Read, Is.Empty.Or.Null);
