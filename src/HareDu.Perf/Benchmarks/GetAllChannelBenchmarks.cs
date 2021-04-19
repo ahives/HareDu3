@@ -6,32 +6,32 @@ namespace HareDu.Perf.Benchmarks
     using Microsoft.Extensions.DependencyInjection;
 
     [Config(typeof(BenchmarkConfig))]
-    public class GetAllBindingsBenchmarks :
+    public class GetAllChannelBenchmarks :
         HareDuPerformanceTesting
     {
         readonly IBrokerObjectFactory _service;
 
-        public GetAllBindingsBenchmarks()
+        public GetAllChannelBenchmarks()
         {
-            var services = GetContainerBuilder("Benchmarks/TestData/BindingInfo.json")
+            var services = GetContainerBuilder("Benchmarks/TestData/ChannelInfo.json")
                 .BuildServiceProvider();
             
             _service = services.GetService<IBrokerObjectFactory>();
         }
 
         [Benchmark]
-        public async Task GetAllBindingsBenchmark()
+        public async Task GetAllChannelsBenchmark()
         {
             var result = await _service
-                .Object<Binding>()
+                .Object<Channel>()
                 .GetAll();
         }
 
         [Benchmark]
-        public async Task GetAllBindingsExtensionBenchmark()
+        public async Task GetAllChannelsExtensionBenchmark()
         {
             var result = await _service
-                .GetAllBindings();
+                .GetAllChannels();
         }
     }
 }

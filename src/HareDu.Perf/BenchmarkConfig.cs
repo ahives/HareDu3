@@ -10,7 +10,7 @@ namespace HareDu.Perf
     public class BenchmarkConfig :
         ManualConfig
     {
-        const int Iteration = 100;
+        const int Iteration = 25;
 
         public BenchmarkConfig()
         {
