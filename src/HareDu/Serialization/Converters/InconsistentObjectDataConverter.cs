@@ -21,9 +21,8 @@ public class InconsistentObjectDataConverter :
         return JsonSerializer.Deserialize<SocketOptions>(text, options);
     }
 
-        public override void Write(Utf8JsonWriter writer, SocketOptions value, JsonSerializerOptions options)
-        {
-            throw new NotImplementedException();
-        }
+    public override void Write(Utf8JsonWriter writer, SocketOptions value, JsonSerializerOptions options)
+    {
+        throw new NotImplementedException();
     }
 }
