@@ -1,6 +1,5 @@
-namespace HareDu.Snapshotting
+namespace HareDu.Snapshotting;
+
+public interface Snapshot
 {
-    public interface Snapshot
-    {
-    }
 }

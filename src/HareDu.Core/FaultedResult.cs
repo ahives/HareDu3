@@ -1,26 +1,25 @@
-namespace HareDu.Core
+namespace HareDu.Core;
+
+using System;
+
+public record FaultedResult :
+    Result
 {
-    using System;
-
-    public record FaultedResult :
-        Result
+    public FaultedResult()
     {
-        public FaultedResult()
-        {
-            HasFaulted = true;
-            Timestamp = DateTimeOffset.UtcNow;
-        }
+        HasFaulted = true;
+        Timestamp = DateTimeOffset.UtcNow;
     }
+}
 
-    public record FaultedResult<T> :
-        Result<T>
+public record FaultedResult<T> :
+    Result<T>
+{
+    public FaultedResult()
     {
-        public FaultedResult()
-        {
-            Data = default;
-            HasData = false;
-            HasFaulted = true;
-            Timestamp = DateTimeOffset.UtcNow;
-        }
+        Data = default;
+        HasData = false;
+        HasFaulted = true;
+        Timestamp = DateTimeOffset.UtcNow;
     }
 }

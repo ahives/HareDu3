@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record DiskOperationWallTime
 {
-    public record DiskOperationWallTime
-    {
-        public decimal Average { get; init; }
+    public decimal Average { get; init; }
         
-        public decimal Rate { get; init; }
-    }
+    public decimal Rate { get; init; }
 }

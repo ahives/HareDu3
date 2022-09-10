@@ -1,9 +1,8 @@
-namespace HareDu.Core.Configuration
+namespace HareDu.Core.Configuration;
+
+public record BrokerCredentials
 {
-    public record BrokerCredentials
-    {
-        public string Username { get; init; }
+    public string Username { get; init; }
         
-        public string Password { get; init; }
-    }
+    public string Password { get; init; }
 }

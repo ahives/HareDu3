@@ -1,7 +1,6 @@
-namespace HareDu
+namespace HareDu;
+
+public enum OperatorPolicyAppliedTo
 {
-    public enum OperatorPolicyAppliedTo
-    {
-        Queues
-    }
+    Queues
 }

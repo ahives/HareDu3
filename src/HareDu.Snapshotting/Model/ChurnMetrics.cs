@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record ChurnMetrics
 {
-    public record ChurnMetrics
-    {
-        public ulong Total { get; init; }
+    public ulong Total { get; init; }
         
-        public decimal Rate { get; init; }
-    }
+    public decimal Rate { get; init; }
 }

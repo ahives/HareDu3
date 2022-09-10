@@ -1,16 +1,15 @@
-namespace HareDu.Diagnostics
+namespace HareDu.Diagnostics;
+
+public enum ComponentType
 {
-    public enum ComponentType
-    {
-        Connection,
-        Channel,
-        Queue,
-        Node,
-        Disk,
-        Memory,
-        Runtime,
-        OperatingSystem,
-        Exchange,
-        NA
-    }
+    Connection,
+    Channel,
+    Queue,
+    Node,
+    Disk,
+    Memory,
+    Runtime,
+    OperatingSystem,
+    Exchange,
+    NA
 }

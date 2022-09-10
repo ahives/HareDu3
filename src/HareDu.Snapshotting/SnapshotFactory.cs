@@ -1,140 +1,139 @@
-namespace HareDu.Snapshotting
+namespace HareDu.Snapshotting;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Configuration;
+using Core.Extensions;
+using Internal;
+
+public class SnapshotFactory :
+    ISnapshotFactory
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Core.Configuration;
-    using Core.Extensions;
-    using Internal;
+    readonly HareDuConfig _config;
+    readonly IBrokerObjectFactory _factory;
+    readonly IDictionary<string, object> _cache;
 
-    public class SnapshotFactory :
-        ISnapshotFactory
+    public SnapshotFactory(IBrokerObjectFactory factory)
     {
-        readonly HareDuConfig _config;
-        readonly IBrokerObjectFactory _factory;
-        readonly IDictionary<string, object> _cache;
-
-        public SnapshotFactory(IBrokerObjectFactory factory)
-        {
-            _factory = factory;
-            _cache = new Dictionary<string, object>();
+        _factory = factory;
+        _cache = new Dictionary<string, object>();
             
-            if (!TryRegisterAll())
-                throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
-        }
+        if (!TryRegisterAll())
+            throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
+    }
 
-        public SnapshotFactory(HareDuConfig config)
-        {
-            _config = config;
-            _factory = new BrokerObjectFactory(_config);
-            _cache = new Dictionary<string, object>();
+    public SnapshotFactory(HareDuConfig config)
+    {
+        _config = config;
+        _factory = new BrokerObjectFactory(_config);
+        _cache = new Dictionary<string, object>();
             
-            if (!TryRegisterAll())
-                throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
-        }
+        if (!TryRegisterAll())
+            throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
+    }
 
-        public SnapshotLens<T> Lens<T>()
-            where T : Snapshot
-        {
-            Type type = typeof(T);
+    public SnapshotLens<T> Lens<T>()
+        where T : Snapshot
+    {
+        Type type = typeof(T);
             
-            if (type.IsNull())
-                return new EmptySnapshotLens<T>();
-            
-            if (_cache.ContainsKey(type.FullName))
-                return (SnapshotLens<T>) _cache[type.FullName];
-
+        if (type.IsNull())
             return new EmptySnapshotLens<T>();
-        }
-
-        public ISnapshotFactory Register<T>(SnapshotLens<T> lens)
-            where T : Snapshot
-        {
-            Type type = typeof(T);
-
-            if (_cache.ContainsKey(type.FullName))
-                return this;
             
-            _cache.Add(type.FullName, lens);
+        if (_cache.ContainsKey(type.FullName))
+            return (SnapshotLens<T>) _cache[type.FullName];
 
+        return new EmptySnapshotLens<T>();
+    }
+
+    public ISnapshotFactory Register<T>(SnapshotLens<T> lens)
+        where T : Snapshot
+    {
+        Type type = typeof(T);
+
+        if (_cache.ContainsKey(type.FullName))
             return this;
+            
+        _cache.Add(type.FullName, lens);
+
+        return this;
+    }
+
+    protected virtual bool TryRegisterAll()
+    {
+        var typeMap = GetTypeMap(GetType());
+        bool registered = true;
+
+        foreach (var type in typeMap)
+        {
+            registered = RegisterInstance(type.Value, type.Key) & registered;
         }
 
-        protected virtual bool TryRegisterAll()
+        if (!registered)
+            _cache.Clear();
+
+        return registered;
+    }
+
+    protected virtual bool RegisterInstance(Type type, string key)
+    {
+        try
         {
-            var typeMap = GetTypeMap(GetType());
-            bool registered = true;
+            var instance = CreateInstance(type);
 
-            foreach (var type in typeMap)
-            {
-                registered = RegisterInstance(type.Value, type.Key) & registered;
-            }
-
-            if (!registered)
-                _cache.Clear();
-
-            return registered;
-        }
-
-        protected virtual bool RegisterInstance(Type type, string key)
-        {
-            try
-            {
-                var instance = CreateInstance(type);
-
-                if (instance.IsNull())
-                    return false;
-
-                _cache.Add(key, instance);
-
-                return _cache.ContainsKey(key);
-            }
-            catch
-            {
+            if (instance.IsNull())
                 return false;
-            }
-        }
 
-        protected virtual object CreateInstance(Type type)
+            _cache.Add(key, instance);
+
+            return _cache.ContainsKey(key);
+        }
+        catch
         {
-            var instance = type.IsDerivedFrom(typeof(BaseSnapshotLens<>))
-                ? Activator.CreateInstance(type, _factory)
-                : Activator.CreateInstance(type);
-
-            return instance;
+            return false;
         }
+    }
+
+    protected virtual object CreateInstance(Type type)
+    {
+        var instance = type.IsDerivedFrom(typeof(BaseSnapshotLens<>))
+            ? Activator.CreateInstance(type, _factory)
+            : Activator.CreateInstance(type);
+
+        return instance;
+    }
         
-        protected virtual IDictionary<string, Type> GetTypeMap(Type findType)
-        {
-            var types = findType.Assembly.GetTypes();
-            var interfaces = new Dictionary<string, Type>();
+    protected virtual IDictionary<string, Type> GetTypeMap(Type findType)
+    {
+        var types = findType.Assembly.GetTypes();
+        var interfaces = new Dictionary<string, Type>();
 
+        foreach (var type in types)
+        {
+            if (!typeof(Snapshot).IsAssignableFrom(type))
+                continue;
+                
+            if (interfaces.ContainsKey(type.FullName))
+                continue;
+                    
+            interfaces.Add(type.FullName, type);
+        }
+
+        var typeMap = new Dictionary<string, Type>();
+
+        foreach (var @interface in interfaces)
+        {
             foreach (var type in types)
             {
-                if (!typeof(Snapshot).IsAssignableFrom(type))
-                    continue;
-                
-                if (interfaces.ContainsKey(type.FullName))
+                if (type.IsInterface)
                     continue;
                     
-                interfaces.Add(type.FullName, type);
+                if (type.GetInterfaces().Any(x => x == Type.GetType($"{typeof(SnapshotLens<>).FullName}[{@interface.Key}]")))
+                    typeMap.Add(@interface.Key, type);
             }
-
-            var typeMap = new Dictionary<string, Type>();
-
-            foreach (var @interface in interfaces)
-            {
-                foreach (var type in types)
-                {
-                    if (type.IsInterface)
-                        continue;
-                    
-                    if (type.GetInterfaces().Any(x => x == Type.GetType($"{typeof(SnapshotLens<>).FullName}[{@interface.Key}]")))
-                        typeMap.Add(@interface.Key, type);
-                }
-            }
-
-            return typeMap;
         }
+
+        return typeMap;
     }
 }

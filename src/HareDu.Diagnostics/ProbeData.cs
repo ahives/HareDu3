@@ -1,9 +1,8 @@
-namespace HareDu.Diagnostics
+namespace HareDu.Diagnostics;
+
+public record ProbeData
 {
-    public record ProbeData
-    {
-        public string PropertyName { get; init; }
+    public string PropertyName { get; init; }
         
-        public string PropertyValue { get; init; }
-    }
+    public string PropertyValue { get; init; }
 }

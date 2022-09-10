@@ -1,30 +1,31 @@
-namespace HareDu.Serialization.Converters
-{
-    using System;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
+namespace HareDu.Serialization.Converters;
 
-    public class CustomStringConverter :
-        JsonConverter<string>
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+public class CustomStringConverter :
+    JsonConverter<string>
+{
+    public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        switch (reader.TokenType)
         {
-            if (reader.TokenType == JsonTokenType.Number)
+            case JsonTokenType.Number:
             {
                 var stringValue = reader.GetInt32();
 
                 return stringValue.ToString();
             }
-
-            if (reader.TokenType == JsonTokenType.String)
+            case JsonTokenType.String:
                 return reader.GetString();
-
-            throw new JsonException();
+            default:
+                throw new JsonException();
         }
+    }
 
-        public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value);
-        }
+    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value);
     }
 }

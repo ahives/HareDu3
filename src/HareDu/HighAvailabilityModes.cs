@@ -1,9 +1,8 @@
-namespace HareDu
+namespace HareDu;
+
+public enum HighAvailabilityModes
 {
-    public enum HighAvailabilityModes
-    {
-        All,
-        Exactly,
-        Nodes
-    }
+    All,
+    Exactly,
+    Nodes
 }

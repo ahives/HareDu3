@@ -1,7 +1,6 @@
-namespace HareDu
+namespace HareDu;
+
+public interface ExchangeArgumentConfigurator
 {
-    public interface ExchangeArgumentConfigurator
-    {
-        void Add<T>(string arg, T value);
-    }
+    void Add<T>(string arg, T value);
 }

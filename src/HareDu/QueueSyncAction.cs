@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum QueueSyncAction
 {
-    public enum QueueSyncAction
-    {
-        Sync,
-        CancelSync
-    }
+    Sync,
+    CancelSync
 }

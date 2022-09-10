@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
-{
-    public record IndexUsageDetails
-    {
-        public ulong Total { get; init; }
+namespace HareDu.Snapshotting.Model;
 
-        public decimal Rate { get; init; }
-    }
+public record IndexUsageDetails
+{
+    public ulong Total { get; init; }
+
+    public decimal Rate { get; init; }
 }

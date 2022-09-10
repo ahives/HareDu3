@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum ShovelProtocolType
 {
-    public enum ShovelProtocolType
-    {
-        Amqp091,
-        Amqp10
-    }
+    Amqp091,
+    Amqp10
 }

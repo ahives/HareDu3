@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum QueuePromotionFailureMode
 {
-    public enum QueuePromotionFailureMode
-    {
-        Always,
-        WhenSynced
-    }
+    Always,
+    WhenSynced
 }

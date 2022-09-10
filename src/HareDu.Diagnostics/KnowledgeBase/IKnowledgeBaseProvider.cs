@@ -1,15 +1,14 @@
-namespace HareDu.Diagnostics.KnowledgeBase
+namespace HareDu.Diagnostics.KnowledgeBase;
+
+using System.Collections.Generic;
+using Probes;
+
+public interface IKnowledgeBaseProvider
 {
-    using System.Collections.Generic;
-    using Probes;
-
-    public interface IKnowledgeBaseProvider
-    {
-        bool TryGet(string identifier, ProbeResultStatus status, out KnowledgeBaseArticle article);
+    bool TryGet(string identifier, ProbeResultStatus status, out KnowledgeBaseArticle article);
         
-        bool TryGet(string identifier, out IReadOnlyList<KnowledgeBaseArticle> articles);
+    bool TryGet(string identifier, out IReadOnlyList<KnowledgeBaseArticle> articles);
 
-        void Add<T>(ProbeResultStatus status, string reason, string remediation)
-            where T : DiagnosticProbe;
-    }
+    void Add<T>(ProbeResultStatus status, string reason, string remediation)
+        where T : DiagnosticProbe;
 }

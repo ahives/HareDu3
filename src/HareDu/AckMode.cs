@@ -1,9 +1,8 @@
-namespace HareDu
+namespace HareDu;
+
+public enum AckMode
 {
-    public enum AckMode
-    {
-        OnConfirm,
-        OnPublish,
-        NoAck
-    }
+    OnConfirm,
+    OnPublish,
+    NoAck
 }

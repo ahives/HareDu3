@@ -1,28 +1,27 @@
-namespace HareDu.Internal
+namespace HareDu.Internal;
+
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Core;
+using Core.Extensions;
+using Model;
+
+class ConsumerImpl :
+    BaseBrokerObject,
+    Consumer
 {
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Core;
-    using Core.Extensions;
-    using Model;
-
-    class ConsumerImpl :
-        BaseBrokerObject,
-        Consumer
+    public ConsumerImpl(HttpClient client)
+        : base(client)
     {
-        public ConsumerImpl(HttpClient client)
-            : base(client)
-        {
-        }
+    }
 
-        public async Task<ResultList<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default)
-        {
-            cancellationToken.RequestCanceled();
+    public async Task<ResultList<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
 
-            string url = "api/consumers";
+        string url = "api/consumers";
             
-            return await GetAllRequest<ConsumerInfo>(url, cancellationToken).ConfigureAwait(false);
-        }
+        return await GetAllRequest<ConsumerInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 }

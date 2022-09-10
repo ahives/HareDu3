@@ -1,9 +1,8 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum ShovelState
 {
-    public enum ShovelState
-    {
-        Starting,
-        Running,
-        Terminated
-    }
+    Starting,
+    Running,
+    Terminated
 }

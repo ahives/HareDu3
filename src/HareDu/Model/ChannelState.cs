@@ -1,8 +1,7 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum ChannelState
 {
-    public enum ChannelState
-    {
-        Running,
-        Idle
-    }
+    Running,
+    Idle
 }

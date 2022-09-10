@@ -1,6 +1,5 @@
-namespace HareDu
+namespace HareDu;
+
+public interface BrokerObject
 {
-    public interface BrokerObject
-    {
-    }
 }

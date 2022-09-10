@@ -1,16 +1,15 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum BrokerConnectionState
 {
-    public enum BrokerConnectionState
-    {
-        Starting,
-        Tuning,
-        Opening,
-        Running,
-        Flow,
-        Blocking,
-        Blocked,
-        Closing,
-        Closed,
-        Inconclusive
-    }
+    Starting,
+    Tuning,
+    Opening,
+    Running,
+    Flow,
+    Blocking,
+    Blocked,
+    Closing,
+    Closed,
+    Inconclusive
 }

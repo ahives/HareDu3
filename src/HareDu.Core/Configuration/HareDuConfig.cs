@@ -1,9 +1,8 @@
-namespace HareDu.Core.Configuration
+namespace HareDu.Core.Configuration;
+
+public record HareDuConfig
 {
-    public record HareDuConfig
-    {
-        public BrokerConfig Broker { get; init; }
+    public BrokerConfig Broker { get; init; }
         
-        public DiagnosticsConfig Diagnostics { get; init; }
-    }
+    public DiagnosticsConfig Diagnostics { get; init; }
 }

@@ -1,45 +1,48 @@
-namespace HareDu.Diagnostics
+namespace HareDu.Diagnostics;
+
+using System;
+using System.Collections.Generic;
+using Core.Extensions;
+using MassTransit;
+using Scanners;
+using Snapshotting;
+
+public class Scanner :
+    IScanner
 {
-    using System;
-    using System.Collections.Generic;
-    using Core.Extensions;
-    using MassTransit;
-    using Scanners;
-    using Snapshotting;
+    readonly IScannerFactory _factory;
 
-    public class Scanner :
-        IScanner
+    public Scanner(IScannerFactory factory)
     {
-        readonly IScannerFactory _factory;
+        _factory = factory.IsNotNull() ? factory : throw new HareDuDiagnosticsException();
+    }
 
-        public Scanner(IScannerFactory factory)
+    public ScannerResult Scan<T>(T snapshot)
+        where T : Snapshot
+    {
+        if (!_factory.TryGet(out DiagnosticScanner<T> scanner))
+            return DiagnosticCache.EmptyScannerResult;
+
+        var results = scanner.Scan(snapshot);
+
+        return new()
         {
-            _factory = factory.IsNotNull() ? factory : throw new HareDuDiagnosticsException();
-        }
+            Id = NewId.NextGuid(), ScannerId = scanner.Metadata.Identifier, Results = results,
+            Timestamp = DateTimeOffset.Now
+        };
+    }
 
-        public ScannerResult Scan<T>(T snapshot)
-            where T : Snapshot
-        {
-            if (!_factory.TryGet(out DiagnosticScanner<T> scanner))
-                return DiagnosticCache.EmptyScannerResult;
-            
-            var results = scanner.Scan(snapshot);
-            
-            return new () {Id = NewId.NextGuid(), ScannerId = scanner.Metadata.Identifier, Results = results, Timestamp = DateTimeOffset.Now};
-        }
+    public IScanner RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers)
+    {
+        _factory.RegisterObservers(observers);
 
-        public IScanner RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers)
-        {
-            _factory.RegisterObservers(observers);
+        return this;
+    }
 
-            return this;
-        }
+    public IScanner RegisterObserver(IObserver<ProbeContext> observer)
+    {
+        _factory.RegisterObserver(observer);
 
-        public IScanner RegisterObserver(IObserver<ProbeContext> observer)
-        {
-            _factory.RegisterObserver(observer);
-
-            return this;
-        }
+        return this;
     }
 }

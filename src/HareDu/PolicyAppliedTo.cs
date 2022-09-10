@@ -1,9 +1,8 @@
-namespace HareDu
+namespace HareDu;
+
+public enum PolicyAppliedTo
 {
-    public enum PolicyAppliedTo
-    {
-        All,
-        Exchanges,
-        Queues
-    }
+    All,
+    Exchanges,
+    Queues
 }

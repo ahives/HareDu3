@@ -1,8 +1,7 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum QueueState
 {
-    public enum QueueState
-    {
-        Running,
-        Idle
-    }
+    Running,
+    Idle
 }

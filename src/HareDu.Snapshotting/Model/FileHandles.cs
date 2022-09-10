@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record FileHandles
 {
-    public record FileHandles
-    {
-        public ulong Recycled { get; init; }
+    public ulong Recycled { get; init; }
         
-        public decimal Rate { get; init; }
-    }
+    public decimal Rate { get; init; }
 }

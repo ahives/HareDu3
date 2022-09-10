@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record PagedOut
 {
-    public record PagedOut
-    {
-        public ulong Total { get; init; }
+    public ulong Total { get; init; }
         
-        public ulong Bytes { get; init; }
-    }
+    public ulong Bytes { get; init; }
 }

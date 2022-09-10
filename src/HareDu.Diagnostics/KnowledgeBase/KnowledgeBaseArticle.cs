@@ -1,13 +1,12 @@
-namespace HareDu.Diagnostics.KnowledgeBase
+namespace HareDu.Diagnostics.KnowledgeBase;
+
+public record KnowledgeBaseArticle
 {
-    public record KnowledgeBaseArticle
-    {
-        public string Id { get; init; }
+    public string Id { get; init; }
         
-        public ProbeResultStatus Status { get; init; }
+    public ProbeResultStatus Status { get; init; }
         
-        public string Reason { get; init; }
+    public string Reason { get; init; }
         
-        public string Remediation { get; init; }
-    }
+    public string Remediation { get; init; }
 }

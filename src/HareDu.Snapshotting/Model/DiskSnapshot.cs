@@ -1,16 +1,15 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record DiskSnapshot :
+    Snapshot
 {
-    public record DiskSnapshot :
-        Snapshot
-    {
-        public string NodeIdentifier { get; init; }
+    public string NodeIdentifier { get; init; }
         
-        public DiskCapacityDetails Capacity { get; init; }
+    public DiskCapacityDetails Capacity { get; init; }
 
-        public ulong Limit { get; init; }
+    public ulong Limit { get; init; }
 
-        public bool AlarmInEffect { get; init; }
+    public bool AlarmInEffect { get; init; }
         
-        public IO IO { get; init; }
-    }
+    public IO IO { get; init; }
 }

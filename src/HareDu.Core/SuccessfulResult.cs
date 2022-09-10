@@ -1,27 +1,26 @@
-namespace HareDu.Core
+namespace HareDu.Core;
+
+using System;
+using Extensions;
+
+public record SuccessfulResult :
+    Result
 {
-    using System;
-    using Extensions;
-
-    public record SuccessfulResult :
-        Result
+    public SuccessfulResult()
     {
-        public SuccessfulResult()
-        {
-            HasFaulted = false;
-            Timestamp = DateTimeOffset.UtcNow;
-        }
+        HasFaulted = false;
+        Timestamp = DateTimeOffset.UtcNow;
     }
+}
 
-    public record SuccessfulResult<T> :
-        Result<T>
+public record SuccessfulResult<T> :
+    Result<T>
+{
+    public SuccessfulResult()
     {
-        public SuccessfulResult()
-        {
-            HasFaulted = false;
-            Timestamp = DateTimeOffset.UtcNow;
-        }
+        HasFaulted = false;
+        Timestamp = DateTimeOffset.UtcNow;
+    }
         
-        public override bool HasData => Data.IsNotNull();
-    }
+    public override bool HasData => Data.IsNotNull();
 }

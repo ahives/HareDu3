@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum QueueMode
 {
-    public enum QueueMode
-    {
-        Default,
-        Lazy
-    }
+    Default,
+    Lazy
 }

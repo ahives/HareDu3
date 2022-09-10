@@ -1,11 +1,10 @@
-namespace HareDu.Core.Configuration
-{
-    using System;
+namespace HareDu.Core.Configuration;
 
-    public interface HareDuConfigurator
-    {
-        void Diagnostics(Action<DiagnosticsConfigurator> configurator);
+using System;
+
+public interface HareDuConfigurator
+{
+    void Diagnostics(Action<DiagnosticsConfigurator> configurator);
         
-        void Broker(Action<BrokerConfigurator> configurator);
-    }
+    void Broker(Action<BrokerConfigurator> configurator);
 }

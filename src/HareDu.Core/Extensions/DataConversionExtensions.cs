@@ -1,9 +1,8 @@
-namespace HareDu.Core.Extensions
-{
-    using System;
+namespace HareDu.Core.Extensions;
 
-    public static class DataConversionExtensions
-    {
-        public static uint ConvertTo(this int value) => Convert.ToUInt32(value);
-    }
+using System;
+
+public static class DataConversionExtensions
+{
+    public static uint ConvertTo(this int value) => Convert.ToUInt32(value);
 }

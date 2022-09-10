@@ -1,30 +1,33 @@
-namespace HareDu.Serialization.Converters
-{
-    using System;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
+namespace HareDu.Serialization.Converters;
 
-    public class CustomDateTimeConverter :
-        JsonConverter<DateTimeOffset>
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+public class CustomDateTimeConverter :
+    JsonConverter<DateTimeOffset>
+{
+    public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
     {
-        public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert,
-            JsonSerializerOptions options)
+        switch (reader.TokenType)
         {
-            if (reader.TokenType == JsonTokenType.String)
+            case JsonTokenType.String:
             {
                 string stringValue = reader.GetString();
                 if (DateTimeOffset.TryParse(stringValue, out var value))
                     return value;
+                break;
             }
-            else if (reader.TokenType == JsonTokenType.Null)
+            case JsonTokenType.Null:
                 return default;
-
-            throw new JsonException();
         }
 
-        public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value);
-        }
+        throw new JsonException();
+    }
+
+    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
+    {
+        writer.WriteStringValue(value);
     }
 }

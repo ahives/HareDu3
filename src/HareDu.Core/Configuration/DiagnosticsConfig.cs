@@ -1,7 +1,6 @@
-namespace HareDu.Core.Configuration
+namespace HareDu.Core.Configuration;
+
+public record DiagnosticsConfig
 {
-    public record DiagnosticsConfig
-    {
-        public ProbesConfig Probes { get; init; }
-    }
+    public ProbesConfig Probes { get; init; }
 }

@@ -1,15 +1,17 @@
-namespace HareDu.Serialization.Converters
-{
-    using System;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
+namespace HareDu.Serialization.Converters;
 
-    public class CustomLongConverter :
-        JsonConverter<long>
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+public class CustomLongConverter :
+    JsonConverter<long>
+{
+    public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        switch (reader.TokenType)
         {
-            if (reader.TokenType == JsonTokenType.String)
+            case JsonTokenType.String:
             {
                 string stringValue = reader.GetString();
                 if (long.TryParse(stringValue, out long value))
@@ -17,19 +19,17 @@ namespace HareDu.Serialization.Converters
                 
                 return stringValue == "infinity" ? long.MaxValue : default;
             }
-
-            if (reader.TokenType == JsonTokenType.Number)
+            case JsonTokenType.Number:
                 return reader.GetInt64();
-            
-            if (reader.TokenType == JsonTokenType.Null)
+            case JsonTokenType.Null:
                 return default;
-
-            throw new JsonException();
+            default:
+                throw new JsonException();
         }
+    }
 
-        public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
-        {
-            writer.WriteNumberValue(value);
-        }
+    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
+    {
+        writer.WriteNumberValue(value);
     }
 }

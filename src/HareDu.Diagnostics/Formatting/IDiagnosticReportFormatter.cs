@@ -1,7 +1,6 @@
-namespace HareDu.Diagnostics.Formatting
+namespace HareDu.Diagnostics.Formatting;
+
+public interface IDiagnosticReportFormatter
 {
-    public interface IDiagnosticReportFormatter
-    {
-        string Format(ScannerResult report);
-    }
+    string Format(ScannerResult report);
 }

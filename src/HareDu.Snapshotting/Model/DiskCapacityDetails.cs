@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record DiskCapacityDetails
 {
-    public record DiskCapacityDetails
-    {
-        public ulong Available { get; init; }
+    public ulong Available { get; init; }
         
-        public decimal Rate { get; init; }
-    }
+    public decimal Rate { get; init; }
 }

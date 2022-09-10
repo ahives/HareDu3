@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum QueuePromotionShutdownMode
 {
-    public enum QueuePromotionShutdownMode
-    {
-        Always,
-        WhenSynced
-    }
+    Always,
+    WhenSynced
 }

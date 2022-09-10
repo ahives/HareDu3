@@ -1,11 +1,10 @@
-namespace HareDu.Snapshotting.Model
-{
-    public record RuntimeProcessChurnMetrics
-    {
-        public ulong Limit { get; init; }
-        
-        public ulong Used { get; init; }
+namespace HareDu.Snapshotting.Model;
 
-        public decimal UsageRate { get; init; }
-    }
+public record RuntimeProcessChurnMetrics
+{
+    public ulong Limit { get; init; }
+        
+    public ulong Used { get; init; }
+
+    public decimal UsageRate { get; init; }
 }

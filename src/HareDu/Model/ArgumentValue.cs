@@ -1,18 +1,17 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+using Core;
+
+public record ArgumentValue<T>
 {
-    using Core;
-
-    public record ArgumentValue<T>
-    {
-        public T Value { get; }
-        public Error Error { get; }
+    public T Value { get; }
+    public Error Error { get; }
         
-        public ArgumentValue(T value, string errorMsg = null)
-        {
-            Value = value;
+    public ArgumentValue(T value, string errorMsg = null)
+    {
+        Value = value;
 
-            if (!string.IsNullOrWhiteSpace(errorMsg))
-                Error = new (){Reason = errorMsg};
-        }
+        if (!string.IsNullOrWhiteSpace(errorMsg))
+            Error = new (){Reason = errorMsg};
     }
 }

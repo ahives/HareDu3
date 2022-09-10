@@ -1,13 +1,12 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+using System.Text.Json.Serialization;
+
+public record GlobalParameterInfo
 {
-    using System.Text.Json.Serialization;
+    [JsonPropertyName("name")]
+    public string Name { get; init; }
 
-    public record GlobalParameterInfo
-    {
-        [JsonPropertyName("name")]
-        public string Name { get; init; }
-
-        [JsonPropertyName("value")]
-        public object Value { get; init; }
-    }
+    [JsonPropertyName("value")]
+    public object Value { get; init; }
 }

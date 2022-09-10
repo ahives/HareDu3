@@ -1,12 +1,11 @@
-namespace HareDu.Diagnostics.KnowledgeBase
+namespace HareDu.Diagnostics.KnowledgeBase;
+
+public record MissingKnowledgeBaseArticle :
+    KnowledgeBaseArticle
 {
-    public record MissingKnowledgeBaseArticle :
-        KnowledgeBaseArticle
+    public MissingKnowledgeBaseArticle()
     {
-        public MissingKnowledgeBaseArticle()
-        {
-            Reason = "No KB article Available";
-            Remediation = "NA";
-        }
+        Reason = "No KB article Available";
+        Remediation = "NA";
     }
 }

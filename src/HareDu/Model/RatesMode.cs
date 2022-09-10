@@ -1,9 +1,8 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum RatesMode
 {
-    public enum RatesMode
-    {
-        None,
-        Basic,
-        Detailed
-    }
+    None,
+    Basic,
+    Detailed
 }

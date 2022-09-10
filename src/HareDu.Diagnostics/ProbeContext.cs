@@ -1,11 +1,10 @@
-namespace HareDu.Diagnostics
-{
-    using System;
+namespace HareDu.Diagnostics;
 
-    public record ProbeContext
-    {
-        public ProbeResult Result { get; init; }
+using System;
+
+public record ProbeContext
+{
+    public ProbeResult Result { get; init; }
         
-        public DateTimeOffset Timestamp { get; init; }
-    }
+    public DateTimeOffset Timestamp { get; init; }
 }

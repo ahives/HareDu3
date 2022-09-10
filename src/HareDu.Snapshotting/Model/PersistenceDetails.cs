@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record PersistenceDetails
 {
-    public record PersistenceDetails
-    {
-        public ulong Total { get; init; }
+    public ulong Total { get; init; }
         
-        public decimal Rate { get; init; }
-    }
+    public decimal Rate { get; init; }
 }

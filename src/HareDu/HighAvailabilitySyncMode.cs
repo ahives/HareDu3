@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum HighAvailabilitySyncMode
 {
-    public enum HighAvailabilitySyncMode
-    {
-        Manual,
-        Automatic
-    }
+    Manual,
+    Automatic
 }

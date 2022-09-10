@@ -1,11 +1,10 @@
-namespace HareDu.Core
+namespace HareDu.Core;
+
+using System;
+
+public record Error
 {
-    using System;
+    public string Reason { get; init; }
 
-    public record Error
-    {
-        public string Reason { get; init; }
-
-        public DateTimeOffset Timestamp { get; init; }
-    }
+    public DateTimeOffset Timestamp { get; init; }
 }

@@ -1,8 +1,7 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum NodeStatus
 {
-    public enum NodeStatus
-    {
-        Ok,
-        Failed
-    }
+    Ok,
+    Failed
 }

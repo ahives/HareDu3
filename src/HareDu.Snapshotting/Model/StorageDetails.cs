@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record StorageDetails
 {
-    public record StorageDetails
-    {
-        public MessageStoreDetails Reads { get; init; }
+    public MessageStoreDetails Reads { get; init; }
         
-        public MessageStoreDetails Writes { get; init; }
-    }
+    public MessageStoreDetails Writes { get; init; }
 }

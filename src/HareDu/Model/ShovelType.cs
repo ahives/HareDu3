@@ -1,8 +1,7 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum ShovelType
 {
-    public enum ShovelType
-    {
-        Static,
-        Dynamic
-    }
+    Static,
+    Dynamic
 }

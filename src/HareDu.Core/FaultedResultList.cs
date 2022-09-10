@@ -1,17 +1,16 @@
-namespace HareDu.Core
-{
-    using System;
-    using System.Collections.Generic;
+namespace HareDu.Core;
 
-    public record FaultedResultList<T> :
-        ResultList<T>
+using System;
+using System.Collections.Generic;
+
+public record FaultedResultList<T> :
+    ResultList<T>
+{
+    public FaultedResultList()
     {
-        public FaultedResultList()
-        {
-            Data = new List<T>();
-            HasData = false;
-            HasFaulted = true;
-            Timestamp = DateTimeOffset.UtcNow;
-        }
+        Data = new List<T>();
+        HasData = false;
+        HasFaulted = true;
+        Timestamp = DateTimeOffset.UtcNow;
     }
 }

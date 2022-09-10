@@ -1,9 +1,8 @@
-namespace HareDu.Diagnostics
-{
-    public record AnalyzerResult
-    {
-        public uint Total { get; init; }
+namespace HareDu.Diagnostics;
 
-        public decimal Percentage { get; init; }
-    }
+public record AnalyzerResult
+{
+    public uint Total { get; init; }
+
+    public decimal Percentage { get; init; }
 }

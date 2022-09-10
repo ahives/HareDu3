@@ -1,11 +1,10 @@
-namespace HareDu
+namespace HareDu;
+
+public interface VirtualHostTagConfigurator
 {
-    public interface VirtualHostTagConfigurator
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tag"></param>
-        void Add(string tag);
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="tag"></param>
+    void Add(string tag);
 }

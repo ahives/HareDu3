@@ -1,12 +1,11 @@
-namespace HareDu.Core
+namespace HareDu.Core;
+
+using System.Collections.Generic;
+
+public record ResultList<T> :
+    Result
 {
-    using System.Collections.Generic;
+    public IReadOnlyList<T> Data { get; init; }
 
-    public record ResultList<T> :
-        Result
-    {
-        public IReadOnlyList<T> Data { get; init; }
-
-        public virtual bool HasData { get; init; }
-    }
+    public virtual bool HasData { get; init; }
 }

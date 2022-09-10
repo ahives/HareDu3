@@ -1,17 +1,16 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record QueueMemoryDetails
 {
-    public record QueueMemoryDetails
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public ulong Total { get; init; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public ulong Total { get; init; }
         
-        public PagedOut PagedOut { get; init; }
+    public PagedOut PagedOut { get; init; }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        public RAM RAM { get; init; }
-    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public RAM RAM { get; init; }
 }

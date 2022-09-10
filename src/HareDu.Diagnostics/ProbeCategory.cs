@@ -1,11 +1,10 @@
-namespace HareDu.Diagnostics
+namespace HareDu.Diagnostics;
+
+public enum ProbeCategory
 {
-    public enum ProbeCategory
-    {
-        Throughput,
-        Connectivity,
-        Memory,
-        FaultTolerance,
-        Efficiency
-    }
+    Throughput,
+    Connectivity,
+    Memory,
+    FaultTolerance,
+    Efficiency
 }

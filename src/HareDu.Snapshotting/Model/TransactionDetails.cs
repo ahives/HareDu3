@@ -1,9 +1,8 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record TransactionDetails
 {
-    public record TransactionDetails
-    {
-        public PersistenceDetails RAM { get; init; }
+    public PersistenceDetails RAM { get; init; }
         
-        public PersistenceDetails Disk { get; init; }
-    }
+    public PersistenceDetails Disk { get; init; }
 }

@@ -1,19 +1,18 @@
-namespace HareDu.Model
-{
-    using System.Text.Json.Serialization;
+namespace HareDu.Model;
 
-    public record VirtualHostRequest
-    {
-        [JsonPropertyName("tracing")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool Tracing { get; init; }
+using System.Text.Json.Serialization;
+
+public record VirtualHostRequest
+{
+    [JsonPropertyName("tracing")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public bool Tracing { get; init; }
         
-        [JsonPropertyName("description")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Description { get; init; }
+    [JsonPropertyName("description")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string Description { get; init; }
         
-        [JsonPropertyName("tags")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Tags { get; init; }
-    }
+    [JsonPropertyName("tags")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string Tags { get; init; }
 }

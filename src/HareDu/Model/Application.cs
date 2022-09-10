@@ -1,16 +1,15 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+using System.Text.Json.Serialization;
+
+public record Application
 {
-    using System.Text.Json.Serialization;
+    [JsonPropertyName("name")]
+    public string Name { get; init; }
 
-    public record Application
-    {
-        [JsonPropertyName("name")]
-        public string Name { get; init; }
+    [JsonPropertyName("description")]
+    public string Description { get; init; }
 
-        [JsonPropertyName("description")]
-        public string Description { get; init; }
-
-        [JsonPropertyName("version")]
-        public string Version { get; init; }
-    }
+    [JsonPropertyName("version")]
+    public string Version { get; init; }
 }

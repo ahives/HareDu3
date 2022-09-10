@@ -1,78 +1,77 @@
-namespace HareDu.Diagnostics.Scanners
+namespace HareDu.Diagnostics.Scanners;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Extensions;
+using Probes;
+using Snapshotting.Model;
+
+public class ClusterScanner :
+    DiagnosticScanner<ClusterSnapshot>
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Core.Extensions;
-    using Probes;
-    using Snapshotting.Model;
+    IReadOnlyList<DiagnosticProbe> _nodeProbes;
+    IReadOnlyList<DiagnosticProbe> _diskProbes;
+    IReadOnlyList<DiagnosticProbe> _memoryProbes;
+    IReadOnlyList<DiagnosticProbe> _runtimeProbes;
+    IReadOnlyList<DiagnosticProbe> _osProbes;
 
-    public class ClusterScanner :
-        DiagnosticScanner<ClusterSnapshot>
+    public DiagnosticScannerMetadata Metadata => new()
     {
-        IReadOnlyList<DiagnosticProbe> _nodeProbes;
-        IReadOnlyList<DiagnosticProbe> _diskProbes;
-        IReadOnlyList<DiagnosticProbe> _memoryProbes;
-        IReadOnlyList<DiagnosticProbe> _runtimeProbes;
-        IReadOnlyList<DiagnosticProbe> _osProbes;
+        Identifier = GetType().GetIdentifier()
+    };
 
-        public DiagnosticScannerMetadata Metadata => new()
-        {
-            Identifier = GetType().GetIdentifier()
-        };
+    public ClusterScanner(IReadOnlyList<DiagnosticProbe> probes)
+    {
+        Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
+    }
 
-        public ClusterScanner(IReadOnlyList<DiagnosticProbe> probes)
-        {
-            Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
-        }
+    public void Configure(IReadOnlyList<DiagnosticProbe> probes)
+    {
+        _nodeProbes = probes
+            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Node)
+            .ToList();
+        _diskProbes = probes
+            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Disk)
+            .ToList();
+        _memoryProbes = probes
+            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Memory)
+            .ToList();
+        _runtimeProbes = probes
+            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Runtime)
+            .ToList();
+        _osProbes = probes
+            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.OperatingSystem)
+            .ToList();
+    }
 
-        public void Configure(IReadOnlyList<DiagnosticProbe> probes)
-        {
-            _nodeProbes = probes
-                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Node)
-                .ToList();
-            _diskProbes = probes
-                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Disk)
-                .ToList();
-            _memoryProbes = probes
-                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Memory)
-                .ToList();
-            _runtimeProbes = probes
-                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Runtime)
-                .ToList();
-            _osProbes = probes
-                .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.OperatingSystem)
-                .ToList();
-        }
-
-        public IReadOnlyList<ProbeResult> Scan(ClusterSnapshot snapshot)
-        {
-            if (snapshot == null)
-                return DiagnosticCache.EmptyProbeResults;
+    public IReadOnlyList<ProbeResult> Scan(ClusterSnapshot snapshot)
+    {
+        if (snapshot == null)
+            return DiagnosticCache.EmptyProbeResults;
             
-            var results = new List<ProbeResult>();
+        var results = new List<ProbeResult>();
 
-            for (int i = 0; i < snapshot.Nodes.Count; i++)
-            {
-                if (snapshot.Nodes[i].IsNull())
-                    continue;
+        for (int i = 0; i < snapshot.Nodes.Count; i++)
+        {
+            if (snapshot.Nodes[i].IsNull())
+                continue;
                 
-                results.AddRange(_nodeProbes.Select(x => x.Execute(snapshot.Nodes[i])));
+            results.AddRange(_nodeProbes.Select(x => x.Execute(snapshot.Nodes[i])));
 
-                if (snapshot.Nodes[i].Disk.IsNotNull())
-                    results.AddRange(_diskProbes.Select(x => x.Execute(snapshot.Nodes[i].Disk)));
+            if (snapshot.Nodes[i].Disk.IsNotNull())
+                results.AddRange(_diskProbes.Select(x => x.Execute(snapshot.Nodes[i].Disk)));
 
-                if (snapshot.Nodes[i].Memory.IsNotNull())
-                    results.AddRange(_memoryProbes.Select(x => x.Execute(snapshot.Nodes[i].Memory)));
+            if (snapshot.Nodes[i].Memory.IsNotNull())
+                results.AddRange(_memoryProbes.Select(x => x.Execute(snapshot.Nodes[i].Memory)));
 
-                if (snapshot.Nodes[i].Runtime.IsNotNull())
-                    results.AddRange(_runtimeProbes.Select(x => x.Execute(snapshot.Nodes[i].Runtime)));
+            if (snapshot.Nodes[i].Runtime.IsNotNull())
+                results.AddRange(_runtimeProbes.Select(x => x.Execute(snapshot.Nodes[i].Runtime)));
 
-                if (snapshot.Nodes[i].OS.IsNotNull())
-                    results.AddRange(_osProbes.Select(x => x.Execute(snapshot.Nodes[i].OS)));
-            }
-
-            return results;
+            if (snapshot.Nodes[i].OS.IsNotNull())
+                results.AddRange(_osProbes.Select(x => x.Execute(snapshot.Nodes[i].OS)));
         }
+
+        return results;
     }
 }

@@ -1,10 +1,9 @@
-namespace HareDu.Model
-{
-    using System.Text.Json.Serialization;
+namespace HareDu.Model;
 
-    public class Rate
-    {
-        [JsonPropertyName("rate")]
-        public decimal Value { get; init; }
-    }
+using System.Text.Json.Serialization;
+
+public class Rate
+{
+    [JsonPropertyName("rate")]
+    public decimal Value { get; init; }
 }

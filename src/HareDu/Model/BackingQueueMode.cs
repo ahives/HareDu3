@@ -1,8 +1,7 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum BackingQueueMode
 {
-    public enum BackingQueueMode
-    {
-        Default,
-        Lazy
-    }
+    Default,
+    Lazy
 }

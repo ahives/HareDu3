@@ -1,9 +1,8 @@
-namespace HareDu.Core.Configuration
-{
-    using System;
+namespace HareDu.Core.Configuration;
 
-    public interface IHareDuConfigProvider
-    {
-        HareDuConfig Configure(Action<HareDuConfigurator> configurator);
-    }
+using System;
+
+public interface IHareDuConfigProvider
+{
+    HareDuConfig Configure(Action<HareDuConfigurator> configurator);
 }

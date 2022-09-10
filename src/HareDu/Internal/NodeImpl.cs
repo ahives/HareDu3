@@ -1,56 +1,55 @@
-namespace HareDu.Internal
+namespace HareDu.Internal;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Core;
+using Core.Extensions;
+using Model;
+
+class NodeImpl :
+    BaseBrokerObject,
+    Node
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Core;
-    using Core.Extensions;
-    using Model;
-
-    class NodeImpl :
-        BaseBrokerObject,
-        Node
+    public NodeImpl(HttpClient client)
+        : base(client)
     {
-        public NodeImpl(HttpClient client)
-            : base(client)
-        {
-        }
+    }
 
-        public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
-        {
-            cancellationToken.RequestCanceled();
+    public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
 
-            string url = "api/nodes";
+        string url = "api/nodes";
             
-            return await GetAllRequest<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
-        }
+        return await GetAllRequest<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
+    }
 
-        public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.RequestCanceled();
+    public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
 
-            string url = string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}";
+        string url = string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}";
 
-            return await GetRequest<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
-        }
+        return await GetRequest<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
+    }
 
-        public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.RequestCanceled();
+    public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
 
-            var errors = new List<Error>();
+        var errors = new List<Error>();
 
-            if (string.IsNullOrWhiteSpace(node))
-                errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
+        if (string.IsNullOrWhiteSpace(node))
+            errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
             
-            string url = $"api/nodes/{node}/memory";
+        string url = $"api/nodes/{node}/memory";
             
-            if (errors.Any())
-                return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
+        if (errors.Any())
+            return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
             
-            return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
-        }
+        return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 }

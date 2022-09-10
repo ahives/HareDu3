@@ -1,7 +1,6 @@
-namespace HareDu.Snapshotting.Model
+namespace HareDu.Snapshotting.Model;
+
+public record JournalDetails
 {
-    public record JournalDetails
-    {
-        public IndexUsageDetails Writes { get; init; }
-    }
+    public IndexUsageDetails Writes { get; init; }
 }

@@ -1,7 +1,6 @@
-namespace HareDu.Model
+namespace HareDu.Model;
+
+public enum ConnectionType
 {
-    public enum ConnectionType
-    {
-        Network
-    }
+    Network
 }

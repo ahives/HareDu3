@@ -1,28 +1,27 @@
-namespace HareDu.Snapshotting
+namespace HareDu.Snapshotting;
+
+using System;
+using System.Runtime.Serialization;
+
+public class HareDuSnapshotInitException :
+    Exception
 {
-    using System;
-    using System.Runtime.Serialization;
-
-    public class HareDuSnapshotInitException :
-        Exception
+    public HareDuSnapshotInitException()
     {
-        public HareDuSnapshotInitException()
-        {
-        }
+    }
 
-        protected HareDuSnapshotInitException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+    protected HareDuSnapshotInitException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
 
-        public HareDuSnapshotInitException(string message)
-            : base(message)
-        {
-        }
+    public HareDuSnapshotInitException(string message)
+        : base(message)
+    {
+    }
 
-        public HareDuSnapshotInitException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+    public HareDuSnapshotInitException(string message, Exception innerException)
+        : base(message, innerException)
+    {
     }
 }

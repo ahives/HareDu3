@@ -1,8 +1,7 @@
-namespace HareDu
+namespace HareDu;
+
+public enum BindingType
 {
-    public enum BindingType
-    {
-        Queue,
-        Exchange
-    }
+    Queue,
+    Exchange
 }

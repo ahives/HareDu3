@@ -1,10 +1,9 @@
-namespace HareDu.Diagnostics.Scanners
+namespace HareDu.Diagnostics.Scanners;
+
+public record DiagnosticScannerMetadata
 {
-    public record DiagnosticScannerMetadata
-    {
-        /// <summary>
-        /// Identifier of the diagnostic scanner.
-        /// </summary>
-        public string Identifier { get; init; }
-    }
+    /// <summary>
+    /// Identifier of the diagnostic scanner.
+    /// </summary>
+    public string Identifier { get; init; }
 }

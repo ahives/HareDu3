@@ -1,6 +1,5 @@
-namespace HareDu.Core.Testing
+namespace HareDu.Core.Testing;
+
+public interface HareDuTestingFake
 {
-    public interface HareDuTestingFake
-    {
-    }
 }

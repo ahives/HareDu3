@@ -1,11 +1,10 @@
-namespace HareDu.Diagnostics
+namespace HareDu.Diagnostics;
+
+public enum ProbeResultStatus
 {
-    public enum ProbeResultStatus
-    {
-        Unhealthy,
-        Healthy,
-        Warning,
-        Inconclusive,
-        NA
-    }
+    Unhealthy,
+    Healthy,
+    Warning,
+    Inconclusive,
+    NA
 }

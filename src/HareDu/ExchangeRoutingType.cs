@@ -1,12 +1,11 @@
-namespace HareDu
+namespace HareDu;
+
+public enum ExchangeRoutingType
 {
-    public enum ExchangeRoutingType
-    {
-        Fanout,
-        Direct,
-        Topic,
-        Headers,
-        Federated,
-        Match
-    }
+    Fanout,
+    Direct,
+    Topic,
+    Headers,
+    Federated,
+    Match
 }

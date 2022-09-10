@@ -1,13 +1,12 @@
-namespace HareDu.Core.Configuration
-{
-    using System;
+namespace HareDu.Core.Configuration;
 
-    public record BrokerConfig
-    {
-        public string Url { get; init; }
+using System;
+
+public record BrokerConfig
+{
+    public string Url { get; init; }
         
-        public TimeSpan Timeout { get; init; }
+    public TimeSpan Timeout { get; init; }
         
-        public BrokerCredentials Credentials { get; init; }
-    }
+    public BrokerCredentials Credentials { get; init; }
 }
