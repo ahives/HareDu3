@@ -1,57 +1,56 @@
-namespace HareDu.Diagnostics.Tests.Probes
+namespace HareDu.Diagnostics.Tests.Probes;
+
+using Core.Extensions;
+using Diagnostics.Probes;
+using KnowledgeBase;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Snapshotting.Model;
+
+[TestFixture]
+public class UnlimitedPrefetchCountProbeTests
 {
-    using Core.Extensions;
-    using Diagnostics.Probes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.DependencyInjection;
-    using NUnit.Framework;
-    using Snapshotting.Model;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class UnlimitedPrefetchCountProbeTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
+        _services = new ServiceCollection()
+            .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
+            .BuildServiceProvider();
+    }
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
-                .BuildServiceProvider();
-        }
+    [Test(Description = "")]
+    public void Verify_probe_warning_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new UnlimitedPrefetchCountProbe(knowledgeBaseProvider);
 
-        [Test(Description = "")]
-        public void Verify_probe_warning_condition()
-        {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new UnlimitedPrefetchCountProbe(knowledgeBaseProvider);
+        ChannelSnapshot snapshot = new () {PrefetchCount = 0};
 
-            ChannelSnapshot snapshot = new () {PrefetchCount = 0};
-
-            var result = probe.Execute(snapshot);
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-                Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
-
-        [Test]
-        public void Verify_probe_inconclusive_condition_1()
+        Assert.Multiple(() =>
         {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new UnlimitedPrefetchCountProbe(knowledgeBaseProvider);
+            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
+            Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
+        });
+    }
 
-            ChannelSnapshot snapshot = new () {PrefetchCount = 5};
+    [Test]
+    public void Verify_probe_inconclusive_condition_1()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new UnlimitedPrefetchCountProbe(knowledgeBaseProvider);
 
-            var result = probe.Execute(snapshot);
+        ChannelSnapshot snapshot = new () {PrefetchCount = 5};
+
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Inconclusive, result.Status);
-                Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(ProbeResultStatus.Inconclusive, result.Status);
+            Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
+        });
     }
 }

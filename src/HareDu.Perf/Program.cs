@@ -1,14 +1,13 @@
-﻿namespace HareDu.Perf
-{
-    using BenchmarkDotNet.Running;
-    using Benchmarks;
+﻿namespace HareDu.Perf;
 
-    class Program
+using BenchmarkDotNet.Running;
+using Benchmarks;
+
+class Program
+{
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var run = BenchmarkRunner.Run(typeof(Program).Assembly);
-            // var run = BenchmarkRunner.Run<GetAllChannelBenchmarks>();
-        }
+        var run = BenchmarkRunner.Run(typeof(Program).Assembly);
+        // var run = BenchmarkRunner.Run<GetAllChannelBenchmarks>();
     }
 }

@@ -1,57 +1,56 @@
-namespace HareDu.Diagnostics.Tests.Probes
+namespace HareDu.Diagnostics.Tests.Probes;
+
+using Core.Extensions;
+using Diagnostics.Probes;
+using KnowledgeBase;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Snapshotting.Model;
+
+[TestFixture]
+public class AvailableCoresProbeTests
 {
-    using Core.Extensions;
-    using Diagnostics.Probes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.DependencyInjection;
-    using NUnit.Framework;
-    using Snapshotting.Model;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class AvailableCoresProbeTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
+        _services = new ServiceCollection()
+            .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
+            .BuildServiceProvider();
+    }
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
-                .BuildServiceProvider();
-        }
+    [Test]
+    public void Verify_probe_unhealthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new AvailableCpuCoresProbe(knowledgeBaseProvider);
 
-        [Test]
-        public void Verify_probe_unhealthy_condition()
-        {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new AvailableCpuCoresProbe(knowledgeBaseProvider);
+        NodeSnapshot snapshot = new () {AvailableCoresDetected = 0};
 
-            NodeSnapshot snapshot = new () {AvailableCoresDetected = 0};
-
-            var result = probe.Execute(snapshot);
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-                Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
-
-        [Test]
-        public void Verify_probe_healthy_condition()
+        Assert.Multiple(() =>
         {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new AvailableCpuCoresProbe(knowledgeBaseProvider);
-            
-            NodeSnapshot snapshot = new () {AvailableCoresDetected = 5};
+            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+            Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
+        });
+    }
 
-            var result = probe.Execute(snapshot);
+    [Test]
+    public void Verify_probe_healthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new AvailableCpuCoresProbe(knowledgeBaseProvider);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-                Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
+        NodeSnapshot snapshot = new () {AvailableCoresDetected = 5};
+
+        var result = probe.Execute(snapshot);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+            Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
+        });
     }
 }

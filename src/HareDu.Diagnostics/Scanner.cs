@@ -27,7 +27,9 @@ public class Scanner :
 
         return new()
         {
-            Id = NewId.NextGuid(), ScannerId = scanner.Metadata.Identifier, Results = results,
+            Id = NewId.NextGuid(),
+            ScannerId = scanner.Metadata.Identifier,
+            Results = results,
             Timestamp = DateTimeOffset.Now
         };
     }

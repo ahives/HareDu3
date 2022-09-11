@@ -1,34 +1,33 @@
-namespace HareDu.Perf
+namespace HareDu.Perf;
+
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Engines;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Exporters;
+using BenchmarkDotNet.Jobs;
+
+public class BenchmarkConfig :
+    ManualConfig
 {
-    using BenchmarkDotNet.Configs;
-    using BenchmarkDotNet.Diagnosers;
-    using BenchmarkDotNet.Engines;
-    using BenchmarkDotNet.Environments;
-    using BenchmarkDotNet.Exporters;
-    using BenchmarkDotNet.Jobs;
+    const int Iteration = 25;
 
-    public class BenchmarkConfig :
-        ManualConfig
+    public BenchmarkConfig()
     {
-        const int Iteration = 25;
-
-        public BenchmarkConfig()
+        Add(MemoryDiagnoser.Default);
+        Add(HtmlExporter.Default);
+        Add(new Job
         {
-            Add(MemoryDiagnoser.Default);
-            Add(HtmlExporter.Default);
-            Add(new Job
+            Environment = { Runtime = CoreRuntime.Core50 },
+            Run =
             {
-                Environment = { Runtime = CoreRuntime.Core50 },
-                Run =
-                {
-                    IterationCount = Iteration,
-                    RunStrategy = RunStrategy.Throughput,
-                    WarmupCount = 1,
-                    LaunchCount = 1,
-                    UnrollFactor = 1,
-                    InvocationCount = Iteration
-                }
-            });
-        }
+                IterationCount = Iteration,
+                RunStrategy = RunStrategy.Throughput,
+                WarmupCount = 1,
+                LaunchCount = 1,
+                UnrollFactor = 1,
+                InvocationCount = Iteration
+            }
+        });
     }
 }

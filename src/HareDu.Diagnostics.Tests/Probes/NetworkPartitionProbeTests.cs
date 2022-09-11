@@ -1,63 +1,62 @@
-namespace HareDu.Diagnostics.Tests.Probes
+namespace HareDu.Diagnostics.Tests.Probes;
+
+using System.Collections.Generic;
+using Core.Extensions;
+using Diagnostics.Probes;
+using KnowledgeBase;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Snapshotting.Model;
+
+[TestFixture]
+public class NetworkPartitionProbeTests
 {
-    using System.Collections.Generic;
-    using Core.Extensions;
-    using Diagnostics.Probes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.DependencyInjection;
-    using NUnit.Framework;
-    using Snapshotting.Model;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class NetworkPartitionProbeTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
+        _services = new ServiceCollection()
+            .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
+            .BuildServiceProvider();
+    }
 
-        [OneTimeSetUp]
-        public void Init()
+    [Test]
+    public void Verify_probe_unhealthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new NetworkPartitionProbe(knowledgeBaseProvider);
+
+        NodeSnapshot snapshot = new () {NetworkPartitions = new List<string>()
         {
-            _services = new ServiceCollection()
-                .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
-                .BuildServiceProvider();
-        }
+            "node1@rabbitmq",
+            "node2@rabbitmq",
+            "node3@rabbitmq"
+        }};
 
-        [Test]
-        public void Verify_probe_unhealthy_condition()
-        {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new NetworkPartitionProbe(knowledgeBaseProvider);
-
-            NodeSnapshot snapshot = new () {NetworkPartitions = new List<string>()
-            {
-                "node1@rabbitmq",
-                "node2@rabbitmq",
-                "node3@rabbitmq"
-            }};
-
-            var result = probe.Execute(snapshot);
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-                Assert.AreEqual(typeof(NetworkPartitionProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
-
-        [Test]
-        public void Verify_probe_healthy_condition()
+        Assert.Multiple(() =>
         {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new NetworkPartitionProbe(knowledgeBaseProvider);
+            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+            Assert.AreEqual(typeof(NetworkPartitionProbe).GetIdentifier(), result.KB.Id);
+        });
+    }
 
-            NodeSnapshot snapshot = new () {NetworkPartitions = new List<string>()};
+    [Test]
+    public void Verify_probe_healthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new NetworkPartitionProbe(knowledgeBaseProvider);
 
-            var result = probe.Execute(snapshot);
+        NodeSnapshot snapshot = new () {NetworkPartitions = new List<string>()};
+
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-                Assert.AreEqual(typeof(NetworkPartitionProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+            Assert.AreEqual(typeof(NetworkPartitionProbe).GetIdentifier(), result.KB.Id);
+        });
     }
 }

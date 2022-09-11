@@ -149,10 +149,7 @@ public class ScannerFactory :
         {
             var instance = CreateScannerInstance(type);
 
-            if (instance.IsNull())
-                return false;
-
-            return _scannerCache.TryAdd(key, instance);
+            return !instance.IsNull() && _scannerCache.TryAdd(key, instance);
         }
         catch
         {

@@ -1,58 +1,57 @@
-namespace HareDu.Diagnostics.Tests.Probes
+namespace HareDu.Diagnostics.Tests.Probes;
+
+using Core.Extensions;
+using Diagnostics.Probes;
+using KnowledgeBase;
+using Microsoft.Extensions.DependencyInjection;
+using Model;
+using NUnit.Framework;
+using Snapshotting.Model;
+
+[TestFixture]
+public class BlockedConnectionProbeTest
 {
-    using Core.Extensions;
-    using Diagnostics.Probes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.DependencyInjection;
-    using Model;
-    using NUnit.Framework;
-    using Snapshotting.Model;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class BlockedConnectionProbeTest
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
+        _services = new ServiceCollection()
+            .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
+            .BuildServiceProvider();
+    }
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
-                .BuildServiceProvider();
-        }
+    [Test]
+    public void Verify_probe_unhealthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
 
-        [Test]
-        public void Verify_probe_unhealthy_condition()
-        {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
+        ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Blocked};
 
-            ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Blocked};
-
-            var result = probe.Execute(snapshot);
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-                Assert.AreEqual(typeof(BlockedConnectionProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
-
-        [Test]
-        public void Verify_probe_healthy_condition()
+        Assert.Multiple(() =>
         {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
-            
-            ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Running};
+            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+            Assert.AreEqual(typeof(BlockedConnectionProbe).GetIdentifier(), result.KB.Id);
+        });
+    }
 
-            var result = probe.Execute(snapshot);
+    [Test]
+    public void Verify_probe_healthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new BlockedConnectionProbe(knowledgeBaseProvider);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-                Assert.AreEqual(typeof(BlockedConnectionProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
+        ConnectionSnapshot snapshot = new () {State = BrokerConnectionState.Running};
+
+        var result = probe.Execute(snapshot);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+            Assert.AreEqual(typeof(BlockedConnectionProbe).GetIdentifier(), result.KB.Id);
+        });
     }
 }

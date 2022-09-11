@@ -1,38 +1,37 @@
-namespace HareDu.IntegrationTests
+namespace HareDu.IntegrationTests;
+
+using System.Threading.Tasks;
+using Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using MicrosoftIntegration;
+using NUnit.Framework;
+
+[TestFixture]
+public class ServerTests
 {
-    using System.Threading.Tasks;
-    using Extensions;
-    using Microsoft.Extensions.DependencyInjection;
-    using MicrosoftIntegration;
-    using NUnit.Framework;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class ServerTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddHareDu(x =>
+        _services = new ServiceCollection()
+            .AddHareDu(x =>
+            {
+                x.Broker(b =>
                 {
-                    x.Broker(b =>
-                    {
-                        b.ConnectTo("http://localhost:15672");
-                        b.UsingCredentials("guest", "guest");
-                    });
-                })
-                .BuildServiceProvider();
-        }
+                    b.ConnectTo("http://localhost:15672");
+                    b.UsingCredentials("guest", "guest");
+                });
+            })
+            .BuildServiceProvider();
+    }
 
-        [Test]
-        public async Task Should_be_able_to_get_all_definitions()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Server>()
-                .Get()
-                .ScreenDump();
-        }
+    [Test]
+    public async Task Should_be_able_to_get_all_definitions()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Server>()
+            .Get()
+            .ScreenDump();
     }
 }

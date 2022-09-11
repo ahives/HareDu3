@@ -1,70 +1,69 @@
-namespace HareDu.IntegrationTests
+namespace HareDu.IntegrationTests;
+
+using System;
+using System.Threading.Tasks;
+using Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using MicrosoftIntegration;
+using NUnit.Framework;
+using Serialization;
+
+[TestFixture]
+public class GlobalParameterTests
 {
-    using System;
-    using System.Threading.Tasks;
-    using Extensions;
-    using Microsoft.Extensions.DependencyInjection;
-    using MicrosoftIntegration;
-    using NUnit.Framework;
-    using Serialization;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class GlobalParameterTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddHareDu(x =>
+        _services = new ServiceCollection()
+            .AddHareDu(x =>
+            {
+                x.Broker(b =>
                 {
-                    x.Broker(b =>
-                    {
-                        b.ConnectTo("http://localhost:15672");
-                        b.UsingCredentials("guest", "guest");
-                    });
-                })
-                .BuildServiceProvider();
-        }
-
-        [Test]
-        public async Task Should_be_able_to_get_all_global_parameters()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .GetAll()
-                .ScreenDump();
-        }
-        
-        [Test]
-        public async Task Verify_can_create_parameter()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Create("fake_param2", x =>
-                {
-                    x.Value("fake_value");
-                    // x.Arguments(arg =>
-                    // {
-                    //     arg.Set("arg1", "value1");
-                    //     arg.Set("arg2", "value2");
-                    // });
+                    b.ConnectTo("http://localhost:15672");
+                    b.UsingCredentials("guest", "guest");
                 });
-             
-            // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
+            })
+            .BuildServiceProvider();
+    }
+
+    [Test]
+    public async Task Should_be_able_to_get_all_global_parameters()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<GlobalParameter>()
+            .GetAll()
+            .ScreenDump();
+    }
         
-        [Test]
-        public async Task Verify_can_delete_parameter()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<GlobalParameter>()
-                .Delete("Fred");
+    [Test]
+    public async Task Verify_can_create_parameter()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<GlobalParameter>()
+            .Create("fake_param2", x =>
+            {
+                x.Value("fake_value");
+                // x.Arguments(arg =>
+                // {
+                //     arg.Set("arg1", "value1");
+                //     arg.Set("arg2", "value2");
+                // });
+            });
+             
+        // Assert.IsFalse(result.HasFaulted);
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+        
+    [Test]
+    public async Task Verify_can_delete_parameter()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<GlobalParameter>()
+            .Delete("Fred");
             
-            // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
+        // Assert.IsFalse(result.HasFaulted);
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

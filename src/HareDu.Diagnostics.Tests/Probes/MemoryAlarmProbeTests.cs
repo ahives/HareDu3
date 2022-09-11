@@ -1,57 +1,56 @@
-namespace HareDu.Diagnostics.Tests.Probes
+namespace HareDu.Diagnostics.Tests.Probes;
+
+using Core.Extensions;
+using Diagnostics.Probes;
+using KnowledgeBase;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using Snapshotting.Model;
+
+[TestFixture]
+public class MemoryAlarmProbeTests
 {
-    using Core.Extensions;
-    using Diagnostics.Probes;
-    using KnowledgeBase;
-    using Microsoft.Extensions.DependencyInjection;
-    using NUnit.Framework;
-    using Snapshotting.Model;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class MemoryAlarmProbeTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
+        _services = new ServiceCollection()
+            .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
+            .BuildServiceProvider();
+    }
 
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>()
-                .BuildServiceProvider();
-        }
-
-        [Test]
-        public void Verify_probe_unhealthy_condition()
-        {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new MemoryAlarmProbe(knowledgeBaseProvider);
+    [Test]
+    public void Verify_probe_unhealthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new MemoryAlarmProbe(knowledgeBaseProvider);
             
-            MemorySnapshot snapshot = new () {Used = 103283, Limit = 823983, AlarmInEffect = true};
+        MemorySnapshot snapshot = new () {Used = 103283, Limit = 823983, AlarmInEffect = true};
 
-            var result = probe.Execute(snapshot);
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-                Assert.AreEqual(typeof(MemoryAlarmProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
-
-        [Test]
-        public void Verify_probe_healthy_condition()
+        Assert.Multiple(() =>
         {
-            var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
-            var probe = new MemoryAlarmProbe(knowledgeBaseProvider);
+            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
+            Assert.AreEqual(typeof(MemoryAlarmProbe).GetIdentifier(), result.KB.Id);
+        });
+    }
 
-            MemorySnapshot snapshot = new () {Used = 103283, Limit = 823983, AlarmInEffect = false};
+    [Test]
+    public void Verify_probe_healthy_condition()
+    {
+        var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
+        var probe = new MemoryAlarmProbe(knowledgeBaseProvider);
 
-            var result = probe.Execute(snapshot);
+        MemorySnapshot snapshot = new () {Used = 103283, Limit = 823983, AlarmInEffect = false};
+
+        var result = probe.Execute(snapshot);
             
-            Assert.Multiple(() =>
-            {
-                Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-                Assert.AreEqual(typeof(MemoryAlarmProbe).GetIdentifier(), result.KB.Id);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
+            Assert.AreEqual(typeof(MemoryAlarmProbe).GetIdentifier(), result.KB.Id);
+        });
     }
 }

@@ -1,568 +1,567 @@
-namespace HareDu.Tests
+namespace HareDu.Tests;
+
+using System.Threading.Tasks;
+using Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Model;
+using NUnit.Framework;
+
+[TestFixture]
+public class BindingTests :
+    HareDuTesting
 {
-    using System.Threading.Tasks;
-    using Extensions;
-    using Microsoft.Extensions.DependencyInjection;
-    using Model;
-    using NUnit.Framework;
-
-    [TestFixture]
-    public class BindingTests :
-        HareDuTesting
+    [Test]
+    public async Task Verify_able_to_get_all_bindings1()
     {
-        [Test]
-        public async Task Verify_able_to_get_all_bindings1()
+        var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .GetAll();
+
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .GetAll();
+            Assert.IsTrue(result.HasData);
+            Assert.AreEqual(12, result.Data.Count);
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.Data);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasData);
-                Assert.AreEqual(12, result.Data.Count);
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.Data);
-            });
-        }
+    [Test]
+    public async Task Verify_able_to_get_all_bindings2()
+    {
+        var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .GetAllBindings();
 
-        [Test]
-        public async Task Verify_able_to_get_all_bindings2()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .GetAllBindings();
+            Assert.IsTrue(result.HasData);
+            Assert.AreEqual(12, result.Data.Count);
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.Data);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasData);
-                Assert.AreEqual(12, result.Data.Count);
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.Data);
-            });
-        }
+    [Test]
+    public async Task Verify_can_create_exchange_binding_without_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create("E2", "Q1", BindingType.Exchange, "HareDu");
 
-        [Test]
-        public async Task Verify_can_create_exchange_binding_without_arguments1()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Exchange, "HareDu");
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
-
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
-                Assert.That(request.BindingKey, Is.Empty.Or.Null);
-                Assert.IsNull(request.Arguments);
-            });
-        }
+            Assert.That(request.BindingKey, Is.Empty.Or.Null);
+            Assert.IsNull(request.Arguments);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_exchange_binding_without_arguments2()
+    [Test]
+    public async Task Verify_can_create_exchange_binding_without_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBinding("E2", "Q1", "HareDu");
+
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("E2", "Q1", "HareDu");
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
-
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
-                Assert.That(request.BindingKey, Is.Empty.Or.Null);
-                Assert.IsNull(request.Arguments);
-            });
-        }
+            Assert.That(request.BindingKey, Is.Empty.Or.Null);
+            Assert.IsNull(request.Arguments);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_queue_binding_without_arguments1()
+    [Test]
+    public async Task Verify_can_create_queue_binding_without_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create("E2", "Q1", BindingType.Queue, "HareDu");
+
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Queue, "HareDu");
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
-
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
-                Assert.That(request.BindingKey, Is.Empty.Or.Null);
-                Assert.IsNull(request.Arguments);
-            });
-        }
+            Assert.That(request.BindingKey, Is.Empty.Or.Null);
+            Assert.IsNull(request.Arguments);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_queue_binding_without_arguments2()
+    [Test]
+    public async Task Verify_can_create_queue_binding_without_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue("E2", "Q1", "HareDu");
+
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E2", "Q1", "HareDu");
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
-
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
                 
-                Assert.That(request.BindingKey, Is.Empty.Or.Null);
-                Assert.IsNull(request.Arguments);
-            });
-        }
+            Assert.That(request.BindingKey, Is.Empty.Or.Null);
+            Assert.IsNull(request.Arguments);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_exchange_binding_with_arguments1()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Exchange, "HareDu", "*.", x =>
-                {
-                    x.Add("arg1", "value1");
-                });
-
-            Assert.Multiple(() =>
+    [Test]
+    public async Task Verify_can_create_exchange_binding_with_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create("E2", "Q1", BindingType.Exchange, "HareDu", "*.", x =>
             {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
+                x.Add("arg1", "value1");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
-                Assert.AreEqual("*.", request.BindingKey);
-                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
-            });
-        }
+            Assert.AreEqual("*.", request.BindingKey);
+            Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_exchange_binding_with_arguments2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("E2", "Q1", "HareDu", "*.", x =>
-                {
-                    x.Add("arg1", "value1");
-                });
-
-            Assert.Multiple(() =>
+    [Test]
+    public async Task Verify_can_create_exchange_binding_with_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBinding("E2", "Q1", "HareDu", "*.", x =>
             {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
+                x.Add("arg1", "value1");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
-                Assert.AreEqual("*.", request.BindingKey);
-                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
-            });
-        }
+            Assert.AreEqual("*.", request.BindingKey);
+            Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_queue_binding_with_arguments1()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("E2", "Q1", BindingType.Queue, "HareDu", "*.", x =>
-                {
-                    x.Add("arg1", "value1");
-                });
-
-            Assert.Multiple(() =>
+    [Test]
+    public async Task Verify_can_create_queue_binding_with_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create("E2", "Q1", BindingType.Queue, "HareDu", "*.", x =>
             {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
+                x.Add("arg1", "value1");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
-                Assert.AreEqual("*.", request.BindingKey);
-                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
-            });
-        }
+            Assert.AreEqual("*.", request.BindingKey);
+            Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_create_queue_binding_with_arguments2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E2", "Q1", "HareDu", "*.", x =>
-                {
-                    x.Add("arg1", "value1");
-                });
-
-            Assert.Multiple(() =>
+    [Test]
+    public async Task Verify_can_create_queue_binding_with_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue("E2", "Q1", "HareDu", "*.", x =>
             {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.IsNotNull(result.DebugInfo);
-                Assert.IsNotNull(result.DebugInfo.Request);
+                x.Add("arg1", "value1");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+            Assert.IsNotNull(result.DebugInfo.Request);
                 
-                BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+            BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
 
-                Assert.AreEqual("*.", request.BindingKey);
-                Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
-            });
-        }
+            Assert.AreEqual("*.", request.BindingKey);
+            Assert.AreEqual("value1", request.Arguments["arg1"].ToString());
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_create_exchange_binding_without_arguments1()
+    [Test]
+    public async Task Verify_cannot_create_exchange_binding_without_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create(string.Empty, "Q1", BindingType.Exchange, "HareDu");
+
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create(string.Empty, "Q1", BindingType.Exchange, "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_exchange_binding_without_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Create("E1", string.Empty, BindingType.Exchange, "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_exchange_binding_without_arguments2()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Create("E1", string.Empty, BindingType.Exchange, "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_exchange_binding_without_arguments3()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBinding(string.Empty, "Q1", "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_exchange_binding_without_arguments3()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding(string.Empty, "Q1", "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_exchange_binding_without_arguments4()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBinding("E1", string.Empty, "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_exchange_binding_without_arguments4()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("E1", string.Empty, "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_queue_binding_without_arguments1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue(string.Empty, "Q1", "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_queue_binding_without_arguments1()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue(string.Empty, "Q1", "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_queue_binding_without_arguments2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue("E1", string.Empty, "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_queue_binding_without_arguments2()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E1", string.Empty, "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_queue_binding_without_arguments3()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue(string.Empty, string.Empty, "HareDu");
 
-        [Test]
-        public async Task Verify_cannot_create_queue_binding_without_arguments3()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue(string.Empty, string.Empty, "HareDu");
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            });
-        }
+    [Test]
+    public async Task Verify_cannot_create_queue_binding_without_arguments4()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue("E1", "Q1", string.Empty);
 
-        [Test]
-        public async Task Verify_cannot_create_queue_binding_without_arguments4()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E1", "Q1", string.Empty);
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_can_delete_queue_binding1()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Queue);
+    [Test]
+    public async Task Verify_can_delete_queue_binding1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Queue);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            });
-        }
-
-        [Test]
-        public async Task Verify_can_delete_queue_binding2()
+        Assert.Multiple(() =>
         {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBindingToQueue("E1", "Q1", "HareDu");
-            
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            });
-        }
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_delete_queue_binding3()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Exchange);
+    [Test]
+    public async Task Verify_can_delete_queue_binding2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBindingToQueue("E1", "Q1", "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_can_delete_queue_binding4()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .CreateExchangeBinding("E1", "Q1", "HareDu");
+    [Test]
+    public async Task Verify_can_delete_queue_binding3()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Exchange);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsFalse(result.HasFaulted);
-                Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding1()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Queue);
+    [Test]
+    public async Task Verify_can_delete_queue_binding4()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .CreateExchangeBinding("E1", "Q1", "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteQueueBinding("E2", string.Empty, string.Empty, "HareDu");
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Queue);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding3()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Queue);
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteQueueBinding("E2", string.Empty, string.Empty, "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding4()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding3()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Queue);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding5()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Queue);
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding4()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_queue_binding6()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding5()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Queue);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding1()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding6()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, string.Empty);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding2()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteExchangeBinding("E2", string.Empty, string.Empty, "HareDu");
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding1()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Exchange);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding3()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding2()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteExchangeBinding("E2", string.Empty, string.Empty, "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding4()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding3()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Exchange);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding5()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .Object<Binding>()
-                .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Exchange);
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding4()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, "HareDu");
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
 
-        [Test]
-        public async Task Verify_cannot_delete_exchange_binding6()
-        {
-            var services = GetContainerBuilder().BuildServiceProvider();
-            var result = await services.GetService<IBrokerObjectFactory>()
-                .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding5()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .Object<Binding>()
+            .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Exchange);
             
-            Assert.Multiple(() =>
-            {
-                Assert.IsTrue(result.HasFaulted);
-                Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            });
-        }
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding6()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerObjectFactory>()
+            .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
     }
 }

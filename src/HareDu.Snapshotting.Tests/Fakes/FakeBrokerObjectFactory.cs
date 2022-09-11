@@ -1,63 +1,61 @@
-namespace HareDu.Snapshotting.Tests.Fakes
+namespace HareDu.Snapshotting.Tests.Fakes;
+
+using System.Collections.Generic;
+using Core.Configuration;
+using Core.Testing;
+
+public class FakeBrokerObjectFactory :
+    IBrokerObjectFactory,
+    HareDuTestingFake
 {
-    using System.Collections.Generic;
-    using Core;
-    using Core.Configuration;
-    using Core.Testing;
+    public HareDuConfig Config { get; }
 
-    public class FakeBrokerObjectFactory :
-        IBrokerObjectFactory,
-        HareDuTestingFake
+    public T Object<T>()
+        where T : BrokerObject
     {
-        public HareDuConfig Config { get; }
-
-        public T Object<T>()
-            where T : BrokerObject
+        if (typeof(T) == typeof(BrokerSystem))
         {
-            if (typeof(T) == typeof(BrokerSystem))
-            {
-                BrokerSystem obj = new BrokerSystemObject();
+            BrokerSystem obj = new BrokerSystemObject();
 
-                return (T) obj;
-            }
-
-            if (typeof(T) == typeof(Node))
-            {
-                Node obj = new FakeNodeObject();
-
-                return (T) obj;
-            }
-
-            if (typeof(T) == typeof(Connection))
-            {
-                Connection obj = new FakeConnectionObject();
-
-                return (T) obj;
-            }
-
-            if (typeof(T) == typeof(Channel))
-            {
-                Channel obj = new FakeChannelObject();
-
-                return (T) obj;
-            }
-
-            if (typeof(T) == typeof(Queue))
-            {
-                Queue obj = new FakeQueueObject();
-
-                return (T) obj;
-            }
-
-            return default;
+            return (T) obj;
         }
 
-        public bool IsRegistered(string key) => throw new System.NotImplementedException();
-        
-        public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();
+        if (typeof(T) == typeof(Node))
+        {
+            Node obj = new FakeNodeObject();
 
-        public void CancelPendingRequest() => throw new System.NotImplementedException();
+            return (T) obj;
+        }
 
-        public bool TryRegisterAll() => throw new System.NotImplementedException();
+        if (typeof(T) == typeof(Connection))
+        {
+            Connection obj = new FakeConnectionObject();
+
+            return (T) obj;
+        }
+
+        if (typeof(T) == typeof(Channel))
+        {
+            Channel obj = new FakeChannelObject();
+
+            return (T) obj;
+        }
+
+        if (typeof(T) == typeof(Queue))
+        {
+            Queue obj = new FakeQueueObject();
+
+            return (T) obj;
+        }
+
+        return default;
     }
+
+    public bool IsRegistered(string key) => throw new System.NotImplementedException();
+        
+    public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();
+
+    public void CancelPendingRequest() => throw new System.NotImplementedException();
+
+    public bool TryRegisterAll() => throw new System.NotImplementedException();
 }

@@ -1,130 +1,129 @@
-namespace HareDu.IntegrationTests
+namespace HareDu.IntegrationTests;
+
+using System;
+using System.Threading.Tasks;
+using Core.Configuration;
+using Core.Extensions;
+using Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using MicrosoftIntegration;
+using NUnit.Framework;
+using Serialization;
+
+[TestFixture]
+public class ExchangeTests
 {
-    using System;
-    using System.Threading.Tasks;
-    using Core.Configuration;
-    using Core.Extensions;
-    using Extensions;
-    using Microsoft.Extensions.DependencyInjection;
-    using MicrosoftIntegration;
-    using NUnit.Framework;
-    using Serialization;
+    ServiceProvider _services;
 
-    [TestFixture]
-    public class ExchangeTests
+    [OneTimeSetUp]
+    public void Init()
     {
-        ServiceProvider _services;
-
-        [OneTimeSetUp]
-        public void Init()
-        {
-            _services = new ServiceCollection()
-                .AddHareDu(x =>
-                {
-                    x.Broker(b =>
-                    {
-                        b.ConnectTo("http://localhost:15672");
-                        b.UsingCredentials("guest", "guest");
-                    });
-                })
-                .BuildServiceProvider();
-        }
-
-        [Test]
-        public async Task Should_be_able_to_get_all_exchanges()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .GetAll()
-                .ScreenDump();
-
-            // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
-
-        [Test]
-        public async Task Should_be_able_to_get_all_exchanges_2()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .GetAll();
-
-            foreach (var exchange in result.Select(x => x.Data))
+        _services = new ServiceCollection()
+            .AddHareDu(x =>
             {
-                Console.WriteLine("Name: {0}", exchange.Name);
-                Console.WriteLine("VirtualHost: {0}", exchange.VirtualHost);
-                Console.WriteLine("AutoDelete: {0}", exchange.AutoDelete);
-                Console.WriteLine("Internal: {0}", exchange.Internal);
-                Console.WriteLine("Durable: {0}", exchange.Durable);
-                Console.WriteLine("RoutingType: {0}", exchange.RoutingType);
-                Console.WriteLine("****************************************************");
-                Console.WriteLine();
-            }
-            
-            // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
-
-        [Test]
-        public async Task Should_be_able_to_get_all_exchanges_3()
-        {
-            var provider = new HareDuConfigProvider();
-            var config = provider.Configure(x => { });
-            var factory = new BrokerObjectFactory(config);
-            
-            var result = await factory
-                .Object<Exchange>()
-                .GetAll()
-                .ScreenDump();
-            
-            // result.HasFaulted.ShouldBeFalse();
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
-
-        [Test]
-        public async Task Verify_can_filter_exchanges()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .GetAll();
-
-            result
-                .Where(x => x.Name == "amq.fanout")
-                .ScreenDump();
-            
-            // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
-
-        [Test]
-        public async Task Verify_can_create_exchange()
-        {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .Create("HareDuExchange2", "TestHareDu", x =>
+                x.Broker(b =>
                 {
-                    x.IsDurable();
-                    x.IsForInternalUse();
-                    x.HasRoutingType(ExchangeRoutingType.Fanout);
-                    // x.HasArguments(arg =>
-                    // {
-                    //     arg.Set("arg1", "blah");
-                    // });
+                    b.ConnectTo("http://localhost:15672");
+                    b.UsingCredentials("guest", "guest");
                 });
-            
-            // Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
+            })
+            .BuildServiceProvider();
+    }
 
-        [Test]
-        public async Task Verify_can_delete_exchange()
+    [Test]
+    public async Task Should_be_able_to_get_all_exchanges()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Exchange>()
+            .GetAll()
+            .ScreenDump();
+
+        // result.HasFaulted.ShouldBeFalse();
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Should_be_able_to_get_all_exchanges_2()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Exchange>()
+            .GetAll();
+
+        foreach (var exchange in result.Select(x => x.Data))
         {
-            var result = await _services.GetService<IBrokerObjectFactory>()
-                .Object<Exchange>()
-                .Delete("E3", "HareDu");
+            Console.WriteLine("Name: {0}", exchange.Name);
+            Console.WriteLine("VirtualHost: {0}", exchange.VirtualHost);
+            Console.WriteLine("AutoDelete: {0}", exchange.AutoDelete);
+            Console.WriteLine("Internal: {0}", exchange.Internal);
+            Console.WriteLine("Durable: {0}", exchange.Durable);
+            Console.WriteLine("RoutingType: {0}", exchange.RoutingType);
+            Console.WriteLine("****************************************************");
+            Console.WriteLine();
+        }
+            
+        // result.HasFaulted.ShouldBeFalse();
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Should_be_able_to_get_all_exchanges_3()
+    {
+        var provider = new HareDuConfigProvider();
+        var config = provider.Configure(x => { });
+        var factory = new BrokerObjectFactory(config);
+            
+        var result = await factory
+            .Object<Exchange>()
+            .GetAll()
+            .ScreenDump();
+            
+        // result.HasFaulted.ShouldBeFalse();
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_filter_exchanges()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Exchange>()
+            .GetAll();
+
+        result
+            .Where(x => x.Name == "amq.fanout")
+            .ScreenDump();
+            
+        // Assert.IsFalse(result.HasFaulted);
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_create_exchange()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Exchange>()
+            .Create("HareDuExchange2", "TestHareDu", x =>
+            {
+                x.IsDurable();
+                x.IsForInternalUse();
+                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                // x.HasArguments(arg =>
+                // {
+                //     arg.Set("arg1", "blah");
+                // });
+            });
+            
+        // Assert.IsFalse(result.HasFaulted);
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_delete_exchange()
+    {
+        var result = await _services.GetService<IBrokerObjectFactory>()
+            .Object<Exchange>()
+            .Delete("E3", "HareDu");
             
 //            Assert.IsFalse(result.HasFaulted);
-            Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        }
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

@@ -1,9 +1,8 @@
-namespace HareDu.Diagnostics.Tests.Fakes
-{
-    using Snapshotting;
+namespace HareDu.Diagnostics.Tests.Fakes;
 
-    public interface FakeSnapshot :
-        Snapshot
-    {
-    }
+using Snapshotting;
+
+public interface FakeSnapshot :
+    Snapshot
+{
 }
