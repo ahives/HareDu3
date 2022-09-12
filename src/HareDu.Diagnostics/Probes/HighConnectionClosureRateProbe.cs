@@ -8,35 +8,39 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class HighConnectionClosureRateProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<BrokerConnectivitySnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "High Connection Closure Rate Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Connection;
-    public ProbeCategory Category => ProbeCategory.Connectivity;
+    public override ComponentType ComponentType => ComponentType.Connection;
+    public override ProbeCategory Category => ProbeCategory.Connectivity;
 
-    public HighConnectionClosureRateProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
-        : base(kb)
+    public HighConnectionClosureRateProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb) : base(kb)
     {
         _config = config;
     }
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as BrokerConnectivitySnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(BrokerConnectivitySnapshot data)
+    {
         ProbeResult result;
-        BrokerConnectivitySnapshot data = snapshot as BrokerConnectivitySnapshot;
 
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -63,6 +67,7 @@ public class HighConnectionClosureRateProbe :
         if (data.ConnectionsClosed.Rate >= _config.Probes.HighConnectionClosureRateThreshold)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,
@@ -78,6 +83,7 @@ public class HighConnectionClosureRateProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

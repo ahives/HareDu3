@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Configuration;
 using Core.Extensions;
-using Internal;
+using Lens;
+using Model;
+using HareDu.Snapshotting.Lens.Internal;
 
 public class SnapshotFactory :
     ISnapshotFactory
 {
-    readonly HareDuConfig _config;
     readonly IBrokerObjectFactory _factory;
     readonly IDictionary<string, object> _cache;
 
@@ -25,29 +26,28 @@ public class SnapshotFactory :
 
     public SnapshotFactory(HareDuConfig config)
     {
-        _config = config;
-        _factory = new BrokerObjectFactory(_config);
+        _factory = new BrokerObjectFactory(config);
         _cache = new Dictionary<string, object>();
             
         if (!TryRegisterAll())
             throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
     }
 
-    public SnapshotLens<T> Lens<T>()
+    public Lens<T> Lens<T>()
         where T : Snapshot
     {
         Type type = typeof(T);
             
         if (type.IsNull())
-            return new EmptySnapshotLens<T>();
+            return new NoOpLens<T>();
             
         if (_cache.ContainsKey(type.FullName))
-            return (SnapshotLens<T>) _cache[type.FullName];
+            return (Lens<T>) _cache[type.FullName];
 
-        return new EmptySnapshotLens<T>();
+        return new NoOpLens<T>();
     }
 
-    public ISnapshotFactory Register<T>(SnapshotLens<T> lens)
+    public ISnapshotFactory Register<T>(Lens<T> lens)
         where T : Snapshot
     {
         Type type = typeof(T);
@@ -66,9 +66,7 @@ public class SnapshotFactory :
         bool registered = true;
 
         foreach (var type in typeMap)
-        {
             registered = RegisterInstance(type.Value, type.Key) & registered;
-        }
 
         if (!registered)
             _cache.Clear();
@@ -97,7 +95,7 @@ public class SnapshotFactory :
 
     protected virtual object CreateInstance(Type type)
     {
-        var instance = type.IsDerivedFrom(typeof(BaseSnapshotLens<>))
+        var instance = type.IsDerivedFrom(typeof(BaseLens<>))
             ? Activator.CreateInstance(type, _factory)
             : Activator.CreateInstance(type);
 
@@ -129,7 +127,7 @@ public class SnapshotFactory :
                 if (type.IsInterface)
                     continue;
                     
-                if (type.GetInterfaces().Any(x => x == Type.GetType($"{typeof(SnapshotLens<>).FullName}[{@interface.Key}]")))
+                if (type.GetInterfaces().Any(x => x == Type.GetType($"{typeof(Lens<>).FullName}[{@interface.Key}]")))
                     typeMap.Add(@interface.Key, type);
             }
         }

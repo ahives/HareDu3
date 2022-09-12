@@ -1,9 +1,10 @@
 namespace HareDu.Snapshotting;
 
 using System.Collections.Generic;
+using Model;
 
 public class EmptySnapshotHistory<T> :
-    SnapshotHistory<T>
+    ISnapshotHistory<T>
     where T : Snapshot
 {
     public IReadOnlyList<SnapshotResult<T>> Results =>

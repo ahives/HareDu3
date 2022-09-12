@@ -1,25 +1,25 @@
-namespace HareDu.Snapshotting.Internal;
+namespace HareDu.Snapshotting.Lens.Internal;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Extensions;
+using HareDu.Core.Extensions;
 using HareDu.Extensions;
 using HareDu.Model;
-using MassTransit;
 using Model;
+using MassTransit;
 
-class ClusterImpl :
-    BaseSnapshotLens<ClusterSnapshot>,
-    SnapshotLens<ClusterSnapshot>
+class ClusterLens :
+    BaseLens<ClusterSnapshot>,
+    Lens<ClusterSnapshot>
 {
     readonly List<IDisposable> _observers;
 
-    public SnapshotHistory<ClusterSnapshot> History => _timeline.Value;
+    public ISnapshotHistory<ClusterSnapshot> History => _timeline.Value;
 
-    public ClusterImpl(IBrokerObjectFactory factory)
+    public ClusterLens(IBrokerObjectFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();
@@ -70,7 +70,7 @@ class ClusterImpl :
         return new SnapshotResult<ClusterSnapshot>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp};
     }
 
-    public SnapshotLens<ClusterSnapshot> RegisterObserver(IObserver<SnapshotContext<ClusterSnapshot>> observer)
+    public Lens<ClusterSnapshot> RegisterObserver(IObserver<SnapshotContext<ClusterSnapshot>> observer)
     {
         if (observer != null)
             _observers.Add(Subscribe(observer));
@@ -78,7 +78,7 @@ class ClusterImpl :
         return this;
     }
 
-    public SnapshotLens<ClusterSnapshot> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<ClusterSnapshot>>> observers)
+    public Lens<ClusterSnapshot> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<ClusterSnapshot>>> observers)
     {
         if (observers == null)
             return this;

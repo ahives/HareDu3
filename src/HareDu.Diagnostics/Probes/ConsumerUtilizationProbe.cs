@@ -8,20 +8,20 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class ConsumerUtilizationProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<QueueSnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Consumer Utilization Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Queue;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Queue;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public ConsumerUtilizationProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,12 +31,17 @@ public class ConsumerUtilizationProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as QueueSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(QueueSnapshot data)
+    {
         ProbeResult result;
-        QueueSnapshot data = snapshot as QueueSnapshot;
 
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -65,6 +70,7 @@ public class ConsumerUtilizationProbe :
             && _config.Probes.ConsumerUtilizationThreshold <= 1.0M)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,
@@ -81,6 +87,7 @@ public class ConsumerUtilizationProbe :
                  && _config.Probes.ConsumerUtilizationThreshold <= 1.0M)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -96,6 +103,7 @@ public class ConsumerUtilizationProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

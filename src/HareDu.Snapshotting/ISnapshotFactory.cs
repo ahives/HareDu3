@@ -1,5 +1,8 @@
 namespace HareDu.Snapshotting;
 
+using Lens;
+using Model;
+
 public interface ISnapshotFactory
 {
     /// <summary>
@@ -7,7 +10,7 @@ public interface ISnapshotFactory
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    SnapshotLens<T> Lens<T>()
+    Lens<T> Lens<T>()
         where T : Snapshot;
 
     /// <summary>
@@ -16,6 +19,6 @@ public interface ISnapshotFactory
     /// <param name="lens"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    ISnapshotFactory Register<T>(SnapshotLens<T> lens)
+    ISnapshotFactory Register<T>(Lens<T> lens)
         where T : Snapshot;
 }

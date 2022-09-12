@@ -1,6 +1,7 @@
 namespace HareDu.Snapshotting;
 
 using System;
+using Model;
 
 public record SnapshotResult<T>
     where T : Snapshot

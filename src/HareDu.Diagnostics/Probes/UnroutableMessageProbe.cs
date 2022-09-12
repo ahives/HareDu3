@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class UnroutableMessageProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<BrokerQueuesSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Unroutable Message Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Exchange;
-    public ProbeCategory Category => ProbeCategory.Efficiency;
+    public override ComponentType ComponentType => ComponentType.Exchange;
+    public override ProbeCategory Category => ProbeCategory.Efficiency;
 
     public UnroutableMessageProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,17 +26,22 @@ public class UnroutableMessageProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        ProbeResult result;
-        BrokerQueuesSnapshot data = snapshot as BrokerQueuesSnapshot;
-            
+        return base.Execute(snapshot as BrokerQueuesSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(BrokerQueuesSnapshot data)
+    {
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "Churn.NotRouted.Total", PropertyValue = data.Churn.NotRouted.Total.ToString()}
         };
 
+        ProbeResult result;
+        
         if (data.Churn.NotRouted.Total > 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -52,6 +57,7 @@ public class UnroutableMessageProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

@@ -3,12 +3,18 @@ namespace HareDu.Diagnostics.Probes;
 using System;
 using System.Collections.Generic;
 using KnowledgeBase;
+using HareDu.Snapshotting.Model;
 
-public abstract class BaseDiagnosticProbe :
+public abstract class BaseDiagnosticProbe<T> :
     IObservable<ProbeContext>
+    where T : Snapshot
 {
     protected readonly IKnowledgeBaseProvider _kb;
     readonly List<IObserver<ProbeContext>> _resultObservers;
+
+    public abstract DiagnosticProbeMetadata Metadata { get; }
+    public abstract ComponentType ComponentType { get; }
+    public abstract ProbeCategory Category { get; }
 
     protected BaseDiagnosticProbe(IKnowledgeBaseProvider kb)
     {
@@ -24,11 +30,36 @@ public abstract class BaseDiagnosticProbe :
         return new UnsubscribeObserver<ProbeContext>(_resultObservers, observer);
     }
 
+    protected virtual ProbeResult Execute(T snapshot)
+    {
+        var data = snapshot;
+
+        if (data is not null)
+            return GetProbeResult(data);
+        
+        _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
+            
+        var result = new ProbeResult
+        {
+            Status = ProbeResultStatus.Inconclusive,
+            Id = Metadata.Id,
+            Name = Metadata.Name,
+            ComponentType = ComponentType,
+            KB = article
+        };
+
+        NotifyObservers(result);
+
+        return result;
+    }
+
     protected virtual void NotifyObservers(ProbeResult result)
     {
         foreach (var observer in _resultObservers)
             observer.OnNext(new () {Result = result, Timestamp = DateTimeOffset.Now});
     }
+
+    protected abstract ProbeResult GetProbeResult(T data);
         
         
     protected class UnsubscribeObserver<T> :

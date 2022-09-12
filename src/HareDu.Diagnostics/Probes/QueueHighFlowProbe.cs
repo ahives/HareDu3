@@ -8,21 +8,21 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class QueueHighFlowProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<QueueSnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Queue High Flow Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Queue;
-    public ProbeCategory Category => ProbeCategory.Throughput;
-        
+    public override ComponentType ComponentType => ComponentType.Queue;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
+
     public QueueHighFlowProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
     {
@@ -31,12 +31,17 @@ public class QueueHighFlowProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        QueueSnapshot data = snapshot as QueueSnapshot;
-        ProbeResult result;
+        return base.Execute(snapshot as QueueSnapshot);
+    }
 
+    protected override ProbeResult GetProbeResult(QueueSnapshot data)
+    {
+        ProbeResult result;
+        
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -63,6 +68,7 @@ public class QueueHighFlowProbe :
         if (data.Messages.Incoming.Total >= _config.Probes.QueueHighFlowThreshold)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -78,6 +84,7 @@ public class QueueHighFlowProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

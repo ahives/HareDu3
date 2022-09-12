@@ -8,20 +8,20 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class HighConnectionCreationRateProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<BrokerConnectivitySnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "High Connection Creation Rate Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Connection;
-    public ProbeCategory Category => ProbeCategory.Connectivity;
+    public override ComponentType ComponentType => ComponentType.Connection;
+    public override ProbeCategory Category => ProbeCategory.Connectivity;
 
     public HighConnectionCreationRateProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,12 +31,17 @@ public class HighConnectionCreationRateProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as BrokerConnectivitySnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(BrokerConnectivitySnapshot data)
+    {
         ProbeResult result;
-        BrokerConnectivitySnapshot data = snapshot as BrokerConnectivitySnapshot;
 
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -63,6 +68,7 @@ public class HighConnectionCreationRateProbe :
         if (data.ConnectionsCreated.Rate >= _config.Probes.HighConnectionCreationRateThreshold)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,
@@ -78,6 +84,7 @@ public class HighConnectionCreationRateProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

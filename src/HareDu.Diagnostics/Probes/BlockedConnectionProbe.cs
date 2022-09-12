@@ -7,18 +7,18 @@ using Model;
 using Snapshotting.Model;
 
 public class BlockedConnectionProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<ConnectionSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Blocked Connection Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Connection;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Connection;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public BlockedConnectionProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -27,8 +27,12 @@ public class BlockedConnectionProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as ConnectionSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(ConnectionSnapshot data)
+    {
         ProbeResult result;
-        ConnectionSnapshot data = snapshot as ConnectionSnapshot;
 
         var probeData = new List<ProbeData>
         {
@@ -38,6 +42,7 @@ public class BlockedConnectionProbe :
         if (data.State == BrokerConnectionState.Blocked)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -53,6 +58,7 @@ public class BlockedConnectionProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

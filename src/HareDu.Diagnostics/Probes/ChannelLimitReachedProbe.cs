@@ -7,18 +7,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class ChannelLimitReachedProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<ConnectionSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Channel Limit Reached Probe",
             Description = "Measures actual number of channels to the defined limit on connection"
         };
-    public ComponentType ComponentType => ComponentType.Connection;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Connection;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public ChannelLimitReachedProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -27,7 +27,11 @@ public class ChannelLimitReachedProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        ConnectionSnapshot data = snapshot as ConnectionSnapshot;
+        return base.Execute(snapshot as ConnectionSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(ConnectionSnapshot data)
+    {
         ProbeResult result;
 
         var probeData = new List<ProbeData>
@@ -39,6 +43,7 @@ public class ChannelLimitReachedProbe :
         if (Convert.ToUInt64(data.Channels.Count) >= data.OpenChannelsLimit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -54,6 +59,7 @@ public class ChannelLimitReachedProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

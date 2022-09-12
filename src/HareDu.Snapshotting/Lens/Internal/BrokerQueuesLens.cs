@@ -1,25 +1,25 @@
-namespace HareDu.Snapshotting.Internal;
+namespace HareDu.Snapshotting.Lens.Internal;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Extensions;
+using HareDu.Core.Extensions;
 using HareDu.Extensions;
 using HareDu.Model;
-using MassTransit;
 using Model;
+using MassTransit;
 
-class BrokerQueuesImpl :
-    BaseSnapshotLens<BrokerQueuesSnapshot>,
-    SnapshotLens<BrokerQueuesSnapshot>
+class BrokerQueuesLens :
+    BaseLens<BrokerQueuesSnapshot>,
+    Lens<BrokerQueuesSnapshot>
 {
     readonly List<IDisposable> _observers;
 
-    public SnapshotHistory<BrokerQueuesSnapshot> History => _timeline.Value;
+    public ISnapshotHistory<BrokerQueuesSnapshot> History => _timeline.Value;
 
-    public BrokerQueuesImpl(IBrokerObjectFactory factory)
+    public BrokerQueuesLens(IBrokerObjectFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();
@@ -70,7 +70,7 @@ class BrokerQueuesImpl :
         return new SnapshotResult<BrokerQueuesSnapshot>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp};
     }
 
-    public SnapshotLens<BrokerQueuesSnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerQueuesSnapshot>> observer)
+    public Lens<BrokerQueuesSnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerQueuesSnapshot>> observer)
     {
         if (observer != null)
             _observers.Add(Subscribe(observer));
@@ -78,14 +78,14 @@ class BrokerQueuesImpl :
         return this;
     }
 
-    public SnapshotLens<BrokerQueuesSnapshot> RegisterObservers(
+    public Lens<BrokerQueuesSnapshot> RegisterObservers(
         IReadOnlyList<IObserver<SnapshotContext<BrokerQueuesSnapshot>>> observers)
     {
-        if (observers != null)
-        {
-            for (int i = 0; i < observers.Count; i++)
-                _observers.Add(Subscribe(observers[i]));
-        }
+        if (observers == null)
+            return this;
+        
+        for (int i = 0; i < observers.Count; i++)
+            _observers.Add(Subscribe(observers[i]));
 
         return this;
     }

@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class ChannelThrottlingProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<ChannelSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Channel Throttling Probe",
             Description = "Monitors connections to the RabbitMQ broker to determine whether channels are being throttled."
         };
-    public ComponentType ComponentType => ComponentType.Channel;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Channel;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public ChannelThrottlingProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,9 +26,13 @@ public class ChannelThrottlingProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        ChannelSnapshot data = snapshot as ChannelSnapshot;
+        return base.Execute(snapshot as ChannelSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(ChannelSnapshot data)
+    {
         ProbeResult result;
-            
+
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "UnacknowledgedMessages", PropertyValue = data.UnacknowledgedMessages.ToString()},
@@ -38,6 +42,7 @@ public class ChannelThrottlingProbe :
         if (data.UnacknowledgedMessages > data.PrefetchCount)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -53,6 +58,7 @@ public class ChannelThrottlingProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

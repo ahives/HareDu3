@@ -1,25 +1,24 @@
 namespace HareDu.Snapshotting;
 
 using System.Collections.Generic;
+using System.Linq;
+using Model;
 
-public interface SnapshotHistory<T>
+public record SnapshotHistory<T> :
+    ISnapshotHistory<T>
     where T : Snapshot
 {
-    /// <summary>
-    /// List of all <see cref="SnapshotResult{T}"/> objects currently in memory.
-    /// </summary>
-    IReadOnlyList<SnapshotResult<T>> Results { get; }
+    readonly IDictionary<string, SnapshotResult<T>> _snapshots;
 
-    /// <summary>
-    /// Removes all <see cref="SnapshotResult{T}"/> objects currently in memory.
-    /// </summary>
-    void PurgeAll();
+    public SnapshotHistory(IDictionary<string, SnapshotResult<T>> snapshots)
+    {
+        _snapshots = snapshots;
+    }
 
-    /// <summary>
-    /// Removes specified <see cref="SnapshotResult{T}"/> object in memory.
-    /// </summary>
-    /// <param name="result"></param>
-    /// <typeparam name="U"></typeparam>
-    void Purge<U>(SnapshotResult<U> result)
-        where U : Snapshot;
+    public IReadOnlyList<SnapshotResult<T>> Results => _snapshots.Values.ToList();
+
+    public void PurgeAll() => _snapshots.Clear();
+
+    public void Purge<U>(SnapshotResult<U> result)
+        where U : Snapshot => _snapshots.Remove(result.Identifier);
 }

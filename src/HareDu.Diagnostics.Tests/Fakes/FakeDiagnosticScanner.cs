@@ -12,7 +12,7 @@ public class FakeDiagnosticScanner :
     {
         Identifier = GetType().GetIdentifier()
     };
-        
+
     public IReadOnlyList<ProbeResult> Scan(FakeSnapshot snapshot) => throw new System.NotImplementedException();
 
     public void Configure(IReadOnlyList<DiagnosticProbe> probes)

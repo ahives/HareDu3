@@ -2,7 +2,7 @@ namespace HareDu.Diagnostics.Scanners;
 
 using System.Collections.Generic;
 using Probes;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public interface DiagnosticScanner<in T>
     where T : Snapshot

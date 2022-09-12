@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Probes;
 using Scanners;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public interface IScannerFactory
 {

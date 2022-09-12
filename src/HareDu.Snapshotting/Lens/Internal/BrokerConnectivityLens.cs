@@ -1,4 +1,4 @@
-namespace HareDu.Snapshotting.Internal;
+namespace HareDu.Snapshotting.Lens.Internal;
 
 using System;
 using System.Collections.Generic;
@@ -6,22 +6,22 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
-using Extensions;
+using HareDu.Core.Extensions;
 using HareDu.Extensions;
 using HareDu.Model;
-using MassTransit;
+using Extensions;
 using Model;
+using MassTransit;
 
-class BrokerConnectivityImpl :
-    BaseSnapshotLens<BrokerConnectivitySnapshot>,
-    SnapshotLens<BrokerConnectivitySnapshot>
+class BrokerConnectivityLens :
+    BaseLens<BrokerConnectivitySnapshot>,
+    Lens<BrokerConnectivitySnapshot>
 {
     readonly List<IDisposable> _observers;
 
-    public SnapshotHistory<BrokerConnectivitySnapshot> History => _timeline.Value;
+    public ISnapshotHistory<BrokerConnectivitySnapshot> History => _timeline.Value;
 
-    public BrokerConnectivityImpl(IBrokerObjectFactory factory)
+    public BrokerConnectivityLens(IBrokerObjectFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();
@@ -73,7 +73,7 @@ class BrokerConnectivityImpl :
         return new SnapshotResult<BrokerConnectivitySnapshot> {Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp};
     }
 
-    public SnapshotLens<BrokerConnectivitySnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerConnectivitySnapshot>> observer)
+    public Lens<BrokerConnectivitySnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerConnectivitySnapshot>> observer)
     {
         if (observer != null)
             _observers.Add(Subscribe(observer));
@@ -81,7 +81,7 @@ class BrokerConnectivityImpl :
         return this;
     }
 
-    public SnapshotLens<BrokerConnectivitySnapshot> RegisterObservers(
+    public Lens<BrokerConnectivitySnapshot> RegisterObservers(
         IReadOnlyList<IObserver<SnapshotContext<BrokerConnectivitySnapshot>>> observers)
     {
         if (observers == null)

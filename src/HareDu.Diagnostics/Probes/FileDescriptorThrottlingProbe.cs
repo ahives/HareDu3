@@ -8,20 +8,20 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class FileDescriptorThrottlingProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<OperatingSystemSnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "File Descriptor Throttling Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.OperatingSystem;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.OperatingSystem;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public FileDescriptorThrottlingProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,12 +31,17 @@ public class FileDescriptorThrottlingProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as OperatingSystemSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(OperatingSystemSnapshot data)
+    {
         ProbeResult result;
-        OperatingSystemSnapshot data = snapshot as OperatingSystemSnapshot;
 
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -67,6 +72,7 @@ public class FileDescriptorThrottlingProbe :
         if (data.FileDescriptors.Used < threshold && threshold < data.FileDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,
@@ -82,6 +88,7 @@ public class FileDescriptorThrottlingProbe :
         else if (data.FileDescriptors.Used == data.FileDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -97,6 +104,7 @@ public class FileDescriptorThrottlingProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,

@@ -9,7 +9,7 @@ using Core.Extensions;
 using KnowledgeBase;
 using Probes;
 using Scanners;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public class ScannerFactory :
     IScannerFactory
@@ -84,9 +84,9 @@ public class ScannerFactory :
     public bool TryRegisterProbe<T>(T probe)
         where T : DiagnosticProbe
     {
-        bool added = _probeCache.TryAdd(typeof(T).FullName, probe);
+        bool probeAdded = _probeCache.TryAdd(typeof(T).FullName, probe);
 
-        if (probe.IsNull() || !added)
+        if (probe.IsNull() || !probeAdded)
             return false;
 
         foreach (var scanner in _scannerCache)
@@ -95,10 +95,11 @@ public class ScannerFactory :
                 .GetType()
                 .GetMethod("Configure");
 
-            method.Invoke(scanner.Value, new[] {_probeCache.Values});
+            if (method != null)
+                method.Invoke(scanner.Value, new[] {_probeCache.Values});
         }
 
-        return added;
+        return probeAdded;
     }
 
     public bool TryRegisterScanner<T>(DiagnosticScanner<T> scanner)
@@ -242,8 +243,8 @@ public class ScannerFactory :
     {
         var instance = type.GetConstructors()[0].GetParameters()[0].ParameterType == typeof(DiagnosticsConfig)
                        && type.GetConstructors()[0].GetParameters()[1].ParameterType == typeof(IKnowledgeBaseProvider)
-            ? (DiagnosticProbe) Activator.CreateInstance(type, _config.Diagnostics, _kb)
-            : (DiagnosticProbe) Activator.CreateInstance(type, _kb);
+            ? Activator.CreateInstance(type, _config.Diagnostics, _kb) as DiagnosticProbe
+            : Activator.CreateInstance(type, _kb) as DiagnosticProbe;
 
         return instance;
     }

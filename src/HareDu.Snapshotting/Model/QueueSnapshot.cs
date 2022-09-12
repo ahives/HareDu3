@@ -2,7 +2,8 @@ namespace HareDu.Snapshotting.Model;
 
 using System;
 
-public record QueueSnapshot
+public record QueueSnapshot :
+    Snapshot
 {
     /// <summary>
     /// Name of the queue.

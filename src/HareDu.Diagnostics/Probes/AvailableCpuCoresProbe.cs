@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class AvailableCpuCoresProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<NodeSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Available CPU Cores Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Node;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Node;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public AvailableCpuCoresProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,8 +26,12 @@ public class AvailableCpuCoresProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as NodeSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(NodeSnapshot data)
+    {
         ProbeResult result;
-        NodeSnapshot data = snapshot as NodeSnapshot;
 
         var probeData = new List<ProbeData>
         {
@@ -37,6 +41,7 @@ public class AvailableCpuCoresProbe :
         if (data.AvailableCoresDetected <= 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -52,6 +57,7 @@ public class AvailableCpuCoresProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

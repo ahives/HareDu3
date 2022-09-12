@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class UnlimitedPrefetchCountProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<ChannelSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Unlimited Prefetch Count Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Channel;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Channel;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public UnlimitedPrefetchCountProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,17 +26,22 @@ public class UnlimitedPrefetchCountProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        ChannelSnapshot data = snapshot as ChannelSnapshot;
-        ProbeResult result;
-            
+        return base.Execute(snapshot as ChannelSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(ChannelSnapshot data)
+    {
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "PrefetchCount", PropertyValue = data.PrefetchCount.ToString()}
         };
 
+        ProbeResult result;
+        
         if (data.PrefetchCount == 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,
@@ -52,6 +57,7 @@ public class UnlimitedPrefetchCountProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Inconclusive,

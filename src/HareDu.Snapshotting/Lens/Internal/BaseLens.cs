@@ -1,11 +1,11 @@
-﻿namespace HareDu.Snapshotting.Internal;
+﻿namespace HareDu.Snapshotting.Lens.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Core.Extensions;
+using HareDu.Core.Extensions;
+using Model;
 
-public abstract class BaseSnapshotLens<T> :
+public abstract class BaseLens<T> :
     IObservable<SnapshotContext<T>>
     where T : Snapshot
 {
@@ -15,12 +15,12 @@ public abstract class BaseSnapshotLens<T> :
         
     readonly List<IObserver<SnapshotContext<T>>> _observers;
 
-    protected BaseSnapshotLens(IBrokerObjectFactory factory)
+    protected BaseLens(IBrokerObjectFactory factory)
     {
         _factory = factory;
         _observers = new List<IObserver<SnapshotContext<T>>>();
         _snapshots = new Dictionary<string, SnapshotResult<T>>();
-        _timeline = new Lazy<SnapshotHistory<T>>(() => new SnapshotHistoryImpl<T>(_snapshots));
+        _timeline = new Lazy<SnapshotHistory<T>>(() => new SnapshotHistory<T>(_snapshots));
     }
 
     public IDisposable Subscribe(IObserver<SnapshotContext<T>> observer)
@@ -49,26 +49,6 @@ public abstract class BaseSnapshotLens<T> :
             return;
             
         _snapshots.Add(identifier, new SnapshotResult<T>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp});
-    }
-
-
-    class SnapshotHistoryImpl<TSnapshot> :
-        SnapshotHistory<TSnapshot>
-        where TSnapshot : Snapshot
-    {
-        readonly IDictionary<string, SnapshotResult<TSnapshot>> _snapshots;
-            
-        public IReadOnlyList<SnapshotResult<TSnapshot>> Results => _snapshots.Values.ToList();
-
-        public SnapshotHistoryImpl(IDictionary<string, SnapshotResult<TSnapshot>> snapshots)
-        {
-            _snapshots = snapshots;
-        }
-
-        public void PurgeAll() => _snapshots.Clear();
-
-        public void Purge<U>(SnapshotResult<U> result)
-            where U : Snapshot => _snapshots.Remove(result.Identifier);
     }
 
 

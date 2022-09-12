@@ -3,7 +3,7 @@ namespace HareDu.Diagnostics.Scanners;
 using System.Collections.Generic;
 using Core.Extensions;
 using Probes;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public class NoOpScanner<T> :
     DiagnosticScanner<T>

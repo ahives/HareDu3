@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class DiskAlarmProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<DiskSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Disk Alarm Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Disk;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Disk;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public DiskAlarmProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,7 +26,11 @@ public class DiskAlarmProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        DiskSnapshot data = snapshot as DiskSnapshot;
+        return base.Execute(snapshot as DiskSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(DiskSnapshot data)
+    {
         ProbeResult result;
 
         var probeData = new List<ProbeData>
@@ -39,6 +43,7 @@ public class DiskAlarmProbe :
         if (data.AlarmInEffect)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -54,6 +59,7 @@ public class DiskAlarmProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

@@ -8,20 +8,20 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class RuntimeProcessLimitProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<BrokerRuntimeSnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Runtime Process Limit Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Runtime;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Runtime;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public RuntimeProcessLimitProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,12 +31,17 @@ public class RuntimeProcessLimitProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
+        return base.Execute(snapshot as BrokerRuntimeSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(BrokerRuntimeSnapshot data)
+    {
         ProbeResult result;
-        BrokerRuntimeSnapshot data = snapshot as BrokerRuntimeSnapshot;
 
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -66,6 +71,7 @@ public class RuntimeProcessLimitProbe :
         if (data.Processes.Used >= data.Processes.Limit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -81,6 +87,7 @@ public class RuntimeProcessLimitProbe :
         else if (data.Processes.Used >= threshold && threshold < data.Processes.Limit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,
@@ -96,6 +103,7 @@ public class RuntimeProcessLimitProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

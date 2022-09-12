@@ -7,18 +7,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class NetworkPartitionProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<NodeSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Network Partition Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Node;
-    public ProbeCategory Category => ProbeCategory.Connectivity;
+    public override ComponentType ComponentType => ComponentType.Node;
+    public override ProbeCategory Category => ProbeCategory.Connectivity;
 
     public NetworkPartitionProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -27,17 +27,22 @@ public class NetworkPartitionProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        NodeSnapshot data = snapshot as NodeSnapshot;
-        ProbeResult result;
+        return base.Execute(snapshot as NodeSnapshot);
+    }
 
+    protected override ProbeResult GetProbeResult(NodeSnapshot data)
+    {
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "NetworkPartitions", PropertyValue = data.NetworkPartitions.ToString()}
         };
-            
+
+        ProbeResult result;
+        
         if (data.NetworkPartitions.Any())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -53,6 +58,7 @@ public class NetworkPartitionProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

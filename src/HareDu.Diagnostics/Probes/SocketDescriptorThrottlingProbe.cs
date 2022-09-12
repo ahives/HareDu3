@@ -8,20 +8,20 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class SocketDescriptorThrottlingProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<NodeSnapshot>,
     DiagnosticProbe
 {
     readonly DiagnosticsConfig _config;
 
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Socket Descriptor Throttling Probe",
             Description = "Checks network to see if the number of sockets currently in use is less than or equal to the number available."
         };
-    public ComponentType ComponentType => ComponentType.Node;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Node;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public SocketDescriptorThrottlingProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,12 +31,17 @@ public class SocketDescriptorThrottlingProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        ProbeResult result;
-        NodeSnapshot data = snapshot as NodeSnapshot;
+        return base.Execute(snapshot as NodeSnapshot);
+    }
 
+    protected override ProbeResult GetProbeResult(NodeSnapshot data)
+    {
+        ProbeResult result;
+        
         if (_config.IsNull() || _config.Probes.IsNull())
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.NA,
@@ -66,6 +71,7 @@ public class SocketDescriptorThrottlingProbe :
         if (data.OS.SocketDescriptors.Used < warningThreshold && warningThreshold < data.OS.SocketDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,
@@ -81,6 +87,7 @@ public class SocketDescriptorThrottlingProbe :
         else if (data.OS.SocketDescriptors.Used == data.OS.SocketDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -96,6 +103,7 @@ public class SocketDescriptorThrottlingProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Warning,

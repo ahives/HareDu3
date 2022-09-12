@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class MessagePagingProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<QueueSnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Message Paging Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Queue;
-    public ProbeCategory Category => ProbeCategory.Memory;
+    public override ComponentType ComponentType => ComponentType.Queue;
+    public override ProbeCategory Category => ProbeCategory.Memory;
 
     public MessagePagingProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,17 +26,22 @@ public class MessagePagingProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        QueueSnapshot data = snapshot as QueueSnapshot;
-        ProbeResult result;
-            
+        return base.Execute(snapshot as QueueSnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(QueueSnapshot data)
+    {
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "Memory.PagedOut.Total", PropertyValue = data.Memory.PagedOut.Total.ToString()}
         };
-            
+
+        ProbeResult result;
+        
         if (data.Memory.PagedOut.Total > 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -52,6 +57,7 @@ public class MessagePagingProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

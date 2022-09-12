@@ -2,13 +2,13 @@ namespace HareDu.Diagnostics.Tests.Scanners;
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 using Core.Extensions;
 using Diagnostics.Scanners;
 using Fakes;
-using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
-using NUnit.Framework;
+using MicrosoftIntegration;
 using Snapshotting.Model;
 
 [TestFixture]
@@ -216,7 +216,7 @@ public class DiagnosticScannerTests
         {
             Assert.IsTrue(registered);
                 
-            var scanner = (FakeDiagnosticScanner)factory.Scanners[typeof(FakeDiagnosticScanner).FullName];
+            var scanner = (FakeDiagnosticScanner)factory.Scanners[typeof(FakeSnapshot).FullName];
                 
             Assert.AreEqual(typeof(FakeDiagnosticScanner).GetIdentifier(), scanner.Metadata.Identifier);
         });

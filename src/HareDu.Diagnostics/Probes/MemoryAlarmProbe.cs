@@ -6,18 +6,18 @@ using KnowledgeBase;
 using Snapshotting.Model;
 
 public class MemoryAlarmProbe :
-    BaseDiagnosticProbe,
+    BaseDiagnosticProbe<MemorySnapshot>,
     DiagnosticProbe
 {
-    public DiagnosticProbeMetadata Metadata =>
+    public override DiagnosticProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
             Name = "Memory Alarm Probe",
             Description = ""
         };
-    public ComponentType ComponentType => ComponentType.Memory;
-    public ProbeCategory Category => ProbeCategory.Throughput;
+    public override ComponentType ComponentType => ComponentType.Memory;
+    public override ProbeCategory Category => ProbeCategory.Throughput;
 
     public MemoryAlarmProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,7 +26,11 @@ public class MemoryAlarmProbe :
 
     public ProbeResult Execute<T>(T snapshot)
     {
-        MemorySnapshot data = snapshot as MemorySnapshot;
+        return base.Execute(snapshot as MemorySnapshot);
+    }
+
+    protected override ProbeResult GetProbeResult(MemorySnapshot data)
+    {
         ProbeResult result;
 
         var probeData = new List<ProbeData>
@@ -39,6 +43,7 @@ public class MemoryAlarmProbe :
         if (data.AlarmInEffect)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Unhealthy,
@@ -54,6 +59,7 @@ public class MemoryAlarmProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
+            
             result = new ProbeResult
             {
                 Status = ProbeResultStatus.Healthy,

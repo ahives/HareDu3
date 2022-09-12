@@ -2,7 +2,7 @@ namespace HareDu.Diagnostics;
 
 using System;
 using System.Collections.Generic;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public interface IScanner
 {

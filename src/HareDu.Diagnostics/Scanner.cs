@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Core.Extensions;
 using MassTransit;
 using Scanners;
-using Snapshotting;
+using HareDu.Snapshotting.Model;
 
 public class Scanner :
     IScanner
