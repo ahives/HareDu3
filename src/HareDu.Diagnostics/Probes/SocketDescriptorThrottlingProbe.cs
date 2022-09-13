@@ -38,7 +38,7 @@ public class SocketDescriptorThrottlingProbe :
     {
         ProbeResult result;
         
-        if (_config.IsNull() || _config.Probes.IsNull())
+        if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
@@ -46,8 +46,8 @@ public class SocketDescriptorThrottlingProbe :
             {
                 Status = ProbeResultStatus.NA,
                 Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data.IsNotNull() ? data.ClusterIdentifier : null,
-                ComponentId = data.IsNotNull() ? data.Identifier : null,
+                ParentComponentId = data?.ClusterIdentifier,
+                ComponentId = data?.Identifier,
                 Id = Metadata.Id,
                 Name = Metadata.Name,
                 ComponentType = ComponentType,

@@ -6,22 +6,6 @@ using System.Threading.Tasks;
 public static class ValueExtensions
 {
     /// <summary>
-    /// Returns true if the value is null, otherwise, returns true.
-    /// </summary>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public static bool IsNull<T>(this T value) => value == null;
-        
-    /// <summary>
-    /// Returns true if the value is not null, otherwise, returns false.
-    /// </summary>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public static bool IsNotNull<T>(this T value) => !IsNull(value);
-
-    /// <summary>
     /// Returns true if all the values in the specified list is not equal to null, empty, or whitespace, otherwise, false.
     /// </summary>
     /// <param name="values"></param>
@@ -50,7 +34,7 @@ public static class ValueExtensions
     /// <param name="data"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static IReadOnlyList<T> GetDataOrEmpty<T>(this List<T> data) => data.IsNull() ? new List<T>() : data;
+    public static IReadOnlyList<T> GetDataOrEmpty<T>(this List<T> data) => data ?? new List<T>();
 
     /// <summary>
     /// 
@@ -58,7 +42,7 @@ public static class ValueExtensions
     /// <param name="data"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T GetDataOrDefault<T>(this T data) => data.IsNull() ? default : data;
+    public static T GetDataOrDefault<T>(this T data) => data is null ? default : data;
 
     /// <summary>
     /// 
@@ -70,7 +54,7 @@ public static class ValueExtensions
     /// <returns></returns>
     public static bool TryGetValue<T>(this ResultList<T> source, int index, out T value)
     {
-        if (source.IsNull() || !source.HasData || index < 0 || index >= source.Data.Count)
+        if (source is null || !source.HasData || index < 0 || index >= source.Data.Count)
         {
             value = default;
             return false;
@@ -90,7 +74,7 @@ public static class ValueExtensions
     /// <returns></returns>
     public static bool TryGetValue<T>(this Task<ResultList<T>> source, int index, out T value)
     {
-        if (source.IsNull() || index < 0)
+        if (source is null || index < 0)
         {
             value = default;
             return false;
@@ -98,7 +82,7 @@ public static class ValueExtensions
             
         ResultList<T> result = source.GetAwaiter().GetResult();
 
-        if (result.IsNull() || result.Data.IsNull() || !result.HasData || result.HasFaulted || index >= result.Data.Count)
+        if (result?.Data is null || !result.HasData || result.HasFaulted || index >= result.Data.Count)
         {
             value = default;
             return false;

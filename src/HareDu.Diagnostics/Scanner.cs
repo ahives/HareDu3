@@ -2,7 +2,6 @@ namespace HareDu.Diagnostics;
 
 using System;
 using System.Collections.Generic;
-using Core.Extensions;
 using MassTransit;
 using Scanners;
 using HareDu.Snapshotting.Model;
@@ -14,7 +13,7 @@ public class Scanner :
 
     public Scanner(IScannerFactory factory)
     {
-        _factory = factory.IsNotNull() ? factory : throw new HareDuDiagnosticsException();
+        _factory = factory ?? throw new HareDuDiagnosticsException();
     }
 
     public ScannerResult Scan<T>(T snapshot)

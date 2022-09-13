@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Model;
 
 public static class OperatorPolicyExtensions
@@ -19,10 +18,11 @@ public static class OperatorPolicyExtensions
     public static async Task<ResultList<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
-        return await factory.Object<OperatorPolicy>()
+        return await factory
+            .Object<OperatorPolicy>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -44,10 +44,11 @@ public static class OperatorPolicyExtensions
         string pattern, string vhost, Action<OperatorPolicyConfigurator> configurator,
         OperatorPolicyAppliedTo appliedTo = default, int priority = default, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
-        return await factory.Object<OperatorPolicy>()
+        return await factory
+            .Object<OperatorPolicy>()
             .Create(policy, pattern, vhost, configurator, appliedTo, priority, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -64,10 +65,11 @@ public static class OperatorPolicyExtensions
     public static async Task<Result> DeleteOperatorPolicy(this IBrokerObjectFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
-        return await factory.Object<OperatorPolicy>()
+        return await factory
+            .Object<OperatorPolicy>()
             .Delete(policy, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

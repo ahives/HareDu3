@@ -21,23 +21,23 @@ public class BrokerConnectivityScanner :
 
     public BrokerConnectivityScanner(IReadOnlyList<DiagnosticProbe> probes)
     {
-        Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
+        Configure(probes ?? throw new ArgumentNullException(nameof(probes)));
     }
 
     public void Configure(IReadOnlyList<DiagnosticProbe> probes)
     {
         _connectionProbes = probes
-            .Where(x => x.IsNotNull()
+            .Where(x => x is not null
                         && x.ComponentType == ComponentType.Connection
                         && x.Category != ProbeCategory.Connectivity)
             .ToList();
         _channelProbes = probes
-            .Where(x => x.IsNotNull()
+            .Where(x => x is not null
                         && x.ComponentType == ComponentType.Channel
                         && x.Category != ProbeCategory.Connectivity)
             .ToList();
         _connectivityProbes = probes
-            .Where(x => x.IsNotNull()
+            .Where(x => x is not null
                         && (x.ComponentType == ComponentType.Connection || x.ComponentType == ComponentType.Channel)
                         && x.Category == ProbeCategory.Connectivity)
             .ToList();
@@ -45,29 +45,29 @@ public class BrokerConnectivityScanner :
 
     public IReadOnlyList<ProbeResult> Scan(BrokerConnectivitySnapshot snapshot)
     {
-        if (snapshot == null)
+        if (snapshot is null)
             return DiagnosticCache.EmptyProbeResults;
             
         var results = new List<ProbeResult>();
             
         results.AddRange(_connectivityProbes.Select(x => x.Execute(snapshot)));
 
-        if (snapshot.Connections.IsNull())
+        if (snapshot.Connections is null)
             return results;
             
         for (int i = 0; i < snapshot.Connections.Count; i++)
         {
-            if (snapshot.Connections[i].IsNull())
+            if (snapshot.Connections[i] is null)
                 continue;
                 
             results.AddRange(_connectionProbes.Select(x => x.Execute(snapshot.Connections[i])));
 
-            if (snapshot.Connections[i].Channels.IsNull())
+            if (snapshot.Connections[i].Channels is null)
                 continue;
                 
             for (int j = 0; j < snapshot.Connections[i].Channels.Count; j++)
             {
-                if (snapshot.Connections[i].Channels[j].IsNull())
+                if (snapshot.Connections[i].Channels[j] is null)
                     continue;
                     
                 results.AddRange(_channelProbes.Select(x => x.Execute(snapshot.Connections[i].Channels[j])));

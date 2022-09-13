@@ -23,12 +23,12 @@ public class DefaultConnectivitySnapshotConsoleLogger :
         var snapshot = value.Select(x => x.Snapshot);
 
             
-        if (snapshot.IsNull())
+        if (snapshot is null)
             return;
 
         Console.WriteLine("Summary");
 
-        if (!snapshot.ConnectionsCreated.IsNull() && snapshot.ConnectionsClosed.IsNull())
+        if (snapshot.ConnectionsCreated is not null && snapshot.ConnectionsClosed is null)
         {
             Console.WriteLine("Connections => {0} created | {1:0.0}/s, {2} closed | {3:0.0}/s",
                 snapshot.ConnectionsCreated.Total,
@@ -39,12 +39,12 @@ public class DefaultConnectivitySnapshotConsoleLogger :
 
         var connections = snapshot.Select(x => x.Connections);
 
-        if (connections.IsNull())
+        if (connections is null)
             return;
             
         for (int i = 0; i < connections.Count; i++)
         {
-            if (connections[i].IsNull())
+            if (connections[i] is null)
                 continue;
 
             Console.WriteLine("Connection => {0}", connections[0].Identifier);
@@ -53,9 +53,9 @@ public class DefaultConnectivitySnapshotConsoleLogger :
 
             Console.WriteLine("Network Traffic");
                 
-            if (!connections[i].NetworkTraffic.IsNull())
+            if (connections[i].NetworkTraffic is not null)
             {
-                if (!connections[i].NetworkTraffic.Sent.IsNull())
+                if (connections[i].NetworkTraffic.Sent is not null)
                 {
                     Console.WriteLine("\tSent: {0} packets | {1} | {2} msg/s",
                         connections[i].NetworkTraffic.Sent.Total,
@@ -63,7 +63,7 @@ public class DefaultConnectivitySnapshotConsoleLogger :
                         connections[i].NetworkTraffic.Sent.Rate);
                 }
                     
-                if (!connections[i].NetworkTraffic.Received.IsNull())
+                if (connections[i].NetworkTraffic.Received is not null)
                 {
                     Console.WriteLine("\tReceived: {0} packets | {1} | {2} msg/s",
                         connections[i].NetworkTraffic.Received.Total,
@@ -75,7 +75,7 @@ public class DefaultConnectivitySnapshotConsoleLogger :
             Console.WriteLine("Channels");
             for (int j = 0; j < connections[i].Channels.Count; j++)
             {
-                if (connections[i].Channels[j].IsNull())
+                if (connections[i].Channels[j] is null)
                     continue;
                     
                 Console.WriteLine("\tChannel => {0}, Consumers => {1}",

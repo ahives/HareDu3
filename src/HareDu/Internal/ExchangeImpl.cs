@@ -150,8 +150,10 @@ class ExchangeImpl :
 
             _arguments = impl.Arguments;
 
-            if (_arguments.IsNotNull())
-                _errors.AddRange(_arguments.Select(x => x.Value?.Error).Where(error => error.IsNotNull()).ToList());
+            if (_arguments is not null)
+                _errors.AddRange(_arguments
+                    .Select(x => x.Value?.Error)
+                    .Where(error => error is not null).ToList());
         }
 
         public void AutoDeleteWhenNotInUse() => _autoDelete = true;

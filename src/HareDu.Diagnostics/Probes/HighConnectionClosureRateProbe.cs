@@ -37,7 +37,7 @@ public class HighConnectionClosureRateProbe :
     {
         ProbeResult result;
 
-        if (_config.IsNull() || _config.Probes.IsNull())
+        if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             

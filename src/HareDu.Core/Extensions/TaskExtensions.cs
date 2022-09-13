@@ -12,7 +12,7 @@ public static class TaskExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public static T GetResult<T>(this Task<T> result)
-        => result.IsNotNull() && !result.IsCanceled && !result.IsFaulted
+        => result is not null && !result.IsCanceled && !result.IsFaulted
             ? result.GetAwaiter().GetResult()
             : default;
         

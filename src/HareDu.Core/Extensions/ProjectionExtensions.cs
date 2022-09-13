@@ -16,12 +16,12 @@ public static class ProjectionExtensions
     /// <returns></returns>
     public static TResult Select<T, TResult>(this Task<Result<T>> source, Func<Result<T>, TResult> projector)
     {
-        if (source.IsNull() || projector.IsNull())
+        if (source is null || projector is null)
             return default;
                 
         Result<T> result = source.GetResult();
 
-        return result.IsNotNull() && result.HasData ? projector(result) : default;
+        return result is not null && result.HasData ? projector(result) : default;
     }
 
     /// <summary>
@@ -34,10 +34,10 @@ public static class ProjectionExtensions
     /// <returns></returns>
     public static TResult Select<T, TResult>(this Result<T> source, Func<Result<T>, TResult> projector)
     {
-        if (source.IsNull() || !source.HasData || projector.IsNull())
+        if (source is null || !source.HasData || projector is null)
             return default;
             
-        return source.IsNotNull() && source.HasData ? projector(source) : default;
+        return source.HasData ? projector(source) : default;
     }
         
     /// <summary>
@@ -50,12 +50,12 @@ public static class ProjectionExtensions
     /// <returns></returns>
     public static TResult Select<T, TResult>(this Task<ResultList<T>> source, Func<ResultList<T>, TResult> projector)
     {
-        if (source.IsNull() || projector.IsNull())
+        if (source is null || projector is null)
             return default;
                 
         ResultList<T> result = source.GetResult();
 
-        return result.IsNotNull() && result.HasData ? projector(result) : default;
+        return result is not null && result.HasData ? projector(result) : default;
     }
 
     /// <summary>
@@ -67,10 +67,10 @@ public static class ProjectionExtensions
     /// <returns></returns>
     public static IReadOnlyList<T> Select<T>(this ResultList<T> source, Func<ResultList<T>, IReadOnlyList<T>> projector)
     {
-        if (source.IsNull() || !source.HasData || projector.IsNull())
+        if (source is null || !source.HasData || projector is null)
             return Array.Empty<T>();
 
-        return source.IsNotNull() && source.HasData ? projector(source) : Array.Empty<T>();
+        return source.HasData ? projector(source) : Array.Empty<T>();
     }
         
     /// <summary>
@@ -82,7 +82,7 @@ public static class ProjectionExtensions
     /// <typeparam name="U"></typeparam>
     /// <returns></returns>
     public static T Select<T, U>(this U obj, Func<U, T> projection)
-        => obj.IsNull()
+        => obj is null
             ? default
             : projection(obj);
 }

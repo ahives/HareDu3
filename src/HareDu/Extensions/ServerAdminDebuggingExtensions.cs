@@ -522,7 +522,7 @@ public static class ServerAdminDebuggingExtensions
             Console.WriteLine($"\tProtocol: {listener.Protocol}");
             Console.WriteLine($"\tIP Address: {listener.IPAddress}");
 
-            if (listener.SocketOptions.IsNull())
+            if (listener.SocketOptions is null)
                 continue;
 
             Console.WriteLine("\tSocket Options");

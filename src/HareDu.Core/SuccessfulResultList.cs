@@ -2,7 +2,6 @@ namespace HareDu.Core;
 
 using System;
 using System.Linq;
-using Extensions;
 
 public record SuccessfulResultList<T> :
     ResultList<T>
@@ -13,5 +12,5 @@ public record SuccessfulResultList<T> :
         Timestamp = DateTimeOffset.UtcNow;
     }
 
-    public override bool HasData => Data.IsNotNull() && Data.Any();
+    public override bool HasData => Data is not null && Data.Any();
 }

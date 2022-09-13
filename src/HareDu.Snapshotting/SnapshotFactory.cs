@@ -37,11 +37,8 @@ public class SnapshotFactory :
         where T : Snapshot
     {
         Type type = typeof(T);
-            
-        if (type.IsNull())
-            return new NoOpLens<T>();
-            
-        if (_cache.ContainsKey(type.FullName))
+
+        if (type.FullName != null && _cache.ContainsKey(type.FullName))
             return (Lens<T>) _cache[type.FullName];
 
         return new NoOpLens<T>();
@@ -52,7 +49,7 @@ public class SnapshotFactory :
     {
         Type type = typeof(T);
 
-        if (_cache.ContainsKey(type.FullName))
+        if (type.FullName != null && _cache.ContainsKey(type.FullName))
             return this;
             
         _cache.Add(type.FullName, lens);
@@ -80,7 +77,7 @@ public class SnapshotFactory :
         {
             var instance = CreateInstance(type);
 
-            if (instance.IsNull())
+            if (instance is null)
                 return false;
 
             _cache.Add(key, instance);

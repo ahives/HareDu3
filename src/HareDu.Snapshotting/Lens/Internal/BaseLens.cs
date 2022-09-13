@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using HareDu.Core.Extensions;
 using Model;
 
 public abstract class BaseLens<T> :
@@ -45,7 +44,7 @@ public abstract class BaseLens<T> :
 
     protected virtual void SaveSnapshot(string identifier, T snapshot, DateTimeOffset timestamp)
     {
-        if (snapshot.IsNull())
+        if (snapshot is null)
             return;
             
         _snapshots.Add(identifier, new SnapshotResult<T>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp});

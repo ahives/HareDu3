@@ -2,7 +2,6 @@ namespace HareDu.MicrosoftIntegration;
 
 using System;
 using Core.Configuration;
-using Core.Extensions;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
 using Microsoft.Extensions.Configuration;
@@ -47,7 +46,7 @@ public static class HareDuExtensions
     /// <returns></returns>
     public static IServiceCollection AddHareDu(this IServiceCollection services, Action<HareDuConfigurator> configurator)
     {
-        HareDuConfig config = configurator.IsNull()
+        HareDuConfig config = configurator is null
             ? ConfigCache.Default
             : new HareDuConfigProvider()
                 .Configure(configurator);

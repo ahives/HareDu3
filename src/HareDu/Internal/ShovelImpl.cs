@@ -38,7 +38,7 @@ class ShovelImpl :
 
         var errors = new List<Error>();
             
-        if (configurator.IsNull())
+        if (configurator is null)
             errors.Add(new (){Reason = "The shovel configurator is missing."});
 
         if (errors.Any())
@@ -193,6 +193,7 @@ class ShovelImpl :
                 DestinationAddForwardHeaders = _destinationAddForwardHeaders,
                 DestinationAddTimestampHeader = _destinationAddTimestampHeader
             };
+            
             var request = new ShovelRequest
             {
                 Value = requestParams

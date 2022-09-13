@@ -5,7 +5,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Configuration;
-using Core.Extensions;
 using KnowledgeBase;
 using Probes;
 using Scanners;
@@ -26,10 +25,8 @@ public class ScannerFactory :
 
     public ScannerFactory(HareDuConfig config, IKnowledgeBaseProvider kb)
     {
-        _config = config.IsNotNull()
-            ? config
-            : throw new HareDuDiagnosticsException($"{nameof(config)} argument missing.");
-        _kb = kb.IsNotNull() ? kb : throw new HareDuDiagnosticsException($"{nameof(kb)} argument missing.");
+        _config = config ?? throw new HareDuDiagnosticsException($"{nameof(config)} argument missing.");
+        _kb = kb ?? throw new HareDuDiagnosticsException($"{nameof(kb)} argument missing.");
         _scannerCache = new ConcurrentDictionary<string, object>();
         _probeCache = new ConcurrentDictionary<string, DiagnosticProbe>();
         _observers = new List<IDisposable>();
@@ -46,7 +43,7 @@ public class ScannerFactory :
     {
         Type type = typeof(T);
 
-        if (type.IsNull() || !_scannerCache.ContainsKey(type.FullName))
+        if (type is null || !_scannerCache.ContainsKey(type.FullName))
         {
             scanner = new NoOpScanner<T>();
             return false;
@@ -62,7 +59,7 @@ public class ScannerFactory :
 
         for (int i = 0; i < observers.Count; i++)
         {
-            if (observers[i].IsNull())
+            if (observers[i] is null)
                 continue;
 
             for (int j = 0; j < probes.Count; j++)
@@ -72,7 +69,7 @@ public class ScannerFactory :
 
     public void RegisterObserver(IObserver<ProbeContext> observer)
     {
-        if (observer.IsNull())
+        if (observer is null)
             return;
 
         var probes = _probeCache.Values.ToList();
@@ -86,7 +83,7 @@ public class ScannerFactory :
     {
         bool probeAdded = _probeCache.TryAdd(typeof(T).FullName, probe);
 
-        if (probe.IsNull() || !probeAdded)
+        if (probe is null || !probeAdded)
             return false;
 
         foreach (var scanner in _scannerCache)
@@ -104,7 +101,7 @@ public class ScannerFactory :
 
     public bool TryRegisterScanner<T>(DiagnosticScanner<T> scanner)
         where T : Snapshot =>
-        scanner.IsNotNull() && _scannerCache.TryAdd(typeof(T).FullName, scanner);
+        scanner is not null && _scannerCache.TryAdd(typeof(T).FullName, scanner);
 
     public bool TryRegisterAllProbes()
     {
@@ -150,7 +147,7 @@ public class ScannerFactory :
         {
             var instance = CreateScannerInstance(type);
 
-            return !instance.IsNull() && _scannerCache.TryAdd(key, instance);
+            return instance is not null && _scannerCache.TryAdd(key, instance);
         }
         catch
         {
@@ -176,7 +173,7 @@ public class ScannerFactory :
 
         foreach (var type in types)
         {
-            if (type.IsNull())
+            if (type is null)
                 continue;
 
             if (!type.GetInterfaces()
@@ -187,7 +184,7 @@ public class ScannerFactory :
                 .GetInterfaces()
                 .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>));
 
-            if (genericType.IsNull())
+            if (genericType is null)
                 continue;
 
             string key = genericType.GetGenericArguments()[0].FullName;
@@ -213,7 +210,7 @@ public class ScannerFactory :
 
         for (int i = 0; i < types.Count; i++)
         {
-            if (types[i].IsNull() || typeMap.ContainsKey(types[i].FullName))
+            if (types[i] is null || typeMap.ContainsKey(types[i].FullName))
                 continue;
 
             typeMap.Add(types[i].FullName, types[i]);
@@ -228,10 +225,7 @@ public class ScannerFactory :
         {
             var instance = CreateProbeInstance(type);
 
-            if (instance.IsNull())
-                return false;
-
-            return _probeCache.TryAdd(key, instance);
+            return instance is not null && _probeCache.TryAdd(key, instance);
         }
         catch
         {

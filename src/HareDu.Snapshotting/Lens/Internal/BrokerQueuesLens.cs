@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MassTransit;
 using HareDu.Core.Extensions;
 using HareDu.Extensions;
 using HareDu.Model;
 using Model;
-using MassTransit;
 
 class BrokerQueuesLens :
     BaseLens<BrokerQueuesSnapshot>,
@@ -102,7 +102,7 @@ class BrokerQueuesLens :
                 Total = queueInfo.Memory,
                 RAM = new ()
                 {
-                    Target = queueInfo.BackingQueueStatus.IsNull() ? 0 : queueInfo.BackingQueueStatus.TargetTotalMessagesInRAM.ToLong(),
+                    Target = queueInfo.BackingQueueStatus is null ? 0 : queueInfo.BackingQueueStatus.TargetTotalMessagesInRAM.ToLong(),
                     Total = queueInfo.MessagesInRAM,
                     Bytes = queueInfo.MessageBytesInRAM,
                     Unacknowledged = queueInfo.UnacknowledgedMessagesInRAM,

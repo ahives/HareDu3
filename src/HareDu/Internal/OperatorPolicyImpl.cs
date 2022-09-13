@@ -124,7 +124,7 @@ class OperatorPolicyImpl :
 
         public void Validate()
         {
-            if (_arguments.IsNull() || !_arguments.Any())
+            if (_arguments is null || !_arguments.Any())
                 _errors.Add(new(){Reason = "No arguments have been set."});
         }
             

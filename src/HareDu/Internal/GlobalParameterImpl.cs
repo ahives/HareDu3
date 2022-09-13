@@ -97,7 +97,7 @@ class GlobalParameterImpl :
                 () => new ()
                 {
                     Name = name,
-                    Value = _argument.IsNotNull() ? _argument : _arguments.GetArgumentsOrNull()
+                    Value = _argument ?? _arguments.GetArgumentsOrNull()
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
 
@@ -131,7 +131,7 @@ class GlobalParameterImpl :
             {
                 _errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
-                    .Where(error => error.IsNotNull())
+                    .Where(error => error is not null)
                     .ToList());
             }
         }

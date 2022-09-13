@@ -38,7 +38,7 @@ public class FileDescriptorThrottlingProbe :
     {
         ProbeResult result;
 
-        if (_config.IsNull() || _config.Probes.IsNull())
+        if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
@@ -46,8 +46,8 @@ public class FileDescriptorThrottlingProbe :
             {
                 Status = ProbeResultStatus.NA,
                 Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data.IsNotNull() ? data.NodeIdentifier : null,
-                ComponentId = data.IsNotNull() ? data.ProcessId : null,
+                ParentComponentId = data?.NodeIdentifier,
+                ComponentId = data?.ProcessId,
                 Id = Metadata.Id,
                 Name = Metadata.Name,
                 ComponentType = ComponentType,

@@ -2,14 +2,13 @@ namespace HareDu.Core.Configuration;
 
 using System;
 using System.Threading;
-using Extensions;
 
 public class HareDuConfigProvider :
     IHareDuConfigProvider
 {
     public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
     {
-        if (configurator.IsNull())
+        if (configurator is null)
             return ConfigCache.Default;
             
         var impl = new HareDuConfiguratorImpl();
@@ -23,21 +22,19 @@ public class HareDuConfigProvider :
     bool Validate(HareDuConfig config) => Validate(config.Broker) && Validate(config.Diagnostics);
 
     static bool Validate(DiagnosticsConfig config) =>
-        config.IsNotNull()
-        && config.Probes.IsNotNull()
-        && config.Probes.ConsumerUtilizationThreshold > 0
-        && config.Probes.HighConnectionClosureRateThreshold > 0
-        && config.Probes.HighConnectionCreationRateThreshold > 0
-        && config.Probes.MessageRedeliveryThresholdCoefficient > 0
-        && config.Probes.QueueHighFlowThreshold > 0
-        && config.Probes.QueueLowFlowThreshold > 0
-        && config.Probes.SocketUsageThresholdCoefficient > 0
-        && config.Probes.FileDescriptorUsageThresholdCoefficient > 0
+        config?.Probes != null 
+        && config.Probes.ConsumerUtilizationThreshold > 0 
+        && config.Probes.HighConnectionClosureRateThreshold > 0 
+        && config.Probes.HighConnectionCreationRateThreshold > 0 
+        && config.Probes.MessageRedeliveryThresholdCoefficient > 0 
+        && config.Probes.QueueHighFlowThreshold > 0 
+        && config.Probes.QueueLowFlowThreshold > 0 
+        && config.Probes.SocketUsageThresholdCoefficient > 0 
+        && config.Probes.FileDescriptorUsageThresholdCoefficient > 0 
         && config.Probes.RuntimeProcessUsageThresholdCoefficient > 0;
 
     static bool Validate(BrokerConfig config)
-        => config.IsNotNull() &&
-           config.Credentials.IsNotNull() &&
+        => config?.Credentials != null &&
            !string.IsNullOrWhiteSpace(config.Credentials.Username) &&
            !string.IsNullOrWhiteSpace(config.Credentials.Password) &&
            !string.IsNullOrWhiteSpace(config.Url);
@@ -58,7 +55,7 @@ public class HareDuConfigProvider :
 
         public void Diagnostics(Action<DiagnosticsConfigurator> configurator)
         {
-            if (configurator.IsNull())
+            if (configurator is null)
                 _diagnosticsSettings = ConfigCache.Default.Diagnostics;
 
             var impl = new DiagnosticsConfiguratorImpl();
@@ -71,7 +68,7 @@ public class HareDuConfigProvider :
 
         public void Broker(Action<BrokerConfigurator> configurator)
         {
-            if (configurator.IsNull())
+            if (configurator is null)
                 _brokerConfig = ConfigCache.Default.Broker;
 
             var impl = new BrokerConfiguratorImpl();

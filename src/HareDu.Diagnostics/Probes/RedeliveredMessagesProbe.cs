@@ -38,7 +38,7 @@ public class RedeliveredMessagesProbe :
     {
         ProbeResult result;
         
-        if (_config.IsNull() || _config.Probes.IsNull())
+        if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
@@ -46,8 +46,8 @@ public class RedeliveredMessagesProbe :
             {
                 Status = ProbeResultStatus.NA,
                 Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data.IsNotNull() ? data.Node : string.Empty,
-                ComponentId = data.IsNotNull() ? data.Identifier : string.Empty,
+                ParentComponentId = data is not null ? data.Node : string.Empty,
+                ComponentId = data is not null ? data.Identifier : string.Empty,
                 Id = Metadata.Id,
                 Name = Metadata.Name,
                 ComponentType = ComponentType,

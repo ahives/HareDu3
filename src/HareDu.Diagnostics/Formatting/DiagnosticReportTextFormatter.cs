@@ -1,7 +1,6 @@
 namespace HareDu.Diagnostics.Formatting;
 
 using System.Text;
-using Core.Extensions;
 
 public class DiagnosticReportTextFormatter :
     IDiagnosticReportFormatter
@@ -34,7 +33,7 @@ public class DiagnosticReportTextFormatter :
             
         foreach (var data in result.Data)
         {
-            if (data.IsNull())
+            if (data is null)
                 continue;
                 
             builder.AppendLine($"\t\t{data.PropertyName} => {data.PropertyValue}");

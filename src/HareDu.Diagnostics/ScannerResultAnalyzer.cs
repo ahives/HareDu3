@@ -122,7 +122,7 @@ public class ScannerResultAnalyzer :
 
         public void Dispose()
         {
-            if (!_observer.IsNull() && _observers.Contains(_observer))
+            if (_observer is not null && _observers.Contains(_observer))
                 _observers.Remove(_observer);
         }
     }

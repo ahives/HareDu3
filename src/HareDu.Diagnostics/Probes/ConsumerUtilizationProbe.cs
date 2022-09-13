@@ -38,7 +38,7 @@ public class ConsumerUtilizationProbe :
     {
         ProbeResult result;
 
-        if (_config.IsNull() || _config.Probes.IsNull())
+        if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
@@ -46,8 +46,8 @@ public class ConsumerUtilizationProbe :
             {
                 Status = ProbeResultStatus.NA,
                 Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data.IsNotNull() ? data.Node : null,
-                ComponentId = data.IsNotNull() ? data.Identifier : null,
+                ParentComponentId = data?.Node,
+                ComponentId = data?.Identifier,
                 Id = Metadata.Id,
                 Name = Metadata.Name,
                 ComponentType = ComponentType,

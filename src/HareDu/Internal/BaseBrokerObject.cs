@@ -428,7 +428,7 @@ public class BaseBrokerObject
     void HandleDotsAndSlashes()
     {
         var method = typeof(UriParser).GetMethod("GetSyntax", BindingFlags.Static | BindingFlags.NonPublic);
-        if (method.IsNull())
+        if (method is null)
             throw new MissingMethodException("UriParser", "GetSyntax");
 
         var uriParser = method.Invoke(null, new object[] {"http"});
@@ -437,7 +437,7 @@ public class BaseBrokerObject
             .GetType()
             .GetMethod("SetUpdatableFlags", BindingFlags.Instance | BindingFlags.NonPublic);
             
-        if (setUpdatableFlagsMethod.IsNull())
+        if (setUpdatableFlagsMethod is null)
             throw new MissingMethodException("UriParser", "SetUpdatableFlags");
 
         setUpdatableFlagsMethod.Invoke(uriParser, new object[] {0});

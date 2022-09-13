@@ -114,15 +114,17 @@ class PolicyImpl :
 
         public void Validate()
         {
-            foreach (var argument in _arguments?.Where(x => x.Value.IsNull()).Select(x => x.Key))
+            foreach (var argument in _arguments
+                         ?.Where(x => x.Value is null)
+                         .Select(x => x.Key)!)
                 _errors.Add(new(){Reason = $"Argument '{argument}' has been set without a corresponding value."});
 
             if (!_arguments.TryGetValue("ha-mode", out var haMode))
                 return;
 
             string mode = haMode.Value.ToString().Trim();
-            if ((mode.Convert() == HighAvailabilityModes.Exactly ||
-                 mode.Convert() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params"))
+            if (_arguments != null && (mode.Convert() == HighAvailabilityModes.Exactly ||
+                                       mode.Convert() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params"))
                 _errors.Add(new(){Reason = $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"});
         }
 

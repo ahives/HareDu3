@@ -20,22 +20,22 @@ public class BrokerQueuesScanner :
 
     public BrokerQueuesScanner(IReadOnlyList<DiagnosticProbe> probes)
     {
-        Configure(probes.IsNotNull() ? probes : throw new ArgumentNullException(nameof(probes)));
+        Configure(probes ?? throw new ArgumentNullException(nameof(probes)));
     }
 
     public void Configure(IReadOnlyList<DiagnosticProbe> probes)
     {
         _queueProbes = probes
-            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Queue)
+            .Where(x => x is not null && x.ComponentType == ComponentType.Queue)
             .ToList();
         _exchangeProbes = probes
-            .Where(x => x.IsNotNull() && x.ComponentType == ComponentType.Exchange)
+            .Where(x => x is not null && x.ComponentType == ComponentType.Exchange)
             .ToList();
     }
 
     public IReadOnlyList<ProbeResult> Scan(BrokerQueuesSnapshot snapshot)
     {
-        if (snapshot == null)
+        if (snapshot is null)
             return DiagnosticCache.EmptyProbeResults;
             
         var results = new List<ProbeResult>();
@@ -44,7 +44,7 @@ public class BrokerQueuesScanner :
             
         for (int i = 0; i < snapshot.Queues.Count; i++)
         {
-            if (snapshot.Queues[i].IsNotNull())
+            if (snapshot.Queues[i] is not null)
                 results.AddRange(_queueProbes.Select(x => x.Execute(snapshot.Queues[i])));
         }
 

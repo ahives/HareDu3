@@ -62,13 +62,13 @@ public abstract class BaseDiagnosticProbe<T> :
     protected abstract ProbeResult GetProbeResult(T data);
         
         
-    protected class UnsubscribeObserver<T> :
+    protected class UnsubscribeObserver<U> :
         IDisposable
     {
-        readonly List<IObserver<T>> _observers;
-        readonly IObserver<T> _observer;
+        readonly List<IObserver<U>> _observers;
+        readonly IObserver<U> _observer;
 
-        public UnsubscribeObserver(List<IObserver<T>> observers, IObserver<T> observer)
+        public UnsubscribeObserver(List<IObserver<U>> observers, IObserver<U> observer)
         {
             _observers = observers;
             _observer = observer;

@@ -127,7 +127,7 @@ class BindingImpl :
         {
             _errors.AddRange(_arguments
                 .Select(x => x.Value?.Error)
-                .Where(error => error.IsNotNull())
+                .Where(error => error is not null)
                 .ToList());
         }
 

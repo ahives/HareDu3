@@ -40,7 +40,7 @@ public class BrokerObjectFactory :
     {
         Type type = typeof(T);
             
-        if (type.IsNull())
+        if (type is null)
             throw new HareDuBrokerObjectInitException($"Failed to find implementation class for interface {typeof(T)}");
 
         var typeMap = GetTypeMap(typeof(T));
@@ -110,10 +110,7 @@ public class BrokerObjectFactory :
         {
             var instance = CreateInstance(type, client);
 
-            if (instance.IsNull())
-                return false;
-
-            return _cache.TryAdd(key, instance);
+            return instance is not null && _cache.TryAdd(key, instance);
         }
         catch
         {
@@ -127,10 +124,7 @@ public class BrokerObjectFactory :
         {
             var instance = CreateInstance(type);
 
-            if (instance.IsNull())
-                return false;
-
-            return _cache.TryAdd(key, instance);
+            return instance is not null && _cache.TryAdd(key, instance);
         }
         catch
         {
@@ -142,7 +136,7 @@ public class BrokerObjectFactory :
     {
         var types = findType.Assembly.GetTypes();
         var interfaces = types
-            .Where(x => typeof(BrokerObject).IsAssignableFrom(x) && x.IsInterface && x.IsNotNull())
+            .Where(x => typeof(BrokerObject).IsAssignableFrom(x) && x.IsInterface)
             .ToList();
         var typeMap = new Dictionary<string, Type>();
 
@@ -150,7 +144,7 @@ public class BrokerObjectFactory :
         {
             var type = types.Find(x => interfaces[i].IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
 
-            if (type.IsNull())
+            if (type is null)
                 continue;
                 
             typeMap.Add(interfaces[i].FullName, type);

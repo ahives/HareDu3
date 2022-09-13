@@ -3,7 +3,6 @@ namespace HareDu.AutofacIntegration;
 using System;
 using Autofac;
 using Core.Configuration;
-using Core.Extensions;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
 using Microsoft.Extensions.Configuration;
@@ -71,7 +70,7 @@ public static class HareDuExtensions
     {
         builder.Register(x =>
             {
-                HareDuConfig config = configurator.IsNull()
+                HareDuConfig config = configurator is null
                     ? ConfigCache.Default
                     : new HareDuConfigProvider()
                         .Configure(configurator);

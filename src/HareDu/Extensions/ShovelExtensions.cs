@@ -24,10 +24,11 @@ public static class ShovelExtensions
     public static async Task<Result> CreateShovel(this IBrokerObjectFactory factory,
         string shovel, string uri, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
-        return await factory.Object<Shovel>()
+        return await factory
+            .Object<Shovel>()
             .Create(shovel, uri, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -44,10 +45,11 @@ public static class ShovelExtensions
     public static async Task<Result> DeleteShovel(this IBrokerObjectFactory factory,
         string shovel, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
             
-        return await factory.Object<Shovel>()
+        return await factory
+            .Object<Shovel>()
             .Delete(shovel, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -63,7 +65,7 @@ public static class ShovelExtensions
     public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerObjectFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
             
         var result = await factory.Object<Shovel>()
@@ -82,7 +84,8 @@ public static class ShovelExtensions
             
         foreach (var shovel in shovels)
         {
-            var deleteResult = await factory.Object<Shovel>()
+            var deleteResult = await factory
+                .Object<Shovel>()
                 .Delete(shovel.Name, vhost, cancellationToken)
                 .ConfigureAwait(false);
                 
@@ -101,10 +104,11 @@ public static class ShovelExtensions
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<ResultList<ShovelInfo>> GetAllShovels(this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
     {
-        if (factory.IsNull())
+        if (factory is null)
             throw new ArgumentNullException(nameof(factory));
             
-        return await factory.Object<Shovel>()
+        return await factory
+            .Object<Shovel>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }

@@ -7,7 +7,7 @@ public static class TypeExtensions
 {
     public static bool IsDerivedFrom(this Type type, Type fromType)
     {
-        while (type.IsNotNull() && type != typeof(object))
+        while (type is not null && type != typeof(object))
         {
             Type currentType = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
 

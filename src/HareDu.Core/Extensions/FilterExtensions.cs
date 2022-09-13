@@ -15,7 +15,7 @@ public static class FilterExtensions
     /// <returns></returns>
     public static IReadOnlyList<T> Where<T>(this ResultList<T> source, Func<T, bool> predicate)
     {
-        if (source.IsNull())
+        if (source is null)
             return new List<T>();
             
         return !source.HasData ? new List<T>() : Filter(source.Data, predicate);
@@ -30,7 +30,7 @@ public static class FilterExtensions
     /// <returns></returns>
     public static IReadOnlyList<T> Where<T>(this Task<ResultList<T>> source, Func<T, bool> predicate)
     {
-        if (source.IsNull())
+        if (source is null)
             return new List<T>();
             
         ResultList<T> result = source.Result;
