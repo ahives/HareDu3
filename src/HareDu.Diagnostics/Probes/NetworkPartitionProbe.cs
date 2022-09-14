@@ -25,10 +25,7 @@ public class NetworkPartitionProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as NodeSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as NodeSnapshot);
 
     protected override ProbeResult GetProbeResult(NodeSnapshot data)
     {

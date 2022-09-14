@@ -29,10 +29,7 @@ public class FileDescriptorThrottlingProbe :
         _config = config;
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as OperatingSystemSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as OperatingSystemSnapshot);
 
     protected override ProbeResult GetProbeResult(OperatingSystemSnapshot data)
     {

@@ -3,31 +3,9 @@
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/usr/local/share/dotnet/sdk/5.0.101/MSBuild.dll</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c20ae268_002D1776_002D41d6_002Da49c_002Dd7cdb9da832f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
-    &lt;ProjectFile&gt;CA8507F9-9794-4E8C-8F31-BC0498AE6E6E/f:ClusterSnapshotTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;CA8507F9-9794-4E8C-8F31-BC0498AE6E6E/f:ConnectionSnapshotTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;CA8507F9-9794-4E8C-8F31-BC0498AE6E6E/f:QueueSnapshotTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:AvailableCoresProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:BlockedConnectionProbeTest.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:ChannelLimitReachedProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:ChannelThrottlingProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:ConsumerUtilizationProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:DiskAlarmProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:FileDescriptorThrottlingProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:HighConnectionClosureRateProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:HighConnectionCreationRateProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:MemoryAlarmProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:MessagePagingProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:NetworkPartitionProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:QueueGrowthProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:QueueHighFlowProbesTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:QueueLowFlowProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:QueueNoFlowProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:RedeliveredMessagesProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:RuntimeProcessLimitProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:SocketDescriptorThrottlingProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:UnlimitedPrefetchCountProbeTests.cs&lt;/ProjectFile&gt;
-    &lt;ProjectFile&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes/f:UnroutableMessageProbeTests.cs&lt;/ProjectFile&gt;
     &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Snapshotting.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Snapshotting.Tests&amp;gt;" /&gt;
+    &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	

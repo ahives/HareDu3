@@ -29,10 +29,7 @@ public class QueueLowFlowProbe :
         _config = config;
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as QueueSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as QueueSnapshot);
 
     protected override ProbeResult GetProbeResult(QueueSnapshot data)
     {

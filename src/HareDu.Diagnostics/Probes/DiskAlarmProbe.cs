@@ -24,10 +24,7 @@ public class DiskAlarmProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as DiskSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as DiskSnapshot);
 
     protected override ProbeResult GetProbeResult(DiskSnapshot data)
     {

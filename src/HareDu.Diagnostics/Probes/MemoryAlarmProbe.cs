@@ -24,10 +24,7 @@ public class MemoryAlarmProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as MemorySnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as MemorySnapshot);
 
     protected override ProbeResult GetProbeResult(MemorySnapshot data)
     {

@@ -29,10 +29,7 @@ public class HighConnectionCreationRateProbe :
         _config = config;
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as BrokerConnectivitySnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as BrokerConnectivitySnapshot);
 
     protected override ProbeResult GetProbeResult(BrokerConnectivitySnapshot data)
     {

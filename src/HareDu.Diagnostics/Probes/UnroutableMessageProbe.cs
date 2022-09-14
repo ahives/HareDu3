@@ -24,10 +24,7 @@ public class UnroutableMessageProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as BrokerQueuesSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as BrokerQueuesSnapshot);
 
     protected override ProbeResult GetProbeResult(BrokerQueuesSnapshot data)
     {

@@ -29,10 +29,7 @@ public class RuntimeProcessLimitProbe :
         _config = config;
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as BrokerRuntimeSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as BrokerRuntimeSnapshot);
 
     protected override ProbeResult GetProbeResult(BrokerRuntimeSnapshot data)
     {

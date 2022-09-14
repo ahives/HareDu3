@@ -25,10 +25,7 @@ public class BlockedConnectionProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as ConnectionSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as ConnectionSnapshot);
 
     protected override ProbeResult GetProbeResult(ConnectionSnapshot data)
     {

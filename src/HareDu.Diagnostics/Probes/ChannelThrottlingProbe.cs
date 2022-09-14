@@ -24,10 +24,7 @@ public class ChannelThrottlingProbe :
     {
     }
 
-    public ProbeResult Execute<T>(T snapshot)
-    {
-        return base.Execute(snapshot as ChannelSnapshot);
-    }
+    public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as ChannelSnapshot);
 
     protected override ProbeResult GetProbeResult(ChannelSnapshot data)
     {
