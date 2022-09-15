@@ -13,12 +13,11 @@ public class CustomDateTimeConverter :
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
                 string stringValue = reader.GetString();
                 if (DateTimeOffset.TryParse(stringValue, out var value))
                     return value;
                 break;
-            }
+
             case JsonTokenType.Null:
                 return default;
         }

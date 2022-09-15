@@ -12,13 +12,13 @@ public class CustomStringConverter :
         switch (reader.TokenType)
         {
             case JsonTokenType.Number:
-            {
                 var stringValue = reader.GetInt32();
 
                 return stringValue.ToString();
-            }
+
             case JsonTokenType.String:
                 return reader.GetString();
+
             default:
                 throw new JsonException();
         }

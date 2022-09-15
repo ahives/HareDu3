@@ -25,10 +25,8 @@ class ExchangeImpl :
     public async Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/exchanges";
             
-        return await GetAllRequest<ExchangeInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ExchangeInfo>("api/exchanges", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)

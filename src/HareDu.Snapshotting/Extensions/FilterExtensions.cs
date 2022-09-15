@@ -9,7 +9,7 @@ public static class FilterExtensions
 {
     public static IReadOnlyList<ChannelSnapshot> FilterByConnection(this IReadOnlyList<ChannelInfo> channels, string connection)
     {
-        if (channels == null || !channels.Any())
+        if (channels is null || !channels.Any())
             return new List<ChannelSnapshot>();
 
         return channels
@@ -79,7 +79,7 @@ public static class FilterExtensions
 
     public static IEnumerable<ConnectionInfo> FilterByNode(this IReadOnlyList<ConnectionInfo> connections, string node)
     {
-        if (connections == null || !connections.Any())
+        if (connections is null || !connections.Any())
             return Enumerable.Empty<ConnectionInfo>();
 
         return connections.Where(x => x.Node == node);

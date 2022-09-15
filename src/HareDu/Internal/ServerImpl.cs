@@ -19,9 +19,7 @@ class ServerImpl :
     public async Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/definitions";
             
-        return await GetRequest<ServerInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<ServerInfo>("api/definitions", cancellationToken).ConfigureAwait(false);
     }
 }

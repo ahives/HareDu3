@@ -25,10 +25,8 @@ class TopicPermissionsImpl :
     public async Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/topic-permissions";
             
-        return await GetAllRequest<TopicPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator,

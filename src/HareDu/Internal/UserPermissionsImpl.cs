@@ -25,10 +25,8 @@ class UserPermissionsImpl :
     public async Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/permissions";
             
-        return await GetAllRequest<UserPermissionsInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserPermissionsInfo>("api/permissions", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string username, string vhost,

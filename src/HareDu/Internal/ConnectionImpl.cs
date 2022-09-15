@@ -21,10 +21,8 @@ class ConnectionImpl :
     public async Task<ResultList<ConnectionInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/connections";
             
-        return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ConnectionInfo>("api/connections", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default)

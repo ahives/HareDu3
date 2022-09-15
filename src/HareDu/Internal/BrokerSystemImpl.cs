@@ -19,18 +19,14 @@ class BrokerSystemImpl :
     public async Task<Result<SystemOverviewInfo>> GetSystemOverview(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/overview";
             
-        return await GetRequest<SystemOverviewInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<SystemOverviewInfo>("api/overview", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/rebalance/queues";
             
-        return await PostEmptyRequest(url, cancellationToken).ConfigureAwait(false);
+        return await PostEmptyRequest("api/rebalance/queues", cancellationToken).ConfigureAwait(false);
     }
 }

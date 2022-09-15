@@ -43,7 +43,7 @@ public class ScannerFactory :
     {
         Type type = typeof(T);
 
-        if (type is null || !_scannerCache.ContainsKey(type.FullName))
+        if (!_scannerCache.ContainsKey(type.FullName))
         {
             scanner = new NoOpScanner<T>();
             return false;
@@ -155,12 +155,7 @@ public class ScannerFactory :
         }
     }
 
-    protected virtual object CreateScannerInstance(Type type)
-    {
-        var instance = Activator.CreateInstance(type, _probeCache.Values.ToList());
-
-        return instance;
-    }
+    protected virtual object CreateScannerInstance(Type type) => Activator.CreateInstance(type, _probeCache.Values.ToList());
 
     protected virtual IDictionary<string, Type> GetScannerTypeMap(Type findType)
     {
@@ -189,7 +184,7 @@ public class ScannerFactory :
 
             string key = genericType.GetGenericArguments()[0].FullName;
 
-            if (typeMap.ContainsKey(key))
+            if (key != null && typeMap.ContainsKey(key))
                 continue;
 
             typeMap.Add(key, type);
@@ -210,7 +205,7 @@ public class ScannerFactory :
 
         for (int i = 0; i < types.Count; i++)
         {
-            if (types[i] is null || typeMap.ContainsKey(types[i].FullName))
+            if (typeMap.ContainsKey(types[i].FullName))
                 continue;
 
             typeMap.Add(types[i].FullName, types[i]);

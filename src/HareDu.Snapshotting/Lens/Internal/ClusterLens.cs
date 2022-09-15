@@ -62,12 +62,11 @@ class ClusterLens :
         };
             
         string identifier = NewId.Next().ToString();
-        DateTimeOffset timestamp = DateTimeOffset.UtcNow;
 
-        SaveSnapshot(identifier, snapshot, timestamp);
-        NotifyObservers(identifier, snapshot, timestamp);
+        SaveSnapshot(identifier, snapshot);
+        NotifyObservers(identifier, snapshot);
 
-        return new SnapshotResult<ClusterSnapshot>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp};
+        return new SnapshotResult<ClusterSnapshot>{Identifier = identifier, Snapshot = snapshot, Timestamp = DateTimeOffset.UtcNow};
     }
 
     public Lens<ClusterSnapshot> RegisterObserver(IObserver<SnapshotContext<ClusterSnapshot>> observer)

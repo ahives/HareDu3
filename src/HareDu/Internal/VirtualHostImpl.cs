@@ -25,10 +25,8 @@ class VirtualHostImpl :
     public async Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/vhosts";
             
-        return await GetAllRequest<VirtualHostInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -64,10 +62,8 @@ class VirtualHostImpl :
         if (virtualHost == "2%f")
             errors.Add(new(){Reason = "Cannot delete the default virtual host."});
         else
-        {
             if (string.IsNullOrWhiteSpace(virtualHost))
                 errors.Add(new(){Reason = "The name of the virtual host is missing."});
-        }
 
         string url = $"api/vhosts/{virtualHost}";
 
@@ -102,9 +98,7 @@ class VirtualHostImpl :
     {
         cancellationToken.RequestCanceled();
 
-        string url = $"api/aliveness-test/{vhost.ToSanitizedName()}";;
-
-        return await GetRequest<ServerHealthInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<ServerHealthInfo>($"api/aliveness-test/{vhost.ToSanitizedName()}", cancellationToken).ConfigureAwait(false);
     }
 
 

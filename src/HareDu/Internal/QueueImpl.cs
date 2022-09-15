@@ -25,10 +25,8 @@ class QueueImpl :
     public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/queues";
             
-        return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator = null,

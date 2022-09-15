@@ -50,7 +50,10 @@ public class ScannerResultAnalyzer :
                     }
                 select new AnalyzerSummary
                 {
-                    Id = result.Key, Healthy = healthy, Unhealthy = unhealthy, Warning = warning,
+                    Id = result.Key,
+                    Healthy = healthy,
+                    Unhealthy = unhealthy,
+                    Warning = warning,
                     Inconclusive = inconclusive
                 })
             .ToList();

@@ -12,14 +12,14 @@ public class CustomDecimalConverter :
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
                 string stringValue = reader.GetString();
                 if (decimal.TryParse(stringValue, out var value))
                     return value;
                 break;
-            }
+
             case JsonTokenType.Number:
                 return reader.GetDecimal();
+
             case JsonTokenType.Null:
                 return default;
         }

@@ -30,6 +30,8 @@ public abstract class BaseLens<T> :
         return new UnsubscribeObserver(_observers, observer);
     }
 
+    protected virtual void NotifyObservers(string identifier, T snapshot) => NotifyObservers(identifier, snapshot, DateTimeOffset.UtcNow);
+
     protected virtual void NotifyObservers(string identifier, T snapshot, DateTimeOffset timestamp)
     {
         foreach (var observer in _observers)
@@ -42,12 +44,12 @@ public abstract class BaseLens<T> :
             observer.OnError(e);
     }
 
-    protected virtual void SaveSnapshot(string identifier, T snapshot, DateTimeOffset timestamp)
+    protected virtual void SaveSnapshot(string identifier, T snapshot)
     {
         if (snapshot is null)
             return;
             
-        _snapshots.Add(identifier, new SnapshotResult<T>{Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp});
+        _snapshots.Add(identifier, new SnapshotResult<T>{Identifier = identifier, Snapshot = snapshot, Timestamp = DateTimeOffset.UtcNow});
     }
 
 

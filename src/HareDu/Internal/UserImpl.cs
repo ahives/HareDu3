@@ -25,19 +25,15 @@ class UserImpl :
     public async Task<ResultList<UserInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/users";
             
-        return await GetAllRequest<UserInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserInfo>("api/users", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/users/without-permissions";
             
-        return await GetAllRequest<UserInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserInfo>("api/users/without-permissions", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string username, string password, string passwordHash = null,

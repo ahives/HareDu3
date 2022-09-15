@@ -21,19 +21,17 @@ class NodeImpl :
     public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/nodes";
             
-        return await GetAllRequest<NodeInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<NodeInfo>("api/nodes", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
 
-        string url = string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}";
-
-        return await GetRequest<NodeHealthInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<NodeHealthInfo>(
+            string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}",
+            cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)

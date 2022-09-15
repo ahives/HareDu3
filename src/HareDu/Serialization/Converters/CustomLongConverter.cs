@@ -12,17 +12,18 @@ public class CustomLongConverter :
         switch (reader.TokenType)
         {
             case JsonTokenType.String:
-            {
                 string stringValue = reader.GetString();
                 if (long.TryParse(stringValue, out long value))
                     return value;
                 
                 return stringValue == "infinity" ? long.MaxValue : default;
-            }
+
             case JsonTokenType.Number:
                 return reader.GetInt64();
+
             case JsonTokenType.Null:
                 return default;
+
             default:
                 throw new JsonException();
         }

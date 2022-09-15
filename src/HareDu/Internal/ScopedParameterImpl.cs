@@ -24,10 +24,8 @@ class ScopedParameterImpl :
     public async Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/parameters";
             
-        return await GetAllRequest<ScopedParameterInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create<T>(string parameter, T value, string component, string vhost,

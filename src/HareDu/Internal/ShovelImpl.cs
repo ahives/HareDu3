@@ -25,10 +25,8 @@ class ShovelImpl :
     public async Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/shovels";
             
-        return await GetAllRequest<ShovelInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ShovelInfo>("api/shovels", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string shovel, string uri, string vhost,
@@ -245,9 +243,9 @@ class ShovelImpl :
             {
                 ExchangeName = exchange;
 
-                if (routingKey == null)
+                if (routingKey is null)
                     return;
-                    
+
                 ExchangeRoutingKey = routingKey;
             }
         }
@@ -273,9 +271,9 @@ class ShovelImpl :
             {
                 ExchangeName = exchange;
 
-                if (routingKey == null)
+                if (routingKey is null)
                     return;
-                    
+
                 ExchangeRoutingKey = routingKey;
             }
 

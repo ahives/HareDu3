@@ -11,7 +11,7 @@ using Core.Configuration;
 using Core.Extensions;
 using Internal;
 
-public class BrokerObjectFactory :
+public sealed class BrokerObjectFactory :
     IBrokerObjectFactory
 {
     readonly HttpClient _client;
@@ -63,10 +63,7 @@ public class BrokerObjectFactory :
         
     public IReadOnlyDictionary<string, object> GetObjects() => _cache;
 
-    public void CancelPendingRequest()
-    {
-        _client.CancelPendingRequests();
-    }
+    public void CancelPendingRequest() => _client.CancelPendingRequests();
 
     public bool TryRegisterAll()
     {
@@ -87,7 +84,7 @@ public class BrokerObjectFactory :
         return registered;
     }
 
-    protected virtual HttpClient GetClient(HareDuConfig config)
+    HttpClient GetClient(HareDuConfig config)
     {
         var uri = new Uri($"{config.Broker.Url}/");
         var handler = new HttpClientHandler
@@ -104,7 +101,7 @@ public class BrokerObjectFactory :
         return client;
     }
 
-    protected virtual bool RegisterInstance(Type type, string key, HttpClient client)
+    bool RegisterInstance(Type type, string key, HttpClient client)
     {
         try
         {
@@ -118,7 +115,7 @@ public class BrokerObjectFactory :
         }
     }
 
-    protected virtual bool RegisterInstance(Type type, string key)
+    bool RegisterInstance(Type type, string key)
     {
         try
         {
@@ -131,8 +128,8 @@ public class BrokerObjectFactory :
             return false;
         }
     }
-        
-    protected virtual IDictionary<string, Type> GetTypeMap(Type findType)
+
+    IDictionary<string, Type> GetTypeMap(Type findType)
     {
         var types = findType.Assembly.GetTypes();
         var interfaces = types
@@ -153,19 +150,10 @@ public class BrokerObjectFactory :
         return typeMap;
     }
 
-    protected virtual object CreateInstance(Type type)
-    {
-        var instance = type.IsDerivedFrom(typeof(BaseBrokerObject))
-            ? Activator.CreateInstance(type, _client)
-            : Activator.CreateInstance(type);
+    object CreateInstance(Type type) =>
+        type.IsDerivedFrom(typeof(BaseBrokerObject))
+        ? Activator.CreateInstance(type, _client)
+        : Activator.CreateInstance(type);
 
-        return instance;
-    }
-
-    protected virtual object CreateInstance(Type type, HttpClient client)
-    {
-        var instance = Activator.CreateInstance(type, client);
-
-        return instance;
-    }
+    object CreateInstance(Type type, HttpClient client) => Activator.CreateInstance(type, client);
 }

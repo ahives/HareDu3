@@ -39,7 +39,7 @@ public class SnapshotFactory :
         Type type = typeof(T);
 
         if (type.FullName != null && _cache.ContainsKey(type.FullName))
-            return (Lens<T>) _cache[type.FullName];
+            return _cache[type.FullName] as Lens<T>;
 
         return new NoOpLens<T>();
     }

@@ -24,10 +24,8 @@ class VirtualHostLimitsImpl :
     public async Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/vhost-limits";
             
-        return await GetAllRequest<VirtualHostLimitsInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Define(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,

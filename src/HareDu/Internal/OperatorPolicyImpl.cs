@@ -25,10 +25,8 @@ class OperatorPolicyImpl :
     public async Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/operator-policies";
             
-        return await GetAllRequest<OperatorPolicyInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<OperatorPolicyInfo>("api/operator-policies", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string policy, string pattern, string vhost, Action<OperatorPolicyConfigurator> configurator,

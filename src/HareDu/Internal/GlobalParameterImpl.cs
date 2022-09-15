@@ -25,10 +25,8 @@ class GlobalParameterImpl :
     public async Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/global-parameters";
             
-        return await GetAllRequest<GlobalParameterInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<GlobalParameterInfo>("api/global-parameters", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -116,7 +114,7 @@ class GlobalParameterImpl :
 
         public void Validate()
         {
-            if (_argument != null && _argument.GetType() == typeof(string))
+            if (_argument is string)
             {
                 if (string.IsNullOrWhiteSpace(_argument.ToString()))
                     _errors.Add(new(){Reason = "Parameter value is missing."});
@@ -124,7 +122,7 @@ class GlobalParameterImpl :
                 return;
             }
                 
-            if (_argument == null && _arguments == null)
+            if (_argument is null && _arguments is null)
                 _errors.Add(new(){Reason = "Parameter value is missing."});
                 
             if (_arguments != null)

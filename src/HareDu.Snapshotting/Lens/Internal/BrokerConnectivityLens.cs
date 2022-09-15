@@ -65,12 +65,11 @@ class BrokerConnectivityLens :
         var snapshot = GetSnapshot(cluster, channels, connections);
 
         string identifier = NewId.Next().ToString();
-        DateTimeOffset timestamp = DateTimeOffset.UtcNow;
 
-        SaveSnapshot(identifier, snapshot, timestamp);
-        NotifyObservers(identifier, snapshot, timestamp);
+        SaveSnapshot(identifier, snapshot);
+        NotifyObservers(identifier, snapshot);
 
-        return new SnapshotResult<BrokerConnectivitySnapshot> {Identifier = identifier, Snapshot = snapshot, Timestamp = timestamp};
+        return new SnapshotResult<BrokerConnectivitySnapshot> {Identifier = identifier, Snapshot = snapshot, Timestamp = DateTimeOffset.UtcNow};
     }
 
     public Lens<BrokerConnectivitySnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerConnectivitySnapshot>> observer)

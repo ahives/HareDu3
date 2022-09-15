@@ -25,10 +25,8 @@ class PolicyImpl :
     public async Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-
-        string url = "api/policies";
             
-        return await GetAllRequest<PolicyInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<PolicyInfo>("api/policies", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string policy, string pattern, string vhost, Action<PolicyConfigurator> configurator,
