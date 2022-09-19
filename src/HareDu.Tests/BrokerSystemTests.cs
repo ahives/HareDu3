@@ -14,8 +14,8 @@ public class BrokerSystemTests :
     {
         var services = GetContainerBuilder("TestData/SystemOverviewInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerObjectFactory>()
-            .Object<BrokerSystem>()
-            .GetSystemOverview();
+            .Object<Broker>()
+            .GetOverview();
 
         Assert.Multiple(() =>
         {

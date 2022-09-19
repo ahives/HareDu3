@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Core;
 using Model;
 
-public interface BrokerSystem :
+public interface Broker :
     BrokerObject
 {
     /// <summary>
@@ -13,7 +13,7 @@ public interface BrokerSystem :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<SystemOverviewInfo>> GetSystemOverview(CancellationToken cancellationToken = default);
+    Task<Result<BrokerOverviewInfo>> GetOverview(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rebalances all queues in all RabbitMQ virtual hosts.
@@ -21,4 +21,11 @@ public interface BrokerSystem :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default);
 }

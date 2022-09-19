@@ -88,14 +88,14 @@ class ClusterLens :
         return this;
     }
 
-    NodeSnapshot MapNodeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
+    NodeSnapshot MapNodeSnapshot(BrokerOverviewInfo brokerOverview, NodeInfo node) =>
         new ()
         {
             Identifier = node.Name,
             Uptime = node.Uptime,
-            ClusterIdentifier = systemOverview.ClusterName,
+            ClusterIdentifier = brokerOverview.ClusterName,
             OS = MapOperatingSystemSnapshot(node),
-            Runtime = MapRuntimeSnapshot(systemOverview, node),
+            Runtime = MapRuntimeSnapshot(brokerOverview, node),
             ContextSwitching = new (){Total = node.ContextSwitches, Rate = node.ContextSwitchDetails?.Value ?? 0},
             Disk = MapDiskSnapshot(node),
             NetworkPartitions = node.Partitions.ToList(),
@@ -169,12 +169,12 @@ class ClusterLens :
             }
         };
 
-    BrokerRuntimeSnapshot MapRuntimeSnapshot(SystemOverviewInfo systemOverview, NodeInfo node) =>
+    BrokerRuntimeSnapshot MapRuntimeSnapshot(BrokerOverviewInfo brokerOverview, NodeInfo node) =>
         new ()
         {
-            ClusterIdentifier = systemOverview.ClusterName,
+            ClusterIdentifier = brokerOverview.ClusterName,
             Identifier = node.Name,
-            Version = systemOverview.ErlangVersion,
+            Version = brokerOverview.ErlangVersion,
             Processes = new ()
             {
                 Limit = node.TotalProcesses,

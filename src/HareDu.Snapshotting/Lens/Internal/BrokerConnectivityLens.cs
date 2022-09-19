@@ -92,7 +92,7 @@ class BrokerConnectivityLens :
         return this;
     }
 
-    BrokerConnectivitySnapshot GetSnapshot(Result<SystemOverviewInfo> cluster, ResultList<ChannelInfo> channels,
+    BrokerConnectivitySnapshot GetSnapshot(Result<BrokerOverviewInfo> cluster, ResultList<ChannelInfo> channels,
         ResultList<ConnectionInfo> connections)
     {
         var systemOverview = cluster.Select(x => x.Data);

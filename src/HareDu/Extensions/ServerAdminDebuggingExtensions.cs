@@ -457,7 +457,7 @@ public static class ServerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<Result<SystemOverviewInfo>> ScreenDump(this Task<Result<SystemOverviewInfo>> result)
+    public static Task<Result<BrokerOverviewInfo>> ScreenDump(this Task<Result<BrokerOverviewInfo>> result)
     {
         var item = result
             .GetResult()

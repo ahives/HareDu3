@@ -3,7 +3,7 @@ namespace HareDu.Model;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-public record SystemOverviewInfo
+public record BrokerOverviewInfo
 {
     [JsonPropertyName("management_version")]
     public string ManagementVersion { get; init; }

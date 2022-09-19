@@ -30,8 +30,8 @@ public class BrokerSystemTests
     public async Task Test()
     {
         var result = await _services.GetService<IBrokerObjectFactory>()
-            .Object<BrokerSystem>()
-            .GetSystemOverview()
+            .Object<Broker>()
+            .GetOverview()
             .ScreenDump();
     }
 }

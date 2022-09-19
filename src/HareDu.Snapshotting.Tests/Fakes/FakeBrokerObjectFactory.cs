@@ -11,11 +11,11 @@ public class FakeBrokerObjectFactory :
     public HareDuConfig Config { get; }
 
     public T Object<T>()
-        where T : BrokerObject
+        where T : HareDu.BrokerObject
     {
-        if (typeof(T) == typeof(BrokerSystem))
+        if (typeof(T) == typeof(Broker))
         {
-            BrokerSystem obj = new BrokerSystemObject();
+            Broker obj = new BrokerObject();
 
             return (T) obj;
         }

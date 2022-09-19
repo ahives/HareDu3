@@ -117,6 +117,46 @@ public class BaseBrokerObject
         }
     }
 
+    protected async Task<Result> GetRequest(string url, CancellationToken cancellationToken = default)
+    {
+        string rawResponse = null;
+
+        try
+        {
+            if (url.Contains("/%2f"))
+                HandleDotsAndSlashes();
+
+            var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
+
+            rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+                return new FaultedResult{DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error> { GetError(response.StatusCode) }}};
+                
+            return new SuccessfulResult{DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error>()}};
+        }
+        catch (MissingMethodException e)
+        {
+            return new FaultedResult {DebugInfo = new() {URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+        }
+        catch (HttpRequestException e)
+        {
+            return new FaultedResult {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+        }
+        catch (JsonException e)
+        {
+            return new FaultedResult {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+        }
+        catch (TaskCanceledException e)
+        {
+            return new FaultedResult {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+        }
+        catch (Exception e)
+        {
+            return new FaultedResult {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
+        }
+    }
+
     protected async Task<Result> DeleteRequest(string url, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;

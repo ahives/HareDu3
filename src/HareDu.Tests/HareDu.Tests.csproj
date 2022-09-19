@@ -116,6 +116,14 @@
       <Content Include="TestData\NodeHealthInfo_Ok.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\UserLimitsMaxConnections.json" />
+      <Content Include="TestData\UserLimitsMaxConnections.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\UserLimitsMaxChannels.json" />
+      <Content Include="TestData\UserLimitsMaxChannels.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

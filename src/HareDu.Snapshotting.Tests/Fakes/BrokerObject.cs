@@ -6,13 +6,13 @@ using Core;
 using Core.Testing;
 using HareDu.Model;
 
-public class BrokerSystemObject :
-    BrokerSystem,
+public class BrokerObject :
+    Broker,
     HareDuTestingFake
 {
-    public async Task<Result<SystemOverviewInfo>> GetSystemOverview(CancellationToken cancellationToken = default)
+    public async Task<Result<BrokerOverviewInfo>> GetOverview(CancellationToken cancellationToken = default)
     {
-        var data = new SystemOverviewInfo()
+        var data = new BrokerOverviewInfo()
         {
             RabbitMqVersion = "3.7.18",
             ErlangVersion = "22.1",
@@ -52,8 +52,9 @@ public class BrokerSystemObject :
             }
         };
             
-        return new SuccessfulResult<SystemOverviewInfo>{Data = data, DebugInfo = null};
+        return new SuccessfulResult<BrokerOverviewInfo>{Data = data, DebugInfo = null};
     }
 
     public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
 }
