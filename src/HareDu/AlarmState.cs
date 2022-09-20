@@ -4,5 +4,5 @@ public enum AlarmState
 {
     InEffect,
     NotInEffect,
-    NA
+    NotRecognized
 }

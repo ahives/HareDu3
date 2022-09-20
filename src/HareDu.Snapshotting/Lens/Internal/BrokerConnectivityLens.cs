@@ -30,7 +30,7 @@ class BrokerConnectivityLens :
     public async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
     {
         var cluster = await _factory
-            .GetBrokerSystemOverview(cancellationToken)
+            .GetBrokerOverview(cancellationToken)
             .ConfigureAwait(false);
 
         if (cluster.HasFaulted)

@@ -14,7 +14,7 @@ using NUnit.Framework;
 
 public class HareDuTesting
 {
-    protected ServiceCollection GetContainerBuilder(string file)
+    protected ServiceCollection GetContainerBuilder(string file, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var services = new ServiceCollection();
 
@@ -22,25 +22,25 @@ public class HareDuTesting
         {
             string data = File.ReadAllText($"{TestContext.CurrentContext.TestDirectory}/{file}");
                     
-            return new BrokerObjectFactory(GetClient(data));
+            return new BrokerObjectFactory(GetClient(data, statusCode));
         });
             
         return services;
     }
 
-    protected ServiceCollection GetContainerBuilder()
+    protected ServiceCollection GetContainerBuilder(HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(GetClient(string.Empty)));
+        services.AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(GetClient(string.Empty, statusCode)));
 
         return services;
     }
-        
-    protected HttpClient GetClient(string data)
+
+    protected HttpClient GetClient(string data, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var mock = new Mock<HttpMessageHandler>();
-            
+
         mock.Protected()
             .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
@@ -49,11 +49,11 @@ public class HareDuTesting
             .ReturnsAsync(
                 new HttpResponseMessage
                 {
-                    StatusCode = HttpStatusCode.OK,
+                    StatusCode = statusCode,
                     Content = new StringContent(data)
                 })
             .Verifiable();
-            
+
         var uri = new Uri("http://localhost:15672/");
         var client = new HttpClient(mock.Object){BaseAddress = uri};
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

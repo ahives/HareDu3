@@ -28,7 +28,7 @@ class ClusterLens :
     public async Task<SnapshotResult<ClusterSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
     {
         var cluster = await _factory
-            .GetBrokerSystemOverview(cancellationToken)
+            .GetBrokerOverview(cancellationToken)
             .ConfigureAwait(false);
 
         if (cluster.HasFaulted)

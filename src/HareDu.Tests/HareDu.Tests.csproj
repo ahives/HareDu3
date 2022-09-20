@@ -124,6 +124,14 @@
       <Content Include="TestData\UserLimitsMaxChannels.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\AlarmsInEffect.json" />
+      <Content Include="TestData\AlarmsInEffect.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\AlarmsNotInEffect.json" />
+      <Content Include="TestData\AlarmsNotInEffect.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

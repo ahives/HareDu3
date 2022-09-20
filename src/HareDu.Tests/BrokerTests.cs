@@ -1,19 +1,21 @@
 namespace HareDu.Tests;
 
+using System.Net;
 using System.Threading.Tasks;
-using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using Extensions;
 
 [TestFixture]
-public class BrokerSystemTests :
+public class BrokerTests :
     HareDuTesting
 {
     [Test]
     public async Task Verify_can_get_system_overview1()
     {
-        var services = GetContainerBuilder("TestData/SystemOverviewInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
             .Object<Broker>()
             .GetOverview();
 
@@ -122,11 +124,78 @@ public class BrokerSystemTests :
     }
 
     [Test]
+    public async Task Verify_alarms_are_in_effect_1()
+    {
+        var result = await GetContainerBuilder("TestData/AlarmsInEffect.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsAlarmsInEffect();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == AlarmState.InEffect);
+        });
+    }
+
+    [Test]
+    public async Task Verify_alarms_are_in_effect_2()
+    {
+        var result = await GetContainerBuilder("TestData/AlarmsInEffect.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsAlarmsInEffect();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == AlarmState.InEffect);
+        });
+    }
+
+    [Test]
+    public async Task Verify_alarms_are_not_in_effect_1()
+    {
+        var result = await GetContainerBuilder("TestData/AlarmsNotInEffect.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsAlarmsInEffect();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == AlarmState.NotInEffect);
+        });
+    }
+
+    [Test]
+    public async Task Verify_alarms_are_not_in_effect_2()
+    {
+        var result = await GetContainerBuilder("TestData/AlarmsNotInEffect.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsAlarmsInEffect();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == AlarmState.NotInEffect);
+        });
+    }
+
+    [Test]
     public async Task Verify_can_get_system_overview2()
     {
-        var services = GetContainerBuilder("TestData/SystemOverviewInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
-            .GetBrokerSystemOverview();
+        var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .GetBrokerOverview();
 
         Assert.Multiple(() =>
         {

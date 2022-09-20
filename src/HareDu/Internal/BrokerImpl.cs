@@ -42,11 +42,11 @@ class BrokerImpl :
         {
             SuccessfulResult => new SuccessfulResult<AlarmState>
                 {Data = AlarmState.InEffect, DebugInfo = result.DebugInfo},
-            FaultedResult => new FaultedResult<AlarmState>
+            FaultedResult => new UnsuccessfulResult<AlarmState>
                 {Data = AlarmState.NotInEffect, DebugInfo = result.DebugInfo},
             _ => new FaultedResult<AlarmState>
             {
-                Data = AlarmState.NA,
+                Data = AlarmState.NotRecognized,
                 DebugInfo = new()
                 {
                     Errors = new List<Error>
