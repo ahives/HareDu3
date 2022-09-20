@@ -57,4 +57,13 @@ public class BrokerObject :
 
     public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
     public Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default)
+    {
+        throw new System.NotImplementedException();
+    }
 }

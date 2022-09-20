@@ -88,24 +88,4 @@ public static class VirtualHostExtensions
             .Startup(vhost, node, cancellationToken)
             .ConfigureAwait(false);
     }
-
-    /// <summary>
-    /// Performs a health check on the specified RabbitMQ virtual host.
-    /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<ServerHealthInfo>> GetVirtualHostHealth(this IBrokerObjectFactory factory,
-        string vhost, CancellationToken cancellationToken = default)
-    {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
-
-        return await factory
-            .Object<VirtualHost>()
-            .GetHealth(vhost, cancellationToken)
-            .ConfigureAwait(false);
-    }
 }

@@ -41,12 +41,4 @@ public interface VirtualHost :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Performs a health check on the specified RabbitMQ virtual host.
-    /// </summary>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result<ServerHealthInfo>> GetHealth(string vhost, CancellationToken cancellationToken = default);
 }

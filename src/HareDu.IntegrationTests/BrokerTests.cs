@@ -7,7 +7,7 @@ using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
-public class BrokerSystemTests
+public class BrokerTests
 {
     ServiceProvider _services;
 

@@ -132,6 +132,22 @@
       <Content Include="TestData\AlarmsNotInEffect.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\BrokerIsDead.json" />
+      <Content Include="TestData\BrokerIsNotAlive.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\BrokerIsAlive.json" />
+      <Content Include="TestData\BrokerIsAlive.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\VirtualHostsNotRunning.json" />
+      <Content Include="TestData\VirtualHostsNotRunning.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\VirtualHostsRunning.json" />
+      <Content Include="TestData\VirtualHostsRunning.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

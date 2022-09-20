@@ -35,8 +35,9 @@ class BrokerImpl :
     public async Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default)
     {
         cancellationToken.RequestCanceled();
-            
-        var result = await GetRequest("api/health/checks/alarms", cancellationToken).ConfigureAwait(false);
+
+        string url = "api/health/checks/alarms";
+        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -49,6 +50,71 @@ class BrokerImpl :
                 Data = AlarmState.NotRecognized,
                 DebugInfo = new()
                 {
+                    URL = url,
+                    Errors = new List<Error>
+                    {
+                        new()
+                        {
+                            Reason = "Not able to determine whether an alarm is in effect or not.",
+                            Timestamp = DateTimeOffset.UtcNow
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    public async Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
+
+        string url = $"api/aliveness-test/{vhost.ToSanitizedName()}";
+        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+
+        return result switch
+        {
+            SuccessfulResult => new SuccessfulResult<BrokerState>
+                {Data = BrokerState.Alive, DebugInfo = result.DebugInfo},
+            FaultedResult => new UnsuccessfulResult<BrokerState>
+                {Data = BrokerState.NotAlive, DebugInfo = result.DebugInfo},
+            _ => new FaultedResult<BrokerState>
+            {
+                Data = BrokerState.NotRecognized,
+                DebugInfo = new()
+                {
+                    URL = url,
+                    Errors = new List<Error>
+                    {
+                        new()
+                        {
+                            Reason = "Not able to determine whether an alarm is in effect or not.",
+                            Timestamp = DateTimeOffset.UtcNow
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    public async Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.RequestCanceled();
+
+        string url = "api/health/checks/virtual-hosts";
+        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+
+        return result switch
+        {
+            SuccessfulResult => new SuccessfulResult<VirtualHostState>
+                {Data = VirtualHostState.Running, DebugInfo = result.DebugInfo},
+            FaultedResult => new UnsuccessfulResult<VirtualHostState>
+                {Data = VirtualHostState.NotRunning, DebugInfo = result.DebugInfo},
+            _ => new FaultedResult<VirtualHostState>
+            {
+                Data = VirtualHostState.NotRecognized,
+                DebugInfo = new()
+                {
+                    URL = url,
                     Errors = new List<Error>
                     {
                         new()

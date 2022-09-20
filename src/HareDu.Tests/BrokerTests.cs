@@ -190,6 +190,138 @@ public class BrokerTests :
     }
 
     [Test]
+    public async Task Verify_broker_is_alive_1()
+    {
+        var result = await GetContainerBuilder("TestData/BrokerIsAlive.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsBrokerAlive("Test1");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == BrokerState.Alive);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_is_alive_2()
+    {
+        var result = await GetContainerBuilder("TestData/BrokerIsAlive.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsBrokerAlive("Test1");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == BrokerState.Alive);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_is_dead_1()
+    {
+        var result = await GetContainerBuilder("TestData/BrokerIsNotAlive.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsBrokerAlive("Test1");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == BrokerState.NotAlive);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_is_dead_2()
+    {
+        var result = await GetContainerBuilder("TestData/BrokerIsNotAlive.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsBrokerAlive("Test1");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == BrokerState.NotAlive);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_vhosts_are_running_1()
+    {
+        var result = await GetContainerBuilder("TestData/VirtualHostsRunning.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsVirtualHostsRunning();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == VirtualHostState.Running);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_vhosts_are_running_2()
+    {
+        var result = await GetContainerBuilder("TestData/VirtualHostsRunning.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsVirtualHostsRunning();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == VirtualHostState.Running);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_vhosts_are_not_running_1()
+    {
+        var result = await GetContainerBuilder("TestData/VirtualHostsNotRunning.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsVirtualHostsRunning();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == VirtualHostState.NotRunning);
+        });
+    }
+
+    [Test]
+    public async Task Verify_broker_vhosts_are_not_running_2()
+    {
+        var result = await GetContainerBuilder("TestData/VirtualHostsNotRunning.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsVirtualHostsRunning();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == VirtualHostState.NotRunning);
+        });
+    }
+
+    [Test]
     public async Task Verify_can_get_system_overview2()
     {
         var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")

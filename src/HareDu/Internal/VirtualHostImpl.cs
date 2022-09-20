@@ -86,19 +86,11 @@ class VirtualHostImpl :
             errors.Add(new(){Reason = "RabbitMQ node is missing."});
 
         string url = $"/api/vhosts/{vhost.ToSanitizedName()}/start/{node}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await PostEmptyRequest(url, cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<Result<ServerHealthInfo>> GetHealth(string vhost,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.RequestCanceled();
-
-        return await GetRequest<ServerHealthInfo>($"api/aliveness-test/{vhost.ToSanitizedName()}", cancellationToken).ConfigureAwait(false);
     }
 
 
