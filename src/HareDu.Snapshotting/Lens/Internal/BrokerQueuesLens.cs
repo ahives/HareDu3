@@ -71,7 +71,7 @@ class BrokerQueuesLens :
 
     public Lens<BrokerQueuesSnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerQueuesSnapshot>> observer)
     {
-        if (observer != null)
+        if (observer is not null)
             _observers.Add(Subscribe(observer));
 
         return this;
@@ -80,7 +80,7 @@ class BrokerQueuesLens :
     public Lens<BrokerQueuesSnapshot> RegisterObservers(
         IReadOnlyList<IObserver<SnapshotContext<BrokerQueuesSnapshot>>> observers)
     {
-        if (observers == null)
+        if (observers is null)
             return this;
         
         for (int i = 0; i < observers.Count; i++)

@@ -27,8 +27,6 @@ public class CustomDecimalConverter :
         throw new JsonException();
     }
 
-    public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options) =>
         writer.WriteNumberValue(value);
-    }
 }

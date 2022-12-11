@@ -8,22 +8,13 @@ public class QueueSyncActionEnumConverter :
     JsonConverter<QueueSyncAction>
 {
     public override QueueSyncAction Read(ref Utf8JsonReader reader, Type typeToConvert,
-        JsonSerializerOptions options)
-    {
-        string? text = reader.GetString();
-            
-        switch (text)
+        JsonSerializerOptions options) =>
+        reader.GetString() switch
         {
-            case "sync":
-                return QueueSyncAction.Sync;
-                
-            case "cancel_sync":
-                return QueueSyncAction.CancelSync;
-                
-            default:
-                throw new JsonException();
-        }
-    }
+            "sync" => QueueSyncAction.Sync,
+            "cancel_sync" => QueueSyncAction.CancelSync,
+            _ => throw new JsonException()
+        };
 
     public override void Write(Utf8JsonWriter writer, QueueSyncAction value, JsonSerializerOptions options)
     {

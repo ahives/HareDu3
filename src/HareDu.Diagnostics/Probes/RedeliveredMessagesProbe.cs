@@ -65,7 +65,7 @@ public class RedeliveredMessagesProbe :
             new () {PropertyName = "MessageRedeliveryThresholdCoefficient", PropertyValue = _config.Probes.MessageRedeliveryThresholdCoefficient.ToString()},
             new () {PropertyName = "CalculatedThreshold", PropertyValue = warningThreshold.ToString()}
         };
-            
+
         if (data.Messages.Redelivered.Total >= warningThreshold
             && data.Messages.Redelivered.Total < data.Messages.Incoming.Total
             && warningThreshold < data.Messages.Incoming.Total)

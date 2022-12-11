@@ -71,7 +71,7 @@ class ClusterLens :
 
     public Lens<ClusterSnapshot> RegisterObserver(IObserver<SnapshotContext<ClusterSnapshot>> observer)
     {
-        if (observer != null)
+        if (observer is not null)
             _observers.Add(Subscribe(observer));
 
         return this;
@@ -79,7 +79,7 @@ class ClusterLens :
 
     public Lens<ClusterSnapshot> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<ClusterSnapshot>>> observers)
     {
-        if (observers == null)
+        if (observers is null)
             return this;
             
         for (int i = 0; i < observers.Count; i++)

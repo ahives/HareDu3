@@ -123,13 +123,11 @@ class BindingImpl :
             Arguments = new Lazy<IDictionary<string, object>>(() => _arguments.GetArgumentsOrNull(), LazyThreadSafetyMode.PublicationOnly);
         }
 
-        public void Validate()
-        {
+        public void Validate() =>
             _errors.AddRange(_arguments
                 .Select(x => x.Value?.Error)
                 .Where(error => error is not null)
                 .ToList());
-        }
 
         public void Add<T>(string arg, T value) =>
             _arguments.Add(arg.Trim(),

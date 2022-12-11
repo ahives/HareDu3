@@ -9,22 +9,13 @@ public class AckModeEnumConverter :
 {
     public override AckMode Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? text = reader.GetString();
-            
-        switch (text)
+        return reader.GetString() switch
         {
-            case "on-confirm":
-                return AckMode.OnConfirm;
-                
-            case "on-publish":
-                return AckMode.OnPublish;
-                
-            case "no-ack":
-                return AckMode.NoAck;
-                
-            default:
-                throw new JsonException();
-        }
+            "on-confirm" => AckMode.OnConfirm,
+            "on-publish" => AckMode.OnPublish,
+            "no-ack" => AckMode.NoAck,
+            _ => throw new JsonException()
+        };
     }
 
     public override void Write(Utf8JsonWriter writer, AckMode value, JsonSerializerOptions options)

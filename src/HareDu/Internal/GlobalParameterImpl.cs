@@ -107,23 +107,24 @@ class GlobalParameterImpl :
             _arguments = impl.Arguments;
         }
 
-        public void Value<T>(T argument)
-        {
-            _argument = argument;
-        }
+        public void Value<T>(T argument) => _argument = argument;
 
         public void Validate()
         {
-            if (_argument is string)
+            switch (_argument)
             {
-                if (string.IsNullOrWhiteSpace(_argument.ToString()))
+                case string:
+                {
+                    if (string.IsNullOrWhiteSpace(_argument.ToString()))
+                        _errors.Add(new(){Reason = "Parameter value is missing."});
+                
+                    return;
+                }
+                
+                case null when _arguments is null:
                     _errors.Add(new(){Reason = "Parameter value is missing."});
-                
-                return;
+                    break;
             }
-                
-            if (_argument is null && _arguments is null)
-                _errors.Add(new(){Reason = "Parameter value is missing."});
                 
             if (_arguments != null)
             {

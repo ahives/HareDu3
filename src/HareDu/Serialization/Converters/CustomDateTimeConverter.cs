@@ -25,8 +25,6 @@ public class CustomDateTimeConverter :
         throw new JsonException();
     }
 
-    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value);
-    }
 }

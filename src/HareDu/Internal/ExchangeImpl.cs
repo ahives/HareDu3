@@ -35,15 +35,15 @@ class ExchangeImpl :
 
         var impl = new ExchangeConfiguratorImpl();
         configurator?.Invoke(impl);
-            
+
         ExchangeRequest request = impl.Request.Value;
 
         Debug.Assert(request != null);
 
         var errors = new List<Error>();
-            
+
         errors.AddRange(impl.Errors.Value);
-            
+
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});
 
@@ -51,7 +51,7 @@ class ExchangeImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
@@ -98,10 +98,7 @@ class ExchangeImpl :
             Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
         }
 
-        public void WhenUnused()
-        {
-            _query = "if-unused=true";
-        }
+        public void WhenUnused() => _query = "if-unused=true";
     }
 
 

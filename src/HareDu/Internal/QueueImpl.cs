@@ -148,19 +148,15 @@ class QueueImpl :
             Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
         }
 
-        public void WhenHasNoConsumers()
-        {
+        public void WhenHasNoConsumers() =>
             _query = string.IsNullOrWhiteSpace(_query)
                 ? "if-unused=true"
                 : _query.Contains("if-unused=true") ? _query : $"{_query}&if-unused=true";
-        }
 
-        public void WhenEmpty()
-        {
+        public void WhenEmpty() =>
             _query = string.IsNullOrWhiteSpace(_query)
                 ? "if-empty=true"
                 : _query.Contains("if-empty=true") ? _query : $"{_query}&if-empty=true";
-        }
     }
 
 

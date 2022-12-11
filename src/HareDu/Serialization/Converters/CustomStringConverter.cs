@@ -7,25 +7,14 @@ using System.Text.Json.Serialization;
 public class CustomStringConverter :
     JsonConverter<string>
 {
-    public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        switch (reader.TokenType)
+    public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+        reader.TokenType switch
         {
-            case JsonTokenType.Number:
-                var stringValue = reader.GetInt32();
+            JsonTokenType.Number => reader.GetInt32().ToString(),
+            JsonTokenType.String => reader.GetString(),
+            _ => throw new JsonException()
+        };
 
-                return stringValue.ToString();
-
-            case JsonTokenType.String:
-                return reader.GetString();
-
-            default:
-                throw new JsonException();
-        }
-    }
-
-    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value);
-    }
 }

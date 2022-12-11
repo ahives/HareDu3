@@ -29,8 +29,6 @@ public class CustomLongConverter :
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options) =>
         writer.WriteNumberValue(value);
-    }
 }

@@ -69,12 +69,13 @@ class BrokerConnectivityLens :
         SaveSnapshot(identifier, snapshot);
         NotifyObservers(identifier, snapshot);
 
-        return new SnapshotResult<BrokerConnectivitySnapshot> {Identifier = identifier, Snapshot = snapshot, Timestamp = DateTimeOffset.UtcNow};
+        return new SnapshotResult<BrokerConnectivitySnapshot>
+            {Identifier = identifier, Snapshot = snapshot, Timestamp = DateTimeOffset.UtcNow};
     }
 
     public Lens<BrokerConnectivitySnapshot> RegisterObserver(IObserver<SnapshotContext<BrokerConnectivitySnapshot>> observer)
     {
-        if (observer != null)
+        if (observer is not null)
             _observers.Add(Subscribe(observer));
 
         return this;
@@ -83,7 +84,7 @@ class BrokerConnectivityLens :
     public Lens<BrokerConnectivitySnapshot> RegisterObservers(
         IReadOnlyList<IObserver<SnapshotContext<BrokerConnectivitySnapshot>>> observers)
     {
-        if (observers == null)
+        if (observers is null)
             return this;
 
         for (int i = 0; i < observers.Count; i++)
