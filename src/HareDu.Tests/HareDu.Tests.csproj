@@ -148,6 +148,30 @@
       <Content Include="TestData\VirtualHostsRunning.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\MirrorNotSyncCritical.json" />
+      <Content Include="TestData\MirrorNotSyncCritical.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\MirrorSyncCritical.json" />
+      <Content Include="TestData\MirrorSyncCritical.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\QuorumCritical.json" />
+      <Content Include="TestData\QuorumCritical.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\QuorumNotCritical.json" />
+      <Content Include="TestData\QuorumNotCritical.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ProtocolActiveListener.json" />
+      <Content Include="TestData\ProtocolActiveListener.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\ProtocolNotActiveListener.json" />
+      <Content Include="TestData\ProtocolNotActiveListener.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -322,6 +322,138 @@ public class BrokerTests :
     }
 
     [Test]
+    public async Task Verify_node_is_mirror_sync_critical_1()
+    {
+        var result = await GetContainerBuilder("TestData/MirrorSyncCritical.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsNodeMirrorSyncCritical();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == NodeMirrorSyncState.WithSyncedMirrorsOnline);
+        });
+    }
+
+    [Test]
+    public async Task Verify_node_is_not_mirror_sync_critical_2()
+    {
+        var result = await GetContainerBuilder("TestData/MirrorNotSyncCritical.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsNodeMirrorSyncCritical();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == NodeMirrorSyncState.WithoutSyncedMirrorsOnline);
+        });
+    }
+
+    [Test]
+    public async Task Verify_quorum_queues_not_critical_1()
+    {
+        var result = await GetContainerBuilder("TestData/QuorumNotCritical.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsNodeQuorumCritical();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == NodeQuorumState.MinimumQuorum);
+        });
+    }
+
+    [Test]
+    public async Task Verify_quorum_queues_not_critical_2()
+    {
+        var result = await GetContainerBuilder("TestData/QuorumCritical.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsNodeQuorumCritical();
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == NodeQuorumState.BelowMinimumQuorum);
+        });
+    }
+
+    [Test]
+    public async Task Verify_protocol_active_listener_1()
+    {
+        var result = await GetContainerBuilder("TestData/ProtocolActiveListener.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsProtocolActiveListener(x => x.Amqp10());
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == ProtocolListenerState.Active);
+        });
+    }
+
+    [Test]
+    public async Task Verify_protocol_active_listener_2()
+    {
+        var result = await GetContainerBuilder("TestData/ProtocolActiveListener.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsProtocolActiveListener(x => x.Amqp10());
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == ProtocolListenerState.Active);
+        });
+    }
+
+    [Test]
+    public async Task Verify_protocol_not_active_listener_1()
+    {
+        var result = await GetContainerBuilder("TestData/ProtocolNotActiveListener.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .Object<Broker>()
+            .IsProtocolActiveListener(x => x.Amqp091());
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == ProtocolListenerState.NotActive);
+        });
+    }
+
+    [Test]
+    public async Task Verify_protocol_not_active_listener_2()
+    {
+        var result = await GetContainerBuilder("TestData/ProtocolNotActiveListener.json", HttpStatusCode.ServiceUnavailable)
+            .BuildServiceProvider()
+            .GetService<IBrokerObjectFactory>()
+            .IsProtocolActiveListener(x => x.Amqp091());
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsTrue(result.HasData);
+            Assert.IsTrue(result.Data == ProtocolListenerState.NotActive);
+        });
+    }
+
+    [Test]
     public async Task Verify_can_get_system_overview2()
     {
         var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")

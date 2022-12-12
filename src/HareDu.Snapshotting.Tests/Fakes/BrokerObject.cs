@@ -1,5 +1,6 @@
 namespace HareDu.Snapshotting.Tests.Fakes;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -65,5 +66,20 @@ public class BrokerObject :
     public Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default)
     {
         throw new System.NotImplementedException();
+    }
+
+    public Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(CancellationToken cancellationToken = default)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -27,7 +27,7 @@ public class BaseBrokerObject
         {
             {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
             {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
-            {nameof(JsonException), new() {Reason = $"The JSON is invalid or T is not compatible with the JSON."}},
+            {nameof(JsonException), new() {Reason = "The JSON is invalid or T is not compatible with the JSON."}},
             {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}},
             {nameof(TaskCanceledException), new() {Reason = "Request failed due to timeout."}}
         };
@@ -207,10 +207,7 @@ public class BaseBrokerObject
                 HandleDotsAndSlashes();
 
             string requestContent = request.ToJsonString(Deserializer.Options);
-            byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
-            var content = new ByteArrayContent(requestBytes);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+            var content = GetRequestContent(requestContent);
             var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -251,10 +248,7 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            byte[] requestBytes = Encoding.UTF8.GetBytes(request);
-            var content = new ByteArrayContent(requestBytes);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+            var content = GetRequestContent(request);
             var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -296,10 +290,7 @@ public class BaseBrokerObject
                 HandleDotsAndSlashes();
 
             string requestContent = request.ToJsonString(Deserializer.Options);
-            byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
-            var content = new ByteArrayContent(requestBytes);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+            var content = GetRequestContent(requestContent);
             var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -343,10 +334,7 @@ public class BaseBrokerObject
                 HandleDotsAndSlashes();
 
             string requestContent = request.ToJsonString(Deserializer.Options);
-            byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
-            var content = new ByteArrayContent(requestBytes);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+            var content = GetRequestContent(requestContent);
             var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -388,10 +376,7 @@ public class BaseBrokerObject
                 HandleDotsAndSlashes();
 
             string requestContent = request.ToJsonString(Deserializer.Options);
-            byte[] requestBytes = Encoding.UTF8.GetBytes(requestContent);
-            var content = new ByteArrayContent(requestBytes);
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
+            var content = GetRequestContent(requestContent);
             var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -463,6 +448,15 @@ public class BaseBrokerObject
         {
             return new FaultedResult {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
         }
+    }
+
+    HttpContent GetRequestContent(string request)
+    {
+        byte[] requestBytes = Encoding.UTF8.GetBytes(request);
+        var content = new ByteArrayContent(requestBytes);
+        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+        return content;
     }
 
     void HandleDotsAndSlashes()
