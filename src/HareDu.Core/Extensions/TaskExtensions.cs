@@ -1,6 +1,5 @@
 namespace HareDu.Core.Extensions;
 
-using System.Threading;
 using System.Threading.Tasks;
 
 public static class TaskExtensions
@@ -15,16 +14,4 @@ public static class TaskExtensions
         => result is not null && !result.IsCanceled && !result.IsFaulted
             ? result.GetAwaiter().GetResult()
             : default;
-        
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    public static void RequestCanceled(this CancellationToken cancellationToken)
-    {
-        if (!cancellationToken.IsCancellationRequested)
-            return;
-
-        cancellationToken.ThrowIfCancellationRequested();
-    }
 }

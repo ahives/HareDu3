@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Model;
 
 class ConnectionImpl :
@@ -20,14 +19,14 @@ class ConnectionImpl :
 
     public async Task<ResultList<ConnectionInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ConnectionInfo>("api/connections", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

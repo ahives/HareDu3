@@ -24,7 +24,7 @@ class BindingImpl :
 
     public async Task<ResultList<BindingInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         string url = "api/bindings";
             
@@ -34,7 +34,7 @@ class BindingImpl :
     public async Task<Result<BindingInfo>> Create(string sourceBinding, string destinationBinding, BindingType bindingType, string vhost,
         string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new BindingConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -77,7 +77,7 @@ class BindingImpl :
     public async Task<Result> Delete(string sourceBinding, string destinationBinding, string propertiesKey,
         string vhost, BindingType bindingType, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

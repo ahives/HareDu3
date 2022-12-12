@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Model;
 
 class ConsumerImpl :
@@ -18,7 +17,7 @@ class ConsumerImpl :
 
     public async Task<ResultList<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ConsumerInfo>("api/consumers", cancellationToken).ConfigureAwait(false);
     }

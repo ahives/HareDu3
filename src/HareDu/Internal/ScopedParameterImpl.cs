@@ -23,7 +23,7 @@ class ScopedParameterImpl :
 
     public async Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
     }
@@ -31,7 +31,7 @@ class ScopedParameterImpl :
     public async Task<Result> Create<T>(string parameter, T value, string component, string vhost,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         ScopedParameterRequest<T> request =
             new()
@@ -65,7 +65,7 @@ class ScopedParameterImpl :
 
     public async Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
                 
         var errors = new List<Error>();
 

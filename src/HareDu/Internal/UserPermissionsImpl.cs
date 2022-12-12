@@ -24,7 +24,7 @@ class UserPermissionsImpl :
 
     public async Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<UserPermissionsInfo>("api/permissions", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class UserPermissionsImpl :
     public async Task<Result> Create(string username, string vhost,
         Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new UserPermissionsConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -65,7 +65,7 @@ class UserPermissionsImpl :
 
     public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
 

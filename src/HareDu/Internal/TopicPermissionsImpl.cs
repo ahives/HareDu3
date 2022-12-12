@@ -24,7 +24,7 @@ class TopicPermissionsImpl :
 
     public async Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class TopicPermissionsImpl :
     public async Task<Result> Create(string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new TopicPermissionsConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -72,7 +72,7 @@ class TopicPermissionsImpl :
 
     public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

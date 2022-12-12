@@ -24,7 +24,7 @@ class OperatorPolicyImpl :
         
     public async Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<OperatorPolicyInfo>("api/operator-policies", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class OperatorPolicyImpl :
     public async Task<Result> Create(string policy, string pattern, string vhost, Action<OperatorPolicyConfigurator> configurator,
         OperatorPolicyAppliedTo appliedTo = default, int priority = default, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
         
         var impl = new OperatorPolicyConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -69,7 +69,7 @@ class OperatorPolicyImpl :
 
     public async Task<Result> Delete(string policy, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

@@ -24,7 +24,7 @@ class ShovelImpl :
 
     public async Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ShovelInfo>("api/shovels", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class ShovelImpl :
     public async Task<Result> Create(string shovel, string uri, string vhost,
         Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             
@@ -72,7 +72,7 @@ class ShovelImpl :
 
     public async Task<Result> Delete(string shovel, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

@@ -23,7 +23,7 @@ class VirtualHostLimitsImpl :
 
     public async Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", cancellationToken).ConfigureAwait(false);
     }
@@ -31,7 +31,7 @@ class VirtualHostLimitsImpl :
     public async Task<Result> Define(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new VirtualHostLimitsConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -57,7 +57,7 @@ class VirtualHostLimitsImpl :
 
     public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

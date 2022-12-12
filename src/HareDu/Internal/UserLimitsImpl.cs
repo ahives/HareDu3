@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Model;
 
 class UserLimitsImpl :
@@ -19,7 +18,7 @@ class UserLimitsImpl :
 
     public async Task<Result<UserLimitsInfo>> GetMaxConnections(string username, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
                     
         var errors = new List<Error>();
 
@@ -36,7 +35,7 @@ class UserLimitsImpl :
 
     public async Task<Result<UserLimitsInfo>> GetMaxChannels(string username, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
                     
         var errors = new List<Error>();
 

@@ -24,7 +24,7 @@ class QueueImpl :
 
     public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class QueueImpl :
     public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new QueueConfiguratorImpl(node);
         configurator?.Invoke(impl);
@@ -64,7 +64,7 @@ class QueueImpl :
     public async Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -89,7 +89,7 @@ class QueueImpl :
 
     public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             
@@ -110,7 +110,7 @@ class QueueImpl :
     public async Task<Result> Sync(string queue, string vhost, QueueSyncAction syncAction,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         QueueSyncRequest request = new()
         {

@@ -24,7 +24,7 @@ class PolicyImpl :
 
     public async Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<PolicyInfo>("api/policies", cancellationToken).ConfigureAwait(false);
     }
@@ -32,7 +32,7 @@ class PolicyImpl :
     public async Task<Result> Create(string policy, string pattern, string vhost, Action<PolicyConfigurator> configurator,
         PolicyAppliedTo appliedTo = PolicyAppliedTo.All, int priority = 0, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new PolicyConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -73,7 +73,7 @@ class PolicyImpl :
 
     public async Task<Result> Delete(string policy, string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
             

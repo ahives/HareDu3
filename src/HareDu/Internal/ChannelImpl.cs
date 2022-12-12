@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Model;
 
 class ChannelImpl :
@@ -18,7 +17,7 @@ class ChannelImpl :
 
     public async Task<ResultList<ChannelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ChannelInfo>("api/channels", cancellationToken).ConfigureAwait(false);
     }

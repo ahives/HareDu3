@@ -24,14 +24,14 @@ class UserImpl :
 
     public async Task<ResultList<UserInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<UserInfo>("api/users", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<UserInfo>("api/users/without-permissions", cancellationToken).ConfigureAwait(false);
     }
@@ -39,7 +39,7 @@ class UserImpl :
     public async Task<Result> Create(string username, string password, string passwordHash = null,
         Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new UserConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -77,7 +77,7 @@ class UserImpl :
 
     public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
                 
         var errors = new List<Error>();
 
@@ -94,7 +94,7 @@ class UserImpl :
 
     public async Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         string url = "api/users/bulk-delete";
 

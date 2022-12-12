@@ -24,14 +24,14 @@ class VirtualHostImpl :
 
     public async Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new VirtualHostConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -53,7 +53,7 @@ class VirtualHostImpl :
 
     public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
 
@@ -75,7 +75,7 @@ class VirtualHostImpl :
 
     public async Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
 

@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Extensions;
 using Model;
 using Serialization;
@@ -24,14 +23,14 @@ class GlobalParameterImpl :
 
     public async Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<GlobalParameterInfo>("api/global-parameters", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         var impl = new GlobalParameterConfiguratorImpl(parameter);
         configurator?.Invoke(impl);
@@ -59,7 +58,7 @@ class GlobalParameterImpl :
 
     public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         var errors = new List<Error>();
             

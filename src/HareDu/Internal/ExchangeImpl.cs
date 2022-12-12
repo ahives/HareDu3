@@ -24,14 +24,14 @@ class ExchangeImpl :
 
     public async Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<ExchangeInfo>("api/exchanges", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new ExchangeConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -60,7 +60,7 @@ class ExchangeImpl :
 
     public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        cancellationToken.RequestCanceled();
+        cancellationToken.ThrowIfCancellationRequested();
 
         var impl = new ExchangeDeletionConfigurationImpl();
         configurator?.Invoke(impl);
