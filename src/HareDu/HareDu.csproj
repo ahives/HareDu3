@@ -14,4 +14,8 @@
       <Compile Remove="Extensions\ConverterExtensions.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.1.0" />
+    </ItemGroup>
+
 </Project>

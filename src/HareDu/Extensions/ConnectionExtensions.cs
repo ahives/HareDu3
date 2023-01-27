@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class ConnectionExtensions
     public static async Task<ResultList<ConnectionInfo>> GetAllConnections(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Connection>()
@@ -38,8 +38,7 @@ public static class ConnectionExtensions
     public static async Task<Result> DeleteConnection(this IBrokerObjectFactory factory,
         string connection, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Connection>()

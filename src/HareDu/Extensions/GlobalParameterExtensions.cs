@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class GlobalParameterExtensions
     public static async Task<ResultList<GlobalParameterInfo>> GetAllGlobalParameters(
         this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<GlobalParameter>()
@@ -39,8 +39,7 @@ public static class GlobalParameterExtensions
     public static async Task<Result> CreateGlobalParameter(this IBrokerObjectFactory factory,
         string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<GlobalParameter>()
@@ -59,8 +58,7 @@ public static class GlobalParameterExtensions
     public static async Task<Result> DeleteGlobalParameter(this IBrokerObjectFactory factory,
         string parameter, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<GlobalParameter>()

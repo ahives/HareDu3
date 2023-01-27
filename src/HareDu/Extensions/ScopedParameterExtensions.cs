@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class ScopedParameterExtensions
     public static async Task<ResultList<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<ScopedParameter>()
@@ -42,8 +42,7 @@ public static class ScopedParameterExtensions
     public static async Task<Result> CreateScopeParameter<T>(this IBrokerObjectFactory factory,
         string parameter, T value, string component, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<ScopedParameter>()
@@ -64,8 +63,7 @@ public static class ScopedParameterExtensions
     public static async Task<Result> DeleteScopedParameter(this IBrokerObjectFactory factory,
         string parameter, string component, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<ScopedParameter>()

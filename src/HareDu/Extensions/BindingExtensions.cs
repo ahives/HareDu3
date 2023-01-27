@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -17,8 +18,7 @@ public static class BindingExtensions
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<ResultList<BindingInfo>> GetAllBindings(this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Binding>()
@@ -41,8 +41,7 @@ public static class BindingExtensions
     public static async Task<Result> CreateExchangeBindingToQueue(this IBrokerObjectFactory factory,
         string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Binding>()
@@ -65,8 +64,7 @@ public static class BindingExtensions
     public static async Task<Result> CreateExchangeBinding(this IBrokerObjectFactory factory,
         string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Binding>()
@@ -88,8 +86,7 @@ public static class BindingExtensions
     public static async Task<Result> DeleteQueueBinding(this IBrokerObjectFactory factory,
         string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Binding>()
@@ -111,8 +108,7 @@ public static class BindingExtensions
     public static async Task<Result> DeleteExchangeBinding(this IBrokerObjectFactory factory,
         string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Binding>()

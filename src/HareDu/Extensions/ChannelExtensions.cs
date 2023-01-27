@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class ChannelExtensions
     public static async Task<ResultList<ChannelInfo>> GetAllChannels(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Channel>()

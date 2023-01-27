@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class PolicyExtensions
     public static async Task<ResultList<PolicyInfo>> GetAllPolicies(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Policy>()
@@ -44,8 +44,7 @@ public static class PolicyExtensions
         string policy, string pattern, string vhost, Action<PolicyConfigurator> configurator,
         PolicyAppliedTo appliedTo = PolicyAppliedTo.All, int priority = 0, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Policy>()
@@ -65,8 +64,7 @@ public static class PolicyExtensions
     public static async Task<Result> DeletePolicy(this IBrokerObjectFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Policy>()

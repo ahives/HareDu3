@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class NodeExtensions
     public static async Task<ResultList<NodeInfo>> GetAllNodes(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Node>()
@@ -38,8 +38,7 @@ public static class NodeExtensions
     public static async Task<Result<NodeHealthInfo>> GetNodeHealth(this IBrokerObjectFactory factory,
         string node = null, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Node>()
@@ -58,8 +57,7 @@ public static class NodeExtensions
     public static async Task<Result<NodeMemoryUsageInfo>> GetNodeMemoryUsage(this IBrokerObjectFactory factory,
         string node, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<Node>()

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -19,8 +20,7 @@ public static class UserExtensions
     public static async Task<ResultList<UserInfo>> GetAllUsers(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<User>()
@@ -38,8 +38,7 @@ public static class UserExtensions
     public static async Task<ResultList<UserInfo>> GetAllUsersWithoutPermissions(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<User>()
@@ -61,8 +60,7 @@ public static class UserExtensions
     public static async Task<Result> CreateUser(this IBrokerObjectFactory factory,
         string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<User>()
@@ -81,8 +79,7 @@ public static class UserExtensions
     public static async Task<Result> DeleteUser(this IBrokerObjectFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<User>()
@@ -101,8 +98,7 @@ public static class UserExtensions
     public static async Task<Result> DeleteUsers(this IBrokerObjectFactory factory, IList<string> usernames,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<User>()

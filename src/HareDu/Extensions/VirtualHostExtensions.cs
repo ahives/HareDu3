@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class VirtualHostExtensions
     public static async Task<ResultList<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerObjectFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<VirtualHost>()
@@ -39,8 +39,7 @@ public static class VirtualHostExtensions
     public static async Task<Result> CreateVirtualHost(this IBrokerObjectFactory factory,
         string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<VirtualHost>()
@@ -59,8 +58,7 @@ public static class VirtualHostExtensions
     public static async Task<Result> DeleteVirtualHost(this IBrokerObjectFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<VirtualHost>()
@@ -80,8 +78,7 @@ public static class VirtualHostExtensions
     public static async Task<Result> StartupVirtualHost(this IBrokerObjectFactory factory,
         string vhost, string node, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .Object<VirtualHost>()
