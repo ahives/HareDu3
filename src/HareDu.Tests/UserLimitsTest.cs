@@ -13,7 +13,7 @@ public class UserLimitsTest :
     {
         var services = GetContainerBuilder("TestData/UserLimitsMaxConnections.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserLimits>()
+            .API<UserLimits>()
             .GetMaxConnections("guest");
 
         Assert.Multiple(() =>
@@ -30,7 +30,7 @@ public class UserLimitsTest :
     {
         var services = GetContainerBuilder("TestData/UserLimitsMaxChannels.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserLimits>()
+            .API<UserLimits>()
             .GetMaxConnections("guest");
 
         Assert.Multiple(() =>

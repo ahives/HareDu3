@@ -34,7 +34,7 @@ public class ExchangeTests
     public async Task Should_be_able_to_get_all_exchanges()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll()
             .ScreenDump();
 
@@ -46,7 +46,7 @@ public class ExchangeTests
     public async Task Should_be_able_to_get_all_exchanges_2()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll();
 
         foreach (var exchange in result.Select(x => x.Data))
@@ -73,7 +73,7 @@ public class ExchangeTests
         var factory = new BrokerApiFactory(config);
             
         var result = await factory
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll()
             .ScreenDump();
             
@@ -85,7 +85,7 @@ public class ExchangeTests
     public async Task Verify_can_filter_exchanges()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll();
 
         result
@@ -100,7 +100,7 @@ public class ExchangeTests
     public async Task Verify_can_create_exchange()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create("HareDuExchange2", "TestHareDu", x =>
             {
                 x.IsDurable();
@@ -120,7 +120,7 @@ public class ExchangeTests
     public async Task Verify_can_delete_exchange()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete("E3", "HareDu");
             
 //            Assert.IsFalse(result.HasFaulted);

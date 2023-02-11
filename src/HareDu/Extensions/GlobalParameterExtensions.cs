@@ -22,7 +22,7 @@ public static class GlobalParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -42,7 +42,7 @@ public static class GlobalParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create(parameter, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -61,7 +61,7 @@ public static class GlobalParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Delete(parameter, cancellationToken)
             .ConfigureAwait(false);
     }

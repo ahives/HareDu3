@@ -15,7 +15,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -142,7 +142,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Create("HareDu7",x =>
             {
                 x.WithTracingEnabled();
@@ -185,7 +185,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Delete("HareDu7");
 
         Assert.IsFalse(result.HasFaulted);
@@ -206,7 +206,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Delete(string.Empty);
             
         Assert.Multiple(() =>
@@ -221,7 +221,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Startup("FakeVirtualHost", "FakeNode");
             
         Assert.IsFalse(result.HasFaulted);
@@ -242,7 +242,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Startup(string.Empty, "FakeNode");
             
         Assert.Multiple(() =>
@@ -257,7 +257,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Startup("FakeVirtualHost", string.Empty);
             
         Assert.Multiple(() =>
@@ -272,7 +272,7 @@ public class VirtualHostTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Startup(string.Empty, string.Empty);
             
         Assert.Multiple(() =>

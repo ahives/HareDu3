@@ -23,7 +23,7 @@ public class GetAllChannelBenchmarks :
     public async Task GetAllChannelsBenchmark()
     {
         var result = await _service
-            .Object<Channel>()
+            .API<Channel>()
             .GetAll();
     }
 

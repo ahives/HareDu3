@@ -15,7 +15,7 @@ public class ChannelTests :
     {
         var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Channel>()
+            .API<Channel>()
             .GetAll();
 
         Assert.Multiple(() =>

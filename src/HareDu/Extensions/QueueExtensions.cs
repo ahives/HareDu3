@@ -22,7 +22,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -44,7 +44,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .Create(queue, vhost, node, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -64,7 +64,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .Empty(queue, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -85,7 +85,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .Delete(queue, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -105,7 +105,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .Sync(queue, vhost, QueueSyncAction.Sync, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -125,7 +125,7 @@ public static class QueueExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Queue>()
+            .API<Queue>()
             .Sync(queue, vhost, QueueSyncAction.CancelSync, cancellationToken)
             .ConfigureAwait(false);
     }

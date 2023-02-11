@@ -22,7 +22,7 @@ public static class VirtualHostExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -42,7 +42,7 @@ public static class VirtualHostExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Create(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -61,7 +61,7 @@ public static class VirtualHostExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Delete(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -81,7 +81,7 @@ public static class VirtualHostExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Startup(vhost, node, cancellationToken)
             .ConfigureAwait(false);
     }

@@ -29,7 +29,7 @@ public static class ShovelExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create(shovel, uri, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -49,7 +49,7 @@ public static class ShovelExtensions
         Guard.IsNotNull(factory);
             
         return await factory
-            .Object<Shovel>()
+            .API<Shovel>()
             .Delete(shovel, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ public static class ShovelExtensions
     {
         Guard.IsNotNull(factory);
             
-        var result = await factory.Object<Shovel>()
+        var result = await factory.API<Shovel>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
 
@@ -84,7 +84,7 @@ public static class ShovelExtensions
         foreach (var shovel in shovels)
         {
             var deleteResult = await factory
-                .Object<Shovel>()
+                .API<Shovel>()
                 .Delete(shovel.Name, vhost, cancellationToken)
                 .ConfigureAwait(false);
                 
@@ -106,7 +106,7 @@ public static class ShovelExtensions
         Guard.IsNotNull(factory);
             
         return await factory
-            .Object<Shovel>()
+            .API<Shovel>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }

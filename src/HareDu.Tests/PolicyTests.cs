@@ -16,7 +16,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder("TestData/PolicyInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -67,7 +67,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Create("P5", "^amq.", "HareDu", x =>
             {
                 x.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -120,7 +120,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -176,7 +176,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -231,7 +231,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -288,7 +288,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete("P4", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -309,7 +309,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -338,7 +338,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete("P4", string.Empty);
             
         Assert.Multiple(() =>
@@ -367,7 +367,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -396,7 +396,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -425,7 +425,7 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Policy>()
+            .API<Policy>()
             .Delete("P4", string.Empty);
             
         Assert.Multiple(() =>

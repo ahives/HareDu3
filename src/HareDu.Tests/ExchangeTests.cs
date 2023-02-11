@@ -16,7 +16,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -67,7 +67,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create("fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -136,7 +136,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create(string.Empty, "HareDu", x =>
             {
                 x.IsDurable();
@@ -162,7 +162,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create(string.Empty, "HareDu", x =>
             {
                 x.IsDurable();
@@ -188,7 +188,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create("fake_exchange", string.Empty, x =>
             {
                 x.IsDurable();
@@ -214,7 +214,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete("E3", "HareDu", x =>
             {
                 x.WhenUnused();
@@ -241,7 +241,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete(string.Empty, "HareDu", x =>
             {
                 x.WhenUnused();
@@ -259,7 +259,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete("E3", string.Empty, x =>
             {
                 x.WhenUnused();
@@ -277,7 +277,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete("E3", string.Empty, x =>
             {
                 x.WhenUnused();
@@ -295,7 +295,7 @@ public class ExchangeTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete(string.Empty, string.Empty, x =>
             {
                 x.WhenUnused();

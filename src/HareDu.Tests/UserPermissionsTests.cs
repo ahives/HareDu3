@@ -15,7 +15,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder("TestData/UserPermissionsInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .GetAll();
             
         Assert.Multiple(() =>
@@ -60,7 +60,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Delete("haredu_user", "HareDu5");
 
         Assert.Multiple(() =>
@@ -89,7 +89,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Delete(string.Empty, "HareDu5");
             
         Assert.Multiple(() =>
@@ -118,7 +118,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Delete("haredu_user", string.Empty);
             
         Assert.Multiple(() =>
@@ -147,7 +147,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Delete(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -176,7 +176,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create("haredu_user", "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -229,7 +229,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create(string.Empty, "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -282,7 +282,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create("haredu_user", string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -335,7 +335,7 @@ public class UserPermissionsTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create(string.Empty, string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");

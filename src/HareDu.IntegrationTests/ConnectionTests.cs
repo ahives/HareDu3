@@ -32,7 +32,7 @@ public class ConnectionTests
     public async Task Should_be_able_to_get_all_connections()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Connection>()
+            .API<Connection>()
             .GetAll()
             .ScreenDump();
     }

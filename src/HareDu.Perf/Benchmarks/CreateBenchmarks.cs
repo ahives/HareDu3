@@ -22,7 +22,7 @@ public class CreateBenchmarks :
     public async Task QueueCreateBenchmark()
     {
         var result = await _service
-            .Object<Queue>()
+            .API<Queue>()
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -61,7 +61,7 @@ public class CreateBenchmarks :
     public async Task ExchangeCreateBenchmark()
     {
         var result = await _service
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create("fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -96,7 +96,7 @@ public class CreateBenchmarks :
     public async Task GlobalParameterCreateBenchmark()
     {
         var result = await _service
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
                 x.Value(arg =>
@@ -127,7 +127,7 @@ public class CreateBenchmarks :
     public async Task ScopedParameterCreateBenchmark()
     {
         var result = await _service
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .Create<long>("fake_parameter", 89, "fake_component", "HareDu");
     }
 
@@ -142,7 +142,7 @@ public class CreateBenchmarks :
     public async Task TopicPermissionsCreateBenchmark()
     {
         var result = await _service
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create("user1", "E4", "HareDu", x =>
             {
                 x.UsingReadPattern(".*");
@@ -165,7 +165,7 @@ public class CreateBenchmarks :
     public async Task UserPermissionsCreateBenchmark()
     {
         var result = await _service
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create("user", "HareDu", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -190,7 +190,7 @@ public class CreateBenchmarks :
     public async Task UserCreateBenchmark()
     {
         var result = await _service
-            .Object<User>()
+            .API<User>()
             .Create("user", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
@@ -217,7 +217,7 @@ public class CreateBenchmarks :
     public async Task VirtualHostLimitsDefineBenchmark()
     {
         var result = await _service
-            .Object<VirtualHostLimits>()
+            .API<VirtualHostLimits>()
             .Define("HareDu", x =>
             {
                 x.SetMaxQueueLimit(1);
@@ -240,7 +240,7 @@ public class CreateBenchmarks :
     public async Task VirtualHostCreateBenchmark()
     {
         var result = await _service
-            .Object<VirtualHost>()
+            .API<VirtualHost>()
             .Create("HareDu",x =>
             {
                 x.Description("This is a vhost");
@@ -275,7 +275,7 @@ public class CreateBenchmarks :
     public async Task BindingCreateBenchmark()
     {
         var result = await _service
-            .Object<Binding>()
+            .API<Binding>()
             .Create("exchange", "queue", BindingType.Exchange, "HareDu");
     }
 

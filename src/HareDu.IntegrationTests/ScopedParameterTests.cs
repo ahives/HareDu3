@@ -31,7 +31,7 @@ public class ScopedParameterTests
     public async Task Should_be_able_to_get_all_scoped_parameters()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .GetAll()
             .ScreenDump();
     }
@@ -40,7 +40,7 @@ public class ScopedParameterTests
     public async Task Verify_can_create()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .Create<string>("test", "me", "federation", "HareDu");
             
         Console.WriteLine("****************************************************");
@@ -51,7 +51,7 @@ public class ScopedParameterTests
     public async Task Verify_can_delete()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .Delete("", "federation", "HareDu");
     }
 }

@@ -22,7 +22,7 @@ public static class UserPermissionsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -50,7 +50,7 @@ public static class UserPermissionsExtensions
         };
             
         return await factory
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Create(username, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -70,7 +70,7 @@ public static class UserPermissionsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<UserPermissions>()
+            .API<UserPermissions>()
             .Delete(username, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

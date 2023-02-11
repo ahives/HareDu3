@@ -30,7 +30,7 @@ public class ServerTests
     public async Task Should_be_able_to_get_all_definitions()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Server>()
+            .API<Server>()
             .Get()
             .ScreenDump();
     }

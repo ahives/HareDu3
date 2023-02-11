@@ -32,7 +32,7 @@ public class BindingTests
     public async Task Should_be_able_to_get_all_bindings1()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Binding>()
+            .API<Binding>()
             .GetAll()
             .ScreenDump();
             
@@ -73,7 +73,7 @@ public class BindingTests
     public async Task Verify_can_add_arguments()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Binding>()
+            .API<Binding>()
             .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", "*.", x =>
             {
                 x.Add("arg1", "value1");
@@ -87,7 +87,7 @@ public class BindingTests
     public async Task Verify_can_delete_binding()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Binding>()
+            .API<Binding>()
             .Delete("E2", "Q4", "%2A.","HareDu", BindingType.Queue);
             
 //            Assert.IsFalse(result.HasFaulted);

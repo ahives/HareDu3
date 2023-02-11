@@ -22,7 +22,7 @@ public static class ChannelExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Channel>()
+            .API<Channel>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }

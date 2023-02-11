@@ -23,7 +23,7 @@ public class GetAllBindingsBenchmarks :
     public async Task GetAllBindingsBenchmark()
     {
         var result = await _service
-            .Object<Binding>()
+            .API<Binding>()
             .GetAll();
     }
 

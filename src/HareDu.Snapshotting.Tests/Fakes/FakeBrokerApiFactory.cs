@@ -10,7 +10,7 @@ public class FakeBrokerApiFactory :
 {
     public HareDuConfig Config { get; }
 
-    public T Object<T>()
+    public T API<T>()
         where T : BrokerAPI
     {
         if (typeof(T) == typeof(Broker))

@@ -22,7 +22,7 @@ public static class VirtualHostLimitsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHostLimits>()
+            .API<VirtualHostLimits>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -42,7 +42,7 @@ public static class VirtualHostLimitsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHostLimits>()
+            .API<VirtualHostLimits>()
             .Define(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -61,7 +61,7 @@ public static class VirtualHostLimitsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<VirtualHostLimits>()
+            .API<VirtualHostLimits>()
             .Delete(vhost, cancellationToken)
             .ConfigureAwait(false);
     }

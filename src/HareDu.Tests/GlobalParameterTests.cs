@@ -17,7 +17,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder("TestData/GlobalParameterInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -62,7 +62,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
                 x.Value("fake_value");
@@ -107,7 +107,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
                 x.Value(arg =>
@@ -139,7 +139,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
                 x.Value("fake_value");
@@ -163,7 +163,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create("fake_param", x =>
             {
                 x.Value(string.Empty);
@@ -187,7 +187,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
                 x.Value(string.Empty);
@@ -211,7 +211,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
             });
@@ -234,7 +234,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Delete("fake_param");
             
         Assert.IsFalse(result.HasFaulted);
@@ -255,7 +255,7 @@ public class GlobalParameterTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Delete(string.Empty);
             
         Assert.Multiple(() =>

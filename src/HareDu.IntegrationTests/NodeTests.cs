@@ -31,7 +31,7 @@ public class NodeTests
     public async Task Should_be_able_to_get_all_nodes()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetAll()
             .ScreenDump();
     }
@@ -40,7 +40,7 @@ public class NodeTests
     public async Task Should_be_able_to_get_all_memory_usage()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage("rabbit@localhost")
             .ScreenDump();
     }
@@ -49,7 +49,7 @@ public class NodeTests
     public async Task Verify_can_check_if_named_node_healthy()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth("rabbit@localhost")
             .ScreenDump();
     }
@@ -58,7 +58,7 @@ public class NodeTests
     public async Task Verify_can_check_if_node_healthy()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth();
             
         Console.WriteLine((string) result.DebugInfo.URL);

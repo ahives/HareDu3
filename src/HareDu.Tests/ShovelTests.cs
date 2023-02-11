@@ -17,7 +17,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder("TestData/ShovelInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .GetAll();
             
         Assert.Multiple(() =>
@@ -62,7 +62,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.AcknowledgementMode(AckMode.OnPublish);
@@ -133,7 +133,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source("queue1", c =>
@@ -212,7 +212,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source(string.Empty, c =>
@@ -291,7 +291,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source("queue2", c =>
@@ -370,7 +370,7 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Delete("test-shovel2","TestHareDu");
             
         Assert.Multiple(() =>

@@ -30,7 +30,7 @@ public class ConsumerTests
     public async Task Should_be_able_to_get_all_consumers()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Consumer>()
+            .API<Consumer>()
             .GetAll()
             .ScreenDump();
     }

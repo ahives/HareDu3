@@ -10,7 +10,7 @@ public interface IBrokerApiFactory
     /// </summary>
     /// <typeparam name="T">Interface that derives from base interface ResourceClient.</typeparam>
     /// <returns>An interface of resources available on a RabbitMQ server.</returns>
-    T Object<T>()
+    T API<T>()
         where T : BrokerAPI;
 
     /// <summary>

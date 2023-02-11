@@ -16,7 +16,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder("TestData/OperatorPolicyInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -63,7 +63,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Create("policy1", "^amq.", "HareDu", x =>
             {
                 x.SetExpiry(1000);
@@ -116,7 +116,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -171,7 +171,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -226,7 +226,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -281,7 +281,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete("P4", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -302,7 +302,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -331,7 +331,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete("P4", string.Empty);
             
         Assert.Multiple(() =>
@@ -360,7 +360,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -389,7 +389,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -418,7 +418,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete("P4", string.Empty);
             
         Assert.Multiple(() =>

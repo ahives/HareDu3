@@ -22,7 +22,7 @@ public static class ExchangeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Exchange>()
+            .API<Exchange>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -43,7 +43,7 @@ public static class ExchangeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Exchange>()
+            .API<Exchange>()
             .Create(exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -64,7 +64,7 @@ public static class ExchangeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Exchange>()
+            .API<Exchange>()
             .Delete(exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }

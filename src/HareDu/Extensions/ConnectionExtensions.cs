@@ -22,7 +22,7 @@ public static class ConnectionExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Connection>()
+            .API<Connection>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -41,7 +41,7 @@ public static class ConnectionExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Connection>()
+            .API<Connection>()
             .Delete(connection, cancellationToken)
             .ConfigureAwait(false);
     }

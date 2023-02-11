@@ -22,7 +22,7 @@ public static class ScopedParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -45,7 +45,7 @@ public static class ScopedParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .Create(parameter, value, component, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -66,7 +66,7 @@ public static class ScopedParameterExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<ScopedParameter>()
+            .API<ScopedParameter>()
             .Delete(parameter, component, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

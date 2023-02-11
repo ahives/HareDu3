@@ -22,7 +22,7 @@ public static class NodeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Node>()
+            .API<Node>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -41,7 +41,7 @@ public static class NodeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Node>()
+            .API<Node>()
             .GetHealth(node, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -60,7 +60,7 @@ public static class NodeExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage(node, cancellationToken)
             .ConfigureAwait(false);
     }

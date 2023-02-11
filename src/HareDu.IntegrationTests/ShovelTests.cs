@@ -33,7 +33,7 @@ public class ShovelTests
     public async Task Verify_can_create_dynamic_shovel1()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Create("test-shovel3", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source("queue1", c =>
@@ -82,7 +82,7 @@ public class ShovelTests
     public async Task Verify_can_delete_shovel1()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .Delete("test-shovel2","TestHareDu");
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -110,7 +110,7 @@ public class ShovelTests
     public async Task Verify_can_get_all_shovels1()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<Shovel>()
+            .API<Shovel>()
             .GetAll()
             .ScreenDump();
             

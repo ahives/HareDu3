@@ -22,7 +22,7 @@ public static class TopicPermissionsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -44,7 +44,7 @@ public static class TopicPermissionsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(username, exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -64,7 +64,7 @@ public static class TopicPermissionsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Delete(username, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

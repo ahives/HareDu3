@@ -22,7 +22,7 @@ public static class OperatorPolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -47,7 +47,7 @@ public static class OperatorPolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Create(policy, pattern, vhost, configurator, appliedTo, priority, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ public static class OperatorPolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<OperatorPolicy>()
+            .API<OperatorPolicy>()
             .Delete(policy, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

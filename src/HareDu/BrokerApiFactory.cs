@@ -35,7 +35,7 @@ public sealed class BrokerApiFactory :
             throw new HareDuBrokerObjectInitException("Could not register broker objects.");
     }
 
-    public T Object<T>()
+    public T API<T>()
         where T : BrokerAPI
     {
         Type type = typeof(T);

@@ -32,7 +32,7 @@ public class GlobalParameterTests
     public async Task Should_be_able_to_get_all_global_parameters()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .GetAll()
             .ScreenDump();
     }
@@ -41,7 +41,7 @@ public class GlobalParameterTests
     public async Task Verify_can_create_parameter()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Create("fake_param2", x =>
             {
                 x.Value("fake_value");
@@ -60,7 +60,7 @@ public class GlobalParameterTests
     public async Task Verify_can_delete_parameter()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<GlobalParameter>()
+            .API<GlobalParameter>()
             .Delete("Fred");
             
         // Assert.IsFalse(result.HasFaulted);

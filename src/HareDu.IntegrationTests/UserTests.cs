@@ -33,7 +33,7 @@ public class UserTests
     public async Task Verify_can_get_all_users()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<User>()
+            .API<User>()
             .GetAll()
             .ScreenDump();
     }
@@ -42,7 +42,7 @@ public class UserTests
     public async Task Verify_can_get_all_users_without_permissions()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<User>()
+            .API<User>()
             .GetAllWithoutPermissions()
             .ScreenDump();
     }
@@ -51,7 +51,7 @@ public class UserTests
     public async Task Verify_can_create()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<User>()
+            .API<User>()
             .Create("username3", "guest", configurator: x =>
             {
                 x.WithTags(t =>
@@ -67,7 +67,7 @@ public class UserTests
     public async Task Verify_can_delete()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .Object<User>()
+            .API<User>()
             .Delete("");
     }
 

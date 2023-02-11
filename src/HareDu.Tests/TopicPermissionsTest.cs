@@ -15,7 +15,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder("TestData/TopicPermissionsInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .GetAll();
             
         Assert.IsFalse(result.HasFaulted);
@@ -36,7 +36,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create("guest", "E4", "HareDu", x =>
             {
                 x.UsingReadPattern(".*");
@@ -73,7 +73,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(string.Empty, "E4", "HareDu", x =>
             {
                 x.UsingReadPattern(".*");
@@ -124,7 +124,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create("guest", "E4", string.Empty, x =>
             {
                 x.UsingReadPattern(".*");
@@ -175,7 +175,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
                 x.UsingReadPattern(".*");
@@ -226,7 +226,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
                 x.UsingReadPattern(string.Empty);
@@ -277,7 +277,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
                 x.UsingReadPattern(".*");
@@ -328,7 +328,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
                 x.UsingReadPattern(string.Empty);
@@ -389,7 +389,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Delete(string.Empty, "HareDu7");
             
         Assert.Multiple(() =>
@@ -418,7 +418,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Delete("guest", string.Empty);
             
         Assert.Multiple(() =>
@@ -447,7 +447,7 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<TopicPermissions>()
+            .API<TopicPermissions>()
             .Delete(string.Empty, string.Empty);
             
         Assert.Multiple(() =>

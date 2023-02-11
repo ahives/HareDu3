@@ -16,7 +16,7 @@ public class ConnectionTests :
     {
         var services = GetContainerBuilder("TestData/ConnectionInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Connection>()
+            .API<Connection>()
             .GetAll();
             
         Assert.Multiple(() =>

@@ -14,7 +14,7 @@ public class ConsumerTests :
     {
         var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Consumer>()
+            .API<Consumer>()
             .GetAll();
 
         Assert.Multiple(() =>

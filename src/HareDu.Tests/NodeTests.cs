@@ -15,7 +15,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetAll();
 
         Assert.Multiple(() =>
@@ -298,7 +298,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage("haredu@localhost");
 
         Assert.Multiple(() =>
@@ -379,7 +379,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage(string.Empty);
             
         Assert.Multiple(() =>
@@ -408,7 +408,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage(null);
             
         Assert.Multiple(() =>
@@ -437,7 +437,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetMemoryUsage("   ");
             
         Assert.Multiple(() =>
@@ -466,7 +466,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth("rabbit@localhost");
             
         Assert.Multiple(() =>
@@ -497,7 +497,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth("rabbit@localhost");
             
         Assert.Multiple(() =>
@@ -528,7 +528,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth();
             
         Assert.Multiple(() =>
@@ -559,7 +559,7 @@ public class NodeTests :
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Node>()
+            .API<Node>()
             .GetHealth();
             
         Assert.Multiple(() =>

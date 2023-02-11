@@ -22,7 +22,7 @@ public static class ServerExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Server>()
+            .API<Server>()
             .Get(cancellationToken)
             .ConfigureAwait(false);
     }

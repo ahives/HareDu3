@@ -14,7 +14,7 @@ public static class UserLimitsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<UserLimits>()
+            .API<UserLimits>()
             .GetMaxChannels(username, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -25,7 +25,7 @@ public static class UserLimitsExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<UserLimits>()
+            .API<UserLimits>()
             .GetMaxConnections(username, cancellationToken)
             .ConfigureAwait(false);
     }

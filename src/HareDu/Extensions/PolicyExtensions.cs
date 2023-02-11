@@ -22,7 +22,7 @@ public static class PolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Policy>()
+            .API<Policy>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -47,7 +47,7 @@ public static class PolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Policy>()
+            .API<Policy>()
             .Create(policy, pattern, vhost, configurator, appliedTo, priority, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ public static class PolicyExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Policy>()
+            .API<Policy>()
             .Delete(policy, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

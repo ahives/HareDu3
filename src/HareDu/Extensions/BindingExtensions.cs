@@ -21,7 +21,7 @@ public static class BindingExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Binding>()
+            .API<Binding>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -44,7 +44,7 @@ public static class BindingExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Binding>()
+            .API<Binding>()
             .Create(sourceBinding, destinationBinding, BindingType.Queue, vhost, bindingKey, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ public static class BindingExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Binding>()
+            .API<Binding>()
             .Create(sourceBinding, destinationBinding, BindingType.Exchange, vhost, bindingKey, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -89,7 +89,7 @@ public static class BindingExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Binding>()
+            .API<Binding>()
             .Delete(sourceBinding, destinationBinding, propertiesKey, vhost, BindingType.Queue, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -111,7 +111,7 @@ public static class BindingExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Binding>()
+            .API<Binding>()
             .Delete(sourceBinding, destinationBinding, propertiesKey, vhost, BindingType.Exchange, cancellationToken)
             .ConfigureAwait(false);
     }

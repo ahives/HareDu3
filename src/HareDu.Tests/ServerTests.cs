@@ -14,7 +14,7 @@ public class ServerTests :
     {
         var services = GetContainerBuilder("TestData/ServerDefinitionInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .Object<Server>()
+            .API<Server>()
             .Get();
             
         Assert.Multiple(() =>

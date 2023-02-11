@@ -23,7 +23,7 @@ public static class UserExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<User>()
+            .API<User>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -41,7 +41,7 @@ public static class UserExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<User>()
+            .API<User>()
             .GetAllWithoutPermissions(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -63,7 +63,7 @@ public static class UserExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<User>()
+            .API<User>()
             .Create(username, password, passwordHash, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -82,7 +82,7 @@ public static class UserExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<User>()
+            .API<User>()
             .Delete(username, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -101,7 +101,7 @@ public static class UserExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<User>()
+            .API<User>()
             .Delete(usernames, cancellationToken)
             .ConfigureAwait(false);
     }

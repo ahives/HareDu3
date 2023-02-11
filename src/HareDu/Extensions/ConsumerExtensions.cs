@@ -22,7 +22,7 @@ public static class ConsumerExtensions
         Guard.IsNotNull(factory);
 
         return await factory
-            .Object<Consumer>()
+            .API<Consumer>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }

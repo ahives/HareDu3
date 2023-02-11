@@ -22,7 +22,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .GetOverview(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -41,7 +41,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .RebalanceAllQueues(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -59,7 +59,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsAlarmsInEffect(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -79,7 +79,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsBrokerAlive(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
@@ -98,7 +98,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsVirtualHostsRunning(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -117,7 +117,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsNodeMirrorSyncCritical(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -136,7 +136,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsNodeQuorumCritical(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -156,7 +156,7 @@ public static class BrokerExtensions
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
-            .Object<Broker>()
+            .API<Broker>()
             .IsProtocolActiveListener(configurator, cancellationToken)
             .ConfigureAwait(false);
     }
