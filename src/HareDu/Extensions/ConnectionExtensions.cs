@@ -16,7 +16,7 @@ public static class ConnectionExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<ConnectionInfo>> GetAllConnections(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<ConnectionInfo>> GetAllConnections(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -35,7 +35,7 @@ public static class ConnectionExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteConnection(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteConnection(this IBrokerApiFactory factory,
         string connection, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

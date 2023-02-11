@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface GlobalParameter :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all global parameters on the current RabbitMQ node.

@@ -14,7 +14,7 @@ public class NodeTests :
     public async Task Should_be_able_to_get_all_nodes1()
     {
         var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetAll();
 
@@ -156,7 +156,7 @@ public class NodeTests :
     public async Task Should_be_able_to_get_all_nodes2()
     {
         var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllNodes();
 
         Assert.Multiple(() =>
@@ -297,7 +297,7 @@ public class NodeTests :
     public async Task Verify_will_return_node_memory_usage1()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetMemoryUsage("haredu@localhost");
 
@@ -338,7 +338,7 @@ public class NodeTests :
     public async Task Verify_will_return_node_memory_usage2()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeMemoryUsage("haredu@localhost");
 
         Assert.Multiple(() =>
@@ -378,7 +378,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing1()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetMemoryUsage(string.Empty);
             
@@ -393,7 +393,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing2()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeMemoryUsage(string.Empty);
             
         Assert.Multiple(() =>
@@ -407,7 +407,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing3()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetMemoryUsage(null);
             
@@ -422,7 +422,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing4()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeMemoryUsage(null);
             
         Assert.Multiple(() =>
@@ -436,7 +436,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing5()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetMemoryUsage("   ");
             
@@ -451,7 +451,7 @@ public class NodeTests :
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing6()
     {
         var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeMemoryUsage("   ");
             
         Assert.Multiple(() =>
@@ -465,7 +465,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_named_node_healthy1()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetHealth("rabbit@localhost");
             
@@ -481,7 +481,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_named_node_healthy2()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeHealth("rabbit@localhost");
             
         Assert.Multiple(() =>
@@ -496,7 +496,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_named_node_unhealthy1()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetHealth("rabbit@localhost");
             
@@ -512,7 +512,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_named_node_unhealthy2()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeHealth("rabbit@localhost");
             
         Assert.Multiple(() =>
@@ -527,7 +527,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_node_healthy1()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetHealth();
             
@@ -543,7 +543,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_node_healthy2()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Ok.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeHealth();
             
         Assert.Multiple(() =>
@@ -558,7 +558,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_node_unhealthy1()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Node>()
             .GetHealth();
             
@@ -574,7 +574,7 @@ public class NodeTests :
     public async Task Verify_can_check_if_node_unhealthy2()
     {
         var services = GetContainerBuilder("TestData/NodeHealthInfo_Failed.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetNodeHealth();
             
         Assert.Multiple(() =>

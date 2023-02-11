@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface VirtualHost :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns information about each virtual host on the current RabbitMQ server.

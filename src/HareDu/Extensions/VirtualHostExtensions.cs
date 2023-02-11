@@ -16,7 +16,7 @@ public static class VirtualHostExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -36,7 +36,7 @@ public static class VirtualHostExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateVirtualHost(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateVirtualHost(this IBrokerApiFactory factory,
         string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -55,7 +55,7 @@ public static class VirtualHostExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteVirtualHost(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteVirtualHost(this IBrokerApiFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -75,7 +75,7 @@ public static class VirtualHostExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> StartupVirtualHost(this IBrokerObjectFactory factory,
+    public static async Task<Result> StartupVirtualHost(this IBrokerApiFactory factory,
         string vhost, string node, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

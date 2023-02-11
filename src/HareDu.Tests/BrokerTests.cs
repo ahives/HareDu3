@@ -15,7 +15,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .GetOverview();
 
@@ -128,7 +128,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/AlarmsInEffect.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsAlarmsInEffect();
 
@@ -145,7 +145,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/AlarmsInEffect.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsAlarmsInEffect();
 
         Assert.Multiple(() =>
@@ -161,7 +161,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/AlarmsNotInEffect.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsAlarmsInEffect();
 
@@ -178,7 +178,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/AlarmsNotInEffect.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsAlarmsInEffect();
 
         Assert.Multiple(() =>
@@ -194,7 +194,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/BrokerIsAlive.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsBrokerAlive("Test1");
 
@@ -211,7 +211,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/BrokerIsAlive.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsBrokerAlive("Test1");
 
         Assert.Multiple(() =>
@@ -227,7 +227,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/BrokerIsNotAlive.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsBrokerAlive("Test1");
 
@@ -244,7 +244,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/BrokerIsNotAlive.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsBrokerAlive("Test1");
 
         Assert.Multiple(() =>
@@ -260,7 +260,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostsRunning.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsVirtualHostsRunning();
 
@@ -277,7 +277,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostsRunning.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsVirtualHostsRunning();
 
         Assert.Multiple(() =>
@@ -293,7 +293,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostsNotRunning.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsVirtualHostsRunning();
 
@@ -310,7 +310,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostsNotRunning.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsVirtualHostsRunning();
 
         Assert.Multiple(() =>
@@ -326,7 +326,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/MirrorSyncCritical.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsNodeMirrorSyncCritical();
 
@@ -343,7 +343,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/MirrorNotSyncCritical.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsNodeMirrorSyncCritical();
 
         Assert.Multiple(() =>
@@ -359,7 +359,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/QuorumNotCritical.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsNodeQuorumCritical();
 
@@ -376,7 +376,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/QuorumCritical.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsNodeQuorumCritical();
 
         Assert.Multiple(() =>
@@ -392,7 +392,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/ProtocolActiveListener.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsProtocolActiveListener(x => x.Amqp10());
 
@@ -409,7 +409,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/ProtocolActiveListener.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsProtocolActiveListener(x => x.Amqp10());
 
         Assert.Multiple(() =>
@@ -425,7 +425,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/ProtocolNotActiveListener.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .Object<Broker>()
             .IsProtocolActiveListener(x => x.Amqp091());
 
@@ -442,7 +442,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/ProtocolNotActiveListener.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .IsProtocolActiveListener(x => x.Amqp091());
 
         Assert.Multiple(() =>
@@ -458,7 +458,7 @@ public class BrokerTests :
     {
         var result = await GetContainerBuilder("TestData/SystemOverviewInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerObjectFactory>()
+            .GetService<IBrokerApiFactory>()
             .GetBrokerOverview();
 
         Assert.Multiple(() =>

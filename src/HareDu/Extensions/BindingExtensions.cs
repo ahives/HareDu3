@@ -16,7 +16,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<BindingInfo>> GetAllBindings(this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<ResultList<BindingInfo>> GetAllBindings(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -38,7 +38,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateExchangeBindingToQueue(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateExchangeBindingToQueue(this IBrokerApiFactory factory,
         string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -61,7 +61,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateExchangeBinding(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateExchangeBinding(this IBrokerApiFactory factory,
         string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -83,7 +83,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteQueueBinding(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteQueueBinding(this IBrokerApiFactory factory,
         string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -105,7 +105,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteExchangeBinding(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteExchangeBinding(this IBrokerApiFactory factory,
         string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

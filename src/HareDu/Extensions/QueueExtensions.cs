@@ -16,7 +16,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<QueueInfo>> GetAllQueues(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<QueueInfo>> GetAllQueues(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -38,7 +38,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateQueue(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateQueue(this IBrokerApiFactory factory,
         string queue, string vhost, string node, Action<QueueConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -58,7 +58,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> EmptyQueue(this IBrokerObjectFactory factory,
+    public static async Task<Result> EmptyQueue(this IBrokerApiFactory factory,
         string queue, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -79,7 +79,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteQueue(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteQueue(this IBrokerApiFactory factory,
         string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -99,7 +99,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> SyncQueue(this IBrokerObjectFactory factory, string queue, string vhost,
+    public static async Task<Result> SyncQueue(this IBrokerApiFactory factory, string queue, string vhost,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -119,7 +119,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CancelQueueSync(this IBrokerObjectFactory factory, string queue, string vhost,
+    public static async Task<Result> CancelQueueSync(this IBrokerApiFactory factory, string queue, string vhost,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

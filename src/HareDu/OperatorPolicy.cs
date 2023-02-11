@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface OperatorPolicy :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all operator policies on the current RabbitMQ node.

@@ -17,7 +17,7 @@ public static class TopicPermissionsExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<ResultList<TopicPermissionsInfo>> GetAllTopicPermissions(
-        this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
+        this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -38,7 +38,7 @@ public static class TopicPermissionsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateTopicPermission(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateTopicPermission(this IBrokerApiFactory factory,
         string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -58,7 +58,7 @@ public static class TopicPermissionsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteTopicPermission(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteTopicPermission(this IBrokerApiFactory factory,
         string username, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

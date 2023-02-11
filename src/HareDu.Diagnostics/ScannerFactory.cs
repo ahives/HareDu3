@@ -4,11 +4,15 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Core.Configuration;
 using KnowledgeBase;
 using Probes;
+using Extensions;
 using Scanners;
 using HareDu.Snapshotting.Model;
+using HareDu.Core.Extensions;
 
 public class ScannerFactory :
     IScannerFactory
@@ -72,10 +76,15 @@ public class ScannerFactory :
         if (observer is null)
             return;
 
-        var probes = _probeCache.Values.ToList();
+        Span<DiagnosticProbe> memoryFrames = CollectionsMarshal.AsSpan(_probeCache.Values.ToList());
+        ref var ptr = ref MemoryMarshal.GetReference(memoryFrames);
 
-        for (int i = 0; i < probes.Count; i++)
-            _observers.Add(probes[i].Subscribe(observer));
+        for (int i = 0; i < memoryFrames.Length; i++)
+        {
+            var probe = Unsafe.Add(ref ptr, i);
+
+            _observers.Add(probe.Subscribe(observer));
+        }
     }
 
     public bool TryRegisterProbe<T>(T probe)
@@ -86,17 +95,9 @@ public class ScannerFactory :
         if (probe is null || !probeAdded)
             return false;
 
-        foreach (var scanner in _scannerCache)
-        {
-            var method = scanner.Value
-                .GetType()
-                .GetMethod("Configure");
+        _scannerCache.ConfigureAll(Configure);
 
-            if (method != null)
-                method.Invoke(scanner.Value, new[] {_probeCache.Values});
-        }
-
-        return probeAdded;
+        return true;
     }
 
     public bool TryRegisterScanner<T>(DiagnosticScanner<T> scanner)
@@ -105,16 +106,13 @@ public class ScannerFactory :
 
     public bool TryRegisterAllProbes()
     {
-        var typeMap = GetProbeTypeMap(GetType());
-        bool registered = true;
-
-        foreach (var type in typeMap)
-        {
-            if (_probeCache.ContainsKey(type.Key))
-                continue;
-
-            registered = RegisterProbeInstance(type.Value, type.Key) & registered;
-        }
+        bool registered = GetType()
+            .Assembly
+            .GetTypes()
+            .Where(x => typeof(DiagnosticProbe).IsAssignableFrom(x) && !x.IsInterface)
+            .ToList()
+            .GetTypeMap(GetProbeKey)
+            .TryRegisterAll(_probeCache, RegisterProbeInstance);
 
         if (!registered)
             _probeCache.Clear();
@@ -124,16 +122,13 @@ public class ScannerFactory :
 
     public bool TryRegisterAllScanners()
     {
-        var typeMap = GetScannerTypeMap(GetType());
-        bool registered = true;
-
-        foreach (var type in typeMap)
-        {
-            if (_scannerCache.ContainsKey(type.Key))
-                continue;
-
-            registered = RegisterScannerInstance(type.Value, type.Key) & registered;
-        }
+        bool registered = GetType()
+            .Assembly
+            .GetTypes()
+            .Where(x => typeof(DiagnosticScanner<>).IsAssignableFrom(x) && !x.IsGenericType)
+            .ToList()
+            .GetTypeMap(GetScannerKey)
+            .TryRegisterAll(_scannerCache, RegisterScannerInstance);
 
         if (!registered)
             _scannerCache.Clear();
@@ -157,63 +152,6 @@ public class ScannerFactory :
 
     protected virtual object CreateScannerInstance(Type type) => Activator.CreateInstance(type, _probeCache.Values.ToList());
 
-    protected virtual IDictionary<string, Type> GetScannerTypeMap(Type findType)
-    {
-        var types = findType
-            .Assembly
-            .GetTypes()
-            .Where(x => x.IsClass && !x.IsGenericType)
-            .ToList();
-        var typeMap = new Dictionary<string, Type>();
-
-        foreach (var type in types)
-        {
-            if (type is null)
-                continue;
-
-            if (!type.GetInterfaces()
-                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>)))
-                continue;
-
-            var genericType = type
-                .GetInterfaces()
-                .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>));
-
-            if (genericType is null)
-                continue;
-
-            string key = genericType.GetGenericArguments()[0].FullName;
-
-            if (key != null && typeMap.ContainsKey(key))
-                continue;
-
-            typeMap.Add(key, type);
-        }
-
-        return typeMap;
-    }
-
-    protected virtual IDictionary<string, Type> GetProbeTypeMap(Type type)
-    {
-        var types = type
-            .Assembly
-            .GetTypes()
-            .Where(x => typeof(DiagnosticProbe).IsAssignableFrom(x) && !x.IsInterface)
-            .ToList();
-
-        var typeMap = new Dictionary<string, Type>();
-
-        for (int i = 0; i < types.Count; i++)
-        {
-            if (typeMap.ContainsKey(types[i].FullName))
-                continue;
-
-            typeMap.Add(types[i].FullName, types[i]);
-        }
-
-        return typeMap;
-    }
-
     protected virtual bool RegisterProbeInstance(Type type, string key)
     {
         try
@@ -236,5 +174,38 @@ public class ScannerFactory :
             : Activator.CreateInstance(type, _kb) as DiagnosticProbe;
 
         return instance;
+    }
+
+    void Configure(string key)
+    {
+        if (!_scannerCache.TryGetValue(key, out var scanner))
+            return;
+        
+        var method = scanner
+            .GetType()
+            .GetMethod("Configure");
+        
+        if (method != null)
+            method.Invoke(scanner, new[] {_probeCache.Values});
+    }
+
+    string GetProbeKey(Type type) => type?.FullName;
+
+    string GetScannerKey(Type type)
+    {
+        if (type is null)
+            return null;
+
+        if (!type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>)))
+            return null;
+
+        var genericType = type
+            .GetInterfaces()
+            .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>));
+
+        if (genericType is null)
+            return null;
+
+        return genericType.GetGenericArguments()[0].FullName;
     }
 }

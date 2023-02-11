@@ -15,7 +15,7 @@ public class OperatorPolicyTests :
     public async Task Should_be_able_to_get_all_policies1()
     {
         var services = GetContainerBuilder("TestData/OperatorPolicyInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .GetAll();
 
@@ -39,7 +39,7 @@ public class OperatorPolicyTests :
     public async Task Should_be_able_to_get_all_policies2()
     {
         var services = GetContainerBuilder("TestData/OperatorPolicyInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllOperatorPolicies();
 
         Assert.Multiple(() =>
@@ -62,7 +62,7 @@ public class OperatorPolicyTests :
     public async Task Verify_can_create_policy1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Create("policy1", "^amq.", "HareDu", x =>
             {
@@ -89,7 +89,7 @@ public class OperatorPolicyTests :
     public async Task Verify_can_create_policy2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .CreateOperatorPolicy("policy1", "^amq.", "HareDu", x =>
             {
                 x.SetExpiry(1000);
@@ -115,7 +115,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
@@ -143,7 +143,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -170,7 +170,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
@@ -198,7 +198,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -225,7 +225,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Create(string.Empty, "^amq.", string.Empty, x =>
             {
@@ -253,7 +253,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_create_policy6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
             {
                 x.SetExpiry(1000);
@@ -280,7 +280,7 @@ public class OperatorPolicyTests :
     public async Task Verify_can_delete_policy1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete("P4", "HareDu");
             
@@ -291,7 +291,7 @@ public class OperatorPolicyTests :
     public async Task Verify_can_delete_policy2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy("P4", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -301,7 +301,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete(string.Empty, "HareDu");
             
@@ -316,7 +316,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -330,7 +330,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete("P4", string.Empty);
             
@@ -345,7 +345,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy("P4", string.Empty);
             
         Assert.Multiple(() =>
@@ -359,7 +359,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete(string.Empty, string.Empty);
             
@@ -374,7 +374,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -388,7 +388,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy7()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete(string.Empty, "HareDu");
             
@@ -403,7 +403,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy8()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -417,7 +417,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy9()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<OperatorPolicy>()
             .Delete("P4", string.Empty);
             
@@ -432,7 +432,7 @@ public class OperatorPolicyTests :
     public async Task Verify_cannot_delete_policy10()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteOperatorPolicy("P4", string.Empty);
             
         Assert.Multiple(() =>

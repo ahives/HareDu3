@@ -11,7 +11,7 @@ public interface BrokerConfigurator
     void ConnectTo(string url);
 
     /// <summary>
-    /// Specify the maximum time before the HTTP request to the RAbbitMQ server will fail.
+    /// Specify the maximum time before the HTTP request to the RabbitMQ server will fail.
     /// </summary>
     /// <param name="timeout"></param>
     void TimeoutAfter(TimeSpan timeout);

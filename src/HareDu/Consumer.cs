@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface Consumer :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all consumers on the current RabbitMQ node.

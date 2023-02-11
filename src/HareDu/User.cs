@@ -8,7 +8,7 @@ using Core;
 using Model;
 
 public interface User :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns information about all users on the current RabbitMQ server.

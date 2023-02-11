@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface Connection :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all connections on the current RabbitMQ node.

@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface VirtualHostLimits :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns limit information about each virtual host on the current RabbitMQ server.

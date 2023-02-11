@@ -14,7 +14,7 @@ public class ChannelTests :
     public async Task Verify_can_get_all_channels1()
     {
         var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Channel>()
             .GetAll();
 
@@ -101,7 +101,7 @@ public class ChannelTests :
     public async Task Verify_can_get_all_channels2()
     {
         var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllChannels();
 
         Assert.Multiple(() =>

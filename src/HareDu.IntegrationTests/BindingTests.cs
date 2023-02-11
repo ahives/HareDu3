@@ -31,7 +31,7 @@ public class BindingTests
     [Test]
     public async Task Should_be_able_to_get_all_bindings1()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Binding>()
             .GetAll()
             .ScreenDump();
@@ -43,7 +43,7 @@ public class BindingTests
     [Test]
     public async Task Should_be_able_to_get_all_bindings2()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .GetAllBindings()
             .ScreenDump();
             
@@ -54,7 +54,7 @@ public class BindingTests
     [Test]
     public async Task Test1()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .CreateExchangeBinding("HareDuExchange1", "HareDuExchange2", "TestHareDu");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -63,7 +63,7 @@ public class BindingTests
     [Test]
     public async Task Test2()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .DeleteExchangeBinding("HareDuExchange1", "HareDuExchange2", "~", "TestHareDu");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -72,7 +72,7 @@ public class BindingTests
     [Test]
     public async Task Verify_can_add_arguments()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Binding>()
             .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", "*.", x =>
             {
@@ -86,7 +86,7 @@ public class BindingTests
     [Test]
     public async Task Verify_can_delete_binding()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Binding>()
             .Delete("E2", "Q4", "%2A.","HareDu", BindingType.Queue);
             

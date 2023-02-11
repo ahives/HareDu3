@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface Server :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all object definitions on the current RabbitMQ node.

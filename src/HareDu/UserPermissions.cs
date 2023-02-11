@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface UserPermissions :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns information about all user permissions on the current RabbitMQ server.

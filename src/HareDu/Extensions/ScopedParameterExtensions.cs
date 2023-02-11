@@ -16,7 +16,7 @@ public static class ScopedParameterExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -39,7 +39,7 @@ public static class ScopedParameterExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateScopeParameter<T>(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateScopeParameter<T>(this IBrokerApiFactory factory,
         string parameter, T value, string component, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -60,7 +60,7 @@ public static class ScopedParameterExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteScopedParameter(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteScopedParameter(this IBrokerApiFactory factory,
         string parameter, string component, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

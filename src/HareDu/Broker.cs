@@ -1,12 +1,13 @@
 namespace HareDu;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Model;
 
 public interface Broker :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns various bits of random information that describe the RabbitMQ system.
@@ -43,4 +44,26 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Performs a health check on the RabbitMQ cluster to determine if there are classic mirrored queues without synchronized mirrors online.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Performs a health check on the RabbitMQ cluster to determine if there are quorum queues with minimum online quorum.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default);
 }

@@ -32,7 +32,7 @@ public class UserTests
     [Test]
     public async Task Verify_can_get_all_users()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .GetAll()
             .ScreenDump();
@@ -41,7 +41,7 @@ public class UserTests
     [Test]
     public async Task Verify_can_get_all_users_without_permissions()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .GetAllWithoutPermissions()
             .ScreenDump();
@@ -50,7 +50,7 @@ public class UserTests
     [Test]
     public async Task Verify_can_create()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("username3", "guest", configurator: x =>
             {
@@ -66,7 +66,7 @@ public class UserTests
     [Test]
     public async Task Verify_can_delete()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete("");
     }
@@ -74,7 +74,7 @@ public class UserTests
     [Test]
     public async Task Verify_can_bulk_delete()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .DeleteUsers(new List<string> {"username1", "username2", "username3"});
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

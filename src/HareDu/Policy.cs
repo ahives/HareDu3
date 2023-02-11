@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface Policy :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all policies on the current RabbitMQ node.

@@ -31,7 +31,7 @@ public class ConnectionTests
     [Test, Explicit]
     public async Task Should_be_able_to_get_all_connections()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Connection>()
             .GetAll()
             .ScreenDump();
@@ -40,7 +40,7 @@ public class ConnectionTests
     [Test]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .DeleteConnection("127.0.0.1:56601 -> 127.0.0.1:5672");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

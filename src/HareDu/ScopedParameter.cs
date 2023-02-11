@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface ScopedParameter :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all scoped parameters on the current RabbitMQ server.

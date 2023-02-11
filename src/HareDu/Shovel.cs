@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface Shovel :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all dynamic shovels that have been created.

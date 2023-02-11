@@ -2,7 +2,7 @@ namespace HareDu;
 
 using System.Collections.Generic;
 
-public interface IBrokerObjectFactory
+public interface IBrokerApiFactory
 {
     /// <summary>
     /// Creates a new instance of object implemented by T, which encapsulates a group of resources (e.g. Virtual Host, Exchange, Queue, User, etc.)
@@ -11,7 +11,7 @@ public interface IBrokerObjectFactory
     /// <typeparam name="T">Interface that derives from base interface ResourceClient.</typeparam>
     /// <returns>An interface of resources available on a RabbitMQ server.</returns>
     T Object<T>()
-        where T : BrokerObject;
+        where T : BrokerAPI;
 
     /// <summary>
     /// Returns true if the broker object was registered.

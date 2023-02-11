@@ -17,11 +17,11 @@ public class HareDuPerformanceTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerObjectFactory>(x =>
+        services.AddSingleton<IBrokerApiFactory>(x =>
         {
             string data = File.ReadAllText($"{Environment.CurrentDirectory}/{file}");
 
-            return new BrokerObjectFactory(GetClient(data));
+            return new BrokerApiFactory(GetClient(data));
         });
             
         return services;
@@ -31,7 +31,7 @@ public class HareDuPerformanceTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(GetClient(string.Empty)));
+        services.AddSingleton<IBrokerApiFactory>(x => new BrokerApiFactory(GetClient(string.Empty)));
 
         return services;
     }

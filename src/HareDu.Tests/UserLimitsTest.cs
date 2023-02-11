@@ -12,7 +12,7 @@ public class UserLimitsTest :
     public async Task Verify_can_get_max_connections()
     {
         var services = GetContainerBuilder("TestData/UserLimitsMaxConnections.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<UserLimits>()
             .GetMaxConnections("guest");
 
@@ -29,7 +29,7 @@ public class UserLimitsTest :
     public async Task Verify_can_get_max_channels()
     {
         var services = GetContainerBuilder("TestData/UserLimitsMaxChannels.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<UserLimits>()
             .GetMaxConnections("guest");
 

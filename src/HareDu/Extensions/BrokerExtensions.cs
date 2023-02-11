@@ -15,7 +15,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerObjectFactory factory,
+    public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         if (factory is null)
@@ -34,7 +34,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> RebalanceAllQueues(this IBrokerObjectFactory factory,
+    public static async Task<Result> RebalanceAllQueues(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         if (factory is null)
@@ -53,7 +53,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerObjectFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
     {
         if (factory is null)
             throw new ArgumentNullException(nameof(factory));
@@ -72,7 +72,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerObjectFactory factory,
+    public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerApiFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
         if (factory is null)
@@ -91,7 +91,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerObjectFactory factory,
+    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         if (factory is null)
@@ -100,6 +100,64 @@ public static class BrokerExtensions
         return await factory
             .Object<Broker>()
             .IsVirtualHostsRunning(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Performs a health check on the RabbitMQ cluster to determine if there are classic mirrored queues without synchronized mirrors online.
+    /// </summary>
+    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerApiFactory factory,
+        CancellationToken cancellationToken = default)
+    {
+        if (factory is null)
+            throw new ArgumentNullException(nameof(factory));
+
+        return await factory
+            .Object<Broker>()
+            .IsNodeMirrorSyncCritical(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Performs a health check on the RabbitMQ cluster to determine if there are quorum queues with minimum online quorum.
+    /// </summary>
+    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerApiFactory factory,
+        CancellationToken cancellationToken = default)
+    {
+        if (factory is null)
+            throw new ArgumentNullException(nameof(factory));
+
+        return await factory
+            .Object<Broker>()
+            .IsNodeQuorumCritical(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Checks if the given protocol is an active listener on the RabbitMQ cluster.
+    /// </summary>
+    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerApiFactory factory,
+        Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        if (factory is null)
+            throw new ArgumentNullException(nameof(factory));
+
+        return await factory
+            .Object<Broker>()
+            .IsProtocolActiveListener(configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 }

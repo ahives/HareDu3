@@ -16,7 +16,7 @@ public static class PolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<PolicyInfo>> GetAllPolicies(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<PolicyInfo>> GetAllPolicies(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -40,7 +40,7 @@ public static class PolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreatePolicy(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreatePolicy(this IBrokerApiFactory factory,
         string policy, string pattern, string vhost, Action<PolicyConfigurator> configurator,
         PolicyAppliedTo appliedTo = PolicyAppliedTo.All, int priority = 0, CancellationToken cancellationToken = default)
     {
@@ -61,7 +61,7 @@ public static class PolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeletePolicy(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeletePolicy(this IBrokerApiFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

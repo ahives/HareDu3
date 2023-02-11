@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface Node :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all nodes on the current RabbitMQ cluster.

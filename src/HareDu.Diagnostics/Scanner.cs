@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MassTransit;
 using Scanners;
 using HareDu.Snapshotting.Model;
@@ -10,6 +11,7 @@ public class Scanner :
     IScanner
 {
     readonly IScannerFactory _factory;
+    List<IObserver<ProbeContext>> _subscribers;
 
     public Scanner(IScannerFactory factory)
     {
@@ -19,6 +21,8 @@ public class Scanner :
     public ScannerResult Scan<T>(T snapshot)
         where T : Snapshot
     {
+        _factory.RegisterObservers(_subscribers);
+
         if (!_factory.TryGet(out DiagnosticScanner<T> scanner))
             return DiagnosticCache.EmptyScannerResult;
 
@@ -33,16 +37,9 @@ public class Scanner :
         };
     }
 
-    public IScanner RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers)
+    public IScanner RegisterSubscribers(IObserver<ProbeContext> subscriber, params IObserver<ProbeContext>[] subscribers)
     {
-        _factory.RegisterObservers(observers);
-
-        return this;
-    }
-
-    public IScanner RegisterObserver(IObserver<ProbeContext> observer)
-    {
-        _factory.RegisterObserver(observer);
+        _subscribers.AddRange(subscribers.Prepend(subscriber).ToList());
 
         return this;
     }

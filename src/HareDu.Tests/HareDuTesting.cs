@@ -18,11 +18,11 @@ public class HareDuTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerObjectFactory>(x =>
+        services.AddSingleton<IBrokerApiFactory>(x =>
         {
             string data = File.ReadAllText($"{TestContext.CurrentContext.TestDirectory}/{file}");
                     
-            return new BrokerObjectFactory(GetClient(data, statusCode));
+            return new BrokerApiFactory(GetClient(data, statusCode));
         });
             
         return services;
@@ -32,7 +32,7 @@ public class HareDuTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerObjectFactory>(x => new BrokerObjectFactory(GetClient(string.Empty, statusCode)));
+        services.AddSingleton<IBrokerApiFactory>(x => new BrokerApiFactory(GetClient(string.Empty, statusCode)));
 
         return services;
     }

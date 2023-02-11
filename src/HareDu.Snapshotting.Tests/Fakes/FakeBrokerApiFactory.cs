@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Core.Configuration;
 using Core.Testing;
 
-public class FakeBrokerObjectFactory :
-    IBrokerObjectFactory,
+public class FakeBrokerApiFactory :
+    IBrokerApiFactory,
     HareDuTestingFake
 {
     public HareDuConfig Config { get; }
 
     public T Object<T>()
-        where T : HareDu.BrokerObject
+        where T : BrokerAPI
     {
         if (typeof(T) == typeof(Broker))
         {

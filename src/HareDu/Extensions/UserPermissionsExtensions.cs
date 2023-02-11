@@ -16,7 +16,7 @@ public static class UserPermissionsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<UserPermissionsInfo>> GetAllUserPermissions(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<UserPermissionsInfo>> GetAllUserPermissions(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -37,7 +37,7 @@ public static class UserPermissionsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateUserPermissions(this IBrokerObjectFactory factory,
+    public static async Task<Result> CreateUserPermissions(this IBrokerApiFactory factory,
         string username, string vhost, Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -64,7 +64,7 @@ public static class UserPermissionsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteUserPermissions(this IBrokerObjectFactory factory, string username,
+    public static async Task<Result> DeleteUserPermissions(this IBrokerApiFactory factory, string username,
         string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

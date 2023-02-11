@@ -33,7 +33,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Exchange>()
             .GetAll()
             .ScreenDump();
@@ -45,7 +45,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges_2()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Exchange>()
             .GetAll();
 
@@ -70,7 +70,7 @@ public class ExchangeTests
     {
         var provider = new HareDuConfigProvider();
         var config = provider.Configure(x => { });
-        var factory = new BrokerObjectFactory(config);
+        var factory = new BrokerApiFactory(config);
             
         var result = await factory
             .Object<Exchange>()
@@ -84,7 +84,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_filter_exchanges()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Exchange>()
             .GetAll();
 
@@ -99,7 +99,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_create_exchange()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Exchange>()
             .Create("HareDuExchange2", "TestHareDu", x =>
             {
@@ -119,7 +119,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_delete_exchange()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Exchange>()
             .Delete("E3", "HareDu");
             

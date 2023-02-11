@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface TopicPermissions :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all the RabbitMQ topic permissions.

@@ -1,7 +1,6 @@
 namespace HareDu.Diagnostics;
 
 using System;
-using System.Collections.Generic;
 using HareDu.Snapshotting.Model;
 
 public interface IScanner
@@ -14,16 +13,12 @@ public interface IScanner
     /// <returns></returns>
     ScannerResult Scan<T>(T snapshot)
         where T : Snapshot;
-        
+    
     /// <summary>
     /// Registers a list of observers that receives the output in real-time as each sensor executes.
     /// </summary>
-    /// <param name="observers"></param>
-    IScanner RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers);
-
-    /// <summary>
-    /// Registers an observer that receives the output in real-time as the sensor executes.
-    /// </summary>
-    /// <param name="observer"></param>
-    IScanner RegisterObserver(IObserver<ProbeContext> observer);
+    /// <param name="subscriber"></param>
+    /// <param name="subscribers"></param>
+    /// <returns></returns>
+    IScanner RegisterSubscribers(IObserver<ProbeContext> subscriber, params IObserver<ProbeContext>[] subscribers);
 }

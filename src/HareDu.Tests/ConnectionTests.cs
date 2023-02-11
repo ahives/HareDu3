@@ -15,7 +15,7 @@ public class ConnectionTests :
     public async Task Verify_can_get_all_connections1()
     {
         var services = GetContainerBuilder("TestData/ConnectionInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<Connection>()
             .GetAll();
             
@@ -85,7 +85,7 @@ public class ConnectionTests :
     public async Task Verify_can_get_all_connections2()
     {
         var services = GetContainerBuilder("TestData/ConnectionInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllConnections();
             
         Assert.Multiple(() =>

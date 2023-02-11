@@ -16,7 +16,7 @@ public static class OperatorPolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -40,7 +40,7 @@ public static class OperatorPolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateOperatorPolicy(this IBrokerObjectFactory factory, string policy,
+    public static async Task<Result> CreateOperatorPolicy(this IBrokerApiFactory factory, string policy,
         string pattern, string vhost, Action<OperatorPolicyConfigurator> configurator,
         OperatorPolicyAppliedTo appliedTo = default, int priority = default, CancellationToken cancellationToken = default)
     {
@@ -61,7 +61,7 @@ public static class OperatorPolicyExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteOperatorPolicy(this IBrokerObjectFactory factory,
+    public static async Task<Result> DeleteOperatorPolicy(this IBrokerApiFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

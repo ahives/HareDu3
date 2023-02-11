@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface Channel :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all channels on the current RabbitMQ node.

@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface Binding :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all bindings on the current RabbitMQ node.

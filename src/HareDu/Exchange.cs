@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface Exchange :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all exchanges on the current RabbitMQ node.

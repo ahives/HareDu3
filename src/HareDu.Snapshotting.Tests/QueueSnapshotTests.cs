@@ -17,7 +17,7 @@ public class QueueSnapshotTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddSingleton<IBrokerObjectFactory, FakeBrokerObjectFactory>()
+            .AddSingleton<IBrokerApiFactory, FakeBrokerApiFactory>()
             .AddSingleton<ISnapshotFactory, SnapshotFactory>()
             .BuildServiceProvider();
     }

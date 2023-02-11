@@ -16,7 +16,7 @@ public static class NodeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<NodeInfo>> GetAllNodes(this IBrokerObjectFactory factory,
+    public static async Task<ResultList<NodeInfo>> GetAllNodes(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -35,7 +35,7 @@ public static class NodeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<NodeHealthInfo>> GetNodeHealth(this IBrokerObjectFactory factory,
+    public static async Task<Result<NodeHealthInfo>> GetNodeHealth(this IBrokerApiFactory factory,
         string node = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -54,7 +54,7 @@ public static class NodeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<NodeMemoryUsageInfo>> GetNodeMemoryUsage(this IBrokerObjectFactory factory,
+    public static async Task<Result<NodeMemoryUsageInfo>> GetNodeMemoryUsage(this IBrokerApiFactory factory,
         string node, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

@@ -6,7 +6,7 @@ using Core;
 using Model;
 
 public interface UserLimits :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns information about user limits for connections and channels on the current RabbitMQ server.

@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 public interface Queue :
-    BrokerObject
+    BrokerAPI
 {
     /// <summary>
     /// Returns all queues on the current RabbitMQ node.

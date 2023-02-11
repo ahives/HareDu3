@@ -11,13 +11,13 @@ using Core.Configuration;
 using Core.Extensions;
 using Internal;
 
-public sealed class BrokerObjectFactory :
-    IBrokerObjectFactory
+public sealed class BrokerApiFactory :
+    IBrokerApiFactory
 {
     readonly HttpClient _client;
     readonly ConcurrentDictionary<string, object> _cache;
 
-    public BrokerObjectFactory(HttpClient client)
+    public BrokerApiFactory(HttpClient client)
     {
         _client = client ?? throw new ArgumentNullException(nameof(client));
         _cache = new ConcurrentDictionary<string, object>();
@@ -26,7 +26,7 @@ public sealed class BrokerObjectFactory :
             throw new HareDuBrokerObjectInitException("Could not register broker objects.");
     }
 
-    public BrokerObjectFactory(HareDuConfig config)
+    public BrokerApiFactory(HareDuConfig config)
     {
         _client = GetClient(config);
         _cache = new ConcurrentDictionary<string, object>();
@@ -36,7 +36,7 @@ public sealed class BrokerObjectFactory :
     }
 
     public T Object<T>()
-        where T : BrokerObject
+        where T : BrokerAPI
     {
         Type type = typeof(T);
             
@@ -133,7 +133,7 @@ public sealed class BrokerObjectFactory :
     {
         var types = findType.Assembly.GetTypes();
         var interfaces = types
-            .Where(x => typeof(BrokerObject).IsAssignableFrom(x) && x.IsInterface)
+            .Where(x => typeof(BrokerAPI).IsAssignableFrom(x) && x.IsInterface)
             .ToList();
         var typeMap = new Dictionary<string, Type>();
 

@@ -32,7 +32,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel1()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Shovel>()
             .Create("test-shovel3", "amqp://user1@localhost", "TestHareDu", x =>
             {
@@ -49,7 +49,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel2()
     {
-        Result result = await _services.GetService<IBrokerObjectFactory>()
+        Result result = await _services.GetService<IBrokerApiFactory>()
             .CreateShovel("test-shovel2", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source("queue1", c =>
@@ -65,7 +65,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel3()
     {
-        Result result = await _services.GetService<IBrokerObjectFactory>()
+        Result result = await _services.GetService<IBrokerApiFactory>()
             .CreateShovel("test-shovel6", "amqp://user1@localhost", "TestHareDu", x =>
             {
                 x.Source("queue1", c =>
@@ -81,7 +81,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_shovel1()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Shovel>()
             .Delete("test-shovel2","TestHareDu");
 
@@ -91,7 +91,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_shovel2()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .DeleteShovel("test-shovel2","TestHareDu");
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -100,7 +100,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_all_shovels()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .DeleteAllShovels("TestHareDu");
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -109,7 +109,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels1()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .Object<Shovel>()
             .GetAll()
             .ScreenDump();
@@ -121,7 +121,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels2()
     {
-        var result = await _services.GetService<IBrokerObjectFactory>()
+        var result = await _services.GetService<IBrokerApiFactory>()
             .GetAllShovels()
             .ScreenDump();
             

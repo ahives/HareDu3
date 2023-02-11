@@ -15,7 +15,7 @@ public class UserTests :
     public async Task Verify_can_get_all_users1()
     {
         var services = GetContainerBuilder("TestData/UserInfo1.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .GetAll();
 
@@ -37,7 +37,7 @@ public class UserTests :
     public async Task Verify_can_get_all_users2()
     {
         var services = GetContainerBuilder("TestData/UserInfo1.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllUsers();
 
         Assert.Multiple(() =>
@@ -58,7 +58,7 @@ public class UserTests :
     public async Task Verify_can_get_all_users_without_permissions1()
     {
         var services = GetContainerBuilder("TestData/UserInfo2.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .GetAllWithoutPermissions();
 
@@ -80,7 +80,7 @@ public class UserTests :
     public async Task Verify_can_get_all_users_without_permissions2()
     {
         var services = GetContainerBuilder("TestData/UserInfo2.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .GetAllUsersWithoutPermissions();
 
         Assert.Multiple(() =>
@@ -101,7 +101,7 @@ public class UserTests :
     public async Task Verify_can_create1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
@@ -128,7 +128,7 @@ public class UserTests :
     public async Task Verify_can_create2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .CreateUser("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
@@ -156,7 +156,7 @@ public class UserTests :
         string passwordHash = "gkgfjjhfjh".ComputePasswordHash();
             
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", string.Empty, passwordHash, configurator:x =>
             {
@@ -183,7 +183,7 @@ public class UserTests :
     public async Task Verify_can_create_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", "testuserpwd3", configurator:x =>
             {
@@ -212,7 +212,7 @@ public class UserTests :
         string passwordHash = "gkgfjjhfjh".ComputePasswordHash();
             
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", string.Empty, passwordHash, x =>
             {
@@ -239,7 +239,7 @@ public class UserTests :
     public async Task Verify_cannot_create_1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create(string.Empty, "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(),x =>
             {
@@ -267,7 +267,7 @@ public class UserTests :
     public async Task Verify_cannot_create_2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", string.Empty, string.Empty, x =>
             {
@@ -295,7 +295,7 @@ public class UserTests :
     public async Task Verify_cannot_create_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create("testuser3", string.Empty, string.Empty,x =>
             {
@@ -323,7 +323,7 @@ public class UserTests :
     public async Task Verify_cannot_create_4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
@@ -351,7 +351,7 @@ public class UserTests :
     public async Task Verify_cannot_create_5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Create(string.Empty, string.Empty, configurator:x => x.WithTags(t => { t.Administrator(); }));
 
@@ -373,7 +373,7 @@ public class UserTests :
     public async Task Verify_can_delete1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete("fake_user");
             
@@ -384,7 +384,7 @@ public class UserTests :
     public async Task Verify_can_delete2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUser("fake_user");
             
         Assert.IsFalse(result.HasFaulted);
@@ -394,7 +394,7 @@ public class UserTests :
     public async Task Verify_can_delete3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
             
@@ -415,7 +415,7 @@ public class UserTests :
     public async Task Verify_can_delete4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUsers(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
             
         Assert.Multiple(() =>
@@ -435,7 +435,7 @@ public class UserTests :
     public async Task Verify_cannot_delete1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete(string.Empty);
             
@@ -450,7 +450,7 @@ public class UserTests :
     public async Task Verify_cannot_delete2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUser(string.Empty);
             
         Assert.Multiple(() =>
@@ -464,7 +464,7 @@ public class UserTests :
     public async Task Verify_cannot_delete3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete(new List<string>());
             
@@ -479,7 +479,7 @@ public class UserTests :
     public async Task Verify_cannot_delete4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUsers(new List<string>());
             
         Assert.Multiple(() =>
@@ -493,7 +493,7 @@ public class UserTests :
     public async Task Verify_cannot_delete5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete(new List<string>{"  ", string.Empty, null});
             
@@ -508,7 +508,7 @@ public class UserTests :
     public async Task Verify_cannot_delete6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUsers(new List<string>{"  ", string.Empty, null});
             
         Assert.Multiple(() =>
@@ -522,7 +522,7 @@ public class UserTests :
     public async Task Verify_cannot_delete7()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .Object<User>()
             .Delete(new List<string>{"  ", "fake_user1", null});
             
@@ -537,7 +537,7 @@ public class UserTests :
     public async Task Verify_cannot_delete8()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerObjectFactory>()
+        var result = await services.GetService<IBrokerApiFactory>()
             .DeleteUsers(new List<string>{"  ", "fake_user1", null});
             
         Assert.Multiple(() =>
