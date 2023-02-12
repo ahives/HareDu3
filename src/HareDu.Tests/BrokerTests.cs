@@ -394,7 +394,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerApiFactory>()
             .API<Broker>()
-            .IsProtocolActiveListener(x => x.Amqp10());
+            .IsProtocolAnActiveListener(x => x.Amqp10());
 
         Assert.Multiple(() =>
         {
@@ -427,7 +427,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerApiFactory>()
             .API<Broker>()
-            .IsProtocolActiveListener(x => x.Amqp091());
+            .IsProtocolAnActiveListener(x => x.Amqp091());
 
         Assert.Multiple(() =>
         {

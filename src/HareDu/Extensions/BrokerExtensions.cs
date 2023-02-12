@@ -3,6 +3,7 @@ namespace HareDu.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Diagnostics;
 using Core;
 using Model;
 
@@ -18,8 +19,7 @@ public static class BrokerExtensions
     public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -37,8 +37,7 @@ public static class BrokerExtensions
     public static async Task<Result> RebalanceAllQueues(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -55,8 +54,7 @@ public static class BrokerExtensions
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -75,8 +73,7 @@ public static class BrokerExtensions
     public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerApiFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -94,8 +91,7 @@ public static class BrokerExtensions
     public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -113,8 +109,7 @@ public static class BrokerExtensions
     public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -132,8 +127,7 @@ public static class BrokerExtensions
     public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
@@ -152,12 +146,11 @@ public static class BrokerExtensions
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerApiFactory factory,
         Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
     {
-        if (factory is null)
-            throw new ArgumentNullException(nameof(factory));
+        Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
-            .IsProtocolActiveListener(configurator, cancellationToken)
+            .IsProtocolAnActiveListener(configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 }

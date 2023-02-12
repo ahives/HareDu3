@@ -23,34 +23,34 @@ public sealed class BrokerApiFactory :
         _cache = new ConcurrentDictionary<string, object>();
             
         if (!TryRegisterAll())
-            throw new HareDuBrokerObjectInitException("Could not register broker objects.");
+            throw new HareDuBrokerApiInitException("Could not register broker objects.");
     }
 
     public BrokerApiFactory(HareDuConfig config)
     {
         _client = GetClient(config);
         _cache = new ConcurrentDictionary<string, object>();
-            
+
         if (!TryRegisterAll())
-            throw new HareDuBrokerObjectInitException("Could not register broker objects.");
+            throw new HareDuBrokerApiInitException("Could not register broker objects.");
     }
 
     public T API<T>()
         where T : BrokerAPI
     {
         Type type = typeof(T);
-            
+
         if (type is null)
-            throw new HareDuBrokerObjectInitException($"Failed to find implementation class for interface {typeof(T)}");
+            throw new HareDuBrokerApiInitException($"Failed to find implementation class for interface {typeof(T)}");
 
         var typeMap = GetTypeMap(typeof(T));
 
-        if (!typeMap.ContainsKey(type.FullName))
+        if (!typeMap.ContainsKey(type.FullName ?? throw new HareDuBrokerApiInitException($"Failed to find implementation class for interface {typeof(T)}")))
             return default;
-            
+
         if (_cache.ContainsKey(type.FullName))
             return (T) _cache[type.FullName];
-                
+
         bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, _client);
 
         if (registered)
@@ -74,7 +74,7 @@ public sealed class BrokerApiFactory :
         {
             if (_cache.ContainsKey(type.Key))
                 continue;
-                
+
             registered = RegisterInstance(type.Value, type.Key) & registered;
         }
 
@@ -139,12 +139,16 @@ public sealed class BrokerApiFactory :
 
         for (int i = 0; i < interfaces.Count; i++)
         {
-            var type = types.Find(x => interfaces[i].IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+            var type = types.Find(x => interfaces[i].IsAssignableFrom(x) && x is {IsInterface: false, IsAbstract: false});
 
             if (type is null)
                 continue;
-                
-            typeMap.Add(interfaces[i].FullName, type);
+
+            string name = interfaces[i].FullName;
+            if (string.IsNullOrWhiteSpace(name))
+                continue;
+
+            typeMap.Add(name, type);
         }
 
         return typeMap;

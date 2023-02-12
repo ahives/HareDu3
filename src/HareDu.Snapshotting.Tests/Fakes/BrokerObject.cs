@@ -78,7 +78,7 @@ public class BrokerObject :
         throw new System.NotImplementedException();
     }
 
-    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+    public Task<Result<ProtocolListenerState>> IsProtocolAnActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

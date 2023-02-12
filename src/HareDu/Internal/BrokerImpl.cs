@@ -192,7 +192,7 @@ class BrokerImpl :
         };
     }
 
-    public async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(
+    public async Task<Result<ProtocolListenerState>> IsProtocolAnActiveListener(
         Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
