@@ -14,6 +14,14 @@ public static class ValueExtensions
         return arguments.ToDictionary(x => x.Key, x => x.Value.Value);
     }
 
+    internal static IDictionary<string, object> GetArgumentsOrEmpty(this IDictionary<string, ArgumentValue<object>> arguments)
+    {
+        if (arguments is null || !arguments.Any())
+            return new Dictionary<string, object>();
+            
+        return arguments.ToDictionary(x => x.Key, x => x.Value.Value);
+    }
+
     internal static IDictionary<string, string> GetStringArguments(this IDictionary<string, ArgumentValue<object>> arguments)
     {
         if (arguments is null || !arguments.Any())

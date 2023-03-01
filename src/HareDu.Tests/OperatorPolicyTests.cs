@@ -64,11 +64,17 @@ public class OperatorPolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<OperatorPolicy>()
-            .Create("policy1", "^amq.", "HareDu", x =>
+            .Create("policy1", "HareDu", x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -90,11 +96,17 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateOperatorPolicy("policy1", "^amq.", "HareDu", x =>
+            .CreateOperatorPolicy("policy1", "HareDu", x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -117,11 +129,17 @@ public class OperatorPolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<OperatorPolicy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -144,11 +162,17 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreateOperatorPolicy(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -172,11 +196,17 @@ public class OperatorPolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<OperatorPolicy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -199,11 +229,17 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreateOperatorPolicy(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern(".*");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -227,11 +263,17 @@ public class OperatorPolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<OperatorPolicy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -254,11 +296,17 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateOperatorPolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreateOperatorPolicy(string.Empty, string.Empty, x =>
             {
-                x.SetExpiry(1000);
-                x.SetDeliveryLimit(5);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {

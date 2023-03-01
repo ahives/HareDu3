@@ -42,14 +42,20 @@ public class OperatorPolicyTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<OperatorPolicy>()
-            .Create("test7", ".*", "TestHareDu", x =>
+            .Create("test7", "TestHareDu", x =>
             {
-                x.SetMaxInMemoryBytes(9803129);
-                x.SetMaxInMemoryLength(283);
-                x.SetDeliveryLimit(5);
-                x.SetExpiry(5000);
-                x.SetMessageMaxSize(189173219);
-            }, OperatorPolicyAppliedTo.Queues, 0);
+                x.Pattern(".*");
+                x.Priority(0);
+                x.ApplyTo(OperatorPolicyAppliedTo.Queues);
+                x.Definition(arg =>
+                {
+                    arg.SetMaxInMemoryBytes(9803129);
+                    arg.SetMaxInMemoryLength(283);
+                    arg.SetDeliveryLimit(5);
+                    arg.SetExpiry(5000);
+                    arg.SetMessageMaxSize(189173219);
+                });
+            });
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }

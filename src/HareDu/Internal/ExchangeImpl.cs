@@ -36,13 +36,9 @@ class ExchangeImpl :
         var impl = new ExchangeConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        ExchangeRequest request = impl.Request.Value;
+        var request = impl.Request.Value;
 
-        Debug.Assert(request != null);
-
-        var errors = new List<Error>();
-
-        errors.AddRange(impl.Errors.Value);
+        var errors = impl.Errors.Value;
 
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});

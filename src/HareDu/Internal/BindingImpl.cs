@@ -37,27 +37,23 @@ class BindingImpl :
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var binding = new BindingConfiguratorImpl();
-        configurator?.Invoke(binding);
+        var impl = new BindingConfiguratorImpl();
+        configurator?.Invoke(impl);
 
-        binding.Validate();
+        impl.Validate();
 
-        var request = new BindingRequest
-        {
-            BindingKey = binding.BindingKeyString,
-            Arguments = binding.Arguments
-        };
+        var request = impl.Request.Value;
 
-        var errors = binding.Errors;
+        var errors = impl.Errors;
 
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         string virtualHost = vhost.ToSanitizedName();
 
-        string url = binding.BindingEntityType == BindingType.Exchange
-            ? $"api/bindings/{virtualHost}/e/{binding.SourceBinding}/e/{binding.DestinationBinding}"
-            : $"api/bindings/{virtualHost}/e/{binding.SourceBinding}/q/{binding.DestinationBinding}";
+        string url = impl.BindingEntityType == BindingType.Exchange
+            ? $"api/bindings/{virtualHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}"
+            : $"api/bindings/{virtualHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}";
 
         if (errors.Any())
             return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
@@ -132,16 +128,24 @@ class BindingImpl :
     class BindingConfiguratorImpl :
         BindingConfigurator
     {
+        IDictionary<string, object> _arguments;
+        string _bindingKeyString;
+
         public string SourceBinding { get; private set; }
         public string DestinationBinding { get; private set; }
         public BindingType BindingEntityType { get; private set; }
-        public string BindingKeyString { get; private set; }
-        public IDictionary<string, object> Arguments { get; private set; }
         public List<Error> Errors { get; }
+        public Lazy<BindingRequest> Request { get; }
 
         public BindingConfiguratorImpl()
         {
             Errors = new List<Error>();
+            Request = new Lazy<BindingRequest>(
+                () => new ()
+                {
+                    BindingKey = _bindingKeyString,
+                    Arguments = _arguments
+                }, LazyThreadSafetyMode.PublicationOnly);
         }
 
         public void Validate()
@@ -159,14 +163,14 @@ class BindingImpl :
 
         public void BindingType(BindingType bindingType) => BindingEntityType = bindingType;
 
-        public void BindingKey(string bindingKey) => BindingKeyString = bindingKey;
+        public void BindingKey(string bindingKey) => _bindingKeyString = bindingKey;
 
         public void OptionalArguments(Action<BindingArgumentConfigurator> configurator)
         {
             var impl = new BindingArgumentConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            Arguments = impl.Arguments.Value;
+            _arguments = impl.Arguments.Value;
 
             impl.Validate();
             
@@ -187,7 +191,7 @@ class BindingImpl :
                 _arguments = new Dictionary<string, ArgumentValue<object>>();
                 
                 Errors = new List<Error>();
-                Arguments = new Lazy<IDictionary<string, object>>(() => _arguments.GetArgumentsOrNull(), LazyThreadSafetyMode.PublicationOnly);
+                Arguments = new Lazy<IDictionary<string, object>>(() => _arguments.GetArgumentsOrEmpty(), LazyThreadSafetyMode.PublicationOnly);
             }
 
             public void Validate() =>
