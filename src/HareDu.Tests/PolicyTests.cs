@@ -68,11 +68,17 @@ public class PolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create("P5", "^amq.", "HareDu", x =>
+            .Create("P5", "HareDu", x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -94,11 +100,17 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreatePolicy("P5", "^amq.", "HareDu", x =>
+            .CreatePolicy("P5", "HareDu", x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -121,12 +133,18 @@ public class PolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-                x.SetFederationUpstreamSet("all");
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                    arg.SetFederationUpstreamSet("all");
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -149,11 +167,17 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreatePolicy(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -177,11 +201,17 @@ public class PolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -204,11 +234,17 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreatePolicy(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -232,12 +268,18 @@ public class PolicyTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create(string.Empty, "^amq.", string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-                x.SetFederationUpstreamSet("all");
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetFederationUpstreamSet("all");
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {
@@ -260,12 +302,18 @@ public class PolicyTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreatePolicy(string.Empty, "^amq.", string.Empty, x =>
+            .CreatePolicy(string.Empty, string.Empty, x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetExpiry(1000);
-                x.SetFederationUpstreamSet("all");
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetFederationUpstreamSet("all");
+                    arg.SetExpiry(1000);
+                });
+            });
 
         Assert.Multiple(() =>
         {

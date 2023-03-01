@@ -42,12 +42,18 @@ public class PolicyTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create("policy1", "^amq.", "TestHareDu", x =>
+            .Create("policy1", "TestHareDu", x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.Exactly);
-                x.SetHighAvailabilityParams(5);
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.Queues, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.Queues);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.Exactly);
+                    arg.SetHighAvailabilityParams(5);
+                    arg.SetExpiry(1000);
+                });
+            });
             
 //            Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -58,12 +64,18 @@ public class PolicyTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<Policy>()
-            .Create("P4", "^amq.", "HareDu", x =>
+            .Create("P4", "HareDu", x =>
             {
-                x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-                x.SetFederationUpstreamSet("all");
-                x.SetExpiry(1000);
-            }, PolicyAppliedTo.All, 0);
+                x.Pattern("^amq.");
+                x.ApplyTo(PolicyAppliedTo.All);
+                x.Priority(0);
+                x.Definition(arg =>
+                {
+                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetFederationUpstreamSet("all");
+                    arg.SetExpiry(1000);
+                });
+            });
             
         // Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
