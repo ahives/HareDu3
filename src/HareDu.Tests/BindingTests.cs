@@ -49,7 +49,12 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("E2", "Q1", BindingType.Exchange, "HareDu");
+            .Create("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination("Q1");
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -69,7 +74,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding("E2", "Q1", "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Exchange);
+                });
 
         Assert.Multiple(() =>
         {
@@ -90,7 +101,12 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("E2", "Q1", BindingType.Queue, "HareDu");
+            .Create("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination("Q1");
+                x.BindingType(BindingType.Queue);
+            });
 
         Assert.Multiple(() =>
         {
@@ -110,7 +126,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue("E2", "Q1", "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingType(BindingType.Exchange);
+                });
 
         Assert.Multiple(() =>
         {
@@ -131,10 +152,18 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("E2", "Q1", BindingType.Exchange, "HareDu", "*.", x =>
-            {
-                x.Add("arg1", "value1");
-            });
+            .Create("HareDu",
+                x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Exchange);
+                    x.OptionalArguments(arg =>
+                    {
+                        arg.Add("arg1", "value1");
+                    });
+                });
 
         Assert.Multiple(() =>
         {
@@ -154,10 +183,18 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding("E2", "Q1", "HareDu", "*.", x =>
-            {
-                x.Add("arg1", "value1");
-            });
+            .CreateBinding("HareDu",
+                x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Exchange);
+                    x.OptionalArguments(arg =>
+                    {
+                        arg.Add("arg1", "value1");
+                    });
+                });
 
         Assert.Multiple(() =>
         {
@@ -178,10 +215,18 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("E2", "Q1", BindingType.Queue, "HareDu", "*.", x =>
-            {
-                x.Add("arg1", "value1");
-            });
+            .Create("HareDu",
+                x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Queue);
+                    x.OptionalArguments(arg =>
+                    {
+                        arg.Add("arg1", "value1");
+                    });
+                });
 
         Assert.Multiple(() =>
         {
@@ -201,10 +246,18 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue("E2", "Q1", "HareDu", "*.", x =>
-            {
-                x.Add("arg1", "value1");
-            });
+            .CreateBinding("HareDu",
+                x =>
+                {
+                    x.Source("E2");
+                    x.Destination("Q1");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Queue);
+                    x.OptionalArguments(arg =>
+                    {
+                        arg.Add("arg1", "value1");
+                    });
+                });
 
         Assert.Multiple(() =>
         {
@@ -225,7 +278,12 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create(string.Empty, "Q1", BindingType.Exchange, "HareDu");
+            .Create("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination("Q1");
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -240,7 +298,12 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("E1", string.Empty, BindingType.Exchange, "HareDu");
+            .Create("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -254,7 +317,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding(string.Empty, "Q1", "HareDu");
+            .CreateBinding("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination("Q1");
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -268,7 +336,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding("E1", string.Empty, "HareDu");
+            .CreateBinding("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -282,7 +355,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue(string.Empty, "Q1", "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source(string.Empty);
+                    x.Destination("Q1");
+                    x.BindingType(BindingType.Exchange);
+                });
 
         Assert.Multiple(() =>
         {
@@ -296,7 +374,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue("E1", string.Empty, "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source("E1");
+                    x.Destination(string.Empty);
+                    x.BindingType(BindingType.Exchange);
+                });
 
         Assert.Multiple(() =>
         {
@@ -310,7 +393,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue(string.Empty, string.Empty, "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source(string.Empty);
+                    x.Destination(string.Empty);
+                    x.BindingType(BindingType.Exchange);
+                });
 
         Assert.Multiple(() =>
         {
@@ -324,7 +412,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue("E1", "Q1", string.Empty);
+            .CreateBinding(string.Empty, x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+                x.BindingType(BindingType.Exchange);
+            });
 
         Assert.Multiple(() =>
         {
@@ -339,7 +432,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Queue);
+            .Delete("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -353,7 +452,12 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBindingToQueue("E1", "Q1", "HareDu");
+                .CreateBinding("HareDu", x =>
+                {
+                    x.Source("E1");
+                    x.Destination("Q1");
+                    x.BindingType(BindingType.Exchange);
+                });
             
         Assert.Multiple(() =>
         {
@@ -368,7 +472,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete("E1", "Q1", string.Empty, "HareDu", BindingType.Exchange);
+            .Delete("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -382,7 +492,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding("E1", "Q1", "HareDu");
+            .CreateBinding("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+                x.BindingKey("*.");
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -397,7 +513,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Queue);
+            .Delete("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -411,7 +533,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteQueueBinding("E2", string.Empty, string.Empty, "HareDu");
+            .DeleteBinding("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -426,7 +554,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Queue);
+            .Delete("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -440,7 +574,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+            .DeleteBinding("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -455,7 +595,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Queue);
+            .Delete(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -469,7 +615,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteQueueBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+            .DeleteBinding(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Queue);
+            });
             
         Assert.Multiple(() =>
         {
@@ -484,7 +636,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete("E2", string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+            .Delete("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -498,7 +656,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteExchangeBinding("E2", string.Empty, string.Empty, "HareDu");
+            .DeleteBinding("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -513,7 +677,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete(string.Empty, string.Empty, string.Empty, "HareDu", BindingType.Exchange);
+            .Delete("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -527,7 +697,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, "HareDu");
+            .DeleteBinding("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -542,7 +718,13 @@ public class BindingTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete(string.Empty, string.Empty, string.Empty, string.Empty, BindingType.Exchange);
+            .Delete(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {
@@ -556,7 +738,13 @@ public class BindingTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .DeleteExchangeBinding(string.Empty, string.Empty, string.Empty, string.Empty);
+            .DeleteBinding(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+                x.PropertiesKey(string.Empty);
+                x.BindingType(BindingType.Exchange);
+            });
             
         Assert.Multiple(() =>
         {

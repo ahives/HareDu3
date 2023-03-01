@@ -276,13 +276,24 @@ public class CreateBenchmarks :
     {
         var result = await _service
             .API<Binding>()
-            .Create("exchange", "queue", BindingType.Exchange, "HareDu");
+            .Create("HareDu", x =>
+            {
+                x.Source("exchange");
+                x.Destination("queue");
+                x.BindingKey("*.");
+                x.BindingType(BindingType.Exchange);
+            });
     }
 
     [Benchmark]
     public async Task BindingCreateExtensionBenchmark()
     {
         var result = await _service
-            .CreateExchangeBinding("exchange", "queue", "HareDu");
+            .CreateBinding("HareDu", x =>
+            {
+                x.Source("exchange");
+                x.Destination("queue");
+                x.BindingType(BindingType.Exchange);
+            });
     }
 }

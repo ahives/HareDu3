@@ -55,7 +55,13 @@ public class BindingTests
     public async Task Test1()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .CreateExchangeBinding("HareDuExchange1", "HareDuExchange2", "TestHareDu");
+            .CreateBinding("TestHareDu", x =>
+            {
+                x.Source("HareDuExchange1");
+                x.Destination("HareDuExchange2");
+                x.BindingKey("*.");
+                x.BindingType(BindingType.Exchange);
+            });
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
@@ -64,7 +70,13 @@ public class BindingTests
     public async Task Test2()
     {
         var result = await _services.GetService<IBrokerApiFactory>()
-            .DeleteExchangeBinding("HareDuExchange1", "HareDuExchange2", "~", "TestHareDu");
+                .DeleteBinding("TestHareDu", x =>
+                {
+                    x.Source("HareDuExchange1");
+                    x.Destination("HareDuExchange2");
+                    x.PropertiesKey("~");
+                    x.BindingType(BindingType.Exchange);
+                });
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
@@ -74,10 +86,18 @@ public class BindingTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Create("queue1", "queue2", BindingType.Queue, "TestHareDu", "*.", x =>
-            {
-                x.Add("arg1", "value1");
-            });
+            .Create("TestHareDu",
+                x =>
+                {
+                    x.Source("queue1");
+                    x.Destination("queue2");
+                    x.BindingKey("*.");
+                    x.BindingType(BindingType.Queue);
+                    x.OptionalArguments(arg =>
+                    {
+                        arg.Add("arg1", "value1");
+                    });
+                });
             
 //            Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -88,7 +108,13 @@ public class BindingTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<Binding>()
-            .Delete("E2", "Q4", "%2A.","HareDu", BindingType.Queue);
+            .Delete("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination("Q4");
+                x.PropertiesKey("%2A.");
+                x.BindingType(BindingType.Queue);
+            });
             
 //            Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

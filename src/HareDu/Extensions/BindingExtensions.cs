@@ -27,70 +27,25 @@ public static class BindingExtensions
     }
 
     /// <summary>
-    /// Creates the specified binding between source queue and destination queue on the specified RabbitMQ virtual host.
-    /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="sourceBinding">Source binding of the exchange.</param>
-    /// <param name="destinationBinding">Destination binding of the exchange.</param>
-    /// <param name="vhost">The virtual host where the binding is defined.</param>
-    /// <param name="bindingKey">The routing pattern for a source to destination binding.</param>
-    /// <param name="configurator">Describes how the binding will be created.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateExchangeBindingToQueue(this IBrokerApiFactory factory,
-        string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
-
-        return await factory
-            .API<Binding>()
-            .Create(sourceBinding, destinationBinding, BindingType.Queue, vhost, bindingKey, configurator, cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Creates the specified binding between source exchange and destination exchange on the specified RabbitMQ virtual host.
     /// </summary>
     /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="sourceBinding">Source binding of the exchange.</param>
-    /// <param name="destinationBinding">Destination binding of the exchange.</param>
     /// <param name="vhost">The virtual host where the binding is defined.</param>
-    /// <param name="bindingKey">The routing pattern for a source to destination binding.</param>
-    /// <param name="configurator">Describes how the binding will be created.</param>
+    /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateExchangeBinding(this IBrokerApiFactory factory,
-        string sourceBinding, string destinationBinding, string vhost, string bindingKey = null, Action<BindingConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public static async Task<Result> CreateBinding(
+        this IBrokerApiFactory factory,
+        string vhost,
+        Action<BindingConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Binding>()
-            .Create(sourceBinding, destinationBinding, BindingType.Exchange, vhost, bindingKey, configurator, cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Deletes the specified binding between exchange and queue on the specified RabbitMQ virtual host.
-    /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="sourceBinding">Source binding of the queue.</param>
-    /// <param name="destinationBinding">Destination binding of the queue.</param>
-    /// <param name="propertiesKey">Combination of routing key and hash of its arguments.</param>
-    /// <param name="vhost">The virtual host where the binding is defined.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteQueueBinding(this IBrokerApiFactory factory,
-        string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
-
-        return await factory
-            .API<Binding>()
-            .Delete(sourceBinding, destinationBinding, propertiesKey, vhost, BindingType.Queue, cancellationToken)
+            .Create(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -98,21 +53,22 @@ public static class BindingExtensions
     /// Deletes the specified binding between exchanges on the specified RabbitMQ virtual host.
     /// </summary>
     /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="sourceBinding">Source binding of the exchange.</param>
-    /// <param name="destinationBinding">Destination binding of the exchange.</param>
-    /// <param name="propertiesKey">Combination of routing key and hash of its arguments.</param>
     /// <param name="vhost">The virtual host where the binding is defined.</param>
+    /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteExchangeBinding(this IBrokerApiFactory factory,
-        string sourceBinding, string destinationBinding, string propertiesKey, string vhost, CancellationToken cancellationToken = default)
+    public static async Task<Result> DeleteBinding(
+        this IBrokerApiFactory factory,
+        string vhost,
+        Action<DeleteBindingConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Binding>()
-            .Delete(sourceBinding, destinationBinding, propertiesKey, vhost, BindingType.Exchange, cancellationToken)
+            .Delete(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 }

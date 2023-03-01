@@ -1,12 +1,16 @@
 namespace HareDu;
 
+using System;
+
 public interface BindingConfigurator
 {
-    /// <summary>
-    /// Set a user-defined argument.
-    /// </summary>
-    /// <param name="arg"></param>
-    /// <param name="value"></param>
-    /// <typeparam name="T"></typeparam>
-    void Add<T>(string arg, T value);
+    void Source(string source);
+
+    void Destination(string destination);
+
+    void BindingType(BindingType bindingType);
+
+    void BindingKey(string bindingKey);
+
+    void OptionalArguments(Action<BindingArgumentConfigurator> configurator);
 }
