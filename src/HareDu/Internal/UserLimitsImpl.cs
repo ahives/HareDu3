@@ -19,14 +19,14 @@ class UserLimitsImpl :
     public async Task<Result<UserLimitsInfo>> GetMaxConnections(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-                    
+
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username is missing."});
 
         string url = $"api/user-limits/user/{username}/max-connections";
-            
+
         if (errors.Any())
             return new FaultedResult<UserLimitsInfo> {DebugInfo = new (){URL = url, Errors = errors}};
 
@@ -36,14 +36,14 @@ class UserLimitsImpl :
     public async Task<Result<UserLimitsInfo>> GetMaxChannels(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-                    
+
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username is missing."});
 
         string url = $"api/user-limits/user/{username}/max-channels";
-            
+
         if (errors.Any())
             return new FaultedResult<UserLimitsInfo> {DebugInfo = new (){URL = url, Errors = errors}};
 

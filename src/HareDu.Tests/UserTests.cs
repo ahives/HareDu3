@@ -396,7 +396,7 @@ public class UserTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<User>()
-            .Delete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
+            .BulkDelete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
             
         Assert.Multiple(() =>
         {
@@ -466,7 +466,7 @@ public class UserTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<User>()
-            .Delete(new List<string>());
+            .BulkDelete(new List<string>());
             
         Assert.Multiple(() =>
         {
@@ -495,7 +495,7 @@ public class UserTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<User>()
-            .Delete(new List<string>{"  ", string.Empty, null});
+            .BulkDelete(new List<string>{"  ", string.Empty, null});
             
         Assert.Multiple(() =>
         {
@@ -524,7 +524,7 @@ public class UserTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<User>()
-            .Delete(new List<string>{"  ", "fake_user1", null});
+            .BulkDelete(new List<string>{"  ", "fake_user1", null});
             
         Assert.Multiple(() =>
         {

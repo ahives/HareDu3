@@ -32,7 +32,7 @@ class UserImpl :
     public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<UserInfo>("api/users/without-permissions", cancellationToken).ConfigureAwait(false);
     }
 
@@ -54,8 +54,6 @@ class UserImpl :
                 Tags = impl.Tags.Value
             };
 
-        Debug.Assert(request != null);
-                    
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
@@ -66,7 +64,7 @@ class UserImpl :
             if (string.IsNullOrWhiteSpace(passwordHash))
                 errors.Add(new (){Reason = "The password/hash is missing."});
         }
-            
+
         string url = $"api/users/{username}";
 
         if (errors.Any())
@@ -78,7 +76,7 @@ class UserImpl :
     public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-                
+
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
@@ -92,7 +90,7 @@ class UserImpl :
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default)
+    public async Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -100,7 +98,7 @@ class UserImpl :
 
         if (usernames.IsEmpty())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = new List<Error>{new() {Reason = "Valid usernames is missing."}}}};
-                
+
         var errors = new List<Error>();
 
         for (int i = 0; i < usernames.Count; i++)
@@ -117,8 +115,6 @@ class UserImpl :
             {
                 Users = usernames
             };
-
-        Debug.Assert(request != null);
 
         return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
     }

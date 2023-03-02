@@ -49,5 +49,5 @@ public interface User :
     /// <param name="usernames">List of RabbitMQ broker usernames.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> Delete(IList<string> usernames, CancellationToken cancellationToken = default);
+    Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default);
 }

@@ -24,7 +24,7 @@ class VirtualHostLimitsImpl :
     public async Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", cancellationToken).ConfigureAwait(false);
     }
 
@@ -37,13 +37,11 @@ class VirtualHostLimitsImpl :
         configurator?.Invoke(impl);
 
         impl.Validate();
-            
-        VirtualHostLimitsRequest request = impl.Request.Value;
 
-        var errors = new List<Error>();
-            
-        errors.AddRange(impl.Errors.Value);
-            
+        var request = impl.Request.Value;
+
+        var errors = impl.Errors;
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
@@ -60,7 +58,7 @@ class VirtualHostLimitsImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
@@ -81,16 +79,12 @@ class VirtualHostLimitsImpl :
         bool _setMaxConnectionLimitCalled;
         bool _setMaxQueueLimitCalled;
 
-        readonly List<Error> _errors;
-
         public Lazy<VirtualHostLimitsRequest> Request { get; }
-        public Lazy<List<Error>> Errors { get; }
+        public List<Error> Errors { get; }
 
         public VirtualHostLimitsConfiguratorImpl()
         {
-            _errors = new List<Error>();
-                
-            Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
+            Errors = new List<Error>();
             Request = new Lazy<VirtualHostLimitsRequest>(
                 () => new ()
                 {
@@ -104,9 +98,6 @@ class VirtualHostLimitsImpl :
             _setMaxConnectionLimitCalled = true;
                 
             _maxConnectionLimits = value;
-                
-            if (_maxConnectionLimits < 1)
-                _errors.Add(new (){Reason = "Max connection limit value is missing."});
         }
 
         public void SetMaxQueueLimit(ulong value)
@@ -114,15 +105,18 @@ class VirtualHostLimitsImpl :
             _setMaxQueueLimitCalled = true;
                 
             _maxQueueLimits = value;
-                
-            if (_maxQueueLimits < 1)
-                _errors.Add(new (){Reason = "Max queue limit value is missing."});
         }
 
         public void Validate()
         {
             if (!_setMaxConnectionLimitCalled && !_setMaxQueueLimitCalled)
-                _errors.Add(new (){Reason = "There are no limits to define."});
+                Errors.Add(new (){Reason = "There are no limits to define."});
+
+            if (_maxQueueLimits < 1)
+                Errors.Add(new (){Reason = "Max queue limit value is missing."});
+
+            if (_maxConnectionLimits < 1)
+                Errors.Add(new (){Reason = "Max connection limit value is missing."});
         }
     }
 }

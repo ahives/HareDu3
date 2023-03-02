@@ -102,7 +102,7 @@ public static class UserExtensions
 
         return await factory
             .API<User>()
-            .Delete(usernames, cancellationToken)
+            .BulkDelete(usernames, cancellationToken)
             .ConfigureAwait(false);
     }
 }

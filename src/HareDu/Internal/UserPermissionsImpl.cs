@@ -25,7 +25,7 @@ class UserPermissionsImpl :
     public async Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<UserPermissionsInfo>("api/permissions", cancellationToken).ConfigureAwait(false);
     }
 
@@ -45,18 +45,16 @@ class UserPermissionsImpl :
                 Read = impl.ReadPattern
             };
 
-        Debug.Assert(request != null);
-
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username and/or password is missing."});
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
-            
+
         string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
@@ -71,12 +69,12 @@ class UserPermissionsImpl :
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username and/or password is missing."});
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
