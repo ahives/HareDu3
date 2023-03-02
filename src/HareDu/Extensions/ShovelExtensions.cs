@@ -16,7 +16,7 @@ public static class ShovelExtensions
     /// Creates a dynamic shovel on a specified RabbitMQ virtual host.
     /// </summary>
     /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="shovel">The name of the dynamic shovel.</param>
+    /// <param name="name">The name of the dynamic shovel.</param>
     /// <param name="uri"></param>
     /// <param name="vhost">The virtual host where the shovel resides.</param>
     /// <param name="configurator">Describes how the dynamic shovel will be created.</param>
@@ -24,13 +24,13 @@ public static class ShovelExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> CreateShovel(this IBrokerApiFactory factory,
-        string shovel, string uri, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        string name, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Shovel>()
-            .Create(shovel, uri, vhost, configurator, cancellationToken)
+            .Create(name, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -38,19 +38,19 @@ public static class ShovelExtensions
     /// Deletes a dynamic shovel on a specified RabbitMQ virtual host.
     /// </summary>
     /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="shovel">The name of the dynamic shovel.</param>
+    /// <param name="name">The name of the dynamic shovel.</param>
     /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> DeleteShovel(this IBrokerApiFactory factory,
-        string shovel, string vhost, CancellationToken cancellationToken = default)
+        string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
             
         return await factory
             .API<Shovel>()
-            .Delete(shovel, vhost, cancellationToken)
+            .Delete(name, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
 

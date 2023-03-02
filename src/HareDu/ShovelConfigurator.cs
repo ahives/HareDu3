@@ -5,6 +5,12 @@ using System;
 public interface ShovelConfigurator
 {
     /// <summary>
+    /// The connection URI of the RabbitMQ broker.
+    /// </summary>
+    /// <param name="uri"></param>
+    void Uri(string uri);
+
+    /// <summary>
     /// The duration to wait before reconnecting to the brokers after being disconnected at either end.
     /// </summary>
     /// <param name="delayInSeconds"></param>

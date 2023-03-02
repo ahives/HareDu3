@@ -5,7 +5,7 @@ using System;
 public interface OperatorPolicyConfigurator
 {
     /// <summary>
-    /// 
+    /// Defines the policy.
     /// </summary>
     /// <param name="configurator"></param>
     void Definition(Action<OperatorPolicyArgumentConfigurator> configurator);
@@ -17,7 +17,7 @@ public interface OperatorPolicyConfigurator
     void Pattern(string pattern);
 
     /// <summary>
-    /// 
+    /// The policy's priority.
     /// </summary>
     /// <param name="priority"></param>
     void Priority(int priority);

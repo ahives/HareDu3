@@ -29,7 +29,7 @@ class QueueImpl :
         return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator = null,
+    public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -38,30 +38,26 @@ class QueueImpl :
         configurator?.Invoke(impl);
             
         impl.Validate();
-            
-        QueueRequest request = impl.Definition.Value;
 
-        Debug.Assert(request != null);
+        var request = impl.Request.Value;
 
-        var errors = new List<Error>();
-            
-        errors.AddRange(impl.Errors.Value);
-            
-        if (string.IsNullOrWhiteSpace(queue))
+        var errors = impl.Errors;
+
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}";
-            
+        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}";
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null,
+    public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -70,36 +66,36 @@ class QueueImpl :
         configurator?.Invoke(impl);
 
         var errors = new List<Error>();
-            
-        if (string.IsNullOrWhiteSpace(queue))
+
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         string url = string.IsNullOrWhiteSpace(impl.Query.Value)
-            ? $"api/queues/{vhost.ToSanitizedName()}/{queue}"
-            : $"api/queues/{vhost.ToSanitizedName()}/{queue}?{impl.Query.Value}";
-            
+            ? $"api/queues/{vhost.ToSanitizedName()}/{name}"
+            : $"api/queues/{vhost.ToSanitizedName()}/{name}?{impl.Query.Value}";
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default)
+    public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        if (string.IsNullOrWhiteSpace(queue))
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/contents";
+        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}/contents";
 
         if (errors.Any())
             return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
@@ -107,27 +103,25 @@ class QueueImpl :
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Sync(string queue, string vhost, QueueSyncAction syncAction,
+    public async Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        QueueSyncRequest request = new()
+        var request = new QueueSyncRequest
         {
             Action = syncAction
         };
 
-        Debug.Assert(request != null);
-            
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        if (string.IsNullOrWhiteSpace(queue))
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{queue}/actions";
+        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}/actions";
 
         if (errors.Any())
             return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
@@ -166,18 +160,14 @@ class QueueImpl :
         bool _durable;
         bool _autoDelete;
         IDictionary<string, ArgumentValue<object>> _arguments;
-            
-        readonly List<Error> _errors;
 
-        public Lazy<QueueRequest> Definition { get; }
-        public Lazy<List<Error>> Errors { get; }
+        public Lazy<QueueRequest> Request { get; }
+        public List<Error> Errors { get; }
 
         public QueueConfiguratorImpl(string node)
         {
-            _errors = new List<Error>();
-                
-            Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
-            Definition = new Lazy<QueueRequest>(
+            Errors = new List<Error>();
+            Request = new Lazy<QueueRequest>(
                 () => new ()
                 {
                     Durable = _durable,
@@ -202,7 +192,7 @@ class QueueImpl :
         public void Validate()
         {
             if (_arguments is not null)
-                _errors.AddRange(_arguments
+                Errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
                     .Where(error => error is not null).ToList());
         }

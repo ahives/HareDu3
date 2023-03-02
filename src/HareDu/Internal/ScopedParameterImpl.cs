@@ -28,7 +28,7 @@ class ScopedParameterImpl :
         return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create<T>(string parameter, T value, string component, string vhost,
+    public async Task<Result> Create<T>(string name, T value, string component, string vhost,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -38,15 +38,13 @@ class ScopedParameterImpl :
             {
                 VirtualHost = vhost,
                 Component = component,
-                ParameterName = parameter,
+                ParameterName = name,
                 ParameterValue = value
             };
-
-        Debug.Assert(request != null);
                 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(parameter))
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the parameter is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
@@ -54,8 +52,8 @@ class ScopedParameterImpl :
 
         if (string.IsNullOrWhiteSpace(component))
             errors.Add(new(){Reason = "The component name is missing."});
-                    
-        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{parameter}";
+
+        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
@@ -63,13 +61,13 @@ class ScopedParameterImpl :
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(string parameter, string component, string vhost, CancellationToken cancellationToken = default)
+    public async Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-                
+
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(parameter))
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the parameter is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
@@ -78,7 +76,7 @@ class ScopedParameterImpl :
         if (string.IsNullOrWhiteSpace(component))
             errors.Add(new(){Reason = "The component name is missing."});
 
-        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{parameter}";
+        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())
             return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};

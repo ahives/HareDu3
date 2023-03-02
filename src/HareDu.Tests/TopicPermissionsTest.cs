@@ -37,8 +37,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create("guest", "E4", "HareDu", x =>
+            .Create("guest", "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -55,8 +56,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission("guest", "E4", "HareDu", x =>
+            .CreateTopicPermission("guest", "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -74,8 +76,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create(string.Empty, "E4", "HareDu", x =>
+            .Create(string.Empty, "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -99,8 +102,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission(string.Empty, "E4", "HareDu", x =>
+            .CreateTopicPermission(string.Empty, "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -125,8 +129,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create("guest", "E4", string.Empty, x =>
+            .Create("guest", string.Empty, x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -150,8 +155,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission("guest", "E4", string.Empty, x =>
+            .CreateTopicPermission("guest", string.Empty, x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -176,8 +182,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create(string.Empty, string.Empty, string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -201,8 +208,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission(string.Empty, string.Empty, string.Empty, x =>
+            .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -227,8 +235,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create(string.Empty, string.Empty, string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(string.Empty);
                 x.UsingWritePattern(".*");
             });
@@ -252,8 +261,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission(string.Empty, string.Empty, string.Empty, x =>
+            .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(string.Empty);
                 x.UsingWritePattern(".*");
             });
@@ -278,8 +288,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create(string.Empty, string.Empty, string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(string.Empty);
             });
@@ -303,8 +314,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission(string.Empty, string.Empty, string.Empty, x =>
+            .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(string.Empty);
             });
@@ -329,8 +341,9 @@ public class TopicPermissionsTest :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create(string.Empty, string.Empty, string.Empty, x =>
+            .Create(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(string.Empty);
                 x.UsingWritePattern(string.Empty);
             });
@@ -354,8 +367,9 @@ public class TopicPermissionsTest :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateTopicPermission(string.Empty, string.Empty, string.Empty, x =>
+            .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
+                x.Exchange(string.Empty);
                 x.UsingReadPattern(string.Empty);
                 x.UsingWritePattern(string.Empty);
             });

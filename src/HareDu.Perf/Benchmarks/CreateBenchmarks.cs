@@ -143,8 +143,9 @@ public class CreateBenchmarks :
     {
         var result = await _service
             .API<TopicPermissions>()
-            .Create("user1", "E4", "HareDu", x =>
+            .Create("user1", "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });
@@ -154,8 +155,9 @@ public class CreateBenchmarks :
     public async Task TopicPermissionsCreateExtensionBenchmark()
     {
         var result = await _service
-            .CreateTopicPermission("user1", "E4", "HareDu", x =>
+            .CreateTopicPermission("user1", "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });

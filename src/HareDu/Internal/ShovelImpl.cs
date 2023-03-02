@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -25,44 +24,39 @@ class ShovelImpl :
     public async Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<ShovelInfo>("api/shovels", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string shovel, string uri, string vhost,
+    public async Task<Result> Create(string name, string vhost,
         Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
+
         if (configurator is null)
             errors.Add(new (){Reason = "The shovel configurator is missing."});
 
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){Errors = errors}};
-                
-        if (string.IsNullOrWhiteSpace(uri))
-            errors.Add(new(){Reason = "The connection URI is missing."});
 
-        var impl = new ShovelConfiguratorImpl(uri);
+        var impl = new ShovelConfiguratorImpl();
         configurator?.Invoke(impl);
 
         impl.Validate();
-            
-        ShovelRequest request = impl.BuildRequest();
 
-        Debug.Assert(request != null);
+        var request = impl.Request.Value;
 
-        errors.AddRange(impl.Errors.Value);
-            
-        if (string.IsNullOrWhiteSpace(shovel))
+        errors.AddRange(impl.Errors);
+
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the shovel is missing."});
-            
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
+        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
@@ -70,19 +64,19 @@ class ShovelImpl :
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(string shovel, string vhost, CancellationToken cancellationToken = default)
+    public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
-        if (string.IsNullOrWhiteSpace(shovel))
+
+        if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the shovel is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{shovel}";
+        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
@@ -94,7 +88,7 @@ class ShovelImpl :
     class ShovelConfiguratorImpl :
         ShovelConfigurator
     {
-        readonly string _uri;
+        string _uri;
         ShovelProtocolType _destinationProtocol;
         ShovelProtocolType _sourceProtocol;
         AckMode _acknowledgeMode;
@@ -112,17 +106,38 @@ class ShovelImpl :
         bool _destinationCalled;
         object _deleteShovelAfter;
 
-        readonly List<Error> _errors;
+        public List<Error> Errors { get; }
+        public Lazy<ShovelRequest> Request { get; }
 
-        public Lazy<List<Error>> Errors { get; }
-
-        public ShovelConfiguratorImpl(string uri)
+        public ShovelConfiguratorImpl()
         {
-            _uri = uri;
-            _errors = new List<Error>();
-                
-            Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
+            Errors = new List<Error>();
+            Request = new Lazy<ShovelRequest>(
+                () => new()
+                {
+                    Value = new ShovelRequestParams
+                    {
+                        AcknowledgeMode = _acknowledgeMode,
+                        SourceExchange = _sourceExchangeName,
+                        SourceProtocol = _sourceProtocol,
+                        SourceQueue = _sourceQueue,
+                        SourceUri = _uri,
+                        SourceDeleteAfter = _deleteShovelAfter,
+                        SourcePrefetchCount = _sourcePrefetchCount,
+                        SourceExchangeRoutingKey = _sourceExchangeRoutingKey,
+                        ReconnectDelay = _reconnectDelay,
+                        DestinationExchange = _destinationExchangeName,
+                        DestinationProtocol = _destinationProtocol,
+                        DestinationQueue = _destinationQueue,
+                        DestinationUri = _uri,
+                        DestinationExchangeKey = _destinationExchangeRoutingKey,
+                        DestinationAddForwardHeaders = _destinationAddForwardHeaders,
+                        DestinationAddTimestampHeader = _destinationAddTimestampHeader
+                    }
+                }, LazyThreadSafetyMode.PublicationOnly);
         }
+
+        public void Uri(string uri) => _uri = uri;
 
         public void ReconnectDelay(int delayInSeconds) => _reconnectDelay = delayInSeconds < 1 ? 1 : delayInSeconds;
 
@@ -141,12 +156,6 @@ class ShovelImpl :
             _sourceExchangeRoutingKey = impl.ExchangeRoutingKey;
             _sourcePrefetchCount = impl.PrefetchCount;
             _deleteShovelAfter = impl.DeleteAfterShovel;
-                
-            if (string.IsNullOrWhiteSpace(queue) && string.IsNullOrWhiteSpace(impl.ExchangeName))
-                _errors.Add(new (){Reason = "Both source queue and exchange missing."});
-                
-            if (!string.IsNullOrWhiteSpace(queue) && !string.IsNullOrWhiteSpace(impl.ExchangeName))
-                _errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
         }
 
         public void Destination(string queue, Action<ShovelDestinationConfigurator> configurator)
@@ -162,12 +171,6 @@ class ShovelImpl :
             _destinationExchangeRoutingKey = impl.ExchangeRoutingKey;
             _destinationAddForwardHeaders = impl.AddHeaders;
             _destinationAddTimestampHeader = impl.AddTimestampHeader;
-                
-            if (string.IsNullOrWhiteSpace(queue) && string.IsNullOrWhiteSpace(impl.ExchangeName))
-                _errors.Add(new (){Reason = "Both source queue and exchange missing."});
-                
-            if (!string.IsNullOrWhiteSpace(queue) && !string.IsNullOrWhiteSpace(impl.ExchangeName))
-                _errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
         }
 
         public ShovelRequest BuildRequest()
@@ -202,17 +205,36 @@ class ShovelImpl :
 
         public void Validate()
         {
-            if (!_sourceCalled)
+            if (_sourceCalled)
             {
-                _errors.Add(new(){Reason = "The name of the source protocol is missing."});
-                _errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
+                if (string.IsNullOrWhiteSpace(_sourceQueue) && string.IsNullOrWhiteSpace(_sourceExchangeName))
+                    Errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                
+                if (!string.IsNullOrWhiteSpace(_sourceQueue) && !string.IsNullOrWhiteSpace(_sourceExchangeName))
+                    Errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
+            }
+            else
+            {
+                Errors.Add(new(){Reason = "The name of the source protocol is missing."});
+                Errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
             }
 
-            if (!_destinationCalled)
+            if (_destinationCalled)
             {
-                _errors.Add(new(){Reason = "The name of the destination protocol is missing."});
-                _errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
+                if (string.IsNullOrWhiteSpace(_destinationQueue) && string.IsNullOrWhiteSpace(_destinationExchangeName))
+                    Errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                
+                if (!string.IsNullOrWhiteSpace(_destinationQueue) && !string.IsNullOrWhiteSpace(_destinationExchangeName))
+                    Errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
             }
+            else
+            {
+                Errors.Add(new(){Reason = "The name of the destination protocol is missing."});
+                Errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
+            }
+                
+            if (string.IsNullOrWhiteSpace(_uri))
+                Errors.Add(new(){Reason = "The connection URI is missing."});
         }
 
 

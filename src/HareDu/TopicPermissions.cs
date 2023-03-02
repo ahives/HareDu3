@@ -20,12 +20,11 @@ public interface TopicPermissions :
     /// Creates a new topic permission for the specified user per a particular RabbitMQ exchange and virtual host.
     /// </summary>
     /// <param name="username">RabbitMQ broker username to apply topic permission to.</param>
-    /// <param name="exchange">Name of the RabbitMQ exchange.</param>
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="configurator">Describes how the topic permission will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> Create(string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all topic permissions associate with the specified user on the specified RabbitMQ virtual host.

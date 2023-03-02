@@ -34,8 +34,9 @@ public class ShovelTests
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<Shovel>()
-            .Create("test-shovel3", "amqp://user1@localhost", "TestHareDu", x =>
+            .Create("test-shovel3", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -50,8 +51,9 @@ public class ShovelTests
     public async Task Verify_can_create_dynamic_shovel2()
     {
         Result result = await _services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel2", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel2", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -66,8 +68,9 @@ public class ShovelTests
     public async Task Verify_can_create_dynamic_shovel3()
     {
         Result result = await _services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel6", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel6", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.DeleteAfter(5);

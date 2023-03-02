@@ -64,8 +64,9 @@ public class TopicPermissionsTest
     {
         var result = await _services.GetService<IBrokerApiFactory>()
             .API<TopicPermissions>()
-            .Create("guest", "E4", "HareDu", x =>
+            .Create("guest", "HareDu", x =>
             {
+                x.Exchange("E4");
                 x.UsingReadPattern(".*");
                 x.UsingWritePattern(".*");
             });

@@ -49,11 +49,11 @@ public class FakeQueueObject :
         return new SuccessfulResultList<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
     }
 
-    public async Task<Result> Create(string queue, string vhost, string node, Action<QueueConfigurator> configurator,
+    public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator,
         CancellationToken cancellationToken = default) =>
         throw new NotImplementedException();
 
-    public async Task<Result> Delete(string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-    public async Task<Result> Empty(string queue, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-    public async Task<Result> Sync(string queue, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public async Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

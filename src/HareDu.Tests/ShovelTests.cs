@@ -63,8 +63,9 @@ public class ShovelTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Shovel>()
-            .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .Create("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.AcknowledgementMode(AckMode.OnPublish);
                 x.Source("queue1", c =>
                 {
@@ -101,8 +102,9 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -134,8 +136,9 @@ public class ShovelTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Shovel>()
-            .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .Create("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.Exchange("exchange1", null);
@@ -173,8 +176,9 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue1", c =>
                 {
                     c.Exchange("exchange1", null);
@@ -213,8 +217,9 @@ public class ShovelTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Shovel>()
-            .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .Create("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source(string.Empty, c =>
                 {
                     c.Exchange(string.Empty, null);
@@ -252,8 +257,9 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source(string.Empty, c =>
                 {
                     c.Exchange(string.Empty, null);
@@ -292,8 +298,9 @@ public class ShovelTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
             .API<Shovel>()
-            .Create("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .Create("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue2", c =>
                 {
                     c.Exchange("exchange2", null);
@@ -331,8 +338,9 @@ public class ShovelTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
-            .CreateShovel("test-shovel1", "amqp://user1@localhost", "TestHareDu", x =>
+            .CreateShovel("test-shovel1", "TestHareDu", x =>
             {
+                x.Uri("amqp://user1@localhost");
                 x.Source("queue2", c =>
                 {
                     c.Exchange("exchange2", null);

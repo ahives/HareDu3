@@ -32,20 +32,19 @@ public static class TopicPermissionsExtensions
     /// </summary>
     /// <param name="factory">The object factory that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username to apply topic permission to.</param>
-    /// <param name="exchange">Name of the RabbitMQ exchange.</param>
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="configurator">Describes how the topic permission will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> CreateTopicPermission(this IBrokerApiFactory factory,
-        string username, string exchange, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+        string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<TopicPermissions>()
-            .Create(username, exchange, vhost, configurator, cancellationToken)
+            .Create(username, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
