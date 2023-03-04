@@ -20,7 +20,7 @@ class ConnectionImpl :
     public async Task<ResultList<ConnectionInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<ConnectionInfo>("api/connections", cancellationToken).ConfigureAwait(false);
     }
 
@@ -29,12 +29,12 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(connection))
             errors.Add(new (){Reason = "The name of the connection is missing."});
 
         string url = $"api/connections/{connection}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 

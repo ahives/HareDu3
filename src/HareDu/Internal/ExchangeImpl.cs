@@ -62,7 +62,7 @@ class ExchangeImpl :
         configurator?.Invoke(impl);
 
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});
 

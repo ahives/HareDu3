@@ -18,7 +18,7 @@ class ConsumerImpl :
     public async Task<ResultList<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<ConsumerInfo>("api/consumers", cancellationToken).ConfigureAwait(false);
     }
 }

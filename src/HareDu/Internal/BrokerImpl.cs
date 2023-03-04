@@ -21,14 +21,14 @@ class BrokerImpl :
     public async Task<Result<BrokerOverviewInfo>> GetOverview(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetRequest<BrokerOverviewInfo>("api/overview", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await PostEmptyRequest("api/rebalance/queues", cancellationToken).ConfigureAwait(false);
     }
 

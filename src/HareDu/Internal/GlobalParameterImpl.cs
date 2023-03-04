@@ -24,32 +24,28 @@ class GlobalParameterImpl :
     public async Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<GlobalParameterInfo>("api/global-parameters", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         var impl = new GlobalParameterConfiguratorImpl(parameter);
         configurator?.Invoke(impl);
-            
+
         impl.Validate();
-            
-        GlobalParameterRequest request = impl.Request.Value;
 
-        Debug.Assert(request != null);
+        var request = impl.Request.Value;
 
-        var errors = new List<Error>();
-            
-        errors.AddRange(impl.Errors.Value);
-            
+        var errors = impl.Errors;
+
         if (string.IsNullOrWhiteSpace(parameter))
             errors.Add(new(){Reason = "The name of the parameter is missing."});
 
         string url = $"api/global-parameters/{parameter}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
 
@@ -59,14 +55,14 @@ class GlobalParameterImpl :
     public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(parameter))
             errors.Add(new (){Reason = "The name of the parameter is missing."});
 
         string url = $"api/global-parameters/{parameter}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
@@ -79,17 +75,13 @@ class GlobalParameterImpl :
     {
         IDictionary<string, ArgumentValue<object>> _arguments;
         object _argument;
-            
-        readonly List<Error> _errors;
 
         public Lazy<GlobalParameterRequest> Request { get; }
-        public Lazy<List<Error>> Errors { get; }
+        public List<Error> Errors { get; }
 
         public GlobalParameterConfiguratorImpl(string name)
         {
-            _errors = new List<Error>();
-                
-            Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
+            Errors = new List<Error>();
             Request = new Lazy<GlobalParameterRequest>(
                 () => new ()
                 {
@@ -115,19 +107,19 @@ class GlobalParameterImpl :
                 case string:
                 {
                     if (string.IsNullOrWhiteSpace(_argument.ToString()))
-                        _errors.Add(new(){Reason = "Parameter value is missing."});
+                        Errors.Add(new(){Reason = "Parameter value is missing."});
                 
                     return;
                 }
                 
                 case null when _arguments is null:
-                    _errors.Add(new(){Reason = "Parameter value is missing."});
+                    Errors.Add(new(){Reason = "Parameter value is missing."});
                     break;
             }
                 
             if (_arguments != null)
             {
-                _errors.AddRange(_arguments
+                Errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
                     .Where(error => error is not null)
                     .ToList());

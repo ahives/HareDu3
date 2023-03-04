@@ -1,7 +1,6 @@
 namespace HareDu.Internal;
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -24,7 +23,7 @@ class ScopedParameterImpl :
     public async Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
     }
 
@@ -41,7 +40,7 @@ class ScopedParameterImpl :
                 ParameterName = name,
                 ParameterValue = value
             };
-                
+
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(name))

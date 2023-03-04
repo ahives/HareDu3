@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -25,7 +24,7 @@ class QueueImpl :
     public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
     }
 
@@ -36,7 +35,7 @@ class QueueImpl :
 
         var impl = new QueueConfiguratorImpl(node);
         configurator?.Invoke(impl);
-            
+
         impl.Validate();
 
         var request = impl.Request.Value;

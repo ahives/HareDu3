@@ -24,7 +24,7 @@ class TopicPermissionsImpl :
     public async Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
 

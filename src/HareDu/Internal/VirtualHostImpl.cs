@@ -25,7 +25,7 @@ class VirtualHostImpl :
     public async Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
     }
 
@@ -36,7 +36,7 @@ class VirtualHostImpl :
         var impl = new VirtualHostConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        VirtualHostRequest request = impl.Request.Value;
+        var request = impl.Request.Value;
 
         var errors = new List<Error>();
 

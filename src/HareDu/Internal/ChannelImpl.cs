@@ -18,7 +18,7 @@ class ChannelImpl :
     public async Task<ResultList<ChannelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<ChannelInfo>("api/channels", cancellationToken).ConfigureAwait(false);
     }
 }

@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -25,17 +24,17 @@ class PolicyImpl :
     public async Task<ResultList<PolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<PolicyInfo>("api/policies", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-    
+
         var impl = new PolicyConfiguratorImpl();
         configurator?.Invoke(impl);
-    
+
         impl.Validate();
 
         var request = impl.Request.Value;
@@ -44,15 +43,15 @@ class PolicyImpl :
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the policy is missing."});
-    
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
-    
+
         string url = $"api/policies/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
-    
+
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 

@@ -24,34 +24,34 @@ class OperatorPolicyImpl :
     public async Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<OperatorPolicyInfo>("api/operator-policies", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, Action<OperatorPolicyConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        
+
         var impl = new OperatorPolicyConfiguratorImpl();
         configurator?.Invoke(impl);
 
         impl.Validate();
 
         var request = impl.Request.Value;
-            
+
         var errors = impl.Errors;
-            
+
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the operator policy is missing."});
-        
+
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
-                
+
         string url = $"api/operator-policies/{vhost.ToSanitizedName()}/{name}";
-            
+
         if (errors.Any())
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
-        
+
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 
@@ -60,13 +60,13 @@ class OperatorPolicyImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-            
+
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the operator policy is missing."});
 
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
-            
+
         string url = $"api/operator-policies/{vhost.ToSanitizedName()}/{name}";
 
         if (errors.Any())

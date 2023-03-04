@@ -20,7 +20,7 @@ class NodeImpl :
     public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<NodeInfo>("api/nodes", cancellationToken).ConfigureAwait(false);
     }
 
@@ -41,12 +41,12 @@ class NodeImpl :
 
         if (string.IsNullOrWhiteSpace(node))
             errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
-            
+
         string url = $"api/nodes/{node}/memory";
-            
+
         if (errors.Any())
             return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
-            
+
         return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 }
