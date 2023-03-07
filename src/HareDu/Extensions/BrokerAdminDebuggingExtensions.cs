@@ -9,7 +9,7 @@ using Model;
 
 public static class BrokerAdminDebuggingExtensions
 {
-    public static Task<ResultList<BindingInfo>> ScreenDump(this Task<ResultList<BindingInfo>> result)
+    public static Task<Result<IReadOnlyList<BindingInfo>>> ScreenDump(this Task<Result<IReadOnlyList<BindingInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -29,7 +29,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<ConsumerInfo>> ScreenDump(this Task<ResultList<ConsumerInfo>> result)
+    public static Task<Result<IReadOnlyList<ConsumerInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ConsumerInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -64,7 +64,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<ExchangeInfo>> ScreenDump(this Task<ResultList<ExchangeInfo>> result)
+    public static Task<Result<IReadOnlyList<ExchangeInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ExchangeInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -85,7 +85,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
 
-    public static ResultList<ExchangeInfo> ScreenDump(this ResultList<ExchangeInfo> result)
+    public static Result<IReadOnlyList<ExchangeInfo>> ScreenDump(this Result<IReadOnlyList<ExchangeInfo>> result)
     {
         var results = result
             .Select(x => x.Data);
@@ -122,7 +122,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<GlobalParameterInfo>> ScreenDump(this Task<ResultList<GlobalParameterInfo>> result)
+    public static Task<Result<IReadOnlyList<GlobalParameterInfo>>> ScreenDump(this Task<Result<IReadOnlyList<GlobalParameterInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -139,7 +139,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<PolicyInfo>> ScreenDump(this Task<ResultList<PolicyInfo>> result)
+    public static Task<Result<IReadOnlyList<PolicyInfo>>> ScreenDump(this Task<Result<IReadOnlyList<PolicyInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -159,7 +159,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<OperatorPolicyInfo>> ScreenDump(this Task<ResultList<OperatorPolicyInfo>> result)
+    public static Task<Result<IReadOnlyList<OperatorPolicyInfo>>> ScreenDump(this Task<Result<IReadOnlyList<OperatorPolicyInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -179,7 +179,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<ScopedParameterInfo>> ScreenDump(this Task<ResultList<ScopedParameterInfo>> result)
+    public static Task<Result<IReadOnlyList<ScopedParameterInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ScopedParameterInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -201,7 +201,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<TopicPermissionsInfo>> ScreenDump(this Task<ResultList<TopicPermissionsInfo>> result)
+    public static Task<Result<IReadOnlyList<TopicPermissionsInfo>>> ScreenDump(this Task<Result<IReadOnlyList<TopicPermissionsInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -220,7 +220,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<UserInfo>> ScreenDump(this Task<ResultList<UserInfo>> result)
+    public static Task<Result<IReadOnlyList<UserInfo>>> ScreenDump(this Task<Result<IReadOnlyList<UserInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -239,7 +239,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<UserPermissionsInfo>> ScreenDump(this Task<ResultList<UserPermissionsInfo>> result)
+    public static Task<Result<IReadOnlyList<UserPermissionsInfo>>> ScreenDump(this Task<Result<IReadOnlyList<UserPermissionsInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -259,7 +259,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<VirtualHostInfo>> ScreenDump(this Task<ResultList<VirtualHostInfo>> result)
+    public static Task<Result<IReadOnlyList<VirtualHostInfo>>> ScreenDump(this Task<Result<IReadOnlyList<VirtualHostInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -298,7 +298,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<VirtualHostLimitsInfo>> ScreenDump(this Task<ResultList<VirtualHostLimitsInfo>> result)
+    public static Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> ScreenDump(this Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -318,7 +318,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<ShovelInfo>> ScreenDump(this Task<ResultList<ShovelInfo>> result)
+    public static Task<Result<IReadOnlyList<ShovelInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ShovelInfo>>> result)
     {
         var results = result.Result.Select(x => x.Data);
 
@@ -336,7 +336,7 @@ public static class BrokerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<QueueInfo>> ScreenDump(this Task<ResultList<QueueInfo>> result)
+    public static Task<Result<IReadOnlyList<QueueInfo>>> ScreenDump(this Task<Result<IReadOnlyList<QueueInfo>>> result)
     {
         var results = result
             .GetResult()

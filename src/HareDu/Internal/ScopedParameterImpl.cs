@@ -20,7 +20,7 @@ class ScopedParameterImpl :
     {
     }
 
-    public async Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ScopedParameterInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

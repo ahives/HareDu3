@@ -21,7 +21,7 @@ class OperatorPolicyImpl :
     {
     }
         
-    public async Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<OperatorPolicyInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

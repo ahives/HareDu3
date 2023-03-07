@@ -48,12 +48,12 @@ public static class ProjectionExtensions
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
     /// <returns></returns>
-    public static TResult Select<T, TResult>(this Task<ResultList<T>> source, Func<ResultList<T>, TResult> projector)
+    public static TResult Select<T, TResult>(this Task<Result<IReadOnlyList<T>>> source, Func<Result<IReadOnlyList<T>>, TResult> projector)
     {
         if (source is null || projector is null)
             return default;
                 
-        ResultList<T> result = source.GetResult();
+        Result<IReadOnlyList<T>> result = source.GetResult();
 
         return result is not null && result.HasData ? projector(result) : default;
     }
@@ -65,7 +65,7 @@ public static class ProjectionExtensions
     /// <param name="projector"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static IReadOnlyList<T> Select<T>(this ResultList<T> source, Func<ResultList<T>, IReadOnlyList<T>> projector)
+    public static IReadOnlyList<T> Select<T>(this Result<IReadOnlyList<T>> source, Func<Result<IReadOnlyList<T>>, IReadOnlyList<T>> projector)
     {
         if (source is null || !source.HasData || projector is null)
             return Array.Empty<T>();

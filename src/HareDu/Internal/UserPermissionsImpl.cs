@@ -21,7 +21,7 @@ class UserPermissionsImpl :
     {
     }
 
-    public async Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<UserPermissionsInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -36,13 +36,7 @@ class UserPermissionsImpl :
         var impl = new UserPermissionsConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        UserPermissionsRequest request =
-            new ()
-            {
-                Configure = impl.ConfigurePattern,
-                Write = impl.WritePattern,
-                Read = impl.ReadPattern
-            };
+        var request = impl.Request.Value;
 
         var errors = new List<Error>();
 
@@ -84,14 +78,27 @@ class UserPermissionsImpl :
     class UserPermissionsConfiguratorImpl :
         UserPermissionsConfigurator
     {
-        public string ConfigurePattern { get; private set; }
-        public string ReadPattern { get; private set; }
-        public string WritePattern { get; private set; }
+        string _configurePattern;
+        string _readPattern;
+        string _writePattern;
 
-        public void UsingConfigurePattern(string pattern) => ConfigurePattern = pattern;
+        public Lazy<UserPermissionsRequest> Request { get; }
 
-        public void UsingWritePattern(string pattern) => WritePattern = pattern;
+        public UserPermissionsConfiguratorImpl()
+        {
+            Request = new Lazy<UserPermissionsRequest>(
+                () => new ()
+                {
+                    Configure = _configurePattern,
+                    Write = _writePattern,
+                    Read = _readPattern
+                }, LazyThreadSafetyMode.PublicationOnly);
+        }
 
-        public void UsingReadPattern(string pattern) => ReadPattern = pattern;
+        public void UsingConfigurePattern(string pattern) => _configurePattern = pattern;
+
+        public void UsingWritePattern(string pattern) => _writePattern = pattern;
+
+        public void UsingReadPattern(string pattern) => _readPattern = pattern;
     }
 }

@@ -12,7 +12,7 @@ public class FakeQueueObject :
     Queue,
     HareDuTestingFake
 {
-    public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<QueueInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         var channel = new QueueInfo
         {
@@ -46,7 +46,7 @@ public class FakeQueueObject :
             }
         };
 
-        return new SuccessfulResultList<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
+        return new SuccessfulResult<IReadOnlyList<QueueInfo>>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
     }
 
     public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator,

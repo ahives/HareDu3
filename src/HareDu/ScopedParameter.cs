@@ -1,5 +1,6 @@
 namespace HareDu;
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -13,7 +14,7 @@ public interface ScopedParameter :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
-    Task<ResultList<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<ScopedParameterInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scoped parameter for a particular RabbitMQ component and virtual host on the current server.

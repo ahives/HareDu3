@@ -21,7 +21,7 @@ class GlobalParameterImpl :
     {
     }
 
-    public async Task<ResultList<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<GlobalParameterInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

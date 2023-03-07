@@ -1,5 +1,6 @@
 namespace HareDu.Internal;
 
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ class ConsumerImpl :
     {
     }
 
-    public async Task<ResultList<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ConsumerInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
@@ -8,7 +9,7 @@ using Model;
 
 public static class ServerAdminDebuggingExtensions
 {
-    public static Task<ResultList<ChannelInfo>> ScreenDump(this Task<ResultList<ChannelInfo>> result)
+    public static Task<Result<IReadOnlyList<ChannelInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ChannelInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -73,7 +74,7 @@ public static class ServerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<ConnectionInfo>> ScreenDump(this Task<ResultList<ConnectionInfo>> result)
+    public static Task<Result<IReadOnlyList<ConnectionInfo>>> ScreenDump(this Task<Result<IReadOnlyList<ConnectionInfo>>> result)
     {
         var results = result
             .GetResult()
@@ -124,7 +125,7 @@ public static class ServerAdminDebuggingExtensions
         return result;
     }
         
-    public static Task<ResultList<NodeInfo>> ScreenDump(this Task<ResultList<NodeInfo>> result)
+    public static Task<Result<IReadOnlyList<NodeInfo>>> ScreenDump(this Task<Result<IReadOnlyList<NodeInfo>>> result)
     {
         var results = result
             .GetResult()

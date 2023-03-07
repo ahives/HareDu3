@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -16,7 +17,7 @@ public static class ConnectionExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<ConnectionInfo>> GetAllConnections(this IBrokerApiFactory factory,
+    public static async Task<Result<IReadOnlyList<ConnectionInfo>>> GetAllConnections(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

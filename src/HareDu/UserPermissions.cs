@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,7 +15,7 @@ public interface UserPermissions :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<ResultList<UserPermissionsInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<UserPermissionsInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.

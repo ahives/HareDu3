@@ -101,7 +101,7 @@ public static class ShovelExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<ShovelInfo>> GetAllShovels(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<IReadOnlyList<ShovelInfo>>> GetAllShovels(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
             

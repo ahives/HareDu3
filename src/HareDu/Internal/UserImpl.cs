@@ -22,14 +22,14 @@ class UserImpl :
     {
     }
 
-    public async Task<ResultList<UserInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<UserInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
             
         return await GetAllRequest<UserInfo>("api/users", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<ResultList<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<UserInfo>>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

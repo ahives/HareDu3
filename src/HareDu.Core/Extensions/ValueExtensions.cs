@@ -52,7 +52,7 @@ public static class ValueExtensions
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static bool TryGetValue<T>(this ResultList<T> source, int index, out T value)
+    public static bool TryGetValue<T>(this Result<IReadOnlyList<T>> source, int index, out T value)
     {
         if (source is null || !source.HasData || index < 0 || index >= source.Data.Count)
         {
@@ -72,7 +72,7 @@ public static class ValueExtensions
     /// <param name="value"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static bool TryGetValue<T>(this Task<ResultList<T>> source, int index, out T value)
+    public static bool TryGetValue<T>(this Task<Result<IReadOnlyList<T>>> source, int index, out T value)
     {
         if (source is null || index < 0)
         {
@@ -80,7 +80,7 @@ public static class ValueExtensions
             return false;
         }
             
-        ResultList<T> result = source.GetAwaiter().GetResult();
+        Result<IReadOnlyList<T>> result = source.GetAwaiter().GetResult();
 
         if (result?.Data is null || !result.HasData || result.HasFaulted || index >= result.Data.Count)
         {

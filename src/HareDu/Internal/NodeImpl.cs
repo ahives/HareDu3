@@ -17,20 +17,11 @@ class NodeImpl :
     {
     }
 
-    public async Task<ResultList<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<NodeInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         return await GetAllRequest<NodeInfo>("api/nodes", cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        return await GetRequest<NodeHealthInfo>(
-            string.IsNullOrWhiteSpace(node) ? "api/healthchecks/node" : $"/api/healthchecks/node/{node}",
-            cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)

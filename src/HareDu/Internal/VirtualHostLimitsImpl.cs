@@ -21,7 +21,7 @@ class VirtualHostLimitsImpl :
     {
     }
 
-    public async Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

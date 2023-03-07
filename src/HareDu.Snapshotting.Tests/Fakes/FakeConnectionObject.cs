@@ -11,7 +11,7 @@ public class FakeConnectionObject :
     Connection,
     HareDuTestingFake
 {
-    public async Task<ResultList<ConnectionInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ConnectionInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         var connection1 = new ConnectionInfo
         {
@@ -59,7 +59,7 @@ public class FakeConnectionObject :
             State = BrokerConnectionState.Blocked
         };
 
-        return new SuccessfulResultList<ConnectionInfo>{Data = new List<ConnectionInfo> {connection1, connection2, connection3}, DebugInfo = null};
+        return new SuccessfulResult<IReadOnlyList<ConnectionInfo>>{Data = new List<ConnectionInfo> {connection1, connection2, connection3}, DebugInfo = null};
     }
 
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();

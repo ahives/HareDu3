@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,7 +15,7 @@ public interface VirtualHostLimits :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<ResultList<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines specified limits on the RabbitMQ virtual host on the current server.

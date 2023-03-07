@@ -44,23 +44,4 @@ public class NodeTests
             .GetMemoryUsage("rabbit@localhost")
             .ScreenDump();
     }
-
-    [Test]
-    public async Task Verify_can_check_if_named_node_healthy()
-    {
-        var result = await _services.GetService<IBrokerApiFactory>()
-            .API<Node>()
-            .GetHealth("rabbit@localhost")
-            .ScreenDump();
-    }
-
-    [Test]
-    public async Task Verify_can_check_if_node_healthy()
-    {
-        var result = await _services.GetService<IBrokerApiFactory>()
-            .API<Node>()
-            .GetHealth();
-            
-        Console.WriteLine((string) result.DebugInfo.URL);
-    }
 }

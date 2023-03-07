@@ -21,7 +21,7 @@ class QueueImpl :
     {
     }
 
-    public async Task<ResultList<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<QueueInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

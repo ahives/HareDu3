@@ -22,7 +22,7 @@ class ExchangeImpl :
     {
     }
 
-    public async Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ExchangeInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
             

@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,7 +15,7 @@ public interface Exchange :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<ResultList<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<ExchangeInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified exchange on the target RabbitMQ virtual host.

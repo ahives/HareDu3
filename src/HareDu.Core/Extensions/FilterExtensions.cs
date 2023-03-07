@@ -13,7 +13,7 @@ public static class FilterExtensions
     /// <param name="predicate"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static IReadOnlyList<T> Where<T>(this ResultList<T> source, Func<T, bool> predicate)
+    public static IReadOnlyList<T> Where<T>(this Result<IReadOnlyList<T>> source, Func<T, bool> predicate)
     {
         if (source is null)
             return new List<T>();
@@ -28,12 +28,12 @@ public static class FilterExtensions
     /// <param name="predicate"></param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static IReadOnlyList<T> Where<T>(this Task<ResultList<T>> source, Func<T, bool> predicate)
+    public static IReadOnlyList<T> Where<T>(this Task<Result<IReadOnlyList<T>>> source, Func<T, bool> predicate)
     {
         if (source is null)
             return new List<T>();
             
-        ResultList<T> result = source.Result;
+        Result<IReadOnlyList<T>> result = source.Result;
 
         return !result.HasData ? new List<T>() : Filter(result.Data, predicate);
     }

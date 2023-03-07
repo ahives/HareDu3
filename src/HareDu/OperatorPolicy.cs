@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,7 +15,7 @@ public interface OperatorPolicy :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="ResultList{T}"/> of operator policies.</returns>
-    Task<ResultList<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<OperatorPolicyInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified operator policy on the target RabbitMQ virtual host.

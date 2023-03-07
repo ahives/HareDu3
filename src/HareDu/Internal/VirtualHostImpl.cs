@@ -22,7 +22,7 @@ class VirtualHostImpl :
     {
     }
 
-    public async Task<ResultList<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<VirtualHostInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,7 +15,7 @@ public interface Binding :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-    Task<ResultList<BindingInfo>> GetAll(CancellationToken cancellationToken = default);
+    Task<Result<IReadOnlyList<BindingInfo>>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified RabbitMQ virtual host.

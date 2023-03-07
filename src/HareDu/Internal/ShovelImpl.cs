@@ -21,7 +21,7 @@ class ShovelImpl :
     {
     }
 
-    public async Task<ResultList<ShovelInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ShovelInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

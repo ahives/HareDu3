@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -16,7 +17,7 @@ public static class NodeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<ResultList<NodeInfo>> GetAllNodes(this IBrokerApiFactory factory,
+    public static async Task<Result<IReadOnlyList<NodeInfo>>> GetAllNodes(this IBrokerApiFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -24,25 +25,6 @@ public static class NodeExtensions
         return await factory
             .API<Node>()
             .GetAll(cancellationToken)
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Executes test to check if the current RabbitMQ node is healthy.
-    /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
-    /// <param name="node">Name of the RabbitMQ node.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<NodeHealthInfo>> GetNodeHealth(this IBrokerApiFactory factory,
-        string node = null, CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
-
-        return await factory
-            .API<Node>()
-            .GetHealth(node, cancellationToken)
             .ConfigureAwait(false);
     }
 

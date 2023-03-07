@@ -21,7 +21,7 @@ class TopicPermissionsImpl :
     {
     }
 
-    public async Task<ResultList<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<TopicPermissionsInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

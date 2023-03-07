@@ -17,7 +17,7 @@ class ConnectionImpl :
     {
     }
 
-    public async Task<ResultList<ConnectionInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Result<IReadOnlyList<ConnectionInfo>>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
