@@ -2,16 +2,15 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class UserImpl :
     BaseBrokerObject,
@@ -51,7 +50,7 @@ class UserImpl :
             {
                 Password = Normalize(password),
                 PasswordHash = !string.IsNullOrWhiteSpace(Normalize(password)) ? null : passwordHash,
-                Tags = impl.Tags.Value
+                Tags = impl.Tags
             };
 
         var errors = new List<Error>();
@@ -68,7 +67,7 @@ class UserImpl :
         string url = $"api/users/{username}";
 
         if (errors.Any())
-            return new FaultedResult {DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
+            return new FaultedResult {DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
@@ -125,19 +124,22 @@ class UserImpl :
     {
         string _tags;
 
-        public Lazy<string> Tags { get; }
-
-        public UserConfiguratorImpl()
-        {
-            Tags = new Lazy<string>(() => _tags, LazyThreadSafetyMode.PublicationOnly);
-        }
+        public string Tags => _tags;
 
         public void WithTags(Action<UserAccessOptions> tags)
         {
             var impl = new UserAccessOptionsImpl();
             tags?.Invoke(impl);
 
-            _tags = impl.ToString();
+            if (string.IsNullOrWhiteSpace(_tags))
+                _tags = impl.ToString();
+            else
+            {
+                var sb = new StringBuilder();
+                sb.Append($"{_tags},{impl.ToString()}");
+
+                _tags = sb.ToString();
+            }
         }
 
             

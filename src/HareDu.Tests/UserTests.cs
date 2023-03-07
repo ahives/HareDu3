@@ -98,7 +98,38 @@ public class UserTests :
     }
         
     [Test]
-    public async Task Verify_can_create1()
+    public async Task Verify_can_create_user_with_multiple_tags()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerApiFactory>()
+            .API<User>()
+            .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
+            {
+                x.WithTags(t =>
+                {
+                    t.Administrator();
+                });
+                x.WithTags(t =>
+                {
+                    t.Management();
+                });
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
+            
+            Assert.AreEqual("testuserpwd3", request.Password);
+            Assert.AreEqual("administrator,management", request.Tags);
+            Assert.That(request.PasswordHash, Is.Empty.Or.Null);
+        });
+    }
+        
+    [Test]
+    public async Task Verify_can_create_user_with_tags()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()
@@ -125,7 +156,7 @@ public class UserTests :
     }
         
     [Test]
-    public async Task Verify_can_create2()
+    public async Task Verify_can_create_user_with_tags_via_extension_method()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerApiFactory>()

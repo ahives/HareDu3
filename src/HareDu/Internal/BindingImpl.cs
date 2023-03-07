@@ -11,7 +11,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class BindingImpl :
     BaseBrokerObject,
@@ -56,7 +55,7 @@ class BindingImpl :
             : $"api/bindings/{virtualHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}";
 
         if (errors.Any())
-            return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
+            return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PostRequest<BindingInfo, BindingRequest>(url, request, cancellationToken).ConfigureAwait(false);
     }

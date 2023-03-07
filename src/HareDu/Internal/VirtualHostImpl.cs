@@ -46,7 +46,7 @@ class VirtualHostImpl :
         string url = $"api/vhosts/{vhost.ToSanitizedName()}";
 
         if (errors.Any())
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(Deserializer.Options), Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
