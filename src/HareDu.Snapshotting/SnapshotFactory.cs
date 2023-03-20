@@ -12,10 +12,10 @@ using HareDu.Snapshotting.Lens.Internal;
 public class SnapshotFactory :
     ISnapshotFactory
 {
-    readonly IBrokerApiFactory _factory;
+    readonly IBrokerFactory _factory;
     readonly IDictionary<string, object> _cache;
 
-    public SnapshotFactory(IBrokerApiFactory factory)
+    public SnapshotFactory(IBrokerFactory factory)
     {
         _factory = factory;
         _cache = new Dictionary<string, object>();
@@ -26,7 +26,7 @@ public class SnapshotFactory :
 
     public SnapshotFactory(HareDuConfig config)
     {
-        _factory = new BrokerApiFactory(config);
+        _factory = new BrokerFactory(config);
         _cache = new Dictionary<string, object>();
             
         if (!TryRegisterAll())

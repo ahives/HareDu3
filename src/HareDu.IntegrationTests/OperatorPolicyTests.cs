@@ -31,7 +31,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Should_be_able_to_get_all_policies()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<OperatorPolicy>()
             .GetAll()
             .ScreenDump();
@@ -40,7 +40,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Verify_can_create_operator_policy()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<OperatorPolicy>()
             .Create("test7", "TestHareDu", x =>
             {
@@ -63,7 +63,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<OperatorPolicy>()
             .Delete("test6", "TestHareDu");
             

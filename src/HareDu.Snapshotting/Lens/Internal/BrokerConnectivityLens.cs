@@ -21,7 +21,7 @@ class BrokerConnectivityLens :
 
     public ISnapshotHistory<BrokerConnectivitySnapshot> History => _timeline.Value;
 
-    public BrokerConnectivityLens(IBrokerApiFactory factory)
+    public BrokerConnectivityLens(IBrokerFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();

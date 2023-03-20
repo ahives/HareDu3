@@ -28,12 +28,12 @@ public static class HareDuExtensions
         configuration.Bind(configSection, config);
 
         services.AddSingleton(config);
-        services.AddSingleton<IBrokerApiFactory, BrokerApiFactory>();
+        services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerApiFactory>()));
+        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
             
         return services;
     }
@@ -52,12 +52,12 @@ public static class HareDuExtensions
                 .Configure(configurator);
 
         services.AddSingleton(config);
-        services.AddSingleton<IBrokerApiFactory, BrokerApiFactory>();
+        services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerApiFactory>()));
+        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
             
         return services;
     }

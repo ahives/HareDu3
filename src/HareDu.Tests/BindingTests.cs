@@ -14,7 +14,7 @@ public class BindingTests :
     public async Task Verify_able_to_get_all_bindings1()
     {
         var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .GetAll();
 
@@ -31,7 +31,7 @@ public class BindingTests :
     public async Task Verify_able_to_get_all_bindings2()
     {
         var services = GetContainerBuilder("TestData/BindingInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllBindings();
 
         Assert.Multiple(() =>
@@ -47,7 +47,7 @@ public class BindingTests :
     public async Task Verify_can_create_exchange_binding_without_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu", x =>
             {
@@ -73,7 +73,7 @@ public class BindingTests :
     public async Task Verify_can_create_exchange_binding_without_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source("E2");
@@ -99,7 +99,7 @@ public class BindingTests :
     public async Task Verify_can_create_queue_binding_without_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu", x =>
             {
@@ -125,7 +125,7 @@ public class BindingTests :
     public async Task Verify_can_create_queue_binding_without_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source("E2");
@@ -150,7 +150,7 @@ public class BindingTests :
     public async Task Verify_can_create_exchange_binding_with_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu",
                 x =>
@@ -182,7 +182,7 @@ public class BindingTests :
     public async Task Verify_can_create_exchange_binding_with_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding("HareDu",
                 x =>
                 {
@@ -213,7 +213,7 @@ public class BindingTests :
     public async Task Verify_can_create_queue_binding_with_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu",
                 x =>
@@ -245,7 +245,7 @@ public class BindingTests :
     public async Task Verify_can_create_queue_binding_with_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding("HareDu",
                 x =>
                 {
@@ -276,7 +276,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_exchange_binding_without_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu", x =>
             {
@@ -296,7 +296,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_exchange_binding_without_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("HareDu", x =>
             {
@@ -316,7 +316,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_exchange_binding_without_arguments3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding("HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -335,7 +335,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_exchange_binding_without_arguments4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding("HareDu", x =>
             {
                 x.Source("E1");
@@ -354,7 +354,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_queue_binding_without_arguments1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source(string.Empty);
@@ -373,7 +373,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_queue_binding_without_arguments2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source("E1");
@@ -392,7 +392,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_queue_binding_without_arguments3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source(string.Empty);
@@ -411,7 +411,7 @@ public class BindingTests :
     public async Task Verify_cannot_create_queue_binding_without_arguments4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding(string.Empty, x =>
             {
                 x.Source("E1");
@@ -430,7 +430,7 @@ public class BindingTests :
     public async Task Verify_can_delete_queue_binding1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -451,7 +451,7 @@ public class BindingTests :
     public async Task Verify_can_delete_queue_binding2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
                 .CreateBinding("HareDu", x =>
                 {
                     x.Source("E1");
@@ -470,7 +470,7 @@ public class BindingTests :
     public async Task Verify_can_delete_queue_binding3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -491,7 +491,7 @@ public class BindingTests :
     public async Task Verify_can_delete_queue_binding4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateBinding("HareDu", x =>
             {
                 x.Source("E1");
@@ -511,7 +511,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -532,7 +532,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding("HareDu", x =>
             {
                 x.Source("E2");
@@ -552,7 +552,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -573,7 +573,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding("HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -593,7 +593,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete(string.Empty, x =>
             {
@@ -614,7 +614,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_queue_binding6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding(string.Empty, x =>
             {
                 x.Source(string.Empty);
@@ -634,7 +634,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -655,7 +655,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding("HareDu", x =>
             {
                 x.Source("E2");
@@ -675,7 +675,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {
@@ -696,7 +696,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding("HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -716,7 +716,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete(string.Empty, x =>
             {
@@ -737,7 +737,7 @@ public class BindingTests :
     public async Task Verify_cannot_delete_exchange_binding6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteBinding(string.Empty, x =>
             {
                 x.Source(string.Empty);

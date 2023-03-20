@@ -16,7 +16,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerApiFactory factory,
+    public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -34,7 +34,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> RebalanceAllQueues(this IBrokerApiFactory factory,
+    public static async Task<Result> RebalanceAllQueues(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -52,7 +52,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -70,7 +70,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerApiFactory factory,
+    public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -88,7 +88,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerApiFactory factory,
+    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -106,7 +106,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerApiFactory factory,
+    public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -124,7 +124,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerApiFactory factory,
+    public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -143,7 +143,7 @@ public static class BrokerExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerApiFactory factory,
+    public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,
         Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

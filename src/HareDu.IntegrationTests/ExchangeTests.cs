@@ -33,7 +33,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .GetAll()
             .ScreenDump();
@@ -45,7 +45,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges_2()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .GetAll();
 
@@ -70,7 +70,7 @@ public class ExchangeTests
     {
         var provider = new HareDuConfigProvider();
         var config = provider.Configure(x => { });
-        var factory = new BrokerApiFactory(config);
+        var factory = new BrokerFactory(config);
             
         var result = await factory
             .API<Exchange>()
@@ -84,7 +84,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_filter_exchanges()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .GetAll();
 
@@ -99,7 +99,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_create_exchange()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Create("HareDuExchange2", "TestHareDu", x =>
             {
@@ -119,7 +119,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_delete_exchange()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete("E3", "HareDu");
             

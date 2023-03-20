@@ -18,7 +18,7 @@ public static class GlobalParameterExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result<IReadOnlyList<GlobalParameterInfo>>> GetAllGlobalParameters(
-        this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+        this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -37,7 +37,7 @@ public static class GlobalParameterExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateGlobalParameter(this IBrokerApiFactory factory,
+    public static async Task<Result> CreateGlobalParameter(this IBrokerFactory factory,
         string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -56,7 +56,7 @@ public static class GlobalParameterExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteGlobalParameter(this IBrokerApiFactory factory,
+    public static async Task<Result> DeleteGlobalParameter(this IBrokerFactory factory,
         string parameter, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

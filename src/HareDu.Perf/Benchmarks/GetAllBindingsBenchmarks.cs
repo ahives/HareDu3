@@ -9,14 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 public class GetAllBindingsBenchmarks :
     HareDuPerformanceTesting
 {
-    readonly IBrokerApiFactory _service;
+    readonly IBrokerFactory _service;
 
     public GetAllBindingsBenchmarks()
     {
         var services = GetContainerBuilder("Benchmarks/TestData/BindingInfo.json")
             .BuildServiceProvider();
             
-        _service = services.GetService<IBrokerApiFactory>();
+        _service = services.GetService<IBrokerFactory>();
     }
 
     [Benchmark]

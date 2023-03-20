@@ -29,7 +29,7 @@ public class UserPermissionsTests
     [Test]
     public async Task Should_be_able_to_get_all_user_permissions()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<UserPermissions>()
             .GetAll()
             .ScreenDump();
@@ -38,7 +38,7 @@ public class UserPermissionsTests
     [Test]
     public async Task Verify_can_delete_user_permissions()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<UserPermissions>()
             .Delete("", "HareDu5");
     }
@@ -46,7 +46,7 @@ public class UserPermissionsTests
     [Test]
     public async Task Verify_can_create_user_permissions()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<UserPermissions>()
             .Create("", "HareDu5", x =>
             {

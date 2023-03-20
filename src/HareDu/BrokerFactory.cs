@@ -11,13 +11,13 @@ using Core.Configuration;
 using Core.Extensions;
 using Internal;
 
-public sealed class BrokerApiFactory :
-    IBrokerApiFactory
+public sealed class BrokerFactory :
+    IBrokerFactory
 {
     readonly HttpClient _client;
     readonly ConcurrentDictionary<string, object> _cache;
 
-    public BrokerApiFactory(HttpClient client)
+    public BrokerFactory(HttpClient client)
     {
         _client = client ?? throw new ArgumentNullException(nameof(client));
         _cache = new ConcurrentDictionary<string, object>();
@@ -26,7 +26,7 @@ public sealed class BrokerApiFactory :
             throw new HareDuBrokerApiInitException("Could not register broker objects.");
     }
 
-    public BrokerApiFactory(HareDuConfig config)
+    public BrokerFactory(HareDuConfig config)
     {
         _client = GetClient(config);
         _cache = new ConcurrentDictionary<string, object>();

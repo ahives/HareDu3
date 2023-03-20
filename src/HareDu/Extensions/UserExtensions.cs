@@ -17,7 +17,7 @@ public static class UserExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsers(this IBrokerApiFactory factory,
+    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsers(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -35,7 +35,7 @@ public static class UserExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsersWithoutPermissions(this IBrokerApiFactory factory,
+    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsersWithoutPermissions(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -57,7 +57,7 @@ public static class UserExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateUser(this IBrokerApiFactory factory,
+    public static async Task<Result> CreateUser(this IBrokerFactory factory,
         string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -76,7 +76,7 @@ public static class UserExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteUser(this IBrokerApiFactory factory, string username,
+    public static async Task<Result> DeleteUser(this IBrokerFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -95,7 +95,7 @@ public static class UserExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteUsers(this IBrokerApiFactory factory, IList<string> usernames,
+    public static async Task<Result> DeleteUsers(this IBrokerFactory factory, IList<string> usernames,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

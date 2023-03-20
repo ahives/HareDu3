@@ -31,7 +31,7 @@ public class PolicyTests
     [Test]
     public async Task Should_be_able_to_get_all_policies()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Policy>()
             .GetAll()
             .ScreenDump();
@@ -40,7 +40,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_can_create_policy()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Policy>()
             .Create("policy1", "TestHareDu", x =>
             {
@@ -62,7 +62,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_cannot_create_policy()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Policy>()
             .Create("P4", "HareDu", x =>
             {
@@ -84,7 +84,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_can_delete_policy()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Policy>()
             .Delete("P4", "HareDu");
             

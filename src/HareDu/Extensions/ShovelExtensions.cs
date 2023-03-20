@@ -23,7 +23,7 @@ public static class ShovelExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateShovel(this IBrokerApiFactory factory,
+    public static async Task<Result> CreateShovel(this IBrokerFactory factory,
         string name, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -43,7 +43,7 @@ public static class ShovelExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteShovel(this IBrokerApiFactory factory,
+    public static async Task<Result> DeleteShovel(this IBrokerFactory factory,
         string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -62,7 +62,7 @@ public static class ShovelExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerApiFactory factory,
+    public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -101,7 +101,7 @@ public static class ShovelExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<ShovelInfo>>> GetAllShovels(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<IReadOnlyList<ShovelInfo>>> GetAllShovels(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
             

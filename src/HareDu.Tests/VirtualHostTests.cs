@@ -14,7 +14,7 @@ public class VirtualHostTests :
     public async Task Should_be_able_to_get_all_vhosts1()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .GetAll();
 
@@ -78,7 +78,7 @@ public class VirtualHostTests :
     public async Task Should_be_able_to_get_all_vhosts2()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllVirtualHosts();
 
         Assert.Multiple(() =>
@@ -141,7 +141,7 @@ public class VirtualHostTests :
     public async Task Verify_Create_works1()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Create("HareDu7",x =>
             {
@@ -163,7 +163,7 @@ public class VirtualHostTests :
     public async Task Verify_Create_works2()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateVirtualHost("HareDu7",x =>
             {
                 x.WithTracingEnabled();
@@ -184,7 +184,7 @@ public class VirtualHostTests :
     public async Task Verify_can_delete1()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Delete("HareDu7");
 
@@ -195,7 +195,7 @@ public class VirtualHostTests :
     public async Task Verify_can_delete2()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteVirtualHost("HareDu7");
 
         Assert.IsFalse(result.HasFaulted);
@@ -205,7 +205,7 @@ public class VirtualHostTests :
     public async Task Verify_cannot_delete_1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Delete(string.Empty);
             
@@ -220,7 +220,7 @@ public class VirtualHostTests :
     public async Task Verify_can_start_vhost1()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup("FakeVirtualHost", "FakeNode");
             
@@ -231,7 +231,7 @@ public class VirtualHostTests :
     public async Task Verify_can_start_vhost2()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .StartupVirtualHost("FakeVirtualHost", "FakeNode");
             
         Assert.IsFalse(result.HasFaulted);
@@ -241,7 +241,7 @@ public class VirtualHostTests :
     public async Task Verify_cannot_start_vhost_1()
     {
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup(string.Empty, "FakeNode");
             
@@ -256,7 +256,7 @@ public class VirtualHostTests :
     public async Task Verify_cannot_start_vhost_2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup("FakeVirtualHost", string.Empty);
             
@@ -271,7 +271,7 @@ public class VirtualHostTests :
     public async Task Verify_cannot_start_vhost_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup(string.Empty, string.Empty);
             

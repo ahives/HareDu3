@@ -13,7 +13,7 @@ public class ConsumerTests :
     public async Task Verify_can_get_all_consumers1()
     {
         var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Consumer>()
             .GetAll();
 
@@ -45,7 +45,7 @@ public class ConsumerTests :
     public async Task Verify_can_get_all_consumers2()
     {
         var services = GetContainerBuilder("TestData/ConsumerInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllConsumers();
 
         Assert.Multiple(() =>

@@ -31,7 +31,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_create_queue()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create("TestQueue31", "HareDu",null, x =>
             {
@@ -53,7 +53,7 @@ public class QueueTests
     [Test]
     public async Task Should_be_able_to_get_all_queues()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .GetAll()
             .ScreenDump();
@@ -65,7 +65,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_get_all_json()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .GetAll();
             
@@ -76,7 +76,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_delete_queue()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete("TestQueue10", "HareDu",x =>
             {
@@ -90,7 +90,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_sync_queue()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Sync("order-state", "TestOrders", QueueSyncAction.Sync);
             
@@ -101,7 +101,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_sync_queue1()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Empty("", "HareDu");
             
@@ -112,7 +112,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_empty_queue2()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .EmptyQueue("", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);

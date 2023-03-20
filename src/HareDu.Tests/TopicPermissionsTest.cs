@@ -14,7 +14,7 @@ public class TopicPermissionsTest :
     public async Task Verify_can_get_all_topic_permissions1()
     {
         var services = GetContainerBuilder("TestData/TopicPermissionsInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .GetAll();
             
@@ -25,7 +25,7 @@ public class TopicPermissionsTest :
     public async Task Verify_can_get_all_topic_permissions2()
     {
         var services = GetContainerBuilder("TestData/TopicPermissionsInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllTopicPermissions();
             
         Assert.IsFalse(result.HasFaulted);
@@ -35,7 +35,7 @@ public class TopicPermissionsTest :
     public async Task Verify_can_create_user_permissions1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create("guest", "HareDu", x =>
             {
@@ -55,7 +55,7 @@ public class TopicPermissionsTest :
     public async Task Verify_can_create_user_permissions2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission("guest", "HareDu", x =>
             {
                 x.Exchange("E4");
@@ -74,7 +74,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create(string.Empty, "HareDu", x =>
             {
@@ -101,7 +101,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission(string.Empty, "HareDu", x =>
             {
                 x.Exchange("E4");
@@ -127,7 +127,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create("guest", string.Empty, x =>
             {
@@ -154,7 +154,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission("guest", string.Empty, x =>
             {
                 x.Exchange("E4");
@@ -180,7 +180,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, x =>
             {
@@ -207,7 +207,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -233,7 +233,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions7()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, x =>
             {
@@ -260,7 +260,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions8()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -286,7 +286,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions9()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, x =>
             {
@@ -313,7 +313,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions10()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -339,7 +339,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions11()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Create(string.Empty, string.Empty, x =>
             {
@@ -366,7 +366,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_create_topic_permissions12()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateTopicPermission(string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -392,7 +392,7 @@ public class TopicPermissionsTest :
     public async Task Verify_can_delete_user_permissions2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteTopicPermission("guest", "HareDu7");
             
         Assert.IsFalse(result.HasFaulted);
@@ -402,7 +402,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Delete(string.Empty, "HareDu7");
             
@@ -417,7 +417,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteTopicPermission(string.Empty, "HareDu7");
             
         Assert.Multiple(() =>
@@ -431,7 +431,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Delete("guest", string.Empty);
             
@@ -446,7 +446,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteTopicPermission("guest", string.Empty);
             
         Assert.Multiple(() =>
@@ -460,7 +460,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<TopicPermissions>()
             .Delete(string.Empty, string.Empty);
             
@@ -475,7 +475,7 @@ public class TopicPermissionsTest :
     public async Task Verify_cannot_delete_user_permissions6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteTopicPermission(string.Empty, string.Empty);
             
         Assert.Multiple(() =>

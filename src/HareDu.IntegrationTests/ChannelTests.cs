@@ -31,7 +31,7 @@ public class ChannelTests
     [Test, Explicit]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Channel>()
             .GetAll()
             .ScreenDump();
@@ -43,7 +43,7 @@ public class ChannelTests
     [Test]
     public async Task Should_be_able_to_get_all_channels()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Channel>()
             .GetAll()
             .ScreenDump();

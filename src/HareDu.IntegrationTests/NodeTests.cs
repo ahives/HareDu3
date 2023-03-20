@@ -30,7 +30,7 @@ public class NodeTests
     [Test]
     public async Task Should_be_able_to_get_all_nodes()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Node>()
             .GetAll()
             .ScreenDump();
@@ -39,7 +39,7 @@ public class NodeTests
     [Test]
     public async Task Should_be_able_to_get_all_memory_usage()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Node>()
             .GetMemoryUsage("rabbit@localhost")
             .ScreenDump();

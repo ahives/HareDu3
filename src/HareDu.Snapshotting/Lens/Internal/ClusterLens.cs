@@ -19,7 +19,7 @@ class ClusterLens :
 
     public ISnapshotHistory<ClusterSnapshot> History => _timeline.Value;
 
-    public ClusterLens(IBrokerApiFactory factory)
+    public ClusterLens(IBrokerFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();

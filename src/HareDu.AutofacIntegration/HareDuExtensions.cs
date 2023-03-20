@@ -33,8 +33,8 @@ public static class HareDuExtensions
             })
             .SingleInstance();
             
-        builder.RegisterType<BrokerApiFactory>()
-            .As<IBrokerApiFactory>()
+        builder.RegisterType<BrokerFactory>()
+            .As<IBrokerFactory>()
             .SingleInstance();
             
         builder.RegisterType<Scanner>()
@@ -53,7 +53,7 @@ public static class HareDuExtensions
             .As<IScannerResultAnalyzer>()
             .SingleInstance();
 
-        builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerApiFactory>()))
+        builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerFactory>()))
             .As<ISnapshotFactory>()
             .SingleInstance();
 
@@ -79,8 +79,8 @@ public static class HareDuExtensions
             })
             .SingleInstance();
             
-        builder.RegisterType<BrokerApiFactory>()
-            .As<IBrokerApiFactory>()
+        builder.RegisterType<BrokerFactory>()
+            .As<IBrokerFactory>()
             .SingleInstance();
             
         builder.RegisterType<Scanner>()
@@ -99,7 +99,7 @@ public static class HareDuExtensions
             .As<IScannerResultAnalyzer>()
             .SingleInstance();
 
-        builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerApiFactory>()))
+        builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerFactory>()))
             .As<ISnapshotFactory>()
             .SingleInstance();
 

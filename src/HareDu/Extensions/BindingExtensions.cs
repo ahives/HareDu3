@@ -17,7 +17,7 @@ public static class BindingExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<BindingInfo>>> GetAllBindings(this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<IReadOnlyList<BindingInfo>>> GetAllBindings(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -37,7 +37,7 @@ public static class BindingExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> CreateBinding(
-        this IBrokerApiFactory factory,
+        this IBrokerFactory factory,
         string vhost,
         Action<BindingConfigurator> configurator,
         CancellationToken cancellationToken = default)
@@ -60,7 +60,7 @@ public static class BindingExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> DeleteBinding(
-        this IBrokerApiFactory factory,
+        this IBrokerFactory factory,
         string vhost,
         Action<DeleteBindingConfigurator> configurator,
         CancellationToken cancellationToken = default)

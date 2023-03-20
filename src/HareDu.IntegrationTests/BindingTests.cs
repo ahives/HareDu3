@@ -31,7 +31,7 @@ public class BindingTests
     [Test]
     public async Task Should_be_able_to_get_all_bindings1()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Binding>()
             .GetAll()
             .ScreenDump();
@@ -43,7 +43,7 @@ public class BindingTests
     [Test]
     public async Task Should_be_able_to_get_all_bindings2()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .GetAllBindings()
             .ScreenDump();
             
@@ -54,7 +54,7 @@ public class BindingTests
     [Test]
     public async Task Test1()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .CreateBinding("TestHareDu", x =>
             {
                 x.Source("HareDuExchange1");
@@ -69,7 +69,7 @@ public class BindingTests
     [Test]
     public async Task Test2()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
                 .DeleteBinding("TestHareDu", x =>
                 {
                     x.Source("HareDuExchange1");
@@ -84,7 +84,7 @@ public class BindingTests
     [Test]
     public async Task Verify_can_add_arguments()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Create("TestHareDu",
                 x =>
@@ -106,7 +106,7 @@ public class BindingTests
     [Test]
     public async Task Verify_can_delete_binding()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<Binding>()
             .Delete("HareDu", x =>
             {

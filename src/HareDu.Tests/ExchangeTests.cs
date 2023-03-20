@@ -15,7 +15,7 @@ public class ExchangeTests :
     public async Task Should_be_able_to_get_all_exchanges1()
     {
         var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .GetAll();
 
@@ -41,7 +41,7 @@ public class ExchangeTests :
     public async Task Should_be_able_to_get_all_exchanges2()
     {
         var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllExchanges();
             
         Assert.Multiple(() =>
@@ -66,7 +66,7 @@ public class ExchangeTests :
     public async Task Verify_can_create_exchange1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Create("fake_exchange", "HareDu", x =>
             {
@@ -102,7 +102,7 @@ public class ExchangeTests :
     public async Task Verify_can_create_exchange2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateExchange("fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -135,7 +135,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_create_exchange_1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Create(string.Empty, "HareDu", x =>
             {
@@ -161,7 +161,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_create_exchange_2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Create(string.Empty, "HareDu", x =>
             {
@@ -187,7 +187,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_create_exchange_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Create("fake_exchange", string.Empty, x =>
             {
@@ -213,7 +213,7 @@ public class ExchangeTests :
     public async Task Verify_can_delete_exchange1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete("E3", "HareDu", x =>
             {
@@ -227,7 +227,7 @@ public class ExchangeTests :
     public async Task Verify_can_delete_exchange2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteExchange("E3", "HareDu", x =>
             {
                 x.WhenUnused();
@@ -240,7 +240,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_delete_exchange_1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -258,7 +258,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_delete_exchange_2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete("E3", string.Empty, x =>
             {
@@ -276,7 +276,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_delete_exchange_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete("E3", string.Empty, x =>
             {
@@ -294,7 +294,7 @@ public class ExchangeTests :
     public async Task Verify_cannot_delete_exchange_4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Exchange>()
             .Delete(string.Empty, string.Empty, x =>
             {

@@ -8,7 +8,7 @@ using Model;
 
 public static class UserLimitsExtensions
 {
-    public static async Task<Result<UserLimitsInfo>> GetUserMaxChannels(this IBrokerApiFactory factory, string username,
+    public static async Task<Result<UserLimitsInfo>> GetUserMaxChannels(this IBrokerFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -19,7 +19,7 @@ public static class UserLimitsExtensions
             .ConfigureAwait(false);
     }
     
-    public static async Task<Result<UserLimitsInfo>> GetUserMaxConnections(this IBrokerApiFactory factory, string username,
+    public static async Task<Result<UserLimitsInfo>> GetUserMaxConnections(this IBrokerFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

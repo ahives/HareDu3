@@ -16,7 +16,7 @@ public class GlobalParameterTests :
     public async Task Should_be_able_to_get_all_global_parameters1()
     {
         var services = GetContainerBuilder("TestData/GlobalParameterInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .GetAll();
 
@@ -39,7 +39,7 @@ public class GlobalParameterTests :
     public async Task Should_be_able_to_get_all_global_parameters2()
     {
         var services = GetContainerBuilder("TestData/GlobalParameterInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllGlobalParameters();
 
         Assert.Multiple(() =>
@@ -61,7 +61,7 @@ public class GlobalParameterTests :
     public async Task Verify_can_create_parameter1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
@@ -84,7 +84,7 @@ public class GlobalParameterTests :
     public async Task Verify_can_create_parameter2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateGlobalParameter("fake_param",x =>
             {
                 x.Value("fake_value");
@@ -106,7 +106,7 @@ public class GlobalParameterTests :
     public async Task Verify_can_create_parameter_2()
     {
         var services = GetContainerBuilder("TestData/ExchangeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
@@ -138,7 +138,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_create_parameter_1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
@@ -162,7 +162,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_create_parameter_3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create("fake_param", x =>
             {
@@ -186,7 +186,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_create_parameter_4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
@@ -210,7 +210,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_create_parameter_5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create(string.Empty, x =>
             {
@@ -233,7 +233,7 @@ public class GlobalParameterTests :
     public async Task Verify_can_delete_parameter1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Delete("fake_param");
             
@@ -244,7 +244,7 @@ public class GlobalParameterTests :
     public async Task Verify_can_delete_parameter2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteGlobalParameter("fake_param");
             
         Assert.IsFalse(result.HasFaulted);
@@ -254,7 +254,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_delete_parameter3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Delete(string.Empty);
             
@@ -269,7 +269,7 @@ public class GlobalParameterTests :
     public async Task Verify_cannot_delete_parameter4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteGlobalParameter(string.Empty);
             
         Assert.Multiple(() =>

@@ -17,7 +17,7 @@ public static class ExchangeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<ExchangeInfo>>> GetAllExchanges(this IBrokerApiFactory factory,
+    public static async Task<Result<IReadOnlyList<ExchangeInfo>>> GetAllExchanges(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -38,7 +38,7 @@ public static class ExchangeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CreateExchange(this IBrokerApiFactory factory,
+    public static async Task<Result> CreateExchange(this IBrokerFactory factory,
         string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -59,7 +59,7 @@ public static class ExchangeExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteExchange(this IBrokerApiFactory factory,
+    public static async Task<Result> DeleteExchange(this IBrokerFactory factory,
         string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

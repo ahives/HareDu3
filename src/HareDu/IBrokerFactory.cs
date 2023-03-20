@@ -2,7 +2,7 @@ namespace HareDu;
 
 using System.Collections.Generic;
 
-public interface IBrokerApiFactory
+public interface IBrokerFactory
 {
     /// <summary>
     /// Creates a new instance of object implemented by T, which encapsulates a group of resources (e.g. Virtual Host, Exchange, Queue, User, etc.)

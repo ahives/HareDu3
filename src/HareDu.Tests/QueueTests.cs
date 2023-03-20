@@ -15,7 +15,7 @@ public class QueueTests :
     public async Task Should_be_able_to_get_all_queues1()
     {
         var services = GetContainerBuilder("TestData/QueueInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .GetAll();
 
@@ -87,7 +87,7 @@ public class QueueTests :
     public async Task Should_be_able_to_get_all_queues2()
     {
         var services = GetContainerBuilder("TestData/QueueInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetAllQueues();
 
         Assert.Multiple(() =>
@@ -158,7 +158,7 @@ public class QueueTests :
     public async Task Verify_can_create_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -190,7 +190,7 @@ public class QueueTests :
     public async Task Verify_can_create_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue("TestQueue31", "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -221,7 +221,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -254,7 +254,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue(string.Empty, "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -286,7 +286,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -319,7 +319,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue(string.Empty, "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -351,7 +351,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create("TestQueue31", string.Empty, "Node1", x =>
             {
@@ -384,7 +384,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue("TestQueue31", string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -416,7 +416,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue7()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create(string.Empty,"HareDu", "Node1", x =>
             {
@@ -449,7 +449,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue8()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue(string.Empty,"HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -481,7 +481,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue9()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -514,7 +514,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue10()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue(string.Empty, string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -546,7 +546,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue11()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -579,7 +579,7 @@ public class QueueTests :
     public async Task Verify_cannot_create_queue12()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CreateQueue(string.Empty, string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -611,7 +611,7 @@ public class QueueTests :
     public async Task Verify_can_override_arguments()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -642,7 +642,7 @@ public class QueueTests :
     public async Task Verify_can_delete_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete("Queue1", "HareDu",x =>
             {
@@ -661,7 +661,7 @@ public class QueueTests :
     public async Task Verify_can_delete_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue("Queue1", "HareDu",x =>
             {
                 x.WhenHasNoConsumers();
@@ -679,7 +679,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -697,7 +697,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue(string.Empty, "HareDu", x =>
             {
                 x.WhenHasNoConsumers();
@@ -714,7 +714,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -732,7 +732,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue(string.Empty, "HareDu", x =>
             {
                 x.WhenHasNoConsumers();
@@ -749,7 +749,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete("Queue1", string.Empty, x =>
             {
@@ -767,7 +767,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue("Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -784,7 +784,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue7()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete("Queue1", string.Empty, x =>
             {
@@ -802,7 +802,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue8()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue("Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -819,7 +819,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue9()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete("Queue1", string.Empty, x =>
             {
@@ -837,7 +837,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue10()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue("Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -854,7 +854,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue11()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -872,7 +872,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue12()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue(string.Empty, string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -889,7 +889,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue13()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -907,7 +907,7 @@ public class QueueTests :
     public async Task Verify_cannot_delete_queue14()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .DeleteQueue(string.Empty, string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -924,7 +924,7 @@ public class QueueTests :
     public async Task Verify_can_empty_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Empty("Queue1", "HareDu");
             
@@ -935,7 +935,7 @@ public class QueueTests :
     public async Task Verify_can_empty_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .EmptyQueue("Queue1", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -945,7 +945,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Empty(string.Empty, "HareDu");
             
@@ -960,7 +960,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .EmptyQueue(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -974,7 +974,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Empty("Queue1", string.Empty);
             
@@ -989,7 +989,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .EmptyQueue("Queue1", string.Empty);
             
         Assert.Multiple(() =>
@@ -1003,7 +1003,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Empty(string.Empty, string.Empty);
             
@@ -1018,7 +1018,7 @@ public class QueueTests :
     public async Task Verify_cannot_empty_queue6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .EmptyQueue(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -1032,7 +1032,7 @@ public class QueueTests :
     public async Task Verify_can_sync_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Sync("Queue1", "HareDu", QueueSyncAction.Sync);
             
@@ -1051,7 +1051,7 @@ public class QueueTests :
     public async Task Verify_can_sync_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .SyncQueue("Queue1", "HareDu");
             
         Assert.Multiple(() =>
@@ -1069,7 +1069,7 @@ public class QueueTests :
     public async Task Verify_can_sync_queue3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .CancelQueueSync("Queue1", "HareDu");
             
         Assert.Multiple(() =>
@@ -1087,7 +1087,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue1()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Sync(string.Empty, "HareDu", QueueSyncAction.Sync);
             
@@ -1102,7 +1102,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .SyncQueue(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -1116,7 +1116,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue3()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Sync("Queue1", string.Empty, QueueSyncAction.Sync);
             
@@ -1131,7 +1131,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue4()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .SyncQueue("Queue1", string.Empty);
             
         Assert.Multiple(() =>
@@ -1145,7 +1145,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue5()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Queue>()
             .Sync(string.Empty, string.Empty, QueueSyncAction.Sync);
             
@@ -1160,7 +1160,7 @@ public class QueueTests :
     public async Task Verify_cannot_sync_queue6()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .SyncQueue(string.Empty, string.Empty);
             
         Assert.Multiple(() =>

@@ -9,13 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 public class CreateBenchmarks :
     HareDuPerformanceTesting
 {
-    readonly IBrokerApiFactory _service;
+    readonly IBrokerFactory _service;
 
     public CreateBenchmarks()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
             
-        _service = services.GetService<IBrokerApiFactory>();
+        _service = services.GetService<IBrokerFactory>();
     }
 
     [Benchmark]

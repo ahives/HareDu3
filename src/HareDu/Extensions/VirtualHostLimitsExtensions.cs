@@ -18,7 +18,7 @@ public static class VirtualHostLimitsExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> GetAllVirtualHostLimits(
-        this IBrokerApiFactory factory, CancellationToken cancellationToken = default)
+        this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -37,7 +37,7 @@ public static class VirtualHostLimitsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DefineVirtualHostLimits(this IBrokerApiFactory factory, string vhost,
+    public static async Task<Result> DefineVirtualHostLimits(this IBrokerFactory factory, string vhost,
         Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -56,7 +56,7 @@ public static class VirtualHostLimitsExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> DeleteVirtualHostLimits(this IBrokerApiFactory factory, string vhost,
+    public static async Task<Result> DeleteVirtualHostLimits(this IBrokerFactory factory, string vhost,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

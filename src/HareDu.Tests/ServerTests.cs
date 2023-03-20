@@ -13,7 +13,7 @@ public class ServerTests :
     public async Task Verify_can_get_all_definitions1()
     {
         var services = GetContainerBuilder("TestData/ServerDefinitionInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .API<Server>()
             .Get();
             
@@ -40,7 +40,7 @@ public class ServerTests :
     public async Task Verify_can_get_all_definitions2()
     {
         var services = GetContainerBuilder("TestData/ServerDefinitionInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerApiFactory>()
+        var result = await services.GetService<IBrokerFactory>()
             .GetServerInformation();
             
         Assert.Multiple(() =>

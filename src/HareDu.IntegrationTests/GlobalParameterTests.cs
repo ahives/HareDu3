@@ -31,7 +31,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Should_be_able_to_get_all_global_parameters()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .GetAll()
             .ScreenDump();
@@ -40,7 +40,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Verify_can_create_parameter()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Create("fake_param2", x =>
             {
@@ -59,7 +59,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Verify_can_delete_parameter()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<GlobalParameter>()
             .Delete("Fred");
             

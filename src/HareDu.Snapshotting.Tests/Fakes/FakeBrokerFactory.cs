@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using Core.Configuration;
 using Core.Testing;
 
-public class FakeBrokerApiFactory :
-    IBrokerApiFactory,
+public class FakeBrokerFactory :
+    IBrokerFactory,
     HareDuTestingFake
 {
     public HareDuConfig Config { get; }

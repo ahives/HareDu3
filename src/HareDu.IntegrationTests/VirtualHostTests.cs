@@ -32,7 +32,7 @@ public class VirtualHostTests
     [Test]
     public async Task Should_be_able_to_get_all_vhosts()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .GetAll()
             .ScreenDump();
@@ -41,7 +41,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_GetAll_HasResult_works()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .GetAll();
 
@@ -51,7 +51,7 @@ public class VirtualHostTests
     [Test]
     public void Verify_filtered_GetAll_works()
     {
-        var result = _services.GetService<IBrokerApiFactory>()
+        var result = _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .GetAll()
             .Where(x => x.Name == "HareDu");
@@ -68,7 +68,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_Create_works()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Create("HareDu9",x =>
             {
@@ -87,7 +87,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_Delete_works()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Delete("HareDu7");
 
@@ -97,7 +97,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_start_vhost()
     {
-        var result = await _services.GetService<IBrokerApiFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup("", "");
             
