@@ -1,7 +1,6 @@
 namespace HareDu;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -11,11 +10,18 @@ public interface Queue :
     BrokerAPI
 {
     /// <summary>
-    /// Returns all queues on the current RabbitMQ node.
+    /// Returns information of all queues on the current RabbitMQ node.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<IReadOnlyList<QueueInfo>>> GetAll(CancellationToken cancellationToken = default);
+    Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns detailed information of all queues on the current RabbitMQ node.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates specified queue on the specified RabbitMQ virtual host and node.
@@ -51,6 +57,7 @@ public interface Queue :
     /// <summary>
     /// Syncs or cancels sync of specified RabbitMQ queue.
     /// </summary>
+    /// <param name="name">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="syncAction">Sync action to be performed on RabbitMQ queue.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

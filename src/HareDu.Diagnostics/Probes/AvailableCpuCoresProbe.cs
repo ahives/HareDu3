@@ -9,7 +9,7 @@ public class AvailableCpuCoresProbe :
     BaseDiagnosticProbe<NodeSnapshot>,
     DiagnosticProbe
 {
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -26,7 +26,7 @@ public class AvailableCpuCoresProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as NodeSnapshot);
 
-    protected override ProbeResult GetProbeResult(NodeSnapshot data)
+    protected override ProbeResult GetProbeReadout(NodeSnapshot data)
     {
         ProbeResult result;
 
@@ -34,42 +34,24 @@ public class AvailableCpuCoresProbe :
         {
             new () {PropertyName = "AvailableCoresDetected", PropertyValue = data.AvailableCoresDetected.ToString()}
         };
-            
+
         if (data.AvailableCoresDetected <= 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Unhealthy,
-                ParentComponentId = data.ClusterIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = data.ClusterIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+
+            result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-                
+
         return result;
     }
 }

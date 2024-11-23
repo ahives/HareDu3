@@ -1,6 +1,6 @@
-namespace HareDu.Diagnostics.Probes;
+namespace HareDu.Diagnostics;
 
-public record DiagnosticProbeMetadata
+public record ProbeMetadata
 {
     public string Id { get; init; }
         

@@ -12,7 +12,7 @@ public class FakeQueueObject :
     Queue,
     HareDuTestingFake
 {
-    public async Task<Result<IReadOnlyList<QueueInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         var channel = new QueueInfo
         {
@@ -46,7 +46,12 @@ public class FakeQueueObject :
             }
         };
 
-        return new SuccessfulResult<IReadOnlyList<QueueInfo>>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
+        return new SuccessfulResults<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
+    }
+
+    public Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator,

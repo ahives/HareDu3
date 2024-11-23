@@ -6,15 +6,16 @@ using Probes;
 using HareDu.Snapshotting.Model;
 
 public class NoOpScanner<T> :
+    BaseDiagnosticScanner,
     DiagnosticScanner<T>
     where T : Snapshot
 {
-    public DiagnosticScannerMetadata Metadata => new()
+    public ScannerMetadata Metadata => new()
     {
         Identifier = GetType().GetIdentifier()
     };
         
     public IReadOnlyList<ProbeResult> Scan(T snapshot) => DiagnosticCache.EmptyProbeResults;
-        
-    public void Configure(IReadOnlyList<DiagnosticProbe> probes) { }
+
+    protected override void Configure(IReadOnlyList<DiagnosticProbe> probes) { }
 }

@@ -12,7 +12,7 @@ public class FakeNodeObject :
     Node,
     HareDuTestingFake
 {
-    public async Task<Result<IReadOnlyList<NodeInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         var node1 = new NodeInfo
         {
@@ -67,7 +67,7 @@ public class FakeNodeObject :
             TotalIOBytesWritten = 728364283
         };
 
-        return new SuccessfulResult<IReadOnlyList<NodeInfo>>{Data = new List<NodeInfo> {node1, node2}, DebugInfo = null};
+        return new SuccessfulResults<NodeInfo>{Data = new List<NodeInfo> {node1, node2}, DebugInfo = null};
     }
 
     public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();

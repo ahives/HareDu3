@@ -65,5 +65,5 @@ public interface Broker :
     /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<ProtocolListenerState>> IsProtocolAnActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default);
 }

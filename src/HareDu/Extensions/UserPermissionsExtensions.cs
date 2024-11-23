@@ -1,7 +1,6 @@
 namespace HareDu.Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -13,11 +12,11 @@ public static class UserPermissionsExtensions
     /// <summary>
     /// Returns information about all user permissions on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<UserPermissionsInfo>>> GetAllUserPermissions(this IBrokerFactory factory,
+    public static async Task<Results<UserPermissionsInfo>> GetAllUserPermissions(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -31,7 +30,7 @@ public static class UserPermissionsExtensions
     /// <summary>
     /// Creates a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="configurator">Describes how the user permissions will be created.</param>
@@ -59,7 +58,7 @@ public static class UserPermissionsExtensions
     /// <summary>
     /// Deletes the specified user on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

@@ -13,7 +13,7 @@ public class ConsumerUtilizationProbe :
 {
     readonly DiagnosticsConfig _config;
 
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -22,6 +22,7 @@ public class ConsumerUtilizationProbe :
         };
     public override ComponentType ComponentType => ComponentType.Queue;
     public override ProbeCategory Category => ProbeCategory.Throughput;
+    public bool HasExecuted { get; set; }
 
     public ConsumerUtilizationProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,7 +32,7 @@ public class ConsumerUtilizationProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as QueueSnapshot);
 
-    protected override ProbeResult GetProbeResult(QueueSnapshot data)
+    protected override ProbeResult GetProbeReadout(QueueSnapshot data)
     {
         ProbeResult result;
 
@@ -39,17 +40,8 @@ public class ConsumerUtilizationProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.NA,
-                Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data?.Node,
-                ComponentId = data?.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                KB = article
-            };
+            result = Probe.NotAvailable(data?.Node, data?.Identifier, Metadata,
+                ComponentType, Array.Empty<ProbeData>(), article);
 
             NotifyObservers(result);
 
@@ -68,54 +60,29 @@ public class ConsumerUtilizationProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = data.Node,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(data.Node, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else if (data.ConsumerUtilization < _config.Probes.ConsumerUtilizationThreshold
                  && _config.Probes.ConsumerUtilizationThreshold <= 1.0M)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Unhealthy,
-                ParentComponentId = data.Node,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = data.Node,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-                
+        
+        HasExecuted = true;
+
         return result;
     }
 }

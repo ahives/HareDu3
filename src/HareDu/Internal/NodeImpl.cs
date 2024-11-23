@@ -17,7 +17,7 @@ class NodeImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<NodeInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

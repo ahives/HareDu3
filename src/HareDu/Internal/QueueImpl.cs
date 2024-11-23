@@ -10,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class QueueImpl :
     BaseBrokerObject,
@@ -21,11 +20,18 @@ class QueueImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<QueueInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return await GetAllRequest<QueueDetailInfo>("api/queues/detailed", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,

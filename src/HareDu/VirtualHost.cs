@@ -15,7 +15,9 @@ public interface VirtualHost :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<IReadOnlyList<VirtualHostInfo>>> GetAll(CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default);
+
+    Task<Result<VirtualHostInfo>> Get(string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified RabbitMQ virtual host on the current server.

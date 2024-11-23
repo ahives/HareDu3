@@ -9,7 +9,7 @@ public class FakeProbe :
 {
     public IDisposable Subscribe(IObserver<ProbeContext> observer) => throw new NotImplementedException();
 
-    public DiagnosticProbeMetadata Metadata =>
+    public ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),

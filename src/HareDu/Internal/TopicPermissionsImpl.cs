@@ -10,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class TopicPermissionsImpl :
     BaseBrokerObject,
@@ -21,7 +20,7 @@ class TopicPermissionsImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<TopicPermissionsInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

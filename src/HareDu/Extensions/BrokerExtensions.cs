@@ -12,7 +12,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Returns various bits of random information that describe the RabbitMQ system.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -30,7 +30,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Rebalances all queues in all RabbitMQ virtual hosts.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -48,7 +48,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Checks the RabbitMQ cluster to see if there are any alarms in effect.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -65,7 +65,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Performs a health check on the specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
@@ -84,7 +84,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Performs a health check on the RabbitMQ cluster to see if the virtual hosts are running.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -102,7 +102,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Performs a health check on the RabbitMQ cluster to determine if there are classic mirrored queues without synchronized mirrors online.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -120,7 +120,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Performs a health check on the RabbitMQ cluster to determine if there are quorum queues with minimum online quorum.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
@@ -138,7 +138,7 @@ public static class BrokerExtensions
     /// <summary>
     /// Checks if the given protocol is an active listener on the RabbitMQ cluster.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
@@ -150,7 +150,7 @@ public static class BrokerExtensions
 
         return await factory
             .API<Broker>()
-            .IsProtocolAnActiveListener(configurator, cancellationToken)
+            .IsProtocolActiveListener(configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 }

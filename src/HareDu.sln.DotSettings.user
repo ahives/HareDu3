@@ -11,6 +11,14 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net6.0::HareDu.IntegrationTests.BrokerTests.Test&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net6.0::HareDu.IntegrationTests.BrokerTests.Test2&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net6.0::HareDu.IntegrationTests.NodeTests.Should_be_able_to_get_all_nodes&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::A7313527-BF51-47DA-968C-C5A5BF2BFA18::net7.0::HareDu.Diagnostics.IntegrationTests.DiagnosticScannerTests.Test6&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_all_queues&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Verify_can_create_queue&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.VirtualHostTests.Verify_Create_works&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Verify_cannot_create_queue&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_details_all_queues&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_details_all_queues&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_all_queues&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>

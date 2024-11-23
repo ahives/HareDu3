@@ -11,7 +11,7 @@ public class FakeChannelObject :
     Channel,
     HareDuTestingFake
 {
-    public async Task<Result<IReadOnlyList<ChannelInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<ChannelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         var channel = new ChannelInfo
         {
@@ -34,6 +34,6 @@ public class FakeChannelObject :
             }
         };
 
-        return new SuccessfulResult<IReadOnlyList<ChannelInfo>>{Data = new List<ChannelInfo> {channel}, DebugInfo = null};
+        return new SuccessfulResults<ChannelInfo>{Data = new List<ChannelInfo> {channel}, DebugInfo = null};
     }
 }

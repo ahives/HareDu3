@@ -1,7 +1,6 @@
 namespace HareDu.Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -13,11 +12,11 @@ public static class PolicyExtensions
     /// <summary>
     /// Returns all policies on the current RabbitMQ node.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<PolicyInfo>>> GetAllPolicies(this IBrokerFactory factory,
+    public static async Task<Results<PolicyInfo>> GetAllPolicies(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -31,7 +30,7 @@ public static class PolicyExtensions
     /// <summary>
     /// Creates the specified policy on the target RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="name">The name of the policy.</param>
     /// <param name="vhost">The name of the virtual host.</param>
     /// <param name="configurator">Describes how the policy will be created by setting arguments through set methods.</param>
@@ -53,7 +52,7 @@ public static class PolicyExtensions
     /// <summary>
     /// Deletes the specified policy on the target RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="name">The name of the policy.</param>
     /// <param name="vhost">The name of the virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

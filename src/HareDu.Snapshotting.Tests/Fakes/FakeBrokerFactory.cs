@@ -51,6 +51,8 @@ public class FakeBrokerFactory :
         return default;
     }
 
+    public T Object<T>() where T : BrokerAPI => throw new System.NotImplementedException();
+
     public bool IsRegistered(string key) => throw new System.NotImplementedException();
         
     public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();

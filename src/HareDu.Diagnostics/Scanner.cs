@@ -16,6 +16,7 @@ public class Scanner :
     public Scanner(IScannerFactory factory)
     {
         _factory = factory ?? throw new HareDuDiagnosticsException();
+        _subscribers = new List<IObserver<ProbeContext>>();
     }
 
     public ScannerResult Scan<T>(T snapshot)

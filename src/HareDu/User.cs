@@ -15,14 +15,14 @@ public interface User :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
-    Task<Result<IReadOnlyList<UserInfo>>> GetAll(CancellationToken cancellationToken = default);
+    Task<Results<UserInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about all users that do not have permissions on the current RabbitMQ server.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<IReadOnlyList<UserInfo>>> GetAllWithoutPermissions(CancellationToken cancellationToken = default);
+    Task<Results<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a user on the current RabbitMQ server.

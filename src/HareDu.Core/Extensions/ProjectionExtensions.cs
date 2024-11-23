@@ -39,6 +39,22 @@ public static class ProjectionExtensions
             
         return source.HasData ? projector(source) : default;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="projector"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <returns></returns>
+    public static TResult Select<T, TResult>(this Results<T> source, Func<Results<T>, TResult> projector)
+    {
+        if (source is null || !source.HasData || projector is null)
+            return default;
+            
+        return source.HasData ? projector(source) : default;
+    }
         
     /// <summary>
     /// 

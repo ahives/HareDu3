@@ -10,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class ShovelImpl :
     BaseBrokerObject,
@@ -21,7 +20,7 @@ class ShovelImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<ShovelInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<ShovelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

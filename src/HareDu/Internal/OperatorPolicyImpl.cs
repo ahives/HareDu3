@@ -10,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class OperatorPolicyImpl :
     BaseBrokerObject,
@@ -21,7 +20,7 @@ class OperatorPolicyImpl :
     {
     }
         
-    public async Task<Result<IReadOnlyList<OperatorPolicyInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

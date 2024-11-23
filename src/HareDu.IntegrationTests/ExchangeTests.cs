@@ -76,7 +76,7 @@ public class ExchangeTests
             .API<Exchange>()
             .GetAll()
             .ScreenDump();
-            
+
         // result.HasFaulted.ShouldBeFalse();
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
@@ -91,7 +91,7 @@ public class ExchangeTests
         result
             .Where(x => x.Name == "amq.fanout")
             .ScreenDump();
-            
+
         // Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }

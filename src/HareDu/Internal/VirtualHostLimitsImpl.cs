@@ -10,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class VirtualHostLimitsImpl :
     BaseBrokerObject,
@@ -21,7 +20,7 @@ class VirtualHostLimitsImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<VirtualHostLimitsInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<VirtualHostLimitsInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

@@ -1,6 +1,5 @@
 namespace HareDu.Internal;
 
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ class ChannelImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<ChannelInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<ChannelInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

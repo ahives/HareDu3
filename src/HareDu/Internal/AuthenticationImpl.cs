@@ -10,7 +10,8 @@ class AuthenticationImpl :
     BaseBrokerObject,
     Authentication
 {
-    protected AuthenticationImpl(HttpClient client) : base(client)
+    public AuthenticationImpl(HttpClient client)
+        : base(client)
     {
     }
 

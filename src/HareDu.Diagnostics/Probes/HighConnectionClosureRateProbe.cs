@@ -13,7 +13,7 @@ public class HighConnectionClosureRateProbe :
 {
     readonly DiagnosticsConfig _config;
 
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -22,6 +22,7 @@ public class HighConnectionClosureRateProbe :
         };
     public override ComponentType ComponentType => ComponentType.Connection;
     public override ProbeCategory Category => ProbeCategory.Connectivity;
+    public bool HasExecuted { get; set; }
 
     public HighConnectionClosureRateProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb) : base(kb)
     {
@@ -30,7 +31,7 @@ public class HighConnectionClosureRateProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as BrokerConnectivitySnapshot);
 
-    protected override ProbeResult GetProbeResult(BrokerConnectivitySnapshot data)
+    protected override ProbeResult GetProbeReadout(BrokerConnectivitySnapshot data)
     {
         ProbeResult result;
 
@@ -38,17 +39,8 @@ public class HighConnectionClosureRateProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.NA,
-                Data = Array.Empty<ProbeData>(),
-                ParentComponentId = null,
-                ComponentId = null,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                KB = article
-            };
+            result = Probe.NotAvailable(null, null, Metadata,
+                ComponentType, Array.Empty<ProbeData>(), article);
 
             NotifyObservers(result);
 
@@ -65,36 +57,20 @@ public class HighConnectionClosureRateProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = null,
-                ComponentId = null,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(null, null, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = null,
-                ComponentId = null,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Healthy(null, null, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
+
+        HasExecuted = true;
 
         return result;
     }

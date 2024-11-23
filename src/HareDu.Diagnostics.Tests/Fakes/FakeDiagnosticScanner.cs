@@ -8,7 +8,7 @@ using Diagnostics.Scanners;
 public class FakeDiagnosticScanner :
     DiagnosticScanner<FakeSnapshot>
 {
-    public DiagnosticScannerMetadata Metadata => new()
+    public ScannerMetadata Metadata => new()
     {
         Identifier = GetType().GetIdentifier()
     };

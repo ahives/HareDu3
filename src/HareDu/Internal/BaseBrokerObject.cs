@@ -33,7 +33,7 @@ public class BaseBrokerObject
         };
     }
 
-    protected async Task<Result<IReadOnlyList<T>>> GetAllRequest<T>(string url, CancellationToken cancellationToken = default)
+    protected async Task<Results<T>> GetAllRequest<T>(string url, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -47,31 +47,31 @@ public class BaseBrokerObject
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
-                return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
+                return new FaultedResults<T> {DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error> {GetError(response.StatusCode)}}};
 
             var data = rawResponse.ToObject<List<T>>();
 
-            return new SuccessfulResult<IReadOnlyList<T>> {Data = data.GetDataOrEmpty(), DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error>()}};
+            return new SuccessfulResults<T> {Data = data.GetDataOrEmpty(), DebugInfo = new() {URL = url, Response = rawResponse, Errors = new List<Error>()}};
         }
         catch (MissingMethodException e)
         {
-            return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
+            return new FaultedResults<T> {DebugInfo = new() {URL = url, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(MissingMethodException)]}}};
         }
         catch (HttpRequestException e)
         {
-            return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
+            return new FaultedResults<T> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(HttpRequestException)]}}};
         }
         catch (JsonException e)
         {
-            return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
+            return new FaultedResults<T> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(JsonException)]}}};
         }
         catch (TaskCanceledException e)
         {
-            return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
+            return new FaultedResults<T> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(TaskCanceledException)]}}};
         }
         catch (Exception e)
         {
-            return new FaultedResult<IReadOnlyList<T>> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
+            return new FaultedResults<T> {DebugInfo = new() {URL = url, Response = rawResponse, Exception = e.Message, StackTrace = e.StackTrace, Errors = new List<Error> {_errors[nameof(Exception)]}}};
         }
     }
 

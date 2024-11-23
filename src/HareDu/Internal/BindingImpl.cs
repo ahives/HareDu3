@@ -21,7 +21,7 @@ class BindingImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<BindingInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<BindingInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

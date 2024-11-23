@@ -1,7 +1,6 @@
 namespace HareDu.Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -13,11 +12,11 @@ public static class QueueExtensions
     /// <summary>
     /// Returns all queues on the current RabbitMQ node.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<QueueInfo>>> GetAllQueues(this IBrokerFactory factory,
+    public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -31,7 +30,7 @@ public static class QueueExtensions
     /// <summary>
     /// Creates specified queue on the specified RabbitMQ virtual host and node.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="queue">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="node">Name of the RabbitMQ node.</param>
@@ -53,7 +52,7 @@ public static class QueueExtensions
     /// <summary>
     /// Purges all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="queue">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -73,7 +72,7 @@ public static class QueueExtensions
     /// <summary>
     /// Deletes specified queue on the specified RabbitMQ virtual host and node.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="queue">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="configurator">Describes how the queue should be deleted.</param>
@@ -94,7 +93,7 @@ public static class QueueExtensions
     /// <summary>
     /// Syncs of specified RabbitMQ queue.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="queue">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -114,7 +113,7 @@ public static class QueueExtensions
     /// <summary>
     /// Cancels sync of specified RabbitMQ queue.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="queue">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

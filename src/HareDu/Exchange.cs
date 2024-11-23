@@ -15,7 +15,7 @@ public interface Exchange :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<IReadOnlyList<ExchangeInfo>>> GetAll(CancellationToken cancellationToken = default);
+    Task<Results<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified exchange on the target RabbitMQ virtual host.

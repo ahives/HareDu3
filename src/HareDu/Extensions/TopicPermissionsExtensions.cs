@@ -1,7 +1,6 @@
 namespace HareDu.Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -13,11 +12,11 @@ public static class TopicPermissionsExtensions
     /// <summary>
     /// Returns all the RabbitMQ topic permissions.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<TopicPermissionsInfo>>> GetAllTopicPermissions(
+    public static async Task<Results<TopicPermissionsInfo>> GetAllTopicPermissions(
         this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -31,7 +30,7 @@ public static class TopicPermissionsExtensions
     /// <summary>
     /// Creates a new topic permission for the specified user per a particular RabbitMQ exchange and virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username to apply topic permission to.</param>
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="configurator">Describes how the topic permission will be created.</param>
@@ -52,7 +51,7 @@ public static class TopicPermissionsExtensions
     /// <summary>
     /// Deletes all topic permissions associate with the specified user on the specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username used to delete topic permission.</param>
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

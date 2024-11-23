@@ -13,7 +13,7 @@ public class RuntimeProcessLimitProbe :
 {
     readonly DiagnosticsConfig _config;
 
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -22,6 +22,7 @@ public class RuntimeProcessLimitProbe :
         };
     public override ComponentType ComponentType => ComponentType.Runtime;
     public override ProbeCategory Category => ProbeCategory.Throughput;
+    public bool HasExecuted { get; set; }
 
     public RuntimeProcessLimitProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,7 +32,7 @@ public class RuntimeProcessLimitProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as BrokerRuntimeSnapshot);
 
-    protected override ProbeResult GetProbeResult(BrokerRuntimeSnapshot data)
+    protected override ProbeResult GetProbeReadout(BrokerRuntimeSnapshot data)
     {
         ProbeResult result;
 
@@ -39,17 +40,8 @@ public class RuntimeProcessLimitProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.NA,
-                Data = Array.Empty<ProbeData>(),
-                ParentComponentId = null,
-                ComponentId = null,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                KB = article
-            };
+            result = Probe.NotAvailable(null, null, Metadata,
+                ComponentType, Array.Empty<ProbeData>(), article);
 
             NotifyObservers(result);
 
@@ -69,52 +61,27 @@ public class RuntimeProcessLimitProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Unhealthy,
-                ParentComponentId = data.ClusterIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else if (data.Processes.Used >= threshold && threshold < data.Processes.Limit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = data.ClusterIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(data.ClusterIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = data.ClusterIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
+
+        HasExecuted = true;
 
         return result;
     }

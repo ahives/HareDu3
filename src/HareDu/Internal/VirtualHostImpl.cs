@@ -11,7 +11,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class VirtualHostImpl :
     BaseBrokerObject,
@@ -22,11 +21,16 @@ class VirtualHostImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<VirtualHostInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
+    }
+
+    public Task<Result<VirtualHostInfo>> Get(string vhost, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)

@@ -2,6 +2,7 @@ namespace HareDu.Tests;
 
 using System.Net;
 using System.Threading.Tasks;
+using Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Extensions;
@@ -23,7 +24,8 @@ public class BrokerTests :
         {
             Assert.IsFalse(result.HasFaulted);
             Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data.ObjectTotals);
+            // Assert.IsNotNull(result.Data.ObjectTotals);
+            Assert.IsNotNull(result.Select(x => x.Data).Select(x => x.ObjectTotals));
             Assert.IsNotNull(result.Data.QueueStats);
             Assert.IsNotNull(result.Data.MessageStats);
             Assert.IsNotNull(result.Data.ChurnRates);
@@ -394,7 +396,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Broker>()
-            .IsProtocolAnActiveListener(x => x.Amqp10());
+            .IsProtocolActiveListener(x => x.Amqp10());
 
         Assert.Multiple(() =>
         {
@@ -427,7 +429,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Broker>()
-            .IsProtocolAnActiveListener(x => x.Amqp091());
+            .IsProtocolActiveListener(x => x.Amqp091());
 
         Assert.Multiple(() =>
         {

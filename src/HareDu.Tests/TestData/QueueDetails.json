@@ -1,0 +1,63 @@
+[
+  {
+    "arguments": {
+      "x-queue-type": "classic"
+    },
+    "auto_delete": false,
+    "consumer_capacity": 0,
+    "consumer_utilisation": 0,
+    "consumers": 0,
+    "durable": true,
+    "effective_policy_definition": {
+
+    },
+    "exclusive": false,
+    "exclusive_consumer_tag": null,
+    "garbage_collection": {
+      "fullsweep_after": 65535,
+      "max_heap_size": 0,
+      "min_bin_vheap_size": 46422,
+      "min_heap_size": 233,
+      "minor_gcs": 9
+    },
+    "head_message_timestamp": null,
+    "idle_since": "2024-11-01T17:39:02.356+00:00",
+    "memory": 4664,
+    "message_bytes": 0,
+    "message_bytes_paged_out": 0,
+    "message_bytes_persistent": 0,
+    "message_bytes_ram": 0,
+    "message_bytes_ready": 0,
+    "message_bytes_unacknowledged": 0,
+    "messages": 0,
+    "messages_details": {
+      "rate": 0
+    },
+    "messages_paged_out": 0,
+    "messages_persistent": 0,
+    "messages_ram": 0,
+    "messages_ready": 0,
+    "messages_ready_details": {
+      "rate": 0
+    },
+    "messages_ready_ram": 0,
+    "messages_unacknowledged": 0,
+    "messages_unacknowledged_details": {
+      "rate": 0
+    },
+    "messages_unacknowledged_ram": 0,
+    "name": "TestQueue1",
+    "node": "rabbit@88fa329ab266",
+    "operator_policy": null,
+    "policy": null,
+    "reductions": 8136,
+    "reductions_details": {
+      "rate": 0
+    },
+    "single_active_consumer_tag": null,
+    "state": "running",
+    "storage_version": 2,
+    "type": "classic",
+    "vhost": "HareDu1"
+  }
+]

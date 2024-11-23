@@ -9,7 +9,7 @@ public class QueueGrowthProbe :
     BaseDiagnosticProbe<QueueSnapshot>,
     DiagnosticProbe
 {
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -18,6 +18,7 @@ public class QueueGrowthProbe :
         };
     public override ComponentType ComponentType => ComponentType.Queue;
     public override ProbeCategory Category => ProbeCategory.Throughput;
+    public bool HasExecuted { get; set; }
 
     public QueueGrowthProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,7 +27,7 @@ public class QueueGrowthProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as QueueSnapshot);
 
-    protected override ProbeResult GetProbeResult(QueueSnapshot data)
+    protected override ProbeResult GetProbeReadout(QueueSnapshot data)
     {
         var probeData = new List<ProbeData>
         {
@@ -40,33 +41,15 @@ public class QueueGrowthProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = data.Node,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(data.Node, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = data.Node,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

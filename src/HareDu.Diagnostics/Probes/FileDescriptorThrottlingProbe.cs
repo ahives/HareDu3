@@ -13,7 +13,7 @@ public class FileDescriptorThrottlingProbe :
 {
     readonly DiagnosticsConfig _config;
 
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -22,6 +22,7 @@ public class FileDescriptorThrottlingProbe :
         };
     public override ComponentType ComponentType => ComponentType.OperatingSystem;
     public override ProbeCategory Category => ProbeCategory.Throughput;
+    public bool HasExecuted { get; set; }
 
     public FileDescriptorThrottlingProbe(DiagnosticsConfig config, IKnowledgeBaseProvider kb)
         : base(kb)
@@ -31,7 +32,7 @@ public class FileDescriptorThrottlingProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as OperatingSystemSnapshot);
 
-    protected override ProbeResult GetProbeResult(OperatingSystemSnapshot data)
+    protected override ProbeResult GetProbeReadout(OperatingSystemSnapshot data)
     {
         ProbeResult result;
 
@@ -39,17 +40,8 @@ public class FileDescriptorThrottlingProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.NA,
-                Data = Array.Empty<ProbeData>(),
-                ParentComponentId = data?.NodeIdentifier,
-                ComponentId = data?.ProcessId,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                KB = article
-            };
+            result = Probe.NotAvailable(data?.NodeIdentifier, data?.ProcessId, Metadata,
+                ComponentType, Array.Empty<ProbeData>(), article);
 
             NotifyObservers(result);
 
@@ -70,52 +62,27 @@ public class FileDescriptorThrottlingProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Healthy,
-                ParentComponentId = data.NodeIdentifier,
-                ComponentId = data.ProcessId,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Healthy(data.NodeIdentifier, data.ProcessId, Metadata,
+                ComponentType, probeData, article);
         }
         else if (data.FileDescriptors.Used == data.FileDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Unhealthy,
-                ParentComponentId = data.NodeIdentifier,
-                ComponentId = data.ProcessId,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Unhealthy(data.NodeIdentifier, data.ProcessId, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = data.NodeIdentifier,
-                ComponentId = data.ProcessId,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(data.NodeIdentifier, data.ProcessId, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
+
+        HasExecuted = true;
 
         return result;
     }

@@ -146,12 +146,10 @@ public class DiagnosticScannerTests
                 });
             });
         });
-            
+        
         var factory1 = new SnapshotFactory(config1);
         var lens = factory1.Lens<BrokerConnectivitySnapshot>();
-
         var result = await lens.TakeSnapshot();
-            
         var factory2 = new ScannerFactory(config1, new KnowledgeBaseProvider());
         IScanner scanner = new Scanner(factory2);
 

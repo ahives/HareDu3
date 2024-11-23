@@ -1,6 +1,5 @@
 namespace HareDu;
 
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -14,5 +13,5 @@ public interface Channel :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<IReadOnlyList<ChannelInfo>>> GetAll(CancellationToken cancellationToken = default);
+    Task<Results<ChannelInfo>> GetAll(CancellationToken cancellationToken = default);
 }

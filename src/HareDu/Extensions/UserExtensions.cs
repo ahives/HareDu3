@@ -13,11 +13,11 @@ public static class UserExtensions
     /// <summary>
     /// Returns information about all users on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsers(this IBrokerFactory factory,
+    public static async Task<Results<UserInfo>> GetAllUsers(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -31,11 +31,11 @@ public static class UserExtensions
     /// <summary>
     /// Returns information about all users that do not have permissions on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<UserInfo>>> GetAllUsersWithoutPermissions(this IBrokerFactory factory,
+    public static async Task<Results<UserInfo>> GetAllUsersWithoutPermissions(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -49,7 +49,7 @@ public static class UserExtensions
     /// <summary>
     /// Creates a user on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="password">RabbitMQ broker password.</param>
     /// <param name="passwordHash">RabbitMQ broker password hash.</param>
@@ -71,7 +71,7 @@ public static class UserExtensions
     /// <summary>
     /// Deletes the specified user on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
@@ -90,7 +90,7 @@ public static class UserExtensions
     /// <summary>
     /// Deletes specified users on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="usernames">List of RabbitMQ broker usernames.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>

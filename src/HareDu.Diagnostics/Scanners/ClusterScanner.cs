@@ -16,7 +16,7 @@ public class ClusterScanner :
     IReadOnlyList<DiagnosticProbe> _runtimeProbes;
     IReadOnlyList<DiagnosticProbe> _osProbes;
 
-    public DiagnosticScannerMetadata Metadata => new()
+    public ScannerMetadata Metadata => new()
     {
         Identifier = GetType().GetIdentifier()
     };

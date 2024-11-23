@@ -10,6 +10,14 @@ using NUnit.Framework;
 public class VirtualHostLimitsTests :
     HareDuTesting
 {
+    ServiceProvider _services;
+    
+    [OneTimeSetUp]
+    public void Setup()
+    {
+        _services = GetContainerBuilder().BuildServiceProvider();
+    }
+
     [Test]
     public async Task Verify_can_get_all_limits1()
     {
@@ -54,8 +62,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_can_define_limits1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define("HareDu5", x =>
             {
@@ -73,8 +80,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_can_define_limits2()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(1);
@@ -91,8 +97,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define("HareDu5", x =>
             {
@@ -114,8 +119,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits2()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -136,8 +140,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define("HareDu5", x =>
             {
@@ -159,8 +162,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits4()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits("HareDu5", x =>
             {
                 x.SetMaxConnectionLimit(0);
@@ -181,8 +183,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits5()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define(string.Empty, x =>
             {
@@ -206,8 +207,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits6()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
@@ -230,8 +230,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits7()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define(string.Empty, x =>
             {
@@ -255,8 +254,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits8()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -279,8 +277,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits9()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define(string.Empty, x =>
             {
@@ -304,8 +301,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits10()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
@@ -328,8 +324,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits11()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Define(string.Empty, x =>
             {
@@ -353,8 +348,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_define_limits12()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DefineVirtualHostLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -377,8 +371,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_can_delete_limits1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Delete("HareDu");
             
@@ -392,8 +385,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_can_delete_limits2()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DeleteVirtualHostLimits("HareDu");
             
         Assert.Multiple(() =>
@@ -406,8 +398,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_delete_limits1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHostLimits>()
             .Delete(string.Empty);
             
@@ -421,8 +412,7 @@ public class VirtualHostLimitsTests :
     [Test]
     public async Task Verify_cannot_delete_limits2()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IBrokerFactory>()
             .DeleteVirtualHostLimits(string.Empty);
             
         Assert.Multiple(() =>

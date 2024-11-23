@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using Core;
 using Extensions;
 using Model;
-using Serialization;
 
 class GlobalParameterImpl :
     BaseBrokerObject,
@@ -21,7 +19,7 @@ class GlobalParameterImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<GlobalParameterInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

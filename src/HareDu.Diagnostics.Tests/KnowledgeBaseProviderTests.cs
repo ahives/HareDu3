@@ -46,7 +46,7 @@ public class KnowledgeBaseProviderTests
     {
         public IDisposable Subscribe(IObserver<ProbeContext> observer) => throw new NotImplementedException();
 
-        public DiagnosticProbeMetadata Metadata { get; }
+        public ProbeMetadata Metadata { get; }
         public ComponentType ComponentType { get; }
         public ProbeCategory Category { get; }
         public ProbeResult Execute<T>(T snapshot) => throw new NotImplementedException();

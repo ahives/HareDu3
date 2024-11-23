@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -11,7 +10,6 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
-using Serialization;
 
 class ExchangeImpl :
     BaseBrokerObject,
@@ -22,7 +20,7 @@ class ExchangeImpl :
     {
     }
 
-    public async Task<Result<IReadOnlyList<ExchangeInfo>>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
             

@@ -9,7 +9,7 @@ public class UnlimitedPrefetchCountProbe :
     BaseDiagnosticProbe<ChannelSnapshot>,
     DiagnosticProbe
 {
-    public override DiagnosticProbeMetadata Metadata =>
+    public override ProbeMetadata Metadata =>
         new()
         {
             Id = GetType().GetIdentifier(),
@@ -18,6 +18,7 @@ public class UnlimitedPrefetchCountProbe :
         };
     public override ComponentType ComponentType => ComponentType.Channel;
     public override ProbeCategory Category => ProbeCategory.Throughput;
+    public bool HasExecuted { get; set; }
 
     public UnlimitedPrefetchCountProbe(IKnowledgeBaseProvider kb)
         : base(kb)
@@ -26,7 +27,7 @@ public class UnlimitedPrefetchCountProbe :
 
     public ProbeResult Execute<T>(T snapshot) => base.Execute(snapshot as ChannelSnapshot);
 
-    protected override ProbeResult GetProbeResult(ChannelSnapshot data)
+    protected override ProbeResult GetProbeReadout(ChannelSnapshot data)
     {
         var probeData = new List<ProbeData>
         {
@@ -39,37 +40,21 @@ public class UnlimitedPrefetchCountProbe :
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Warning,
-                ParentComponentId = data.ConnectionIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Warning(data.ConnectionIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
             
-            result = new ProbeResult
-            {
-                Status = ProbeResultStatus.Inconclusive,
-                ParentComponentId = data.ConnectionIdentifier,
-                ComponentId = data.Identifier,
-                Id = Metadata.Id,
-                Name = Metadata.Name,
-                ComponentType = ComponentType,
-                Data = probeData,
-                KB = article
-            };
+            result = Probe.Inconclusive(data.ConnectionIdentifier, data.Identifier, Metadata,
+                ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-                
+        
+        HasExecuted = true;
+
         return result;
     }
 }

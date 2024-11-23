@@ -66,11 +66,11 @@ public class VirtualHostTests
     }
 
     [Test]
-    public async Task Verify_Create_works()
+    public async Task Verify_can_create_vhost()
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .Create("HareDu9",x =>
+            .Create("HareDu1",x =>
             {
                 x.WithTracingEnabled();
                 x.Description("My test vhost.");
@@ -85,7 +85,7 @@ public class VirtualHostTests
     }
 
     [Test]
-    public async Task Verify_Delete_works()
+    public async Task Verify_can_delete_vhost()
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()

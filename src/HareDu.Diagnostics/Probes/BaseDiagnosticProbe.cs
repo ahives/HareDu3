@@ -12,7 +12,7 @@ public abstract class BaseDiagnosticProbe<T> :
     protected readonly IKnowledgeBaseProvider _kb;
     readonly List<IObserver<ProbeContext>> _resultObservers;
 
-    public abstract DiagnosticProbeMetadata Metadata { get; }
+    public abstract ProbeMetadata Metadata { get; }
     public abstract ComponentType ComponentType { get; }
     public abstract ProbeCategory Category { get; }
 
@@ -35,18 +35,11 @@ public abstract class BaseDiagnosticProbe<T> :
         var data = snapshot;
 
         if (data is not null)
-            return GetProbeResult(data);
+            return GetProbeReadout(data);
         
         _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
-            
-        var result = new ProbeResult
-        {
-            Status = ProbeResultStatus.Inconclusive,
-            Id = Metadata.Id,
-            Name = Metadata.Name,
-            ComponentType = ComponentType,
-            KB = article
-        };
+
+        var result = Probe.Inconclusive(null, null, Metadata, ComponentType, null, article);
 
         NotifyObservers(result);
 
@@ -59,7 +52,7 @@ public abstract class BaseDiagnosticProbe<T> :
             observer.OnNext(new () {Result = result, Timestamp = DateTimeOffset.Now});
     }
 
-    protected abstract ProbeResult GetProbeResult(T data);
+    protected abstract ProbeResult GetProbeReadout(T data);
         
         
     protected class UnsubscribeObserver<U> :

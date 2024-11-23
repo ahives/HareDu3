@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>default</LangVersion>
+        <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -170,6 +170,10 @@
       </Content>
       <None Remove="TestData\ProtocolNotActiveListener.json" />
       <Content Include="TestData\ProtocolNotActiveListener.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\QueueDetails.json" />
+      <Content Include="TestData\QueueDetails.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

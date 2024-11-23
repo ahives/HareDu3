@@ -15,7 +15,7 @@ public static class ShovelExtensions
     /// <summary>
     /// Creates a dynamic shovel on a specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="name">The name of the dynamic shovel.</param>
     /// <param name="uri"></param>
     /// <param name="vhost">The virtual host where the shovel resides.</param>
@@ -37,7 +37,7 @@ public static class ShovelExtensions
     /// <summary>
     /// Deletes a dynamic shovel on a specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="name">The name of the dynamic shovel.</param>
     /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -57,7 +57,7 @@ public static class ShovelExtensions
     /// <summary>
     /// Deletes all dynamic shovels on a specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
@@ -67,7 +67,8 @@ public static class ShovelExtensions
     {
         Guard.IsNotNull(factory);
             
-        var result = await factory.API<Shovel>()
+        var result = await factory
+            .API<Shovel>()
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
 
@@ -97,14 +98,14 @@ public static class ShovelExtensions
     /// <summary>
     /// Returns all dynamic shovels that have been created.
     /// </summary>
-    /// <param name="factory">The object factory that implements the underlying functionality.</param>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result<IReadOnlyList<ShovelInfo>>> GetAllShovels(this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Results<ShovelInfo>> GetAllShovels(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-            
+
         return await factory
             .API<Shovel>()
             .GetAll(cancellationToken)

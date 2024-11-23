@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using KnowledgeBase;
 
-public record ProbeResult()
+public record ProbeResult
 {
     public string ParentComponentId { get; init; }
 
