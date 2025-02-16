@@ -35,7 +35,7 @@ class NodeImpl :
 
         string url = $"api/nodes/{node}/memory";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);

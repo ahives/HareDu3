@@ -44,7 +44,7 @@ class GlobalParameterImpl :
 
         string url = $"api/global-parameters/{parameter}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
@@ -61,7 +61,7 @@ class GlobalParameterImpl :
 
         string url = $"api/global-parameters/{parameter}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);

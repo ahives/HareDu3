@@ -48,7 +48,7 @@ class PolicyImpl :
 
         string url = $"api/policies/{vhost.ToSanitizedName()}/{name}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);

@@ -56,7 +56,7 @@ class QueueImpl :
 
         string url = $"api/queues/{vhost.ToSanitizedName()}/{name}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
@@ -82,7 +82,7 @@ class QueueImpl :
             ? $"api/queues/{vhost.ToSanitizedName()}/{name}"
             : $"api/queues/{vhost.ToSanitizedName()}/{name}?{impl.Query.Value}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);

@@ -36,7 +36,7 @@ class ExchangeImpl :
 
         var request = impl.Request.Value;
 
-        var errors = impl.Errors.Value;
+        var errors = new List<Error>(impl.Errors.Value);
 
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});
@@ -46,7 +46,7 @@ class ExchangeImpl :
 
         string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);

@@ -54,7 +54,7 @@ class BindingImpl :
             ? $"api/bindings/{virtualHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}"
             : $"api/bindings/{virtualHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PostRequest<BindingInfo, BindingRequest>(url, request, cancellationToken).ConfigureAwait(false);
@@ -85,7 +85,7 @@ class BindingImpl :
             ? $"api/bindings/{virtualHost}/e/{binding.SourceBinding}/q/{binding.DestinationBinding}/{Normalize(binding.BindingPropertiesKey)}"
             : $"api/bindings/{virtualHost}/e/{binding.SourceBinding}/e/{binding.DestinationBinding}/{Normalize(binding.BindingPropertiesKey)}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult<BindingInfo>{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);

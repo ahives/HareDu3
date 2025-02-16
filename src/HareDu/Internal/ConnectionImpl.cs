@@ -35,7 +35,7 @@ class ConnectionImpl :
 
         string url = $"api/connections/{connection}";
 
-        if (errors.Any())
+        if (errors.Count > 0)
             return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await DeleteRequest(url, cancellationToken);
