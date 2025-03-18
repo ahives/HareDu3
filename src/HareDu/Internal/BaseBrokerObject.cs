@@ -17,12 +17,12 @@ using Serialization;
 
 public class BaseBrokerObject
 {
-    readonly HttpClient _client;
+    readonly IHttpClientFactory _clientFactory;
     readonly IDictionary<string, Error> _errors;
 
-    protected BaseBrokerObject(HttpClient client)
+    protected BaseBrokerObject(IHttpClientFactory clientFactory)
     {
-        _client = client ?? throw new ArgumentNullException(nameof(client));
+        _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
         _errors = new Dictionary<string, Error>
         {
             {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
@@ -42,7 +42,8 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -84,7 +85,8 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -126,7 +128,8 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            var response = await _client.GetAsync(url, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -166,7 +169,8 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            var response = await _client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -208,7 +212,8 @@ public class BaseBrokerObject
 
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
-            var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -249,7 +254,8 @@ public class BaseBrokerObject
                 HandleDotsAndSlashes();
 
             var content = GetRequestContent(request);
-            var response = await _client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -291,7 +297,8 @@ public class BaseBrokerObject
 
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
-            var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -335,7 +342,8 @@ public class BaseBrokerObject
 
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
-            var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -377,7 +385,8 @@ public class BaseBrokerObject
 
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
-            var response = await _client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
@@ -419,7 +428,8 @@ public class BaseBrokerObject
             if (url.Contains("/%2f"))
                 HandleDotsAndSlashes();
 
-            var response = await _client.PostAsync(url, null, cancellationToken).ConfigureAwait(false);
+            using var client = _clientFactory.CreateClient("broker");
+            var response = await client.PostAsync(url, null, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 

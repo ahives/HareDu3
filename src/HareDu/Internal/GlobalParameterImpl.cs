@@ -14,8 +14,8 @@ class GlobalParameterImpl :
     BaseBrokerObject,
     GlobalParameter
 {
-    public GlobalParameterImpl(HttpClient client)
-        : base(client)
+    public GlobalParameterImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

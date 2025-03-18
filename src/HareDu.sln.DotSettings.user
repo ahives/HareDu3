@@ -1,4 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ADefaultHttpClientBuilder_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F53dc82d883fe6255948c327b92d929095633444dffd975a467c8c3db4d3_003FDefaultHttpClientBuilder_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AHttpClientFactoryServiceCollectionExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F81d688add276f69c8379b55d229acdbcc350efa22210c2753ce5f9eb6af0_003FHttpClientFactoryServiceCollectionExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AKeyValuePair_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F1fe46d7855761ae9fde08d2bb7978cda13e5853695e85b3cc8d84e9cda231e_003FKeyValuePair_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">4294967293</s:Int64>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/usr/local/share/dotnet/sdk/5.0.101/MSBuild.dll</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c20ae268_002D1776_002D41d6_002Da49c_002Dd7cdb9da832f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
@@ -19,6 +22,7 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_details_all_queues&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_details_all_queues&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.QueueTests.Should_be_able_to_get_all_queues&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.ExchangeTests.Should_be_able_to_get_all_exchanges&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>

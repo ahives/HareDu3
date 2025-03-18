@@ -10,8 +10,8 @@ class ServerImpl :
     BaseBrokerObject,
     Server
 {
-    public ServerImpl(HttpClient client)
-        : base(client)
+    public ServerImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

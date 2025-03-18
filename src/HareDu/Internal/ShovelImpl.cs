@@ -15,8 +15,8 @@ class ShovelImpl :
     BaseBrokerObject,
     Shovel
 {
-    public ShovelImpl(HttpClient client)
-        : base(client)
+    public ShovelImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

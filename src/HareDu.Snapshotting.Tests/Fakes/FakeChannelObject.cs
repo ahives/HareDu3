@@ -1,11 +1,13 @@
 namespace HareDu.Snapshotting.Tests.Fakes;
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
+using Internal;
 
 public class FakeChannelObject :
     Channel,
@@ -35,5 +37,10 @@ public class FakeChannelObject :
         };
 
         return new SuccessfulResults<ChannelInfo>{Data = new List<ChannelInfo> {channel}, DebugInfo = null};
+    }
+
+    public Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }

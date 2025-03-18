@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +14,8 @@ class VirtualHostLimitsImpl :
     BaseBrokerObject,
     VirtualHostLimits
 {
-    public VirtualHostLimitsImpl(HttpClient client)
-        : base(client)
+    public VirtualHostLimitsImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

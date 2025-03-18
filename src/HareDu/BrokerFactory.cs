@@ -4,39 +4,24 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Diagnostics;
-using Core.Configuration;
 using Core.Extensions;
 using Internal;
 
 public sealed class BrokerFactory :
     IBrokerFactory
 {
-    readonly HttpClient _client;
     readonly ConcurrentDictionary<string, object> _cache;
+    readonly IHttpClientFactory _clientFactory;
 
-    public BrokerFactory(HttpClient client)
+    public BrokerFactory(IHttpClientFactory clientFactory)
     {
-        // Guard.IsNotNull(client);
-        //
-        // _client = client;
-        _client = client ?? throw new ArgumentNullException(nameof(client));
-        _cache = new ConcurrentDictionary<string, object>();
-            
-        if (!TryRegisterAll())
-            throw new HareDuBrokerApiInitException("Could not register broker objects.");
-    }
+        Guard.IsNotNull(clientFactory);
 
-    public BrokerFactory(HareDuConfig config)
-    {
-        Guard.IsNotNull(config);
-
-        _client = GetClient(config);
+        _clientFactory = clientFactory;
         _cache = new ConcurrentDictionary<string, object>();
 
         if (!TryRegisterAll())
@@ -59,7 +44,7 @@ public sealed class BrokerFactory :
         if (_cache.TryGetValue(type.FullName, out var value))
             return (T) value;
 
-        bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, _client);
+        bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, _clientFactory);
 
         if (registered)
             return (T) _cache[type.FullName];
@@ -75,7 +60,7 @@ public sealed class BrokerFactory :
         
     public IReadOnlyDictionary<string, object> GetObjects() => _cache;
 
-    public void CancelPendingRequest() => _client.CancelPendingRequests();
+    // public void CancelPendingRequest() => _client.CancelPendingRequests();
 
     public bool TryRegisterAll()
     {
@@ -87,7 +72,7 @@ public sealed class BrokerFactory :
             if (_cache.ContainsKey(type.Key))
                 continue;
 
-            registered = RegisterInstance(type.Value, type.Key) & registered;
+            registered = RegisterInstance(type.Value, type.Key, _clientFactory) & registered;
         }
 
         if (!registered)
@@ -96,42 +81,11 @@ public sealed class BrokerFactory :
         return registered;
     }
 
-    HttpClient GetClient(HareDuConfig config)
-    {
-        var uri = new Uri($"{config.Broker.Url}/");
-        var handler = new HttpClientHandler
-        {
-            Credentials = new NetworkCredential(config.Broker.Credentials.Username, config.Broker.Credentials.Password)
-        };
-            
-        var client = new HttpClient(handler){BaseAddress = uri};
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        if (config.Broker.Timeout != TimeSpan.Zero)
-            client.Timeout = config.Broker.Timeout;
-
-        return client;
-    }
-
-    bool RegisterInstance(Type type, string key, HttpClient client)
+    bool RegisterInstance(Type type, string key, IHttpClientFactory clientFactory)
     {
         try
         {
-            var instance = CreateInstance(type, client);
-
-            return instance is not null && _cache.TryAdd(key, instance);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    bool RegisterInstance(Type type, string key)
-    {
-        try
-        {
-            var instance = CreateInstance(type);
+            var instance = CreateInstance(type, clientFactory);
 
             return instance is not null && _cache.TryAdd(key, instance);
         }
@@ -195,10 +149,10 @@ public sealed class BrokerFactory :
         return typeMap;
     }
 
-    object CreateInstance(Type type) =>
+    object CreateInstance(Type type, IHttpClientFactory clientFactory) =>
         type.IsDerivedFrom(typeof(BaseBrokerObject))
-        ? Activator.CreateInstance(type, _client)
+        ? Activator.CreateInstance(type, clientFactory)
         : Activator.CreateInstance(type);
 
-    object CreateInstance(Type type, HttpClient client) => Activator.CreateInstance(type, client);
+    // object CreateInstance(Type type, HttpClient client) => Activator.CreateInstance(type, client);
 }

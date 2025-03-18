@@ -17,12 +17,21 @@ public class HareDuPerformanceTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerFactory>(x =>
-        {
-            string data = File.ReadAllText($"{Environment.CurrentDirectory}/{file}");
+        string data = File.ReadAllText($"{Environment.CurrentDirectory}/{file}");
 
-            return new BrokerFactory(GetClient(data));
-        });
+        services.AddHttpClient<BrokerFactory>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:15672/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(data));
+
+        // services.AddSingleton<IBrokerFactory>(x =>
+        // {
+        //     string data = File.ReadAllText($"{Environment.CurrentDirectory}/{file}");
+        //
+        //     return new BrokerFactory(GetClient(data));
+        // });
             
         return services;
     }
@@ -31,7 +40,14 @@ public class HareDuPerformanceTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerFactory>(x => new BrokerFactory(GetClient(string.Empty)));
+        services.AddHttpClient<BrokerFactory>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:15672/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(string.Empty));
+
+        // services.AddSingleton<IBrokerFactory>(x => new BrokerFactory(GetClient(string.Empty)));
 
         return services;
     }
@@ -58,5 +74,25 @@ public class HareDuPerformanceTesting
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
         return client;
+    }
+
+    protected HttpMessageHandler GetHttpMessageHandler(string data, HttpStatusCode statusCode = HttpStatusCode.OK)
+    {
+        var mock = new Mock<HttpMessageHandler>();
+
+        mock.Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(
+                new HttpResponseMessage
+                {
+                    StatusCode = statusCode,
+                    Content = new StringContent(data)
+                })
+            .Verifiable();
+
+        return mock.Object;
     }
 }

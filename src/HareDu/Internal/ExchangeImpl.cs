@@ -15,8 +15,8 @@ class ExchangeImpl :
     BaseBrokerObject,
     Exchange
 {
-    public ExchangeImpl(HttpClient client)
-        : base(client)
+    public ExchangeImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

@@ -1,7 +1,6 @@
 namespace HareDu.Internal;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,8 +11,8 @@ class ConnectionImpl :
     BaseBrokerObject,
     Connection
 {
-    public ConnectionImpl(HttpClient client)
-        : base(client)
+    public ConnectionImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

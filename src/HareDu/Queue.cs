@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Internal;
 using Model;
 
 public interface Queue :
@@ -15,6 +16,14 @@ public interface Queue :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Returns information of all queues on the current RabbitMQ node.
+    /// </summary>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information of all queues on the current RabbitMQ node.

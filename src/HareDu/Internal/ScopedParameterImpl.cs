@@ -1,7 +1,6 @@
 namespace HareDu.Internal;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,8 +13,8 @@ class ScopedParameterImpl :
     BaseBrokerObject,
     ScopedParameter
 {
-    public ScopedParameterImpl(HttpClient client)
-        : base(client)
+    public ScopedParameterImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

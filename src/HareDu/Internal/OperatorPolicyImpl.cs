@@ -15,8 +15,8 @@ class OperatorPolicyImpl :
     BaseBrokerObject,
     OperatorPolicy
 {
-    public OperatorPolicyImpl(HttpClient client) :
-        base(client)
+    public OperatorPolicyImpl(IHttpClientFactory clientFactory) :
+        base(clientFactory)
     {
     }
         

@@ -65,21 +65,21 @@ public class ExchangeTests
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
-    [Test]
-    public async Task Should_be_able_to_get_all_exchanges_3()
-    {
-        var provider = new HareDuConfigProvider();
-        var config = provider.Configure(x => { });
-        var factory = new BrokerFactory(config);
-            
-        var result = await factory
-            .API<Exchange>()
-            .GetAll()
-            .ScreenDump();
-
-        // result.HasFaulted.ShouldBeFalse();
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
-    }
+    // [Test]
+    // public async Task Should_be_able_to_get_all_exchanges_3()
+    // {
+    //     var provider = new HareDuConfigProvider();
+    //     var config = provider.Configure(x => { });
+    //     var factory = new BrokerFactory(config);
+    //         
+    //     var result = await factory
+    //         .API<Exchange>()
+    //         .GetAll()
+    //         .ScreenDump();
+    //
+    //     // result.HasFaulted.ShouldBeFalse();
+    //     Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    // }
 
     [Test]
     public async Task Verify_can_filter_exchanges()

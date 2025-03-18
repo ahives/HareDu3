@@ -12,8 +12,8 @@ class ChannelImpl :
     BaseBrokerObject,
     Channel
 {
-    public ChannelImpl(HttpClient client) :
-        base(client)
+    public ChannelImpl(IHttpClientFactory clientFactory) :
+        base(clientFactory)
     {
     }
 
@@ -31,7 +31,7 @@ class ChannelImpl :
         var impl = new PaginationConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        string request = impl.GetPagination();
+        string request = impl.BuildPaginationParams();
 
         var errors = new List<Error>();
 

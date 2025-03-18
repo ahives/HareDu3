@@ -16,8 +16,8 @@ class BindingImpl :
     BaseBrokerObject,
     Binding
 {
-    public BindingImpl(HttpClient client)
-        : base(client)
+    public BindingImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

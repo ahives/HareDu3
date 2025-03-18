@@ -39,7 +39,7 @@ public class ChannelTests
         // Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
-        
+
     [Test]
     public async Task Should_be_able_to_get_all_channels()
     {

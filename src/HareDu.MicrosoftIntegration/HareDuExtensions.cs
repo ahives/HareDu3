@@ -1,6 +1,9 @@
 namespace HareDu.MicrosoftIntegration;
 
 using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Core.Configuration;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
@@ -20,7 +23,7 @@ public static class HareDuExtensions
     public static IServiceCollection AddHareDu(this IServiceCollection services, string settingsFile = "appsettings.json", string configSection = "HareDuConfig")
     {
         HareDuConfig config = new HareDuConfig();
-            
+
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile(settingsFile, false)
             .Build();
@@ -28,13 +31,26 @@ public static class HareDuExtensions
         configuration.Bind(configSection, config);
 
         services.AddSingleton(config);
+        services.AddHttpClient("broker", client =>
+            {
+                client.BaseAddress = new Uri($"{config.Broker.Url}/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (config.Broker.Timeout != TimeSpan.Zero)
+                    client.Timeout = config.Broker.Timeout;
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(config.Broker.Credentials.Username,
+                    config.Broker.Credentials.Password)
+            });
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
         services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
-            
+
         return services;
     }
 
@@ -52,13 +68,26 @@ public static class HareDuExtensions
                 .Configure(configurator);
 
         services.AddSingleton(config);
+        services.AddHttpClient("broker", client =>
+            {
+                client.BaseAddress = new Uri($"{config.Broker.Url}/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (config.Broker.Timeout != TimeSpan.Zero)
+                    client.Timeout = config.Broker.Timeout;
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                Credentials = new NetworkCredential(config.Broker.Credentials.Username,
+                    config.Broker.Credentials.Password)
+            });
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
         services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
-            
+
         return services;
     }
 }

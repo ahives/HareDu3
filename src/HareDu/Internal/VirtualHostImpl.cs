@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -16,8 +15,8 @@ class VirtualHostImpl :
     BaseBrokerObject,
     VirtualHost
 {
-    public VirtualHostImpl(HttpClient client)
-        : base(client)
+    public VirtualHostImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 

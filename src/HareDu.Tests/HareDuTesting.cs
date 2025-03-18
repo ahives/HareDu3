@@ -18,13 +18,17 @@ public class HareDuTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerFactory>(x =>
-        {
-            string data = File.ReadAllText($"{TestContext.CurrentContext.TestDirectory}/{file}");
-                    
-            return new BrokerFactory(GetClient(data, statusCode));
-        });
-            
+        string data = File.ReadAllText($"{TestContext.CurrentContext.TestDirectory}/{file}");
+
+        services.AddHttpClient<BrokerFactory>("broker", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:15672/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(data, statusCode));
+
+        services.AddSingleton<IBrokerFactory, BrokerFactory>();
+
         return services;
     }
 
@@ -32,12 +36,19 @@ public class HareDuTesting
     {
         var services = new ServiceCollection();
 
-        services.AddSingleton<IBrokerFactory>(x => new BrokerFactory(GetClient(string.Empty, statusCode)));
+        services.AddHttpClient("broker", client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:15672/");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(string.Empty, statusCode));
+
+        services.AddSingleton<IBrokerFactory, BrokerFactory>();
 
         return services;
     }
 
-    protected HttpClient GetClient(string data, HttpStatusCode statusCode = HttpStatusCode.OK)
+    protected HttpMessageHandler GetHttpMessageHandler(string data, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var mock = new Mock<HttpMessageHandler>();
 
@@ -54,10 +65,6 @@ public class HareDuTesting
                 })
             .Verifiable();
 
-        var uri = new Uri("http://localhost:15672/");
-        var client = new HttpClient(mock.Object){BaseAddress = uri};
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        return client;
+        return mock.Object;
     }
 }

@@ -36,10 +36,10 @@ public interface IBrokerFactory
     /// <returns></returns>
     IReadOnlyDictionary<string, object> GetObjects();
         
-    /// <summary>
-    /// Cancel pending running thread.
-    /// </summary>
-    void CancelPendingRequest();
+    // /// <summary>
+    // /// Cancel pending running thread.
+    // /// </summary>
+    // void CancelPendingRequest();
 
     /// <summary>
     /// 

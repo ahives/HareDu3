@@ -15,8 +15,8 @@ class QueueImpl :
     BaseBrokerObject,
     Queue
 {
-    public QueueImpl(HttpClient client)
-        : base(client)
+    public QueueImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 
@@ -25,6 +25,28 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var impl = new PaginationConfiguratorImpl();
+        configurator?.Invoke(impl);
+
+        string pagination = impl.BuildPaginationParams();
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(pagination))
+            errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
+
+        string url = string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}";
+
+        if (errors.Count > 0)
+            return new FaultedResults<QueueInfo>{DebugInfo = new (){URL = url, Errors = errors}};
+
+        return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)

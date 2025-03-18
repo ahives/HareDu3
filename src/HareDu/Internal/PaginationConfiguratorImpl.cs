@@ -11,7 +11,7 @@ internal class PaginationConfiguratorImpl :
     bool _useRegex;
     bool _useRegexSet = false;
 
-    public string GetPagination()
+    public string BuildPaginationParams()
     {
         StringBuilder sb = new StringBuilder();
 

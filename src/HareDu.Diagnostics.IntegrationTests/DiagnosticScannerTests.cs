@@ -117,48 +117,48 @@ public class DiagnosticScannerTests
     //     Console.WriteLine(formattedReport);
     // }
         
-    [Test]
-    public async Task Test6()
-    {
-        var provider = new HareDuConfigProvider();
-
-        var config1 = provider.Configure(x =>
-        {
-            x.Broker(y =>
-            {
-                y.ConnectTo("http://localhost:15672");
-                y.UsingCredentials("guest", "guest");
-            });
-
-            x.Diagnostics(y =>
-            {
-                y.Probes(z =>
-                {
-                    z.SetMessageRedeliveryThresholdCoefficient(0.60M);
-                    z.SetSocketUsageThresholdCoefficient(0.60M);
-                    z.SetConsumerUtilizationThreshold(0.65M);
-                    z.SetQueueHighFlowThreshold(90);
-                    z.SetQueueLowFlowThreshold(10);
-                    z.SetRuntimeProcessUsageThresholdCoefficient(0.65M);
-                    z.SetFileDescriptorUsageThresholdCoefficient(0.65M);
-                    z.SetHighConnectionClosureRateThreshold(90);
-                    z.SetHighConnectionCreationRateThreshold(60);
-                });
-            });
-        });
-        
-        var factory1 = new SnapshotFactory(config1);
-        var lens = factory1.Lens<BrokerConnectivitySnapshot>();
-        var result = await lens.TakeSnapshot();
-        var factory2 = new ScannerFactory(config1, new KnowledgeBaseProvider());
-        IScanner scanner = new Scanner(factory2);
-
-        var report = scanner.Scan(result.Snapshot);
-
-        var formatter = new DiagnosticReportTextFormatter();
-
-        string formattedReport = formatter.Format(report);
-            
-        Console.WriteLine(formattedReport);
-    }
+    // [Test]
+    // public async Task Test6()
+    // {
+    //     var provider = new HareDuConfigProvider();
+    //
+    //     var config1 = provider.Configure(x =>
+    //     {
+    //         x.Broker(y =>
+    //         {
+    //             y.ConnectTo("http://localhost:15672");
+    //             y.UsingCredentials("guest", "guest");
+    //         });
+    //
+    //         x.Diagnostics(y =>
+    //         {
+    //             y.Probes(z =>
+    //             {
+    //                 z.SetMessageRedeliveryThresholdCoefficient(0.60M);
+    //                 z.SetSocketUsageThresholdCoefficient(0.60M);
+    //                 z.SetConsumerUtilizationThreshold(0.65M);
+    //                 z.SetQueueHighFlowThreshold(90);
+    //                 z.SetQueueLowFlowThreshold(10);
+    //                 z.SetRuntimeProcessUsageThresholdCoefficient(0.65M);
+    //                 z.SetFileDescriptorUsageThresholdCoefficient(0.65M);
+    //                 z.SetHighConnectionClosureRateThreshold(90);
+    //                 z.SetHighConnectionCreationRateThreshold(60);
+    //             });
+    //         });
+    //     });
+    //     
+    //     var factory1 = new SnapshotFactory(config1);
+    //     var lens = factory1.Lens<BrokerConnectivitySnapshot>();
+    //     var result = await lens.TakeSnapshot();
+    //     var factory2 = new ScannerFactory(config1, new KnowledgeBaseProvider());
+    //     IScanner scanner = new Scanner(factory2);
+    //
+    //     var report = scanner.Scan(result.Snapshot);
+    //
+    //     var formatter = new DiagnosticReportTextFormatter();
+    //
+    //     string formattedReport = formatter.Format(report);
+    //         
+    //     Console.WriteLine(formattedReport);
+    // }
 }

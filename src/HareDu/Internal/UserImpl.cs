@@ -16,8 +16,8 @@ class UserImpl :
     BaseBrokerObject,
     User
 {
-    public UserImpl(HttpClient client)
-        : base(client)
+    public UserImpl(IHttpClientFactory clientFactory)
+        : base(clientFactory)
     {
     }
 
