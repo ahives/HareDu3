@@ -1,6 +1,6 @@
 # Microsoft Dependency Injection Integration
 
-For those that are interested in quickly building applications with HareDu 3, the best way to do that is by using one of the supported Dependency Injection integration packages. In this section we will go over how to use the Microsoft DI Integration package in your applications.
+For those that are interested in quickly building applications with HareDu 4, the best way to do that is by using one of the supported Dependency Injection integration packages. In this section we will go over how to use the Microsoft DI Integration package in your applications.
 
 Before you can use any of the APIs, you must configure HareDu by calling ```AddHareDu``` like so...
 

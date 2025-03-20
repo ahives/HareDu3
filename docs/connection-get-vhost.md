@@ -5,7 +5,7 @@ The Broker API allows you to get all established connections to the RabbitMQ bro
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
     .API<Connection>()
-    .GetAll();
+    .GetByVirtualHost("test_vhost");
 ```
 <br>
 
@@ -13,7 +13,7 @@ The other way to get connection information is to call the extension methods off
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .GetAllConnections();
+    .GetConnectionsByVirtualHost("test_vhost");
 ```
 
 If you want to know how to use the above methods with pagination please go [here](https://github.com/ahives/HareDu3/blob/master/docs/pagination.md).

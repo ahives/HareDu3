@@ -10,7 +10,7 @@ using Core.Extensions;
 using Model;
 
 class BrokerImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Broker
 {
     public BrokerImpl(IHttpClientFactory clientFactory)

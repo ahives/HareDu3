@@ -8,7 +8,7 @@ using Core;
 using Model;
 
 class NodeImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Node
 {
     public NodeImpl(IHttpClientFactory clientFactory)

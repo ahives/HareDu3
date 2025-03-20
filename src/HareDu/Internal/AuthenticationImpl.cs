@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 class AuthenticationImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Authentication
 {
     public AuthenticationImpl(IHttpClientFactory clientFactory)

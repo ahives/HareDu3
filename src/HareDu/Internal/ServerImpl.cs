@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 class ServerImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Server
 {
     public ServerImpl(IHttpClientFactory clientFactory)

@@ -15,12 +15,12 @@ using Core.Extensions;
 using Extensions;
 using Serialization;
 
-public class BaseBrokerObject
+public class BaseBrokerImpl
 {
     readonly IHttpClientFactory _clientFactory;
     readonly IDictionary<string, Error> _errors;
 
-    protected BaseBrokerObject(IHttpClientFactory clientFactory)
+    protected BaseBrokerImpl(IHttpClientFactory clientFactory)
     {
         _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
         _errors = new Dictionary<string, Error>

@@ -12,7 +12,7 @@ using Extensions;
 using Model;
 
 class ShovelImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Shovel
 {
     public ShovelImpl(IHttpClientFactory clientFactory)

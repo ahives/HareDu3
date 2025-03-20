@@ -11,7 +11,7 @@ using Extensions;
 using Model;
 
 class TopicPermissionsImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     TopicPermissions
 {
     public TopicPermissionsImpl(IHttpClientFactory clientFactory)

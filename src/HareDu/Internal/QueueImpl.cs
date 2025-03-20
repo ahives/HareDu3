@@ -12,7 +12,7 @@ using Extensions;
 using Model;
 
 class QueueImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Queue
 {
     public QueueImpl(IHttpClientFactory clientFactory)

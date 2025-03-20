@@ -7,7 +7,7 @@ using Core;
 using Model;
 
 class ConsumerImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Consumer
 {
     public ConsumerImpl(IHttpClientFactory clientFactory)

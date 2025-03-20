@@ -8,7 +8,7 @@ using Core;
 using Model;
 
 class UserLimitsImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     UserLimits
 {
     public UserLimitsImpl(IHttpClientFactory clientFactory) : base(clientFactory)

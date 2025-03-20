@@ -41,7 +41,7 @@ class BrokerConnectivityLens :
         }
 
         var connections = await _factory
-            .GetAllConnections(cancellationToken)
+            .GetAllConnections(null, cancellationToken)
             .ConfigureAwait(false);
 
         if (connections.HasFaulted)

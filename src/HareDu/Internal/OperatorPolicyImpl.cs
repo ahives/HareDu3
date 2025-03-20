@@ -12,7 +12,7 @@ using Extensions;
 using Model;
 
 class OperatorPolicyImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     OperatorPolicy
 {
     public OperatorPolicyImpl(IHttpClientFactory clientFactory) :

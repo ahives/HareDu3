@@ -9,7 +9,7 @@ using Core;
 using Model;
 
 class ChannelImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Channel
 {
     public ChannelImpl(IHttpClientFactory clientFactory) :

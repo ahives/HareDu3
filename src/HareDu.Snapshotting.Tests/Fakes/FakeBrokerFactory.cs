@@ -29,7 +29,7 @@ public class FakeBrokerFactory :
 
         if (typeof(T) == typeof(Connection))
         {
-            Connection obj = new FakeConnectionObject();
+            Connection obj = new FakeConnectionImpl();
 
             return (T) obj;
         }
@@ -50,8 +50,6 @@ public class FakeBrokerFactory :
 
         return default;
     }
-
-    public T Object<T>() where T : BrokerAPI => throw new System.NotImplementedException();
 
     public bool IsRegistered(string key) => throw new System.NotImplementedException();
         

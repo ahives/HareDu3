@@ -10,7 +10,7 @@ using Extensions;
 using Model;
 
 class ScopedParameterImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     ScopedParameter
 {
     public ScopedParameterImpl(IHttpClientFactory clientFactory)

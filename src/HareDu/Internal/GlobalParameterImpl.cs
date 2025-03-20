@@ -11,7 +11,7 @@ using Extensions;
 using Model;
 
 class GlobalParameterImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     GlobalParameter
 {
     public GlobalParameterImpl(IHttpClientFactory clientFactory)

@@ -13,7 +13,7 @@ using Extensions;
 using Model;
 
 class BindingImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Binding
 {
     public BindingImpl(IHttpClientFactory clientFactory)

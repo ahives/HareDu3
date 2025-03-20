@@ -11,7 +11,7 @@ using Extensions;
 using Model;
 
 class VirtualHostLimitsImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     VirtualHostLimits
 {
     public VirtualHostLimitsImpl(IHttpClientFactory clientFactory)

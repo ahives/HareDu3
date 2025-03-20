@@ -11,7 +11,7 @@ using Extensions;
 using Model;
 
 class UserPermissionsImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     UserPermissions
 {
     public UserPermissionsImpl(IHttpClientFactory clientFactory)

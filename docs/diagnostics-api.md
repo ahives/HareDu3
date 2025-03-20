@@ -54,14 +54,14 @@ IConfiguration configuration = new ConfigurationBuilder()
 configuration.Bind("HareDuConfig", config);
 
 // Initialize a snapshot factory
-var snapshotFactory = new SnapshotFactory(new BrokerObjectFactory(config))
+var snapshotFactory = _services.GetService<ISnapshotFactory>()
     .Lens<BrokerQueuesSnapshot>();
     
 // Get a snapshot
 var snapshot = await snapshotFactory.TakeSnapshot();
 
 // Initialize a diagnostic scanner
-var scanner = new Scanner(new ScannerFactory(config, new KnowledgeBaseProvider()))
+var scanner = _services.GetService<IScanner>()
     .RegisterObserver(new BrokerQueuesScannerObserver());
 
 // Execute the scanner against the snapshot

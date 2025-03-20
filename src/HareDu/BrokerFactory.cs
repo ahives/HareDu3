@@ -52,10 +52,6 @@ public sealed class BrokerFactory :
         return default;
     }
 
-    public T Object<T>()
-        where T : BrokerAPI =>
-        throw new NotImplementedException();
-
     public bool IsRegistered(string key) => _cache.ContainsKey(key);
         
     public IReadOnlyDictionary<string, object> GetObjects() => _cache;
@@ -150,9 +146,7 @@ public sealed class BrokerFactory :
     }
 
     object CreateInstance(Type type, IHttpClientFactory clientFactory) =>
-        type.IsDerivedFrom(typeof(BaseBrokerObject))
+        type.IsDerivedFrom(typeof(BaseBrokerImpl))
         ? Activator.CreateInstance(type, clientFactory)
         : Activator.CreateInstance(type);
-
-    // object CreateInstance(Type type, HttpClient client) => Activator.CreateInstance(type, client);
 }

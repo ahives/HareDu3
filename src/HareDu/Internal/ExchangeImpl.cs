@@ -12,7 +12,7 @@ using Extensions;
 using Model;
 
 class ExchangeImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     Exchange
 {
     public ExchangeImpl(IHttpClientFactory clientFactory)

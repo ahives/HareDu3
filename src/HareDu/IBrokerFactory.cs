@@ -1,6 +1,5 @@
 namespace HareDu;
 
-using System;
 using System.Collections.Generic;
 
 public interface IBrokerFactory
@@ -12,15 +11,6 @@ public interface IBrokerFactory
     /// <typeparam name="T">Interface that derives from base interface ResourceClient.</typeparam>
     /// <returns>An interface of resources available on a RabbitMQ server.</returns>
     T API<T>()
-        where T : BrokerAPI;
-
-    /// <summary>
-    /// Obsolete. Use API<T> instead.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    [Obsolete]
-    T Object<T>()
         where T : BrokerAPI;
 
     /// <summary>

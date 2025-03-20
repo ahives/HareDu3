@@ -12,7 +12,7 @@ using Extensions;
 using Model;
 
 class VirtualHostImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     VirtualHost
 {
     public VirtualHostImpl(IHttpClientFactory clientFactory)

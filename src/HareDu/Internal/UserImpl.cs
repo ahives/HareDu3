@@ -13,7 +13,7 @@ using Extensions;
 using Model;
 
 class UserImpl :
-    BaseBrokerObject,
+    BaseBrokerImpl,
     User
 {
     public UserImpl(IHttpClientFactory clientFactory)
