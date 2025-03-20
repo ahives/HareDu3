@@ -1,38 +1,12 @@
 # Create Policy
 
-The Broker API allows you to create a policy on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<Policy>()
-    .Create("policy", "^amq.", "vhost", x =>
-    {
-        x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-        x.SetExpiry(1000);
-    }, PolicyAppliedTo.All, 0);
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Policy>()
-    .Create("policy", "^amq.", "vhost", x =>
-    {
-        x.SetHighAvailabilityMode(HighAvailabilityModes.All);
-        x.SetExpiry(1000);
-    }, PolicyAppliedTo.All, 0);
-```
-<br>
+The Broker API allows you to create a policy on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Policy>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Policy>()
     .Create("policy", "^amq.", "vhost", x =>
     {
         x.SetHighAvailabilityMode(HighAvailabilityModes.All);
@@ -41,7 +15,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-HareDu 3 supports the below RabbitMQ arguments during queue creation.
+HareDu 4 supports the below RabbitMQ arguments during queue creation.
 
 <br>
 
@@ -67,10 +41,10 @@ HareDu 3 supports the below RabbitMQ arguments during queue creation.
 
 <br>
 
-The other way to create a policy is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a policy is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreatePolicy("policy", "^amq.", "vhost", x =>
     {
         x.SetHighAvailabilityMode(HighAvailabilityModes.All);

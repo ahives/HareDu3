@@ -3,14 +3,14 @@
 The Snapshot API sits atop the Broker API and provides a high level rollup of RabbitMQ broker metrics. Each snapshot makes one or more calls to the Broker API methods aggregating the metric data into a developer-friendly object. Each snapshot is then captured on a timeline that can be then flushed to disk or saved to a database.
 
 #### Registering API objects
-The very first thing you need to do is register/initialize the appropriate objects you will need to take snapshots metric data on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported DI containers. Currently, HareDu 3 supports only two DI containers; Autofac and Microsoft, respectively.
+The very first thing you need to do is register/initialize the appropriate objects you will need to take snapshots metric data on the RabbitMQ broker. To do that you have two options, that is, initialize the objects yourself, managing the associated lifetime scopes of said objects or use one of the supported DI containers. Currently, HareDu 4 supports only two DI containers; Autofac and Microsoft, respectively.
 
 #### Taking snapshots
 Once you have registered a ```SnapshotFactory```, it is easy to take a snapshot.
 
 **Step 1: Define what type of snapshot you want to take**
 ```c#
-var lens = new SnapshotFactory(config)
+var lens = await _services.GetService<ISnapshotFactory>()
     .Lens<BrokerQueuesSnapshot>();
 ```
 In this code snippet, the lens variable returns a ``SnapshotLens`` for taking snapshots of type ```BrokerQueuesSnapshot```.
@@ -43,7 +43,7 @@ var snapshot = lens.History.MostRecent().Snapshot;
 When setting up ```SnapshotFactory```, you can register observers. These observers should implement ```IObserver<T>``` where ```T``` is ```SnapshotResult<T>```. Each time a snapshot is taken (i.e. when the ```TakeSnapshot``` method is called), all registered observers will be notified with an object of ```SnapshotResult<T>```. Registering an observer is easy enough (see code snippet below) but be sure to do so before calling the ```TakeSnapshot``` method.
 
 ```c#
-var lens = new SnapshotFactory(config)
+var lens = _services.GetService<ISnapshotFactory>()
     .Lens<BrokerQueuesSnapshot>()
     .RegisterObserver(new SomeCoolObserver())
     .RegisterObserver(new SomeOtherCoolObserver());
@@ -74,7 +74,7 @@ IConfiguration configuration = new ConfigurationBuilder()
 configuration.Bind("HareDuConfig", config);
 
 // Initialize a snapshot factory
-var snapshotFactory = new SnapshotFactory(new BrokerObjectFactory(config))
+var snapshotFactory = _services.GetService<ISnapshotFactory>()
     .Lens<BrokerQueuesSnapshot>();
     
 // Get a snapshot

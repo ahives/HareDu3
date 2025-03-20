@@ -1,13 +1,13 @@
 # Create Binding
 
-The Broker API allows you to create a binding to an exchange or queue on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
+The Broker API allows you to create a binding to an exchange or queue on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 The folllowing code has been deprecated in version 4 of the API.
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .API<Binding>()
     .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost", "binding_key");
 ```
@@ -16,7 +16,7 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 The above examples show how you would bind a source exchange to a destination exchange. However, RabbitMQ allows you to bind an exchange to a queue. In this scenario, you would set the exchange as the source and the destination as the queue like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .API<Binding>()
     .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "binding_key");
 ```
@@ -36,7 +36,7 @@ x =>
 A complete example would look something like this...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .API<Binding>()
     .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "*.", x =>
     {
@@ -46,16 +46,16 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 
 <br>
 
-The other way to create a binding is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a binding is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateExchangeBinding("source_exchange", "destination_exchange", "vhost");
 ```
 or...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateExchangeBindingToQueue("source_exchange", "destination_queue", "vhost");
 ```
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
+using Internal;
 
 public class FakeQueueObject :
     Queue,
@@ -47,6 +48,11 @@ public class FakeQueueObject :
         };
 
         return new SuccessfulResults<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
+    }
+
+    public Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)

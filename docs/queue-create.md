@@ -1,30 +1,12 @@
 # Create Queues
 
-The Broker API allows you to create a queue on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<Queue>()
-    .Create("queue", "vhost", "node");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Queue>()
-    .Create("queue", "vhost", "node");
-```
-<br>
+The Broker API allows you to create a queue on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Queue>()
     .Create("queue", "vhost", "node");
 ```
 <br>
@@ -36,7 +18,7 @@ c.IsDurable();
 ```
 <br>
 
-HareDu 3 supports the below RabbitMQ arguments during queue creation.
+HareDu 4 supports the below RabbitMQ arguments during queue creation.
 
 <br>
 
@@ -71,8 +53,8 @@ c.HasArguments(arg =>
 A complete example would look something like this...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Queue>()
     .Create("queue", "vhost", "node", x =>
     {
         x.IsDurable();
@@ -90,10 +72,10 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 <br>
 
-The other way to create a policy is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a policy is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateQueue("queue", "vhost", "node", x =>
     {
         x.IsDurable();

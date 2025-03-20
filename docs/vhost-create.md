@@ -1,36 +1,12 @@
 # Create Virtual Host
 
-The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<VirtualHost>()
-    .Create("vhost", x =>
-    {
-        x.WithTracingEnabled();
-    });
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
-    .Create("vhost", x =>
-    {
-        x.WithTracingEnabled();
-    });
-```
-<br>
+The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<VirtualHost>()
     .Create("vhost", x =>
     {
         x.WithTracingEnabled();
@@ -45,10 +21,10 @@ c.WithTracingEnabled();
 ```
 <br>
 
-The other way to create a virtual host is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create a virtual host is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _container.Resolve<IBrokerFactory>()
     .CreateVirtualHost("vhost", x =>
     {
         x.WithTracingEnabled();

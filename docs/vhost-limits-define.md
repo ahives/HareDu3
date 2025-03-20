@@ -1,38 +1,12 @@
 # Define Virtual Host Limits
 
-The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHostLimits>()
-    .Define("vhost", x =>
-    {
-        x.SetMaxQueueLimit(100);
-        x.SetMaxConnectionLimit(1000);
-    });
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHostLimits>()
-    .Define("vhost", x =>
-    {
-        x.SetMaxQueueLimit(100);
-        x.SetMaxConnectionLimit(1000);
-    });
-```
-<br>
+The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<VirtualHostLimits>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<VirtualHostLimits>()
     .Define("vhost", x =>
     {
         x.SetMaxQueueLimit(100);
@@ -41,10 +15,10 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-The other way to define virtual host limits is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to define virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DefineVirtualHostLimits("vhost", x =>
     {
         x.SetMaxQueueLimit(100);

@@ -1,38 +1,20 @@
 # Delete Virtual Host Limits
 
-The Broker API allows you to delete virtual host limits on a RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<VirtualHostLimits>()
-    .Delete("vhost");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHostLimits>()
-    .Delete("vhost");
-```
-<br>
+The Broker API allows you to delete virtual host limits on a RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<VirtualHostLimits>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<VirtualHostLimits>()
     .Delete("vhost");
 ```
 <br>
 
-The other way to delete virtual host limits is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to delete virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DeleteVirtualHostLimits("vhost");
 ```
 

@@ -1,30 +1,12 @@
 # Create Exchange
 
-The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<Exchange>()
-    .Create("exchange", "vhost");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Exchange>()
-    .Create("exchange", "vhost");
-```
-<br>
+The Broker API allows you to create an exchange on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Exchange>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Exchange>()
     .Create("exchange", "vhost");
 ```
 <br>
@@ -54,7 +36,7 @@ There are situations where you wish to create exchanges that are bound to other 
 ```
 <br>
 
-HareDu 3 supports adding adhoc arguments to exchanges during creation. The addition of the below code to ```Create``` will set the above RabbitMQ arguments.
+HareDu 4 supports adding adhoc arguments to exchanges during creation. The addition of the below code to ```Create``` will set the above RabbitMQ arguments.
 
 ```c#
 c.HasArguments(arg =>
@@ -67,8 +49,8 @@ c.HasArguments(arg =>
 A complete example would look something like this...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Exchange>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Exchange>()
     .Create("exchange", "vhost", x =>
     {
         x.IsDurable();
@@ -83,10 +65,10 @@ var result = await _container.Resolve<IBrokerObjectFactory>()
 
 <br>
 
-The other way to create an exchange is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to create an exchange is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateExchange("exchange", "vhost", x =>
     {
         x.IsDurable();

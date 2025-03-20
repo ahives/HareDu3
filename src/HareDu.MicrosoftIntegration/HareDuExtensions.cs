@@ -49,7 +49,7 @@ public static class HareDuExtensions
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
+        services.AddSingleton<ISnapshotFactory, SnapshotFactory>();
 
         return services;
     }
@@ -86,7 +86,7 @@ public static class HareDuExtensions
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
         services.AddSingleton<IScannerFactory, ScannerFactory>();
         services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.AddSingleton<ISnapshotFactory>(x => new SnapshotFactory(x.GetService<IBrokerFactory>()));
+        services.AddSingleton<ISnapshotFactory, SnapshotFactory>();
 
         return services;
     }

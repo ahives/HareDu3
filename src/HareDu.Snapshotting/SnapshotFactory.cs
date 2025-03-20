@@ -3,13 +3,12 @@ namespace HareDu.Snapshotting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Configuration;
 using Core.Extensions;
 using Lens;
 using Model;
 using HareDu.Snapshotting.Lens.Internal;
 
-public class SnapshotFactory :
+public sealed class SnapshotFactory :
     ISnapshotFactory
 {
     readonly IBrokerFactory _factory;
@@ -18,15 +17,6 @@ public class SnapshotFactory :
     public SnapshotFactory(IBrokerFactory factory)
     {
         _factory = factory;
-        _cache = new Dictionary<string, object>();
-            
-        if (!TryRegisterAll())
-            throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
-    }
-
-    public SnapshotFactory(HareDuConfig config)
-    {
-        _factory = new BrokerFactory(config);
         _cache = new Dictionary<string, object>();
             
         if (!TryRegisterAll())
@@ -57,7 +47,7 @@ public class SnapshotFactory :
         return this;
     }
 
-    protected virtual bool TryRegisterAll()
+    private bool TryRegisterAll()
     {
         var typeMap = GetTypeMap(GetType());
         bool registered = true;
@@ -71,7 +61,7 @@ public class SnapshotFactory :
         return registered;
     }
 
-    protected virtual bool RegisterInstance(Type type, string key)
+    private bool RegisterInstance(Type type, string key)
     {
         try
         {
@@ -90,7 +80,7 @@ public class SnapshotFactory :
         }
     }
 
-    protected virtual object CreateInstance(Type type)
+    private object CreateInstance(Type type)
     {
         var instance = type.IsDerivedFrom(typeof(BaseLens<>))
             ? Activator.CreateInstance(type, _factory)
@@ -98,8 +88,8 @@ public class SnapshotFactory :
 
         return instance;
     }
-        
-    protected virtual IDictionary<string, Type> GetTypeMap(Type findType)
+
+    private IDictionary<string, Type> GetTypeMap(Type findType)
     {
         var types = findType.Assembly.GetTypes();
         var interfaces = new Dictionary<string, Type>();

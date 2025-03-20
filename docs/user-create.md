@@ -1,30 +1,12 @@
 # Create User
 
-The Broker API allows you to create a user on the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<User>()
-    .Create("user", "password", "password_hash");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<User>()
-    .Create("user", "password", "password_hash");
-```
-<br>
+The Broker API allows you to create a user on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<User>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<User>()
     .Create("user", "password", "password_hash");
 ```
 <br>
@@ -42,8 +24,8 @@ x.WithTags(t =>
 A complete example would look something like this...
 
 ```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<User>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<User>()
     .Create("user", "password", "password_hash", x =>
     {
         x.WithTags(t =>
@@ -57,14 +39,14 @@ var result = await new BrokerObjectFactory(config)
 The other way to create a user is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateUser("user", "password", "password_hash");
 ```
 
 ...or
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .CreateUser("user", "password", "password_hash", x =>
     {
         x.WithTags(t =>

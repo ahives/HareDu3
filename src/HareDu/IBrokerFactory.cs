@@ -35,7 +35,7 @@ public interface IBrokerFactory
     /// </summary>
     /// <returns></returns>
     IReadOnlyDictionary<string, object> GetObjects();
-        
+
     // /// <summary>
     // /// Cancel pending running thread.
     // /// </summary>

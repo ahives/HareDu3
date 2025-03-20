@@ -1,30 +1,12 @@
 # Delete User
 
-The Broker API allows you to delete a user(s) from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<User>()
-    .Delete("username");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<User>()
-    .Delete("username");
-```
-<br>
+The Broker API allows you to delete a user(s) from the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<User>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<User>()
     .Delete("username");
 ```
 <br>
@@ -32,24 +14,24 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 There is an overloaded version of the above method that will allow you to bulk delete users that looks like this...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<User>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<User>()
     .Delete(new List<string>{"username1", "username2", "username3"});
 ```
 
 <br>
 
-The other way to delete a user is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to delete a user is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _container.Resolve<IBrokerFactory>()
     .DeleteUser("username");
 ```
 
 ...and for deleting in bulk, you can use the following extension method like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _container.Resolve<IBrokerFactory>()
     .DeleteUsers(new List<string>{"username1", "username2", "username3"});
 ```
 

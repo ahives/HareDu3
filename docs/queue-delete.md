@@ -1,30 +1,12 @@
 # Deleting Queues
 
-The Broker API allows you to delete a queue from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<Queue>()
-    .Delete("queue", "vhost");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<Queue>()
-    .Delete("queue", "vhost");
-```
-<br>
+The Broker API allows you to delete a queue from the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Queue>()
     .Delete("queue", "vhost");
 ```
 <br>
@@ -34,8 +16,8 @@ Since deleting a queue will also purge the queue of all messages as well, HareDu
 A complete example would look something like this...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<Queue>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<Queue>()
     .Delete("queue", "vhost", x =>
     {
         x.WhenHasNoConsumers();
@@ -44,17 +26,17 @@ var result = await _services.GetService<IBrokerObjectFactory>()
 ```
 <br>
 
-The other way to delete a queue is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to delete a queue is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DeleteQueue("queue", "vhost");
 ```
 
 ...or
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DeleteQueue("queue", "vhost", x =>
     {
         x.WhenHasNoConsumers();

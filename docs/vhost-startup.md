@@ -1,38 +1,20 @@
 # Start Up Virtual Host
 
-The Broker API allows you to start up a virtual host on the RabbitMQ node. To do so is pretty simple with HareDu 3. You can do it yourself or the IoC way.
-
-**Do It Yourself**
-
-```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<VirtualHost>()
-    .Startup("vhost", "node");
-```
-<br>
-
-**Autofac**
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
-    .Startup("vhost", "node");
-```
-<br>
+The Broker API allows you to start up a virtual host on the RabbitMQ node. To do so is pretty simple with HareDu 4. You can do it yourself or the IoC way.
 
 **Microsoft DI**
 
 ```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<VirtualHost>()
     .Startup("vhost", "node");
 ```
 <br>
 
-The other way to startup a virtual host is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to startup a virtual host is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .StartupVirtualHost("vhost", "node");
 ```
 

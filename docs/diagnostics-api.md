@@ -7,11 +7,6 @@ The very first thing you need to do is register/initialize the appropriate objec
 
 <br>
 
-Registering objects without DI containers is pretty simple as well...
-
-```c#
-var scanner = new Scanner(factory);
-```
 Since the ```Scanner``` should only be initialized once in your application, therefore, you should use the Singleton pattern. Please note that the IoC integrations registers ```Scanner``` as a singleton. This applies to most things in HareDu 2.
 
 #### Scanning snapshots
