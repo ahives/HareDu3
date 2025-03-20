@@ -1,8 +1,6 @@
 # Get Channels
 
-The Broker API allows you to get all channels on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
-
-**Microsoft DI**
+The Broker API allows you to get all channels on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
@@ -14,7 +12,7 @@ var result = await _services.GetService<IBrokerFactory>()
 The other way to get channel information is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _services.GetService<IBrokerFactory>()
+var result = await _services.Get[connection-delete.md](connection-delete.md)Service<IBrokerFactory>()
     .GetAllChannels();
 ```
 
