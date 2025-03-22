@@ -1,38 +1,18 @@
 # Delete Virtual Host
 
-The Broker API allows you to delete a virtual host from the RabbitMQ broker. To do so is pretty simple with HareDu 3. You can do it yourself or the DI way.
-
-**Do It Yourself**
+The Broker API allows you to delete a virtual host from the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
-var result = await new BrokerObjectFactory(config)
-    .Object<VirtualHost>()
+var result = await _services.GetService<IBrokerFactory>()
+    .API<VirtualHost>()
     .Delete("vhost");
 ```
 <br>
 
-**Autofac**
+The other way to delete a virtual host is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
-    .Delete("vhost");
-```
-<br>
-
-**Microsoft DI**
-
-```c#
-var result = await _services.GetService<IBrokerObjectFactory>()
-    .Object<VirtualHost>()
-    .Delete("vhost");
-```
-<br>
-
-The other way to delete a virtual host is to call the extension methods off of ```IBrokerObjectFactory``` like so...
-
-```c#
-var result = await _container.Resolve<IBrokerObjectFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DeleteVirtualHost("vhost");
 ```
 

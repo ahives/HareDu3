@@ -1,8 +1,6 @@
 # Sync Queue
 
-The Broker API allows you to sync queues. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
-
-**Microsoft DI**
+The Broker API allows you to sync queues. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

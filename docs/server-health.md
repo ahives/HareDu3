@@ -1,17 +1,15 @@
 # Getting Server Health Details
 
-The Broker API allows you to health details on a RabbitMQ server. To do so is pretty simple with HareDu 4. You can do it yourself or the IoC way.
-
-**Microsoft DI**
+The Broker API allows you to health details on a RabbitMQ server. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-                .API<Server>()
-                .GetHealth(x =>
-                {
-                    x.Node("your_name");
-                    x.VirtualHost("your_vhost");
-                });
+    .API<Server>()
+    .GetHealth(x =>
+    {
+        x.Node("your_name");
+        x.VirtualHost("your_vhost");
+    });
 ```
 <br>
 

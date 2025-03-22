@@ -1,8 +1,6 @@
 # Get Shovels
 
-The Broker API allows you to get all shovels on the RabbitMQ broker. To do so is pretty simple with HareDu 4. You can do it yourself or the DI way.
-
-**Microsoft DI**
+The Broker API allows you to get all shovels on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

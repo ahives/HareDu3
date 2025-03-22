@@ -1,8 +1,6 @@
 # Start Up Virtual Host
 
-The Broker API allows you to start up a virtual host on the RabbitMQ node. To do so is pretty simple with HareDu 4. You can do it yourself or the IoC way.
-
-**Microsoft DI**
+The Broker API allows you to start up a virtual host on the RabbitMQ node. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
