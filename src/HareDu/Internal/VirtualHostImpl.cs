@@ -32,24 +32,29 @@ class VirtualHostImpl :
         throw new NotImplementedException();
     }
 
-    public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-
-        var impl = new VirtualHostConfiguratorImpl();
-        configurator?.Invoke(impl);
-
-        var request = impl.Request.Value;
 
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(vhost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+        VirtualHostRequest request = null;
+
+        if (configurator != null)
+        {
+            var impl = new VirtualHostConfiguratorImpl();
+            configurator?.Invoke(impl);
+
+            request = impl.Request.Value;
+        }
 
         string url = $"api/vhosts/{vhost.ToSanitizedName()}";
-
+        
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return new FaultedResult {DebugInfo = new() {URL = url, Request = request.ToJsonString(), Errors = errors}};
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
@@ -126,29 +131,27 @@ class VirtualHostImpl :
             var impl = new VirtualHostTagConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            StringBuilder builder = new StringBuilder();
+            if (impl.Tags.IsNotEmpty())
+            {
+                StringBuilder builder = new StringBuilder();
 
-            impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
+                impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
 
-            _tags = builder.ToString().TrimEnd(',');
+                _tags = builder.ToString().TrimEnd(',');
+            }
         }
 
 
         class VirtualHostTagConfiguratorImpl :
             VirtualHostTagConfigurator
         {
-            readonly List<string> _tags;
+            readonly List<string> _tags = new();
 
             public List<string> Tags => _tags;
 
-            public VirtualHostTagConfiguratorImpl()
-            {
-                _tags = new List<string>();
-            }
-
             public void Add(string tag)
             {
-                if (_tags.Contains(tag))
+                if (_tags.Contains(tag) || string.IsNullOrWhiteSpace(tag))
                     return;
 
                 _tags.Add(tag);

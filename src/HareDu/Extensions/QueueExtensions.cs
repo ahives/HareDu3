@@ -39,7 +39,7 @@ public static class QueueExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> CreateQueue(this IBrokerFactory factory,
-        string queue, string vhost, string node, Action<QueueConfigurator> configurator, CancellationToken cancellationToken = default)
+        string queue, string vhost, string node, Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

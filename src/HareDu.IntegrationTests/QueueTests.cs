@@ -12,6 +12,8 @@ using Serialization;
 public class QueueTests
 {
     ServiceProvider _services;
+    string _vhost = "QueueTestVirtulHost";
+    string _node = "rabbit@192a30bbb161";
         
     [OneTimeSetUp]
     public void Init()
@@ -28,12 +30,28 @@ public class QueueTests
             .BuildServiceProvider();
     }
 
+    [SetUp]
+    public async Task SetUp()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<VirtualHost>()
+            .Create(_vhost);
+    }
+
+    [TearDown]
+    public async Task TearDown()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<VirtualHost>()
+            .Delete(_vhost);
+    }
+
     [Test]
     public async Task Verify_can_create_queue()
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
-            .Create("TestQueue1", "HareDu1","rabbit@88fa329ab266", x =>
+            .Create("TestQueue1", _vhost, _node, x =>
             {
                 x.IsDurable();
                 x.HasArguments(arg =>
@@ -45,6 +63,17 @@ public class QueueTests
                     arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
                 });
             });
+            
+        Assert.IsFalse(result.HasFaulted);
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_create_queue_without_configurator()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<Queue>()
+            .Create("TestQueue2", _vhost,_node);
             
         Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

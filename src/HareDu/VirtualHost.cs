@@ -1,7 +1,6 @@
 namespace HareDu;
 
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -26,7 +25,7 @@ public interface VirtualHost :
     /// <param name="configurator">Describes how the virtual host will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified RabbitMQ virtual host on the current server.
