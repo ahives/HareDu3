@@ -13,17 +13,10 @@ public interface Queue :
     /// <summary>
     /// Returns information of all queues on the current RabbitMQ node.
     /// </summary>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Returns information of all queues on the current RabbitMQ node.
-    /// </summary>
     /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns detailed information of all queues on the current RabbitMQ node.
@@ -38,7 +31,7 @@ public interface Queue :
     /// <param name="name">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="node">Name of the RabbitMQ node.</param>
-    /// <param name="configurator">Describes how the queue will be created.</param>
+    /// <param name="configurator">Describes the attributes for which the queue is to be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,
@@ -49,7 +42,7 @@ public interface Queue :
     /// </summary>
     /// <param name="name">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="configurator">Describes how the queue should be deleted.</param>
+    /// <param name="configurator">Describes the attributes for which the queue is to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);

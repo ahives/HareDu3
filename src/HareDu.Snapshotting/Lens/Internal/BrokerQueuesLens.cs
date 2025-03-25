@@ -39,7 +39,7 @@ class BrokerQueuesLens :
         }
 
         var queues = await _factory
-            .GetAllQueues(cancellationToken)
+            .GetAllQueues(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         if (queues.HasFaulted)

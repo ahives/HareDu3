@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
+using Internal;
 using Model;
 
 public static class QueueExtensions
@@ -13,17 +14,18 @@ public static class QueueExtensions
     /// Returns all queues on the current RabbitMQ node.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="configurator"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Queue>()
-            .GetAll(cancellationToken)
+            .GetAll(configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 

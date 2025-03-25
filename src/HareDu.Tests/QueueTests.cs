@@ -187,6 +187,29 @@ public class QueueTests :
     }
 
     [Test]
+    public async Task Verify_cannot_create_queue_on_error()
+    {
+        var services = GetContainerBuilder().BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<Queue>()
+            .Create("TestQueue31", "HareDu", "Node1", x =>
+            {
+                x.IsDurable();
+                x.AutoDeleteWhenNotInUse();
+                x.HasArguments(arg =>
+                {
+                    arg.SetQueueExpiration(0);
+                });
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.IsNotNull(result.DebugInfo);
+        });
+    }
+
+    [Test]
     public async Task Verify_can_create_queue2()
     {
         var services = GetContainerBuilder().BuildServiceProvider();

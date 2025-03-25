@@ -20,31 +20,29 @@ class QueueImpl :
     {
     }
 
-    public async Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<QueueInfo>("api/queues", cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        var impl = new PaginationConfiguratorImpl();
-        configurator?.Invoke(impl);
-
-        string pagination = impl.BuildPaginationParams();
-
+        string pagination = null;
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(pagination))
-            errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
+        if (configurator != null)
+        {
+            var impl = new PaginationConfiguratorImpl();
+            configurator(impl);
+
+            pagination = impl.BuildPaginationParams();
+
+            if (string.IsNullOrWhiteSpace(pagination))
+                errors.Add(new() {Reason = "Name of the node for which to return memory usage data is missing."});
+        }
 
         string url = string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}";
 
         if (errors.Count > 0)
-            return new FaultedResults<QueueInfo>{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResults<QueueInfo> {DebugInfo = new() {URL = url, Errors = errors}};
 
         return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
     }
@@ -64,11 +62,10 @@ class QueueImpl :
         var impl = new QueueConfiguratorImpl(node);
         configurator?.Invoke(impl);
 
-        impl.Validate();
-
         var request = impl.Request.Value;
 
-        var errors = impl.Errors;
+        string sanitizedVHost = vhost.ToSanitizedName();
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
@@ -76,12 +73,11 @@ class QueueImpl :
         if (string.IsNullOrWhiteSpace(vhost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return new FaultedResult {DebugInfo = new() {URL = "api/queues/{vhost}/{name}", Request = request.ToJsonString(), Errors = errors}};
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null,
@@ -89,23 +85,24 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var impl = new QueueDeletionConfiguratorImpl();
-        configurator?.Invoke(impl);
-
+        string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = string.IsNullOrWhiteSpace(impl.Query.Value)
-            ? $"api/queues/{vhost.ToSanitizedName()}/{name}"
-            : $"api/queues/{vhost.ToSanitizedName()}/{name}?{impl.Query.Value}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult {DebugInfo = new() {URL = "api/queues/{vhost}/{name}", Errors = errors}};
+        
+        var impl = new QueueDeletionConfiguratorImpl();
+        configurator?.Invoke(impl);
+
+        string url = string.IsNullOrWhiteSpace(impl.Query.Value)
+            ? $"api/queues/{sanitizedVHost}/{name}"
+            : $"api/queues/{sanitizedVHost}/{name}?{impl.Query.Value}";
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
@@ -114,20 +111,21 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}/contents";
-
         if (errors.Any())
-            return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult<QueueInfo>
+                {DebugInfo = new() {URL = "api/queues/{vhost}/{name}/contents", Errors = errors}};
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction,
@@ -135,25 +133,21 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var request = new QueueSyncRequest
-        {
-            Action = syncAction
-        };
-
+        string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        string url = $"api/queues/{vhost.ToSanitizedName()}/{name}/actions";
-
         if (errors.Any())
-            return new FaultedResult<QueueInfo> {DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult<QueueInfo>
+                {DebugInfo = new() {URL = "api/queues/{vhost}/{name}/actions", Errors = errors}};
 
-        return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
+            new QueueSyncRequest {Action = syncAction}, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -216,15 +210,15 @@ class QueueImpl :
 
         public void AutoDeleteWhenNotInUse() => _autoDelete = true;
 
-        public void Validate()
-        {
-            if (_arguments is not null)
-                Errors.AddRange(_arguments
+        public List<Error> Validate() =>
+            _arguments != null
+                ? _arguments
                     .Select(x => x.Value?.Error)
-                    .Where(error => error is not null).ToList());
-        }
+                    .Where(error => error is not null)
+                    .ToList()
+                : [];
 
-            
+
         class QueueArgumentConfiguratorImpl :
             QueueArgumentConfigurator
         {
