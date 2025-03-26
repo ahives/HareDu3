@@ -15,7 +15,8 @@ public static class NodeExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a node.</exception>
     public static async Task<Results<NodeInfo>> GetAllNodes(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -34,7 +35,8 @@ public static class NodeExtensions
     /// <param name="node">Name of the RabbitMQ node.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a node.</exception>
     public static async Task<Result<NodeMemoryUsageInfo>> GetNodeMemoryUsage(this IBrokerFactory factory,
         string node, CancellationToken cancellationToken = default)
     {

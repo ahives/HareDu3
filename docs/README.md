@@ -7,12 +7,12 @@ HareDu 4 comes with four major APIs; that is, Broker, Snapshot, Diagnostics, and
 | Package Name |  | .NET Runtime |
 |---| --- |--------------|
 | **API** |  |              |
-| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 9.0          |
-| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 9.0          |
-| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 9.0          |
-| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 9.0          |
+| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 8.0, 9.0     |
+| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 8.0, 9.0          |
+| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 8.0, 9.0          |
+| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 8.0, 9.0          |
 | **Dependency Injection Containers** | |              |
-| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 9.0          |
+| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 8.0, 9.0          |
 
 <br>
 

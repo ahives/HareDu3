@@ -15,9 +15,10 @@ public static class GlobalParameterExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Results<GlobalParameterInfo>> GetAllGlobalParameters(
-        this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a global parameter.</exception>
+    public static async Task<Results<GlobalParameterInfo>> GetAllGlobalParameters(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -35,7 +36,8 @@ public static class GlobalParameterExtensions
     /// <param name="configurator">Describes how the RabbitMQ parameter is to be defined.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a global parameter.</exception>
     public static async Task<Result> CreateGlobalParameter(this IBrokerFactory factory,
         string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
@@ -54,7 +56,8 @@ public static class GlobalParameterExtensions
     /// <param name="parameter">Name of the RabbitMQ parameter.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a global parameter.</exception>
     public static async Task<Result> DeleteGlobalParameter(this IBrokerFactory factory,
         string parameter, CancellationToken cancellationToken = default)
     {

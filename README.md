@@ -7,28 +7,27 @@ HareDu is a fluent .NET library for managing and monitoring RabbitMQ clusters.
 
 HareDu is Apache 2.0 licensed.
 
-### HareDu 3 NuGet Packages
+### HareDu 4 NuGet Packages
 
 | Package Name |  | .NET Runtime |
 |---| --- | --- |
 | **API** |  |  |
-| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 5.0 |
-| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 5.0 |
-| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 5.0 |
-| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 5.0 |
+| [HareDu.Core](https://www.nuget.org/packages/HareDu.Core/) | Configuration API | 8.0, 9.0 |
+| [HareDu](https://www.nuget.org/packages/HareDu/) | Broker API | 8.0, 9.0 |
+| [HareDu.Snapshotting](https://www.nuget.org/packages/HareDu.Snapshotting/) | Snapshot API | 8.0, 9.0 |
+| [HareDu.Diagnostics](https://www.nuget.org/packages/HareDu.Diagnostics/) | Diagnostics API | 8.0, 9.0 |
 | **Dependency Injection Containers** | | |
-| [HareDu.AutofacIntegration](https://www.nuget.org/packages/HareDu.AutofacIntegration/) | Autofac Integration API | 5.0 |
-| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 5.0 |
+| [HareDu.MicrosoftIntegration](https://www.nuget.org/packages/HareDu.MicrosoftIntegration/) | Microsoft Dependency Injection Integration API| 8.0, 9.0 |
 
 
-# Why HareDu 3?
+# Why HareDu 4?
 
-If you are familiar with HareDu, you should know that HareDu 3 introduces some really cool new functionality. HareDu 3 came about from feedback of production deployments and because the original API was lacking in some key areas. In particular, HareDu 3 introduces the following enhancements:
+If you are familiar with HareDu, you should know that HareDu 4 introduces some really cool new functionality. HareDu 4 came about from feedback of production deployments and because the original API was lacking in some key areas. In particular, HareDu 4 introduces the following enhancements:
 1. Increased test coverage
 2. Improved low level administrative API (i.e. Broker API)
-3. .NET 5 support
+3. .NET 9 support
 
-HareDu 3 was rewritten with C# 9.0 and .NET 5 in mind using such features as record classes for API immutability and the built in Json parser.
+HareDu 4 was rewritten with C# on .NET 9 in mind using such features as record classes for API immutability and the built in Json parser.
 
 ## Get It
 From the Package Manager Console in Visual Studio you can run the following PowerShell script to get the latest version of HareDu...
@@ -46,7 +45,7 @@ Install-Package -Version <version> HareDu
 ex:
 
 ```
-Install-Package -Version 3.1.0 HareDu
+Install-Package -Version 4.0.0 HareDu
 ```
 
 The above applies for any NuGet package you wish to install.
@@ -65,12 +64,12 @@ The above applies for any NuGet package you wish to install.
 
 
 # Dependencies
-.NET 5 or above
+.NET 8 or above
 
 
 # Debugging
 
-If you find that making an API call is failing for reasons unknown, HareDu 3 introduces a way to return a text representation of the serialized JSON of the returned ```Result``` or ```Result<T>``` monads. Here is an example,
+If you find that making an API call is failing for reasons unknown, HareDu 4 introduces a way to return a text representation of the serialized JSON of the returned ```Result``` or ```Result<T>``` monads. Here is an example,
 
 ```c#
 string debugText = result.ToJsonString();
@@ -101,12 +100,12 @@ That's it. So, the resulting output of calling the ```ToJsonString``` extension 
 
 # Tested
 
-|   | Version |
-|---| --- |
-| Operating System | macOS Catalina 10.15.3 |
-| RabbitMQ | 3.8.2, 3.8.9 |
-| Erlang OTP | 22.0.4 (x64), 23.2 (x64) |
-| .NET Runtime | .NET 5 |
+|   | Version              |
+|---|----------------------|
+| Operating System | macOS Sequoia 15.3.2 |
+| RabbitMQ | 4.0.3                |
+| Erlang OTP | 26.2.5.4 (x64)       |
+| .NET Runtime | .NET 9               |
 
 
 # Changelist

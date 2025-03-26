@@ -15,7 +15,8 @@ public static class OperatorPolicyExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
     public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -36,7 +37,8 @@ public static class OperatorPolicyExtensions
     /// <param name="configurator">Describes how the operator policy will be created by setting arguments through set methods.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
     public static async Task<Result> CreateOperatorPolicy(this IBrokerFactory factory, string name,
         string vhost, Action<OperatorPolicyConfigurator> configurator,
         CancellationToken cancellationToken = default)
@@ -57,7 +59,8 @@ public static class OperatorPolicyExtensions
     /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
     public static async Task<Result> DeleteOperatorPolicy(this IBrokerFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {
