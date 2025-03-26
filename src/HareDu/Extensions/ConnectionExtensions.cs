@@ -30,14 +30,15 @@ public static class ConnectionExtensions
     }
 
     /// <summary>
-    /// Returns all connections on the current RabbitMQ node.
+    /// Returns all connections on the current RabbitMQ node filtered by virtual host.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost"></param>
-    /// <param name="configurator"></param>
+    /// <param name="vhost">Name of the virtual host.</param>
+    /// <param name="configurator">Pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a connection.</exception>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(this IBrokerFactory factory,
         string vhost, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -50,14 +51,14 @@ public static class ConnectionExtensions
     }
 
     /// <summary>
-    /// Returns all connections on the current RabbitMQ node.
+    /// Returns all connections on the current RabbitMQ node filtered by connection name.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="name"></param>
-    /// <param name="configurator"></param>
+    /// <param name="name">Name of the connection.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a connection.</exception>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByName(this IBrokerFactory factory,
         string name, CancellationToken cancellationToken = default)
     {
@@ -70,14 +71,14 @@ public static class ConnectionExtensions
     }
 
     /// <summary>
-    /// Returns all connections on the current RabbitMQ node.
+    /// Returns all connections on the current RabbitMQ node filtered by user.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="username"></param>
-    /// <param name="configurator"></param>
+    /// <param name="username">Name of tne user.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a connection.</exception>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByUser(this IBrokerFactory factory,
         string username, CancellationToken cancellationToken = default)
     {
@@ -95,8 +96,9 @@ public static class ConnectionExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="connection">The name of the RabbitMQ connection that is to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a connection.</exception>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> DeleteConnection(this IBrokerFactory factory,
         string connection, CancellationToken cancellationToken = default)
     {
@@ -114,8 +116,9 @@ public static class ConnectionExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="username">The user to which the RabbitMQ connection that is to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a connection.</exception>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result> DeleteConnectionByUser(this IBrokerFactory factory,
         string username, CancellationToken cancellationToken = default)
     {

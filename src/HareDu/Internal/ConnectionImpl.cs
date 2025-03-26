@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Extensions;
 using Model;
 
 class ConnectionImpl :
@@ -44,7 +45,8 @@ class ConnectionImpl :
         return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> configurator = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -59,25 +61,48 @@ class ConnectionImpl :
         }
 
         var errors = new List<Error>();
-        if (string.IsNullOrWhiteSpace(vhost))
+
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "Name of the virtual host for which to return connection information is missing."});
 
         if (errors.Count > 0)
             return new FaultedResults<ConnectionInfo>{DebugInfo = new (){URL = "api/vhosts/{vhost}/connections", Errors = errors}};
 
-        string url = string.IsNullOrWhiteSpace(pagination) ? $"api/vhosts/{vhost}/connections" : $"api/vhosts/{vhost}/connections?{pagination}";
+        string url = string.IsNullOrWhiteSpace(pagination) ? $"api/vhosts/{sanitizedVHost}/connections" : $"api/vhosts/{sanitizedVHost}/connections?{pagination}";
 
         return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default)
+    public async Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default)
     {
-        throw new System.NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(name))
+            errors.Add(new(){Reason = "Name of the connection to filter on is missing."});
+
+        if (errors.Count > 0)
+            return new FaultedResults<ConnectionInfo>{DebugInfo = new (){URL = "api/vhosts/connections/{name}", Errors = errors}};
+
+        return await GetAllRequest<ConnectionInfo>($"/api/connections/{name}", cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default)
+    public async Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default)
     {
-        throw new System.NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new(){Reason = "Name of the connection to filter on is missing."});
+
+        if (errors.Count > 0)
+            return new FaultedResults<ConnectionInfo>{DebugInfo = new (){URL = "api/vhosts/connections/username/{username}", Errors = errors}};
+
+        return await GetAllRequest<ConnectionInfo>($"/api/connections/username/{username}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default)

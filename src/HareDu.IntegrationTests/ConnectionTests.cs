@@ -24,6 +24,23 @@ public class ConnectionTests
                     b.ConnectTo("http://localhost:15672");
                     b.UsingCredentials("guest", "guest");
                 });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
+                });
             })
             .BuildServiceProvider();
     }
@@ -35,6 +52,15 @@ public class ConnectionTests
             .API<Connection>()
             .GetAll()
             .ScreenDump();
+    }
+
+    [Test]
+    public async Task Should_be_able_to__filter_by_name()
+    {
+        string connectionName;
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<Connection>()
+            .GetByName("127.0.0.1:56601 -> 127.0.0.1:5672");
     }
 
     [Test]

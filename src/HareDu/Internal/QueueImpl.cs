@@ -70,7 +70,7 @@ class QueueImpl :
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
