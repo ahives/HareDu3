@@ -32,15 +32,7 @@ class ConnectionImpl :
             pagination = impl.BuildPaginationParams();
         }
 
-        var errors = new List<Error>();
-
-        if (errors.Count > 0)
-            return new FaultedResults<ConnectionInfo>{DebugInfo = new (){URL = "api/connections", Errors = errors}};
-
         string url = string.IsNullOrWhiteSpace(pagination) ? "api/connections" : $"api/connections?{pagination}";
-
-        if (errors.Count > 0)
-            return new FaultedResults<ConnectionInfo>{DebugInfo = new (){URL = url, Errors = errors}};
 
         return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
     }
@@ -122,8 +114,18 @@ class ConnectionImpl :
         return await DeleteRequest(url, cancellationToken);
     }
 
-    public Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default)
+    public async Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default)
     {
-        throw new System.NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new (){Reason = "The username associated with the connection is missing."});
+
+        if (errors.Count > 0)
+            return new FaultedResult{DebugInfo = new (){URL = "/api/connections/username/{username}", Errors = errors}};
+
+        return await DeleteRequest($"/api/connections/username/{username}", cancellationToken);
     }
 }

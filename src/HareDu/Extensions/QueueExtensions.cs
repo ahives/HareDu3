@@ -14,10 +14,11 @@ public static class QueueExtensions
     /// Returns all queues on the current RabbitMQ node.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="configurator"></param>
+    /// <param name="configurator">Pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
         Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -39,7 +40,8 @@ public static class QueueExtensions
     /// <param name="configurator">Describes how the queue will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
     public static async Task<Result> CreateQueue(this IBrokerFactory factory,
         string queue, string vhost, string node, Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -59,7 +61,8 @@ public static class QueueExtensions
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
     public static async Task<Result> EmptyQueue(this IBrokerFactory factory,
         string queue, string vhost, CancellationToken cancellationToken = default)
     {
@@ -80,7 +83,8 @@ public static class QueueExtensions
     /// <param name="configurator">Describes how the queue should be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
     public static async Task<Result> DeleteQueue(this IBrokerFactory factory,
         string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -100,9 +104,10 @@ public static class QueueExtensions
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> SyncQueue(this IBrokerFactory factory, string queue, string vhost,
-        CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    public static async Task<Result> SyncQueue(this IBrokerFactory factory,
+        string queue, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -120,9 +125,10 @@ public static class QueueExtensions
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
-    public static async Task<Result> CancelQueueSync(this IBrokerFactory factory, string queue, string vhost,
-        CancellationToken cancellationToken = default)
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    public static async Task<Result> CancelQueueSync(this IBrokerFactory factory,
+        string queue, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

@@ -9,7 +9,7 @@ using Core.Testing;
 using HareDu.Model;
 using Internal;
 
-public class FakeChannelObject :
+public class FakeChannelImpl :
     Channel,
     HareDuTestingFake
 {
@@ -40,6 +40,21 @@ public class FakeChannelObject :
     }
 
     public Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Results<ChannelInfo>> GetByVirtualHost(string vhost, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result<ChannelInfo>> GetByName(string name, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

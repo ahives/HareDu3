@@ -36,7 +36,7 @@ public class FakeBrokerFactory :
 
         if (typeof(T) == typeof(Channel))
         {
-            Channel obj = new FakeChannelObject();
+            Channel obj = new FakeChannelImpl();
 
             return (T) obj;
         }

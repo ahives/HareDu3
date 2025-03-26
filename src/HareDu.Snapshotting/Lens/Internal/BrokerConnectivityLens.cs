@@ -52,7 +52,7 @@ class BrokerConnectivityLens :
         }
 
         var channels = await _factory
-            .GetAllChannels(cancellationToken)
+            .GetAllChannels(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         if (channels.HasFaulted)
