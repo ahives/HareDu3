@@ -9,14 +9,14 @@ public class HareDuConfigProvider :
     public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
     {
         if (configurator is null)
-            return ConfigCache.Default;
+            throw new HareDuConfigurationException($"{nameof(configurator)} is null.");
             
         var impl = new HareDuConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
         HareDuConfig config = impl.Settings.Value;
 
-        return Validate(config) ? config : ConfigCache.Default;
+        return Validate(config) ? config : throw new HareDuConfigurationException("Invalid configuration.");
     }
 
     bool Validate(HareDuConfig config) => Validate(config.Broker) && Validate(config.Diagnostics);
