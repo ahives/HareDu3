@@ -15,7 +15,8 @@ public static class PolicyExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<PolicyInfo>> GetAllPolicies(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -36,7 +37,8 @@ public static class PolicyExtensions
     /// <param name="configurator">Describes how the policy will be created by setting arguments through set methods.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreatePolicy(this IBrokerFactory factory,
         string name, string vhost, Action<PolicyConfigurator> configurator,
         CancellationToken cancellationToken = default)
@@ -57,7 +59,8 @@ public static class PolicyExtensions
     /// <param name="vhost">The name of the virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeletePolicy(this IBrokerFactory factory,
         string name, string vhost, CancellationToken cancellationToken = default)
     {

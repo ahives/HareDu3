@@ -167,8 +167,8 @@ public class CreateBenchmarks :
     public async Task UserPermissionsCreateBenchmark()
     {
         var result = await _service
-            .API<UserPermissions>()
-            .Create("user", "HareDu", x =>
+            .API<User>()
+            .ApplyPermissions("user", "HareDu", x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");
@@ -180,7 +180,7 @@ public class CreateBenchmarks :
     public async Task UserPermissionsCreateExtensionBenchmark()
     {
         var result = await _service
-            .CreateUserPermissions("user", "HareDu", x =>
+            .ApplyUserPermissions("user", "HareDu", x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");

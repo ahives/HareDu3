@@ -22,7 +22,8 @@ public static class ShovelExtensions
     /// <param name="configurator">Describes how the dynamic shovel will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a shovel.</exception>
     public static async Task<Result> CreateShovel(this IBrokerFactory factory,
         string name, string vhost, Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -42,7 +43,8 @@ public static class ShovelExtensions
     /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a shovel.</exception>
     public static async Task<Result> DeleteShovel(this IBrokerFactory factory,
         string name, string vhost, CancellationToken cancellationToken = default)
     {
@@ -61,7 +63,8 @@ public static class ShovelExtensions
     /// <param name="vhost">The virtual host where the dynamic shovel resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a shovel.</exception>
     public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
@@ -101,7 +104,8 @@ public static class ShovelExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a shovel.</exception>
     public static async Task<Results<ShovelInfo>> GetAllShovels(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

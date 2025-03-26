@@ -18,7 +18,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
         Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -41,7 +41,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Result> CreateQueue(this IBrokerFactory factory,
         string queue, string vhost, string node, Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -62,7 +62,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Result> EmptyQueue(this IBrokerFactory factory,
         string queue, string vhost, CancellationToken cancellationToken = default)
     {
@@ -84,7 +84,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Result> DeleteQueue(this IBrokerFactory factory,
         string queue, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -105,7 +105,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Result> SyncQueue(this IBrokerFactory factory,
         string queue, string vhost, CancellationToken cancellationToken = default)
     {
@@ -126,7 +126,7 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
     public static async Task<Result> CancelQueueSync(this IBrokerFactory factory,
         string queue, string vhost, CancellationToken cancellationToken = default)
     {

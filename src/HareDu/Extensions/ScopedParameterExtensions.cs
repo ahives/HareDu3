@@ -15,7 +15,8 @@ public static class ScopedParameterExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a scoped parameter.</exception>
     public static async Task<Results<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -38,7 +39,8 @@ public static class ScopedParameterExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a scoped parameter.</exception>
     public static async Task<Result> CreateScopeParameter<T>(this IBrokerFactory factory,
         string parameter, T value, string component, string vhost, CancellationToken cancellationToken = default)
     {
@@ -59,7 +61,8 @@ public static class ScopedParameterExtensions
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a scoped parameter.</exception>
     public static async Task<Result> DeleteScopedParameter(this IBrokerFactory factory,
         string parameter, string component, string vhost, CancellationToken cancellationToken = default)
     {
