@@ -23,8 +23,8 @@ public class VirtualHostLimitsTests :
     {
         var services = GetContainerBuilder("TestData/VirtualHostLimitsInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .GetAll();
+            .API<VirtualHost>()
+            .GetAllLimits();
             
         Assert.Multiple(() =>
         {
@@ -63,8 +63,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_can_define_limits1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define("HareDu5", x =>
+            .API<VirtualHost>()
+            .DefineLimits("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(1);
             });
@@ -98,8 +98,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define("HareDu5", x =>
+            .API<VirtualHost>()
+            .DefineLimits("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(0);
             });
@@ -141,8 +141,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits3()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define("HareDu5", x =>
+            .API<VirtualHost>()
+            .DefineLimits("HareDu5", x =>
             {
                 x.SetMaxConnectionLimit(0);
             });
@@ -184,8 +184,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits5()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define(string.Empty, x =>
+            .API<VirtualHost>()
+            .DefineLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
                 x.SetMaxConnectionLimit(1000);
@@ -231,8 +231,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits7()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define(string.Empty, x =>
+            .API<VirtualHost>()
+            .DefineLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
                 x.SetMaxConnectionLimit(1000);
@@ -278,8 +278,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits9()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define(string.Empty, x =>
+            .API<VirtualHost>()
+            .DefineLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
                 x.SetMaxConnectionLimit(0);
@@ -325,8 +325,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_define_limits11()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define(string.Empty, x =>
+            .API<VirtualHost>()
+            .DefineLimits(string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
                 x.SetMaxConnectionLimit(0);
@@ -372,8 +372,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_can_delete_limits1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Delete("HareDu");
+            .API<VirtualHost>()
+            .DeleteLimits("HareDu");
             
         Assert.Multiple(() =>
         {
@@ -399,8 +399,8 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_delete_limits1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Delete(string.Empty);
+            .API<VirtualHost>()
+            .DeleteLimits(string.Empty);
             
         Assert.Multiple(() =>
         {

@@ -4,8 +4,8 @@ The Broker API allows you to create a virtual host on the RabbitMQ broker. To do
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHostLimits>()
-    .Define("vhost", x =>
+    .API<VirtualHost>()
+    .DefineLimits("vhost", x =>
     {
         x.SetMaxQueueLimit(100);
         x.SetMaxConnectionLimit(1000);

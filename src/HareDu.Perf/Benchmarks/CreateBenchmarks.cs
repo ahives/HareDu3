@@ -219,8 +219,8 @@ public class CreateBenchmarks :
     public async Task VirtualHostLimitsDefineBenchmark()
     {
         var result = await _service
-            .API<VirtualHostLimits>()
-            .Define("HareDu", x =>
+            .API<VirtualHost>()
+            .DefineLimits("HareDu", x =>
             {
                 x.SetMaxQueueLimit(1);
                 x.SetMaxConnectionLimit(5);

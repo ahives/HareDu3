@@ -4,8 +4,8 @@ The Broker API allows you to get all limits for all virtual hosts on the RabbitM
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHostLimits>()
-    .GetAll();
+    .API<VirtualHost>()
+    .GetAllLimits();
 ```
 <br>
 

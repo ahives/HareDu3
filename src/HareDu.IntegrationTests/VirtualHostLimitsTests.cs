@@ -33,8 +33,8 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_get_all_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .GetAll()
+            .API<VirtualHost>()
+            .GetAllLimits()
             .ScreenDump();
     }
 
@@ -42,8 +42,8 @@ public class VirtualHostLimitsTests
     public void Verify_can_get_limits_of_specified_vhost()
     {
         var result = _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .GetAll()
+            .API<VirtualHost>()
+            .GetAllLimits()
             .Where(x => x.VirtualHostName == "HareDu");
 
         foreach (var item in result)
@@ -65,8 +65,8 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_define_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Define("HareDu5", x =>
+            .API<VirtualHost>()
+            .DefineLimits("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(100);
                 x.SetMaxConnectionLimit(1000);
@@ -79,8 +79,8 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_delete_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHostLimits>()
-            .Delete("HareDu3");
+            .API<VirtualHost>()
+            .DeleteLimits("HareDu3");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }

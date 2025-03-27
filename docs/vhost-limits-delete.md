@@ -4,8 +4,8 @@ The Broker API allows you to delete virtual host limits on a RabbitMQ broker. To
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHostLimits>()
-    .Delete("vhost");
+    .API<VirtualHost>()
+    .DeleteLimits("vhost");
 ```
 <br>
 
