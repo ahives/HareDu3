@@ -79,4 +79,34 @@ public class UserTests
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
+
+    [Test]
+    public async Task Should_be_able_to_get_all_user_permissions()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .GetAllPermissions()
+            .ScreenDump();
+    }
+
+    [Test]
+    public async Task Verify_can_delete_user_permissions()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .DeletePermissions("", "HareDu5");
+    }
+
+    [Test]
+    public async Task Verify_can_create_user_permissions()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .ApplyPermissions("", "HareDu5", x =>
+            {
+                x.UsingConfigurePattern("");
+                x.UsingReadPattern("");
+                x.UsingWritePattern("");
+            });
+    }
 }

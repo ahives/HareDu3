@@ -4,8 +4,8 @@ The Broker API allows you to create user permissions on the RabbitMQ broker. To 
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<UserPermissions>()
-    .Create("username", "vhost", x =>
+    .API<User>()
+    .ApplyPermissions("username", "vhost", x =>
     {
         x.UsingConfigurePattern(".*");
         x.UsingReadPattern(".*");
@@ -18,7 +18,7 @@ The other way to create user permissions is to call the extension methods off of
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateUserPermissions("username", "vhost", x =>
+    .ApplyUserPermissions("username", "vhost", x =>
     {
         x.UsingConfigurePattern(".*");
         x.UsingReadPattern(".*");

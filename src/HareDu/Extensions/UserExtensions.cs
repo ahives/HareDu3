@@ -16,7 +16,8 @@ public static class UserExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
     public static async Task<Results<UserInfo>> GetAllUsers(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -34,7 +35,8 @@ public static class UserExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
     public static async Task<Results<UserInfo>> GetAllUsersWithoutPermissions(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -56,7 +58,8 @@ public static class UserExtensions
     /// <param name="configurator">Describes how the user permission will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
     public static async Task<Result> CreateUser(this IBrokerFactory factory,
         string username, string password, string passwordHash = null, Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -75,7 +78,8 @@ public static class UserExtensions
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
     public static async Task<Result> DeleteUser(this IBrokerFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
@@ -94,7 +98,8 @@ public static class UserExtensions
     /// <param name="usernames">List of RabbitMQ broker usernames.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
     public static async Task<Result> DeleteUsers(this IBrokerFactory factory, IList<string> usernames,
         CancellationToken cancellationToken = default)
     {
@@ -103,6 +108,115 @@ public static class UserExtensions
         return await factory
             .API<User>()
             .BulkDelete(usernames, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about user limits for connections and channels on the current RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
+    public static async Task<Result<UserLimitsInfo>> GetUserMaxChannels(this IBrokerFactory factory, string username,
+        CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<User>()
+            .GetMaxChannels(username, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
+    public static async Task<Result<UserLimitsInfo>> GetUserMaxConnections(this IBrokerFactory factory, string username,
+        CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<User>()
+            .GetMaxConnections(username, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns information about all user permissions on the current RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
+    public static async Task<Results<UserPermissionsInfo>> GetAllUserPermissions(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<User>()
+            .GetAllPermissions(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Creates a user permission and assign it to a user on a specific virtual host on the current RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="configurator">Describes how the user permissions will be created.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
+    public static async Task<Result> ApplyUserPermissions(this IBrokerFactory factory,
+        string username, string vhost, Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        configurator ??= x =>
+        {
+            x.UsingConfigurePattern(".*");
+            x.UsingReadPattern(".*");
+            x.UsingWritePattern(".*");
+        };
+            
+        return await factory
+            .API<User>()
+            .ApplyPermissions(username, vhost, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the specified user on the current RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
+    public static async Task<Result> DeleteUserPermissions(this IBrokerFactory factory, string username,
+        string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<User>()
+            .DeletePermissions(username, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
 }
