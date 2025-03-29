@@ -58,13 +58,30 @@ public interface VirtualHost :
     /// <param name="configurator">Describes how the virtual host limits will be defined.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> DefineLimits(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the limits for the specified virtual host on the current RabbitMQ server.
     /// </summary>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="limit"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> DeleteLimits(string vhost, CancellationToken cancellationToken = default);
+    Task<Result> DeleteLimit(string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// List all the permissions on virtual host.
+    /// </summary>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Results<VirtualHostPermissionInfo>> GetPermissions(string vhost, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// List all topic permissions on the virtual host.
+    /// </summary>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost, CancellationToken cancellationToken = default);
 }

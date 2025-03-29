@@ -38,7 +38,9 @@ class VirtualHostImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new() {Reason = "The name of the virtual host is missing."});
 
         VirtualHostRequest request = null;
@@ -50,13 +52,11 @@ class VirtualHostImpl :
 
             request = impl.Request.Value;
         }
-
-        string url = $"api/vhosts/{vhost.ToSanitizedName()}";
         
         if (errors.Count > 0)
-            return new FaultedResult {DebugInfo = new() {URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return new FaultedResult {DebugInfo = new() {URL = "api/vhosts/{vhost}", Request = request.ToJsonString(), Errors = errors}};
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/vhosts/{sanitizedVHost}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -65,20 +65,18 @@ class VirtualHostImpl :
 
         var errors = new List<Error>();
 
-        string virtualHost = vhost.ToSanitizedName();
+        string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (virtualHost == "2%f")
+        if (sanitizedVHost == "2%f")
             errors.Add(new(){Reason = "Cannot delete the default virtual host."});
         else
-            if (string.IsNullOrWhiteSpace(virtualHost))
+            if (string.IsNullOrWhiteSpace(sanitizedVHost))
                 errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/vhosts/{virtualHost}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = "api/vhosts/{vhost}", Errors = errors}};
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default)
@@ -87,18 +85,18 @@ class VirtualHostImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (string.IsNullOrWhiteSpace(node))
             errors.Add(new(){Reason = "RabbitMQ node is missing."});
 
-        string url = $"/api/vhosts/{vhost.ToSanitizedName()}/start/{node}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = "/api/vhosts/{vhost}/start/{node}", Errors = errors}};
 
-        return await PostEmptyRequest(url, cancellationToken).ConfigureAwait(false);
+        return await PostEmptyRequest($"/api/vhosts/{sanitizedVHost}/start/{node}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<VirtualHostLimitsInfo>> GetAllLimits(CancellationToken cancellationToken = default)
@@ -108,95 +106,122 @@ class VirtualHostImpl :
         return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> DefineLimits(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
+    public async Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var impl = new VirtualHostLimitsConfiguratorImpl();
-        configurator?.Invoke(impl);
+        string sanitizedVHost = vhost.ToSanitizedName();
 
-        impl.Validate();
+        var errors = new List<Error>();
 
-        var request = impl.Request.Value;
-
-        var errors = impl.Errors;
-
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
+        if (configurator == null)
+        {
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+            return new FaultedResult{DebugInfo = new (){URL = "api/vhost-limits/{vhost}/{limit}", Errors = errors}};
+        }
+
+        var impl = new VirtualHostLimitsConfiguratorImpl();
+        configurator(impl);
+
+        errors.AddRange(impl.Validate());
+
+        var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = "api/vhost-limits/{vhost}/{limit}", Request = request.ToJsonString(), Errors = errors}};
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> DeleteLimits(string vhost, CancellationToken cancellationToken = default)
+    public async Task<Result> DeleteLimit(string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/vhost-limits/vhost/{vhost.ToSanitizedName()}";
+        if (errors.Count > 0)
+            return new FaultedResult{DebugInfo = new (){URL = "api/vhost-limits/{vhost}/{limit}", Errors = errors}};
+
+        return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Results<VirtualHostPermissionInfo>> GetPermissions(string vhost, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResults<VirtualHostPermissionInfo> {DebugInfo = new (){URL = "api/vhosts/{vhost}/permissions", Errors = errors}};
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return new FaultedResults<VirtualHostTopicPermissionInfo> {DebugInfo = new (){URL = "api/vhosts/{vhost}/topic-permissions", Errors = errors}};
+
+        return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
 
 
     class VirtualHostLimitsConfiguratorImpl :
         VirtualHostLimitsConfigurator
     {
-        ulong _maxQueueLimits;
-        ulong _maxConnectionLimits;
-        bool _setMaxConnectionLimitCalled;
-        bool _setMaxQueueLimitCalled;
-
-        public Lazy<VirtualHostLimitsRequest> Request { get; }
-        public List<Error> Errors { get; }
-
-        public VirtualHostLimitsConfiguratorImpl()
-        {
-            Errors = new List<Error>();
-            Request = new Lazy<VirtualHostLimitsRequest>(
-                () => new ()
-                {
-                    MaxConnectionLimit = _maxConnectionLimits,
-                    MaxQueueLimit = _maxQueueLimits
-                }, LazyThreadSafetyMode.PublicationOnly);
-        }
+        List<Error> Errors { get; } = new();
+        
+        public string Limit { get; private set; }
+        public ulong LimitValue { get; private set; }
 
         public void SetMaxConnectionLimit(ulong value)
         {
-            _setMaxConnectionLimitCalled = true;
-                
-            _maxConnectionLimits = value;
+            Limit = "max-connections";
+            LimitValue = value;
+
+            if (value < 1)
+                Errors.Add(new (){Reason = "Max connection limit value is missing."});
         }
 
         public void SetMaxQueueLimit(ulong value)
         {
-            _setMaxQueueLimitCalled = true;
-                
-            _maxQueueLimits = value;
+            Limit = "max-queues";
+            LimitValue = value;
+
+            if (value < 1)
+                Errors.Add(new (){Reason = "Max queue limit value is missing."});
         }
 
-        public void Validate()
+        public List<Error> Validate()
         {
-            if (!_setMaxConnectionLimitCalled && !_setMaxQueueLimitCalled)
-                Errors.Add(new (){Reason = "There are no limits to define."});
+            if (string.IsNullOrWhiteSpace(Limit))
+                Errors.Add(new (){Reason = "No limits were defined."});
 
-            if (_maxQueueLimits < 1)
-                Errors.Add(new (){Reason = "Max queue limit value is missing."});
-
-            if (_maxConnectionLimits < 1)
-                Errors.Add(new (){Reason = "Max connection limit value is missing."});
+            return Errors;
         }
     }
 

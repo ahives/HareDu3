@@ -306,7 +306,7 @@ public static class BrokerAdminDebuggingExtensions
 
         foreach (var item in results)
         {
-            Console.WriteLine($"Virtual Host: {item.VirtualHostName}");
+            Console.WriteLine($"Virtual Host: {item.VirtualHost}");
                 
             Console.WriteLine("Parameters");
             foreach (var pair in item.Limits)

@@ -114,7 +114,7 @@ class UserImpl :
         return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result<UserLimitsInfo>> GetMaxConnections(string username, CancellationToken cancellationToken = default)
+    public async Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -124,12 +124,48 @@ class UserImpl :
             errors.Add(new (){Reason = "The username is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult<UserLimitsInfo> {DebugInfo = new (){URL = "api/user-limits/user/{username}/max-connections", Errors = errors}};
+            return new FaultedResults<UserLimitsInfo> {DebugInfo = new (){URL = "api/user-limits/{username}", Errors = errors}};
 
-        return await GetRequest<UserLimitsInfo>($"api/user-limits/user/{username}/max-connections", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result<UserLimitsInfo>> GetMaxChannels(string username, CancellationToken cancellationToken = default)
+    public async Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return await GetAllRequest<UserLimitsInfo>("api/user-limits", cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Result> DefineLimit(string username, Action<UserLimitConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+
+        if (configurator == null)
+        {
+            errors.Add(new(){Reason = "No user limit was defined."});
+
+            return new FaultedResult{DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
+        }
+
+        var impl = new UserLimitConfiguratorImpl();
+        configurator(impl);
+
+        errors.AddRange(impl.Validate());
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new (){Reason = "The username is missing."});
+
+        var request = new UserLimitRequest{Value = impl.LimitValue};
+
+        if (errors.Count > 0)
+            return new FaultedResult {DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
+
+        return await PutRequest($"api/user-limits/{username}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -139,9 +175,9 @@ class UserImpl :
             errors.Add(new (){Reason = "The username is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult<UserLimitsInfo> {DebugInfo = new (){URL = "api/user-limits/user/{username}/max-channels", Errors = errors}};
+            return new FaultedResult {DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
 
-        return await GetRequest<UserLimitsInfo>($"api/user-limits/user/{username}/max-channels", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserPermissionsInfo>> GetAllPermissions(CancellationToken cancellationToken = default)
@@ -163,18 +199,18 @@ class UserImpl :
 
         var errors = new List<Error>();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
+
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username and/or password is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = "api/permissions/{vhost}/{username}", Request = request.ToJsonString(), Errors = errors}};
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DeletePermissions(string username, string vhost, CancellationToken cancellationToken = default)
@@ -183,21 +219,50 @@ class UserImpl :
 
         var errors = new List<Error>();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
+
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username and/or password is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/permissions/{vhost.ToSanitizedName()}/{username}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return new FaultedResult{DebugInfo = new (){URL = "api/permissions/{vhost}/{username}", Errors = errors}};
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
     }
 
 
+    
+    class UserLimitConfiguratorImpl :
+        UserLimitConfigurator
+    {
+        List<Error> Errors { get; } = new();
+ 
+        public ulong LimitValue { get; private set; }
+
+        public string Limit { get; private set; }
+
+        public void SetLimit(UserLimit limit, ulong value)
+        {
+            Limit = limit.Convert();
+            LimitValue = value;
+
+            if (value < 1)
+                Errors.Add(new (){Reason = "Max connection limit value is missing."});
+        }
+
+        public List<Error> Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Limit))
+                Errors.Add(new (){Reason = "No limits were defined."});
+
+            return Errors;
+        }
+    }
+
+    
     class UserPermissionsConfiguratorImpl :
         UserPermissionsConfigurator
     {

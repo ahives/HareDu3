@@ -180,6 +180,10 @@
       <Content Include="TestData\ChannelInfo2.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\VirtualHostPermissionInfo.json" />
+      <Content Include="TestData\VirtualHostPermissionInfo.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

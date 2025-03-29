@@ -25,6 +25,23 @@ public class UserTests
                     b.ConnectTo("http://localhost:15672");
                     b.UsingCredentials("guest", "guest");
                 });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
+                });
             })
             .BuildServiceProvider();
     }
@@ -108,5 +125,38 @@ public class UserTests
                 x.UsingReadPattern("");
                 x.UsingWritePattern("");
             });
+    }
+
+    [Test]
+    public async Task Verify_can_all_user_limits()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .GetAllUserLimits();
+
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_limit()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .GetLimitsByUser("test");
+
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_can_define_limit()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<User>()
+            .DefineLimit("test", x =>
+            {
+                x.SetLimit(UserLimit.MaxChannels, 50);
+            });
+
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

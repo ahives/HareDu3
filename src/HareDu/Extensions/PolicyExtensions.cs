@@ -40,8 +40,7 @@ public static class PolicyExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreatePolicy(this IBrokerFactory factory,
-        string name, string vhost, Action<PolicyConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+        string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

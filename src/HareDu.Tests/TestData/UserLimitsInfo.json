@@ -1,0 +1,15 @@
+[
+  {
+    "user": "guest",
+    "value": {
+      "max-channels": 49
+    }
+  },
+  {
+    "user": "test",
+    "value": {
+      "max-channels": 30,
+      "max-connections": 10
+    }
+  }
+]

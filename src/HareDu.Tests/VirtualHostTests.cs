@@ -223,7 +223,7 @@ public class VirtualHostTests :
         var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup("FakeVirtualHost", "FakeNode");
-            
+
         Assert.IsFalse(result.HasFaulted);
     }
 
@@ -233,7 +233,7 @@ public class VirtualHostTests :
         var services = GetContainerBuilder("TestData/VirtualHostInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
             .StartupVirtualHost("FakeVirtualHost", "FakeNode");
-            
+
         Assert.IsFalse(result.HasFaulted);
     }
 
@@ -244,7 +244,7 @@ public class VirtualHostTests :
         var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup(string.Empty, "FakeNode");
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -259,7 +259,7 @@ public class VirtualHostTests :
         var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup("FakeVirtualHost", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -274,7 +274,7 @@ public class VirtualHostTests :
         var result = await services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .Startup(string.Empty, string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);

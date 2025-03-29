@@ -1,0 +1,9 @@
+[
+  {
+    "vhost": "QueueTestVirtulHost",
+    "user": "guest",
+    "configure": ".*",
+    "write": ".*",
+    "read": ".*"
+  }
+]

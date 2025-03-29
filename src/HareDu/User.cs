@@ -53,21 +53,33 @@ public interface User :
     Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about user limits for connections and channels on the current RabbitMQ server.
+    /// Returns information about user limits for the specified RabbitMQ user.
     /// </summary>
-    /// <param name="username"></param>
+    /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
-    Task<Result<UserLimitsInfo>> GetMaxConnections(string username, CancellationToken cancellationToken = default);
+    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{UserLimitsInfo}"/></returns>
+    Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default);
+
+    Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about user limits for connections and channels on the current RabbitMQ server.
+    /// Create a limit for the specified RabbitMQ user.
     /// </summary>
-    /// <param name="username"></param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="configurator">Describes what limit will be created for the user.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
-    Task<Result<UserLimitsInfo>> GetMaxChannels(string username, CancellationToken cancellationToken = default);
+    /// <returns></returns>
+    Task<Result> DefineLimit(string username, Action<UserLimitConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Delete a limit for the specified RabbitMQ user.
+    /// </summary>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="limit">User limit (e.g., max connections, max channels, etc.)</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default);
+    
     /// <summary>
     /// Returns information about all user permissions on the current RabbitMQ server.
     /// </summary>

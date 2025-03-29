@@ -4,114 +4,77 @@ using System;
 
 public static class EnumConversionExtensions
 {
-    public static string Convert(this DeleteShovelMode mode)
-    {
-        switch (mode)
+    public static string Convert(this DeleteShovelMode mode) =>
+        mode switch
         {
-            case DeleteShovelMode.Never:
-                return "never";
-                
-            case DeleteShovelMode.QueueLength:
-                return "queue-length";
-                    
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            DeleteShovelMode.Never => "never",
+            DeleteShovelMode.QueueLength => "queue-length",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static string Convert(this HighAvailabilityModes mode)
-    {
-        switch (mode)
+    public static string Convert(this HighAvailabilityModes mode) =>
+        mode switch
         {
-            case HighAvailabilityModes.All:
-                return "all";
-                    
-            case HighAvailabilityModes.Exactly:
-                return "exactly";
-                    
-            case HighAvailabilityModes.Nodes:
-                return "nodes";
-                    
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            HighAvailabilityModes.All => "all",
+            HighAvailabilityModes.Exactly => "exactly",
+            HighAvailabilityModes.Nodes => "nodes",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static HighAvailabilityModes Convert(this string mode)
-    {
-        switch (mode.ToLower())
+    public static HighAvailabilityModes Convert(this string mode) =>
+        mode.ToLower() switch
         {
-            case "all":
-                return HighAvailabilityModes.All;
-                    
-            case "exactly":
-                return HighAvailabilityModes.Exactly;
-                    
-            case "nodes":
-                return HighAvailabilityModes.Nodes;
-                    
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            "all" => HighAvailabilityModes.All,
+            "exactly" => HighAvailabilityModes.Exactly,
+            "nodes" => HighAvailabilityModes.Nodes,
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static string Convert(this HighAvailabilitySyncMode mode)
-    {
-        switch (mode)
+    public static string Convert(this HighAvailabilitySyncMode mode) =>
+        mode switch
         {
-            case HighAvailabilitySyncMode.Manual:
-                return "manual";
-                    
-            case HighAvailabilitySyncMode.Automatic:
-                return "automatic";
-                    
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            HighAvailabilitySyncMode.Manual => "manual",
+            HighAvailabilitySyncMode.Automatic => "automatic",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static string Convert(this QueueMode mode)
-    {
-        switch (mode)
+    public static string Convert(this QueueMode mode) =>
+        mode switch
         {
-            case QueueMode.Default:
-                return "default";
-                
-            case QueueMode.Lazy:
-                return "lazy";
-                
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            QueueMode.Default => "default",
+            QueueMode.Lazy => "lazy",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static string Convert(this QueuePromotionFailureMode mode)
-    {
-        switch (mode)
+    public static string Convert(this QueuePromotionFailureMode mode) =>
+        mode switch
         {
-            case QueuePromotionFailureMode.Always:
-                return "always";
-                
-            case QueuePromotionFailureMode.WhenSynced:
-                return "when-synced";
-                
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            QueuePromotionFailureMode.Always => "always",
+            QueuePromotionFailureMode.WhenSynced => "when-synced",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
 
-    public static string Convert(this QueuePromotionShutdownMode mode)
-    {
-        switch (mode)
+    public static string Convert(this QueuePromotionShutdownMode mode) =>
+        mode switch
         {
-            case QueuePromotionShutdownMode.Always:
-                return "always";
-                
-            case QueuePromotionShutdownMode.WhenSynced:
-                return "when-synced";
-                
-            default:
-                throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
-        }
-    }
+            QueuePromotionShutdownMode.Always => "always",
+            QueuePromotionShutdownMode.WhenSynced => "when-synced",
+            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+        };
+
+    public static string Convert(this VirtualHostLimit limit) =>
+        limit switch
+        {
+            VirtualHostLimit.MaximumConnections => "max-connections",
+            VirtualHostLimit.MaximumQueues => "max-queues",
+            _ => throw new ArgumentOutOfRangeException(nameof(limit), limit, null)
+        };
+
+    public static string Convert(this UserLimit limit) =>
+        limit switch
+        {
+            UserLimit.MaximumConnections => "max-connections",
+            UserLimit.MaxChannels => "max-channels",
+            _ => throw new ArgumentOutOfRangeException(nameof(limit), limit, null)
+        };
 }

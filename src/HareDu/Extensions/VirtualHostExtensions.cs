@@ -120,14 +120,14 @@ public static class VirtualHostExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Result> DefineVirtualHostLimits(this IBrokerFactory factory, string vhost,
+    public static async Task<Result> DefineVirtualHostLimit(this IBrokerFactory factory, string vhost,
         Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<VirtualHost>()
-            .DefineLimits(vhost, configurator, cancellationToken)
+            .DefineLimit(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -136,18 +136,59 @@ public static class VirtualHostExtensions
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="limit"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Result> DeleteVirtualHostLimits(this IBrokerFactory factory, string vhost,
-        CancellationToken cancellationToken = default)
+    public static async Task<Result> DeleteVirtualHostLimit(this IBrokerFactory factory,
+        string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<VirtualHost>()
-            .DeleteLimits(vhost, cancellationToken)
+            .DeleteLimit(vhost, limit, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    public static async Task<Results<VirtualHostPermissionInfo>> GetVirtualHostPermissions(this IBrokerFactory factory,
+        string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<VirtualHost>()
+            .GetPermissions(vhost, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// List all topic permissions on the virtual host.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    public static async Task<Results<VirtualHostTopicPermissionInfo>> GetVirtualHostTopicPermissions(this IBrokerFactory factory,
+        string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<VirtualHost>()
+            .GetTopicPermissions(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
 }

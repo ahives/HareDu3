@@ -1,8 +1,8 @@
-namespace HareDu.Model;
+namespace HareDu.Internal;
 
 using System.Text.Json.Serialization;
 
-public record VirtualHostLimitsRequest
+public record UserLimitRequest
 {
     [JsonPropertyName("value")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

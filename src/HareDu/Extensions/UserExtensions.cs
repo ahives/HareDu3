@@ -112,42 +112,79 @@ public static class UserExtensions
     }
 
     /// <summary>
-    /// Returns information about user limits for connections and channels on the current RabbitMQ server.
+    /// Returns information about user limits for connections and channels across all users on the current RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="username"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Result<UserLimitsInfo>> GetUserMaxChannels(this IBrokerFactory factory, string username,
+    public static async Task<Results<UserLimitsInfo>> GetAllUserLimits(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<User>()
-            .GetMaxChannels(username, cancellationToken)
+            .GetAllUserLimits(cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// 
+    /// Returns information about user limits for connections and channels by the specified user on the current RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="username"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Result<UserLimitsInfo>> GetUserMaxConnections(this IBrokerFactory factory, string username,
+    public static async Task<Results<UserLimitsInfo>> GetUserLimitsByUser(this IBrokerFactory factory, string username,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-
+        
         return await factory
             .API<User>()
-            .GetMaxConnections(username, cancellationToken)
+            .GetLimitsByUser(username, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create a limit for the specified RabbitMQ user.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="configurator">Describes what limit will be created for the user.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    public static async Task<Result> DefineUserLimit(this IBrokerFactory factory,
+        string username, Action<UserLimitConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+        
+        return await factory
+            .API<User>()
+            .DefineLimit(username, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Delete a limit for the specified RabbitMQ user.
+    /// </summary>
+    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="username">RabbitMQ broker username.</param>
+    /// <param name="limit">User limit (e.g., max connections, max channels, etc.)</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    public static async Task<Result> DeleteUserLimit(this IBrokerFactory factory,
+        string username, UserLimit limit, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+        
+        return await factory
+            .API<User>()
+            .DeleteLimit(username, limit, cancellationToken)
             .ConfigureAwait(false);
     }
 

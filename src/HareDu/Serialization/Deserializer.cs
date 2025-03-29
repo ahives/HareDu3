@@ -15,6 +15,7 @@ public static class Deserializer
                 new CustomDecimalConverter(),
                 new CustomDateTimeConverter(),
                 new CustomLongConverter(),
+                new CustomULongConverter(),
                 new CustomStringConverter(),
                 new AckModeEnumConverter(),
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)

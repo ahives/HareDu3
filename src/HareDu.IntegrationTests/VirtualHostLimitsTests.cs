@@ -44,18 +44,18 @@ public class VirtualHostLimitsTests
         var result = _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
             .GetAllLimits()
-            .Where(x => x.VirtualHostName == "HareDu");
+            .Where(x => x.VirtualHost == "HareDu");
 
         foreach (var item in result)
         {
-            Console.WriteLine("Name: {0}", item.VirtualHostName);
+            Console.WriteLine("Name: {0}", item.VirtualHost);
 
             if (item.Limits.TryGetValue("max-connections", out ulong maxConnections))
                 Console.WriteLine("max-connections: {0}", maxConnections);
 
             if (item.Limits.TryGetValue("max-queues", out ulong maxQueues))
                 Console.WriteLine("max-queues: {0}", maxQueues);
-                
+
             Console.WriteLine("****************************************************");
             Console.WriteLine();
         }
@@ -66,12 +66,12 @@ public class VirtualHostLimitsTests
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .DefineLimits("HareDu5", x =>
+            .DefineLimit("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(100);
                 x.SetMaxConnectionLimit(1000);
             });
-            
+
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -80,8 +80,8 @@ public class VirtualHostLimitsTests
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .DeleteLimits("HareDu3");
-            
+            .DeleteLimit("HareDu3", VirtualHostLimit.MaximumConnections);
+
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }
