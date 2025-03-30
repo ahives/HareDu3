@@ -60,6 +60,11 @@ public interface User :
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{UserLimitsInfo}"/></returns>
     Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Returns information about user limits for connections and channels across all users on the current RabbitMQ server.
+    /// </summary>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
     Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default);
 
     /// <summary>

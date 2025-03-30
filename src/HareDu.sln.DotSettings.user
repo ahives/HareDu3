@@ -33,6 +33,8 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.UserTests.Verify_can_limit&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.UserTests.Verify_can_all_user_limits&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.UserTests.Verify_can_define_limit&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.VirtualHostTests.Verify&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.VirtualHostTests.Verify_can_create_vhost&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
