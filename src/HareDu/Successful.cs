@@ -1,8 +1,9 @@
-namespace HareDu.Core;
+namespace HareDu;
 
 using System.Collections.Generic;
+using Core;
 
-public static class Successful
+internal static class Successful
 {
     public static Result<T> Result<T>(string url, T data, string request, string response) =>
         new SuccessfulResult<T> {Data = data, DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};

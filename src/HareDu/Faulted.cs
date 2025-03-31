@@ -1,8 +1,9 @@
-namespace HareDu.Core;
+namespace HareDu;
 
 using System.Collections.Generic;
+using Core;
 
-public static class Faulted
+internal static class Faulted
 {
     public static Result ExceptionResult(string url, string message, string stackTrace, Error error, string response = null) =>
         new FaultedResult {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
