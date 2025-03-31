@@ -80,7 +80,7 @@ public class VirtualHostLimitsTests
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .DeleteLimit("HareDu3", VirtualHostLimit.MaximumConnections);
+            .DeleteLimit("HareDu3", VirtualHostLimit.MaxConnections);
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }

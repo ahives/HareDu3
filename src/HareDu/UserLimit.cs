@@ -2,6 +2,6 @@ namespace HareDu;
 
 public enum UserLimit
 {
-    MaximumConnections,
+    MaxConnections,
     MaxChannels
 }

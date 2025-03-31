@@ -2,6 +2,6 @@ namespace HareDu;
 
 public enum VirtualHostLimit
 {
-    MaximumConnections,
-    MaximumQueues
+    MaxConnections,
+    MaxQueues
 }

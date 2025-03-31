@@ -19,11 +19,6 @@ public record Result<T> :
     public virtual bool HasData { get; init; }
 }
 
-public static class Result2
-{
-    public static Result<T> Missing<T>() => ResultCache<T>.MissingValue;
-}
-
 static class ResultCache<T>
 {
     // public static readonly Result<T> ResultEmptyValue = new EmptyValue<T>();

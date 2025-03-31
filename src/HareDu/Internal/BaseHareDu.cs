@@ -29,36 +29,6 @@ internal class BaseHareDu
         };
     }
 
-    protected Result GetFaultedExceptionResult(string url, string message, string stackTrace, Error error, string response = null) =>
-        new FaultedResult {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
-
-    protected Result<T> GetFaultedExceptionResult<T>(string url, string response, string message, string stackTrace, Error error) =>
-        new FaultedResult<T> {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
-
-    protected Results<T> GetFaultedExceptionResults<T>(string url, string response, string message, string stackTrace, Error error) =>
-        new FaultedResults<T> {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
-
-    protected Result<T> GetSuccessfulResult<T>(string url, string request, string response, T data) =>
-        new SuccessfulResult<T> {Data = data, DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};
-
-    protected Results<T> GetSuccessfulResults<T>(string url, IReadOnlyList<T> data, string response, string request = null) =>
-        new SuccessfulResults<T> {Data = data, DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};
-
-    protected Result GetSuccessfulResult(string url, string response, string request = null) =>
-        new SuccessfulResult {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};
-
-    protected Result GetFaultedResult(string url, List<Error> errors, string response, string request = null) =>
-        new FaultedResult {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
-
-    protected Result<T> GetFaultedResult<T>(string url, string response, List<Error> errors) =>
-        new FaultedResult<T> {DebugInfo = new() {URL = url, Response = response, Errors = errors}};
-
-    protected Result<T> GetFaultedResult<T>(string url, string request, string response, List<Error> errors) =>
-        new FaultedResult<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
-
-    protected Results<T> GetFaultedResults<T>(string url, List<Error> errors, string response, string request = null) =>
-        new FaultedResults<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
-
     protected HttpContent GetRequestContent(string request)
     {
         byte[] payloadBytes = Encoding.UTF8.GetBytes(request);

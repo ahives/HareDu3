@@ -41,7 +41,7 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return new FaultedResult {DebugInfo = new() {URL = "api/users/{username}", Errors = [new Error {Reason = "The tags are missing."}]}};
+            return Faulted.Result("api/users/{username}", [new Error {Reason = "The tags are missing."}]);
         
         var impl = new UserConfiguratorImpl();
         configurator(impl);
@@ -67,7 +67,7 @@ class UserImpl :
         string url = $"api/users/{username}";
 
         if (errors.Count > 0)
-            return new FaultedResult {DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result(url, errors, request.ToJsonString());
 
         return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
     }
@@ -84,7 +84,7 @@ class UserImpl :
         string url = $"api/users/{username}";
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return Faulted.Result(url, errors);
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
@@ -96,7 +96,7 @@ class UserImpl :
         string url = "api/users/bulk-delete";
 
         if (usernames.IsEmpty())
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = new List<Error>{new() {Reason = "Valid usernames is missing."}}}};
+            return Faulted.Result(url, [new() {Reason = "Valid usernames is missing."}]);
 
         var errors = new List<Error>();
 
@@ -107,7 +107,7 @@ class UserImpl :
         }
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return Faulted.Result(url, errors);
 
         BulkUserDeleteRequest request = new() {Users = usernames};
 
@@ -124,7 +124,7 @@ class UserImpl :
             errors.Add(new (){Reason = "The username is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResults<UserLimitsInfo> {DebugInfo = new (){URL = "api/user-limits/{username}", Errors = errors}};
+            return Faulted.Results<UserLimitsInfo>("api/user-limits/{username}", errors);
 
         return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", cancellationToken).ConfigureAwait(false);
     }
@@ -143,11 +143,7 @@ class UserImpl :
         var errors = new List<Error>();
 
         if (configurator == null)
-        {
-            errors.Add(new(){Reason = "No user limit was defined."});
-
-            return new FaultedResult{DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
-        }
+            return Faulted.Result("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
 
         var impl = new UserLimitConfiguratorImpl();
         configurator(impl);
@@ -160,8 +156,9 @@ class UserImpl :
         var request = new UserLimitRequest{Value = impl.LimitValue};
 
         if (errors.Count > 0)
-            return new FaultedResult {DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
+            return Faulted.Result("api/user-limits/{username}/{limit}", errors);
 
+        // /api/user-limits/user/name
         return await PutRequest($"api/user-limits/{username}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
     }
 
@@ -175,7 +172,7 @@ class UserImpl :
             errors.Add(new (){Reason = "The username is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult {DebugInfo = new (){URL = "api/user-limits/{username}/{limit}", Errors = errors}};
+            return Faulted.Result("api/user-limits/{username}/{limit}", errors);
 
         return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
     }
@@ -208,7 +205,7 @@ class UserImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = "api/permissions/{vhost}/{username}", Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result("api/permissions/{vhost}/{username}", errors, request.ToJsonString());
 
         return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -228,7 +225,7 @@ class UserImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = "api/permissions/{vhost}/{username}", Errors = errors}};
+            return Faulted.Result("api/permissions/{vhost}/{username}", errors);
 
         return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
     }

@@ -65,15 +65,15 @@ public static class EnumConversionExtensions
     public static string Convert(this VirtualHostLimit limit) =>
         limit switch
         {
-            VirtualHostLimit.MaximumConnections => "max-connections",
-            VirtualHostLimit.MaximumQueues => "max-queues",
+            VirtualHostLimit.MaxConnections => "max-connections",
+            VirtualHostLimit.MaxQueues => "max-queues",
             _ => throw new ArgumentOutOfRangeException(nameof(limit), limit, null)
         };
 
     public static string Convert(this UserLimit limit) =>
         limit switch
         {
-            UserLimit.MaximumConnections => "max-connections",
+            UserLimit.MaxConnections => "max-connections",
             UserLimit.MaxChannels => "max-channels",
             _ => throw new ArgumentOutOfRangeException(nameof(limit), limit, null)
         };

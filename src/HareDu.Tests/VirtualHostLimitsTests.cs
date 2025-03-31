@@ -371,7 +371,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .DeleteLimit("HareDu", VirtualHostLimit.MaximumConnections);
+            .DeleteLimit("HareDu", VirtualHostLimit.MaxConnections);
 
         Assert.Multiple(() =>
         {
@@ -384,7 +384,7 @@ public class VirtualHostLimitsTests :
     public async Task Verify_can_delete_limits2()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .DeleteVirtualHostLimit("HareDu", VirtualHostLimit.MaximumQueues);
+            .DeleteVirtualHostLimit("HareDu", VirtualHostLimit.MaxQueues);
 
         Assert.Multiple(() =>
         {
@@ -398,7 +398,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<VirtualHost>()
-            .DeleteLimit(string.Empty, VirtualHostLimit.MaximumQueues);
+            .DeleteLimit(string.Empty, VirtualHostLimit.MaxQueues);
 
         Assert.Multiple(() =>
         {
@@ -411,7 +411,7 @@ public class VirtualHostLimitsTests :
     public async Task Verify_cannot_delete_limits2()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .DeleteVirtualHostLimit(string.Empty, VirtualHostLimit.MaximumConnections);
+            .DeleteVirtualHostLimit(string.Empty, VirtualHostLimit.MaxConnections);
 
         Assert.Multiple(() =>
         {

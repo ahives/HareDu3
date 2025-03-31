@@ -83,7 +83,7 @@ public static class ResultExtensions
         Guard.IsNotNull(source);
 
         return !source.HasFaulted && source.HasData
-            ? projection(source.Data) ?? Result2.Missing<TValue>()
-            : Result2.Missing<TValue>();
+            ? projection(source.Data) ?? ResultHelper.Missing<TValue>()
+            : ResultHelper.Missing<TValue>();
     }
 }
