@@ -35,6 +35,7 @@ class ShovelImpl :
         var errors = new List<Error>();
 
         if (configurator is null)
+            return Faulted.Result("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
             errors.Add(new (){Reason = "The shovel configurator is missing."});
 
         if (errors.Any())

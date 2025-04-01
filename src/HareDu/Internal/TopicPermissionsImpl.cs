@@ -31,27 +31,28 @@ class TopicPermissionsImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        if (configurator == null)
+            return Faulted.Result("api/topic-permissions/{vhost}/{username}", [new() {Reason = "No topic permissions was defined."}]);
+        
         var impl = new TopicPermissionsConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
-        impl.Validate();
+        string sanitizedVHost = vhost.ToSanitizedName();
 
-        var errors = impl.Errors;
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new(){Reason = "The username and/or password is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         var request = impl.Request.Value;
 
-        string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
@@ -60,18 +61,18 @@ class TopicPermissionsImpl :
 
         var errors = new List<Error>();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
+
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new(){Reason = "The username and/or password is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/topic-permissions/{vhost.ToSanitizedName()}/{username}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
+            return Faulted.Result("api/topic-permissions/{vhost}/{username}", errors);
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -84,7 +85,8 @@ class TopicPermissionsImpl :
         bool _usingReadPatternCalled;
         string _exchange;
 
-        public List<Error> Errors { get; }
+        List<Error> Errors { get; } = new();
+
         public Lazy<TopicPermissionsRequest> Request { get; }
 
         public TopicPermissionsConfiguratorImpl()
@@ -104,37 +106,33 @@ class TopicPermissionsImpl :
         public void UsingWritePattern(string pattern)
         {
             _usingWritePatternCalled = true;
-                
             _writePattern = pattern;
+
+            if (string.IsNullOrWhiteSpace(pattern))
+                Errors.Add(new() {Reason = "The write pattern is missing."});
         }
 
         public void UsingReadPattern(string pattern)
         {
             _usingReadPatternCalled = true;
-                
             _readPattern = pattern;
+
+            if (string.IsNullOrWhiteSpace(_readPattern))
+                Errors.Add(new() {Reason = "The read pattern is missing."});
         }
 
-        public void Validate()
+        public List<Error> Validate()
         {
-            if (_usingWritePatternCalled)
-            {
-                if (string.IsNullOrWhiteSpace(_writePattern))
-                    Errors.Add(new() {Reason = "The write pattern is missing."});
-            }
-            else
+            if (!_usingWritePatternCalled)
                 Errors.Add(new() {Reason = "The write pattern is missing."});
 
-            if (_usingReadPatternCalled)
-            {
-                if (string.IsNullOrWhiteSpace(_readPattern))
-                    Errors.Add(new() {Reason = "The read pattern is missing."});
-            }
-            else
+            if (!_usingReadPatternCalled)
                 Errors.Add(new() {Reason = "The read pattern is missing."});
 
             if (string.IsNullOrWhiteSpace(_exchange))
                 Errors.Add(new(){Reason = "Then name of the exchange is missing."});
+
+            return Errors;
         }
     }
 }

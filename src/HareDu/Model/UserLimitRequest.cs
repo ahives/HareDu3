@@ -1,4 +1,4 @@
-namespace HareDu.Internal;
+namespace HareDu.Model;
 
 using System.Text.Json.Serialization;
 

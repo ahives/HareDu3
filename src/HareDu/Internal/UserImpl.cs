@@ -140,15 +140,13 @@ class UserImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         if (configurator == null)
             return Faulted.Result("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
 
         var impl = new UserLimitConfiguratorImpl();
         configurator(impl);
 
-        errors.AddRange(impl.Validate());
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username is missing."});

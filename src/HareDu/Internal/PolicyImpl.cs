@@ -34,24 +34,21 @@ class PolicyImpl :
         var impl = new PolicyConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        impl.Validate();
-
         var request = impl.Request.Value;
 
-        var errors = impl.Errors;
+        string sanitizedVHost = vhost.ToSanitizedName();
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the policy is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/policies/{vhost.ToSanitizedName()}/{name}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result("api/policies/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -59,19 +56,20 @@ class PolicyImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the policy is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         string url = $"api/policies/{vhost.ToSanitizedName()}/{name}";
 
-        if (errors.Any())
-            return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
+        if (errors.Count > 0)
+            return Faulted.Result("api/policies/{vhost}/{name}", errors);
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -83,12 +81,12 @@ class PolicyImpl :
         int _priority;
         PolicyAppliedTo _appliedTo;
 
-        public List<Error> Errors { get; }
+        List<Error> Errors { get; } = new();
+
         public Lazy<PolicyRequest> Request { get; }
 
         public PolicyConfiguratorImpl()
         {
-            Errors = new List<Error>();
             Request = new Lazy<PolicyRequest>(
                 () => new ()
                 {
@@ -106,9 +104,7 @@ class PolicyImpl :
 
             _arguments = impl.Arguments.Value;
             
-            impl.Validate();
-            
-            Errors.AddRange(impl.Errors);
+            Errors.AddRange(impl.Validate());
         }
 
         public void Pattern(string pattern) => _pattern = pattern;
@@ -117,10 +113,12 @@ class PolicyImpl :
 
         public void ApplyTo(PolicyAppliedTo applyTo) => _appliedTo = applyTo;
 
-        public void Validate()
+        public List<Error> Validate()
         {
             if (string.IsNullOrWhiteSpace(_pattern))
                 Errors.Add(new(){Reason = "Pattern was not set."});
+
+            return Errors;
         }
 
 
@@ -130,18 +128,18 @@ class PolicyImpl :
             readonly IDictionary<string, ArgumentValue<object>> _arguments;
 
             public Lazy<IDictionary<string, string>> Arguments { get; }
-            public List<Error> Errors { get; }
+
+            List<Error> Errors { get; } = new();
 
             public PolicyArgumentConfiguratorImpl()
             {
                 _arguments = new Dictionary<string, ArgumentValue<object>>();
 
-                Errors = new List<Error>();
                 Arguments = new Lazy<IDictionary<string, string>>(() => _arguments.GetStringArguments(),
                     LazyThreadSafetyMode.PublicationOnly);
             }
 
-            public void Validate()
+            public List<Error> Validate()
             {
                 foreach (var argument in _arguments
                              ?.Where(x => x.Value is null)
@@ -149,7 +147,7 @@ class PolicyImpl :
                     Errors.Add(new() {Reason = $"Argument '{argument}' has been set without a corresponding value."});
 
                 if (!_arguments.TryGetValue("ha-mode", out var haMode))
-                    return;
+                    return Errors;
 
                 string mode = haMode.Value.ToString().Trim();
                 if (_arguments != null && (mode.Convert() == HighAvailabilityModes.Exactly ||
@@ -160,6 +158,8 @@ class PolicyImpl :
                         Reason =
                             $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"
                     });
+
+                return Errors;
             }
 
             public void Set<T>(string arg, T value)

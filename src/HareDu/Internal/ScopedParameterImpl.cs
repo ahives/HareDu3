@@ -25,8 +25,7 @@ class ScopedParameterImpl :
         return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create<T>(string name, T value, string component, string vhost,
-        CancellationToken cancellationToken = default)
+    public async Task<Result> Create<T>(string name, T value, string component, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -41,21 +40,21 @@ class ScopedParameterImpl :
 
         var errors = new List<Error>();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
+
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the parameter is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (string.IsNullOrWhiteSpace(component))
             errors.Add(new(){Reason = "The component name is missing."});
 
-        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{name}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default)
@@ -64,20 +63,20 @@ class ScopedParameterImpl :
 
         var errors = new List<Error>();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
+
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the parameter is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (string.IsNullOrWhiteSpace(component))
             errors.Add(new(){Reason = "The component name is missing."});
 
-        string url = $"api/parameters/{component}/{vhost.ToSanitizedName()}/{name}";
-
         if (errors.Count > 0)
-            return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
+            return Faulted.Result("api/parameters/{component}/{vhost}/{name}", errors);
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }
 }
