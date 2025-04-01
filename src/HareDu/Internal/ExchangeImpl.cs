@@ -31,25 +31,26 @@ class ExchangeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        if (configurator == null)
+            return Faulted.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
+
         var impl = new ExchangeConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
         var request = impl.Request.Value;
-
-        var errors = new List<Error>(impl.Errors.Value);
+        string sanitizedVHost = vhost.ToSanitizedName();
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/exchanges/{vhost.ToSanitizedName()}/{exchange}";
-
         if (errors.Count > 0)
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
+            return Faulted.Result("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -60,21 +61,20 @@ class ExchangeImpl :
         configurator?.Invoke(impl);
 
         var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(exchange))
             errors.Add(new (){Reason = "The name of the exchange is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string virtualHost = vhost.ToSanitizedName();
+        if (errors.Count > 0)
+            return Faulted.Result("api/exchanges/{vhost}/{exchange}", errors);
 
         string url = string.IsNullOrWhiteSpace(impl.Query.Value)
-            ? $"api/exchanges/{virtualHost}/{exchange}"
-            : $"api/exchanges/{virtualHost}/{exchange}?{impl.Query.Value}";
-
-        if (errors.Any())
-            return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
+            ? $"api/exchanges/{sanitizedVHost}/{exchange}"
+            : $"api/exchanges/{sanitizedVHost}/{exchange}?{impl.Query.Value}";
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
@@ -105,16 +105,12 @@ class ExchangeImpl :
         bool _internal;
         IDictionary<string, ArgumentValue<object>> _arguments;
             
-        readonly List<Error> _errors;
+        List<Error> Errors { get; } = new();
 
         public Lazy<ExchangeRequest> Request { get; }
-        public Lazy<List<Error>> Errors { get; }
 
         public ExchangeConfiguratorImpl()
         {
-            _errors = new List<Error>();
-                
-            Errors = new Lazy<List<Error>>(() => _errors, LazyThreadSafetyMode.PublicationOnly);
             Request = new Lazy<ExchangeRequest>(
                 () => new ()
                 {
@@ -140,12 +136,14 @@ class ExchangeImpl :
             _arguments = impl.Arguments;
 
             if (_arguments is not null)
-                _errors.AddRange(_arguments
+                Errors.AddRange(_arguments
                     .Select(x => x.Value?.Error)
                     .Where(error => error is not null).ToList());
         }
 
         public void AutoDeleteWhenNotInUse() => _autoDelete = true;
+
+        public List<Error> Validate() => Errors;
 
 
         class ExchangeArgumentConfiguratorImpl :

@@ -1,18 +1,12 @@
 namespace HareDu;
 
-using System;
-
 public interface GlobalParameterConfigurator
 {
     /// <summary>
-    /// Specify global parameter arguments.
+    /// Create a new argument.
     /// </summary>
-    /// <param name="configurator"></param>
-    void Value(Action<GlobalParameterArgumentConfigurator> configurator);
-        
-    /// <summary>
-    /// Specify global parameter argument.
-    /// </summary>
-    /// <param name="argument"></param>
-    void Value<T>(T argument);
+    /// <param name="arg">Name of the argument.</param>
+    /// <param name="value">Value of the argument.</param>
+    /// <typeparam name="T"></typeparam>
+    void Add<T>(string arg, T value);
 }

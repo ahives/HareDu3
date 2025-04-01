@@ -31,47 +31,45 @@ class OperatorPolicyImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        if (configurator == null)
+            return Faulted.Result("api/operator-policies/{vhost}/{name}", [new() {Reason = "No operator policy was defined."}]);
+
         var impl = new OperatorPolicyConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
-        impl.Validate();
-
+        string sanitizedVHost = vhost.ToSanitizedName();
         var request = impl.Request.Value;
-
-        var errors = impl.Errors;
+        var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the operator policy is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/operator-policies/{vhost.ToSanitizedName()}/{name}";
+        if (errors.Count > 0)
+            return Faulted.Result("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
 
-        if (errors.Any())
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
-
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new(){Reason = "The name of the operator policy is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/operator-policies/{vhost.ToSanitizedName()}/{name}";
+        if (errors.Count > 0)
+            return Faulted.Result("api/operator-policies/{vhost}/{name}", errors);
 
-        if (errors.Any())
-            return new FaultedResult {DebugInfo = new (){URL = url, Errors = errors}};
-
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -83,12 +81,12 @@ class OperatorPolicyImpl :
         int _priority;
         OperatorPolicyAppliedTo _appliedTo;
 
-        public List<Error> Errors { get; }
+        List<Error> Errors { get; } = new();
+
         public Lazy<OperatorPolicyRequest> Request { get; }
 
         public OperatorPolicyConfiguratorImpl()
         {
-            Errors = new List<Error>();
             Request = new Lazy<OperatorPolicyRequest>(
                 () => new ()
                 {
@@ -106,9 +104,7 @@ class OperatorPolicyImpl :
 
             _arguments = impl.Arguments.Value;
             
-            impl.Validate();
-            
-            Errors.AddRange(impl.Errors);
+            Errors.AddRange(impl.Validate());
         }
 
         public void Pattern(string pattern) => _pattern = pattern;
@@ -117,10 +113,12 @@ class OperatorPolicyImpl :
 
         public void ApplyTo(OperatorPolicyAppliedTo applyTo) => _appliedTo = applyTo;
 
-        public void Validate()
+        public List<Error> Validate()
         {
             if (string.IsNullOrWhiteSpace(_pattern))
                 Errors.Add(new(){Reason = "The pattern is missing."});
+
+            return Errors;
         }
 
 
@@ -129,14 +127,14 @@ class OperatorPolicyImpl :
         {
             readonly IDictionary<string, ArgumentValue<ulong>> _arguments;
 
+            List<Error> Errors { get; } = new();
+
             public Lazy<IDictionary<string, ulong>> Arguments { get; }
-            public List<Error> Errors { get; }
 
             public OperatorPolicyArgumentConfiguratorImpl()
             {
                 _arguments = new Dictionary<string, ArgumentValue<ulong>>();
 
-                Errors = new List<Error>();
                 Arguments = new Lazy<IDictionary<string, ulong>>(() => _arguments.GetArgumentsOrNull(), LazyThreadSafetyMode.PublicationOnly);
             }
 
@@ -154,10 +152,12 @@ class OperatorPolicyImpl :
 
             public void SetMessageMaxSize(ulong value) => SetArg("max-length", value);
 
-            public void Validate()
+            public List<Error> Validate()
             {
                 if (_arguments is null || !_arguments.Any())
                     Errors.Add(new(){Reason = "No arguments have been set."});
+
+                return Errors;
             }
             
             void SetArg(string arg, ulong value) =>

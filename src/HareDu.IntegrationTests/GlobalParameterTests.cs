@@ -44,12 +44,8 @@ public class GlobalParameterTests
             .API<GlobalParameter>()
             .Create("fake_param2", x =>
             {
-                x.Value("fake_value");
-                // x.Arguments(arg =>
-                // {
-                //     arg.Set("arg1", "value1");
-                //     arg.Set("arg2", "value2");
-                // });
+                x.Add("arg1", "value1");
+                x.Add("arg2", "value2");
             });
              
         // Assert.IsFalse(result.HasFaulted);

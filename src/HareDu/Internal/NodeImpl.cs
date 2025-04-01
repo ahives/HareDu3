@@ -32,11 +32,9 @@ class NodeImpl :
         if (string.IsNullOrWhiteSpace(node))
             errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
 
-        string url = $"api/nodes/{node}/memory";
-
         if (errors.Count > 0)
-            return new FaultedResult<NodeMemoryUsageInfo>{DebugInfo = new (){URL = url, Errors = errors}};
+            return Faulted.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", errors);
 
-        return await GetRequest<NodeMemoryUsageInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", cancellationToken).ConfigureAwait(false);
     }
 }

@@ -99,12 +99,9 @@ public class CreateBenchmarks :
             .API<GlobalParameter>()
             .Create("fake_param",x =>
             {
-                x.Value(arg =>
-                {
-                    arg.Add("arg1", 1);
-                    arg.Add("arg2", 2);
-                    arg.Add("arg3", 3);
-                });
+                x.Add("arg1", 1);
+                x.Add("arg2", 2);
+                x.Add("arg3", 3);
             });
     }
 
@@ -114,12 +111,9 @@ public class CreateBenchmarks :
         var result = await _service
             .CreateGlobalParameter("fake_param",x =>
             {
-                x.Value(arg =>
-                {
-                    arg.Add("arg1", 1);
-                    arg.Add("arg2", 2);
-                    arg.Add("arg3", 3);
-                });
+                x.Add("arg1", 1);
+                x.Add("arg2", 2);
+                x.Add("arg3", 3);
             });
     }
 

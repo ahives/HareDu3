@@ -64,8 +64,6 @@ class PolicyImpl :
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/policies/{vhost.ToSanitizedName()}/{name}";
-
         if (errors.Count > 0)
             return Faulted.Result("api/policies/{vhost}/{name}", errors);
 
