@@ -18,9 +18,7 @@ class AuthenticationImpl :
     public async Task<Result<AuthenticationDetails>> GetDetails(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-
-        string url = "api/auth";
             
-        return await GetRequest<AuthenticationDetails>(url, cancellationToken).ConfigureAwait(false);
+        return await GetRequest<AuthenticationDetails>("api/auth", cancellationToken).ConfigureAwait(false);
     }
 }

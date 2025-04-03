@@ -32,7 +32,7 @@ class TopicPermissionsImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Faulted.Result("api/topic-permissions/{vhost}/{username}", [new() {Reason = "No topic permissions was defined."}]);
+            return Panic.Result("api/topic-permissions/{vhost}/{username}", [new() {Reason = "No topic permissions was defined."}]);
         
         var impl = new TopicPermissionsConfiguratorImpl();
         configurator(impl);
@@ -50,7 +50,7 @@ class TopicPermissionsImpl :
         var request = impl.Request.Value;
 
         if (errors.Count > 0)
-            return Faulted.Result("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
+            return Panic.Result("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
 
         return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -70,7 +70,7 @@ class TopicPermissionsImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/topic-permissions/{vhost}/{username}", errors);
+            return Panic.Result("api/topic-permissions/{vhost}/{username}", errors);
 
         return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
     }

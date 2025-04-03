@@ -32,36 +32,28 @@ class ShovelImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
-        if (configurator is null)
-            return Faulted.Result("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
-            errors.Add(new (){Reason = "The shovel configurator is missing."});
-
-        if (errors.Any())
-            return new FaultedResult{DebugInfo = new (){Errors = errors}};
+        if (configurator == null)
+            return Panic.Result("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
 
         var impl = new ShovelConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        impl.Validate();
-
+        var errors = new List<Error>();
         var request = impl.Request.Value;
+        string sanitizedVHost = vhost.ToSanitizedName();
 
-        errors.AddRange(impl.Errors);
+        errors.AddRange(impl.Validate());
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the shovel is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{name}";
+        if (errors.Count > 0)
+            return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
 
-        if (errors.Any())
-            return new FaultedResult{DebugInfo = new (){URL = url, Request = request.ToJsonString(), Errors = errors}};
-
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -69,19 +61,18 @@ class ShovelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))
             errors.Add(new (){Reason = "The name of the shovel is missing."});
 
-        if (string.IsNullOrWhiteSpace(vhost))
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
-        string url = $"api/parameters/shovel/{vhost.ToSanitizedName()}/{name}";
+        if (errors.Count > 0)
+            return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors);
 
-        if (errors.Any())
-            return new FaultedResult{DebugInfo = new (){URL = url, Errors = errors}};
-
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -106,12 +97,12 @@ class ShovelImpl :
         bool _destinationCalled;
         object _deleteShovelAfter;
 
-        public List<Error> Errors { get; }
+        List<Error> Errors { get; } = new();
+
         public Lazy<ShovelRequest> Request { get; }
 
         public ShovelConfiguratorImpl()
         {
-            Errors = new List<Error>();
             Request = new Lazy<ShovelRequest>(
                 () => new()
                 {
@@ -203,7 +194,7 @@ class ShovelImpl :
             return request;
         }
 
-        public void Validate()
+        public List<Error> Validate()
         {
             if (_sourceCalled)
             {
@@ -235,6 +226,8 @@ class ShovelImpl :
                 
             if (string.IsNullOrWhiteSpace(_uri))
                 Errors.Add(new(){Reason = "The connection URI is missing."});
+            
+            return Errors;
         }
 
 

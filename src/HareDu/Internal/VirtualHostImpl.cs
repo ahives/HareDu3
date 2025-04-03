@@ -54,7 +54,7 @@ class VirtualHostImpl :
         }
 
         if (errors.Count > 0)
-            return Faulted.Result("api/vhosts/{vhost}", errors, request.ToJsonString());
+            return Panic.Result("api/vhosts/{vhost}", errors, request.ToJsonString());
 
         return await PutRequest($"api/vhosts/{sanitizedVHost}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -74,7 +74,7 @@ class VirtualHostImpl :
                 errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/vhosts/{vhost}", errors);
+            return Panic.Result("api/vhosts/{vhost}", errors);
 
         return await DeleteRequest($"api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
     }
@@ -94,7 +94,7 @@ class VirtualHostImpl :
             errors.Add(new(){Reason = "RabbitMQ node is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("/api/vhosts/{vhost}/start/{node}", errors);
+            return Panic.Result("/api/vhosts/{vhost}/start/{node}", errors);
 
         return await PostEmptyRequest($"/api/vhosts/{sanitizedVHost}/start/{node}", cancellationToken).ConfigureAwait(false);
     }
@@ -112,14 +112,13 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Faulted.Result("api/vhost-limits/{vhost}/{limit}", [new() {Reason = "The name of the virtual host is missing."}]);
-
-        string sanitizedVHost = vhost.ToSanitizedName();
-
-        var errors = new List<Error>();
+            return Panic.Result("api/vhost-limits/{vhost}/{limit}", [new() {Reason = "The name of the virtual host is missing."}]);
 
         var impl = new VirtualHostLimitsConfiguratorImpl();
         configurator(impl);
+
+        string sanitizedVHost = vhost.ToSanitizedName();
+        var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
@@ -129,7 +128,7 @@ class VirtualHostImpl :
         var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
         if (errors.Count > 0)
-            return Faulted.Result("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString());
+            return Panic.Result("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString());
 
         return await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -139,14 +138,13 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/vhost-limits/{vhost}/{limit}", errors);
+            return Panic.Result("api/vhost-limits/{vhost}/{limit}", errors);
 
         return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
     }
@@ -156,14 +154,13 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Results<VirtualHostPermissionInfo>("api/vhosts/{vhost}/permissions", errors);
+            return Panic.Results<VirtualHostPermissionInfo>("api/vhosts/{vhost}/permissions", errors);
 
         return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", cancellationToken).ConfigureAwait(false);
     }
@@ -173,14 +170,13 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Results<VirtualHostTopicPermissionInfo>("api/vhosts/{vhost}/topic-permissions", errors);
+            return Panic.Results<VirtualHostTopicPermissionInfo>("api/vhosts/{vhost}/topic-permissions", errors);
 
         return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
@@ -251,14 +247,14 @@ class VirtualHostImpl :
             var impl = new VirtualHostTagConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            if (impl.Tags.IsNotEmpty())
-            {
-                StringBuilder builder = new StringBuilder();
+            if (!impl.Tags.IsNotEmpty())
+                return;
+            
+            StringBuilder builder = new StringBuilder();
 
-                impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
+            impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
 
-                _tags = builder.ToString().TrimEnd(',');
-            }
+            _tags = builder.ToString().TrimEnd(',');
         }
 
 

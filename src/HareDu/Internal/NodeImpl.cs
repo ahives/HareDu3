@@ -33,7 +33,7 @@ class NodeImpl :
             errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", errors);
+            return Panic.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", errors);
 
         return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", cancellationToken).ConfigureAwait(false);
     }

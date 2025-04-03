@@ -32,7 +32,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Faulted.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
+            return Panic.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new ExchangeConfiguratorImpl();
         configurator(impl);
@@ -48,7 +48,7 @@ class ExchangeImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
+            return Panic.Result("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
 
         return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -70,7 +70,7 @@ class ExchangeImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/exchanges/{vhost}/{exchange}", errors);
+            return Panic.Result("api/exchanges/{vhost}/{exchange}", errors);
 
         string url = string.IsNullOrWhiteSpace(impl.Query.Value)
             ? $"api/exchanges/{sanitizedVHost}/{exchange}"

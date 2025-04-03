@@ -46,7 +46,7 @@ class PolicyImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/policies/{vhost}/{name}", errors, request.ToJsonString());
+            return Panic.Result("api/policies/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -65,7 +65,7 @@ class PolicyImpl :
             errors.Add(new(){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/policies/{vhost}/{name}", errors);
+            return Panic.Result("api/policies/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }

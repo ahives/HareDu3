@@ -36,7 +36,7 @@ class ConsumerImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResults<ConsumerInfo>{DebugInfo = new (){URL = "api/consumers/{vhost}", Errors = errors}};
+            return Panic.Results<ConsumerInfo>("api/consumers/{vhost}", errors);
 
         return await GetAllRequest<ConsumerInfo>($"api/consumers/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
     }

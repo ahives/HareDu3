@@ -36,31 +36,17 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = "api/health/checks/alarms";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/alarms", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<AlarmState>
-                {Data = AlarmState.InEffect, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<AlarmState>
-                {Data = AlarmState.NotInEffect, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<AlarmState>
+            SuccessfulResult => Successful.Result(AlarmState.InEffect, result.DebugInfo),
+            FaultedResult => Panic.Result(AlarmState.NotInEffect, result.DebugInfo),
+            _ => Panic.Result(AlarmState.NotRecognized, new()
             {
-                Data = AlarmState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether an alarm is in effect or not.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/health/checks/alarms",
+                Errors = [new() {Reason = "Not able to determine whether an alarm is in effect or not.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 
@@ -68,31 +54,26 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = $"api/aliveness-test/{vhost.ToSanitizedName()}";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<BrokerState>("api/aliveness-test/{vhost}", errors);
+
+        var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<BrokerState>
-                {Data = BrokerState.Alive, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<BrokerState>
-                {Data = BrokerState.NotAlive, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<BrokerState>
+            SuccessfulResult => Successful.Result(BrokerState.Alive, result.DebugInfo),
+            FaultedResult => Panic.Result(BrokerState.NotAlive, result.DebugInfo),
+            _ => Panic.Result(BrokerState.NotRecognized, new()
             {
-                Data = BrokerState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether an alarm is in effect or not.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/aliveness-test/{vhost}",
+                Errors = [new() {Reason = "Not able to determine whether an alarm is in effect or not.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 
@@ -100,31 +81,17 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = "api/health/checks/virtual-hosts";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/virtual-hosts", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<VirtualHostState>
-                {Data = VirtualHostState.Running, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<VirtualHostState>
-                {Data = VirtualHostState.NotRunning, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<VirtualHostState>
+            SuccessfulResult => Successful.Result(VirtualHostState.Running, result.DebugInfo),
+            FaultedResult => Panic.Result(VirtualHostState.NotRunning, result.DebugInfo),
+            _ => Panic.Result(VirtualHostState.NotRecognized, new()
             {
-                Data = VirtualHostState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether all virtual hosts are running.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/health/checks/virtual-hosts",
+                Errors = [new() {Reason = "Not able to determine whether all virtual hosts are running.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 
@@ -132,31 +99,17 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = "api/health/checks/node-is-mirror-sync-critical";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/node-is-mirror-sync-critical", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<NodeMirrorSyncState>
-                {Data = NodeMirrorSyncState.WithSyncedMirrorsOnline, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<NodeMirrorSyncState>
-                {Data = NodeMirrorSyncState.WithoutSyncedMirrorsOnline, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<NodeMirrorSyncState>
+            SuccessfulResult => Successful.Result(NodeMirrorSyncState.WithSyncedMirrorsOnline, result.DebugInfo),
+            FaultedResult => Panic.Result(NodeMirrorSyncState.WithoutSyncedMirrorsOnline, result.DebugInfo),
+            _ => Panic.Result(NodeMirrorSyncState.NotRecognized, new()
             {
-                Data = NodeMirrorSyncState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether or not there are mirrored queues present without any mirrors online.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/health/checks/node-is-mirror-sync-critical",
+                Errors = [new() {Reason = "Not able to determine whether or not there are mirrored queues present without any mirrors online.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 
@@ -164,31 +117,17 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = "api/health/checks/node-is-quorum-critical";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/node-is-quorum-critical", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<NodeQuorumState>
-                {Data = NodeQuorumState.MinimumQuorum, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<NodeQuorumState>
-                {Data = NodeQuorumState.BelowMinimumQuorum, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<NodeQuorumState>
+            SuccessfulResult => Successful.Result(NodeQuorumState.MinimumQuorum, result.DebugInfo),
+            FaultedResult => Panic.Result(NodeQuorumState.BelowMinimumQuorum, result.DebugInfo),
+            _ => Panic.Result(NodeQuorumState.NotRecognized, new()
             {
-                Data = NodeQuorumState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/health/checks/node-is-quorum-critical",
+                Errors = [new() {Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 
@@ -200,31 +139,20 @@ class BrokerImpl :
         var impl = new ProtocolListenerConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        string url = $"api/health/checks/protocol-listener/{impl.Protocol}";
-        var result = await GetRequest(url, cancellationToken).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(impl.Protocol))
+            return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing.", Timestamp = DateTimeOffset.UtcNow}]);
+
+        var result = await GetRequest($"api/health/checks/protocol-listener/{impl.Protocol}", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
-            SuccessfulResult => new SuccessfulResult<ProtocolListenerState>
-                {Data = ProtocolListenerState.Active, DebugInfo = result.DebugInfo},
-            FaultedResult => new UnsuccessfulResult<ProtocolListenerState>
-                {Data = ProtocolListenerState.NotActive, DebugInfo = result.DebugInfo},
-            _ => new FaultedResult<ProtocolListenerState>
+            SuccessfulResult => Successful.Result(ProtocolListenerState.Active, result.DebugInfo),
+            FaultedResult => Panic.Result(ProtocolListenerState.NotActive, result.DebugInfo),
+            _ => Panic.Result(ProtocolListenerState.NotRecognized, new()
             {
-                Data = ProtocolListenerState.NotRecognized,
-                DebugInfo = new()
-                {
-                    URL = url,
-                    Errors = new List<Error>
-                    {
-                        new()
-                        {
-                            Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.",
-                            Timestamp = DateTimeOffset.UtcNow
-                        }
-                    }
-                }
-            }
+                URL = "api/health/checks/protocol-listener/{protocol}",
+                Errors = [new() {Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.", Timestamp = DateTimeOffset.UtcNow}]
+            })
         };
     }
 

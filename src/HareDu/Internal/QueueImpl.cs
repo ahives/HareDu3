@@ -42,7 +42,7 @@ class QueueImpl :
         string url = string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}";
 
         if (errors.Count > 0)
-            return Faulted.Results<QueueInfo>(url, errors);
+            return Panic.Results<QueueInfo>(url, errors);
 
         return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
     }
@@ -60,7 +60,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Faulted.Result("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
+            return Panic.Result("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
 
         var impl = new QueueConfiguratorImpl(node);
         configurator(impl);
@@ -76,7 +76,7 @@ class QueueImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/queues/{vhost}/{name}", errors, request.ToJsonString());
+            return Panic.Result("api/queues/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -96,7 +96,7 @@ class QueueImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/queues/{vhost}/{name}", errors);
+            return Panic.Result("api/queues/{vhost}/{name}", errors);
         
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -122,7 +122,7 @@ class QueueImpl :
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
+            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
 
         return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", cancellationToken).ConfigureAwait(false);
     }
@@ -142,7 +142,7 @@ class QueueImpl :
             errors.Add(new (){Reason = "The name of the queue is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
+            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
             new QueueSyncRequest {Action = syncAction}, cancellationToken).ConfigureAwait(false);

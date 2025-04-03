@@ -5,6 +5,8 @@ using Core;
 
 internal static class Successful
 {
+    public static Result<T> Result<T>(T data, DebugInfo debugInfo) => new SuccessfulResult<T> {Data = data, DebugInfo = debugInfo};
+
     public static Result<T> Result<T>(string url, T data, string request, string response) =>
         new SuccessfulResult<T> {Data = data, DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};
 

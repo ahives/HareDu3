@@ -52,7 +52,7 @@ class ScopedParameterImpl :
             errors.Add(new(){Reason = "The component name is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
+            return Panic.Result("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -75,7 +75,7 @@ class ScopedParameterImpl :
             errors.Add(new(){Reason = "The component name is missing."});
 
         if (errors.Count > 0)
-            return Faulted.Result("api/parameters/{component}/{vhost}/{name}", errors);
+            return Panic.Result("api/parameters/{component}/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }

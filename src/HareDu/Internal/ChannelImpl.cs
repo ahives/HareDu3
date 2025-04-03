@@ -47,7 +47,7 @@ class ChannelImpl :
             errors.Add(new(){Reason = "Name of the connection is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResults<ChannelInfo>{DebugInfo = new (){URL = "/api/connections/{name}/channels", Errors = errors}};
+            return Panic.Results<ChannelInfo>("api/connections/{name}/channels", errors);
 
         return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -64,7 +64,7 @@ class ChannelImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResults<ChannelInfo>{DebugInfo = new (){URL = "/api/vhosts/{vhost}/channels", Errors = errors}};
+            return Panic.Results<ChannelInfo>("api/vhosts/{vhost}/channels", errors);
 
         return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -79,7 +79,7 @@ class ChannelImpl :
             errors.Add(new (){Reason = "The name of the virtual host is missing."});
 
         if (errors.Count > 0)
-            return new FaultedResult<ChannelInfo>{DebugInfo = new (){URL = "/api/channels/channel", Errors = errors}};
+            return Panic.Result<ChannelInfo>("api/channels/{name}", errors);
 
         return await GetRequest<ChannelInfo>($"/api/channels/{name}", cancellationToken).ConfigureAwait(false);
     }
