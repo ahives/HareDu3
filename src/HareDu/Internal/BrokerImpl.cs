@@ -54,14 +54,10 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Result<BrokerState>("api/aliveness-test/{vhost}", errors);
+            return Panic.Result<BrokerState>("api/aliveness-test/{vhost}", [new (){Reason = "The name of the virtual host is missing."}]);
 
         var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
 
@@ -136,8 +132,11 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
+        if (configurator == null)
+            return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing."}]);
+
         var impl = new ProtocolListenerConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
         if (string.IsNullOrWhiteSpace(impl.Protocol))
             return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing.", Timestamp = DateTimeOffset.UtcNow}]);

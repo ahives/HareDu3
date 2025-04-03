@@ -1,6 +1,5 @@
 namespace HareDu.Internal;
 
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,15 +27,10 @@ class ConsumerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Results<ConsumerInfo>("api/consumers/{vhost}", errors);
+            return Panic.Results<ConsumerInfo>("api/consumers/{vhost}", [new (){Reason = "The name of the virtual host is missing."}]);
 
         return await GetAllRequest<ConsumerInfo>($"api/consumers/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
     }
