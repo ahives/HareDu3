@@ -6,6 +6,7 @@ using Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Extensions;
+using Internal;
 
 [TestFixture]
 public class BrokerTests :
@@ -396,7 +397,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Broker>()
-            .IsProtocolActiveListener(x => x.Amqp10());
+            .IsProtocolActiveListener(Protocol.AMQP10);
 
         Assert.Multiple(() =>
         {
@@ -412,7 +413,7 @@ public class BrokerTests :
         var result = await GetContainerBuilder("TestData/ProtocolActiveListener.json")
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .IsProtocolActiveListener(x => x.Amqp10());
+            .IsProtocolActiveListener(Protocol.AMQP10);
 
         Assert.Multiple(() =>
         {
@@ -429,7 +430,7 @@ public class BrokerTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Broker>()
-            .IsProtocolActiveListener(x => x.Amqp091());
+            .IsProtocolActiveListener(Protocol.AMQP091);
 
         Assert.Multiple(() =>
         {
@@ -445,7 +446,7 @@ public class BrokerTests :
         var result = await GetContainerBuilder("TestData/ProtocolNotActiveListener.json", HttpStatusCode.ServiceUnavailable)
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .IsProtocolActiveListener(x => x.Amqp091());
+            .IsProtocolActiveListener(Protocol.AMQP091);
 
         Assert.Multiple(() =>
         {

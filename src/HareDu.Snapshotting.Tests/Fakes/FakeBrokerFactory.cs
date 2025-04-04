@@ -15,7 +15,7 @@ public class FakeBrokerFactory :
     {
         if (typeof(T) == typeof(Broker))
         {
-            Broker obj = new BrokerObject();
+            Broker obj = new FakeBrokerImpl();
 
             return (T) obj;
         }

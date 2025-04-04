@@ -1,7 +1,6 @@
 namespace HareDu.Internal;
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -127,21 +126,14 @@ class BrokerImpl :
         };
     }
 
-    public async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(
-        Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
-            return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing."}]);
-
-        var impl = new ProtocolListenerConfiguratorImpl();
-        configurator(impl);
-
-        if (string.IsNullOrWhiteSpace(impl.Protocol))
+        if (protocol == null || string.IsNullOrWhiteSpace(protocol.Value))
             return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing.", Timestamp = DateTimeOffset.UtcNow}]);
 
-        var result = await GetRequest($"api/health/checks/protocol-listener/{impl.Protocol}", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -153,24 +145,5 @@ class BrokerImpl :
                 Errors = [new() {Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.", Timestamp = DateTimeOffset.UtcNow}]
             })
         };
-    }
-
-
-    class ProtocolListenerConfiguratorImpl :
-        ProtocolListenerConfigurator
-    {
-        public string Protocol { get; private set; }
-
-        public string Amqp091() => Protocol = "amqp091";
-
-        public string Amqp10() => Protocol = "amqp10";
-
-        public string Mqtt() => Protocol = "mqtt";
-
-        public string Stomp() => Protocol = "stomp";
-
-        public string WebMqtt() => Protocol = "web-mqtt";
-
-        public string WebStomp() => Protocol = "web-stomp";
     }
 }

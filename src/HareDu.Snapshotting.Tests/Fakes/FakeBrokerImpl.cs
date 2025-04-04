@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
+using Internal;
 
-public class BrokerObject :
+public class FakeBrokerImpl :
     Broker,
     HareDuTestingFake
 {
@@ -78,7 +79,7 @@ public class BrokerObject :
         throw new System.NotImplementedException();
     }
 
-    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

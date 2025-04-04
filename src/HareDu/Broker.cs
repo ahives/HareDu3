@@ -1,9 +1,9 @@
 namespace HareDu;
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Internal;
 using Model;
 
 public interface Broker :
@@ -60,10 +60,10 @@ public interface Broker :
     Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// 
+    /// Performs a health check on the RabbitMQ cluster to determine if there is active listener for the specified protocol.
     /// </summary>
-    /// <param name="configurator"></param>
+    /// <param name="protocol">Valid protocol names are: amqp091, amqp10, mqtt, stomp, web-mqtt, web-stomp</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default);
 }

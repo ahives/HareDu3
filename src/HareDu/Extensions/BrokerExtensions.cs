@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
+using Internal;
 using Model;
 
 public static class BrokerExtensions
@@ -139,18 +140,18 @@ public static class BrokerExtensions
     /// Checks if the given protocol is an active listener on the RabbitMQ cluster.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="configurator"></param>
+    /// <param name="protocol"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,
-        Action<ProtocolListenerConfigurator> configurator, CancellationToken cancellationToken = default)
+        Protocol protocol, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>()
-            .IsProtocolActiveListener(configurator, cancellationToken)
+            .IsProtocolActiveListener(protocol, cancellationToken)
             .ConfigureAwait(false);
     }
 }
