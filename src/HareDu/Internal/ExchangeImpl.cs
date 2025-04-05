@@ -32,7 +32,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Panic.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
+            return Panic.Result("api/exchanges/{vhost}/{exchange}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new ExchangeConfiguratorImpl();
         configurator(impl);
@@ -53,7 +53,8 @@ class ExchangeImpl :
         return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -103,9 +104,8 @@ class ExchangeImpl :
         bool _durable;
         bool _autoDelete;
         bool _internal;
-        IDictionary<string, ArgumentValue<object>> _arguments;
-            
-        List<Error> Errors { get; } = new();
+        
+        IDictionary<string, ArgumentValue<object>> Args { get; } = new Dictionary<string, ArgumentValue<object>>();
 
         public Lazy<ExchangeRequest> Request { get; }
 
@@ -118,7 +118,7 @@ class ExchangeImpl :
                     Durable = _durable,
                     AutoDelete = _autoDelete,
                     Internal = _internal,
-                    Arguments = _arguments.GetArgumentsOrNull()
+                    Arguments = Args.GetArgumentsOrNull()
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
             
@@ -133,17 +133,18 @@ class ExchangeImpl :
             var impl = new ExchangeArgumentConfiguratorImpl();
             arguments?.Invoke(impl);
 
-            _arguments = impl.Arguments;
-
-            if (_arguments is not null)
-                Errors.AddRange(_arguments
-                    .Select(x => x.Value?.Error)
-                    .Where(error => error is not null).ToList());
+            foreach (var arg in impl.Arguments)
+                if (!Args.TryAdd(arg.Key, arg.Value))
+                    Args[arg.Key] = arg.Value;
         }
 
         public void AutoDeleteWhenNotInUse() => _autoDelete = true;
 
-        public List<Error> Validate() => Errors;
+        public List<Error> Validate() =>
+            Args
+                .Select(x => x.Value?.Error)
+                .Where(error => error is not null)
+                .ToList();
 
 
         class ExchangeArgumentConfiguratorImpl :

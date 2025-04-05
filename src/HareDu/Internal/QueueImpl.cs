@@ -102,7 +102,7 @@ class QueueImpl :
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
         
-        string query = impl.Build();
+        string query = impl.BuildQueryParams();
 
         string url = string.IsNullOrWhiteSpace(query)
             ? $"api/queues/{sanitizedVHost}/{name}"
@@ -162,7 +162,7 @@ class QueueImpl :
 
         public void WhenEmpty() => _whenEmpty = true;
 
-        public string Build()
+        public string BuildQueryParams()
         {
             List<string> param = new();
             
