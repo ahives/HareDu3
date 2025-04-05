@@ -38,7 +38,6 @@ class TopicPermissionsImpl :
         configurator(impl);
 
         string sanitizedVHost = vhost.ToSanitizedName();
-
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(username))
@@ -60,7 +59,6 @@ class TopicPermissionsImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(username))

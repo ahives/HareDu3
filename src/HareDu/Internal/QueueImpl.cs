@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -100,10 +101,12 @@ class QueueImpl :
         
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
+        
+        string query = impl.Build();
 
-        string url = string.IsNullOrWhiteSpace(impl.Query.Value)
+        string url = string.IsNullOrWhiteSpace(query)
             ? $"api/queues/{sanitizedVHost}/{name}"
-            : $"api/queues/{sanitizedVHost}/{name}?{impl.Query.Value}";
+            : $"api/queues/{sanitizedVHost}/{name}?{query}";
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
@@ -152,24 +155,25 @@ class QueueImpl :
     class QueueDeletionConfiguratorImpl :
         QueueDeletionConfigurator
     {
-        string _query;
+        bool _hasNoConsumers;
+        bool _whenEmpty;
 
-        public Lazy<string> Query { get; }
+        public void WhenHasNoConsumers() => _hasNoConsumers = true;
 
-        public QueueDeletionConfiguratorImpl()
+        public void WhenEmpty() => _whenEmpty = true;
+
+        public string Build()
         {
-            Query = new Lazy<string>(() => _query, LazyThreadSafetyMode.PublicationOnly);
+            List<string> param = new();
+            
+            if (_hasNoConsumers)
+                param.Add("if-unused=true");
+
+            if (_whenEmpty)
+                param.Add("if-empty=true");
+
+            return string.Join('&', param);
         }
-
-        public void WhenHasNoConsumers() =>
-            _query = string.IsNullOrWhiteSpace(_query)
-                ? "if-unused=true"
-                : _query.Contains("if-unused=true") ? _query : $"{_query}&if-unused=true";
-
-        public void WhenEmpty() =>
-            _query = string.IsNullOrWhiteSpace(_query)
-                ? "if-empty=true"
-                : _query.Contains("if-empty=true") ? _query : $"{_query}&if-empty=true";
     }
 
 
@@ -181,11 +185,9 @@ class QueueImpl :
         IDictionary<string, ArgumentValue<object>> _arguments;
 
         public Lazy<QueueRequest> Request { get; }
-        public List<Error> Errors { get; }
 
         public QueueConfiguratorImpl(string node)
         {
-            Errors = new List<Error>();
             Request = new Lazy<QueueRequest>(
                 () => new ()
                 {

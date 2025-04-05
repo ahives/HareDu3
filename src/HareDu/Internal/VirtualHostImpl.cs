@@ -37,7 +37,6 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
@@ -64,7 +63,6 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (sanitizedVHost == "2%f")
@@ -84,7 +82,6 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
@@ -250,7 +247,7 @@ class VirtualHostImpl :
             if (!impl.Tags.IsNotEmpty())
                 return;
             
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             impl.Tags.ForEach(x => builder.AppendFormat("{0},", x));
 

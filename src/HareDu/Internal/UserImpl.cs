@@ -64,12 +64,10 @@ class UserImpl :
         if (string.IsNullOrWhiteSpace(password) && string.IsNullOrWhiteSpace(passwordHash))
             errors.Add(new() {Reason = "The password/hash is missing."});
 
-        string url = $"api/users/{username}";
-
         if (errors.Count > 0)
-            return Panic.Result(url, errors, request.ToJsonString());
+            return Panic.Result("api/users/{username}", errors, request.ToJsonString());
 
-        return await PutRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/users/{username}", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
@@ -81,22 +79,18 @@ class UserImpl :
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username is missing."});
 
-        string url = $"api/users/{username}";
-
         if (errors.Count > 0)
-            return Panic.Result(url, errors);
+            return Panic.Result("api/users/{username}", errors);
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/users/{username}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string url = "api/users/bulk-delete";
-
         if (usernames.IsEmpty())
-            return Panic.Result(url, [new() {Reason = "Valid usernames is missing."}]);
+            return Panic.Result("api/users/bulk-delete", [new() {Reason = "Valid usernames is missing."}]);
 
         var errors = new List<Error>();
 
@@ -107,11 +101,11 @@ class UserImpl :
         }
 
         if (errors.Count > 0)
-            return Panic.Result(url, errors);
+            return Panic.Result("api/users/bulk-delete", errors);
 
         BulkUserDeleteRequest request = new() {Users = usernames};
 
-        return await PostRequest(url, request, cancellationToken).ConfigureAwait(false);
+        return await PostRequest("api/users/bulk-delete", request, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default)
@@ -191,9 +185,7 @@ class UserImpl :
         configurator?.Invoke(impl);
 
         var request = impl.Request.Value;
-
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(username))
@@ -213,7 +205,6 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(username))
