@@ -267,29 +267,29 @@ public class CreateBenchmarks :
             });
     }
 
-    [Benchmark]
-    public async Task BindingCreateBenchmark()
-    {
-        var result = await _service
-            .API<Binding>()
-            .Create("HareDu", x =>
-            {
-                x.Source("exchange");
-                x.Destination("queue");
-                x.BindingKey("*.");
-                x.BindingType(BindingType.Exchange);
-            });
-    }
-
-    [Benchmark]
-    public async Task BindingCreateExtensionBenchmark()
-    {
-        var result = await _service
-            .CreateBinding("HareDu", x =>
-            {
-                x.Source("exchange");
-                x.Destination("queue");
-                x.BindingType(BindingType.Exchange);
-            });
-    }
+    // [Benchmark]
+    // public async Task BindingCreateBenchmark()
+    // {
+    //     var result = await _service
+    //         .API<Binding>()
+    //         .Create("HareDu", x =>
+    //         {
+    //             x.Source("exchange");
+    //             x.Destination("queue");
+    //             x.BindingKey("*.");
+    //             x.BindingType(BindingType.Exchange);
+    //         });
+    // }
+    //
+    // [Benchmark]
+    // public async Task BindingCreateExtensionBenchmark()
+    // {
+    //     var result = await _service
+    //         .CreateBinding("HareDu", x =>
+    //         {
+    //             x.Source("exchange");
+    //             x.Destination("queue");
+    //             x.BindingType(BindingType.Exchange);
+    //         });
+    // }
 }

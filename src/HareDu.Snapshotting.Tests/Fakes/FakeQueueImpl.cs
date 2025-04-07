@@ -9,7 +9,7 @@ using Core.Testing;
 using HareDu.Model;
 using Internal;
 
-public class FakeQueueObject :
+public class FakeQueueImpl :
     Queue,
     HareDuTestingFake
 {
@@ -67,4 +67,7 @@ public class FakeQueueObject :
     public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
     public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
     public async Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
+    public Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

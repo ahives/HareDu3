@@ -80,7 +80,56 @@ class ExchangeImpl :
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
 
-        
+    public async Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (configurator == null)
+            return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding was defined."}]);
+
+        var impl = new BindingConfiguratorImpl();
+        configurator(impl);
+
+        var request = impl.Request.Value;
+        var errors = impl.Validate();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+        if (string.IsNullOrWhiteSpace(exchange))
+            errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
+
+        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (configurator == null)
+            return Panic.Result("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+
+        var impl = new UnbindingConfiguratorImpl();
+        configurator(impl);
+
+        var errors = impl.Validate();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
+
+        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
+    }
+
+
     class ExchangeDeletionConfigurationImpl :
         ExchangeDeletionConfigurator
     {

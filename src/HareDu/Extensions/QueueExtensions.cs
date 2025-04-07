@@ -137,4 +137,43 @@ public static class QueueExtensions
             .Sync(queue, vhost, QueueSyncAction.CancelSync, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory"></param>
+    /// <param name="vhost"></param>
+    /// <param name="exchange"></param>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async Task<Result<BindingInfo>> BindToQueue(this IBrokerFactory factory,
+        string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<Queue>()
+            .Bind(vhost, exchange, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory"></param>
+    /// <param name="vhost"></param>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async Task<Result> UnbindFromQueue(this IBrokerFactory factory,
+        string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<Queue>()
+            .Unbind(vhost, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

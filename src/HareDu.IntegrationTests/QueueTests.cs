@@ -198,4 +198,46 @@ public class QueueTests
         Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
+
+    [Test]
+    public async Task Verify_can_create_exchange_binding_without_arguments1()
+    {
+        string vhost = "vhost";
+        string queue = "queue";
+        string exchange = "exchange";
+        var result1 = await _services
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>()
+            .Create(vhost);
+        var result2 = await _services
+            .GetService<IBrokerFactory>()
+            .API<Queue>()
+            .Create(queue, vhost, "rabbit@6089ab1a7b81", x =>
+            {
+                x.IsDurable();
+            });
+        var result3 = await _services
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Create(exchange, vhost);
+        var result = await _services
+            .GetService<IBrokerFactory>()
+            .API<Queue>()
+            .Bind(vhost, exchange, x =>
+            {
+                x.Destination(queue);
+            });
+
+        // Assert.Multiple(() =>
+        // {
+        //     Assert.IsFalse(result.HasFaulted);
+        //     Assert.IsNotNull(result.DebugInfo);
+        //     Assert.IsNotNull(result.DebugInfo.Request);
+        //
+        //     BindingRequest request = result.DebugInfo.Request.ToObject<BindingRequest>();
+        //         
+        //     Assert.That(request.BindingKey, Is.Empty.Or.Null);
+        //     Assert.IsNull(request.Arguments);
+        // });
+    }
 }

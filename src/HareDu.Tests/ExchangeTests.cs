@@ -351,4 +351,278 @@ public class ExchangeTests :
             Assert.AreEqual(2, result.DebugInfo.Errors.Count);
         });
     }
+
+    [Test]
+    public async Task Verify_can_delete_queue_binding1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_can_delete_queue_binding3()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source("E1");
+                x.Destination("Q1");
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding3()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding4()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding5()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_queue_binding6()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange("HareDu", x =>
+            {
+                x.Source("E2");
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding3()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding4()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange("HareDu", x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding5()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Unbind(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_exchange_binding6()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .UnbindFromExchange(string.Empty, x =>
+            {
+                x.Source(string.Empty);
+                x.Destination(string.Empty);
+            });
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+        });
+    }
 }

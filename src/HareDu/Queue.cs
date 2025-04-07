@@ -65,4 +65,23 @@ public interface Queue :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Creates the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified RabbitMQ virtual host.
+    /// </summary>
+    /// <param name="vhost">The virtual host where the binding is defined.</param>
+    /// <param name="exchange"></param>
+    /// <param name="configurator">Describes how the binding will be created.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes the specified exchange on the specified RabbitMQ virtual host.
+    /// </summary>
+    /// <param name="vhost">The virtual host where the binding is defined.</param>
+    /// <param name="configurator">Describes how the binding will be deleted.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns></returns>
+    Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
 }

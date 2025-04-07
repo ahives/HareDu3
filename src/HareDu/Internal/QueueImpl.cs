@@ -102,11 +102,11 @@ class QueueImpl :
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
         
-        string query = impl.BuildQueryParams();
+        string queryParams = impl.BuildQueryParams();
 
-        string url = string.IsNullOrWhiteSpace(query)
+        string url = string.IsNullOrWhiteSpace(queryParams)
             ? $"api/queues/{sanitizedVHost}/{name}"
-            : $"api/queues/{sanitizedVHost}/{name}?{query}";
+            : $"api/queues/{sanitizedVHost}/{name}?{queryParams}";
 
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
@@ -151,25 +151,74 @@ class QueueImpl :
             new QueueSyncRequest {Action = syncAction}, cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (configurator == null)
+            return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding was defined."}]);
+
+        var impl = new BindingConfiguratorImpl();
+        configurator(impl);
+
+        var request = impl.Request.Value;
+        var errors = impl.Validate();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+        if (string.IsNullOrWhiteSpace(exchange))
+            errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
+
+        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    public async Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (configurator == null)
+            return Panic.Result("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+
+        var impl = new UnbindingConfiguratorImpl();
+        configurator(impl);
+
+        var errors = impl.Validate();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
+
+        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
+    }
+
 
     class QueueDeletionConfiguratorImpl :
         QueueDeletionConfigurator
     {
-        bool _hasNoConsumers;
-        bool _whenEmpty;
+        bool _hasNoConsumersCalled;
+        bool _whenEmptyCalled;
 
-        public void WhenHasNoConsumers() => _hasNoConsumers = true;
+        public void WhenHasNoConsumers() => _hasNoConsumersCalled = true;
 
-        public void WhenEmpty() => _whenEmpty = true;
+        public void WhenEmpty() => _whenEmptyCalled = true;
 
         public string BuildQueryParams()
         {
             List<string> param = new();
             
-            if (_hasNoConsumers)
+            if (_hasNoConsumersCalled)
                 param.Add("if-unused=true");
 
-            if (_whenEmpty)
+            if (_whenEmptyCalled)
                 param.Add("if-empty=true");
 
             return string.Join('&', param);
@@ -222,12 +271,7 @@ class QueueImpl :
         class QueueArgumentConfiguratorImpl :
             QueueArgumentConfigurator
         {
-            public IDictionary<string, ArgumentValue<object>> Arguments { get; }
-
-            public QueueArgumentConfiguratorImpl()
-            {
-                Arguments = new Dictionary<string, ArgumentValue<object>>();
-            }
+            public IDictionary<string, ArgumentValue<object>> Arguments { get; } = new Dictionary<string, ArgumentValue<object>>();
 
             public void Set<T>(string arg, T value) => SetArg(arg, value);
 

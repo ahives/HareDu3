@@ -71,4 +71,43 @@ public static class ExchangeExtensions
             .Delete(exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory"></param>
+    /// <param name="vhost"></param>
+    /// <param name="exchange"></param>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async Task<Result<BindingInfo>> BindToExchange(this IBrokerFactory factory,
+        string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<Exchange>()
+            .Bind(vhost, exchange, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="factory"></param>
+    /// <param name="vhost"></param>
+    /// <param name="configurator"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public static async Task<Result> UnbindFromExchange(this IBrokerFactory factory,
+        string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+        
+        return await factory
+            .API<Exchange>()
+            .Unbind(vhost, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

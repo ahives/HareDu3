@@ -43,7 +43,7 @@ public class FakeBrokerFactory :
 
         if (typeof(T) == typeof(Queue))
         {
-            Queue obj = new FakeQueueObject();
+            Queue obj = new FakeQueueImpl();
 
             return (T) obj;
         }
