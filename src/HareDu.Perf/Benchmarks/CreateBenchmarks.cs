@@ -66,7 +66,7 @@ public class CreateBenchmarks :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Direct);
+                x.WithRoutingType(RoutingType.Direct);
                 x.AutoDeleteWhenNotInUse();
                 x.HasArguments(arg =>
                 {
@@ -83,7 +83,7 @@ public class CreateBenchmarks :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Direct);
+                x.WithRoutingType(RoutingType.Direct);
                 x.AutoDeleteWhenNotInUse();
                 x.HasArguments(arg =>
                 {

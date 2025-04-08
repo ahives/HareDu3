@@ -12,7 +12,7 @@ public record ExchangeInfo
     public string VirtualHost { get; init; }
         
     [JsonPropertyName("type")]
-    public ExchangeRoutingType RoutingType { get; init; }
+    public RoutingType RoutingType { get; init; }
         
     [JsonPropertyName("durable")]
     public bool Durable { get; init; }

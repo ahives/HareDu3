@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 public record ExchangeRequest
 {
     [JsonPropertyName("type")]
-    public ExchangeRoutingType RoutingType { get; init; }
+    public RoutingType RoutingType { get; init; }
         
     [JsonPropertyName("durable")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

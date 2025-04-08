@@ -8,7 +8,7 @@ public interface ExchangeConfigurator
     /// Specify the message routing type (e.g. fanout, direct, topic, etc.).
     /// </summary>
     /// <param name="routingType"></param>
-    void HasRoutingType(ExchangeRoutingType routingType);
+    void WithRoutingType(RoutingType routingType);
 
     /// <summary>
     /// Specify that the exchange is durable.

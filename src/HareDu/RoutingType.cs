@@ -1,6 +1,6 @@
 namespace HareDu;
 
-public enum ExchangeRoutingType
+public enum RoutingType
 {
     Fanout,
     Direct,

@@ -26,6 +26,23 @@ public class ExchangeTests
                     b.ConnectTo("http://localhost:15672");
                     b.UsingCredentials("guest", "guest");
                 });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
+                });
             })
             .BuildServiceProvider();
     }
@@ -105,7 +122,7 @@ public class ExchangeTests
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 // x.HasArguments(arg =>
                 // {
                 //     arg.Set("arg1", "blah");
@@ -125,5 +142,41 @@ public class ExchangeTests
             
 //            Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public void Test()
+    {
+        string exchange = "test-exchange1";;
+        string vhost = "test-vhost";
+        var result0 = _services.GetService<IBrokerFactory>()
+            .CreateVirtualHost(vhost, x =>
+            {
+                x.Tags(t =>
+                {
+                    t.Add("test");
+                });
+            });
+        var result1 = _services.GetService<IBrokerFactory>()
+            .API<Exchange>()
+            .Create(exchange, vhost, x =>
+            {
+                x.WithRoutingType(RoutingType.Direct);
+            });
+        string node = "rabbit@6089ab1a7b81";
+        string queue = "test-queue1";
+        var result2 = _services.GetService<IBrokerFactory>()
+            .API<Queue>()
+            .Create(queue, vhost, node, x =>
+            {
+                x.IsDurable();
+            });
+        var result3 = _services.GetService<IBrokerFactory>()
+            .API<Queue>()
+            .BindToQueue(vhost, exchange, x =>
+            {
+                x.Destination(queue);
+                x.BindingKey("test");
+            });
     }
 }

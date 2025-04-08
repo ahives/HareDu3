@@ -30,7 +30,7 @@ public class ExchangeTests :
             Assert.IsFalse(result.Data[1].Internal);
             Assert.IsFalse(result.Data[1].AutoDelete);
             Assert.AreEqual("E2", result.Data[1].Name);
-            Assert.AreEqual(ExchangeRoutingType.Direct, result.Data[1].RoutingType);
+            Assert.AreEqual(RoutingType.Direct, result.Data[1].RoutingType);
             Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
             Assert.IsNotNull(result.Data[1].Arguments);
             Assert.AreEqual(1, result.Data[1].Arguments.Count);
@@ -56,7 +56,7 @@ public class ExchangeTests :
             Assert.IsFalse(result.Data[1].Internal);
             Assert.IsFalse(result.Data[1].AutoDelete);
             Assert.AreEqual("E2", result.Data[1].Name);
-            Assert.AreEqual(ExchangeRoutingType.Direct, result.Data[1].RoutingType);
+            Assert.AreEqual(RoutingType.Direct, result.Data[1].RoutingType);
             Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
             Assert.IsNotNull(result.Data[1].Arguments);
             Assert.AreEqual(1, result.Data[1].Arguments.Count);
@@ -75,7 +75,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Direct);
+                x.WithRoutingType(RoutingType.Direct);
                 x.HasArguments(arg =>
                 {
                     arg.Add("fake_arg", "8238b");
@@ -96,7 +96,7 @@ public class ExchangeTests :
             Assert.AreEqual(1, request.Arguments.Count);
             Assert.IsFalse(request.AutoDelete);
             Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(ExchangeRoutingType.Direct, request.RoutingType);
+            Assert.AreEqual(RoutingType.Direct, request.RoutingType);
             Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
         });
     }
@@ -111,7 +111,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 x.HasArguments(arg =>
                 {
                     arg.Add("fake_arg", "8238b");
@@ -130,7 +130,7 @@ public class ExchangeTests :
             Assert.AreEqual(1, request.Arguments.Count);
             Assert.IsFalse(request.AutoDelete);
             Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
+            Assert.AreEqual(RoutingType.Fanout, request.RoutingType);
             Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
         });
     }
@@ -145,7 +145,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 x.HasArguments(null);
             });
             
@@ -161,7 +161,7 @@ public class ExchangeTests :
             Assert.IsNull(request.Arguments);
             Assert.IsFalse(request.AutoDelete);
             Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
+            Assert.AreEqual(RoutingType.Fanout, request.RoutingType);
             Assert.IsNull(request.Arguments);
         });
     }
@@ -177,7 +177,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 x.HasArguments(arg =>
                 {
                     arg.Add("fake_arg", "8238b");
@@ -203,7 +203,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 x.HasArguments(arg =>
                 {
                     arg.Add("fake_arg", "8238b");
@@ -229,7 +229,7 @@ public class ExchangeTests :
             {
                 x.IsDurable();
                 x.IsForInternalUse();
-                x.HasRoutingType(ExchangeRoutingType.Fanout);
+                x.WithRoutingType(RoutingType.Fanout);
                 x.HasArguments(arg =>
                 {
                     arg.Add("fake_arg", "8238b");

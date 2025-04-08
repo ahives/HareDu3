@@ -149,7 +149,7 @@ class ExchangeImpl :
     class ExchangeConfiguratorImpl :
         ExchangeConfigurator
     {
-        ExchangeRoutingType _routingType;
+        RoutingType _routingType;
         bool _durable;
         bool _autoDelete;
         bool _internal;
@@ -171,7 +171,7 @@ class ExchangeImpl :
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
             
-        public void HasRoutingType(ExchangeRoutingType routingType) => _routingType = routingType;
+        public void WithRoutingType(RoutingType routingType) => _routingType = routingType;
 
         public void IsDurable() => _durable = true;
 
