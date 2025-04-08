@@ -1289,7 +1289,7 @@ public class QueueTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Bind("HareDu", exchange, x =>
+            .BindToQueue("HareDu", exchange, x =>
             {
                 x.Destination("queue");
             });

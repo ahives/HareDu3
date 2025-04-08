@@ -18,8 +18,7 @@ public static class VirtualHostExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Results<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+    public static async Task<Results<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -99,8 +98,7 @@ public static class VirtualHostExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Results<VirtualHostLimitsInfo>> GetAllVirtualHostLimits(
-        this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Results<VirtualHostLimitsInfo>> GetAllVirtualHostLimits(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -153,14 +151,14 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// 
+    /// Retrieves permission information for a specific virtual host on the RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="vhost">The name of the RabbitMQ virtual host for which permissions are being retrieved.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <returns>Returns a collection of permission information associated with the specified virtual host.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Thrown when HareDu cannot find an implementation for the specified virtual host.</exception>
     public static async Task<Results<VirtualHostPermissionInfo>> GetVirtualHostPermissions(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {

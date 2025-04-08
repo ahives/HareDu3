@@ -80,7 +80,7 @@ class ExchangeImpl :
         return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result<BindingInfo>> BindToExchange(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

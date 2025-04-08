@@ -74,7 +74,7 @@ public interface Queue :
     /// <param name="configurator">Describes how the binding will be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified exchange on the specified RabbitMQ virtual host.

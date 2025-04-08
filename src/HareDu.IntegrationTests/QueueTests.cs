@@ -223,7 +223,7 @@ public class QueueTests
         var result = await _services
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Bind(vhost, exchange, x =>
+            .BindToQueue(vhost, exchange, x =>
             {
                 x.Destination(queue);
             });

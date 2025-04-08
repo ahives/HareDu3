@@ -16,7 +16,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -34,7 +35,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> RebalanceAllQueues(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -52,7 +54,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -70,7 +73,8 @@ public static class BrokerExtensions
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
@@ -88,7 +92,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -106,7 +111,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -124,7 +130,8 @@ public static class BrokerExtensions
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -143,7 +150,8 @@ public static class BrokerExtensions
     /// <param name="protocol"></param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,
         Protocol protocol, CancellationToken cancellationToken = default)
     {

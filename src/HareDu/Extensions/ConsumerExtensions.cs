@@ -27,7 +27,7 @@ public static class ConsumerExtensions
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
-    
+
     /// <summary>
     /// Returns all consumers on the current RabbitMQ node within the virtual host.
     /// </summary>

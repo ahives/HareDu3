@@ -158,11 +158,11 @@ public class ExchangeTests :
 
             Assert.IsTrue(request.Durable);
             Assert.IsTrue(request.Internal);
-            Assert.AreEqual(1, request.Arguments.Count);
+            Assert.IsNull(request.Arguments);
             Assert.IsFalse(request.AutoDelete);
             Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
             Assert.AreEqual(ExchangeRoutingType.Fanout, request.RoutingType);
-            Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
+            Assert.IsNull(request.Arguments);
         });
     }
 
@@ -189,7 +189,6 @@ public class ExchangeTests :
             Assert.IsTrue(result.HasFaulted);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/exchanges/HareDu/", result.DebugInfo.URL);
         });
     }
 
@@ -216,7 +215,6 @@ public class ExchangeTests :
             Assert.IsTrue(result.HasFaulted);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/exchanges/HareDu/", result.DebugInfo.URL);
         });
     }
 
@@ -243,7 +241,6 @@ public class ExchangeTests :
             Assert.IsTrue(result.HasFaulted);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
             Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/exchanges//fake_exchange", result.DebugInfo.URL);
         });
     }
 

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -151,7 +150,7 @@ class QueueImpl :
             new QueueSyncRequest {Action = syncAction}, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result<BindingInfo>> Bind(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

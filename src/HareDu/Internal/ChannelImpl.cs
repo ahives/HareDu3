@@ -41,13 +41,8 @@ class ChannelImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(connectionName))
-            errors.Add(new(){Reason = "Name of the connection is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Results<ChannelInfo>("api/connections/{name}/channels", errors);
+            return Panic.Results<ChannelInfo>("api/connections/{name}/channels", [new(){Reason = "Name of the connection is missing."}]);
 
         return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -58,13 +53,8 @@ class ChannelImpl :
 
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Results<ChannelInfo>("api/vhosts/{vhost}/channels", errors);
+            return Panic.Results<ChannelInfo>("api/vhosts/{vhost}/channels", [new (){Reason = "The name of the virtual host is missing."}]);
 
         return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -73,13 +63,8 @@ class ChannelImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Result<ChannelInfo>("api/channels/{name}", errors);
+            return Panic.Result<ChannelInfo>("api/channels/{name}", [new (){Reason = "The name of the virtual host is missing."}]);
 
         return await GetRequest<ChannelInfo>($"/api/channels/{name}", cancellationToken).ConfigureAwait(false);
     }

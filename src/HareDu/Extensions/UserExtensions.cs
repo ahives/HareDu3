@@ -18,8 +18,7 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Results<UserInfo>> GetAllUsers(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+    public static async Task<Results<UserInfo>> GetAllUsers(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -37,8 +36,7 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Results<UserInfo>> GetAllUsersWithoutPermissions(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+    public static async Task<Results<UserInfo>> GetAllUsersWithoutPermissions(this IBrokerFactory factory, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
