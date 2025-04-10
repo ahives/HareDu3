@@ -1,7 +1,5 @@
 namespace HareDu;
 
-using System.Collections.Generic;
-
 public interface IBrokerFactory
 {
     /// <summary>

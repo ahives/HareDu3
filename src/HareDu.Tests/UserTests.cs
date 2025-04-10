@@ -107,11 +107,11 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
                 x.WithTags(t =>
                 {
-                    t.Management();
+                    t.AddTag(UserAccessTag.Management);
                 });
             });
 
@@ -138,7 +138,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -164,7 +164,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -193,7 +193,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -220,7 +220,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -249,7 +249,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -276,7 +276,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -304,7 +304,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -332,7 +332,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -360,7 +360,7 @@ public class UserTests :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
 
@@ -384,7 +384,10 @@ public class UserTests :
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
             .API<User>()
-            .Create(string.Empty, string.Empty, configurator:x => x.WithTags(t => { t.Administrator(); }));
+            .Create(string.Empty, string.Empty, configurator: x => x.WithTags(t =>
+            {
+                t.AddTag(UserAccessTag.Administrator);
+            }));
 
         Assert.Multiple(() =>
         {

@@ -35,7 +35,6 @@ class PolicyImpl :
         configurator?.Invoke(impl);
 
         var request = impl.Request.Value;
-
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 

@@ -35,6 +35,7 @@ public static class HareDuExtensions
             {
                 client.BaseAddress = new Uri($"{config.Broker.Url}/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                // client.DefaultRequestVersion = HttpVersion.Version30;
 
                 if (config.Broker.Timeout != TimeSpan.Zero)
                     client.Timeout = config.Broker.Timeout;

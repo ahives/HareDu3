@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Model;
 
 [Config(typeof(BenchmarkConfig))]
 public class CreateBenchmarks :
@@ -191,7 +192,7 @@ public class CreateBenchmarks :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
     }
@@ -204,7 +205,7 @@ public class CreateBenchmarks :
             {
                 x.WithTags(t =>
                 {
-                    t.Administrator();
+                    t.AddTag(UserAccessTag.Administrator);
                 });
             });
     }

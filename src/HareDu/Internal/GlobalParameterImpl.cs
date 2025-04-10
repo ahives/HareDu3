@@ -52,13 +52,8 @@ class GlobalParameterImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(parameter))
-            errors.Add(new (){Reason = "The name of the parameter is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Result("api/global-parameters/{parameter}", errors);
+            return Panic.Result("api/global-parameters/{parameter}", [new (){Reason = "The name of the parameter is missing."}]);
 
         return await DeleteRequest($"api/global-parameters/{parameter}", cancellationToken).ConfigureAwait(false);
     }

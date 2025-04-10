@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
+using Model;
 using NUnit.Framework;
 using Serialization;
 
@@ -73,7 +74,7 @@ public class UserTests
             {
                 x.WithTags(t =>
                 {
-                    t.Monitoring();
+                    t.AddTag(UserAccessTag.Monitoring);
                 });
             });
             

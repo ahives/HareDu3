@@ -78,8 +78,8 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Result> DeleteUser(this IBrokerFactory factory, string username,
-        CancellationToken cancellationToken = default)
+    public static async Task<Result> DeleteUser(this IBrokerFactory factory,
+        string username, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -98,8 +98,8 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Result> DeleteUsers(this IBrokerFactory factory, IList<string> usernames,
-        CancellationToken cancellationToken = default)
+    public static async Task<Result> DeleteUsers(this IBrokerFactory factory,
+        IList<string> usernames, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -137,8 +137,8 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Results<UserLimitsInfo>> GetUserLimitsByUser(this IBrokerFactory factory, string username,
-        CancellationToken cancellationToken = default)
+    public static async Task<Results<UserLimitsInfo>> GetUserLimitsByUser(this IBrokerFactory factory,
+        string username, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         
@@ -244,8 +244,8 @@ public static class UserExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a user.</exception>
-    public static async Task<Result> DeleteUserPermissions(this IBrokerFactory factory, string username,
-        string vhost, CancellationToken cancellationToken = default)
+    public static async Task<Result> DeleteUserPermissions(this IBrokerFactory factory,
+        string username, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

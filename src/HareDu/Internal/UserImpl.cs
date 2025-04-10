@@ -311,22 +311,15 @@ class UserImpl :
                 Tags = new List<string>();
             }
 
-            public void None() => Tags.Add(UserAccessTag.None);
-
-            public void Administrator() => Tags.Add(UserAccessTag.Administrator);
-
-            public void Monitoring() => Tags.Add(UserAccessTag.Monitoring);
-
-            public void Management() => Tags.Add(UserAccessTag.Management);
-                
-            public void PolicyMaker() => Tags.Add(UserAccessTag.PolicyMaker);
-
-            public void Impersonator() => Tags.Add(UserAccessTag.Impersonator);
+            public void AddTag(UserAccessTag tag)
+            {
+                Tags.Add(tag.Value);
+            }
 
             public override string ToString()
             {
-                if (Tags.Contains(UserAccessTag.None) || !Tags.Any())
-                    return UserAccessTag.None;
+                if (Tags.Contains(UserAccessTag.None.Value) || !Tags.Any())
+                    return UserAccessTag.None.Value;
 
                 return string.Join(",", Tags);
             }

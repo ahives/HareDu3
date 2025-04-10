@@ -1,11 +1,18 @@
 namespace HareDu.Model;
 
-public class UserAccessTag
+public record UserAccessTag
 {
-    public static readonly string Administrator = "administrator";
-    public static readonly string Monitoring = "monitoring";
-    public static readonly string Management = "management";
-    public static readonly string PolicyMaker = "policymaker";
-    public static readonly string Impersonator = "impersonator";
-    public static readonly string None = string.Empty;
+    public string Value { get; }
+
+    private UserAccessTag(string value)
+    {
+        Value = value;
+    }
+
+    public static UserAccessTag Administrator = new("administrator");
+    public static UserAccessTag Monitoring = new("monitoring");
+    public static UserAccessTag Management = new("management");
+    public static UserAccessTag PolicyMaker = new("policymaker");
+    public static UserAccessTag Impersonator = new("impersonator");
+    public static UserAccessTag None = new(string.Empty);
 }

@@ -1,6 +1,5 @@
 namespace HareDu.Internal;
 
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,13 +26,8 @@ class NodeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var errors = new List<Error>();
-
         if (string.IsNullOrWhiteSpace(node))
-            errors.Add(new(){Reason = "Name of the node for which to return memory usage data is missing."});
-
-        if (errors.Count > 0)
-            return Panic.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", errors);
+            return Panic.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", [new(){Reason = "Name of the node for which to return memory usage data is missing."}]);
 
         return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", cancellationToken).ConfigureAwait(false);
     }
