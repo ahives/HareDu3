@@ -61,10 +61,18 @@ public interface Queue :
     /// </summary>
     /// <param name="name">Name of the RabbitMQ broker queue.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="syncAction">Sync action to be performed on RabbitMQ queue.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
-    Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction, CancellationToken cancellationToken = default);
+    Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Cancels synchronization of the specified queue in the given virtual host.
+    /// </summary>
+    /// <param name="name">The name of the queue to cancel synchronization for.</param>
+    /// <param name="vhost">The name of the virtual host where the queue resides.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns>A task that represents the result of the operation.</returns>
+    Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified RabbitMQ virtual host.

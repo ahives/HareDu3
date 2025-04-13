@@ -173,7 +173,7 @@ public class QueueTests
     {
         var result = await _services.GetService<IBrokerFactory>()
             .API<Queue>()
-            .Sync("order-state", "TestOrders", QueueSyncAction.Sync);
+            .Sync("order-state", "TestOrders");
             
         // Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

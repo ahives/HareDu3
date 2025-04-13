@@ -1120,7 +1120,7 @@ public class QueueTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Sync("Queue1", "HareDu", QueueSyncAction.Sync);
+            .Sync("Queue1", "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -1178,7 +1178,7 @@ public class QueueTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Sync(string.Empty, "HareDu", QueueSyncAction.Sync);
+            .Sync(string.Empty, "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -1209,7 +1209,7 @@ public class QueueTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Sync("Queue1", string.Empty, QueueSyncAction.Sync);
+            .Sync("Queue1", string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -1240,7 +1240,7 @@ public class QueueTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .API<Queue>()
-            .Sync(string.Empty, string.Empty, QueueSyncAction.Sync);
+            .Sync(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
         {

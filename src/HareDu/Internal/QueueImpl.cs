@@ -131,8 +131,7 @@ class QueueImpl :
         return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Sync(string name, string vhost, QueueSyncAction syncAction,
-        CancellationToken cancellationToken = default)
+    public async Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -149,7 +148,27 @@ class QueueImpl :
             return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
-            new QueueSyncRequest {Action = syncAction}, cancellationToken).ConfigureAwait(false);
+            new QueueSyncRequest {Action = QueueSyncAction.Sync}, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        string sanitizedVHost = vhost.ToSanitizedName();
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+        if (string.IsNullOrWhiteSpace(name))
+            errors.Add(new (){Reason = "The name of the queue is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
+
+        return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
+            new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)

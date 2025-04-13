@@ -40,7 +40,7 @@ internal class BaseBrokerImpl :
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], null);
+            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
