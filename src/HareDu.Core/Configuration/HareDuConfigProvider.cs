@@ -37,7 +37,10 @@ public class HareDuConfigProvider :
         => config?.Credentials != null &&
            !string.IsNullOrWhiteSpace(config.Credentials.Username) &&
            !string.IsNullOrWhiteSpace(config.Credentials.Password) &&
-           !string.IsNullOrWhiteSpace(config.Url);
+           !string.IsNullOrWhiteSpace(config.Url) &&
+           config.MaxAllowedParallelRequests >= 1 &&
+           config.RequestReplenishmentPeriod >= 1 &&
+           config.RequestsPerReplenishment >= 1;
 
         
     class HareDuConfiguratorImpl :
@@ -87,6 +90,9 @@ public class HareDuConfigProvider :
             TimeSpan _timeout;
             string _username;
             string _password;
+            int _allowedParallelRequests;
+            int _requestReplenishmentPeriod;
+            int _requestsPerReplenishment;
 
             public Lazy<BrokerConfig> Settings { get; }
 
@@ -97,6 +103,9 @@ public class HareDuConfigProvider :
                     {
                         Url = _url,
                         Timeout = _timeout,
+                        MaxAllowedParallelRequests = _allowedParallelRequests,
+                        RequestReplenishmentPeriod = _requestReplenishmentPeriod,
+                        RequestsPerReplenishment = _requestsPerReplenishment,
                         Credentials = !string.IsNullOrWhiteSpace(_username) && !string.IsNullOrWhiteSpace(_password)
                             ? new() {Username = _username, Password = _password}
                             : default
@@ -106,6 +115,13 @@ public class HareDuConfigProvider :
             public void ConnectTo(string url) => _url = url;
 
             public void TimeoutAfter(TimeSpan timeout) => _timeout = timeout;
+
+            public void LimitParallelRequests(int allowedParallelRequests = 100, int requestsPerReplenishment = 100, int replenishPeriod = 1)
+            {
+                _allowedParallelRequests = allowedParallelRequests;
+                _requestReplenishmentPeriod = replenishPeriod;
+                _requestsPerReplenishment = requestsPerReplenishment;
+            }
 
             public void UsingCredentials(string username, string password)
             {

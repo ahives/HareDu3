@@ -25,6 +25,7 @@ public class QueueTests
                 {
                     b.ConnectTo("http://localhost:15672");
                     b.UsingCredentials("guest", "guest");
+                    b.LimitParallelRequests(10, 10);
                 });
                 x.Diagnostics(d =>
                 {

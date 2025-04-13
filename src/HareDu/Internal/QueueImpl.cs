@@ -39,12 +39,12 @@ class QueueImpl :
                 errors.Add(new() {Reason = "Name of the node for which to return memory usage data is missing."});
         }
 
-        string url = string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}";
-
         if (errors.Count > 0)
-            return Panic.Results<QueueInfo>(url, errors);
+            return Panic.Results<QueueInfo>("api/queues", errors);
 
-        return await GetAllRequest<QueueInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<QueueInfo>(
+                string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}", cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)
@@ -107,7 +107,9 @@ class QueueImpl :
             ? $"api/queues/{sanitizedVHost}/{name}"
             : $"api/queues/{sanitizedVHost}/{name}?{queryParams}";
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest(string.IsNullOrWhiteSpace(queryParams)
+            ? $"api/queues/{sanitizedVHost}/{name}"
+            : $"api/queues/{sanitizedVHost}/{name}?{queryParams}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default)

@@ -1,4 +1,4 @@
-namespace HareDu.Internal;
+namespace HareDu;
 
 public record Protocol
 {

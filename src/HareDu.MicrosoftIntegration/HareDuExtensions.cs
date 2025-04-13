@@ -1,10 +1,9 @@
 namespace HareDu.MicrosoftIntegration;
 
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using Core.Configuration;
+using Core.HTTP;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +30,7 @@ public static class HareDuExtensions
         configuration.Bind(configSection, config);
 
         services.AddSingleton(config);
-        services.AddHttpClient("broker", client =>
+        services.AddHttpClient(HttpConst.BrokerClient.Value, client =>
             {
                 client.BaseAddress = new Uri($"{config.Broker.Url}/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -40,11 +39,7 @@ public static class HareDuExtensions
                 if (config.Broker.Timeout != TimeSpan.Zero)
                     client.Timeout = config.Broker.Timeout;
             })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                Credentials = new NetworkCredential(config.Broker.Credentials.Username,
-                    config.Broker.Credentials.Password)
-            });
+            .ConfigurePrimaryHttpMessageHandler(() => new HareDuRateLimiter(config));
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
@@ -69,7 +64,7 @@ public static class HareDuExtensions
                 .Configure(configurator);
 
         services.AddSingleton(config);
-        services.AddHttpClient("broker", client =>
+        services.AddHttpClient(HttpConst.BrokerClient.Value, client =>
             {
                 client.BaseAddress = new Uri($"{config.Broker.Url}/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -77,11 +72,7 @@ public static class HareDuExtensions
                 if (config.Broker.Timeout != TimeSpan.Zero)
                     client.Timeout = config.Broker.Timeout;
             })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                Credentials = new NetworkCredential(config.Broker.Credentials.Username,
-                    config.Broker.Credentials.Password)
-            });
+            .ConfigurePrimaryHttpMessageHandler(() => new HareDuRateLimiter(config));
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();

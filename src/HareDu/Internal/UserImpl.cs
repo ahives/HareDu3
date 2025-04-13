@@ -145,13 +145,11 @@ class UserImpl :
         if (string.IsNullOrWhiteSpace(username))
             errors.Add(new (){Reason = "The username is missing."});
 
-        var request = new UserLimitRequest{Value = impl.LimitValue};
-
         if (errors.Count > 0)
             return Panic.Result("api/user-limits/{username}/{limit}", errors);
 
-        // /api/user-limits/user/name
-        return await PutRequest($"api/user-limits/{username}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/user-limits/{username}/{impl.Limit}",
+            new UserLimitRequest {Value = impl.LimitValue}, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default)
