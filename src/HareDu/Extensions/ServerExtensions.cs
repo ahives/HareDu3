@@ -10,7 +10,7 @@ using Model;
 public static class ServerExtensions
 {
     /// <summary>
-    /// Returns all object definitions on the current RabbitMQ node.
+    /// Returns information about the RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>

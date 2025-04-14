@@ -10,13 +10,13 @@ using Model;
 public static class ExchangeExtensions
 {
     /// <summary>
-    /// Returns all exchanges on the current RabbitMQ node.
+    /// Retrieves all RabbitMQ exchanges from the target broker.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API that provides the implementation for retrieving exchanges.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task containing the results of the retrieved exchange information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a exchange.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<ExchangeInfo>> GetAllExchanges(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -29,16 +29,16 @@ public static class ExchangeExtensions
     }
 
     /// <summary>
-    /// Creates the specified exchange on the target RabbitMQ virtual host.
+    /// Creates a new RabbitMQ exchange on the specified virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="exchange">Name of the RabbitMQ exchange.</param>
-    /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
-    /// <param name="configurator">Describes how the exchange will be created.</param>
+    /// <param name="factory">The API that provides the implementation for creating exchanges.</param>
+    /// <param name="exchange">The name of the exchange to be created.</param>
+    /// <param name="vhost">The virtual host where the exchange will be created.</param>
+    /// <param name="configurator">An optional delegate to configure the exchange properties.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task containing the result of the exchange creation operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a exchange.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreateExchange(this IBrokerFactory factory,
         string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -51,16 +51,15 @@ public static class ExchangeExtensions
     }
 
     /// <summary>
-    /// Deletes the specified exchange on the target RabbitMQ virtual host.
+    /// Deletes the specified exchange from the specified virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="exchange">Name of the RabbitMQ exchange.</param>
-    /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
-    /// <param name="configurator">Describes how the exchange will be deleted.</param>
+    /// <param name="factory">The API that provides the implementation for deleting exchanges.</param>
+    /// <param name="exchange">The name of the exchange to be deleted.</param>
+    /// <param name="vhost">The virtual host from which the exchange will be deleted.</param>
+    /// <param name="configurator">An optional delegate to configure the exchange deletion operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a exchange.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeleteExchange(this IBrokerFactory factory,
         string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
@@ -73,18 +72,19 @@ public static class ExchangeExtensions
     }
 
     /// <summary>
-    /// Binds the specified exchange to another exchange using the provided configuration.
+    /// Binds an exchange to another exchange in the specified virtual host with the given configuration.
     /// </summary>
-    /// <param name="factory">The RabbitMQ broker factory instance used to execute the binding operation.</param>
-    /// <param name="vhost">The name of the RabbitMQ virtual host containing the exchanges.</param>
-    /// <param name="exchange">The name of the exchange to bind.</param>
-    /// <param name="configurator">An action to configure the binding operation, including destination exchange and binding properties.</param>
+    /// <param name="factory">The API providing the implementation for exchange binding operations.</param>
+    /// <param name="vhost">The name of the virtual host where the exchange resides.</param>
+    /// <param name="exchange">The name of the source exchange to bind.</param>
+    /// <param name="configurator">The configuration settings for the binding, including destination and binding key.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the result of the binding operation, including the binding information.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if the factory or configurator is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
+    /// <returns>A task containing the result of the binding operation, including binding information.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BindingInfo>> BindToExchange(this IBrokerFactory factory,
-        string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+        string vhost, string exchange, Action<BindingConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -95,15 +95,15 @@ public static class ExchangeExtensions
     }
 
     /// <summary>
-    /// Unbinds an exchange from another exchange within a specified virtual host.
+    /// Unbinds an existing binding between the specified virtual host exchange and another exchange.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality of the broker.</param>
-    /// <param name="vhost">The virtual host within which the exchange is bound.</param>
-    /// <param name="configurator">The configuration for unbinding the exchanges.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread, if necessary.</param>
-    /// <returns>Returns the result of the unbinding operation, including success or failure details.</returns>
-    /// <exception cref="ArgumentNullException">Throws if the IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a queue.</exception>
+    /// <param name="factory">The API that provides the implementation for unbinding exchanges.</param>
+    /// <param name="vhost">The virtual host where the exchange resides.</param>
+    /// <param name="configurator">The configurator for defining the unbinding parameters.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns>A task containing the result of the unbinding operation.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> UnbindFromExchange(this IBrokerFactory factory,
         string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {

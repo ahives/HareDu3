@@ -10,13 +10,13 @@ using Model;
 public static class OperatorPolicyExtensions
 {
     /// <summary>
-    /// Returns all operator policies on the current RabbitMQ node.
+    /// Retrieves all operator policies on the target RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API that communicates with the backend RabbitMQ system to retrieve operator policies.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>Returns a task that represents the result of the asynchronous operation containing the collection of operator policies as <see cref="Results{OperatorPolicyInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -29,16 +29,15 @@ public static class OperatorPolicyExtensions
     }
 
     /// <summary>
-    /// Creates the specified operator policy on the target RabbitMQ virtual host.
+    /// Creates a new operator policy on the target RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API that communicates with the backend RabbitMQ system to create a new operator policy.</param>
     /// <param name="name">Name of the operator policy.</param>
     /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
-    /// <param name="configurator">Describes how the operator policy will be created by setting arguments through set methods.</param>
+    /// <param name="configurator">Describes how the operator policy should be configured.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreateOperatorPolicy(this IBrokerFactory factory, string name,
         string vhost, Action<OperatorPolicyConfigurator> configurator,
         CancellationToken cancellationToken = default)
@@ -54,13 +53,13 @@ public static class OperatorPolicyExtensions
     /// <summary>
     /// Deletes the specified operator policy on the target RabbitMQ virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="policy">Name of the operator policy.</param>
-    /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
+    /// <param name="factory">The API that communicates with the backend RabbitMQ system to delete the operator policy.</param>
+    /// <param name="policy">The name of the operator policy to delete.</param>
+    /// <param name="vhost">The name of the virtual host where the operator policy is defined.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>Returns a task that represents the result of the asynchronous operation as a <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a operator policy.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeleteOperatorPolicy(this IBrokerFactory factory,
         string policy, string vhost, CancellationToken cancellationToken = default)
     {

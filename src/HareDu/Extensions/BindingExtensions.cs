@@ -10,14 +10,19 @@ using Model;
 public static class BindingExtensions
 {
     /// <summary>
-    /// Returns all bindings on the current RabbitMQ node.
+    /// Fetches all bindings available in the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a binding.</exception>
-    public static async Task<Results<BindingInfo>> GetAllBindings(this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    /// <param name="factory">
+    /// The broker factory instance used to access the RabbitMQ API.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A token used to propagate notifications that the operation should be canceled.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation, containing the results of the bindings retrieved from the broker as <see cref="Results{BindingInfo}"/>.
+    /// </returns>
+    public static async Task<Results<BindingInfo>> GetAllBindings(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

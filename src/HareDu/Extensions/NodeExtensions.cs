@@ -10,13 +10,16 @@ using Model;
 public static class NodeExtensions
 {
     /// <summary>
-    /// Returns all nodes on the current RabbitMQ cluster.
+    /// Retrieves information for all RabbitMQ nodes available in the cluster.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="factory">The factory interface used to access the underlying RabbitMQ node API.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation.
+    /// The task result contains a <see cref="Results{NodeInfo}"/> object, which includes the retrieved data for all nodes in the cluster.
+    /// </returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a node.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<NodeInfo>> GetAllNodes(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -29,14 +32,16 @@ public static class NodeExtensions
     }
 
     /// <summary>
-    /// Returns the memory usage information on the specified RabbitMQ node.
+    /// Retrieves memory usage information for a specific RabbitMQ node in the cluster.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="node">Name of the RabbitMQ node.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a node.</exception>
+    /// <param name="factory">The factory interface used to access the underlying RabbitMQ node API.</param>
+    /// <param name="node">The name of the RabbitMQ node for which memory usage information is being requested.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation.
+    /// The task result contains a <see cref="Result{NodeMemoryUsageInfo}"/> object, which includes memory usage details for the specified node.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
     public static async Task<Result<NodeMemoryUsageInfo>> GetNodeMemoryUsage(this IBrokerFactory factory,
         string node, CancellationToken cancellationToken = default)
     {

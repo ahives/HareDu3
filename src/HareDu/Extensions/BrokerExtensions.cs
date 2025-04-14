@@ -5,17 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
-using Internal;
 using Model;
 
 public static class BrokerExtensions
 {
     /// <summary>
-    /// Returns various bits of random information that describe the RabbitMQ system.
+    /// Retrieves the RabbitMQ broker overview information.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API provider which implements the RabbitMQ functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task containing the result with detailed broker overview information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerFactory factory,
@@ -30,11 +29,11 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Rebalances all queues in all RabbitMQ virtual hosts.
+    /// Rebalances all queues across all RabbitMQ virtual hosts.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task representing the asynchronous operation result.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> RebalanceAllQueues(this IBrokerFactory factory,
@@ -49,14 +48,15 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks the RabbitMQ cluster to see if there are any alarms in effect.
+    /// Determines whether alarms are in effect for the RabbitMQ system.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="factory">An implementation of the IBrokerFactory interface used to interact with the RabbitMQ system.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation if necessary.</param>
+    /// <returns>Returns a result containing the current state of alarms in the RabbitMQ system.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
-    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -67,12 +67,12 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Performs a health check on the specified RabbitMQ virtual host.
+    /// Determines whether the broker is alive and responsive within the specified virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="factory">The API that implements the underlying functionality of the broker.</param>
+    /// <param name="vhost">The virtual host to verify the broker's state.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result containing the state of the broker as <see cref="BrokerState"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerFactory factory,
@@ -87,7 +87,7 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Performs a health check on the RabbitMQ cluster to see if the virtual hosts are running.
+    /// Performs a health check on all RabbitMQ virtual hosts.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
@@ -106,11 +106,14 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Performs a health check on the RabbitMQ cluster to determine if there are classic mirrored queues without synchronized mirrors online.
+    /// Determines whether the RabbitMQ node is in a mirror synchronization critical state.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API factory that communicates with the RabbitMQ broker.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>
+    /// A result containing the state of the RabbitMQ node in relation to mirror synchronization,
+    /// represented by <see cref="NodeMirrorSyncState"/>.
+    /// </returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerFactory factory,
@@ -125,11 +128,11 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Performs a health check on the RabbitMQ cluster to determine if there are quorum queues with minimum online quorum.
+    /// Determines whether the node related to the RabbitMQ cluster is in a critical quorum state.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API that provides the implementation to interact with the RabbitMQ system.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>Returns the state of the node's quorum, indicating whether it is critical, below minimum, or not recognized.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerFactory factory,
@@ -144,12 +147,12 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks if the given protocol is an active listener on the RabbitMQ cluster.
+    /// Determines whether a protocol is an active listener on the RabbitMQ system.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="protocol"></param>
+    /// <param name="factory">The API that implements the underlying broker system functionality.</param>
+    /// <param name="protocol">The protocol whose listener status is being queried (e.g., AMQP091, MQTT, STOMP).</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result containing the state of the protocol listener (Active, NotActive, or NotRecognized).</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,

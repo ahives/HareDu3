@@ -14,10 +14,11 @@ public static class VirtualHostExtensions
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Results<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    /// <returns>Task containing information about all virtual hosts as a <see cref="Results{VirtualHostInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    public static async Task<Results<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -32,11 +33,11 @@ public static class VirtualHostExtensions
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
     /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="configurator">Describes how the virtual host will be created.</param>
+    /// <param name="configurator">Describes how the virtual host will be configured during its creation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <returns>Task that represents the creation operation and includes the result of the operation as a <see cref="Result"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the virtual host could not be accessed.</exception>
     public static async Task<Result> CreateVirtualHost(this IBrokerFactory factory,
         string vhost, Action<VirtualHostConfigurator> configurator, CancellationToken cancellationToken = default)
     {
@@ -52,11 +53,11 @@ public static class VirtualHostExtensions
     /// Deletes the specified RabbitMQ virtual host on the current server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="vhost">Name of the RabbitMQ broker virtual host to delete.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <returns>Task containing the result of the delete operation as a <see cref="Result"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the virtual host could not be accessed.</exception>
     public static async Task<Result> DeleteVirtualHost(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
@@ -69,15 +70,15 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// Starts up the specified RabbitMQ virtual host on the specified node.
+    /// Starts the specified virtual host on the provided node in the RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="node">Name of the RabbitMQ server node.</param>
+    /// <param name="vhost">The name of the virtual host to start.</param>
+    /// <param name="node">The name of the node where the virtual host will be started.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <returns>A task representing the asynchronous operation, containing the result of the startup operation as a <see cref="Result"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
     public static async Task<Result> StartupVirtualHost(this IBrokerFactory factory,
         string vhost, string node, CancellationToken cancellationToken = default)
     {
@@ -88,16 +89,17 @@ public static class VirtualHostExtensions
             .Startup(vhost, node, cancellationToken)
             .ConfigureAwait(false);
     }
- 
+
     /// <summary>
-    /// Returns limit information about each virtual host on the current RabbitMQ server.
+    /// Retrieves information about all virtual host limits on the current RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API implementation for accessing broker-related features.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Results<VirtualHostLimitsInfo>> GetAllVirtualHostLimits(this IBrokerFactory factory, CancellationToken cancellationToken = default)
+    /// <returns>Task containing the result of virtual host limits as a <see cref="Results{VirtualHostLimitsInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    public static async Task<Results<VirtualHostLimitsInfo>> GetAllVirtualHostLimits(this IBrokerFactory factory,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -108,17 +110,17 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// Defines specified limits on the RabbitMQ virtual host on the current server.
+    /// Defines a limit for a specified virtual host on the current RabbitMQ server.
     /// </summary>
     /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="configurator">Describes how the virtual host limits will be defined.</param>
+    /// <param name="vhost">The name of the virtual host being modified.</param>
+    /// <param name="configurator">Configurator used to specify the details of the virtual host limit.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
-    public static async Task<Result> DefineVirtualHostLimit(this IBrokerFactory factory, string vhost,
-        Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    /// <returns>Task representing the operation and the result of the virtual host limit definition as a <see cref="Result"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    public static async Task<Result> DefineVirtualHostLimit(this IBrokerFactory factory,
+        string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -129,15 +131,15 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// Deletes the limits for the specified virtual host on the current RabbitMQ server.
+    /// Deletes a specific limit applied to the given virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="limit"></param>
+    /// <param name="factory">The API that provides access to broker functionality.</param>
+    /// <param name="vhost">The name of the virtual host for which the limit is to be deleted.</param>
+    /// <param name="limit">The specific limit to be deleted (e.g., MaxConnections, MaxQueues).</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <returns>A task that returns a <see cref="Result"/> indicating the success or failure of the operation.</returns>
+    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
     public static async Task<Result> DeleteVirtualHostLimit(this IBrokerFactory factory,
         string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default)
     {
@@ -150,14 +152,13 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// Retrieves permission information for a specific virtual host on the RabbitMQ server.
+    /// Retrieves the permissions associated with a specified virtual host on the RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">The name of the RabbitMQ virtual host for which permissions are being retrieved.</param>
+    /// <param name="factory">The API that implements the necessary functionality for interacting with the RabbitMQ server.</param>
+    /// <param name="vhost">The name of the virtual host for which to retrieve permissions.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Returns a collection of permission information associated with the specified virtual host.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Thrown when HareDu cannot find an implementation for the specified virtual host.</exception>
+    /// <returns>A task containing the permissions associated with the specified virtual host as a <see cref="Results{VirtualHostPermissionInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the provided <paramref name="factory"/> is null.</exception>
     public static async Task<Results<VirtualHostPermissionInfo>> GetVirtualHostPermissions(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {
@@ -170,14 +171,14 @@ public static class VirtualHostExtensions
     }
 
     /// <summary>
-    /// List all topic permissions on the virtual host.
+    /// Retrieves all topic permissions for the specified virtual host from the RabbitMQ server.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a virtual host.</exception>
+    /// <param name="factory">The API responsible for executing the required functionality.</param>
+    /// <param name="vhost">The name of the RabbitMQ virtual host.</param>
+    /// <param name="cancellationToken">Token used to cancel the currently running operation.</param>
+    /// <returns>Task containing the result of the topic permissions as a <see cref="Results{VirtualHostTopicPermissionInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Thrown when the required API implementation for the virtual host cannot be accessed.</exception>
     public static async Task<Results<VirtualHostTopicPermissionInfo>> GetVirtualHostTopicPermissions(this IBrokerFactory factory,
         string vhost, CancellationToken cancellationToken = default)
     {

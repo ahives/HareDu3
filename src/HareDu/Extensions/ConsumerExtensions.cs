@@ -10,13 +10,14 @@ using Model;
 public static class ConsumerExtensions
 {
     /// <summary>
-    /// Returns all consumers on the current RabbitMQ node.
+    /// Retrieves a list of all consumers on the current RabbitMQ node.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The factory instance used to access the RabbitMQ broker functionalities.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provided IBrokerFactory instance is null.</exception>
+    /// <returns>A task containing the results of consumer information for all active consumers.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a consumer.</exception>
-    /// <returns></returns>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<ConsumerInfo>> GetAllConsumers(this IBrokerFactory factory,
         CancellationToken cancellationToken = default)
     {
@@ -29,14 +30,15 @@ public static class ConsumerExtensions
     }
 
     /// <summary>
-    /// Returns all consumers on the current RabbitMQ node within the virtual host.
+    /// Retrieves all active consumers for the specified virtual host on the RabbitMQ node.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="vhost">The name of the virtual host to filter the active consumers.</param>
+    /// <param name="factory">The factory instance used to access the RabbitMQ broker functionalities.</param>
+    /// <param name="vhost">The name of the virtual host from which to retrieve the active consumers.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provided IBrokerFactory instance is null.</exception>
+    /// <returns>A task representing the asynchronous operation, containing the results of consumer information for the specified virtual host.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a consumer.</exception>
-    /// <returns></returns>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<ConsumerInfo>> GetConsumersByVirtualHost(this IBrokerFactory factory, string vhost,
         CancellationToken cancellationToken = default)
     {

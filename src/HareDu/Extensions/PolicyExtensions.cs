@@ -10,11 +10,11 @@ using Model;
 public static class PolicyExtensions
 {
     /// <summary>
-    /// Returns all policies on the current RabbitMQ node.
+    /// Retrieves all policies from the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
+    /// <param name="factory">The API factory that provides access to the policy endpoint.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation, containing the results of all policies on the broker.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<PolicyInfo>> GetAllPolicies(this IBrokerFactory factory,
@@ -29,18 +29,19 @@ public static class PolicyExtensions
     }
 
     /// <summary>
-    /// Creates the specified policy on the target RabbitMQ virtual host.
+    /// Creates a new policy on the RabbitMQ broker with the specified name, virtual host, and configuration.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="name">The name of the policy.</param>
-    /// <param name="vhost">The name of the virtual host.</param>
-    /// <param name="configurator">Describes how the policy will be created by setting arguments through set methods.</param>
+    /// <param name="factory">The API factory that provides access to the policy endpoint.</param>
+    /// <param name="name">The name of the policy to be created.</param>
+    /// <param name="vhost">The virtual host to which the policy will be applied.</param>
+    /// <param name="configurator">An action to configure the policy settings.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation, containing the result of the policy creation request.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreatePolicy(this IBrokerFactory factory,
-        string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default)
+        string name, string vhost, Action<PolicyConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -51,13 +52,13 @@ public static class PolicyExtensions
     }
 
     /// <summary>
-    /// Deletes the specified policy on the target RabbitMQ virtual host.
+    /// Deletes the policy with the specified name from the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality.</param>
-    /// <param name="name">The name of the policy.</param>
-    /// <param name="vhost">The name of the virtual host.</param>
+    /// <param name="factory">The API factory that provides access to the policy endpoint.</param>
+    /// <param name="name">The name of the policy to be deleted.</param>
+    /// <param name="vhost">The virtual host from which the policy will be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A task that represents the asynchronous operation, containing the result of the policy deletion request.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeletePolicy(this IBrokerFactory factory,
