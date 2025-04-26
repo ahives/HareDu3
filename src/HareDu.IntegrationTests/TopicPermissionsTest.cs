@@ -23,7 +23,27 @@ public class TopicPermissionsTest
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
+                });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
                 });
             })
             .BuildServiceProvider();
@@ -33,7 +53,7 @@ public class TopicPermissionsTest
     public async Task Verify_can_get_all_topic_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
 
@@ -44,7 +64,7 @@ public class TopicPermissionsTest
     public void Verify_can_filter_topic_permissions()
     {
         var result = _services.GetService<IBrokerFactory>()
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .Where(x => x.VirtualHost == "HareDu");
             
@@ -63,7 +83,7 @@ public class TopicPermissionsTest
     public async Task Verify_can_create_user_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create("guest", "HareDu", x =>
             {
                 x.Exchange("E4");
@@ -78,7 +98,7 @@ public class TopicPermissionsTest
     public async Task Verify_can_delete_user_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete("guest", "HareDu7");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

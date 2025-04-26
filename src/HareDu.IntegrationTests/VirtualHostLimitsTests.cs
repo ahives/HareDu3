@@ -23,7 +23,27 @@ public class VirtualHostLimitsTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
+                });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
                 });
             })
             .BuildServiceProvider();
@@ -33,7 +53,7 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_get_all_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAllLimits()
             .ScreenDump();
     }
@@ -42,7 +62,7 @@ public class VirtualHostLimitsTests
     public void Verify_can_get_limits_of_specified_vhost()
     {
         var result = _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAllLimits()
             .Where(x => x.VirtualHost == "HareDu");
 
@@ -65,7 +85,7 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_define_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("HareDu5", x =>
             {
                 x.SetMaxQueueLimit(100);
@@ -79,7 +99,7 @@ public class VirtualHostLimitsTests
     public async Task Verify_can_delete_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit("HareDu3", VirtualHostLimit.MaxConnections);
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

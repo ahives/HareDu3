@@ -2,6 +2,7 @@ namespace HareDu.Tests;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -14,9 +15,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_get_all_users1()
     {
-        var services = GetContainerBuilder("TestData/UserInfo1.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/UserInfo1.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
         Assert.Multiple(() =>
@@ -36,9 +38,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_get_all_users2()
     {
-        var services = GetContainerBuilder("TestData/UserInfo1.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetAllUsers();
+        var result = await GetContainerBuilder("TestData/UserInfo1.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetAllUsers(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -57,9 +60,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_get_all_users_without_permissions1()
     {
-        var services = GetContainerBuilder("TestData/UserInfo2.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/UserInfo2.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllWithoutPermissions();
 
         Assert.Multiple(() =>
@@ -79,9 +83,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_get_all_users_without_permissions2()
     {
-        var services = GetContainerBuilder("TestData/UserInfo2.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetAllUsersWithoutPermissions();
+        var result = await GetContainerBuilder("TestData/UserInfo2.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetAllUsersWithoutPermissions(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -100,9 +105,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_create_user_with_multiple_tags()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
@@ -131,9 +137,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_create_user_with_tags()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
@@ -160,7 +167,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .CreateUser("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
+            .CreateUser(x => x.UsingCredentials("guest", "guest"), "testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
                 {
@@ -186,9 +193,10 @@ public class UserTests :
     {
         string passwordHash = "gkgfjjhfjh".ComputePasswordHash();
             
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, passwordHash, configurator:x =>
             {
                 x.WithTags(t =>
@@ -213,9 +221,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_create_3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", configurator:x =>
             {
                 x.WithTags(t =>
@@ -242,9 +251,10 @@ public class UserTests :
     {
         string passwordHash = "gkgfjjhfjh".ComputePasswordHash();
             
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, passwordHash, x =>
             {
                 x.WithTags(t =>
@@ -269,9 +279,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(),x =>
             {
                 x.WithTags(t =>
@@ -297,9 +308,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_2()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, string.Empty, x =>
             {
                 x.WithTags(t =>
@@ -325,9 +337,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, string.Empty,x =>
             {
                 x.WithTags(t =>
@@ -353,9 +366,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_4()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
                 x.WithTags(t =>
@@ -381,9 +395,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_5()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, configurator: x => x.WithTags(t =>
             {
                 t.AddTag(UserAccessTag.Administrator);
@@ -406,9 +421,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_delete1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_user");
             
         Assert.IsFalse(result.HasFaulted);
@@ -419,7 +435,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUser("fake_user");
+            .DeleteUser(x => x.UsingCredentials("guest", "guest"), "fake_user");
             
         Assert.IsFalse(result.HasFaulted);
     }
@@ -427,9 +443,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_delete3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
             
         Assert.Multiple(() =>
@@ -450,8 +467,8 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUsers(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
-            
+            .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"fake_user1", "fake_user2", "fake_user3"});
+
         Assert.Multiple(() =>
         {
             Assert.IsFalse(result.HasFaulted);
@@ -468,9 +485,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
             
         Assert.Multiple(() =>
@@ -485,7 +503,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUser(string.Empty);
+            .DeleteUser(x => x.UsingCredentials("guest", "guest"), string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -497,9 +515,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>());
             
         Assert.Multiple(() =>
@@ -514,7 +533,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUsers(new List<string>());
+            .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>());
             
         Assert.Multiple(() =>
         {
@@ -526,11 +545,12 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete5()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"  ", string.Empty, null});
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -543,7 +563,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUsers(new List<string>{"  ", string.Empty, null});
+            .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", string.Empty, null});
             
         Assert.Multiple(() =>
         {
@@ -555,9 +575,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete7()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"  ", "fake_user1", null});
             
         Assert.Multiple(() =>
@@ -572,7 +593,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUsers(new List<string>{"  ", "fake_user1", null});
+            .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", "fake_user1", null});
             
         Assert.Multiple(() =>
         {
@@ -584,9 +605,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_get_all_user_permissions1()
     {
-        var services = GetContainerBuilder("TestData/UserPermissionsInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/UserPermissionsInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllPermissions();
             
         Assert.Multiple(() =>
@@ -609,7 +631,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder("TestData/UserPermissionsInfo.json").BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .GetAllUserPermissions();
+            .GetAllUserPermissions(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
         {
@@ -629,9 +651,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_delete_user_permissions1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("haredu_user", "HareDu5");
 
         Assert.Multiple(() =>
@@ -646,7 +669,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUserPermissions("haredu_user", "HareDu5");
+            .DeleteUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5");
 
         Assert.Multiple(() =>
         {
@@ -658,9 +681,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete_user_permissions1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, "HareDu5");
             
         Assert.Multiple(() =>
@@ -675,7 +699,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUserPermissions(string.Empty, "HareDu5");
+            .DeleteUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5");
             
         Assert.Multiple(() =>
         {
@@ -687,9 +711,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete_user_permissions3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("haredu_user", string.Empty);
             
         Assert.Multiple(() =>
@@ -704,7 +729,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUserPermissions("haredu_user", string.Empty);
+            .DeleteUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -716,9 +741,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_delete_user_permissions5()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -733,7 +759,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .DeleteUserPermissions(string.Empty, string.Empty);
+            .DeleteUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -745,9 +771,10 @@ public class UserTests :
     [Test]
     public async Task Verify_can_create_user_permissions1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("haredu_user", "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -774,7 +801,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .ApplyUserPermissions("haredu_user", "HareDu5", x =>
+            .ApplyUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");
@@ -798,9 +825,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_user_permissions1()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions(string.Empty, "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -827,7 +855,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .ApplyUserPermissions(string.Empty, "HareDu5", x =>
+            .ApplyUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");
@@ -851,9 +879,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_user_permissions3()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("haredu_user", string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -880,7 +909,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .ApplyUserPermissions("haredu_user", string.Empty, x =>
+            .ApplyUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");
@@ -904,9 +933,10 @@ public class UserTests :
     [Test]
     public async Task Verify_cannot_create_user_permissions5()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions(string.Empty, string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -933,7 +963,7 @@ public class UserTests :
     {
         var services = GetContainerBuilder().BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .ApplyUserPermissions(string.Empty, string.Empty, x =>
+            .ApplyUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");

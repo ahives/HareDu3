@@ -1,5 +1,6 @@
 namespace HareDu.Snapshotting.Tests.Fakes;
 
+using System;
 using System.Collections.Generic;
 using Core.Configuration;
 using Core.Testing;
@@ -10,8 +11,15 @@ public class FakeBrokerFactory :
 {
     public HareDuConfig Config { get; }
 
-    public T API<T>()
-        where T : BrokerAPI
+    public bool IsRegistered(string key) => throw new System.NotImplementedException();
+        
+    public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();
+
+    public void CancelPendingRequest() => throw new System.NotImplementedException();
+
+    public bool TryRegisterAll() => throw new System.NotImplementedException();
+
+    public T API<T>(Action<HareDuCredentialProvider> credentials) where T : BrokerAPI
     {
         if (typeof(T) == typeof(Broker))
         {
@@ -22,7 +30,7 @@ public class FakeBrokerFactory :
 
         if (typeof(T) == typeof(Node))
         {
-            Node obj = new FakeNodeObject();
+            Node obj = new FakeNodeImpl();
 
             return (T) obj;
         }
@@ -51,11 +59,8 @@ public class FakeBrokerFactory :
         return default;
     }
 
-    public bool IsRegistered(string key) => throw new System.NotImplementedException();
-        
-    public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();
-
-    public void CancelPendingRequest() => throw new System.NotImplementedException();
-
-    public bool TryRegisterAll() => throw new System.NotImplementedException();
+    public void Init(HareDuCredentials credentials)
+    {
+        throw new System.NotImplementedException();
+    }
 }

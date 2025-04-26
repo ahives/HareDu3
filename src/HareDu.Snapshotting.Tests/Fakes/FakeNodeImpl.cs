@@ -8,7 +8,7 @@ using Core;
 using Core.Testing;
 using HareDu.Model;
 
-public class FakeNodeObject :
+public class FakeNodeImpl :
     Node,
     HareDuTestingFake
 {

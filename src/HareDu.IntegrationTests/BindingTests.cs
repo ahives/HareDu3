@@ -22,7 +22,10 @@ public class BindingTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {
@@ -49,7 +52,7 @@ public class BindingTests
     public async Task Should_be_able_to_get_all_bindings1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Binding>()
+            .API<Binding>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
             
@@ -61,7 +64,7 @@ public class BindingTests
     public async Task Should_be_able_to_get_all_bindings2()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .GetAllBindings()
+            .GetAllBindings(x => x.UsingCredentials("guest", "guest"))
             .ScreenDump();
             
         Assert.IsFalse(result.HasFaulted);

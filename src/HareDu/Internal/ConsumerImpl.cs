@@ -11,8 +11,8 @@ class ConsumerImpl :
     BaseBrokerImpl,
     Consumer
 {
-    public ConsumerImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public ConsumerImpl(HttpClient client)
+        : base(client)
     {
     }
 

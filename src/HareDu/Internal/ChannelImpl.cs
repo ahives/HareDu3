@@ -1,7 +1,6 @@
 namespace HareDu.Internal;
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +12,8 @@ class ChannelImpl :
     BaseBrokerImpl,
     Channel
 {
-    public ChannelImpl(IHttpClientFactory clientFactory) :
-        base(clientFactory)
+    public ChannelImpl(HttpClient client) :
+        base(client)
     {
     }
 

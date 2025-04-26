@@ -27,7 +27,7 @@ public class ClusterSnapshotTests
     {
         var result = await _services.GetService<ISnapshotFactory>()
             .Lens<ClusterSnapshot>()
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -71,7 +71,7 @@ public class ClusterSnapshotTests
     public async Task Verify_can_return_snapshot2()
     {
         var result = await _services.GetService<ISnapshotFactory>()
-            .TakeClusterSnapshot();
+            .TakeClusterSnapshot(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {

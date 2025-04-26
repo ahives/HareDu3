@@ -3,6 +3,13 @@ namespace HareDu.Core.Configuration;
 using System;
 using System.Threading;
 
+/// <summary>
+/// Provides methods for configuring an instance of the HareDu configuration.
+/// </summary>
+/// <remarks>
+/// This class implements <see cref="IHareDuConfigProvider"/> to manage the configuration process
+/// using a supplied configurator, validate it, and return the final <see cref="HareDuConfig"/>.
+/// </remarks>
 public class HareDuConfigProvider :
     IHareDuConfigProvider
 {
@@ -34,13 +41,10 @@ public class HareDuConfigProvider :
         && config.Probes.RuntimeProcessUsageThresholdCoefficient > 0;
 
     static bool Validate(BrokerConfig config)
-        => config?.Credentials != null &&
-           !string.IsNullOrWhiteSpace(config.Credentials.Username) &&
-           !string.IsNullOrWhiteSpace(config.Credentials.Password) &&
-           !string.IsNullOrWhiteSpace(config.Url) &&
-           config.MaxAllowedParallelRequests >= 1 &&
-           config.RequestReplenishmentPeriod >= 1 &&
-           config.RequestsPerReplenishment >= 1;
+           => !string.IsNullOrWhiteSpace(config.Url) &&
+           config?.Behavior.MaxConcurrentRequests >= 1 &&
+           config?.Behavior.RequestReplenishmentInterval >= 1 &&
+           config?.Behavior.RequestsPerReplenishment >= 1;
 
         
     class HareDuConfiguratorImpl :
@@ -90,25 +94,18 @@ public class HareDuConfigProvider :
             TimeSpan _timeout;
             string _username;
             string _password;
-            int _allowedParallelRequests;
-            int _requestReplenishmentPeriod;
-            int _requestsPerReplenishment;
+            HareDuBehaviorConfig _behavior;
 
             public Lazy<BrokerConfig> Settings { get; }
 
             public BrokerConfiguratorImpl()
             {
                 Settings = new Lazy<BrokerConfig>(
-                    () => new ()
+                    () => new()
                     {
                         Url = _url,
                         Timeout = _timeout,
-                        MaxAllowedParallelRequests = _allowedParallelRequests,
-                        RequestReplenishmentPeriod = _requestReplenishmentPeriod,
-                        RequestsPerReplenishment = _requestsPerReplenishment,
-                        Credentials = !string.IsNullOrWhiteSpace(_username) && !string.IsNullOrWhiteSpace(_password)
-                            ? new() {Username = _username, Password = _password}
-                            : default
+                        Behavior = _behavior
                     }, LazyThreadSafetyMode.PublicationOnly);
             }
 
@@ -116,17 +113,40 @@ public class HareDuConfigProvider :
 
             public void TimeoutAfter(TimeSpan timeout) => _timeout = timeout;
 
-            public void LimitParallelRequests(int allowedParallelRequests = 100, int requestsPerReplenishment = 100, int replenishPeriod = 1)
+            public void WithBehavior(Action<BehaviorConfigurator> configurator)
             {
-                _allowedParallelRequests = allowedParallelRequests;
-                _requestReplenishmentPeriod = replenishPeriod;
-                _requestsPerReplenishment = requestsPerReplenishment;
+                var impl = new BehaviorConfiguratorImpl();
+                configurator?.Invoke(impl);
+
+                _behavior = impl.Behavior.Value;
             }
 
-            public void UsingCredentials(string username, string password)
+            class BehaviorConfiguratorImpl :
+                BehaviorConfigurator
             {
-                _username = username;
-                _password = password;
+                int _maxConcurrentRequests;
+                int _requestReplenishmentPeriod;
+                int _requestsPerReplenishment;
+
+                public Lazy<HareDuBehaviorConfig> Behavior { get; }
+
+                public BehaviorConfiguratorImpl()
+                {
+                    Behavior = new Lazy<HareDuBehaviorConfig>(
+                        () => new HareDuBehaviorConfig
+                        {
+                            MaxConcurrentRequests = _maxConcurrentRequests,
+                            RequestReplenishmentInterval = _requestReplenishmentPeriod,
+                            RequestsPerReplenishment = _requestsPerReplenishment
+                        }, LazyThreadSafetyMode.PublicationOnly);
+                }
+
+                public void LimitRequests(int maxConcurrentRequests = 100, int requestsPerReplenishment = 100, int replenishInterval = 1)
+                {
+                    _maxConcurrentRequests = maxConcurrentRequests;
+                    _requestReplenishmentPeriod = replenishInterval;
+                    _requestsPerReplenishment = requestsPerReplenishment;
+                }
             }
         }
 

@@ -15,8 +15,8 @@ class QueueImpl :
     BaseBrokerImpl,
     Queue
 {
-    public QueueImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public QueueImpl(HttpClient client)
+        : base(client)
     {
     }
 
@@ -263,7 +263,7 @@ class QueueImpl :
                     Durable = _durable,
                     AutoDelete = _autoDelete,
                     Node = node,
-                    Arguments = _arguments.GetArgumentsOrNull()
+                    Arguments = _arguments.GetArgumentsOrEmpty()
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
             

@@ -14,8 +14,8 @@ class TopicPermissionsImpl :
     BaseBrokerImpl,
     TopicPermissions
 {
-    public TopicPermissionsImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public TopicPermissionsImpl(HttpClient client)
+        : base(client)
     {
     }
 

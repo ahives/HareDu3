@@ -29,7 +29,7 @@ public class ClusterSnapshotTests
         var lens = _services.GetService<ISnapshotFactory>()
             .Lens<ClusterSnapshot>()
             .RegisterObserver(new DefaultClusterSnapshotConsoleLogger());
-        var result = await lens.TakeSnapshot();
+        var result = await lens.TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
 //            var snapshot = resource.Snapshots[0].Select(x => x.Data);

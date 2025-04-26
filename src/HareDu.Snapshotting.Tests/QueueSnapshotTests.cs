@@ -27,7 +27,7 @@ public class QueueSnapshotTests
     {
         var result = await _services.GetService<ISnapshotFactory>()
             .Lens<BrokerQueuesSnapshot>()
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -104,7 +104,7 @@ public class QueueSnapshotTests
     public async Task Verify_can_return_snapshot2()
     {
         var result = await _services.GetService<ISnapshotFactory>()
-            .TakeQueueSnapshot();
+            .TakeQueueSnapshot(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {

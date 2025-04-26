@@ -15,8 +15,8 @@ class PolicyImpl :
     BaseBrokerImpl,
     Policy
 {
-    public PolicyImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public PolicyImpl(HttpClient client)
+        : base(client)
     {
     }
 

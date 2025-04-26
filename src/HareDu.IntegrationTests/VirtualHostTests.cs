@@ -23,7 +23,10 @@ public class VirtualHostTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {
@@ -50,7 +53,7 @@ public class VirtualHostTests
     public async Task Should_be_able_to_get_all_vhosts()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -59,7 +62,7 @@ public class VirtualHostTests
     public async Task Verify_GetAll_HasResult_works()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
         // Assert.IsTrue(result.HasData);
@@ -69,7 +72,7 @@ public class VirtualHostTests
     public void Verify_filtered_GetAll_works()
     {
         var result = _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .Where(x => x.Name == "HareDu");
 
@@ -86,7 +89,7 @@ public class VirtualHostTests
     public async Task Verify_can_create_vhost()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create("HareDu1",x =>
             {
                 x.WithTracingEnabled();
@@ -105,7 +108,7 @@ public class VirtualHostTests
     public async Task Verify_can_delete_vhost()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(z => z.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -115,7 +118,7 @@ public class VirtualHostTests
     public async Task Verify_can_start_vhost()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("", "");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -125,7 +128,7 @@ public class VirtualHostTests
     public void Verify()
     {
         var result = _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("QueueTestVirtulHost", x =>
             {
                 // x.SetMaxQueueLimit(100);

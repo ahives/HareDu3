@@ -26,7 +26,10 @@ public class RateLimitTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Configuration;
 using HareDu.Core.Extensions;
-using HareDu.Extensions;
 using HareDu.Model;
 using Extensions;
 using Model;
@@ -27,10 +27,11 @@ class BrokerConnectivityLens :
         _observers = new List<IDisposable>();
     }
 
-    public async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
+    public async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeSnapshot(Action<HareDuCredentialProvider> provider, CancellationToken cancellationToken = default)
     {
         var cluster = await _factory
-            .GetBrokerOverview(cancellationToken)
+            .API<Broker>(provider)
+            .GetOverview(cancellationToken)
             .ConfigureAwait(false);
 
         if (cluster.HasFaulted)
@@ -41,7 +42,8 @@ class BrokerConnectivityLens :
         }
 
         var connections = await _factory
-            .GetAllConnections(null, cancellationToken)
+            .API<Connection>(provider)
+            .GetAll(null, cancellationToken)
             .ConfigureAwait(false);
 
         if (connections.HasFaulted)
@@ -52,7 +54,8 @@ class BrokerConnectivityLens :
         }
 
         var channels = await _factory
-            .GetAllChannels(cancellationToken: cancellationToken)
+            .API<Channel>(provider)
+            .GetAll(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         if (channels.HasFaulted)

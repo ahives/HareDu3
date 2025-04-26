@@ -5,29 +5,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
+using Core.Configuration;
 using Model;
 
 public static class BindingExtensions
 {
     /// <summary>
-    /// Fetches all bindings available in the RabbitMQ broker.
+    /// Retrieves all bindings from the broker asynchronously.
     /// </summary>
-    /// <param name="factory">
-    /// The broker factory instance used to access the RabbitMQ API.
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A token used to propagate notifications that the operation should be canceled.
-    /// </param>
-    /// <returns>
-    /// A task representing the asynchronous operation, containing the results of the bindings retrieved from the broker as <see cref="Results{BindingInfo}"/>.
-    /// </returns>
+    /// <param name="factory">The factory interface for interacting with the broker APIs.</param>
+    /// <param name="credentials">An action to configure credentials for the broker connection.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>A task representing the asynchronous operation, containing the results of the bindings information.</returns>
     public static async Task<Results<BindingInfo>> GetAllBindings(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<Binding>()
+            .API<Binding>(credentials)
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }

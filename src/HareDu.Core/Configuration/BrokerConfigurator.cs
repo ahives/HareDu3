@@ -2,32 +2,26 @@ namespace HareDu.Core.Configuration;
 
 using System;
 
+/// <summary>
+/// Provides methods to configure RabbitMQ broker connection settings, including server URL, credentials, timeout, and request limitations.
+/// </summary>
 public interface BrokerConfigurator
 {
     /// <summary>
-    /// Specify the RabbitMQ server url to connect to.
+    /// Specifies the RabbitMQ server URL to connect to.
     /// </summary>
-    /// <param name="url"></param>
+    /// <param name="url">The fully qualified URL of the RabbitMQ server.</param>
     void ConnectTo(string url);
 
     /// <summary>
-    /// Specify the maximum time before the HTTP request to the RabbitMQ server will fail.
+    /// Specify the maximum time allowed before the HTTP request to the RabbitMQ server will timeout.
     /// </summary>
-    /// <param name="timeout"></param>
+    /// <param name="timeout">The duration to wait before the request times out.</param>
     void TimeoutAfter(TimeSpan timeout);
 
     /// <summary>
-    /// Configures the number of parallel requests allowed, along with replenishment settings for the request limiter.
+    /// Configures specific behavior characteristics when interacting with RabbitMQ, such as request handling and limitations.
     /// </summary>
-    /// <param name="allowedParallelRequests">The maximum number of parallel requests allowed at a given time.</param>
-    /// <param name="requestsPerReplenishment">The number of requests added back to the allowable pool per replenishment period.</param>
-    /// <param name="replenishPeriod">The period, in seconds, after which the requests are replenished.</param>
-    void LimitParallelRequests(int allowedParallelRequests = 100, int requestsPerReplenishment = 100, int replenishPeriod = 1);
-
-    /// <summary>
-    /// Specify the user credentials to connect to the RabbitMQ server.
-    /// </summary>
-    /// <param name="username"></param>
-    /// <param name="password"></param>
-    void UsingCredentials(string username, string password);
+    /// <param name="configurator">The configurator instance for defining behavior-related settings.</param>
+    void WithBehavior(Action<BehaviorConfigurator> configurator);
 }

@@ -28,7 +28,7 @@ public class ConnectionSnapshotTests
     {
         var result = await _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>()
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
         {
@@ -64,7 +64,7 @@ public class ConnectionSnapshotTests
     public async Task Verify_can_return_snapshot2()
     {
         var result = await _services.GetService<ISnapshotFactory>()
-            .TakeConnectivitySnapshot();
+            .TakeConnectivitySnapshot(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
         {

@@ -26,7 +26,7 @@ public class ConnectionSnapshotTests
         var result = _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>()
             .RegisterObserver(new DefaultConnectivitySnapshotConsoleLogger())
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
     }
 
     [Test]
@@ -34,6 +34,6 @@ public class ConnectionSnapshotTests
     {
         var result = _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>()
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
     }
 }

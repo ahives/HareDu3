@@ -7,62 +7,67 @@ using Core;
 using Internal;
 using Model;
 
+/// <summary>
+/// Provides methods for managing and interacting with message queues in a message broker.
+/// </summary>
 public interface Queue :
     BrokerAPI
 {
     /// <summary>
-    /// Returns information of all queues on the current RabbitMQ node.
+    /// Retrieves information about all queues available on the RabbitMQ broker.
     /// </summary>
-    /// <param name="configurator"></param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    /// <param name="configurator">Specifies the pagination options for filtering the queues to retrieve, if applicable.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{QueueInfo}"/> representing the queues.</returns>
+    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns detailed information of all queues on the current RabbitMQ node.
+    /// Retrieves detailed information for all queues available on the RabbitMQ broker.
     /// </summary>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{QueueDetailInfo}"/> representing the detailed information for the queues.</returns>
     Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates specified queue on the specified RabbitMQ virtual host and node.
+    /// Creates a new queue on the RabbitMQ broker.
     /// </summary>
-    /// <param name="name">Name of the RabbitMQ broker queue.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="node">Name of the RabbitMQ node.</param>
-    /// <param name="configurator">Describes the attributes for which the queue is to be created.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="name">Specifies the name of the queue to be created.</param>
+    /// <param name="vhost">Defines the virtual host where the queue will be created.</param>
+    /// <param name="node">Specifies the node where the queue will be located.</param>
+    /// <param name="configurator">Optional action to configure additional properties of the queue.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/> indicating the success or failure of the operation.</returns>
     Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes specified queue on the specified RabbitMQ virtual host and node.
+    /// Deletes a specific queue on the RabbitMQ broker.
     /// </summary>
-    /// <param name="name">Name of the RabbitMQ broker queue.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="configurator">Describes the attributes for which the queue is to be deleted.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    /// <param name="name">The name of the queue to be deleted.</param>
+    /// <param name="vhost">The name of the virtual host where the queue resides.</param>
+    /// <param name="configurator">Specifies additional configuration options for deleting the queue, if applicable.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of the delete operation of type <see cref="Result"/>.</returns>
+    Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Purges all messages in the specified queue on the specified RabbitMQ virtual host on the current node.
+    /// Removes all messages from a specified queue in a RabbitMQ virtual host.
     /// </summary>
-    /// <param name="name">Name of the RabbitMQ broker queue.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="name">The name of the queue to be emptied.</param>
+    /// <param name="vhost">The name of the virtual host where the queue resides.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/> representing the outcome of the operation.</returns>
     Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Syncs or cancels sync of specified RabbitMQ queue.
+    /// Synchronizes the state of a specific queue on the RabbitMQ broker.
     /// </summary>
-    /// <param name="name">Name of the RabbitMQ broker queue.</param>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="name">The name of the queue to synchronize.</param>
+    /// <param name="vhost">The virtual host where the queue resides.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains a <see cref="Result"/> indicating the outcome of the synchronization process.</returns>
     Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -75,21 +80,23 @@ public interface Queue :
     Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates the specified binding between source (i.e. queue/exchange) and destination (i.e. queue/exchange) on the specified RabbitMQ virtual host.
+    /// Binds a queue to a specified exchange within a virtual host on the RabbitMQ broker.
     /// </summary>
-    /// <param name="vhost">The virtual host where the binding is defined.</param>
-    /// <param name="exchange"></param>
-    /// <param name="configurator">Describes how the binding will be created.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default);
+    /// <param name="vhost">The name of the virtual host where the queue and exchange are located.</param>
+    /// <param name="exchange">The name of the exchange to bind the queue to.</param>
+    /// <param name="configurator">Specifies the configuration options for the binding, such as arguments and binding key.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result{BindingInfo}"/> representing the created binding information.</returns>
+    Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified exchange on the specified RabbitMQ virtual host.
+    /// Removes a binding between queues in the specified virtual host.
     /// </summary>
-    /// <param name="vhost">The virtual host where the binding is defined.</param>
-    /// <param name="configurator">Describes how the binding will be deleted.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
+    /// <param name="vhost">The virtual host where the binding exists.</param>
+    /// <param name="configurator">Specifies the configuration options for unbinding queues.</param>
+    /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the result of the unbinding operation.</returns>
+    Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator,
+        CancellationToken cancellationToken = default);
 }

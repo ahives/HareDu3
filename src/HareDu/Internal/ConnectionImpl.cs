@@ -12,8 +12,8 @@ class ConnectionImpl :
     BaseBrokerImpl,
     Connection
 {
-    public ConnectionImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public ConnectionImpl(HttpClient client)
+        : base(client)
     {
     }
 

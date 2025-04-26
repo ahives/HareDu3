@@ -23,7 +23,7 @@ public class GetAllBindingsBenchmarks :
     public async Task GetAllBindingsBenchmark()
     {
         var result = await _service
-            .API<Binding>()
+            .API<Binding>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
     }
 
@@ -31,6 +31,6 @@ public class GetAllBindingsBenchmarks :
     public async Task GetAllBindingsExtensionBenchmark()
     {
         var result = await _service
-            .GetAllBindings();
+            .GetAllBindings(x => x.UsingCredentials("guest", "guest"));
     }
 }

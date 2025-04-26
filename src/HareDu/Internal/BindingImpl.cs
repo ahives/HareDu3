@@ -10,8 +10,8 @@ class BindingImpl :
     BaseBrokerImpl,
     Binding
 {
-    public BindingImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public BindingImpl(HttpClient client)
+        : base(client)
     {
     }
 

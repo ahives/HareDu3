@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Configuration;
 using MassTransit;
 using HareDu.Core.Extensions;
 using HareDu.Extensions;
@@ -25,10 +26,11 @@ class BrokerQueuesLens :
         _observers = new List<IDisposable>();
     }
 
-    public async Task<SnapshotResult<BrokerQueuesSnapshot>> TakeSnapshot(CancellationToken cancellationToken = default)
+    public async Task<SnapshotResult<BrokerQueuesSnapshot>> TakeSnapshot(Action<HareDuCredentialProvider> provider, CancellationToken cancellationToken = default)
     {
         var cluster = await _factory
-            .GetBrokerOverview(cancellationToken)
+            .API<Broker>(provider)
+            .GetOverview(cancellationToken)
             .ConfigureAwait(false);
 
         if (cluster.HasFaulted)
@@ -39,7 +41,8 @@ class BrokerQueuesLens :
         }
 
         var queues = await _factory
-            .GetAllQueues(cancellationToken: cancellationToken)
+            .API<Queue>(provider)
+            .GetAll(cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
         if (queues.HasFaulted)

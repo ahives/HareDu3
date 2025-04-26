@@ -13,8 +13,8 @@ class ScopedParameterImpl :
     BaseBrokerImpl,
     ScopedParameter
 {
-    public ScopedParameterImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public ScopedParameterImpl(HttpClient client)
+        : base(client)
     {
     }
 

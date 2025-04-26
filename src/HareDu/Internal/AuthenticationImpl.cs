@@ -10,8 +10,8 @@ class AuthenticationImpl :
     BaseBrokerImpl,
     Authentication
 {
-    public AuthenticationImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public AuthenticationImpl(HttpClient client)
+        : base(client)
     {
     }
 

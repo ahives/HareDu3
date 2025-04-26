@@ -4,34 +4,45 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Configuration;
 using Model;
 
+/// <summary>
+/// Represents a mechanism to capture snapshots of a specific system component and to track the history of these snapshots.
+/// </summary>
+/// <typeparam name="T">The type of the snapshot to be captured.</typeparam>
 public interface Lens<T>
     where T : Snapshot
 {
     /// <summary>
-    /// Recorded history of each <see cref="SnapshotResult{T}"/> taken via calling the TakeSnapshot method.
+    /// Provides access to the historical record of snapshots for a specific type of system component.
     /// </summary>
+    /// <typeparam name="T">The type of snapshot associated with the history.</typeparam>
+    /// <value>
+    /// Contains the collection of previous snapshot results and provides methods to manage the snapshot history,
+    /// such as purging specific snapshots or clearing all results.
+    /// </value>
     ISnapshotHistory<T> History { get; }
-        
-    /// <summary>
-    /// Returns combined information from several API calls to the RabbitMQ cluster into a single result accessible through <see cref="History"/>.
-    /// </summary>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<SnapshotResult<T>> TakeSnapshot(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Registers an observer which is notified every time a snapshot is taken.
+    /// Takes a snapshot of the current state of the specified system component.
     /// </summary>
-    /// <param name="observer"></param>
-    /// <returns></returns>
-    Lens<T> RegisterObserver(IObserver<SnapshotContext<T>> observer);
-        
+    /// <param name="provider">The credentials used for authenticating with the target component.</param>
+    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the snapshot result.</returns>
+    Task<SnapshotResult<T>> TakeSnapshot(Action<HareDuCredentialProvider> provider, CancellationToken cancellationToken = default);
+
     /// <summary>
-    /// Registers a list of observers which are notified every time a snapshot is taken.
+    /// Registers an observer that will receive notifications of snapshot context updates.
     /// </summary>
-    /// <param name="observers"></param>
-    /// <returns></returns>
+    /// <param name="observer">The observer to register for receiving updates on snapshot contexts.</param>
+    /// <returns>An instance of the current lens with the observer registered.</returns>
+    Lens<T> RegisterObserver(IObserver<SnapshotContext<T>> observer);
+
+    /// <summary>
+    /// Registers multiple observers for monitoring snapshot contexts.
+    /// </summary>
+    /// <param name="observers">A read-only list of observers to be registered for snapshot context updates.</param>
+    /// <returns>The current instance of the <see cref="Lens{T}"/> to allow for method chaining.</returns>
     Lens<T> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<T>>> observers);
 }

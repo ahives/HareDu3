@@ -31,7 +31,7 @@ public class DiagnosticScannerTests
         var lens = _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>();
             
-        var result = await lens.TakeSnapshot();
+        var result = await lens.TakeSnapshot(x => x.UsingCredentials("guest", "guest"));;
             
         var report = scanner.Scan(result.Snapshot);
 
@@ -48,7 +48,7 @@ public class DiagnosticScannerTests
         var lens = _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>();
             
-        var result = await lens.TakeSnapshot();
+        var result = await lens.TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
             
         var scanner = _services.GetService<IScanner>();
 

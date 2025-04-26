@@ -10,8 +10,8 @@ class NodeImpl :
     BaseBrokerImpl,
     Node
 {
-    public NodeImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public NodeImpl(HttpClient client)
+        : base(client)
     {
     }
 

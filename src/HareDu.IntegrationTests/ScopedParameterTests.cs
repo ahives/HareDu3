@@ -21,7 +21,27 @@ public class ScopedParameterTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
+                });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
                 });
             })
             .BuildServiceProvider();
@@ -31,7 +51,7 @@ public class ScopedParameterTests
     public async Task Should_be_able_to_get_all_scoped_parameters()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -40,7 +60,7 @@ public class ScopedParameterTests
     public async Task Verify_can_create()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create<string>("test", "me", "federation", "HareDu");
             
         Console.WriteLine("****************************************************");
@@ -51,7 +71,7 @@ public class ScopedParameterTests
     public async Task Verify_can_delete()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("", "federation", "HareDu");
     }
 }

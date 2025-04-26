@@ -13,12 +13,12 @@ using Core;
 
 internal class BaseHareDu
 {
-    protected readonly IHttpClientFactory ClientFactory;
+    protected readonly HttpClient Client;
     protected readonly IDictionary<string, Error> Errors;
 
-    protected BaseHareDu(IHttpClientFactory clientFactory)
+    protected BaseHareDu(HttpClient client)
     {
-        ClientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+        Client = client ?? throw new ArgumentNullException(nameof(client));
         Errors = new Dictionary<string, Error>
         {
             {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
@@ -55,7 +55,7 @@ internal class BaseHareDu
         if (setUpdatableFlagsMethod is null)
             throw new MissingMethodException("UriParser", "SetUpdatableFlags");
 
-        setUpdatableFlagsMethod.Invoke(uriParser, new object[] {0});
+        setUpdatableFlagsMethod.Invoke(uriParser, [0]);
     }
 
     protected Error GetError(HttpStatusCode statusCode)

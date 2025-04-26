@@ -20,7 +20,10 @@ public class BrokerTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {
@@ -47,7 +50,7 @@ public class BrokerTests
     public async Task Test()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Broker>()
+            .API<Broker>(x => x.UsingCredentials("guest", "guest"))
             .GetOverview()
             .ScreenDump();
     }

@@ -14,10 +14,11 @@ public class ExchangeTests :
     [Test]
     public async Task Should_be_able_to_get_all_exchanges1()
     {
-        var result = await GetContainerBuilder("TestData/ExchangeInfo.json")
-            .BuildServiceProvider()
+        var services = GetContainerBuilder("TestData/ExchangeInfo.json")
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
         Assert.Multiple(() =>
@@ -41,10 +42,11 @@ public class ExchangeTests :
     [Test]
     public async Task Should_be_able_to_get_all_exchanges2()
     {
-        var result = await GetContainerBuilder("TestData/ExchangeInfo.json")
-            .BuildServiceProvider()
+        var services = GetContainerBuilder("TestData/ExchangeInfo.json")
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .GetAllExchanges();
+            .GetAllExchanges(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
         {
@@ -67,10 +69,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_can_create_exchange1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -104,10 +107,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_can_create_exchange2()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .CreateExchange("fake_exchange", "HareDu", x =>
+            .CreateExchange(x => x.UsingCredentials("guest", "guest"), "fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
                 x.IsForInternalUse();
@@ -141,7 +145,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateExchange("fake_exchange", "HareDu", x =>
+            .CreateExchange(x => x.UsingCredentials("guest", "guest"), "fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
                 x.IsForInternalUse();
@@ -169,10 +173,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_create_exchange_1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", x =>
             {
                 x.IsDurable();
@@ -195,10 +200,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_create_exchange_2()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", x =>
             {
                 x.IsDurable();
@@ -221,10 +227,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_create_exchange_3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_exchange", string.Empty, x =>
             {
                 x.IsDurable();
@@ -247,10 +254,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_can_delete_exchange1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", "HareDu", x =>
             {
                 x.WhenUnused();
@@ -265,7 +273,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteExchange("E3", "HareDu", x =>
+            .DeleteExchange(x => x.UsingCredentials("guest", "guest"), "E3", "HareDu", x =>
             {
                 x.WhenUnused();
             });
@@ -276,10 +284,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
                 x.WhenUnused();
@@ -295,10 +304,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_2()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", string.Empty, x =>
             {
                 x.WhenUnused();
@@ -314,10 +324,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", string.Empty, x =>
             {
                 x.WhenUnused();
@@ -333,10 +344,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_4()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
                 x.WhenUnused();
@@ -352,10 +364,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_can_delete_queue_binding1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source("E1");
@@ -372,10 +385,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_can_delete_queue_binding3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source("E1");
@@ -392,10 +406,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source("E2");
@@ -415,7 +430,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange("HareDu", x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
                 x.Destination(string.Empty);
@@ -431,10 +446,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -454,7 +470,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange("HareDu", x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
                 x.Destination(string.Empty);
@@ -470,10 +486,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding5()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
                 x.Source(string.Empty);
@@ -493,7 +510,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange(string.Empty, x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);
                 x.Destination(string.Empty);
@@ -509,10 +526,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source("E2");
@@ -532,7 +550,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange("HareDu", x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
                 x.Destination(string.Empty);
@@ -548,10 +566,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -571,7 +590,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange("HareDu", x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
                 x.Destination(string.Empty);
@@ -587,10 +606,11 @@ public class ExchangeTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding5()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
                 x.Source(string.Empty);
@@ -610,7 +630,7 @@ public class ExchangeTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .UnbindFromExchange(string.Empty, x =>
+            .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);
                 x.Destination(string.Empty);

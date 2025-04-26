@@ -22,7 +22,27 @@ public class PolicyTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
+                });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
                 });
             })
             .BuildServiceProvider();
@@ -32,7 +52,7 @@ public class PolicyTests
     public async Task Should_be_able_to_get_all_policies()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Policy>()
+            .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -41,7 +61,7 @@ public class PolicyTests
     public async Task Verify_can_create_policy()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Policy>()
+            .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create("policy1", "TestHareDu", x =>
             {
                 x.Pattern("^amq.");
@@ -63,7 +83,7 @@ public class PolicyTests
     public async Task Verify_cannot_create_policy()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Policy>()
+            .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create("P4", "HareDu", x =>
             {
                 x.Pattern("^amq.");
@@ -85,7 +105,7 @@ public class PolicyTests
     public async Task Verify_can_delete_policy()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Policy>()
+            .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             
         // Assert.IsFalse(result.HasFaulted);

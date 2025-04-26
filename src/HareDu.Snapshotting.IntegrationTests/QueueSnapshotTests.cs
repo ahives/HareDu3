@@ -26,7 +26,7 @@ public class QueueSnapshotTests
             .Lens<BrokerQueuesSnapshot>()
             .RegisterObserver(new DefaultQueueSnapshotConsoleLogger())
             // .RegisterObserver(new BrokerQueuesJsonExporter())
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
             
 //            resource.Snapshots.Export();
     }
@@ -131,6 +131,6 @@ public class QueueSnapshotTests
         var result = _services.GetService<ISnapshotFactory>()
             .Lens<BrokerQueuesSnapshot>()
             .RegisterObserver(new BrokerQueuesJsonExporter())
-            .TakeSnapshot();
+            .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));;
     }
 }

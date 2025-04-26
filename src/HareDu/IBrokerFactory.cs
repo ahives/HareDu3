@@ -1,14 +1,25 @@
 namespace HareDu;
 
+using System;
+using Core.Configuration;
+
+/// <summary>
+/// Represents a factory interface for creating objects that provide access to RabbitMQ server resources
+/// via its REST API. The objects created by this interface expose various RabbitMQ resources like
+/// Virtual Hosts, Exchanges, Queues, Users, etc.
+/// </summary>
 public interface IBrokerFactory
 {
     /// <summary>
-    /// Creates a new instance of object implemented by T, which encapsulates a group of resources (e.g. Virtual Host, Exchange, Queue, User, etc.)
-    /// that are exposed by the RabbitMQ server via its REST API.
+    /// Creates an instance of an object implementing the specified type <typeparamref name="T"/>, which provides access to a group of resources
+    /// (e.g., Virtual Hosts, Exchanges, Queues, Users, etc.) exposed by the RabbitMQ server via its REST API.
     /// </summary>
-    /// <typeparam name="T">Interface that derives from base interface ResourceClient.</typeparam>
-    /// <returns>An interface of resources available on a RabbitMQ server.</returns>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a channel.</exception>
-    T API<T>()
+    /// <typeparam name="T">The interface that derives from the base interface <see cref="BrokerAPI"/>.</typeparam>
+    /// <param name="credentials">A configuration action used to supply the credentials required to access the RabbitMQ server.</param>
+    /// <returns>An instance of the specified type <typeparamref name="T"/> providing access to the RabbitMQ server resources.</returns>
+    /// <exception cref="HareDuBrokerApiInitException">Thrown if HareDu could not find the implementation associated with a channel.</exception>
+    T API<T>(Action<HareDuCredentialProvider> credentials)
         where T : BrokerAPI;
+
+    // void Init(BrokerCredentials credentials);
 }

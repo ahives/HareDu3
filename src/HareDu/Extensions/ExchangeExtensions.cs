@@ -5,112 +5,128 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
+using Core.Configuration;
 using Model;
 
 public static class ExchangeExtensions
 {
     /// <summary>
-    /// Retrieves all RabbitMQ exchanges from the target broker.
+    /// Retrieves all exchanges available in the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that provides the implementation for retrieving exchanges.</param>
+    /// <param name="factory">The API factory responsible for handling broker interactions.</param>
+    /// <param name="credentials">The delegate used to provide user credentials for authentication.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the results of the retrieved exchange information.</returns>
+    /// <returns>A task containing the results of the retrieved exchanges, including metadata about the exchanges.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<ExchangeInfo>> GetAllExchanges(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<Exchange>()
+            .API<Exchange>(credentials)
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates a new RabbitMQ exchange on the specified virtual host.
+    /// Creates a new exchange in the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that provides the implementation for creating exchanges.</param>
+    /// <param name="factory">The API factory responsible for managing broker interactions.</param>
+    /// <param name="credentials">The delegate used to provide user credentials for authentication.</param>
     /// <param name="exchange">The name of the exchange to be created.</param>
-    /// <param name="vhost">The virtual host where the exchange will be created.</param>
-    /// <param name="configurator">An optional delegate to configure the exchange properties.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the result of the exchange creation operation.</returns>
+    /// <param name="vhost">The virtual host in which the exchange will be created.</param>
+    /// <param name="configurator">The delegate to configure additional properties for the exchange creation, such as type and durability (optional).</param>
+    /// <param name="cancellationToken">Token used to cancel the operation on the current thread (optional).</param>
+    /// <returns>A task containing the result of the operation, including success or failure details.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreateExchange(this IBrokerFactory factory,
-        string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string exchange, string vhost,
+        Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<Exchange>()
+            .API<Exchange>(credentials)
             .Create(exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Deletes the specified exchange from the specified virtual host.
+    /// Deletes a specified exchange within the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that provides the implementation for deleting exchanges.</param>
+    /// <param name="factory">The API factory responsible for handling broker interactions.</param>
+    /// <param name="credentials">The delegate used to provide user credentials for authentication.</param>
     /// <param name="exchange">The name of the exchange to be deleted.</param>
-    /// <param name="vhost">The virtual host from which the exchange will be deleted.</param>
-    /// <param name="configurator">An optional delegate to configure the exchange deletion operation.</param>
+    /// <param name="vhost">The name of the virtual host under which the exchange resides.</param>
+    /// <param name="configurator">Optional configuration behavior for the deletion process.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns>A task containing the result of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeleteExchange(this IBrokerFactory factory,
-        string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string exchange, string vhost,
+        Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<Exchange>()
+            .API<Exchange>(credentials)
             .Delete(exchange, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Binds an exchange to another exchange in the specified virtual host with the given configuration.
+    /// Binds the specified exchange to another exchange within the given virtual host using the provided configuration options.
     /// </summary>
-    /// <param name="factory">The API providing the implementation for exchange binding operations.</param>
-    /// <param name="vhost">The name of the virtual host where the exchange resides.</param>
-    /// <param name="exchange">The name of the source exchange to bind.</param>
-    /// <param name="configurator">The configuration settings for the binding, including destination and binding key.</param>
+    /// <param name="factory">The API factory responsible for handling broker interactions.</param>
+    /// <param name="credentials">The delegate to provide user credentials for authentication.</param>
+    /// <param name="vhost">The virtual host where the exchange resides.</param>
+    /// <param name="exchange">The name of the source exchange to bind to.</param>
+    /// <param name="configurator">The delegate to configure the binding properties.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the result of the binding operation, including binding information.</returns>
+    /// <returns>A task containing the result of the binding operation, including the binding information created.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result<BindingInfo>> BindToExchange(this IBrokerFactory factory,
-        string vhost, string exchange, Action<BindingConfigurator> configurator,
+        Action<HareDuCredentialProvider> credentials, string vhost, string exchange,
+        Action<BindingConfigurator> configurator,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<Exchange>()
+            .API<Exchange>(credentials)
             .BindToExchange(vhost, exchange, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Unbinds an existing binding between the specified virtual host exchange and another exchange.
+    /// Unbinds the current exchange from another exchange in the RabbitMQ broker.
     /// </summary>
-    /// <param name="factory">The API that provides the implementation for unbinding exchanges.</param>
-    /// <param name="vhost">The virtual host where the exchange resides.</param>
-    /// <param name="configurator">The configurator for defining the unbinding parameters.</param>
+    /// <param name="factory">The factory interface used to create and manage broker resources.</param>
+    /// <param name="credentials">The delegate used to provide user credentials for authentication.</param>
+    /// <param name="vhost">The name of the virtual host containing the exchange to be unbound.</param>
+    /// <param name="configurator">The delegate that configures the unbinding operation, such as specifying the target exchange and routing key.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task containing the result of the unbinding operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> UnbindFromExchange(this IBrokerFactory factory,
-        string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        
+        Guard.IsNotNull(credentials);
+
         return await factory
-            .API<Exchange>()
+            .API<Exchange>(credentials)
             .Unbind(vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }

@@ -1,6 +1,7 @@
 namespace HareDu.Tests;
 
 using System.Threading.Tasks;
+using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -13,9 +14,10 @@ public class NodeTests :
     [Test]
     public async Task Should_be_able_to_get_all_nodes1()
     {
-        var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/NodeInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<Node>()
+            .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
         Assert.Multiple(() =>
@@ -155,9 +157,10 @@ public class NodeTests :
     [Test]
     public async Task Should_be_able_to_get_all_nodes2()
     {
-        var services = GetContainerBuilder("TestData/NodeInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetAllNodes();
+        var result = await GetContainerBuilder("TestData/NodeInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetAllNodes(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -296,9 +299,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_return_node_memory_usage1()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<Node>()
+            .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetMemoryUsage("haredu@localhost");
 
         Assert.Multiple(() =>
@@ -337,9 +341,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_return_node_memory_usage2()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetNodeMemoryUsage("haredu@localhost");
+        var result = await GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetNodeMemoryUsage(x => x.UsingCredentials("guest", "guest"), "haredu@localhost");
 
         Assert.Multiple(() =>
         {
@@ -377,9 +382,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing1()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<Node>()
+            .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetMemoryUsage(string.Empty);
             
         Assert.Multiple(() =>
@@ -392,9 +398,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing2()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetNodeMemoryUsage(string.Empty);
+        var result = await GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetNodeMemoryUsage(x => x.UsingCredentials("guest", "guest"), string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -406,9 +413,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing3()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<Node>()
+            .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetMemoryUsage(null);
             
         Assert.Multiple(() =>
@@ -421,9 +429,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing4()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetNodeMemoryUsage(null);
+        var result = await GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetNodeMemoryUsage(x => x.UsingCredentials("guest", "guest"), null);
             
         Assert.Multiple(() =>
         {
@@ -435,9 +444,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing5()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
+        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider();
         var result = await services.GetService<IBrokerFactory>()
-            .API<Node>()
+            .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetMemoryUsage("   ");
             
         Assert.Multiple(() =>
@@ -450,9 +460,10 @@ public class NodeTests :
     [Test]
     public async Task Verify_will_not_return_node_memory_usage_when_node_missing6()
     {
-        var services = GetContainerBuilder("TestData/MemoryUsageInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetNodeMemoryUsage("   ");
+        var result = await GetContainerBuilder("TestData/MemoryUsageInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetNodeMemoryUsage(x => x.UsingCredentials("guest", "guest"), "   ");
             
         Assert.Multiple(() =>
         {

@@ -12,8 +12,8 @@ class BrokerImpl :
     BaseBrokerImpl,
     Broker
 {
-    public BrokerImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public BrokerImpl(HttpClient client)
+        : base(client)
     {
     }
 

@@ -23,7 +23,7 @@ public class GetAllChannelBenchmarks :
     public async Task GetAllChannelsBenchmark()
     {
         var result = await _service
-            .API<Channel>()
+            .API<Channel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
     }
 
@@ -31,6 +31,6 @@ public class GetAllChannelBenchmarks :
     public async Task GetAllChannelsExtensionBenchmark()
     {
         var result = await _service
-            .GetAllChannels();
+            .GetAllChannels(x => x.UsingCredentials("guest", "guest"));
     }
 }

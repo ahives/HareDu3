@@ -13,9 +13,9 @@ public class ChannelTests :
     [Test]
     public async Task Verify_can_get_all_channels1()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .API<Channel>()
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider().GetService<IBrokerFactory>()
+            .API<Channel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
         Assert.Multiple(() =>
@@ -100,9 +100,9 @@ public class ChannelTests :
     [Test]
     public async Task Verify_can_get_all_channels2()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .API<Channel>()
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider().GetService<IBrokerFactory>()
+            .API<Channel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll(x =>
             {
                 x.Name("127.0.0.0:72368 -> 127.0.0.0:5672");
@@ -193,9 +193,10 @@ public class ChannelTests :
     [Test]
     public async Task Verify_can_get_all_channels_ext()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetAllChannels();
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetAllChannels(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
         {
@@ -279,9 +280,10 @@ public class ChannelTests :
     [Test]
     public async Task Verify_can_get_all_channels_by_connection()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetChannelsByConnection("test");
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetChannelsByConnection(x => x.UsingCredentials("guest", "guest"), "test");
 
         Assert.Multiple(() =>
         {
@@ -365,9 +367,10 @@ public class ChannelTests :
     [Test]
     public async Task Verify_cannot_get_channels_when_connection_missing1()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetChannelsByConnection("test");
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetChannelsByConnection(x => x.UsingCredentials("guest", "guest"), "test");
 
         Assert.Multiple(() =>
         {
@@ -451,9 +454,10 @@ public class ChannelTests :
     [Test]
     public async Task Verify_cannot_get_channels_when_connection_missing2()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetChannelsByConnection(string.Empty);
+        var result = await GetContainerBuilder("TestData/ChannelInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetChannelsByConnection(x => x.UsingCredentials("guest", "guest"), string.Empty);
 
         Assert.Multiple(() =>
         {
@@ -465,9 +469,10 @@ public class ChannelTests :
     [Test]
     public async Task Verify_can_get_all_channels_by_connection_name()
     {
-        var services = GetContainerBuilder("TestData/ChannelInfo2.json").BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
-            .GetChannelByName("test");
+        var result = await GetContainerBuilder("TestData/ChannelInfo2.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetChannelByName(x => x.UsingCredentials("guest", "guest"), "test");
 
         Assert.Multiple(() =>
         {

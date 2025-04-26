@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Moq.Protected;
@@ -28,6 +29,7 @@ public class HareDuTesting
             .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(data, statusCode));
 
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
+        services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
 
         return services;
     }
@@ -44,6 +46,7 @@ public class HareDuTesting
             .ConfigurePrimaryHttpMessageHandler(() => GetHttpMessageHandler(string.Empty, statusCode));
 
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
+        services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
 
         return services;
     }

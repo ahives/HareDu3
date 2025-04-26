@@ -8,27 +8,29 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using CommunityToolkit.Diagnostics;
+using Core.Configuration;
 using Core.Extensions;
+using HTTP;
 using Internal;
 
 public sealed class BrokerFactory :
     IBrokerFactory
 {
+    readonly IHareDuClient _client;
+    readonly IHareDuCredentialBuilder _builder;
     readonly ConcurrentDictionary<string, object> _cache;
-    readonly IHttpClientFactory _clientFactory;
 
-    public BrokerFactory(IHttpClientFactory clientFactory)
+    public BrokerFactory(IHareDuClient client, IHareDuCredentialBuilder builder)
     {
-        Guard.IsNotNull(clientFactory);
+        Guard.IsNotNull(client);
 
-        _clientFactory = clientFactory;
+        _client = client;
+        _builder = builder;
+
         _cache = new ConcurrentDictionary<string, object>();
-
-        if (!TryRegisterAll())
-            throw new HareDuBrokerApiInitException("Could not register broker objects.");
     }
 
-    public T API<T>()
+    public T API<T>(Action<HareDuCredentialProvider> credentials)
         where T : BrokerAPI
     {
         Type type = typeof(T);
@@ -44,12 +46,19 @@ public sealed class BrokerFactory :
         if (_cache.TryGetValue(type.FullName, out var value))
             return (T) value;
 
-        bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, _clientFactory);
+        var client = _client.CreateClient(_builder.Build(credentials));
+        bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, client);
 
         if (registered)
             return (T) _cache[type.FullName];
 
         return default;
+    }
+
+    public void Init(HareDuCredentials credentials)
+    {
+        if (!TryRegisterAll(credentials))
+            throw new HareDuBrokerApiInitException("Could not register broker objects.");
     }
 
     public bool IsRegistered(string key) => _cache.ContainsKey(key);
@@ -58,17 +67,19 @@ public sealed class BrokerFactory :
 
     // public void CancelPendingRequest() => _client.CancelPendingRequests();
 
-    public bool TryRegisterAll()
+    public bool TryRegisterAll(HareDuCredentials credentials)
     {
         var typeMap = GetTypeMap(GetType());
         bool registered = true;
+
+        using var client = _client.CreateClient(credentials);
 
         foreach (var type in typeMap)
         {
             if (_cache.ContainsKey(type.Key))
                 continue;
 
-            registered = RegisterInstance(type.Value, type.Key, _clientFactory) & registered;
+            registered = RegisterInstance(type.Value, type.Key, client) & registered;
         }
 
         if (!registered)
@@ -77,11 +88,11 @@ public sealed class BrokerFactory :
         return registered;
     }
 
-    bool RegisterInstance(Type type, string key, IHttpClientFactory clientFactory)
+    bool RegisterInstance(Type type, string key, HttpClient client)
     {
         try
         {
-            var instance = CreateInstance(type, clientFactory);
+            var instance = CreateInstance(type, client);
 
             return instance is not null && _cache.TryAdd(key, instance);
         }
@@ -145,8 +156,8 @@ public sealed class BrokerFactory :
         return typeMap;
     }
 
-    object CreateInstance(Type type, IHttpClientFactory clientFactory) =>
+    object CreateInstance(Type type, HttpClient client) =>
         type.IsDerivedFrom(typeof(BaseBrokerImpl))
-        ? Activator.CreateInstance(type, clientFactory)
+        ? Activator.CreateInstance(type, client)
         : Activator.CreateInstance(type);
 }

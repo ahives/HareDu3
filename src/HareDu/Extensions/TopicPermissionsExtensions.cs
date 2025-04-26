@@ -5,68 +5,77 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
+using Core.Configuration;
 using Model;
 
 public static class TopicPermissionsExtensions
 {
     /// <summary>
-    /// Retrieves all RabbitMQ topic permissions.
+    /// Retrieves a list of all topic permissions for all users across all virtual hosts.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality for retrieving topic permissions.</param>
+    /// <param name="factory">The API factory that facilitates access to the RabbitMQ management APIs.</param>
+    /// <param name="credentials">The function to configure the credentials for authenticating with the RabbitMQ broker.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the collection of topic permissions data.</returns>
-    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    /// <returns>A task that represents the asynchronous operation. The task result contains a collection of topic permissions' information.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Results<TopicPermissionsInfo>> GetAllTopicPermissions(this IBrokerFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(credentials)
             .GetAll(cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Creates a topic permission for a specific user and virtual host.
+    /// Creates topic permissions for a specific user on the given virtual host.
     /// </summary>
-    /// <param name="factory">The broker factory used to access the topic permissions API.</param>
-    /// <param name="username">The name of the user for whom the topic permission will be created.</param>
-    /// <param name="vhost">The virtual host under which the topic permission is applied.</param>
-    /// <param name="configurator">The configurator action used to define exchange details and patterns for the topic permission.</param>
+    /// <param name="factory">The broker factory that provides access to the RabbitMQ APIs.</param>
+    /// <param name="credentials">The function to configure the credentials for authenticating with the RabbitMQ broker.</param>
+    /// <param name="username">The username of the user for whom the topic permissions are being created.</param>
+    /// <param name="vhost">The name of the RabbitMQ virtual host where the topic permissions will be applied.</param>
+    /// <param name="configurator">The configurator that defines the topic permissions to be created.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the result of the operation.</returns>
-    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> CreateTopicPermission(this IBrokerFactory factory,
-        string username, string vhost, Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string username, string vhost,
+        Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(credentials)
             .Create(username, vhost, configurator, cancellationToken)
             .ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Deletes the specific RabbitMQ topic permission for a user in the given virtual host.
+    /// Deletes the specified user's topic permissions for the given virtual host.
     /// </summary>
-    /// <param name="factory">The API that implements the underlying functionality for deleting a topic permission.</param>
-    /// <param name="username">The name of the user associated with the topic permission to delete.</param>
-    /// <param name="vhost">The name of the virtual host associated with the topic permission to delete.</param>
+    /// <param name="factory">The API factory that facilitates access to the RabbitMQ management APIs.</param>
+    /// <param name="credentials">The function to configure the credentials for authenticating with the RabbitMQ broker.</param>
+    /// <param name="username">The name of the user whose topic permissions are to be deleted.</param>
+    /// <param name="vhost">The virtual host from which the user's permissions are to be removed.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the status of the operation.</returns>
-    /// <exception cref="ArgumentNullException">Throws if the provided IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if the API implementation for the user could not be accessed.</exception>
+    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the operation was successful or failed.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     public static async Task<Result> DeleteTopicPermission(this IBrokerFactory factory,
-        string username, string vhost, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string username, string vhost,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
 
         return await factory
-            .API<TopicPermissions>()
+            .API<TopicPermissions>(credentials)
             .Delete(username, vhost, cancellationToken)
             .ConfigureAwait(false);
     }

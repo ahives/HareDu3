@@ -1,4 +1,4 @@
-namespace HareDu.Core.HTTP;
+namespace HareDu.HTTP;
 
 using System;
 using System.Globalization;
@@ -7,28 +7,26 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.RateLimiting;
 using System.Threading.Tasks;
-using Configuration;
+using Core.Configuration;
+using Microsoft.Extensions.Http.Resilience;
 
 public class HareDuRateLimiter :
     DelegatingHandler,
     IAsyncDisposable
 {
-    RateLimiter _limiter;
-    
-    public HareDuRateLimiter(HareDuConfig config)
+    readonly RateLimiter _limiter;
+
+    public HareDuRateLimiter(HareDuConfig config, ResilienceHandler handler)
     {
-        InnerHandler = new HttpClientHandler
-        {
-            Credentials = new NetworkCredential(config.Broker.Credentials.Username, config.Broker.Credentials.Password)
-        };
+        InnerHandler = handler;
 
         var options = new TokenBucketRateLimiterOptions
         {
-            TokenLimit = config.Broker.MaxAllowedParallelRequests,
+            TokenLimit = config.Broker.Behavior.MaxConcurrentRequests,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit = 5,
-            ReplenishmentPeriod = TimeSpan.FromMilliseconds(config.Broker.RequestReplenishmentPeriod),
-            TokensPerPeriod = config.Broker.RequestsPerReplenishment,
+            QueueLimit = (int) Math.Ceiling(config.Broker.Behavior.MaxConcurrentRequests * 0.2),
+            ReplenishmentPeriod = TimeSpan.FromMilliseconds(config.Broker.Behavior.RequestReplenishmentInterval),
+            TokensPerPeriod = config.Broker.Behavior.RequestsPerReplenishment,
             AutoReplenishment = true
         };
 

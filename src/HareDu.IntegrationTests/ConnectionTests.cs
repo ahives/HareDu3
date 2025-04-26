@@ -22,7 +22,10 @@ public class ConnectionTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {
@@ -49,7 +52,7 @@ public class ConnectionTests
     public async Task Should_be_able_to_get_all_connections()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Connection>()
+            .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -59,7 +62,7 @@ public class ConnectionTests
     {
         string connectionName;
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Connection>()
+            .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetByName("127.0.0.1:56601 -> 127.0.0.1:5672");
     }
 
@@ -67,7 +70,7 @@ public class ConnectionTests
     public async Task Test()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .DeleteConnection("127.0.0.1:56601 -> 127.0.0.1:5672");
+            .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "127.0.0.1:56601 -> 127.0.0.1:5672");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }

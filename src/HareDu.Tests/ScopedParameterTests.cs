@@ -1,6 +1,7 @@
 namespace HareDu.Tests;
 
 using System.Threading.Tasks;
+using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -13,10 +14,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_able_to_get_all_scoped_parameters1()
     {
-        var result = await GetContainerBuilder("TestData/ScopedParameterInfo.json")
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder("TestData/ScopedParameterInfo.json")
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
         Assert.Multiple(() =>
@@ -38,7 +39,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder("TestData/ScopedParameterInfo.json")
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .GetAllScopedParameters();
+            .GetAllScopedParameters(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
         {
@@ -56,10 +57,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_can_create1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create<long>("fake_parameter", 89, "fake_component", "HareDu");
             
         Assert.Multiple(() =>
@@ -82,7 +83,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter<long>("fake_parameter", 89, "fake_component", "HareDu");
+            .CreateScopeParameter<long>(x => x.UsingCredentials("guest", "guest"), "fake_parameter", 89, "fake_component", "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -101,10 +102,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_can_create3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", "fake_component", "HareDu");
             
         Assert.Multiple(() =>
@@ -127,7 +128,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", "fake_component", "HareDu");
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", "fake_component", "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -146,10 +147,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "value", "fake_component", "HareDu");
             
         Assert.Multiple(() =>
@@ -173,7 +174,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter(string.Empty, "value", "fake_component", "HareDu");
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, "value", "fake_component", "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -193,10 +194,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, "fake_component", "HareDu");
             
         Assert.Multiple(() =>
@@ -220,16 +221,16 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter(string.Empty, string.Empty, "fake_component", "HareDu");
-            
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, "fake_component", "HareDu");
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.AreEqual("fake_component", request.Component);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
@@ -240,10 +241,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create5()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -267,16 +268,16 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", string.Empty, "HareDu");
-            
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", string.Empty, "HareDu");
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.AreEqual("fake_parameter", request.ParameterName);
             Assert.AreEqual("value", request.ParameterValue);
@@ -287,10 +288,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create7()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -314,7 +315,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", string.Empty, "HareDu");
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", string.Empty, "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -334,10 +335,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create9()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", "fake_component", string.Empty);
             
         Assert.Multiple(() =>
@@ -361,7 +362,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", "fake_component", string.Empty);
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", "fake_component", string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -381,10 +382,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create11()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", "fake_component", string.Empty);
             
         Assert.Multiple(() =>
@@ -408,16 +409,16 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", "fake_component", string.Empty);
-            
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", "fake_component", string.Empty);
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.AreEqual("fake_component", request.Component);
             Assert.AreEqual("fake_parameter", request.ParameterName);
             Assert.AreEqual("value", request.ParameterValue);
@@ -428,20 +429,20 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create13()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", "fake_component", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.AreEqual("fake_component", request.Component);
             Assert.AreEqual("fake_parameter", request.ParameterName);
             Assert.AreEqual("value", request.ParameterValue);
@@ -455,16 +456,16 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", "fake_component", string.Empty);
-            
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", "fake_component", string.Empty);
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
             Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.AreEqual("fake_component", request.Component);
             Assert.AreEqual("fake_parameter", request.ParameterName);
             Assert.AreEqual("value", request.ParameterValue);
@@ -475,12 +476,12 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create15()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "value", string.Empty, "HareDu");
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -488,7 +489,7 @@ public class ScopedParameterTests :
             Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.AreEqual("value", request.ParameterValue);
@@ -502,8 +503,8 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter(string.Empty, "value", string.Empty, "HareDu");
-            
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, "value", string.Empty, "HareDu");
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -511,7 +512,7 @@ public class ScopedParameterTests :
             Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.AreEqual("value", request.ParameterValue);
@@ -522,12 +523,12 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create17()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, string.Empty,"HareDu");
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
@@ -535,7 +536,7 @@ public class ScopedParameterTests :
             Assert.AreEqual(2, result.DebugInfo.Errors.Count);
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
@@ -549,7 +550,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter(string.Empty, string.Empty, string.Empty,"HareDu");
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, string.Empty,"HareDu");
             
         Assert.Multiple(() =>
         {
@@ -569,10 +570,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create19()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -596,7 +597,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter("fake_parameter", "value", string.Empty, string.Empty);
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "value", string.Empty, string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -616,10 +617,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_create21()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -643,7 +644,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .CreateScopeParameter(string.Empty, string.Empty, string.Empty, string.Empty);
+            .CreateScopeParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, string.Empty, string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -663,10 +664,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_can_delete1()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_parameter", "fake_component", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -678,7 +679,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter("fake_parameter", "fake_component", "HareDu");
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "fake_component", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
     }
@@ -686,10 +687,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete3()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "fake_component", "HareDu");
             
         Assert.Multiple(() =>
@@ -705,7 +706,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter(string.Empty, "fake_component", "HareDu");
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, "fake_component", "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -717,10 +718,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete5()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_parameter", string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -736,7 +737,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter("fake_parameter", string.Empty, "HareDu");
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", string.Empty, "HareDu");
             
         Assert.Multiple(() =>
         {
@@ -748,10 +749,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete7()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_parameter", "fake_component", string.Empty);
             
         Assert.Multiple(() =>
@@ -767,7 +768,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter("fake_parameter", "fake_component", string.Empty);
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "fake_component", string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -779,10 +780,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete9()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -798,7 +799,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter(string.Empty,string.Empty,"HareDu");
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), string.Empty,string.Empty,"HareDu");
             
         Assert.Multiple(() =>
         {
@@ -810,10 +811,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete11()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "fake_component", string.Empty);
             
         Assert.Multiple(() =>
@@ -829,7 +830,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter(string.Empty,"fake_component", string.Empty);
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), string.Empty,"fake_component", string.Empty);
             
         Assert.Multiple(() =>
         {
@@ -841,10 +842,10 @@ public class ScopedParameterTests :
     [Test]
     public async Task Verify_cannot_delete13()
     {
-        var result = await GetContainerBuilder()
-            .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
-            .API<ScopedParameter>()
+        var services = GetContainerBuilder()
+            .BuildServiceProvider();
+        var result = await services.GetService<IBrokerFactory>()
+            .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty,string.Empty);
             
         Assert.Multiple(() =>
@@ -860,7 +861,7 @@ public class ScopedParameterTests :
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
-            .DeleteScopedParameter(string.Empty, string.Empty,string.Empty);
+            .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty,string.Empty);
             
         Assert.Multiple(() =>
         {

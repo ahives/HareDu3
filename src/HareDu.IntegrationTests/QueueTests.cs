@@ -2,6 +2,7 @@ namespace HareDu.IntegrationTests;
 
 using System;
 using System.Threading.Tasks;
+using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -12,39 +13,14 @@ using Serialization;
 public class QueueTests
 {
     ServiceProvider _services;
-    string _vhost = "QueueTestVirtulHost";
-    string _node = "rabbit@192a30bbb161";
+    string _vhost = "QueueTestVirtulHost1";
+    string _node = "rabbit@8235120ee702";
         
     [OneTimeSetUp]
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddHareDu(x =>
-            {
-                x.Broker(b =>
-                {
-                    b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
-                    b.LimitParallelRequests(10, 10);
-                });
-                x.Diagnostics(d =>
-                {
-                    d.Probes(p =>
-                    {
-                        p.SetConsumerUtilizationThreshold(1);
-                        p.SetFileDescriptorUsageThresholdCoefficient(1);
-                        p.SetHighConnectionClosureRateThreshold(1);
-                        p.SetFileDescriptorUsageThresholdCoefficient(1);
-                        p.SetHighConnectionClosureRateThreshold(1);
-                        p.SetMessageRedeliveryThresholdCoefficient(1);
-                        p.SetHighConnectionCreationRateThreshold(1);
-                        p.SetQueueHighFlowThreshold(1);
-                        p.SetQueueLowFlowThreshold(1);
-                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
-                        p.SetSocketUsageThresholdCoefficient(1);
-                    });
-                });
-            })
+            .AddHareDu()
             .BuildServiceProvider();
     }
 
@@ -52,7 +28,7 @@ public class QueueTests
     public async Task SetUp()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(_vhost);
     }
 
@@ -68,18 +44,18 @@ public class QueueTests
     public async Task Verify_can_create_queue()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue1", _vhost, _node, x =>
             {
                 x.IsDurable();
-                x.HasArguments(arg =>
-                {
-                    arg.SetQueueExpiration(1000);
-                    arg.SetAlternateExchange("your_alternate_exchange_name");
-                    arg.SetDeadLetterExchange("your_deadletter_exchange_name");
-                    arg.SetPerQueuedMessageExpiration(1000);
-                    arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
-                });
+                // x.HasArguments(arg =>
+                // {
+                //     arg.SetQueueExpiration(1000);
+                //     arg.SetAlternateExchange("your_alternate_exchange_name");
+                //     arg.SetDeadLetterExchange("your_deadletter_exchange_name");
+                //     arg.SetPerQueuedMessageExpiration(1000);
+                //     arg.SetDeadLetterExchangeRoutingKey("your_routing_key");
+                // });
             });
             
         Assert.IsFalse(result.HasFaulted);
@@ -90,7 +66,7 @@ public class QueueTests
     public async Task Verify_can_create_queue_without_configurator()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue2", _vhost,_node);
             
         Assert.IsFalse(result.HasFaulted);
@@ -101,7 +77,7 @@ public class QueueTests
     public async Task Verify_cannot_create_queue()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu",null, x =>
             {
                 x.IsDurable();
@@ -123,7 +99,7 @@ public class QueueTests
     public async Task Should_be_able_to_get_all_queues()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
 
@@ -135,7 +111,7 @@ public class QueueTests
     public async Task Should_be_able_to_get_details_all_queues()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetDetails()
             .ScreenDump();
 
@@ -147,7 +123,7 @@ public class QueueTests
     public async Task Verify_can_get_all_json()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
         Assert.IsFalse(result.HasFaulted);
@@ -158,7 +134,7 @@ public class QueueTests
     public async Task Verify_can_delete_queue()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("TestQueue10", "HareDu",x =>
             {
                 x.WhenHasNoConsumers();
@@ -172,7 +148,7 @@ public class QueueTests
     public async Task Verify_can_sync_queue()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("order-state", "TestOrders");
             
         // Assert.IsFalse(result.HasFaulted);
@@ -183,7 +159,7 @@ public class QueueTests
     public async Task Verify_can_sync_queue1()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
@@ -194,7 +170,7 @@ public class QueueTests
     public async Task Verify_can_empty_queue2()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .EmptyQueue("", "HareDu");
+            .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "", "HareDu");
             
         Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -208,22 +184,22 @@ public class QueueTests
         string exchange = "exchange";
         var result1 = await _services
             .GetService<IBrokerFactory>()
-            .API<VirtualHost>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(vhost);
         var result2 = await _services
             .GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(queue, vhost, "rabbit@6089ab1a7b81", x =>
             {
                 x.IsDurable();
             });
         var result3 = await _services
             .GetService<IBrokerFactory>()
-            .API<Exchange>()
+            .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(exchange, vhost);
         var result = await _services
             .GetService<IBrokerFactory>()
-            .API<Queue>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .BindToQueue(vhost, exchange, x =>
             {
                 x.Destination(queue);

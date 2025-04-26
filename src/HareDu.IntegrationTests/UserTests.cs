@@ -24,7 +24,10 @@ public class UserTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
                 });
                 x.Diagnostics(d =>
                 {
@@ -51,7 +54,7 @@ public class UserTests
     public async Task Verify_can_get_all_users()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -60,7 +63,7 @@ public class UserTests
     public async Task Verify_can_get_all_users_without_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllWithoutPermissions()
             .ScreenDump();
     }
@@ -69,7 +72,7 @@ public class UserTests
     public async Task Verify_can_create()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("username3", "guest", configurator: x =>
             {
                 x.WithTags(t =>
@@ -85,7 +88,7 @@ public class UserTests
     public async Task Verify_can_delete()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete("");
     }
 
@@ -93,7 +96,7 @@ public class UserTests
     public async Task Verify_can_bulk_delete()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .DeleteUsers(new List<string> {"username1", "username2", "username3"});
+            .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string> {"username1", "username2", "username3"});
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
@@ -102,7 +105,7 @@ public class UserTests
     public async Task Should_be_able_to_get_all_user_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllPermissions()
             .ScreenDump();
     }
@@ -111,7 +114,7 @@ public class UserTests
     public async Task Verify_can_delete_user_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("", "HareDu5");
     }
 
@@ -119,7 +122,7 @@ public class UserTests
     public async Task Verify_can_create_user_permissions()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("", "HareDu5", x =>
             {
                 x.UsingConfigurePattern("");
@@ -132,7 +135,7 @@ public class UserTests
     public async Task Verify_can_all_user_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllUserLimits();
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -142,7 +145,7 @@ public class UserTests
     public async Task Verify_can_limit()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetLimitsByUser("test");
 
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
@@ -152,7 +155,7 @@ public class UserTests
     public async Task Verify_can_define_limit()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<User>()
+            .API<User>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("test", x =>
             {
                 x.SetLimit(UserLimit.MaxChannels, 50);

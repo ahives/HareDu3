@@ -15,8 +15,8 @@ class VirtualHostImpl :
     BaseBrokerImpl,
     VirtualHost
 {
-    public VirtualHostImpl(IHttpClientFactory clientFactory)
-        : base(clientFactory)
+    public VirtualHostImpl(HttpClient client)
+        : base(client)
     {
     }
 

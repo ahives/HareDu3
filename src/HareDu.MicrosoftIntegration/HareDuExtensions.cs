@@ -1,11 +1,10 @@
 namespace HareDu.MicrosoftIntegration;
 
 using System;
-using System.Net.Http.Headers;
 using Core.Configuration;
-using Core.HTTP;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
+using HTTP;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Snapshotting;
@@ -13,15 +12,16 @@ using Snapshotting;
 public static class HareDuExtensions
 {
     /// <summary>
-    /// Registers all the necessary components to use the low level HareDu Broker, Diagnostic, and Snapshotting APIs.
+    /// Registers and configures all necessary components to use the Broker, Diagnostic, and Snapshotting APIs.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="settingsFile">The full path of where the configuration settings file is located.</param>
-    /// <param name="configSection">The section found within the configuration file.</param>
-    /// <returns></returns>
-    public static IServiceCollection AddHareDu(this IServiceCollection services, string settingsFile = "appsettings.json", string configSection = "HareDuConfig")
+    /// <param name="services">The IServiceCollection to which the HareDu services will be added.</param>
+    /// <param name="settingsFile">The name of the configuration file containing HareDu settings. The default is "appsettings.json".</param>
+    /// <param name="configSection">The name of the configuration section in the settings file. The default is "HareDuConfig".</param>
+    /// <returns>The updated IServiceCollection with HareDu services registered.</returns>
+    public static IServiceCollection AddHareDu(this IServiceCollection services,
+        string settingsFile = "appsettings.json", string configSection = "HareDuConfig")
     {
-        HareDuConfig config = new HareDuConfig();
+        var config = new HareDuConfig();
 
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile(settingsFile, false)
@@ -30,16 +30,8 @@ public static class HareDuExtensions
         configuration.Bind(configSection, config);
 
         services.AddSingleton(config);
-        services.AddHttpClient(HttpConst.BrokerClient.Value, client =>
-            {
-                client.BaseAddress = new Uri($"{config.Broker.Url}/");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                // client.DefaultRequestVersion = HttpVersion.Version30;
-
-                if (config.Broker.Timeout != TimeSpan.Zero)
-                    client.Timeout = config.Broker.Timeout;
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HareDuRateLimiter(config));
+        services.AddSingleton<IHareDuClient, HareDuClient>();
+        services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();
@@ -51,11 +43,11 @@ public static class HareDuExtensions
     }
 
     /// <summary>
-    /// Registers all the necessary components to use the low level HareDu Broker, Diagnostic, and Snapshotting APIs.
+    /// Registers and configures all necessary components to use the Broker, Diagnostic, and Snapshotting APIs.
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configurator">Configure Broker and Diagnostic APIs programmatically.</param>
-    /// <returns></returns>
+    /// <param name="services">The IServiceCollection to which the HareDu services will be added.</param>
+    /// <param name="configurator">An action to configure the HareDu settings.</param>
+    /// <returns>The IServiceCollection with HareDu services registered.</returns>
     public static IServiceCollection AddHareDu(this IServiceCollection services, Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
@@ -64,15 +56,8 @@ public static class HareDuExtensions
                 .Configure(configurator);
 
         services.AddSingleton(config);
-        services.AddHttpClient(HttpConst.BrokerClient.Value, client =>
-            {
-                client.BaseAddress = new Uri($"{config.Broker.Url}/");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                if (config.Broker.Timeout != TimeSpan.Zero)
-                    client.Timeout = config.Broker.Timeout;
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HareDuRateLimiter(config));
+        services.AddSingleton<IHareDuClient, HareDuClient>();
+        services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
         services.AddSingleton<IBrokerFactory, BrokerFactory>();
         services.AddSingleton<IScanner, Scanner>();
         services.AddSingleton<IKnowledgeBaseProvider, KnowledgeBaseProvider>();

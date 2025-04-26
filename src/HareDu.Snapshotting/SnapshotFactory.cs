@@ -3,6 +3,7 @@ namespace HareDu.Snapshotting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Configuration;
 using Core.Extensions;
 using Lens;
 using Model;
@@ -19,8 +20,8 @@ public sealed class SnapshotFactory :
         _factory = factory;
         _cache = new Dictionary<string, object>();
             
-        if (!TryRegisterAll())
-            throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
+        // if (!TryRegisterAll())
+        //     throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
     }
 
     public Lens<T> Lens<T>()
@@ -31,6 +32,7 @@ public sealed class SnapshotFactory :
         if (type.FullName != null && _cache.ContainsKey(type.FullName))
             return _cache[type.FullName] as Lens<T>;
 
+        bool registered = RegisterInstance(type, type.FullName);
         return new NoOpLens<T>();
     }
 
@@ -47,7 +49,7 @@ public sealed class SnapshotFactory :
         return this;
     }
 
-    private bool TryRegisterAll()
+    private bool TryRegisterAll(HareDuCredentials credentials)
     {
         var typeMap = GetTypeMap(GetType());
         bool registered = true;

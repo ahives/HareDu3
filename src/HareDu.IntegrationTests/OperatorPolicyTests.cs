@@ -22,7 +22,27 @@ public class OperatorPolicyTests
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
-                    b.UsingCredentials("guest", "guest");
+                    b.WithBehavior(behavior =>
+                    {
+                        behavior.LimitRequests(5, 5);
+                    });
+                });
+                x.Diagnostics(d =>
+                {
+                    d.Probes(p =>
+                    {
+                        p.SetConsumerUtilizationThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetFileDescriptorUsageThresholdCoefficient(1);
+                        p.SetHighConnectionClosureRateThreshold(1);
+                        p.SetMessageRedeliveryThresholdCoefficient(1);
+                        p.SetHighConnectionCreationRateThreshold(1);
+                        p.SetQueueHighFlowThreshold(1);
+                        p.SetQueueLowFlowThreshold(1);
+                        p.SetRuntimeProcessUsageThresholdCoefficient(1);
+                        p.SetSocketUsageThresholdCoefficient(1);
+                    });
                 });
             })
             .BuildServiceProvider();
@@ -32,7 +52,7 @@ public class OperatorPolicyTests
     public async Task Should_be_able_to_get_all_policies()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<OperatorPolicy>()
+            .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
     }
@@ -41,7 +61,7 @@ public class OperatorPolicyTests
     public async Task Verify_can_create_operator_policy()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<OperatorPolicy>()
+            .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create("test7", "TestHareDu", x =>
             {
                 x.Pattern(".*");
@@ -64,7 +84,7 @@ public class OperatorPolicyTests
     public async Task Test()
     {
         var result = await _services.GetService<IBrokerFactory>()
-            .API<OperatorPolicy>()
+            .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test6", "TestHareDu");
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));

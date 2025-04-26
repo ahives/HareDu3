@@ -3,6 +3,7 @@ namespace HareDu.Snapshotting.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Configuration;
 using Model;
 
 public static class SnapshotExtensions
@@ -15,14 +16,14 @@ public static class SnapshotExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<SnapshotResult<BrokerQueuesSnapshot>> TakeQueueSnapshot(this ISnapshotFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
             .Lens<BrokerQueuesSnapshot>()
-            .TakeSnapshot(cancellationToken)
+            .TakeSnapshot(credentials, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -34,14 +35,14 @@ public static class SnapshotExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<SnapshotResult<ClusterSnapshot>> TakeClusterSnapshot(this ISnapshotFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
             .Lens<ClusterSnapshot>()
-            .TakeSnapshot(cancellationToken)
+            .TakeSnapshot(credentials, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -53,14 +54,14 @@ public static class SnapshotExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentNullException">Throws ArgumentNullException if BrokerObjectFactory is null.</exception>
     public static async Task<SnapshotResult<BrokerConnectivitySnapshot>> TakeConnectivitySnapshot(this ISnapshotFactory factory,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         if (factory is null)
             throw new ArgumentNullException(nameof(factory));
 
         return await factory
             .Lens<BrokerConnectivitySnapshot>()
-            .TakeSnapshot(cancellationToken)
+            .TakeSnapshot(credentials, cancellationToken)
             .ConfigureAwait(false);
     }
 }
