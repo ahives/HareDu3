@@ -10,8 +10,8 @@ public static class PasswordHashExtensions
     /// <summary>
     /// Given a string password will compute the hash based on algorithm found at http://www.rabbitmq.com/passwords.html#computing-password-hash
     /// </summary>
-    /// <param name="password"></param>
-    /// <returns></returns>
+    /// <param name="password">The plain text password that needs to be hashed.</param>
+    /// <returns>A base64 encoded string representing the hashed password, including the salt.</returns>
     public static string ComputePasswordHash(this string password)
     {
         byte[] salt = GetRandom32BitSalt();

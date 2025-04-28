@@ -21,9 +21,9 @@ public static class ChannelExtensions
     /// <returns>A task representing the asynchronous operation, containing a collection of channel information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ChannelInfo>> GetAllChannels(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -44,6 +44,7 @@ public static class ChannelExtensions
     /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified connection.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ChannelInfo>> GetChannelsByConnection(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string connectionName,
         CancellationToken cancellationToken = default)
@@ -67,6 +68,7 @@ public static class ChannelExtensions
     /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified virtual host.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
@@ -89,6 +91,7 @@ public static class ChannelExtensions
     /// <returns>A task that represents the asynchronous operation, containing the result of the channel information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result<ChannelInfo>> GetChannelByName(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, CancellationToken cancellationToken = default)
     {

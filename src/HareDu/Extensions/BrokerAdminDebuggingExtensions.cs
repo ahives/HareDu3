@@ -268,25 +268,15 @@ public static class BrokerAdminDebuggingExtensions
         foreach (var item in results)
         {
             Console.WriteLine($"\tName: {item.Name}");
+            Console.WriteLine($"\t\tDescription: {item.Description}");
+            Console.WriteLine($"\tTracing: {item.Tracing}");
+            Console.WriteLine($"\tDefault Queue Type: {item.DefaultQueueType}");
+            Console.WriteLine($"\tTags: {string.Join(',', item.Tags)}");
             Console.WriteLine($"\tTracing: {item.Tracing}");
             Console.WriteLine("\tMessages");
             Console.WriteLine($"\t\tMessages: {item.TotalMessages} (total), {item.MessagesDetails?.Value} (rate)");
             Console.WriteLine($"\t\tReady: {item.ReadyMessages} (total), {item.ReadyMessagesDetails?.Value} (rate)");
             Console.WriteLine($"\t\tUnacknowledged: {item.UnacknowledgedMessages} (total), {item.UnacknowledgedMessagesDetails?.Value} (rate)");
-            Console.WriteLine("\tPackets");
-            Console.WriteLine($"\t\tSent: {item.PacketBytesSent} (bytes), {item.PacketBytesSentDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tReceived: {item.PacketBytesReceived} (bytes), {item.PacketBytesReceivedDetails?.Value} (rate)");
-            Console.WriteLine("\tMessage Stats");
-            Console.WriteLine($"\t\tGets: {item.MessageStats?.TotalMessageGets} (total), {item.MessageStats?.MessageGetDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tAcknowledged: {item.MessageStats?.TotalMessagesAcknowledged} (total), {item.MessageStats?.MessagesAcknowledgedDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tConfirmed: {item.MessageStats?.TotalMessagesConfirmed} (total), {item.MessageStats?.MessagesConfirmedDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tDelivered: {item.MessageStats?.TotalMessagesDelivered} (total), {item.MessageStats?.MessageDeliveryDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tPublished: {item.MessageStats?.TotalMessagesPublished} (total), {item.MessageStats?.MessagesPublishedDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tRedelivered: {item.MessageStats?.TotalMessagesRedelivered} (total), {item.MessageStats?.MessagesRedeliveredDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tUnroutable: {item.MessageStats?.TotalUnroutableMessages} (total), {item.MessageStats?.UnroutableMessagesDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tDelivery Gets: {item.MessageStats?.TotalMessageDeliveryGets} (total), {item.MessageStats?.MessageDeliveryGetDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tDelivered Without Ack: {item.MessageStats?.TotalMessageDeliveredWithoutAck} (total), {item.MessageStats?.MessagesDeliveredWithoutAckDetails?.Value} (rate)");
-            Console.WriteLine($"\t\tGets Without Ack: {item.MessageStats?.TotalMessageGetsWithoutAck} (total), {item.MessageStats?.MessageGetsWithoutAckDetails?.Value} (rate)");
 
             foreach (var pair in item.ClusterState)
                 Console.WriteLine($"\t\tKey: {pair.Key}, Value: {pair.Value}");

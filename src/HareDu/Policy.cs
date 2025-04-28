@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Core;
 using Model;
 
+/// <summary>
+/// Represents operations for managing policies in RabbitMQ.
+/// </summary>
 public interface Policy :
     BrokerAPI
 {
@@ -14,25 +17,27 @@ public interface Policy :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<PolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates the specified policy on the target RabbitMQ virtual host.
+    /// Creates a new policy on the specified RabbitMQ virtual host.
     /// </summary>
-    /// <param name="name">The name of the policy.</param>
-    /// <param name="vhost">The name of the virtual host.</param>
-    /// <param name="configurator">Describes how the policy will be created by setting arguments through set methods.</param>
+    /// <param name="name">The name of the policy to be created.</param>
+    /// <param name="vhost">The virtual host on which the policy will be created.</param>
+    /// <param name="configurator">The actions to configure the policy definition, pattern, priority, and application scope.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result> Create(string name, string vhost, Action<PolicyConfigurator> configurator,
-        CancellationToken cancellationToken = default);
+    /// <returns>An asynchronous task containing the result of the policy creation operation.</returns>
+    /// <exception cref="OperationCanceledException">Thrown if the thread has a cancellation request.</exception>
+    Task<Result> Create(string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified policy on the target RabbitMQ virtual host.
+    /// Deletes a specified policy from the provided virtual host.
     /// </summary>
-    /// <param name="name">The name of the policy.</param>
-    /// <param name="vhost">The name of the virtual host.</param>
+    /// <param name="name">The name of the policy to delete.</param>
+    /// <param name="vhost">The name of the virtual host where the policy resides.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>Asynchronous task of <see cref="Result"/> indicating the success or failure of the operation.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default);
 }

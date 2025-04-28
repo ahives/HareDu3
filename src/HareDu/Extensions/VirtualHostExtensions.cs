@@ -19,6 +19,7 @@ public static class VirtualHostExtensions
     /// <returns>A task containing information about all virtual hosts as a <see cref="Results{VirtualHostInfo}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<VirtualHostInfo>> GetAllVirtualHosts(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -42,6 +43,7 @@ public static class VirtualHostExtensions
     /// <returns>A task containing the result of the virtual host creation as a <see cref="Result"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateVirtualHost(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, Action<VirtualHostConfigurator> configurator,
         CancellationToken cancellationToken = default)
@@ -65,6 +67,7 @@ public static class VirtualHostExtensions
     /// <returns>A task containing the result of the delete operation as a <see cref="Result"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteVirtualHost(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
@@ -88,6 +91,7 @@ public static class VirtualHostExtensions
     /// <returns>A task representing the operation with the result of starting up the virtual host.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> StartupVirtualHost(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, string node,
         CancellationToken cancellationToken = default)
@@ -110,6 +114,7 @@ public static class VirtualHostExtensions
     /// <returns>A task containing information about all virtual host limits as a <see cref="Results{VirtualHostLimitsInfo}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<VirtualHostLimitsInfo>> GetAllVirtualHostLimits(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -133,6 +138,7 @@ public static class VirtualHostExtensions
     /// <returns>A task containing the result of the attempt to define the virtual host limit.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DefineVirtualHostLimit(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost,
         Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -157,6 +163,7 @@ public static class VirtualHostExtensions
     /// <returns>A <see cref="Result"/> object indicating the outcome of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteVirtualHostLimit(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, VirtualHostLimit limit,
         CancellationToken cancellationToken = default)
@@ -180,6 +187,7 @@ public static class VirtualHostExtensions
     /// <returns>Task containing the list of permissions as a <see cref="Results{VirtualHostPermissionInfo}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<VirtualHostPermissionInfo>> GetVirtualHostPermissions(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
@@ -202,6 +210,7 @@ public static class VirtualHostExtensions
     /// <returns>Task containing the topic permissions information as a <see cref="Results{VirtualHostTopicPermissionInfo}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<VirtualHostTopicPermissionInfo>> GetVirtualHostTopicPermissions(
         this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
@@ -212,6 +221,29 @@ public static class VirtualHostExtensions
         return await factory
             .API<VirtualHost>(credentials)
             .GetTopicPermissions(vhost, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves information about the specified virtual host in the RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that provides access to the RabbitMQ broker.</param>
+    /// <param name="credentials">The credentials used to authenticate and access the RabbitMQ server.</param>
+    /// <param name="vhost">The name of the virtual host to retrieve information for.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns>A task containing the details of the specified virtual host as a <see cref="Result{VirtualHostInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    public static async Task<Result<VirtualHostInfo>> GetVirtualHost(this IBrokerFactory factory,
+        Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+        Guard.IsNotNull(credentials);
+        
+        return await factory
+            .API<VirtualHost>(credentials)
+            .Get(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
 }

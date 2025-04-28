@@ -12,9 +12,9 @@ public class ConsumerTests :
     [Test]
     public async Task Verify_can_get_all_consumers1()
     {
-        var services = GetContainerBuilder("TestData/ConsumerInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -45,9 +45,9 @@ public class ConsumerTests :
     [Test]
     public async Task Verify_can_get_all_consumers_in_vhost()
     {
-        var services = GetContainerBuilder("TestData/ConsumerInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetByVirtualHost("TestVirtualHost1");
 
@@ -78,9 +78,9 @@ public class ConsumerTests :
     [Test]
     public async Task Verify_cannot_get_consumers_in_vhost_with_missing_name()
     {
-        var services = GetContainerBuilder("TestData/ConsumerInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetByVirtualHost(string.Empty);
 
@@ -95,9 +95,9 @@ public class ConsumerTests :
     [Test]
     public async Task Verify_can_get_all_consumers2()
     {
-        var services = GetContainerBuilder("TestData/ConsumerInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .GetAllConsumers(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>

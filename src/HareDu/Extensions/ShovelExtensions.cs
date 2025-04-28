@@ -25,6 +25,7 @@ public static class ShovelExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/> indicating the outcome of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateShovel(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost,
         Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -49,9 +50,9 @@ public static class ShovelExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/> indicating the outcome of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteShovel(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -72,6 +73,7 @@ public static class ShovelExtensions
     /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="IReadOnlyList{Result}"/> indicating the outcome of each shovel deletion.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
@@ -115,6 +117,7 @@ public static class ShovelExtensions
     /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{ShovelInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ShovelInfo>> GetAllShovels(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {

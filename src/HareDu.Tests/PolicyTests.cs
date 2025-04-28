@@ -15,9 +15,9 @@ public class PolicyTests :
     [Test]
     public async Task Should_be_able_to_get_all_policies1()
     {
-        var services = GetContainerBuilder("TestData/PolicyInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/PolicyInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -68,9 +68,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_can_create_policy1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create("P5", "HareDu", x =>
             {
@@ -135,9 +135,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_create_policy1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -205,9 +205,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_create_policy3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -274,9 +274,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_create_policy5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -310,8 +310,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_create_policy6()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .CreatePolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
@@ -344,9 +345,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_can_delete_policy1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             
@@ -367,9 +368,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_delete_policy1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu");
             
@@ -398,9 +399,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_delete_policy3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", string.Empty);
             
@@ -429,9 +430,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_delete_policy5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty);
             
@@ -460,9 +461,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_delete_policy7()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu");
             
@@ -491,9 +492,9 @@ public class PolicyTests :
     [Test]
     public async Task Verify_cannot_delete_policy9()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", string.Empty);
             

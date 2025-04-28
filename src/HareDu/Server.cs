@@ -5,13 +5,21 @@ using System.Threading.Tasks;
 using Core;
 using Model;
 
+/// <summary>
+/// Represents the contract for interacting with the RabbitMQ server to retrieve information about its configuration and resources.
+/// </summary>
 public interface Server :
     BrokerAPI
 {
     /// <summary>
-    /// Returns all object definitions on the current RabbitMQ node.
+    /// Retrieves information about the RabbitMQ server, including details on users, virtual hosts, permissions, policies, parameters, queues, exchanges, bindings, and more.
     /// </summary>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">
+    /// A token that can be used to signal the cancellation of the asynchronous operation.
+    /// </param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{ServerInfo}"/> object encapsulating the server information.
+    /// </returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default);
 }

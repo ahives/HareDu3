@@ -19,6 +19,7 @@ public static class GlobalParameterExtensions
     /// <returns>An asynchronous task containing the results of the global parameters retrieved from the RabbitMQ node.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<GlobalParameterInfo>> GetAllGlobalParameters(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -42,10 +43,10 @@ public static class GlobalParameterExtensions
     /// <returns>An asynchronous task containing the result of the global parameter creation operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateGlobalParameter(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string parameter,
-        Action<GlobalParameterConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+        Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -66,6 +67,7 @@ public static class GlobalParameterExtensions
     /// <returns>An asynchronous task representing the result of the delete operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteGlobalParameter(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string parameter, CancellationToken cancellationToken = default)
     {

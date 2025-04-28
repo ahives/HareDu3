@@ -18,6 +18,7 @@ public static class Deserializer
                 new CustomULongConverter(),
                 new CustomStringConverter(),
                 new AckModeEnumConverter(),
+                new DefaultQueueTypeEnumConverter(),
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             }
         };

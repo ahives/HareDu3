@@ -19,6 +19,7 @@ public static class ScopedParameterExtensions
     /// <returns>A task representing the asynchronous operation, containing the results with a list of scoped parameter information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ScopedParameterInfo>> GetAllScopedParameters(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -45,6 +46,7 @@ public static class ScopedParameterExtensions
     /// <returns>A task representing the asynchronous operation, containing the result of the scoped parameter creation request.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateScopeParameter<T>(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string parameter, T value, string component, string vhost,
         CancellationToken cancellationToken = default)
@@ -70,6 +72,7 @@ public static class ScopedParameterExtensions
     /// <returns>A task representing the asynchronous operation, containing the result of the scoped parameter deletion.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteScopedParameter(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string parameter, string component, string vhost, CancellationToken cancellationToken = default)
     {

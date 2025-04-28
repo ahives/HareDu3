@@ -7,38 +7,46 @@ using Core;
 using Internal;
 using Model;
 
+/// <summary>
+/// Represents operations that can be performed on RabbitMQ channels.
+/// </summary>
 public interface Channel :
     BrokerAPI
 {
     /// <summary>
-    /// Returns all channels on the current RabbitMQ node given the specified pagination parameters.
+    /// Retrieves all channels on the current RabbitMQ node with the ability to configure pagination.
     /// </summary>
-    /// <param name="configurator">Pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
+    /// <param name="configurator">Optional action to configure the pagination for retrieving the channels.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    /// <returns>All channels on the current RabbitMQ node as a result set.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns all channels on the current RabbitMQ node given the specified connection.
+    /// Retrieves all channels associated with the specified connection.
     /// </summary>
-    /// <param name="connectionName">The name of the connection that encapsulates channels.</param>
+    /// <param name="connectionName">The name of the connection for which to retrieve the channels.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result set containing information about the channels associated with the specified connection.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns all channels on the current RabbitMQ node given the specified virtual host.
+    /// Retrieves all channels associated with a specific virtual host.
     /// </summary>
-    /// <param name="vhost">Name of the RabbitMQ broker virtual host.</param>
+    /// <param name="vhost">The name of the virtual host whose channels are to be retrieved.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result set containing all channels associated with the specified virtual host.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<ChannelInfo>> GetByVirtualHost(string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns channel information on the current RabbitMQ node given the specified channel name.
+    /// Retrieves details of a specific RabbitMQ channel based on its name.
     /// </summary>
-    /// <param name="name">Name of the RabbitMQ broker channel.</param>
+    /// <param name="name">The unique name of the channel to retrieve.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result containing the details of the specified RabbitMQ channel.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result<ChannelInfo>> GetByName(string name, CancellationToken cancellationToken = default);
 }

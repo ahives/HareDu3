@@ -19,6 +19,7 @@ public static class OperatorPolicyExtensions
     /// <returns>Returns a task representing the result of the asynchronous operation containing the collection of operator policies as <see cref="Results{OperatorPolicyInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -43,6 +44,7 @@ public static class OperatorPolicyExtensions
     /// <returns>Returns a task representing the result of the asynchronous operation as <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateOperatorPolicy(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost,
         Action<OperatorPolicyConfigurator> configurator,
@@ -68,6 +70,7 @@ public static class OperatorPolicyExtensions
     /// <returns>Returns a task representing the asynchronous operation result as <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteOperatorPolicy(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string policy, string vhost,
         CancellationToken cancellationToken = default)

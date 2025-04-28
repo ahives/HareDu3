@@ -1,0 +1,14 @@
+{
+  "name": "QueueTestVirtulHost",
+  "description": "",
+  "tags": [],
+  "default_queue_type": "undefined",
+  "metadata": {
+    "description": "",
+    "tags": []
+  },
+  "tracing": false,
+  "cluster_state": {
+    "rabbit@8235120ee702": "running"
+  }
+}

@@ -27,9 +27,20 @@ class VirtualHostImpl :
         return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Result<VirtualHostInfo>> Get(string vhost, CancellationToken cancellationToken = default)
+    public async Task<Result<VirtualHostInfo>> Get(string vhost, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new() {Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<VirtualHostInfo>("/api/vhosts/{vhost}", errors);
+
+        return await GetRequest<VirtualHostInfo>($"/api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator = null, CancellationToken cancellationToken = default)

@@ -19,6 +19,7 @@ public static class ServerExtensions
     /// <returns>A task that represents the asynchronous operation. The task result contains a <see cref="Result{T}"/> where T is <see cref="ServerInfo"/> with the server information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result<ServerInfo>> GetServerInformation(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {

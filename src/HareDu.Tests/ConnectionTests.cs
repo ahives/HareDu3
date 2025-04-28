@@ -14,9 +14,9 @@ public class ConnectionTests :
     [Test]
     public async Task Verify_can_get_all_connections1()
     {
-        var services = GetContainerBuilder("TestData/ConnectionInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
@@ -85,9 +85,9 @@ public class ConnectionTests :
     [Test]
     public async Task Verify_can_get_all_connections2()
     {
-        var services = GetContainerBuilder("TestData/ConnectionInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .GetAllConnections(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
@@ -155,9 +155,9 @@ public class ConnectionTests :
     [Test]
     public async Task Verify_can_get_all_connections_by_name()
     {
-        var services = GetContainerBuilder("TestData/ConnectionInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetByName("127.0.0.0:79863 -> 127.0.0.0:5672");
             

@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using Core.Configuration;
 using Microsoft.Extensions.Http.Resilience;
 
+/// <summary>
+/// Represents a rate-limiting delegating handler used to control the rate of outgoing HTTP requests from the client.
+/// This implementation utilizes the Token Bucket algorithm to enforce rate limits based on configuration parameters.
+/// </summary>
 public class HareDuRateLimiter :
     DelegatingHandler,
     IAsyncDisposable
@@ -51,7 +55,7 @@ public class HareDuRateLimiter :
     public async ValueTask DisposeAsync()
     {
         await _limiter.DisposeAsync().ConfigureAwait(false);
-
+    
         Dispose(disposing: false);
         GC.SuppressFinalize(this);
     }

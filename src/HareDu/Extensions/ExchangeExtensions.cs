@@ -19,6 +19,7 @@ public static class ExchangeExtensions
     /// <returns>A task containing the results of the retrieved exchanges, including metadata about the exchanges.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ExchangeInfo>> GetAllExchanges(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -43,6 +44,7 @@ public static class ExchangeExtensions
     /// <returns>A task containing the result of the operation, including success or failure details.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateExchange(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string exchange, string vhost,
         Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -68,6 +70,7 @@ public static class ExchangeExtensions
     /// <returns>A task containing the result of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteExchange(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string exchange, string vhost,
         Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -93,10 +96,10 @@ public static class ExchangeExtensions
     /// <returns>A task containing the result of the binding operation, including the binding information created.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result<BindingInfo>> BindToExchange(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, string exchange,
-        Action<BindingConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+        Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -118,9 +121,9 @@ public static class ExchangeExtensions
     /// <returns>A task containing the result of the unbinding operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> UnbindFromExchange(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);

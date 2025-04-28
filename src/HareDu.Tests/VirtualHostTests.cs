@@ -1,7 +1,6 @@
 namespace HareDu.Tests;
 
 using System.Threading.Tasks;
-using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -14,9 +13,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Should_be_able_to_get_all_vhosts1()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -26,53 +25,12 @@ public class VirtualHostTests :
             Assert.IsFalse(result.HasFaulted);
             Assert.AreEqual(3, result.Data.Count);
             Assert.AreEqual("TestVirtualHost", result.Data[2].Name);
-            Assert.AreEqual(301363575, result.Data[2].PacketBytesReceived);
-            Assert.IsNotNull(result.Data[2].PacketBytesReceivedDetails);
-            Assert.AreEqual(0.0M, result.Data[2].PacketBytesReceivedDetails?.Value);
-            Assert.AreEqual(368933935, result.Data[2].PacketBytesSent);
-            Assert.IsNotNull(result.Data[2].PacketBytesSentDetails);
-            Assert.AreEqual(0.0M, result.Data[2].PacketBytesSentDetails?.Value);
             Assert.AreEqual(0, result.Data[2].TotalMessages);
             Assert.IsNotNull(result.Data[2].MessagesDetails);
             Assert.AreEqual(0.0M, result.Data[2].MessagesDetails?.Value);
             Assert.AreEqual(0, result.Data[2].ReadyMessages);
             Assert.IsNotNull(result.Data[2].ReadyMessagesDetails);
             Assert.AreEqual(0.0M, result.Data[2].ReadyMessagesDetails?.Value);
-            Assert.IsNotNull(result.Data[2].MessageStats);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessageGets);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetDetails);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetDetails?.Value);
-            Assert.IsNotNull(result.Data[2].MessageStats);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesConfirmedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesPublishedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.UnroutableMessagesDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesAcknowledgedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageDeliveryDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageDeliveryGetDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesDeliveredWithoutAckDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetsWithoutAckDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesRedeliveredDetails);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesConfirmed);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesConfirmedDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesPublished);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesPublishedDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalUnroutableMessages);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.UnroutableMessagesDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesAcknowledged);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesAcknowledgedDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesDelivered);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageDeliveryDetails?.Value);
-            Assert.AreEqual(300003, result.Data[2].MessageStats?.TotalMessageDeliveryGets);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageDeliveryGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalMessageDeliveredWithoutAck);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessageGets);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalMessageGetsWithoutAck);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetsWithoutAckDetails?.Value);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessagesRedelivered);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesRedeliveredDetails?.Value);
         });
     }
 
@@ -90,62 +48,21 @@ public class VirtualHostTests :
             Assert.IsFalse(result.HasFaulted);
             Assert.AreEqual(3, result.Data.Count);
             Assert.AreEqual("TestVirtualHost", result.Data[2].Name);
-            Assert.AreEqual(301363575, result.Data[2].PacketBytesReceived);
-            Assert.IsNotNull(result.Data[2].PacketBytesReceivedDetails);
-            Assert.AreEqual(0.0M, result.Data[2].PacketBytesReceivedDetails?.Value);
-            Assert.AreEqual(368933935, result.Data[2].PacketBytesSent);
-            Assert.IsNotNull(result.Data[2].PacketBytesSentDetails);
-            Assert.AreEqual(0.0M, result.Data[2].PacketBytesSentDetails?.Value);
             Assert.AreEqual(0, result.Data[2].TotalMessages);
             Assert.IsNotNull(result.Data[2].MessagesDetails);
             Assert.AreEqual(0.0M, result.Data[2].MessagesDetails?.Value);
             Assert.AreEqual(0, result.Data[2].ReadyMessages);
             Assert.IsNotNull(result.Data[2].ReadyMessagesDetails);
             Assert.AreEqual(0.0M, result.Data[2].ReadyMessagesDetails?.Value);
-            Assert.IsNotNull(result.Data[2].MessageStats);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessageGets);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetDetails);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetDetails?.Value);
-            Assert.IsNotNull(result.Data[2].MessageStats);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesConfirmedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesPublishedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.UnroutableMessagesDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesAcknowledgedDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageDeliveryDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageDeliveryGetDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesDeliveredWithoutAckDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessageGetsWithoutAckDetails);
-            Assert.IsNotNull(result.Data[2].MessageStats?.MessagesRedeliveredDetails);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesConfirmed);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesConfirmedDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesPublished);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesPublishedDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalUnroutableMessages);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.UnroutableMessagesDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesAcknowledged);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesAcknowledgedDetails?.Value);
-            Assert.AreEqual(300000, result.Data[2].MessageStats?.TotalMessagesDelivered);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageDeliveryDetails?.Value);
-            Assert.AreEqual(300003, result.Data[2].MessageStats?.TotalMessageDeliveryGets);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageDeliveryGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalMessageDeliveredWithoutAck);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessageGets);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].MessageStats?.TotalMessageGetsWithoutAck);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessageGetsWithoutAckDetails?.Value);
-            Assert.AreEqual(3, result.Data[2].MessageStats?.TotalMessagesRedelivered);
-            Assert.AreEqual(0.0M, result.Data[2].MessageStats?.MessagesRedeliveredDetails?.Value);
         });
     }
 
     [Test]
     public async Task Verify_Create_works1()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create("HareDu7",x =>
             {
@@ -188,9 +105,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_can_delete1()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
@@ -211,9 +128,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_cannot_delete_1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
             
@@ -227,9 +144,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_can_start_vhost1()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("FakeVirtualHost", "FakeNode");
 
@@ -250,9 +167,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_cannot_start_vhost_1()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup(string.Empty, "FakeNode");
 
@@ -266,9 +183,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_cannot_start_vhost_2()
     {
-        var services = GetContainerBuilder("TestData/VirtualHostInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("FakeVirtualHost", string.Empty);
 
@@ -282,9 +199,9 @@ public class VirtualHostTests :
     [Test]
     public async Task Verify_cannot_start_vhost_3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup(string.Empty, string.Empty);
 

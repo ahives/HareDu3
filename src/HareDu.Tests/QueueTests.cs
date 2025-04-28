@@ -15,9 +15,9 @@ public class QueueTests :
     [Test]
     public async Task Should_be_able_to_get_all_queues1()
     {
-        var services = GetContainerBuilder("TestData/QueueInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/QueueInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -160,9 +160,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_create_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -193,9 +193,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue_on_error()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -249,9 +249,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -316,9 +316,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -383,9 +383,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", string.Empty, "Node1", x =>
             {
@@ -450,9 +450,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue7()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty,"HareDu", "Node1", x =>
             {
@@ -517,9 +517,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue9()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -584,9 +584,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_create_queue11()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -651,9 +651,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_override_arguments()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -683,9 +683,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_delete_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", "HareDu",x =>
             {
@@ -742,9 +742,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -779,9 +779,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -816,9 +816,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -853,9 +853,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue7()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -890,9 +890,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue9()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -927,9 +927,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue11()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -964,9 +964,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue13()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -1001,9 +1001,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_empty_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("Queue1", "HareDu");
             
@@ -1024,9 +1024,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_empty_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty(string.Empty, "HareDu");
             
@@ -1055,9 +1055,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_empty_queue3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("Queue1", string.Empty);
             
@@ -1086,9 +1086,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_empty_queue5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty(string.Empty, string.Empty);
             
@@ -1117,9 +1117,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_sync_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("Queue1", "HareDu");
             
@@ -1175,9 +1175,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_sync_queue1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync(string.Empty, "HareDu");
             
@@ -1206,9 +1206,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_sync_queue3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("Queue1", string.Empty);
             
@@ -1237,9 +1237,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_sync_queue5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync(string.Empty, string.Empty);
             
@@ -1308,9 +1308,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_delete_queue_binding1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1328,9 +1328,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_can_delete_queue_binding3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1348,9 +1348,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1387,9 +1387,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1426,9 +1426,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_queue_binding5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
@@ -1465,9 +1465,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1504,9 +1504,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1543,9 +1543,9 @@ public class QueueTests :
     [Test]
     public async Task Verify_cannot_delete_exchange_binding5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {

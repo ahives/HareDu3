@@ -21,9 +21,9 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Results{QueueInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -47,6 +47,7 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, string node,
         Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -71,9 +72,9 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> EmptyQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -96,10 +97,10 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of the deletion operation of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        Action<QueueDeletionConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+        Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -121,6 +122,7 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation, containing the result of the synchronization process.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> SyncQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
@@ -144,9 +146,9 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation and contains the result of the cancellation action.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CancelQueueSync(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
@@ -169,6 +171,7 @@ public static class QueueExtensions
     /// <returns>A task representing the asynchronous operation and containing the results of type <see cref="Result{BindingInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result<BindingInfo>> BindToQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, string exchange,
         Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -193,9 +196,9 @@ public static class QueueExtensions
     /// <returns>A task that represents the asynchronous operation, returning an instance of <see cref="Result"/> to indicate the outcome of the unbinding operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> UnbindFromQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);

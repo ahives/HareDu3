@@ -5,21 +5,27 @@ using System.Threading.Tasks;
 using Core;
 using Model;
 
+/// <summary>
+/// Represents an interface for interacting with RabbitMQ cluster nodes through the RabbitMQ Management API.
+/// Allows retrieval of information on nodes and their respective memory usage.
+/// </summary>
 public interface Node :
     BrokerAPI
 {
     /// <summary>
-    /// Returns all nodes on the current RabbitMQ cluster.
+    /// Retrieves information for all nodes in the RabbitMQ cluster.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>Results containing a collection of node information.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default);
-        
+
     /// <summary>
-    /// Returns the memory usage information on the specified RabbitMQ node.
+    /// Retrieves memory usage information for a specific node in the RabbitMQ cluster.
     /// </summary>
-    /// <param name="node">Name of the RabbitMQ node.</param>
+    /// <param name="node">The name of the node for which memory usage information is being requested.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A result containing detailed memory usage information of the specified node.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default);
 }

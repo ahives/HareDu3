@@ -12,9 +12,9 @@ public class ServerTests :
     [Test]
     public async Task Verify_can_get_all_definitions1()
     {
-        var services = GetContainerBuilder("TestData/ServerDefinitionInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ServerDefinitionInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Server>(x => x.UsingCredentials("guest", "guest"))
             .Get();
             

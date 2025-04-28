@@ -184,6 +184,10 @@
       <Content Include="TestData\VirtualHostPermissionInfo.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\VirtualHostInfo2.json" />
+      <Content Include="TestData\VirtualHostInfo2.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

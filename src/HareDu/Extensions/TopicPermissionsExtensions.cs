@@ -19,6 +19,7 @@ public static class TopicPermissionsExtensions
     /// <returns>A task that represents the asynchronous operation. The task result contains a collection of topic permissions' information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<TopicPermissionsInfo>> GetAllTopicPermissions(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
@@ -43,6 +44,7 @@ public static class TopicPermissionsExtensions
     /// <returns>A task that represents the asynchronous operation. The task result contains the result of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> CreateTopicPermission(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string username, string vhost,
         Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -67,6 +69,7 @@ public static class TopicPermissionsExtensions
     /// <returns>A task that represents the asynchronous operation. The task result indicates whether the operation was successful or failed.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Result> DeleteTopicPermission(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string username, string vhost,
         CancellationToken cancellationToken = default)

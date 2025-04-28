@@ -16,9 +16,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_able_to_get_all_dynamic_shovels1()
     {
-        var services = GetContainerBuilder("TestData/ShovelInfo.json")
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder("TestData/ShovelInfo.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
@@ -63,9 +63,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_create_dynamic_shovel1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -138,9 +138,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_create_dynamic_shovel3()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -180,8 +180,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_create_dynamic_shovel4()
     {
-        var services = GetContainerBuilder().BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -220,9 +221,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_create_dynamic_shovel5()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -303,9 +304,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_create_dynamic_shovel7()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -386,9 +387,9 @@ public class ShovelTests :
     [Test]
     public async Task Verify_can_delete_shovel1()
     {
-        var services = GetContainerBuilder()
-            .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test-shovel2","TestHareDu");
             
