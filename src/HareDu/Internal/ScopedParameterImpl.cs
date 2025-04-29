@@ -39,7 +39,6 @@ class ScopedParameterImpl :
             };
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))
@@ -62,7 +61,6 @@ class ScopedParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         var errors = new List<Error>();
-
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))

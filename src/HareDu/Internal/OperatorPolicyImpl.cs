@@ -31,7 +31,7 @@ class OperatorPolicyImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/operator-policies/{vhost}/{name}", [new() {Reason = "No operator policy was defined."}]);
 
         var impl = new OperatorPolicyConfiguratorImpl();

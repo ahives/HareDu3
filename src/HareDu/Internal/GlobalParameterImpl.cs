@@ -30,7 +30,7 @@ class GlobalParameterImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new GlobalParameterConfiguratorImpl(parameter);

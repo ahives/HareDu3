@@ -32,13 +32,14 @@ public class HareDuClient :
             throw new HareDuBrokerApiInitException(nameof(credentials));
 
         string key = $"{credentials.Username}:{credentials.Password}".GetIdentifier();
-        
+
         if (_credentials.TryGetValue(key, out var cachedClient))
             return cachedClient;
 
         var handler = BuildResilienceHandler(credentials);
-        
+
         var client = new HttpClient(new HareDuRateLimiter(_config, handler));
+
         client.BaseAddress = new Uri($"{_config.Broker.Url}/");
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Add("User-Agent", "HareDu");

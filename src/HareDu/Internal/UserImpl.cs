@@ -134,7 +134,7 @@ class UserImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
 
         var impl = new UserLimitConfiguratorImpl();

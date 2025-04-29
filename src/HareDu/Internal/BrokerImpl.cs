@@ -130,7 +130,7 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (protocol == null || string.IsNullOrWhiteSpace(protocol.Value))
+        if (protocol is null || string.IsNullOrWhiteSpace(protocol.Value))
             return Panic.Result<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing.", Timestamp = DateTimeOffset.UtcNow}]);
 
         var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", cancellationToken).ConfigureAwait(false);

@@ -19,9 +19,6 @@ public sealed class SnapshotFactory :
     {
         _factory = factory;
         _cache = new Dictionary<string, object>();
-            
-        // if (!TryRegisterAll())
-        //     throw new HareDuSnapshotInitException("Could not register snapshot lenses.");
     }
 
     public Lens<T> Lens<T>()

@@ -55,7 +55,7 @@ class VirtualHostImpl :
 
         VirtualHostRequest request = null;
 
-        if (configurator != null)
+        if (configurator is not null)
         {
             var impl = new VirtualHostConfiguratorImpl();
             configurator(impl);
@@ -119,7 +119,7 @@ class VirtualHostImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/vhost-limits/{vhost}/{limit}", [new() {Reason = "The name of the virtual host is missing."}]);
 
         var impl = new VirtualHostLimitsConfiguratorImpl();

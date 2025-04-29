@@ -1,6 +1,7 @@
 namespace HareDu.Internal;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,14 +23,22 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         string pagination = null;
+        var errors = new List<Error>();
 
-        if (configurator != null)
+        if (configurator is not null)
         {
             var impl = new PaginationConfiguratorImpl();
             configurator(impl);
 
             pagination = impl.BuildPaginationParams();
+            errors = impl.Validate();
+
+            if (string.IsNullOrWhiteSpace(pagination))
+                errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
+
+        if (errors.Count > 0)
+            return Panic.Results<ConnectionInfo>("api/queues", errors);
 
         string url = string.IsNullOrWhiteSpace(pagination) ? "api/connections" : $"api/connections?{pagination}";
 
@@ -42,19 +51,27 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         string pagination = null;
+        var errors = new List<Error>();
 
-        if (configurator != null)
+        if (configurator is not null)
         {
             var impl = new PaginationConfiguratorImpl();
             configurator(impl);
 
             pagination = impl.BuildPaginationParams();
+            errors = impl.Validate();
+
+            if (string.IsNullOrWhiteSpace(pagination))
+                errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
 
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Panic.Results<ConnectionInfo>("api/vhosts/{vhost}/connections", [new(){Reason = "Name of the virtual host for which to return connection information is missing."}]);
+            errors.Add(new() {Reason = "Name of the virtual host for which to return connection information is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Results<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);
 
         string url = string.IsNullOrWhiteSpace(pagination)
             ? $"api/vhosts/{sanitizedVHost}/connections"

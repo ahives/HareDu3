@@ -31,9 +31,9 @@ class TopicPermissionsImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/topic-permissions/{vhost}/{username}", [new() {Reason = "No topic permissions was defined."}]);
-        
+
         var impl = new TopicPermissionsConfiguratorImpl();
         configurator(impl);
 

@@ -31,7 +31,7 @@ class ExchangeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/exchanges/{vhost}/{exchange}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new ExchangeConfiguratorImpl();
@@ -84,7 +84,7 @@ class ExchangeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding was defined."}]);
 
         var impl = new BindingConfiguratorImpl();
@@ -111,7 +111,7 @@ class ExchangeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding configuration was provided."}]);
 
         var impl = new UnbindingConfiguratorImpl();

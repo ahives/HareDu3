@@ -2,7 +2,6 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ class ShovelImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
 
         var impl = new ShovelConfiguratorImpl();

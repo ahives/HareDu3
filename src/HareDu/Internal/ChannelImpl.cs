@@ -1,6 +1,7 @@
 namespace HareDu.Internal;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,18 +23,26 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         string pagination = null;
+        var errors = new List<Error>();
 
-        if (configurator != null)
+        if (configurator is not null)
         {
             var impl = new PaginationConfiguratorImpl();
             configurator?.Invoke(impl);
 
             pagination = impl.BuildPaginationParams();
+            errors = impl.Validate();
+
+            if (string.IsNullOrWhiteSpace(pagination))
+                errors.Add(new() {Reason = "Pagination parameters are invalid."});
         }
 
-        string url = string.IsNullOrWhiteSpace(pagination) ? "api/channels" : $"api/channels?{pagination}";
+        if (errors.Count > 0)
+            return Panic.Results<ChannelInfo>("api/channels", errors);
 
-        return await GetAllRequest<ChannelInfo>(url, cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ChannelInfo>(
+                string.IsNullOrWhiteSpace(pagination) ? "api/channels" : $"api/channels?{pagination}", cancellationToken)
+            .ConfigureAwait(false);
     }
 
     public async Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default)

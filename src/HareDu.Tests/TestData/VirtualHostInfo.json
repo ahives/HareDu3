@@ -23,7 +23,7 @@
       "description": "",
       "tags": []
     },
-    "name": "QueueTestVirtulHost",
+    "name": "QueueTestVirtualHost1",
     "tags": [],
     "tracing": false
   },
@@ -33,23 +33,23 @@
     },
     "default_queue_type": "undefined",
     "description": "",
-    "messages": 0,
+    "messages": 10,
     "messages_details": {
-      "rate": 0.0
+      "rate": 1.0
     },
-    "messages_ready": 0,
+    "messages_ready": 7,
     "messages_ready_details": {
-      "rate": 0.0
+      "rate": 1.0
     },
-    "messages_unacknowledged": 0,
+    "messages_unacknowledged": 2,
     "messages_unacknowledged_details": {
-      "rate": 0.0
+      "rate": 2.0
     },
     "metadata": {
-      "description": "",
+      "description": "testing",
       "tags": []
     },
-    "name": "QueueTestVirtulHost1",
+    "name": "QueueTestVirtualHost2",
     "tags": [],
     "tracing": false
   }

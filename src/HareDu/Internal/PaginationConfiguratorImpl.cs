@@ -1,6 +1,8 @@
 namespace HareDu.Internal;
 
+using System.Collections.Generic;
 using System.Text;
+using Core;
 
 internal class PaginationConfiguratorImpl :
     PaginationConfigurator
@@ -29,7 +31,7 @@ internal class PaginationConfiguratorImpl :
 
         if (!string.IsNullOrWhiteSpace(_pageName))
             sb.Append($"&name={_pageName}");
-            
+
         return sb.ToString().TrimStart('&');
     }
 
@@ -52,5 +54,15 @@ internal class PaginationConfiguratorImpl :
     {
         _useRegex = use;
         _useRegexSet = true;
+    }
+    
+    public List<Error> Validate()
+    {
+        var errors = new List<Error>();
+
+        if (_pageSize is < 1 or > 500)
+            errors.Add(new(){Reason = "Page size must be between 1 and 500."});
+
+        return errors;
     }
 }

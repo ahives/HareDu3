@@ -28,15 +28,16 @@ class QueueImpl :
         string pagination = null;
         var errors = new List<Error>();
 
-        if (configurator != null)
+        if (configurator is not null)
         {
             var impl = new PaginationConfiguratorImpl();
             configurator(impl);
 
             pagination = impl.BuildPaginationParams();
+            errors = impl.Validate();
 
             if (string.IsNullOrWhiteSpace(pagination))
-                errors.Add(new() {Reason = "Name of the node for which to return memory usage data is missing."});
+                errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
 
         if (errors.Count > 0)
@@ -59,7 +60,7 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
 
         var impl = new QueueConfiguratorImpl(node);
@@ -175,7 +176,7 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
+        if (configurator is null)
             return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding was defined."}]);
 
         var impl = new BindingConfiguratorImpl();

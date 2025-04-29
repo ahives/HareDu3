@@ -1,5 +1,6 @@
 namespace HareDu.Tests;
 
+using System.Linq;
 using System.Threading.Tasks;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,19 +19,51 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
-
+        
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasData);
             Assert.IsFalse(result.HasFaulted);
             Assert.AreEqual(3, result.Data.Count);
-            Assert.AreEqual("TestVirtualHost", result.Data[2].Name);
-            Assert.AreEqual(0, result.Data[2].TotalMessages);
-            Assert.IsNotNull(result.Data[2].MessagesDetails);
-            Assert.AreEqual(0.0M, result.Data[2].MessagesDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].ReadyMessages);
-            Assert.IsNotNull(result.Data[2].ReadyMessagesDetails);
-            Assert.AreEqual(0.0M, result.Data[2].ReadyMessagesDetails?.Value);
+
+            var data1 = result.Data.SingleOrDefault(x => x.Name == "/");
+            var data2 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost1");
+            var data3 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost2");
+
+            Assert.IsNotNull(data1);
+            Assert.IsNotNull(data2);
+            Assert.IsNotNull(data3);
+            Assert.AreEqual("/", data1?.Name);
+            Assert.AreEqual("QueueTestVirtualHost1", data2?.Name);
+            Assert.AreEqual("QueueTestVirtualHost2", data3?.Name);
+            Assert.AreEqual(10, data3.TotalMessages);
+            Assert.IsNotNull(data3.MessagesDetails);
+            Assert.AreEqual(1.0M, data3.MessagesDetails?.Value);
+            Assert.AreEqual(7, data3.ReadyMessages);
+            Assert.IsNotNull(data3.ReadyMessagesDetails);
+            Assert.AreEqual(1.0M, data3.ReadyMessagesDetails?.Value);
+            Assert.AreEqual(2, data3.UnacknowledgedMessages);
+            Assert.IsNotNull(data3.UnacknowledgedMessagesDetails);
+            Assert.AreEqual(2.0M, data3.UnacknowledgedMessagesDetails?.Value);
+        });
+    }
+
+    [Test]
+    public async Task Should_be_able_to_get_vhosts1()
+    {
+        var result = await GetContainerBuilder("TestData/VirtualHostInfo1.json")
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .Get("QueueTestVirtualHost1");
+        
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasData);
+            Assert.IsFalse(result.HasFaulted);
+
+            Assert.IsNotNull(result.Data);
+            Assert.AreEqual("QueueTestVirtualHost1", result.Data?.Name);
         });
     }
 
@@ -47,13 +80,26 @@ public class VirtualHostTests :
             Assert.IsTrue(result.HasData);
             Assert.IsFalse(result.HasFaulted);
             Assert.AreEqual(3, result.Data.Count);
-            Assert.AreEqual("TestVirtualHost", result.Data[2].Name);
-            Assert.AreEqual(0, result.Data[2].TotalMessages);
-            Assert.IsNotNull(result.Data[2].MessagesDetails);
-            Assert.AreEqual(0.0M, result.Data[2].MessagesDetails?.Value);
-            Assert.AreEqual(0, result.Data[2].ReadyMessages);
-            Assert.IsNotNull(result.Data[2].ReadyMessagesDetails);
-            Assert.AreEqual(0.0M, result.Data[2].ReadyMessagesDetails?.Value);
+
+            var data1 = result.Data.SingleOrDefault(x => x.Name == "/");
+            var data2 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost1");
+            var data3 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost2");
+
+            Assert.IsNotNull(data1);
+            Assert.IsNotNull(data2);
+            Assert.IsNotNull(data3);
+            Assert.AreEqual("/", data1?.Name);
+            Assert.AreEqual("QueueTestVirtualHost1", data2?.Name);
+            Assert.AreEqual("QueueTestVirtualHost2", data3?.Name);
+            Assert.AreEqual(10, data3.TotalMessages);
+            Assert.IsNotNull(data3.MessagesDetails);
+            Assert.AreEqual(1.0M, data3.MessagesDetails?.Value);
+            Assert.AreEqual(7, data3.ReadyMessages);
+            Assert.IsNotNull(data3.ReadyMessagesDetails);
+            Assert.AreEqual(1.0M, data3.ReadyMessagesDetails?.Value);
+            Assert.AreEqual(2, data3.UnacknowledgedMessages);
+            Assert.IsNotNull(data3.UnacknowledgedMessagesDetails);
+            Assert.AreEqual(2.0M, data3.UnacknowledgedMessagesDetails?.Value);
         });
     }
 
@@ -73,7 +119,7 @@ public class VirtualHostTests :
         {
             Assert.IsFalse(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
-                
+
             VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
             Assert.IsTrue(request.Tracing);
@@ -90,12 +136,12 @@ public class VirtualHostTests :
             {
                 x.WithTracingEnabled();
             });
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsFalse(result.HasFaulted);
             Assert.IsNotNull(result.DebugInfo);
-                
+
             VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
             Assert.IsTrue(request.Tracing);
@@ -133,7 +179,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.IsTrue(result.HasFaulted);
