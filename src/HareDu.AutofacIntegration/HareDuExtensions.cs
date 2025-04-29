@@ -18,8 +18,7 @@ public static class HareDuExtensions
     /// <param name="settingsFile">The path to the settings file containing HareDu configuration. Defaults to "appsettings.json".</param>
     /// <param name="configSection">The configuration section in the settings file for HareDu. Defaults to "HareDuConfig".</param>
     /// <returns>The modified Autofac container builder instance.</returns>
-    public static ContainerBuilder AddHareDu(this ContainerBuilder builder, string settingsFile = "appsettings.json",
-        string configSection = "HareDuConfig")
+    public static ContainerBuilder AddHareDu(this ContainerBuilder builder, string settingsFile = "appsettings.json", string configSection = "HareDuConfig")
     {
         builder.Register(x =>
             {
@@ -117,7 +116,7 @@ public static class HareDuExtensions
             .As<IScannerResultAnalyzer>()
             .SingleInstance();
 
-        builder.Register(x => new SnapshotFactory(x.Resolve<IBrokerFactory>()))
+        builder.RegisterType<SnapshotFactory>()
             .As<ISnapshotFactory>()
             .SingleInstance();
 

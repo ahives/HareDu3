@@ -28,7 +28,7 @@ class ChannelImpl :
         if (pagination is not null)
         {
             var impl = new PaginationConfiguratorImpl();
-            pagination?.Invoke(impl);
+            pagination(impl);
 
             @params = impl.BuildPaginationParams();
             errors = impl.Validate();
