@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -38,24 +37,6 @@ internal class BaseHareDu
         content.Headers.ContentLength = payloadBytes.Length;
 
         return content;
-    }
-
-    protected void HandleDotsAndSlashes()
-    {
-        var method = typeof(UriParser).GetMethod("GetSyntax", BindingFlags.Static | BindingFlags.NonPublic);
-        if (method is null)
-            throw new MissingMethodException("UriParser", "GetSyntax");
-
-        var uriParser = method.Invoke(null, new object[] {"http"});
-
-        var setUpdatableFlagsMethod = uriParser
-            .GetType()
-            .GetMethod("SetUpdatableFlags", BindingFlags.Instance | BindingFlags.NonPublic);
-            
-        if (setUpdatableFlagsMethod is null)
-            throw new MissingMethodException("UriParser", "SetUpdatableFlags");
-
-        setUpdatableFlagsMethod.Invoke(uriParser, [0]);
     }
 
     protected Error GetError(HttpStatusCode statusCode)

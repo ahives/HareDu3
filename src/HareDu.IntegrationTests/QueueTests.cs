@@ -2,7 +2,6 @@ namespace HareDu.IntegrationTests;
 
 using System;
 using System.Threading.Tasks;
-using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -60,6 +59,20 @@ public class QueueTests
             
         Assert.IsFalse(result.HasFaulted);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    }
+
+    [Test]
+    public async Task Verify_issue_2_fix()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+            .Create("Issue2", "/", _node, x =>
+            {
+                x.IsDurable();
+            });
+            
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Assert.IsFalse(result.HasFaulted);
     }
 
     [Test]

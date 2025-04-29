@@ -25,9 +25,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var response = await Client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -64,9 +61,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var response = await Client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -103,9 +97,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var response = await Client.GetAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -142,9 +133,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var response = await Client.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
@@ -181,9 +169,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
             var response = await Client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
@@ -222,9 +207,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var content = GetRequestContent(request);
             var response = await Client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
@@ -262,9 +244,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
@@ -303,9 +282,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
@@ -344,9 +320,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             string requestContent = request.ToJsonString(Deserializer.Options);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
@@ -385,9 +358,6 @@ internal class BaseBrokerImpl :
 
         try
         {
-            if (url.Contains("/%2f"))
-                HandleDotsAndSlashes();
-
             var response = await Client.PostAsync(url, null, cancellationToken).ConfigureAwait(false);
 
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
