@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
 using Core.Configuration;
-using Internal;
 using Model;
 
 public static class QueueExtensions
@@ -16,21 +15,21 @@ public static class QueueExtensions
     /// </summary>
     /// <param name="factory">The API that provides the underlying functionality to interact with the RabbitMQ broker.</param>
     /// <param name="credentials">The credential provider to authenticate with the RabbitMQ broker.</param>
-    /// <param name="configurator">The configuration action for setting up optional pagination parameters. This parameter is optional.</param>
+    /// <param name="pagination">The configuration action for setting up optional pagination parameters. This parameter is optional.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread. This parameter is optional.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Results{QueueInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
-            .GetAll(configurator, cancellationToken)
+            .GetAll(pagination, cancellationToken)
             .ConfigureAwait(false);
     }
 

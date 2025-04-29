@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Internal;
 using Model;
 
 /// <summary>
@@ -16,12 +15,11 @@ public interface Channel :
     /// <summary>
     /// Retrieves all channels on the current RabbitMQ node with the ability to configure pagination.
     /// </summary>
-    /// <param name="configurator">Optional action to configure the pagination for retrieving the channels.</param>
+    /// <param name="pagination">Optional action to configure the pagination for retrieving the channels.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>All channels on the current RabbitMQ node as a result set.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all channels associated with the specified connection.

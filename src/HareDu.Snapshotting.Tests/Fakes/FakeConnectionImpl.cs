@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
-using Internal;
 
 public class FakeConnectionImpl :
     Connection,
     HareDuTestingFake
 {
-    public async Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         var connection1 = new ConnectionInfo
         {
@@ -64,24 +63,13 @@ public class FakeConnectionImpl :
         return new SuccessfulResults<ConnectionInfo>{Data = new List<ConnectionInfo> {connection1, connection2, connection3}, DebugInfo = null};
     }
 
-    public Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
-    public Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
+    public Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

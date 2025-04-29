@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
 using Core.Configuration;
-using Internal;
 using Model;
 
 public static class ConnectionExtensions
@@ -16,22 +15,21 @@ public static class ConnectionExtensions
     /// </summary>
     /// <param name="factory">The API factory that provides the functionality to interact with RabbitMQ.</param>
     /// <param name="credentials">The action used to specify the credentials for authenticating with the RabbitMQ broker.</param>
-    /// <param name="configurator">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
+    /// <param name="pagination">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the results of type <see cref="Results{ConnectionInfo}"/> that include information about all connections in the broker.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ConnectionInfo>> GetAllConnections(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
-            .GetAll(configurator, cancellationToken)
+            .GetAll(pagination, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -41,22 +39,21 @@ public static class ConnectionExtensions
     /// <param name="factory">The API factory that provides the functionality to interact with RabbitMQ.</param>
     /// <param name="credentials">The action used to specify the credentials for authenticating with the RabbitMQ broker.</param>
     /// <param name="vhost">The name of the virtual host for which connections are to be retrieved.</param>
-    /// <param name="configurator">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
+    /// <param name="pagination">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the results of type <see cref="Results{ConnectionInfo}"/> that include information about the connections for the specified virtual host.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
-            .GetByVirtualHost(vhost, configurator, cancellationToken)
+            .GetByVirtualHost(vhost, pagination, cancellationToken)
             .ConfigureAwait(false);
     }
 

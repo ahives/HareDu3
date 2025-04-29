@@ -4,32 +4,32 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Internal;
 using Model;
 
+/// <summary>
+/// Represents operations that can be performed on broker connections.
+/// </summary>
 public interface Connection :
     BrokerAPI
 {
     /// <summary>
     /// Retrieves all connections from the broker, with optional pagination configuration.
     /// </summary>
-    /// <param name="configurator">Optional pagination parameters (e.g., page number, size, etc.) to control the scope of returned data.</param>
+    /// <param name="pagination">Optional pagination parameters (e.g., page number, size, etc.) to control the scope of returned data.</param>
     /// <param name="cancellationToken">Token used to cancel the ongoing operation.</param>
     /// <returns>A task representing the asynchronous operation, containing the results of connection information.</returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled via the provided cancellation token.</exception>
-    Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all connections associated with the specified virtual host.
     /// </summary>
     /// <param name="vhost">The name of the virtual host for which connections are to be retrieved.</param>
-    /// <param name="configurator">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
+    /// <param name="pagination">Optional pagination parameters (e.g., page number, size, etc.) used to control how much data is returned.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task representing the asynchronous operation, containing the results of connections information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves connection information for a specific connection by its name.
@@ -54,9 +54,7 @@ public interface Connection :
     /// </summary>
     /// <param name="connection">The name of the RabbitMQ connection to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>
-    /// A result object indicating the success or failure of the delete operation.
-    /// </returns>
+    /// <returns>A result object indicating the success or failure of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result> Delete(string connection, CancellationToken cancellationToken = default);
 

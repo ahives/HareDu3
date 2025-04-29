@@ -20,23 +20,23 @@ class QueueImpl :
     {
     }
 
-    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null,
+    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string pagination = null;
+        string @params = null;
         var errors = new List<Error>();
 
-        if (configurator is not null)
+        if (pagination is not null)
         {
             var impl = new PaginationConfiguratorImpl();
-            configurator(impl);
+            pagination(impl);
 
-            pagination = impl.BuildPaginationParams();
+            @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(pagination))
+            if (string.IsNullOrWhiteSpace(@params))
                 errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
 
@@ -44,7 +44,7 @@ class QueueImpl :
             return Panic.Results<QueueInfo>("api/queues", errors);
 
         return await GetAllRequest<QueueInfo>(
-                string.IsNullOrWhiteSpace(pagination) ? "api/queues" : $"api/queues?{pagination}", cancellationToken)
+                string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", cancellationToken)
             .ConfigureAwait(false);
     }
 

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
-using Internal;
 
 public class FakeChannelImpl :
     Channel,
@@ -39,23 +38,11 @@ public class FakeChannelImpl :
         return new SuccessfulResults<ChannelInfo>{Data = new List<ChannelInfo> {channel}, DebugInfo = null};
     }
 
-    public Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<Results<ChannelInfo>> GetByVirtualHost(string vhost, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Results<ChannelInfo>> GetByVirtualHost(string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public Task<Result<ChannelInfo>> GetByName(string name, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Result<ChannelInfo>> GetByName(string name, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

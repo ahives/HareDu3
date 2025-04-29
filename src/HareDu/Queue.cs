@@ -4,7 +4,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
-using Internal;
 using Model;
 
 /// <summary>
@@ -16,11 +15,11 @@ public interface Queue :
     /// <summary>
     /// Retrieves information about all queues available on the RabbitMQ broker.
     /// </summary>
-    /// <param name="configurator">Specifies the pagination options for filtering the queues to retrieve, if applicable.</param>
+    /// <param name="pagination">Specifies the pagination options for filtering the queues to retrieve, if applicable.</param>
     /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{QueueInfo}"/> representing the queues.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information for all queues available on the RabbitMQ broker.

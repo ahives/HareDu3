@@ -18,50 +18,50 @@ class ConnectionImpl :
     {
     }
 
-    public async Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string pagination = null;
+        string @params = null;
         var errors = new List<Error>();
 
-        if (configurator is not null)
+        if (pagination is not null)
         {
             var impl = new PaginationConfiguratorImpl();
-            configurator(impl);
+            pagination(impl);
 
-            pagination = impl.BuildPaginationParams();
+            @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(pagination))
+            if (string.IsNullOrWhiteSpace(@params))
                 errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
 
         if (errors.Count > 0)
             return Panic.Results<ConnectionInfo>("api/queues", errors);
 
-        string url = string.IsNullOrWhiteSpace(pagination) ? "api/connections" : $"api/connections?{pagination}";
+        string url = string.IsNullOrWhiteSpace(@params) ? "api/connections" : $"api/connections?{@params}";
 
         return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> configurator = null,
+    public async Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string pagination = null;
+        string @params = null;
         var errors = new List<Error>();
 
-        if (configurator is not null)
+        if (pagination is not null)
         {
             var impl = new PaginationConfiguratorImpl();
-            configurator(impl);
+            pagination(impl);
 
-            pagination = impl.BuildPaginationParams();
+            @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(pagination))
+            if (string.IsNullOrWhiteSpace(@params))
                 errors.Add(new() {Reason = "Pagination parameters are in valid."});
         }
 
@@ -73,9 +73,9 @@ class ConnectionImpl :
         if (errors.Count > 0)
             return Panic.Results<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);
 
-        string url = string.IsNullOrWhiteSpace(pagination)
+        string url = string.IsNullOrWhiteSpace(@params)
             ? $"api/vhosts/{sanitizedVHost}/connections"
-            : $"api/vhosts/{sanitizedVHost}/connections?{pagination}";
+            : $"api/vhosts/{sanitizedVHost}/connections?{@params}";
 
         return await GetAllRequest<ConnectionInfo>(url, cancellationToken).ConfigureAwait(false);
     }

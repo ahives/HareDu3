@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
 using Core.Configuration;
-using Internal;
 using Model;
 
 public static class ChannelExtensions
@@ -16,21 +15,21 @@ public static class ChannelExtensions
     /// </summary>
     /// <param name="factory">The API factory that provides access to RabbitMQ broker operations.</param>
     /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
-    /// <param name="configurator">Optional configuration for pagination of channel results.</param>
+    /// <param name="pagination">Optional configuration for pagination of channel results.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
     /// <returns>A task representing the asynchronous operation, containing a collection of channel information.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ChannelInfo>> GetAllChannels(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);
 
         return await factory
             .API<Channel>(credentials)
-            .GetAll(configurator, cancellationToken)
+            .GetAll(pagination, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -46,8 +45,7 @@ public static class ChannelExtensions
     /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     public static async Task<Results<ChannelInfo>> GetChannelsByConnection(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string connectionName,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string connectionName, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
         Guard.IsNotNull(credentials);

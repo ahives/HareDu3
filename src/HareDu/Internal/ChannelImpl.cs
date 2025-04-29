@@ -18,22 +18,22 @@ class ChannelImpl :
     {
     }
 
-    public async Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        string pagination = null;
+        string @params = null;
         var errors = new List<Error>();
 
-        if (configurator is not null)
+        if (pagination is not null)
         {
             var impl = new PaginationConfiguratorImpl();
-            configurator?.Invoke(impl);
+            pagination?.Invoke(impl);
 
-            pagination = impl.BuildPaginationParams();
+            @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(pagination))
+            if (string.IsNullOrWhiteSpace(@params))
                 errors.Add(new() {Reason = "Pagination parameters are invalid."});
         }
 
@@ -41,7 +41,7 @@ class ChannelImpl :
             return Panic.Results<ChannelInfo>("api/channels", errors);
 
         return await GetAllRequest<ChannelInfo>(
-                string.IsNullOrWhiteSpace(pagination) ? "api/channels" : $"api/channels?{pagination}", cancellationToken)
+                string.IsNullOrWhiteSpace(@params) ? "api/channels" : $"api/channels?{@params}", cancellationToken)
             .ConfigureAwait(false);
     }
 

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Core;
 using Core.Testing;
 using HareDu.Model;
-using Internal;
 
 public class FakeQueueImpl :
     Queue,
@@ -50,18 +49,21 @@ public class FakeQueueImpl :
         return new SuccessfulResults<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
     }
 
-    public Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     public Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
-    public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator,
-        CancellationToken cancellationToken = default) =>
-        throw new NotImplementedException();
+    public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     public Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     public Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
+
     public async Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }
