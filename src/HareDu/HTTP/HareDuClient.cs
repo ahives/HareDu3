@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Core.Configuration;
 using Core.Extensions;
+using Core.Security;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Retry;
@@ -14,42 +15,48 @@ using Polly.Retry;
 /// <summary>
 /// Represents a client for interacting with the HareDu API.
 /// </summary>
-public class HareDuClient :
+public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder) :
     IHareDuClient
 {
-    private readonly HareDuConfig _config;
-    IDictionary<string, HttpClient> _credentials;
-    
-    public HareDuClient(HareDuConfig config)
-    {
-        _config = config;
-        _credentials = new Dictionary<string, HttpClient>();
-    }
+    IDictionary<string, HttpClient> _cache = new Dictionary<string, HttpClient>();
 
-    public HttpClient CreateClient(HareDuCredentials credentials)
+    public HttpClient CreateClient(Action<HareDuCredentialProvider> provider)
     {
+        if (provider is null)
+            throw new HareDuSecurityException("Invalid user credentials.");
+
+        var credentials = builder.Build(provider);
         if (credentials is null)
-            throw new HareDuBrokerApiInitException(nameof(credentials));
+            throw new HareDuSecurityException("Invalid user credentials.");
 
         string key = $"{credentials.Username}:{credentials.Password}".GetIdentifier();
 
-        if (_credentials.TryGetValue(key, out var cachedClient))
+        if (_cache.TryGetValue(key, out var cachedClient))
             return cachedClient;
 
         var handler = BuildResilienceHandler(credentials);
 
-        var client = new HttpClient(new HareDuRateLimiter(_config, handler));
+        var client = new HttpClient(new HareDuRateLimiter(config, handler));
 
-        client.BaseAddress = new Uri($"{_config.Broker.Url}/");
+        client.BaseAddress = new Uri($"{config.Broker.Url}/");
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Add("User-Agent", "HareDu");
 
-        if (_config.Broker.Timeout != TimeSpan.Zero)
-            client.Timeout = _config.Broker.Timeout;
+        if (config.Broker.Timeout != TimeSpan.Zero)
+            client.Timeout = config.Broker.Timeout;
 
-        _credentials.Add(key, client);
+        _cache.Add(key, client);
 
         return client;
+    }
+
+    public void CancelPendingRequests()
+    {
+        if (_cache is null || _cache.Count == 0)
+            return;
+
+        foreach (var client in _cache.Values)
+            client.CancelPendingRequests();
     }
 
     ResilienceHandler BuildResilienceHandler(HareDuCredentials credentials)

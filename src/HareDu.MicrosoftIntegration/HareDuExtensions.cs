@@ -2,6 +2,7 @@ namespace HareDu.MicrosoftIntegration;
 
 using System;
 using Core.Configuration;
+using Core.Security;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
 using HTTP;

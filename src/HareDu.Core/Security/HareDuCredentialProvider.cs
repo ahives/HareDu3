@@ -1,4 +1,4 @@
-namespace HareDu.Core.Configuration;
+namespace HareDu.Core.Security;
 
 /// <summary>
 /// Represents a provider that supplies credentials for connecting to a RabbitMQ server.

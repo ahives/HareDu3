@@ -1,7 +1,7 @@
 namespace HareDu;
 
 using System;
-using Core.Configuration;
+using Core.Security;
 
 /// <summary>
 /// Represents a factory interface for creating objects that provide access to RabbitMQ server resources
@@ -17,9 +17,8 @@ public interface IBrokerFactory
     /// <typeparam name="T">The interface that derives from the base interface <see cref="BrokerAPI"/>.</typeparam>
     /// <param name="credentials">A configuration action used to supply the credentials required to access the RabbitMQ server.</param>
     /// <returns>An instance of the specified type <typeparamref name="T"/> providing access to the RabbitMQ server resources.</returns>
-    /// <exception cref="HareDuBrokerApiInitException">Thrown if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuBrokerInitException">Thrown if HareDu could not find the implementation associated with a channel.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     T API<T>(Action<HareDuCredentialProvider> credentials)
         where T : BrokerAPI;
-
-    // void Init(BrokerCredentials credentials);
 }

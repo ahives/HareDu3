@@ -5,26 +5,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 public static class BrokerExtensions
 {
     /// <summary>
-    /// Retrieves an overview of the RabbitMQ broker.
+    /// Retrieves an overview of the broker system.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result, containing broker overview information.</returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task that represents the asynchronous operation, with the result containing an overview of the broker system.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -33,20 +32,19 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Rebalances all queues across all RabbitMQ virtual hosts.
+    /// Initiates a rebalance operation for all queues in the broker.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result of the rebalance action.</returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task that represents the asynchronous operation, with the result indicating the success or failure of the operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> RebalanceAllQueues(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -55,20 +53,19 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks whether alarms are currently in effect on the RabbitMQ broker.
+    /// Checks if alarm notifications are in effect for the broker system.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result, containing the alarm state.</returns>
+    /// <param name="factory">The factory responsible for initiating broker-related operations.</param>
+    /// <param name="credentials">The credentials used for authenticating with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task representing the asynchronous operation, with the result containing the current alarm state of the broker system.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -77,21 +74,20 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks if the RabbitMQ broker is alive for the specified virtual host.
+    /// Checks if the broker is alive for the specified virtual host.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="vhost">The name of the virtual host for which the broker's status is being verified.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result, containing the broker's state for the given virtual host.</returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="vhost">The virtual host to be checked for broker availability.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task representing the asynchronous operation, with the result indicating the broker state (Alive, NotAlive, NotRecognized).</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the operation is canceled.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -100,20 +96,19 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks whether all virtual hosts in the RabbitMQ broker are running.
+    /// Determines whether all virtual hosts associated with the broker are in a running state.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider used for authentication.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result, containing the state of the virtual hosts.</returns>
+    /// <param name="factory">The factory used to create broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if necessary.</param>
+    /// <returns>A task representing the asynchronous operation, with a result indicating the running state of the virtual hosts.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -122,22 +117,19 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Determines whether any node is in a critical state with respect to mirror sync.
+    /// Determines whether the node is in a mirror sync critical state.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>
-    /// A task representing the asynchronous operation result, containing the state of mirror sync for nodes as a <see cref="NodeMirrorSyncState"/>.
-    /// </returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task that represents the asynchronous operation, with the result indicating the mirror sync state of the node.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -146,20 +138,19 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Determines whether the quorum status of the RabbitMQ node is critical.
+    /// Determines whether the node quorum state is critical.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used for interacting with the broker API.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication to the broker.</param>
-    /// <param name="cancellationToken">Token used to cancel the current operation if required.</param>
-    /// <returns>A task representing the asynchronous operation result, containing the quorum state of the node.</returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
+    /// <returns>A task that represents the asynchronous operation, with the result providing the state of the node quorum.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)
@@ -168,21 +159,20 @@ public static class BrokerExtensions
     }
 
     /// <summary>
-    /// Checks the state of a specific protocol's listener to determine if it is active on the RabbitMQ broker.
+    /// Checks if the specified protocol has an active listener within the broker system.
     /// </summary>
-    /// <param name="factory">The IBrokerFactory instance used to interact with the broker.</param>
-    /// <param name="credentials">An action to configure the credential provider for authentication.</param>
-    /// <param name="protocol">The protocol to check for an active listener.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation result, containing the state of the protocol listener.</returns>
+    /// <param name="factory">The factory responsible for creating broker-related operations.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker system.</param>
+    /// <param name="protocol">The protocol to verify for an active listener.</param>
+    /// <param name="cancellationToken">A token used to cancel the operation if necessary.</param>
+    /// <returns>A task that represents the asynchronous operation, with the result containing the state of the protocol listener.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, Protocol protocol, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Broker>(credentials)

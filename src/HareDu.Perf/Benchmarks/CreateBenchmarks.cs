@@ -2,7 +2,7 @@ namespace HareDu.Perf.Benchmarks;
 
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
-using Core.Configuration;
+using Core.Security;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;

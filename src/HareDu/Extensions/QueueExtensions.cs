@@ -5,27 +5,27 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 public static class QueueExtensions
 {
     /// <summary>
-    /// Retrieves all queues from the RabbitMQ broker using the specified configuration.
+    /// Retrieves all queues from the RabbitMQ broker using the specified settings.
     /// </summary>
-    /// <param name="factory">The API that provides the underlying functionality to interact with the RabbitMQ broker.</param>
-    /// <param name="credentials">The credential provider to authenticate with the RabbitMQ broker.</param>
-    /// <param name="pagination">The configuration action for setting up optional pagination parameters. This parameter is optional.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread. This parameter is optional.</param>
+    /// <param name="factory">The API that implements the functionality to interact with the RabbitMQ broker.</param>
+    /// <param name="credentials">The credential provider used to authenticate with the RabbitMQ broker.</param>
+    /// <param name="pagination">The configuration action for setting up optional pagination parameters.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Results{QueueInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -45,14 +45,13 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> CreateQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, string node,
         Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -70,13 +69,12 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> EmptyQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -95,14 +93,13 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of the deletion operation of type <see cref="Result"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> DeleteQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost,
         Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -120,13 +117,12 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the synchronization process.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> SyncQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -144,13 +140,12 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of the cancellation action.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> CancelQueueSync(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -169,14 +164,13 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task representing the asynchronous operation and containing the results of type <see cref="Result{BindingInfo}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result<BindingInfo>> BindToQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, string exchange,
         Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)
@@ -194,13 +188,12 @@ public static class QueueExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, returning an instance of <see cref="Result"/> to indicate the outcome of the unbinding operation.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> UnbindFromQueue(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Queue>(credentials)

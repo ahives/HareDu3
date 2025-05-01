@@ -1,7 +1,8 @@
 namespace HareDu.HTTP;
 
+using System;
 using System.Net.Http;
-using Core.Configuration;
+using Core.Security;
 
 /// <summary>
 /// Provides functionalities to create and manage HTTP clients configured to communicate
@@ -10,9 +11,15 @@ using Core.Configuration;
 public interface IHareDuClient
 {
     /// <summary>
-    /// Creates and returns an instance of <see cref="HttpClient"/> configured with the provided broker credentials.
+    /// Creates and returns an instance of <see cref="HttpClient"/> configured with the broker credentials provided through the specified action.
     /// </summary>
-    /// <param name="credentials">The <see cref="HareDuCredentials"/> which contain the username and password for authentication with the broker.</param>
+    /// <param name="provider">An action specifying the <see cref="HareDuCredentialProvider"/> to configure the credentials for authentication with the broker.</param>
     /// <returns>An instance of <see cref="HttpClient"/> configured to communicate with the broker.</returns>
-    HttpClient CreateClient(HareDuCredentials credentials);
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+    HttpClient CreateClient(Action<HareDuCredentialProvider> provider);
+
+    /// <summary>
+    /// Cancels all pending requests for all <see cref="HttpClient"/> instances managed by the current client.
+    /// </summary>
+    void CancelPendingRequests();
 }

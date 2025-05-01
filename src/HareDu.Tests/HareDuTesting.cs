@@ -3,6 +3,7 @@
 using System.IO;
 using System.Net;
 using Core.Configuration;
+using Core.Security;
 using HTTP;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;

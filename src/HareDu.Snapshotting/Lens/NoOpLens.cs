@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 public class NoOpLens<T> :

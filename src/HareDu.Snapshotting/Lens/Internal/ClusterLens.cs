@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Configuration;
+using Core.Security;
 using HareDu.Core.Extensions;
 using HareDu.Model;
 using Model;

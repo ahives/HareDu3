@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
 using Core;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 public static class ConnectionExtensions
@@ -19,13 +19,12 @@ public static class ConnectionExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the results of type <see cref="Results{ConnectionInfo}"/> that include information about all connections in the broker.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Results<ConnectionInfo>> GetAllConnections(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
@@ -43,13 +42,12 @@ public static class ConnectionExtensions
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the results of type <see cref="Results{ConnectionInfo}"/> that include information about the connections for the specified virtual host.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
@@ -67,13 +65,12 @@ public static class ConnectionExtensions
     /// <returns>A task that represents the asynchronous operation.
     /// The task result contains the results of type <see cref="Results{ConnectionInfo}"/> with details about the specified connection.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Throws if HareDu could not find the implementation associated with a policy.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByName(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string name, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
@@ -89,14 +86,13 @@ public static class ConnectionExtensions
     /// <param name="username">The username for which to retrieve associated connections.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the results of type <see cref="Results{ConnectionInfo}"/> that include information about all connections associated with the specified user.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="factory"/> is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Thrown if HareDu fails to find the necessary implementation for the specified operation.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Results<ConnectionInfo>> GetConnectionsByUser(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string username, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
@@ -112,14 +108,13 @@ public static class ConnectionExtensions
     /// <param name="connection">The identifier of the connection to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Result"/> indicating the status of the delete operation.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="factory"/> is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Thrown if HareDu fails to find the necessary implementation for the specified operation.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> DeleteConnection(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string connection, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)
@@ -135,14 +130,13 @@ public static class ConnectionExtensions
     /// <param name="username">The username for which all associated connections are to be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation. The task result indicates whether the deletion succeeded or failed.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="factory"/> is null.</exception>
-    /// <exception cref="HareDuBrokerApiInitException">Thrown if HareDu fails to find the necessary implementation for the specified operation.</exception>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> DeleteConnectionByUser(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string username, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        Guard.IsNotNull(credentials);
 
         return await factory
             .API<Connection>(credentials)

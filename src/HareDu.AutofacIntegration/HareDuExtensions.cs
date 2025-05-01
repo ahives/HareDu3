@@ -3,6 +3,7 @@ namespace HareDu.AutofacIntegration;
 using System;
 using Autofac;
 using Core.Configuration;
+using Core.Security;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
 using HTTP;

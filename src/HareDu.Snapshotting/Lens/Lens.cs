@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 /// <summary>
@@ -30,6 +30,9 @@ public interface Lens<T>
     /// <param name="provider">The credentials used for authenticating with the target component.</param>
     /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the snapshot result.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     Task<SnapshotResult<T>> TakeSnapshot(Action<HareDuCredentialProvider> provider, CancellationToken cancellationToken = default);
 
     /// <summary>

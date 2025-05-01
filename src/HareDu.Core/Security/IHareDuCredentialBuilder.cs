@@ -1,4 +1,4 @@
-namespace HareDu.Core.Configuration;
+namespace HareDu.Core.Security;
 
 using System;
 

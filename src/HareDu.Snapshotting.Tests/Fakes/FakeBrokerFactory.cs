@@ -3,6 +3,7 @@ namespace HareDu.Snapshotting.Tests.Fakes;
 using System;
 using System.Collections.Generic;
 using Core.Configuration;
+using Core.Security;
 using Core.Testing;
 
 public class FakeBrokerFactory :

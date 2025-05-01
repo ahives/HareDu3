@@ -1,4 +1,4 @@
-namespace HareDu.Core.Configuration;
+namespace HareDu.Core.Security;
 
 /// <summary>
 /// Represents the credentials required to authenticate with a broker.

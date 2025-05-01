@@ -3,7 +3,7 @@ namespace HareDu.Snapshotting.Extensions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Configuration;
+using Core.Security;
 using Model;
 
 public static class SnapshotExtensions

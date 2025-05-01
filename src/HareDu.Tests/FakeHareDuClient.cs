@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using Core.Configuration;
+using Core.Security;
 using HTTP;
 using Moq;
 using Moq.Protected;
@@ -14,7 +14,7 @@ using Moq.Protected;
 public class FakeHareDuClient(string data, HttpStatusCode statusCode = HttpStatusCode.OK) :
     IHareDuClient
 {
-    public HttpClient CreateClient(HareDuCredentials credentials)
+    public HttpClient CreateClient(Action<HareDuCredentialProvider> provider)
     {
         var client = new HttpClient(GetHttpMessageHandler());
 
@@ -23,6 +23,11 @@ public class FakeHareDuClient(string data, HttpStatusCode statusCode = HttpStatu
         client.DefaultRequestHeaders.Add("User-Agent", "HareDu");
 
         return client;
+    }
+
+    public void CancelPendingRequests()
+    {
+        throw new NotImplementedException();
     }
 
     HttpMessageHandler GetHttpMessageHandler()
