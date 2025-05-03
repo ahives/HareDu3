@@ -2,12 +2,15 @@ namespace HareDu;
 
 using System;
 
+/// <summary>
+/// Provides methods to configure an exchange in a messaging system.
+/// </summary>
 public interface ExchangeConfigurator
 {
     /// <summary>
-    /// Specify the message routing type (e.g. fanout, direct, topic, etc.).
+    /// Specifies the routing type of the exchange.
     /// </summary>
-    /// <param name="routingType"></param>
+    /// <param name="routingType">The routing type to be applied to the exchange.</param>
     void WithRoutingType(RoutingType routingType);
 
     /// <summary>
@@ -21,9 +24,9 @@ public interface ExchangeConfigurator
     void IsForInternalUse();
 
     /// <summary>
-    /// Specify user-defined arguments used to configure the exchange.
+    /// Specify one or more arguments for the exchange configuration.
     /// </summary>
-    /// <param name="arguments"></param>
+    /// <param name="arguments">Callback action to define the exchange arguments.</param>
     void HasArguments(Action<ExchangeArgumentConfigurator> arguments);
 
     /// <summary>

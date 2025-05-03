@@ -13,20 +13,19 @@ public class HareDuCredentialBuilder :
 {
     public HareDuCredentials Build(Action<HareDuCredentialProvider> provider)
     {
-        if (provider is null)
-            throw new HareDuSecurityException("Invalid user credentials.");
-            
+        Defend.AgainstNullParams(provider);
+
         var impl = new HareDuCredentialProviderImpl();
         provider(impl);
 
-        HareDuCredentials config = impl.Credentials.Value;
+        var credentials = impl.Credentials.Value;
 
-        return Validate(config) ? config : throw new HareDuSecurityException("Invalid user credentials.");
+        Defend.AgainstInvalidCredentials(credentials);
+
+        return credentials;
     }
 
-    bool Validate(HareDuCredentials credentials) => !string.IsNullOrWhiteSpace(credentials.Username) && !string.IsNullOrWhiteSpace(credentials.Password);
 
-        
     class HareDuCredentialProviderImpl :
         HareDuCredentialProvider
     {

@@ -14,7 +14,7 @@ using Moq.Protected;
 public class FakeHareDuClient(string data, HttpStatusCode statusCode = HttpStatusCode.OK) :
     IHareDuClient
 {
-    public HttpClient CreateClient(Action<HareDuCredentialProvider> provider)
+    public HttpClient GetClient(Action<HareDuCredentialProvider> provider)
     {
         var client = new HttpClient(GetHttpMessageHandler());
 

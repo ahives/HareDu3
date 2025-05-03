@@ -2,6 +2,9 @@ namespace HareDu;
 
 using System;
 
+/// <summary>
+/// Provides configuration options for creating or modifying a queue in RabbitMQ.
+/// </summary>
 public interface QueueConfigurator
 {
     /// <summary>

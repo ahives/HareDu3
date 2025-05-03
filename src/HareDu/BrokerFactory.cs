@@ -11,6 +11,9 @@ using Core.Security;
 using HTTP;
 using Internal;
 
+/// <summary>
+/// Represents a factory that provides APIs to interact with the broker.
+/// </summary>
 public sealed class BrokerFactory :
     IBrokerFactory
 {
@@ -42,7 +45,7 @@ public sealed class BrokerFactory :
         if (_cache.TryGetValue(type.FullName, out var value))
             return (T) value;
 
-        var client = _client.CreateClient(credentials);
+        var client = _client.GetClient(credentials);
         bool registered = RegisterInstance(typeMap[type.FullName], type.FullName, client);
 
         if (registered)

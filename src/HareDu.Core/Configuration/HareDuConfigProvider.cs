@@ -15,38 +15,19 @@ public class HareDuConfigProvider :
 {
     public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
     {
-        if (configurator is null)
-            throw new HareDuConfigurationException($"{nameof(configurator)} is null.");
+        Defend.AgainstNullParams(configurator);
             
         var impl = new HareDuConfiguratorImpl();
         configurator(impl);
 
         HareDuConfig config = impl.Settings.Value;
 
-        return Validate(config) ? config : throw new HareDuConfigurationException("Invalid configuration.");
+        Defend.AgainstInvalidConfig(config);
+
+        return config;
     }
 
-    bool Validate(HareDuConfig config) => Validate(config.Broker) && Validate(config.Diagnostics);
 
-    static bool Validate(DiagnosticsConfig config) =>
-        config?.Probes != null 
-        && config.Probes.ConsumerUtilizationThreshold > 0 
-        && config.Probes.HighConnectionClosureRateThreshold > 0 
-        && config.Probes.HighConnectionCreationRateThreshold > 0 
-        && config.Probes.MessageRedeliveryThresholdCoefficient > 0 
-        && config.Probes.QueueHighFlowThreshold > 0 
-        && config.Probes.QueueLowFlowThreshold > 0 
-        && config.Probes.SocketUsageThresholdCoefficient > 0 
-        && config.Probes.FileDescriptorUsageThresholdCoefficient > 0 
-        && config.Probes.RuntimeProcessUsageThresholdCoefficient > 0;
-
-    static bool Validate(BrokerConfig config)
-           => !string.IsNullOrWhiteSpace(config.Url) &&
-           config?.Behavior.MaxConcurrentRequests >= 1 &&
-           config?.Behavior.RequestReplenishmentInterval >= 1 &&
-           config?.Behavior.RequestsPerReplenishment >= 1;
-
-        
     class HareDuConfiguratorImpl :
         HareDuConfigurator
     {
@@ -62,28 +43,28 @@ public class HareDuConfigProvider :
 
         public void Diagnostics(Action<DiagnosticsConfigurator> configurator)
         {
-            if (configurator is null)
-                _diagnosticsSettings = ConfigCache.Default.Diagnostics;
+            // if (configurator is null)
+            //     _diagnosticsSettings = ConfigCache.Default.Diagnostics;
 
             var impl = new DiagnosticsConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            DiagnosticsConfig config = impl.Settings.Value;
+            _diagnosticsSettings = impl.Settings.Value;
 
-            _diagnosticsSettings = Validate(config) ? config : ConfigCache.Default.Diagnostics;
+            // _diagnosticsSettings = Validate(config) ? config : ConfigCache.Default.Diagnostics;
         }
 
         public void Broker(Action<BrokerConfigurator> configurator)
         {
-            if (configurator is null)
-                _brokerConfig = ConfigCache.Default.Broker;
+            // if (configurator is null)
+            //     _brokerConfig = ConfigCache.Default.Broker;
 
             var impl = new BrokerConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            BrokerConfig config = impl.Settings.Value;
+            _brokerConfig = impl.Settings.Value;
 
-            _brokerConfig = Validate(config) ? config : ConfigCache.Default.Broker;
+            // _brokerConfig = Validate(config) ? config : ConfigCache.Default.Broker;
         }
 
 

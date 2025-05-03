@@ -1,10 +1,12 @@
 namespace HareDu;
 
+/// <summary>
+/// Configures the conditions under which an exchange can be deleted in RabbitMQ.
+/// </summary>
 public interface ExchangeDeletionConfigurator
 {
     /// <summary>
-    /// Specify the conditions for which the exchange can be deleted.
+    /// Specifies that the exchange should only be deleted if it is unused.
     /// </summary>
-    /// <param name="condition"></param>
     void WhenUnused();
 }

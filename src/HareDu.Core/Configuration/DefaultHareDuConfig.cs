@@ -23,7 +23,6 @@ public record DefaultHareDuConfig :
         Broker = new BrokerConfig()
         {
             Url = "http://localhost:15672",
-            // Credentials = new BrokerCredentials{Username = "guest", Password = "guest"}
         };
     }
 }

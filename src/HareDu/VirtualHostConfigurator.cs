@@ -2,6 +2,9 @@ namespace HareDu;
 
 using System;
 
+/// <summary>
+/// Interface representing the configuration options for a RabbitMQ virtual host.
+/// </summary>
 public interface VirtualHostConfigurator
 {
     /// <summary>
@@ -10,14 +13,14 @@ public interface VirtualHostConfigurator
     void WithTracingEnabled();
 
     /// <summary>
-    /// Metadata used to describe a vhost.
+    /// Specifies the description for the virtual host.
     /// </summary>
-    /// <param name="description"></param>
+    /// <param name="description">The description to associate with the virtual host.</param>
     void Description(string description);
 
     /// <summary>
-    /// Metadata used to define tags on a vhost.
+    /// Specifies the tags to associate with the virtual host.
     /// </summary>
-    /// <param name="configurator"></param>
+    /// <param name="configurator">The action to configure tags using an implementation of <see cref="VirtualHostTagConfigurator"/>.</param>
     void Tags(Action<VirtualHostTagConfigurator> configurator);
 }

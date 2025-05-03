@@ -20,19 +20,14 @@ public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder)
 {
     IDictionary<string, HttpClient> _cache = new Dictionary<string, HttpClient>();
 
-    public HttpClient CreateClient(Action<HareDuCredentialProvider> provider)
+    public HttpClient GetClient(Action<HareDuCredentialProvider> provider)
     {
-        if (provider is null)
-            throw new HareDuSecurityException("Invalid user credentials.");
-
         var credentials = builder.Build(provider);
-        if (credentials is null)
-            throw new HareDuSecurityException("Invalid user credentials.");
 
         string key = $"{credentials.Username}:{credentials.Password}".GetIdentifier();
 
-        if (_cache.TryGetValue(key, out var cachedClient))
-            return cachedClient;
+        if (_cache.TryGetValue(key, out var clientFromCache))
+            return clientFromCache;
 
         var handler = BuildResilienceHandler(credentials);
 
