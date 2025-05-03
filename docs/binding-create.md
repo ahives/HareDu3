@@ -6,7 +6,7 @@ The folllowing code has been deprecated in version 4 of the API.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Binding>()
+    .API<Binding>(x => x.UsingCredentials("guest", "guest"))
     .Create("source_exchange", "destination_exchange", BindingType.Exchange, "vhost", "binding_key");
 ```
 <br>
@@ -15,7 +15,7 @@ The above examples show how you would bind a source exchange to a destination ex
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Binding>()
+    .API<Binding>(x => x.UsingCredentials("guest", "guest"))
     .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "binding_key");
 ```
 
@@ -35,7 +35,7 @@ A complete example would look something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Binding>()
+    .API<Binding>(x => x.UsingCredentials("guest", "guest"))
     .Create("source_exchange", "destination_queue", BindingType.Queue, "vhost", "*.", x =>
     {
         x.Add("arg", "value");
@@ -48,13 +48,13 @@ The other way to create a binding is to call the extension methods off of ```IBr
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateExchangeBinding("source_exchange", "destination_exchange", "vhost");
+    .CreateExchangeBinding(x => x.UsingCredentials("guest", "guest"), "source_exchange", "destination_exchange", "vhost");
 ```
 or...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateExchangeBindingToQueue("source_exchange", "destination_queue", "vhost");
+    .CreateExchangeBindingToQueue(x => x.UsingCredentials("guest", "guest"), "source_exchange", "destination_queue", "vhost");
 ```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
