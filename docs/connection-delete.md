@@ -4,7 +4,7 @@ The Broker API allows you to delete a connection to the RabbitMQ broker. To do s
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Connection>()
+    .API<Connection>(x => x.UsingCredentials("guest", "guest"))
     .Delete("connection");
 ```
 <br>
@@ -13,7 +13,7 @@ The other way to delete a connection is to call the extension methods off of ```
 
 ```c#
 var result = await _container.Resolve<IBrokerFactory>()
-    .DeleteConnection("connection");
+    .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "connection");
 ```
 
 <br>

@@ -4,7 +4,7 @@ The Broker API allows you to create an exchange on the RabbitMQ broker. To do so
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Exchange>()
+    .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .Create("exchange", "vhost");
 ```
 <br>
@@ -48,7 +48,7 @@ A complete example would look something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Exchange>()
+    .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .Create("exchange", "vhost", x =>
     {
         x.IsDurable();
@@ -67,7 +67,7 @@ The other way to create an exchange is to call the extension methods off of ```I
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateExchange("exchange", "vhost", x =>
+    .CreateExchange(x => x.UsingCredentials("guest", "guest"), "exchange", "vhost", x =>
     {
         x.IsDurable();
         x.IsForInternalUse();

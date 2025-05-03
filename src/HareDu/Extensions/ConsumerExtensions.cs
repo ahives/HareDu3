@@ -35,7 +35,7 @@ public static class ConsumerExtensions
     /// Retrieves information about all consumers within a specific virtual host on the RabbitMQ node.
     /// </summary>
     /// <param name="factory">The factory instance used to access RabbitMQ broker functionalities.</param>
-    /// <param name="credentials">The credentials provider action to authenticate access to RabbitMQ resources.</param>
+    /// <param name="credentials">The credential provider action to authenticate access to RabbitMQ resources.</param>
     /// <param name="vhost">The name of the virtual host whose consumer information is to be retrieved.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task representing the asynchronous operation, containing the result of consumer information specific to the provided virtual host.</returns>

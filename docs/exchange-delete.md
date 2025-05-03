@@ -4,7 +4,7 @@ The Broker API allows you to delete an exchange from the RabbitMQ broker. To do 
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Exchange>()
+    .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .Delete("exchange", "vhost");
 ```
 <br>
@@ -13,7 +13,7 @@ Since deleting an exchange will cause messages to not be routed to queues, HareD
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Exchange>()
+    .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .Delete("exchange", "vhost", x => x.WhenUnused());
 ```
 
@@ -23,14 +23,14 @@ The other way to delete an exchange is to call the extension methods off of ```I
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .DeleteExchange("exchange", "vhost");
+    .DeleteExchange(x => x.UsingCredentials("guest", "guest"), "exchange", "vhost");
 ```
 
 ...or
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .DeleteExchange("exchange", "vhost", x => x.WhenUnused());
+    .DeleteExchange(x => x.UsingCredentials("guest", "guest"), "exchange", "vhost", x => x.WhenUnused());
 ```
 
 <br>
