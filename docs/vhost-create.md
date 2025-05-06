@@ -4,7 +4,7 @@ The Broker API allows you to create a virtual host on the RabbitMQ broker. To do
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHost>()
+    .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
     .Create("vhost", x =>
     {
         x.WithTracingEnabled();
@@ -19,11 +19,11 @@ c.WithTracingEnabled();
 ```
 <br>
 
-The other way to create a virtual host is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateVirtualHost("vhost", x =>
+    .CreateVirtualHost(x => x.UsingCredentials("guest", "guest"), "vhost", x =>
     {
         x.WithTracingEnabled();
     });

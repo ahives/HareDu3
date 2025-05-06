@@ -1,19 +1,19 @@
 # Get Virtual Host Permissions
 
-The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
+The Broker API allows you to get all permissions associated with a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHost>()
+    .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
     .GetPermissions("vhost");
 ```
 <br>
 
-The other way to define virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .GetVirtualHostPermissions("vhost");
+    .GetVirtualHostPermissions(x => x.UsingCredentials("guest", "guest"), "vhost");
 ```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*

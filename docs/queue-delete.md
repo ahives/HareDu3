@@ -4,7 +4,7 @@ The Broker API allows you to delete a queue from the RabbitMQ broker. To do so i
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Queue>()
+    .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Delete("queue", "vhost");
 ```
 <br>
@@ -15,7 +15,7 @@ A complete example would look something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Queue>()
+    .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Delete("queue", "vhost", x =>
     {
         x.WhenHasNoConsumers();
@@ -24,18 +24,18 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 <br>
 
-The other way to delete a queue is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .DeleteQueue("queue", "vhost");
+    .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "queue", "vhost");
 ```
 
 ...or
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .DeleteQueue("queue", "vhost", x =>
+    .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "queue", "vhost", x =>
     {
         x.WhenHasNoConsumers();
         x.WhenEmpty();

@@ -159,8 +159,7 @@ public static class VirtualHostExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> DeleteVirtualHostLimit(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, VirtualHostLimit limit,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -203,8 +202,7 @@ public static class VirtualHostExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<VirtualHostTopicPermissionInfo>> GetVirtualHostTopicPermissions(
-        this IBrokerFactory factory,
+    public static async Task<Results<VirtualHostTopicPermissionInfo>> GetVirtualHostTopicPermissions(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
@@ -230,7 +228,7 @@ public static class VirtualHostExtensions
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
-        
+
         return await factory
             .API<VirtualHost>(credentials)
             .Get(vhost, cancellationToken)

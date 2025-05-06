@@ -4,7 +4,7 @@ The Broker API allows you to create a queue on the RabbitMQ broker. To do so is 
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Queue>()
+    .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Create("queue", "vhost", "node");
 ```
 <br>
@@ -52,7 +52,7 @@ A complete example would look something like this...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Queue>()
+    .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Create("queue", "vhost", "node", x =>
     {
         x.IsDurable();
@@ -70,11 +70,11 @@ var result = await _services.GetService<IBrokerFactory>()
 
 <br>
 
-The other way to create a policy is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateQueue("queue", "vhost", "node", x =>
+    .CreateQueue(x => x.UsingCredentials("guest", "guest"), "queue", "vhost", "node", x =>
     {
         x.IsDurable();
         x.AutoDeleteWhenNotInUse();

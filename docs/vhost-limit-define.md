@@ -1,10 +1,10 @@
 # Define Virtual Host Limit
 
-The Broker API allows you to create a virtual host on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
+The Broker API allows you to create a virtual host limit on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<VirtualHost>()
+    .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
     .DefineVirtualHostLimit("vhost", x =>
     {
         x.SetMaxConnectionLimit(1000);
@@ -12,11 +12,11 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 <br>
 
-The other way to define virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .DefineVirtualHostLimit("vhost", x =>
+    .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), "vhost", x =>
     {
         x.SetMaxConnectionLimit(1000);
     });
