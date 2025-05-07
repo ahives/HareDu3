@@ -7,18 +7,14 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Create("queue", "vhost", "node");
 ```
-<br>
 
 RabbitMQ supports the concept of [durability](https://www.rabbitmq.com/queues.html), which means that if the broker restarts the queues will survive. To configure a queue to be durable during creation, add the ```IsDurable``` method like so...
 
 ```c#
 c.IsDurable();
 ```
-<br>
 
 HareDu 4 supports the below RabbitMQ arguments during queue creation.
-
-<br>
 
 | Argument | Method |
 | --- | --- |
@@ -46,7 +42,6 @@ c.HasArguments(arg =>
     arg.SetMessageMaxSizeInBytes();
 });
 ```
-<br>
 
 A complete example would look something like this...
 
@@ -68,9 +63,7 @@ var result = await _services.GetService<IBrokerFactory>()
     });
 ```
 
-<br>
-
-The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
@@ -90,8 +83,6 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
-
-<br>
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 

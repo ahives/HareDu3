@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .BindToExchange();
 ```
-<br>
 
-The other way to get exchange information is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

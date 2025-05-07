@@ -157,7 +157,7 @@ class VirtualHostImpl :
         return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Results<VirtualHostPermissionInfo>> GetPermissions(string vhost, CancellationToken cancellationToken = default)
+    public async Task<Results<VirtualHostPermissionInfo>> GetAllPermissions(string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

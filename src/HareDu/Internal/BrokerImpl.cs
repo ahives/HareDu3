@@ -24,7 +24,7 @@ class BrokerImpl :
         return await GetRequest<BrokerOverviewInfo>("api/overview", cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default)
+    public async Task<Result> RebalanceQueues(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

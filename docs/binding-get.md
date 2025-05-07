@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Binding>(x => x.UsingCredentials("guest", "guest"))
     .GetAll();
 ```
-<br>
 
-The other way to create bindings is to call the extension methods off of ```IBrokerObjectFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

@@ -4,7 +4,7 @@ The Broker API allows you to create a operator policy on the RabbitMQ broker. To
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<OperatorPolicy>()
+    .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
     .Create("policy", "pattern", "vhost", x =>
     {
         x.SetMaxInMemoryBytes(9803129);
@@ -14,11 +14,8 @@ var result = await _services.GetService<IBrokerFactory>()
         x.SetMessageMaxSize(189173219);
     }, OperatorPolicyAppliedTo.Queues, 0);
 ```
-<br>
 
 HareDu 4 supports the below RabbitMQ arguments during queue creation.
-
-<br>
 
 | Argument | Method |
 | --- | --- |
@@ -30,13 +27,11 @@ HareDu 4 supports the below RabbitMQ arguments during queue creation.
 | [max-in-memory-length](https://www.rabbitmq.com/maxlength.html) | SetMaxInMemoryLength |
 | [delivery-limit](https://www.rabbitmq.com/blog/2020/04/20/rabbitmq-gets-an-ha-upgrade/) | SetDeliveryLimit |
 
-<br>
-
-The other way to create a policy is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateOperatorPolicy("policy", "pattern", "vhost", x =>
+    .CreateOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "policy", "pattern", "vhost", x =>
     {
         x.SetMaxInMemoryBytes(9803129);
         x.SetMaxInMemoryLength(283);
@@ -47,8 +42,6 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
-
-<br>
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 

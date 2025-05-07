@@ -96,8 +96,7 @@ public interface VirtualHost :
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the list of permissions and related information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<VirtualHostPermissionInfo>>
-        GetPermissions(string vhost, CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostPermissionInfo>> GetAllPermissions(string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all topic permissions for a specified virtual host.
@@ -106,6 +105,5 @@ public interface VirtualHost :
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the list of topic permission information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost,
-        CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost, CancellationToken cancellationToken = default);
 }

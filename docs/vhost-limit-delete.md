@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
     .DeleteLimit("vhost", VirtualHostLimit.MaximumConnections);
 ```
-<br>
 
-The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

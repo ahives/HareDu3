@@ -57,7 +57,7 @@ public class FakeBrokerImpl :
         return new SuccessfulResult<BrokerOverviewInfo>{Data = data, DebugInfo = null};
     }
 
-    public async Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public async Task<Result> RebalanceQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
     public Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
     public Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default)
     {

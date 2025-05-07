@@ -1,4 +1,4 @@
-# Deleting Queues
+# Delete Queue
 
 The Broker API allows you to delete a queue from the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
@@ -7,7 +7,6 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .Delete("queue", "vhost");
 ```
-<br>
 
 Since deleting a queue will also purge the queue of all messages as well, HareDu provides a conditional way to perform said action. You can delete a queue when there are no consumers and/or when the queue is empty. You need only call the ```WhenHasNoConsumers``` and/or the ```WhenEmpty``` method...
 
@@ -22,9 +21,8 @@ var result = await _services.GetService<IBrokerFactory>()
         x.WhenEmpty();
     });
 ```
-<br>
 
-The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

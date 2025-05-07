@@ -1,6 +1,6 @@
 # Empty Queue
 
-The Broker API allows you to purge queues without deleting them. To do so is pretty simple with HareDu 4.
+The Broker API allows you to purge a queue without deleting it. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
@@ -8,7 +8,7 @@ var result = await _services.GetService<IBrokerFactory>()
     .Empty("queue", "vhost");
 ```
 
-The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

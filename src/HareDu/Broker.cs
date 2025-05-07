@@ -26,7 +26,7 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result indicating the success or failure of the rebalancing operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> RebalanceAllQueues(CancellationToken cancellationToken = default);
+    Task<Result> RebalanceQueues(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether alarms are currently in effect on the RabbitMQ broker.

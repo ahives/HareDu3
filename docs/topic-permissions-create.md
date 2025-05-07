@@ -1,24 +1,25 @@
-# Create Topic Permissions
+# Create Topic Permission
 
 The Broker API allows you to create topic permissions on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<TopicPermissions>()
+    .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
     .Create("username", "exchange", "vhost", x =>
     {
+        x.Exchange("exchange");
         x.UsingReadPattern(".*");
         x.UsingWritePattern(".*");
     });
 ```
-<br>
 
-The other way to create topic permissions is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreateTopicPermission("username", "exchange", "vhost", x =>
+    .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), "username", "exchange", "vhost", x =>
     {
+        x.Exchange("exchange");
         x.UsingReadPattern(".*");
         x.UsingWritePattern(".*");
     });

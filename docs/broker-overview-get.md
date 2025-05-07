@@ -1,6 +1,6 @@
-# Get Broker System Overview
+# Get Broker Overview
 
-The Broker API allows you to get broker system overview of the RabbitMQ broker. To do so is pretty simple with HareDu 4.
+The Broker API allows you to get broker overview of the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
@@ -9,11 +9,11 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 <br>
 
-The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .GetSystemOverview(x => x.UsingCredentials("guest", "guest"));
+    .GetBrokerOverview(x => x.UsingCredentials("guest", "guest"));
 ```
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).

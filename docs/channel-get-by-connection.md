@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Channel>(x => x.UsingCredentials("guest", "guest"))
     .GetByConnection("test-connection");
 ```
-<br>
 
-The other way to get channel information is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.Get[connection-delete.md](connection-delete.md)Service<IBrokerFactory>()

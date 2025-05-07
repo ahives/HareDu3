@@ -41,14 +41,14 @@ public static class BrokerExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> RebalanceAllQueues(this IBrokerFactory factory,
+    public static async Task<Result> RebalanceQueues(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<Broker>(credentials)
-            .RebalanceAllQueues(cancellationToken)
+            .RebalanceQueues(cancellationToken)
             .ConfigureAwait(false);
     }
 

@@ -1,4 +1,4 @@
-# Get Exchanges
+# Get All Exchanges
 
 The Broker API allows you to get all exchanges on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 
@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
     .GetAll();
 ```
-<br>
 
-The other way to get exchange information is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

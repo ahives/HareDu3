@@ -4,18 +4,15 @@ The Broker API allows you to create a policy on the RabbitMQ broker. To do so is
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .API<Policy>()
+    .API<Policy>(x => x.UsingCredentials("guest", "guest"))
     .Create("policy", "^amq.", "vhost", x =>
     {
         x.SetHighAvailabilityMode(HighAvailabilityModes.All);
         x.SetExpiry(1000);
     }, PolicyAppliedTo.All, 0);
 ```
-<br>
 
 HareDu 4 supports the below RabbitMQ arguments during queue creation.
-
-<br>
 
 | Argument | Method |
 | --- | --- |
@@ -37,13 +34,11 @@ HareDu 4 supports the below RabbitMQ arguments during queue creation.
 | [queue-mode](https://www.rabbitmq.com/ha.html) | SetQueueMasterLocator |
 | [delivery-limit](https://www.rabbitmq.com/blog/2020/04/20/rabbitmq-gets-an-ha-upgrade/) | SetDeliveryLimit |
 
-<br>
-
-The other way to create a policy is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()
-    .CreatePolicy("policy", "^amq.", "vhost", x =>
+    .CreatePolicy(x => x.UsingCredentials("guest", "guest"), "policy", "^amq.", "vhost", x =>
     {
         x.SetHighAvailabilityMode(HighAvailabilityModes.All);
         x.SetExpiry(1000);
@@ -51,8 +46,6 @@ var result = await _services.GetService<IBrokerFactory>()
 ```
 
 *Please note that subsequent calls to any of the above methods will result in overriding the argument.*
-
-<br>
 
 All examples in this document assumes the broker has been configured. If you want to know how then go to the Configuration documentation [here](https://github.com/ahives/HareDu3/blob/master/docs/configuration.md).
 

@@ -69,8 +69,7 @@ public static class TopicPermissionsExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     public static async Task<Result> DeleteTopicPermission(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string username, string vhost,
-        CancellationToken cancellationToken = default)
+        Action<HareDuCredentialProvider> credentials, string username, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

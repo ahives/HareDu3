@@ -180,14 +180,14 @@ public static class VirtualHostExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<VirtualHostPermissionInfo>> GetVirtualHostPermissions(this IBrokerFactory factory,
+    public static async Task<Results<VirtualHostPermissionInfo>> GetAllVirtualHostPermissions(this IBrokerFactory factory,
         Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
         return await factory
             .API<VirtualHost>(credentials)
-            .GetPermissions(vhost, cancellationToken)
+            .GetAllPermissions(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
 
