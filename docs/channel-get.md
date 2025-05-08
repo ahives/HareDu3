@@ -1,4 +1,4 @@
-# Get Channels
+# Get All Channels
 
 The Broker API allows you to get all channels on the RabbitMQ broker. To do so is pretty simple with HareDu 4.
 

@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Connection>(x => x.UsingCredentials("guest", "guest"))
     .GetByUser("test_user");
 ```
-<br>
 
-The other way to get filtered connection information by username is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to create a user is to call the extension methods off of ```IBrokerObjectFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

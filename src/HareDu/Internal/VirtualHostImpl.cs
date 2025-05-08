@@ -189,6 +189,77 @@ class VirtualHostImpl :
         return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<Result> ApplyPermissions(string username, string vhost,
+        Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var impl = new UserPermissionsConfiguratorImpl();
+        configurator?.Invoke(impl);
+
+        var request = impl.Request.Value;
+        var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new (){Reason = "The username and/or password is missing."});
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result("api/permissions/{vhost}/{username}", errors, request.ToJsonString());
+
+        return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<Result> DeletePermissions(string username, string vhost, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new (){Reason = "The username and/or password is missing."});
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result("api/permissions/{vhost}/{username}", errors);
+
+        return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
+    }
+
+    
+    class UserPermissionsConfiguratorImpl :
+        UserPermissionsConfigurator
+    {
+        string _configurePattern;
+        string _readPattern;
+        string _writePattern;
+
+        public Lazy<UserPermissionsRequest> Request { get; }
+
+        public UserPermissionsConfiguratorImpl()
+        {
+            Request = new Lazy<UserPermissionsRequest>(
+                () => new ()
+                {
+                    Configure = _configurePattern,
+                    Write = _writePattern,
+                    Read = _readPattern
+                }, LazyThreadSafetyMode.PublicationOnly);
+        }
+
+        public void UsingConfigurePattern(string pattern) => _configurePattern = pattern;
+
+        public void UsingWritePattern(string pattern) => _writePattern = pattern;
+
+        public void UsingReadPattern(string pattern) => _readPattern = pattern;
+    }
+
 
     class VirtualHostLimitsConfiguratorImpl :
         VirtualHostLimitsConfigurator

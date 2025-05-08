@@ -137,4 +137,25 @@ public class VirtualHostTests
         
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
+
+    [Test]
+    public async Task Verify_can_delete_user_permissions()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .DeletePermissions("", "HareDu5");
+    }
+
+    [Test]
+    public async Task Verify_can_create_user_permissions()
+    {
+        var result = await _services.GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .ApplyPermissions("test", "HareDu1", x =>
+            {
+                x.UsingConfigurePattern("");
+                x.UsingReadPattern("");
+                x.UsingWritePattern("");
+            });
+    }
 }

@@ -11,7 +11,7 @@ var result = await _services.GetService<IBrokerFactory>()
 The other way to do this is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
-var result = await _container.Resolve<IBrokerFactory>()
+var result = await _services.GetService<IBrokerFactory>()
     .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "connection");
 ```
 

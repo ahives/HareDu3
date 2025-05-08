@@ -101,6 +101,7 @@
     &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.VirtualHostTests&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.QueueTests.Verify_issue_2_fix&lt;/TestId&gt;
     &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.VirtualHostTests.Verify_can_create_vhost&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net8.0::HareDu.IntegrationTests.VirtualHostTests.Verify_can_create_user_permissions&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	

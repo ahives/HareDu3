@@ -19,7 +19,6 @@ x =>
         x.UseRegex(false);
     }
 ```
-<br>
 
 Example outuput URL: http://localhost:15672/api/queues/my-vhost?page=1&page_size=100&name=&use_regex=false&pagination=true
 

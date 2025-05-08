@@ -7,7 +7,6 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Broker>(x => x.UsingCredentials("guest", "guest"))
     .IsNodeQuorumCritical()
 ```
-<br>
 
 The other way to do thia is to call the extension methods off of ```IBrokerFactory``` like so...
 

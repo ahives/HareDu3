@@ -111,27 +111,6 @@ public class UserTests
     }
 
     [Test]
-    public async Task Verify_can_delete_user_permissions()
-    {
-        var result = await _services.GetService<IBrokerFactory>()
-            .API<User>(x => x.UsingCredentials("guest", "guest"))
-            .DeletePermissions("", "HareDu5");
-    }
-
-    [Test]
-    public async Task Verify_can_create_user_permissions()
-    {
-        var result = await _services.GetService<IBrokerFactory>()
-            .API<User>(x => x.UsingCredentials("guest", "guest"))
-            .ApplyPermissions("", "HareDu5", x =>
-            {
-                x.UsingConfigurePattern("");
-                x.UsingReadPattern("");
-                x.UsingWritePattern("");
-            });
-    }
-
-    [Test]
     public async Task Verify_can_all_user_limits()
     {
         var result = await _services.GetService<IBrokerFactory>()

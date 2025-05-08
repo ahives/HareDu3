@@ -257,4 +257,348 @@ public class VirtualHostTests :
             Assert.AreEqual(2, result.DebugInfo.Errors.Count);
         });
     }
+
+    [Test]
+    public async Task Verify_can_delete_user_permissions1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .DeletePermissions("haredu_user", "HareDu5");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_can_delete_user_permissions2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .DeletePermissions(string.Empty, "HareDu5");
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5");
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions3()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .DeletePermissions("haredu_user", string.Empty);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions4()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions5()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .DeletePermissions(string.Empty, string.Empty);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_delete_user_permissions6()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
+            
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+        });
+    }
+
+    [Test]
+    public async Task Verify_can_create_user_permissions1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .ApplyPermissions("haredu_user", "HareDu5", x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_can_create_user_permissions2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5", x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsFalse(result.HasFaulted);
+            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions1()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .ApplyPermissions(string.Empty, "HareDu5", x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions2()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5", x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions3()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .ApplyPermissions("haredu_user", string.Empty, x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions4()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty, x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions5()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
+            .ApplyPermissions(string.Empty, string.Empty, x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
+
+    [Test]
+    public async Task Verify_cannot_create_user_permissions6()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
+            {
+                x.UsingConfigurePattern(".*");
+                x.UsingReadPattern(".*");
+                x.UsingWritePattern(".*");
+            });
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
 }

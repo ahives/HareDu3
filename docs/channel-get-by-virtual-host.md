@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Channel>(x => x.UsingCredentials("guest", "guest"))
     .GetByVirtualHost("test-vhost");
 ```
-<br>
 
-The other way to get channel information is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to define virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

@@ -12,8 +12,4 @@
       <PackageReference Include="System.Threading.RateLimiting" Version="9.0.4" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\HareDu\HareDu.csproj" />
-    </ItemGroup>
-
 </Project>

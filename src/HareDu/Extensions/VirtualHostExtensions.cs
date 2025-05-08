@@ -234,4 +234,59 @@ public static class VirtualHostExtensions
             .Get(vhost, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Applies permissions to a specified user for a given virtual host in RabbitMQ.
+    /// </summary>
+    /// <param name="factory">The broker factory used to interface with the broker API.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker.</param>
+    /// <param name="username">The username of the user to assign permissions to.</param>
+    /// <param name="vhost">The name of the virtual host where permissions will be applied.</param>
+    /// <param name="configurator">The configuration delegate used to specify the permissions settings.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation, containing the result of the permission application.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+    public static async Task<Result> ApplyVirtualHostUserPermissions(this IBrokerFactory factory,
+        Action<HareDuCredentialProvider> credentials, string username, string vhost,
+        Action<UserPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        configurator ??= x =>
+        {
+            x.UsingConfigurePattern(".*");
+            x.UsingReadPattern(".*");
+            x.UsingWritePattern(".*");
+        };
+
+        return await factory
+            .API<VirtualHost>(credentials)
+            .ApplyPermissions(username, vhost, configurator, cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes the permissions assigned to a user in a specified virtual host.
+    /// </summary>
+    /// <param name="factory">The broker factory used to interface with the broker API.</param>
+    /// <param name="credentials">The credentials used to authenticate with the broker.</param>
+    /// <param name="username">The username associated with the permissions to be deleted.</param>
+    /// <param name="vhost">The virtual host for which the user's permissions are being deleted.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation, containing the result of the delete operation.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+    public static async Task<Result> DeleteVirtualHostUserPermissions(this IBrokerFactory factory,
+        Action<HareDuCredentialProvider> credentials, string username, string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<VirtualHost>(credentials)
+            .DeletePermissions(username, vhost, cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

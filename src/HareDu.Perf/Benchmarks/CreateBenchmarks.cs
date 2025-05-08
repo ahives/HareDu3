@@ -166,7 +166,7 @@ public class CreateBenchmarks :
     public async Task UserPermissionsCreateBenchmark()
     {
         var result = await _service
-            .API<User>(x => x.UsingCredentials("guest", "guest"))
+            .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("user", "HareDu", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -179,7 +179,7 @@ public class CreateBenchmarks :
     public async Task UserPermissionsCreateExtensionBenchmark()
     {
         var result = await _service
-            .ApplyUserPermissions(x => x.UsingCredentials("guest", "guest"), "user", "HareDu", x =>
+            .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "user", "HareDu", x =>
             {
                 x.UsingConfigurePattern(".*");
                 x.UsingReadPattern(".*");

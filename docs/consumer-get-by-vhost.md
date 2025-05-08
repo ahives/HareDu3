@@ -7,9 +7,8 @@ var result = await _services.GetService<IBrokerFactory>()
     .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
     .GetByVirtualHost();
 ```
-<br>
 
-The other way to get consumer information is to call the extension methods off of ```IBrokerFactory``` like so...
+The other way to define virtual host limits is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await _services.GetService<IBrokerFactory>()

@@ -105,26 +105,4 @@ public interface User :
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Results{HareDu.Model.UserPermissionsInfo}"/> containing user permission details.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<UserPermissionsInfo>> GetAllPermissions(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Applies permissions for a specified user to a virtual host.
-    /// </summary>
-    /// <param name="username">The name of the user the permissions will be applied to.</param>
-    /// <param name="vhost">The virtual host where the permissions will be set.</param>
-    /// <param name="configurator">A delegate that configures the permissions for the user.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>An asynchronous task of <see cref="HareDu.Core.Result"/>.</returns>
-    /// <exception cref="OperationCanceledException">Thrown if the thread has a cancellation request.</exception>
-    Task<Result> ApplyPermissions(string username, string vhost, Action<UserPermissionsConfigurator> configurator,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Deletes the permissions for the specified user on the specified virtual host (vhost).
-    /// </summary>
-    /// <param name="username">The username for which the permissions will be deleted.</param>
-    /// <param name="vhost">The virtual host where the permissions will be removed.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>An asynchronous task of <see cref="HareDu.Core.Result"/> representing the result of the operation.</returns>
-    /// <exception cref="OperationCanceledException">Throws if the operation is canceled.</exception>
-    Task<Result> DeletePermissions(string username, string vhost, CancellationToken cancellationToken = default);
 }
