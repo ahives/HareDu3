@@ -173,6 +173,25 @@ class VirtualHostImpl :
         return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", cancellationToken).ConfigureAwait(false);
     }
 
+    public async Task<Result<VirtualHostPermissionInfo>> GetUserPermissions(string vhost, string username, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var errors = new List<Error>();
+        string sanitizedVHost = vhost.ToSanitizedName();
+
+        if (string.IsNullOrWhiteSpace(username))
+            errors.Add(new(){Reason = "The name of the user is missing."});
+
+        if (string.IsNullOrWhiteSpace(sanitizedVHost))
+            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+
+        if (errors.Count > 0)
+            return Panic.Result<VirtualHostPermissionInfo>("api/permissions/vhost/user", errors);
+
+        return await GetRequest<VirtualHostPermissionInfo>($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
+    }
+
     public async Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

@@ -76,8 +76,7 @@ public interface VirtualHost :
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the outcome of the limit definition process.</returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled using the cancellation token.</exception>
-    Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified limit configured for the given virtual host.
@@ -97,6 +96,16 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the list of permissions and related information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<VirtualHostPermissionInfo>> GetAllPermissions(string vhost, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a user's permissions for a specific RabbitMQ virtual host.
+    /// </summary>
+    /// <param name="vhost">The name of the virtual host for which the user's permissions need to be retrieved.</param>
+    /// <param name="username">The name of the user whose permissions are being queried.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the user's permissions for the specified virtual host.</returns>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    Task<Result<VirtualHostPermissionInfo>> GetUserPermissions(string vhost, string username, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all topic permissions for a specified virtual host.

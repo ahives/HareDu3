@@ -289,4 +289,27 @@ public static class VirtualHostExtensions
             .DeletePermissions(username, vhost, cancellationToken)
             .ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Retrieves permissions for a specific user on a specified virtual host in the RabbitMQ server.
+    /// </summary>
+    /// <param name="factory">The API that provides access to the RabbitMQ broker.</param>
+    /// <param name="credentials">The credentials used to authenticate and access the RabbitMQ server.</param>
+    /// <param name="username">The name of the user whose permissions are being retrieved.</param>
+    /// <param name="vhost">The name of the virtual host being queried for user permissions.</param>
+    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+    /// <returns>A task containing the permissions for the user on the specified virtual host as a <see cref="Result{VirtualHostPermissionInfo}"/> object.</returns>
+    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+    public static async Task<Result<VirtualHostPermissionInfo>> GetVirtualHostUserPermissions(this IBrokerFactory factory,
+        Action<HareDuCredentialProvider> credentials, string username, string vhost, CancellationToken cancellationToken = default)
+    {
+        Guard.IsNotNull(factory);
+
+        return await factory
+            .API<VirtualHost>(credentials)
+            .GetUserPermissions(username, vhost, cancellationToken)
+            .ConfigureAwait(false);
+    }
 }

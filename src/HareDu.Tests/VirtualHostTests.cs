@@ -601,4 +601,26 @@ public class VirtualHostTests :
             Assert.That(request.Read, Is.EqualTo(".*"));
         });
     }
+
+    [Test]
+    public async Task Verify_can_get_user_permissions()
+    {
+        var result = await GetContainerBuilder()
+            .BuildServiceProvider()
+            .GetService<IBrokerFactory>()
+            .GetVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu1");
+
+        Assert.Multiple(() =>
+        {
+            Assert.IsTrue(result.HasFaulted);
+            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.IsNotNull(result.DebugInfo);
+
+            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
+            
+            Assert.That(request.Configure, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+        });
+    }
 }
