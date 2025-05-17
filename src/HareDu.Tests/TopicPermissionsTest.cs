@@ -20,7 +20,7 @@ public class TopicPermissionsTest :
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .GetAllTopicPermissions(x => x.UsingCredentials("guest", "guest"));
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -50,8 +50,8 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -70,8 +70,8 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -91,15 +91,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
-            Assert.AreEqual("E4", request.Exchange);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+            Assert.That(request.Exchange, Is.EqualTo("E4"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -118,15 +118,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
-            Assert.AreEqual("E4", request.Exchange);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+
+            Assert.That(request.Exchange, Is.EqualTo("E4"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -146,15 +146,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
-            Assert.AreEqual("E4", request.Exchange);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+
+            Assert.That(request.Exchange, Is.EqualTo("E4"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -173,15 +173,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
-            Assert.AreEqual("E4", request.Exchange);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+
+            Assert.That(request.Exchange, Is.EqualTo("E4"));
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -201,15 +201,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -228,15 +228,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Read);
-            Assert.AreEqual(".*", request.Write);
+            Assert.That(request.Read, Is.EqualTo(".*"));
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -256,15 +256,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(4, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Write);
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -283,15 +283,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(4, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Write);
+            Assert.That(request.Write, Is.EqualTo(".*"));
         });
     }
 
@@ -311,15 +311,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(4, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Read);
+            Assert.That(request.Read, Is.EqualTo(".*"));
         });
     }
 
@@ -338,15 +338,15 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(4, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
-            Assert.AreEqual(".*", request.Read);
+            Assert.That(request.Read, Is.EqualTo(".*"));
         });
     }
 
@@ -366,9 +366,9 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(5, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
@@ -393,9 +393,9 @@ public class TopicPermissionsTest :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(5, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
                 
@@ -413,7 +413,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu7");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -427,8 +427,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -442,8 +442,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -458,8 +458,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -473,8 +473,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -489,8 +489,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -504,8 +504,8 @@ public class TopicPermissionsTest :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 }

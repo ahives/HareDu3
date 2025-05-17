@@ -23,17 +23,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.AreEqual("test", result.Data[0].Name);
-            Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual(".*", result.Data[0].Pattern);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, result.Data[0].AppliedTo);
-            Assert.IsNotNull(result.Data[0].Definition);
-            Assert.AreEqual(100, result.Data[0].Definition["max-length"]);
-            Assert.AreEqual(0, result.Data[0].Priority);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0].Name, Is.EqualTo("test"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
+            Assert.That(result.Data[0].Definition, Is.Not.Null);
+            Assert.That(result.Data[0].Definition["max-length"], Is.EqualTo(100));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
         });
     }
 
@@ -47,17 +47,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.AreEqual("test", result.Data[0].Name);
-            Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual(".*", result.Data[0].Pattern);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, result.Data[0].AppliedTo);
-            Assert.IsNotNull(result.Data[0].Definition);
-            Assert.AreEqual(100, result.Data[0].Definition["max-length"]);
-            Assert.AreEqual(0, result.Data[0].Priority);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0].Name, Is.EqualTo("test"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
+            Assert.That(result.Data[0].Definition, Is.Not.Null);
+            Assert.That(result.Data[0].Definition["max-length"], Is.EqualTo(100));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
         });
     }
         
@@ -82,16 +82,16 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
         
@@ -115,16 +115,16 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -149,17 +149,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -183,17 +183,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -218,17 +218,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -253,17 +253,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -288,17 +288,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -323,17 +323,17 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual(5, request.Arguments["delivery-limit"]);
-            Assert.AreEqual(1000, request.Arguments["expires"]);
-            Assert.AreEqual(OperatorPolicyAppliedTo.Queues, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
+            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
 
@@ -346,7 +346,7 @@ public class OperatorPolicyTests :
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -357,7 +357,7 @@ public class OperatorPolicyTests :
             .GetService<IBrokerFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "P4", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -371,8 +371,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -386,8 +386,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -402,8 +402,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -417,8 +417,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -433,8 +433,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -448,8 +448,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -464,8 +464,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -479,8 +479,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -495,8 +495,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -510,8 +510,8 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 }

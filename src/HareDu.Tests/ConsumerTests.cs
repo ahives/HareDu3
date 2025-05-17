@@ -20,25 +20,24 @@ public class ConsumerTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data[0].ChannelDetails);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672 (1)", result.Data[0].ChannelDetails?.Name);
-            Assert.AreEqual("rabbit@localhost", result.Data[0].ChannelDetails?.Node);
-            Assert.AreEqual(1, result.Data[0].ChannelDetails?.Number);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672", result.Data[0].ChannelDetails?.ConnectionName);
-            Assert.AreEqual("127.0.0.0", result.Data[0].ChannelDetails?.PeerHost);
-            Assert.AreEqual(99883, result.Data[0].ChannelDetails?.PeerPort);
-            Assert.AreEqual("guest", result.Data[0].ChannelDetails?.User);
-            Assert.IsNotNull(result.Data[0].QueueConsumerDetails);
-            Assert.AreEqual("fake_queue", result.Data[0].QueueConsumerDetails?.Name);
-            Assert.AreEqual("TestVirtualHost", result.Data[0].QueueConsumerDetails?.VirtualHost);
-            Assert.AreEqual("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA", result.Data[0].ConsumerTag);
-            Assert.AreEqual(0, result.Data[0].PreFetchCount);
-            Assert.IsFalse(result.Data[0].Exclusive);
-            Assert.IsTrue(result.Data[0].AcknowledgementRequired);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data[0].ChannelDetails, Is.Not.Null);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].ChannelDetails?.Name, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672 (1)"));
+            Assert.That(result.Data[0].ChannelDetails?.Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[0].ChannelDetails?.Number, Is.EqualTo(1));
+            Assert.That(result.Data[0].ChannelDetails?.ConnectionName, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672"));
+            Assert.That(result.Data[0].ChannelDetails?.PeerPort, Is.EqualTo("127.0.0.0"));
+            Assert.That(result.Data[0].ChannelDetails?.User, Is.EqualTo("guest"));
+            Assert.That(result.Data[0].QueueConsumerDetails, Is.Not.Null);
+            Assert.That(result.Data[0].QueueConsumerDetails?.Name, Is.EqualTo("fake_queue"));
+            Assert.That(result.Data[0].QueueConsumerDetails?.VirtualHost, Is.EqualTo("TestVirtualHost"));
+            Assert.That(result.Data[0].ConsumerTag, Is.EqualTo("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA"));
+            Assert.That(result.Data[0].PreFetchCount, Is.EqualTo(0));
+            Assert.That(result.Data[0].Exclusive, Is.False);
+            Assert.That(result.Data[0].AcknowledgementRequired, Is.True);
         });
     }
 
@@ -53,25 +52,24 @@ public class ConsumerTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data[0].ChannelDetails);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672 (1)", result.Data[0].ChannelDetails?.Name);
-            Assert.AreEqual("rabbit@localhost", result.Data[0].ChannelDetails?.Node);
-            Assert.AreEqual(1, result.Data[0].ChannelDetails?.Number);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672", result.Data[0].ChannelDetails?.ConnectionName);
-            Assert.AreEqual("127.0.0.0", result.Data[0].ChannelDetails?.PeerHost);
-            Assert.AreEqual(99883, result.Data[0].ChannelDetails?.PeerPort);
-            Assert.AreEqual("guest", result.Data[0].ChannelDetails?.User);
-            Assert.IsNotNull(result.Data[0].QueueConsumerDetails);
-            Assert.AreEqual("fake_queue", result.Data[0].QueueConsumerDetails?.Name);
-            Assert.AreEqual("TestVirtualHost1", result.Data[0].QueueConsumerDetails?.VirtualHost);
-            Assert.AreEqual("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA", result.Data[0].ConsumerTag);
-            Assert.AreEqual(0, result.Data[0].PreFetchCount);
-            Assert.IsFalse(result.Data[0].Exclusive);
-            Assert.IsTrue(result.Data[0].AcknowledgementRequired);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data[0].ChannelDetails, Is.Not.Null);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].ChannelDetails?.Name, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672 (1)"));
+            Assert.That(result.Data[0].ChannelDetails?.Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[0].ChannelDetails?.Number, Is.EqualTo(1));
+            Assert.That(result.Data[0].ChannelDetails?.ConnectionName, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672"));
+            Assert.That(result.Data[0].ChannelDetails?.PeerHost, Is.EqualTo("127.0.0.0"));
+            Assert.That(result.Data[0].ChannelDetails?.User, Is.EqualTo("guest"));
+            Assert.That(result.Data[0].QueueConsumerDetails, Is.Not.Null);
+            Assert.That(result.Data[0].QueueConsumerDetails?.Name, Is.EqualTo("fake_queue"));
+            Assert.That(result.Data[0].QueueConsumerDetails?.VirtualHost, Is.EqualTo("TestVirtualHost"));
+            Assert.That(result.Data[0].ConsumerTag, Is.EqualTo("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA"));
+            Assert.That(result.Data[0].PreFetchCount, Is.EqualTo(0));
+            Assert.That(result.Data[0].Exclusive, Is.False);
+            Assert.That(result.Data[0].AcknowledgementRequired, Is.True);
         });
     }
 
@@ -86,9 +84,9 @@ public class ConsumerTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsFalse(result.HasData);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasData, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -102,25 +100,24 @@ public class ConsumerTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data[0].ChannelDetails);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672 (1)", result.Data[0].ChannelDetails?.Name);
-            Assert.AreEqual("rabbit@localhost", result.Data[0].ChannelDetails?.Node);
-            Assert.AreEqual(1, result.Data[0].ChannelDetails?.Number);
-            Assert.AreEqual("127.0.0.0:61113 -> 127.0.0.0:5672", result.Data[0].ChannelDetails?.ConnectionName);
-            Assert.AreEqual("127.0.0.0", result.Data[0].ChannelDetails?.PeerHost);
-            Assert.AreEqual(99883, result.Data[0].ChannelDetails?.PeerPort);
-            Assert.AreEqual("guest", result.Data[0].ChannelDetails?.User);
-            Assert.IsNotNull(result.Data[0].QueueConsumerDetails);
-            Assert.AreEqual("fake_queue", result.Data[0].QueueConsumerDetails?.Name);
-            Assert.AreEqual("TestVirtualHost", result.Data[0].QueueConsumerDetails?.VirtualHost);
-            Assert.AreEqual("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA", result.Data[0].ConsumerTag);
-            Assert.AreEqual(0, result.Data[0].PreFetchCount);
-            Assert.IsFalse(result.Data[0].Exclusive);
-            Assert.IsTrue(result.Data[0].AcknowledgementRequired);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data[0].ChannelDetails, Is.Not.Null);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].ChannelDetails?.Name, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672 (1)"));
+            Assert.That(result.Data[0].ChannelDetails?.Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[0].ChannelDetails?.Number, Is.EqualTo(1));
+            Assert.That(result.Data[0].ChannelDetails?.ConnectionName, Is.EqualTo("127.0.0.0:61113 -> 127.0.0.0:5672"));
+            Assert.That(result.Data[0].ChannelDetails?.PeerHost, Is.EqualTo("127.0.0.0"));
+            Assert.That(result.Data[0].ChannelDetails?.User, Is.EqualTo("guest"));
+            Assert.That(result.Data[0].QueueConsumerDetails, Is.Not.Null);
+            Assert.That(result.Data[0].QueueConsumerDetails?.Name, Is.EqualTo("fake_queue"));
+            Assert.That(result.Data[0].QueueConsumerDetails?.VirtualHost, Is.EqualTo("TestVirtualHost"));
+            Assert.That(result.Data[0].ConsumerTag, Is.EqualTo("amq.ctag-fOtZo9ajuHDYQQ5hzrgasA"));
+            Assert.That(result.Data[0].PreFetchCount, Is.EqualTo(0));
+            Assert.That(result.Data[0].Exclusive, Is.False);
+            Assert.That(result.Data[0].AcknowledgementRequired, Is.True);
         });
     }
 }

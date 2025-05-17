@@ -1,7 +1,6 @@
 namespace HareDu.Tests;
 
 using System.Threading.Tasks;
-using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -23,19 +22,19 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.AreEqual("P1", result.Data[0].Name);
-            Assert.AreEqual("HareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual("!@#@", result.Data[0].Pattern);
-            Assert.AreEqual("all", result.Data[0].AppliedTo);
-            Assert.IsNotNull(result.Data[0].Definition);
-            Assert.AreEqual("exactly", result.Data[0].Definition["ha-mode"]);
-            Assert.AreEqual("automatic", result.Data[0].Definition["ha-sync-mode"]);
-            Assert.AreEqual("2", result.Data[0].Definition["ha-params"]);
-            Assert.AreEqual(0, result.Data[0].Priority);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].Name, Is.EqualTo("P1"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo("!@#@"));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo("all"));
+            Assert.That(result.Data[0].Definition, Is.Not.Null);
+            Assert.That(result.Data[0].Definition["ha-mode"], Is.EqualTo("exactly"));
+            Assert.That(result.Data[0].Definition["ha-sync-mode"], Is.EqualTo("automatic"));
+            Assert.That(result.Data[0].Definition["ha-params"], Is.EqualTo("2"));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
         });
     }
         
@@ -49,19 +48,19 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.AreEqual("P1", result.Data[0].Name);
-            Assert.AreEqual("HareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual("!@#@", result.Data[0].Pattern);
-            Assert.AreEqual("all", result.Data[0].AppliedTo);
-            Assert.IsNotNull(result.Data[0].Definition);
-            Assert.AreEqual("exactly", result.Data[0].Definition["ha-mode"]);
-            Assert.AreEqual("automatic", result.Data[0].Definition["ha-sync-mode"]);
-            Assert.AreEqual("2", result.Data[0].Definition["ha-params"]);
-            Assert.AreEqual(0, result.Data[0].Priority);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].Name, Is.EqualTo("P1"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo("!@#@"));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo("all"));
+            Assert.That(result.Data[0].Definition, Is.Not.Null);
+            Assert.That(result.Data[0].Definition["ha-mode"], Is.EqualTo("exactly"));
+            Assert.That(result.Data[0].Definition["ha-sync-mode"], Is.EqualTo("automatic"));
+            Assert.That(result.Data[0].Definition["ha-params"], Is.EqualTo("2"));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
         });
     }
         
@@ -86,16 +85,16 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
         
@@ -119,16 +118,16 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -154,17 +153,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -188,17 +187,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -223,17 +222,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -257,17 +256,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -293,17 +292,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -328,17 +327,17 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             PolicyRequest request = result.DebugInfo.Request.ToObject<PolicyRequest>(Deserializer.Options);
 
-            Assert.AreEqual("^amq.", request.Pattern);
-            Assert.AreEqual(0, request.Priority);
-            Assert.AreEqual("all", request.Arguments["ha-mode"]);
-            Assert.AreEqual("1000", request.Arguments["expires"]);
-            Assert.AreEqual(PolicyAppliedTo.All, request.ApplyTo);
+            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Priority, Is.EqualTo(0));
+            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
+            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
         });
     }
 
@@ -350,8 +349,8 @@ public class PolicyTests :
             .GetService<IBrokerFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
-            
-        Assert.IsFalse(result.HasFaulted);
+
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -362,7 +361,7 @@ public class PolicyTests :
             .GetService<IBrokerFactory>()
             .DeletePolicy(x => x.UsingCredentials("guest", "guest"), "P4", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -376,8 +375,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -391,8 +390,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -407,8 +406,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -422,8 +421,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -438,8 +437,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -453,8 +452,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -469,8 +468,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -484,8 +483,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -500,8 +499,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -515,8 +514,8 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 }

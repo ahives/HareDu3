@@ -20,20 +20,20 @@ public class ServerTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(8, result.Data.Bindings.Count);
-            Assert.AreEqual(11, result.Data.Exchanges.Count);
-            Assert.AreEqual(5, result.Data.Queues.Count);
-            Assert.AreEqual(3, result.Data.Parameters.Count);
-            Assert.AreEqual(8, result.Data.Permissions.Count);
-            Assert.AreEqual(2, result.Data.Policies.Count);
-            Assert.AreEqual(2, result.Data.Users.Count);
-            Assert.AreEqual(9, result.Data.VirtualHosts.Count);
-            Assert.AreEqual(5, result.Data.GlobalParameters.Count);
-            Assert.AreEqual(3, result.Data.TopicPermissions.Count);
-            Assert.AreEqual("3.7.15", result.Data.RabbitMqVersion);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Bindings.Count, Is.EqualTo(8));
+            Assert.That(result.Data.Exchanges.Count, Is.EqualTo(11));
+            Assert.That(result.Data.Queues.Count, Is.EqualTo(5));
+            Assert.That(result.Data.Parameters.Count, Is.EqualTo(3));
+            Assert.That(result.Data.Permissions.Count, Is.EqualTo(8));
+            Assert.That(result.Data.Policies.Count, Is.EqualTo(2));
+            Assert.That(result.Data.Users.Count, Is.EqualTo(2));
+            Assert.That(result.Data.VirtualHosts.Count, Is.EqualTo(9));
+            Assert.That(result.Data.GlobalParameters.Count, Is.EqualTo(5));
+            Assert.That(result.Data.TopicPermissions.Count, Is.EqualTo(3));
+            Assert.That(result.Data.RabbitMqVersion, Is.EqualTo("3.7.15"));
         });
     }
 
@@ -47,20 +47,20 @@ public class ServerTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(8, result.Data.Bindings.Count);
-            Assert.AreEqual(11, result.Data.Exchanges.Count);
-            Assert.AreEqual(5, result.Data.Queues.Count);
-            Assert.AreEqual(3, result.Data.Parameters.Count);
-            Assert.AreEqual(8, result.Data.Permissions.Count);
-            Assert.AreEqual(2, result.Data.Policies.Count);
-            Assert.AreEqual(2, result.Data.Users.Count);
-            Assert.AreEqual(9, result.Data.VirtualHosts.Count);
-            Assert.AreEqual(5, result.Data.GlobalParameters.Count);
-            Assert.AreEqual(3, result.Data.TopicPermissions.Count);
-            Assert.AreEqual("3.7.15", result.Data.RabbitMqVersion);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Bindings.Count, Is.EqualTo(8));
+            Assert.That(result.Data.Exchanges.Count, Is.EqualTo(11));
+            Assert.That(result.Data.Queues.Count, Is.EqualTo(5));
+            Assert.That(result.Data.Parameters.Count, Is.EqualTo(3));
+            Assert.That(result.Data.Permissions.Count, Is.EqualTo(8));
+            Assert.That(result.Data.Policies.Count, Is.EqualTo(2));
+            Assert.That(result.Data.Users.Count, Is.EqualTo(2));
+            Assert.That(result.Data.VirtualHosts.Count, Is.EqualTo(9));
+            Assert.That(result.Data.GlobalParameters.Count, Is.EqualTo(5));
+            Assert.That(result.Data.TopicPermissions.Count, Is.EqualTo(3));
+            Assert.That(result.Data.RabbitMqVersion, Is.EqualTo("3.7.15"));
         });
     }
 }

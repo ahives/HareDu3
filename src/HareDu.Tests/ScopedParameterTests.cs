@@ -19,17 +19,17 @@ public class ScopedParameterTests :
             .GetService<IBrokerFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(3, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual(2, result.Data[0].Value.Count);
-            Assert.AreEqual("10", result.Data[0].Value["max-connections"].ToString());
-            Assert.AreEqual("value", result.Data[0].Value["max-queues"].ToString());
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Value.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].Value["max-connections"].ToString(), Is.EqualTo("10"));
+            Assert.That(result.Data[0].Value["max-queues"].ToString(), Is.EqualTo("value"));
         });
     }
         
@@ -40,17 +40,17 @@ public class ScopedParameterTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .GetAllScopedParameters(x => x.UsingCredentials("guest", "guest"));
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(3, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual(2, result.Data[0].Value.Count);
-            Assert.AreEqual("10", result.Data[0].Value["max-connections"].ToString());
-            Assert.AreEqual("value", result.Data[0].Value["max-queues"].ToString());
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Value.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0].Value["max-connections"].ToString(), Is.EqualTo("10"));
+            Assert.That(result.Data[0].Value["max-queues"].ToString(), Is.EqualTo("value"));
         });
     }
         
@@ -62,18 +62,18 @@ public class ScopedParameterTests :
             .GetService<IBrokerFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create<long>("fake_parameter", 89, "fake_component", "HareDu");
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual(89, request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo(89));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -84,18 +84,18 @@ public class ScopedParameterTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .CreateScopeParameter<long>(x => x.UsingCredentials("guest", "guest"), "fake_parameter", 89, "fake_component", "HareDu");
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual(89, request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo(89));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -107,18 +107,18 @@ public class ScopedParameterTests :
             .GetService<IBrokerFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_parameter", "value", "fake_component", "HareDu");
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
+            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -132,15 +132,15 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
+            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -155,16 +155,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted,  Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -178,16 +178,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted,  Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -202,16 +202,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -225,16 +225,16 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
-            Assert.AreEqual("fake_component", request.Component);
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -249,16 +249,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -272,16 +272,16 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -296,16 +296,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -319,16 +319,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -343,15 +343,15 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -366,15 +366,15 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -390,15 +390,15 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -413,15 +413,15 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -437,15 +437,15 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -460,15 +460,15 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
-            Assert.AreEqual("fake_component", request.Component);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+            Assert.That(request.Component, Is.EqualTo("fake_component"));
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
         });
     }
@@ -484,16 +484,16 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -507,16 +507,16 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
-            Assert.AreEqual("value", request.ParameterValue);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -531,16 +531,16 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -554,16 +554,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
             Assert.That(request.ParameterValue, Is.Empty.Or.Null);
-            Assert.AreEqual("HareDu", request.VirtualHost);
+            Assert.That(request.VirtualHost, Is.EqualTo("HareDu"));
         });
     }
         
@@ -578,16 +578,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
         });
     }
         
@@ -601,16 +601,16 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
-            
+
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
-            Assert.AreEqual("fake_parameter", request.ParameterName);
-            Assert.AreEqual("value", request.ParameterValue);
+            Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
+            Assert.That(request.ParameterValue, Is.EqualTo("value"));
         });
     }
         
@@ -625,9 +625,9 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
@@ -648,9 +648,9 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
             
@@ -670,7 +670,7 @@ public class ScopedParameterTests :
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_parameter", "fake_component", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -681,7 +681,7 @@ public class ScopedParameterTests :
             .GetService<IBrokerFactory>()
             .DeleteScopedParameter(x => x.UsingCredentials("guest", "guest"), "fake_parameter", "fake_component", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -695,8 +695,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -710,8 +710,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -726,8 +726,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -741,8 +741,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -757,8 +757,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -772,8 +772,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -788,8 +788,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -803,8 +803,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -819,8 +819,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -834,8 +834,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -850,8 +850,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -865,8 +865,8 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 }

@@ -2,7 +2,6 @@ namespace HareDu.Tests;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Core.Configuration;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -23,15 +22,15 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("administrator", result.Data[0].Tags);
-            Assert.AreEqual("testuser1", result.Data[0].Username);
-            Assert.AreEqual("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx", result.Data[0].PasswordHash);
-            Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Tags, Is.EqualTo("administrator"));
+            Assert.That(result.Data[0].Username, Is.EqualTo("testuser1"));
+            Assert.That(result.Data[0].PasswordHash, Is.EqualTo("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx"));
+            Assert.That(result.Data[0].HashingAlgorithm, Is.EqualTo("rabbit_password_hashing_sha256"));
         });
     }
         
@@ -45,15 +44,15 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(2, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("administrator", result.Data[0].Tags);
-            Assert.AreEqual("testuser1", result.Data[0].Username);
-            Assert.AreEqual("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx", result.Data[0].PasswordHash);
-            Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(2));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Tags, Is.EqualTo("administrator"));
+            Assert.That(result.Data[0].Username, Is.EqualTo("testuser1"));
+            Assert.That(result.Data[0].PasswordHash, Is.EqualTo("EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx"));
+            Assert.That(result.Data[0].HashingAlgorithm, Is.EqualTo("rabbit_password_hashing_sha256"));
         });
     }
         
@@ -68,15 +67,15 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("administrator", result.Data[0].Tags);
-            Assert.AreEqual("testuser2", result.Data[0].Username);
-            Assert.AreEqual("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB", result.Data[0].PasswordHash);
-            Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Tags, Is.EqualTo("administrator"));
+            Assert.That(result.Data[0].Username, Is.EqualTo("testuser2"));
+            Assert.That(result.Data[0].PasswordHash, Is.EqualTo("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB"));
+            Assert.That(result.Data[0].HashingAlgorithm, Is.EqualTo("rabbit_password_hashing_sha256"));
         });
     }
         
@@ -90,15 +89,15 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("administrator", result.Data[0].Tags);
-            Assert.AreEqual("testuser2", result.Data[0].Username);
-            Assert.AreEqual("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB", result.Data[0].PasswordHash);
-            Assert.AreEqual("rabbit_password_hashing_sha256", result.Data[0].HashingAlgorithm);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Tags, Is.EqualTo("administrator"));
+            Assert.That(result.Data[0].Username, Is.EqualTo("testuser2"));
+            Assert.That(result.Data[0].PasswordHash, Is.EqualTo("OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB"));
+            Assert.That(result.Data[0].HashingAlgorithm, Is.EqualTo("rabbit_password_hashing_sha256"));
         });
     }
         
@@ -123,13 +122,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("testuserpwd3", request.Password);
-            Assert.AreEqual("administrator,management", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator,management"));
+            Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
     }
@@ -151,13 +150,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("testuserpwd3", request.Password);
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
+            Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
     }
@@ -178,13 +177,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("testuserpwd3", request.Password);
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
+            Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
     }
@@ -208,14 +207,14 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
-            Assert.AreEqual("administrator", request.Tags);
-            Assert.AreEqual(passwordHash, request.PasswordHash);
+            Assert.That(request.PasswordHash, Is.EqualTo(passwordHash));
         });
     }
         
@@ -236,13 +235,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
-            Assert.AreEqual("testuserpwd3", request.Password);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
+            Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
     }
@@ -266,14 +265,14 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
-            Assert.AreEqual(passwordHash, request.PasswordHash);
+            Assert.That(request.PasswordHash, Is.EqualTo(passwordHash));
         });
     }
         
@@ -294,14 +293,14 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
-            Assert.AreEqual("testuserpwd3", request.Password);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
+            Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
     }
@@ -323,13 +322,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
@@ -352,13 +351,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
@@ -381,13 +380,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
@@ -407,13 +406,13 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
             
-            Assert.AreEqual("administrator", request.Tags);
+            Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
         });
@@ -428,7 +427,7 @@ public class UserTests :
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_user");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -439,7 +438,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .DeleteUser(x => x.UsingCredentials("guest", "guest"), "fake_user");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -453,14 +452,14 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
+            Assert.That(result.HasFaulted, Is.False);
 
             BulkUserDeleteRequest request = result.DebugInfo.Request.ToObject<BulkUserDeleteRequest>();
-                
-            Assert.IsNotNull(request.Users);
-            Assert.AreEqual("fake_user1", request.Users[0]);
-            Assert.AreEqual("fake_user2", request.Users[1]);
-            Assert.AreEqual("fake_user3", request.Users[2]);
+
+            Assert.That(request.Users, Is.Not.Null);
+            Assert.That(request.Users[0], Is.EqualTo("fake_user1"));;
+            Assert.That(request.Users[1], Is.EqualTo("fake_user2"));;
+            Assert.That(request.Users[2], Is.EqualTo("fake_user3"));
         });
     }
 
@@ -474,14 +473,14 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
+            Assert.That(result.HasFaulted, Is.False);
 
             BulkUserDeleteRequest request = result.DebugInfo.Request.ToObject<BulkUserDeleteRequest>();
-                
-            Assert.IsNotNull(request.Users);
-            Assert.AreEqual("fake_user1", request.Users[0]);
-            Assert.AreEqual("fake_user2", request.Users[1]);
-            Assert.AreEqual("fake_user3", request.Users[2]);
+
+            Assert.That(request.Users, Is.Not.Null);
+            Assert.That(request.Users[0], Is.EqualTo("fake_user1"));;
+            Assert.That(request.Users[1], Is.EqualTo("fake_user2"));;
+            Assert.That(request.Users[2], Is.EqualTo("fake_user3"));
         });
     }
 
@@ -496,8 +495,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -511,8 +510,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -527,8 +526,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -542,8 +541,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -558,8 +557,8 @@ public class UserTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -573,8 +572,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -589,8 +588,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -604,8 +603,8 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
     
@@ -620,16 +619,16 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(8, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("guest", result.Data[0].User);
-            Assert.AreEqual("/", result.Data[0].VirtualHost);
-            Assert.AreEqual(".*", result.Data[0].Configure);
-            Assert.AreEqual(".*", result.Data[0].Write);
-            Assert.AreEqual(".*", result.Data[0].Read);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(8));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].User, Is.EqualTo("guest"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("/"));
+            Assert.That(result.Data[0].Configure, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Write, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Read, Is.EqualTo(".*"));
         });
     }
 
@@ -643,16 +642,16 @@ public class UserTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(8, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("guest", result.Data[0].User);
-            Assert.AreEqual("/", result.Data[0].VirtualHost);
-            Assert.AreEqual(".*", result.Data[0].Configure);
-            Assert.AreEqual(".*", result.Data[0].Write);
-            Assert.AreEqual(".*", result.Data[0].Read);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(8));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].User, Is.EqualTo("guest"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("/"));
+            Assert.That(result.Data[0].Configure, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Write, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Read, Is.EqualTo(".*"));
         });
     }
 }

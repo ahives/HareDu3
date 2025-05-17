@@ -22,19 +22,19 @@ public class ExchangeTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(9, result.Data.Count);
-            Assert.IsTrue(result.Data[1].Durable);
-            Assert.IsFalse(result.Data[1].Internal);
-            Assert.IsFalse(result.Data[1].AutoDelete);
-            Assert.AreEqual("E2", result.Data[1].Name);
-            Assert.AreEqual(RoutingType.Direct, result.Data[1].RoutingType);
-            Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
-            Assert.IsNotNull(result.Data[1].Arguments);
-            Assert.AreEqual(1, result.Data[1].Arguments.Count);
-            Assert.AreEqual(result.Data[1].Arguments["alternate-exchange"].ToString(), "exchange");
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(9));
+            Assert.That(result.Data[1].Durable, Is.True);
+            Assert.That(result.Data[1].Internal, Is.False);
+            Assert.That(result.Data[1].AutoDelete, Is.False);
+            Assert.That(result.Data[1].Name, Is.EqualTo("E2"));
+            Assert.That(result.Data[1].RoutingType, Is.EqualTo(RoutingType.Direct));
+            Assert.That(result.Data[1].VirtualHost, Is.EqualTo("HareDu"));
+            Assert.That(result.Data[1].Arguments, Is.Not.Null);
+            Assert.That(result.Data[1].Arguments.Count, Is.EqualTo(1));
+            Assert.That(result.Data[1].Arguments["alternate-exchange"].ToString(), Is.EqualTo("exchange"));
         });
     }
 
@@ -48,19 +48,19 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(9, result.Data.Count);
-            Assert.IsTrue(result.Data[1].Durable);
-            Assert.IsFalse(result.Data[1].Internal);
-            Assert.IsFalse(result.Data[1].AutoDelete);
-            Assert.AreEqual("E2", result.Data[1].Name);
-            Assert.AreEqual(RoutingType.Direct, result.Data[1].RoutingType);
-            Assert.AreEqual("HareDu", result.Data[1].VirtualHost);
-            Assert.IsNotNull(result.Data[1].Arguments);
-            Assert.AreEqual(1, result.Data[1].Arguments.Count);
-            Assert.AreEqual(result.Data[1].Arguments["alternate-exchange"].ToString(), "exchange");
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(9));
+            Assert.That(result.Data[1].Durable, Is.True);
+            Assert.That(result.Data[1].Internal, Is.False);
+            Assert.That(result.Data[1].AutoDelete, Is.False);
+            Assert.That(result.Data[1].Name, Is.EqualTo("E2"));
+            Assert.That(result.Data[1].RoutingType, Is.EqualTo(RoutingType.Direct));
+            Assert.That(result.Data[1].VirtualHost, Is.EqualTo("HareDu"));
+            Assert.That(result.Data[1].Arguments, Is.Not.Null);
+            Assert.That(result.Data[1].Arguments.Count, Is.EqualTo(1));
+            Assert.That(result.Data[1].Arguments["alternate-exchange"].ToString(), Is.EqualTo("exchange"));
         });
     }
 
@@ -86,18 +86,18 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-                
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
 
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.Internal);
-            Assert.AreEqual(1, request.Arguments.Count);
-            Assert.IsFalse(request.AutoDelete);
-            Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(RoutingType.Direct, request.RoutingType);
-            Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.Internal, Is.True);
+            Assert.That(request.Arguments.Count, Is.EqualTo(1));
+            Assert.That(request.AutoDelete, Is.False);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Direct));
+            Assert.That(request.Arguments["fake_arg"].ToString(), Is.EqualTo("8238b"));
         });
     }
 
@@ -120,18 +120,18 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-                
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
 
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.Internal);
-            Assert.AreEqual(1, request.Arguments.Count);
-            Assert.IsFalse(request.AutoDelete);
-            Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(RoutingType.Fanout, request.RoutingType);
-            Assert.AreEqual("8238b", request.Arguments["fake_arg"].ToString());
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.Internal, Is.True);
+            Assert.That(request.Arguments.Count, Is.EqualTo(1));
+            Assert.That(request.AutoDelete, Is.False);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Direct));
+            Assert.That(request.Arguments["fake_arg"].ToString(), Is.EqualTo("8238b"));
         });
     }
 
@@ -151,18 +151,17 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-                
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
 
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.Internal);
-            Assert.IsNull(request.Arguments);
-            Assert.IsFalse(request.AutoDelete);
-            Assert.AreEqual("api/exchanges/HareDu/fake_exchange", result.DebugInfo.URL);
-            Assert.AreEqual(RoutingType.Fanout, request.RoutingType);
-            Assert.IsNull(request.Arguments);
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.Internal, Is.True);
+            Assert.That(request.Arguments, Is.Null);
+            Assert.That(request.AutoDelete, Is.False);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Fanout));
         });
     }
 
@@ -186,9 +185,9 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -212,9 +211,9 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -238,9 +237,9 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -256,7 +255,7 @@ public class ExchangeTests :
                 x.WhenUnused();
             });
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -270,7 +269,7 @@ public class ExchangeTests :
                 x.WhenUnused();
             });
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -287,8 +286,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -306,8 +305,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -325,8 +324,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -344,8 +343,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -364,8 +363,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -384,8 +383,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -404,8 +403,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -423,8 +422,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -443,8 +442,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -462,8 +461,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -482,8 +481,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -501,8 +500,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -521,8 +520,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -540,8 +539,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -560,8 +559,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -579,8 +578,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -599,8 +598,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -618,8 +617,8 @@ public class ExchangeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 }

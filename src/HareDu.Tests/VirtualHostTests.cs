@@ -22,29 +22,29 @@ public class VirtualHostTests :
         
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(3, result.Data.Count);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
 
             var data1 = result.Data.SingleOrDefault(x => x.Name == "/");
             var data2 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost1");
             var data3 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost2");
 
-            Assert.IsNotNull(data1);
-            Assert.IsNotNull(data2);
-            Assert.IsNotNull(data3);
-            Assert.AreEqual("/", data1?.Name);
-            Assert.AreEqual("QueueTestVirtualHost1", data2?.Name);
-            Assert.AreEqual("QueueTestVirtualHost2", data3?.Name);
-            Assert.AreEqual(10, data3.TotalMessages);
-            Assert.IsNotNull(data3.MessagesDetails);
-            Assert.AreEqual(1.0M, data3.MessagesDetails?.Value);
-            Assert.AreEqual(7, data3.ReadyMessages);
-            Assert.IsNotNull(data3.ReadyMessagesDetails);
-            Assert.AreEqual(1.0M, data3.ReadyMessagesDetails?.Value);
-            Assert.AreEqual(2, data3.UnacknowledgedMessages);
-            Assert.IsNotNull(data3.UnacknowledgedMessagesDetails);
-            Assert.AreEqual(2.0M, data3.UnacknowledgedMessagesDetails?.Value);
+            Assert.That(data1, Is.Not.Null);
+            Assert.That(data2, Is.Not.Null);
+            Assert.That(data3, Is.Not.Null);
+            Assert.That(data1?.Name, Is.EqualTo("/"));;
+            Assert.That(data2?.Name, Is.EqualTo("QueueTestVirtualHost1"));
+            Assert.That(data3?.Name, Is.EqualTo("QueueTestVirtualHost2"));;
+            Assert.That(data3.TotalMessages, Is.EqualTo(10));;
+            Assert.That(data3.MessagesDetails, Is.Not.Null);
+            Assert.That(data3.MessagesDetails?.Value, Is.EqualTo(1.0M));;
+            Assert.That(data3.ReadyMessages, Is.EqualTo(7));;
+            Assert.That(data3.ReadyMessagesDetails, Is.Not.Null);
+            Assert.That(data3.ReadyMessagesDetails?.Value, Is.EqualTo(1.0M));
+            Assert.That(data3.UnacknowledgedMessages, Is.EqualTo(2));
+            Assert.That(data3.UnacknowledgedMessagesDetails, Is.Not.Null);
+            Assert.That(data3.UnacknowledgedMessagesDetails?.Value, Is.EqualTo(2.0M));
         });
     }
 
@@ -59,11 +59,14 @@ public class VirtualHostTests :
         
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data?.Name, Is.EqualTo("QueueTestVirtualHost1"));
 
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual("QueueTestVirtualHost1", result.Data?.Name);
+            VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
+
+            Assert.That(request.Tracing, Is.True);
         });
     }
 
@@ -77,29 +80,33 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasData);
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(3, result.Data.Count);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
+
+            VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
+
+            Assert.That(request.Tracing, Is.True);
 
             var data1 = result.Data.SingleOrDefault(x => x.Name == "/");
             var data2 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost1");
             var data3 = result.Data.SingleOrDefault(x => x.Name == "QueueTestVirtualHost2");
 
-            Assert.IsNotNull(data1);
-            Assert.IsNotNull(data2);
-            Assert.IsNotNull(data3);
-            Assert.AreEqual("/", data1?.Name);
-            Assert.AreEqual("QueueTestVirtualHost1", data2?.Name);
-            Assert.AreEqual("QueueTestVirtualHost2", data3?.Name);
-            Assert.AreEqual(10, data3.TotalMessages);
-            Assert.IsNotNull(data3.MessagesDetails);
-            Assert.AreEqual(1.0M, data3.MessagesDetails?.Value);
-            Assert.AreEqual(7, data3.ReadyMessages);
-            Assert.IsNotNull(data3.ReadyMessagesDetails);
-            Assert.AreEqual(1.0M, data3.ReadyMessagesDetails?.Value);
-            Assert.AreEqual(2, data3.UnacknowledgedMessages);
-            Assert.IsNotNull(data3.UnacknowledgedMessagesDetails);
-            Assert.AreEqual(2.0M, data3.UnacknowledgedMessagesDetails?.Value);
+            Assert.That(data1, Is.Not.Null);
+            Assert.That(data2, Is.Not.Null);
+            Assert.That(data3, Is.Not.Null);
+            Assert.That(data1?.Name, Is.EqualTo("/"));;
+            Assert.That(data2?.Name, Is.EqualTo("QueueTestVirtualHost1"));
+            Assert.That(data3?.Name, Is.EqualTo("QueueTestVirtualHost2"));;
+            Assert.That(data3.TotalMessages, Is.EqualTo(10));;
+            Assert.That(data3.MessagesDetails, Is.Not.Null);
+            Assert.That(data3.MessagesDetails?.Value, Is.EqualTo(1.0M));;
+            Assert.That(data3.ReadyMessages, Is.EqualTo(7));;
+            Assert.That(data3.ReadyMessagesDetails, Is.Not.Null);
+            Assert.That(data3.ReadyMessagesDetails?.Value, Is.EqualTo(1.0M));
+            Assert.That(data3.UnacknowledgedMessages, Is.EqualTo(2));
+            Assert.That(data3.UnacknowledgedMessagesDetails, Is.Not.Null);
+            Assert.That(data3.UnacknowledgedMessagesDetails?.Value, Is.EqualTo(2.0M));
         });
     }
 
@@ -117,12 +124,12 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
-            Assert.IsTrue(request.Tracing);
+            Assert.That(request.Tracing, Is.True);
         });
     }
 
@@ -139,12 +146,12 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>();
 
-            Assert.IsTrue(request.Tracing);
+            Assert.That(request.Tracing, Is.True);
         });
     }
 
@@ -157,7 +164,7 @@ public class VirtualHostTests :
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -168,7 +175,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .DeleteVirtualHost(x => x.UsingCredentials("guest", "guest"), "HareDu7");
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -182,8 +189,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -196,7 +203,7 @@ public class VirtualHostTests :
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("FakeVirtualHost", "FakeNode");
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -207,7 +214,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .StartupVirtualHost(x => x.UsingCredentials("guest", "guest"), "FakeVirtualHost", "FakeNode");
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -221,8 +228,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -237,8 +244,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -253,8 +260,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -269,8 +276,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -284,8 +291,8 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -300,8 +307,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -315,8 +322,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -331,8 +338,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -346,8 +353,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -362,8 +369,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -377,8 +384,8 @@ public class VirtualHostTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -398,9 +405,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -425,9 +432,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -453,9 +460,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -480,9 +487,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -508,9 +515,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -535,9 +542,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
             
@@ -563,9 +570,9 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
 
@@ -590,12 +597,12 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -612,12 +619,12 @@ public class VirtualHostTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));

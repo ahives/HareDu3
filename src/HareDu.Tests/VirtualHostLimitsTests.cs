@@ -27,14 +27,14 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(3, result.Data.Count);
-            Assert.AreEqual("HareDu1", result.Data[0].VirtualHost);
-            Assert.AreEqual(2, result.Data[0].Limits.Count);
-            Assert.AreEqual(10, result.Data[0].Limits["max-connections"]);
-            Assert.AreEqual(10, result.Data[0].Limits["max-queues"]);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu1"));;
+            Assert.That(result.Data[0].Limits.Count, Is.EqualTo(2));;
+            Assert.That(result.Data[0].Limits["max-connections"], Is.EqualTo(10));;
+            Assert.That(result.Data[0].Limits["max-queues"], Is.EqualTo(10));
         });
     }
 
@@ -48,14 +48,14 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(3, result.Data.Count);
-            Assert.AreEqual("HareDu1", result.Data[0].VirtualHost);
-            Assert.AreEqual(2, result.Data[0].Limits.Count);
-            Assert.AreEqual(10, result.Data[0].Limits["max-connections"]);
-            Assert.AreEqual(10, result.Data[0].Limits["max-queues"]);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(3));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu1"));;
+            Assert.That(result.Data[0].Limits.Count, Is.EqualTo(2));;
+            Assert.That(result.Data[0].Limits["max-connections"], Is.EqualTo(10));;
+            Assert.That(result.Data[0].Limits["max-queues"], Is.EqualTo(10));
         });
     }
 
@@ -73,9 +73,9 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -92,9 +92,9 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -112,13 +112,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(0, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -135,13 +135,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
 
-            Assert.AreEqual(0, request.Value);
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -159,13 +159,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
 
-            Assert.AreEqual(0, request.Value);
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -182,13 +182,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
 
-            Assert.AreEqual(0, request.Value);
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -207,14 +207,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
 
-            Assert.AreEqual(100, request.Value);
-            Assert.AreEqual(1000, request.Value);
+            Assert.That(request.Value, Is.EqualTo(1000));
         });
     }
 
@@ -232,14 +231,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(100, request.Value);
-            Assert.AreEqual(1000, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(1000));
         });
     }
 
@@ -258,14 +256,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(0, request.Value);
-            Assert.AreEqual(1000, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(1000));
         });
     }
 
@@ -283,14 +280,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(0, request.Value);
-            Assert.AreEqual(1000, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(1000));
         });
     }
 
@@ -309,14 +305,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(100, request.Value);
-            Assert.AreEqual(0, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -334,14 +329,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(100, request.Value);
-            Assert.AreEqual(0, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -360,13 +354,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(0, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -384,13 +378,13 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             VirtualHostLimitsRequest request = result.DebugInfo.Request.ToObject<VirtualHostLimitsRequest>();
-                
-            Assert.AreEqual(0, request.Value);
+
+            Assert.That(request.Value, Is.EqualTo(0));
         });
     }
 
@@ -405,8 +399,8 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -420,8 +414,8 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -436,8 +430,8 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -451,8 +445,8 @@ public class VirtualHostLimitsTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 }

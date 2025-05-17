@@ -22,65 +22,65 @@ public class QueueTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data[5].MessageStats);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGets);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetDetails.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats.TotalMessagesAcknowledged);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesAcknowledgedDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesDelivered);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesPublished);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesPublishedDetails);
-            Assert.AreEqual(1000.0M, result.Data[5].MessageStats?.MessagesPublishedDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessagesRedelivered);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesRedeliveredDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessageDeliveryGets);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryGetDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGetsWithoutAck);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value);
-            Assert.AreEqual(1, result.Data[5].Consumers);
-            Assert.IsTrue(result.Data[5].Durable);
-            Assert.IsFalse(result.Data[5].Exclusive);
-            Assert.IsFalse(result.Data[5].AutoDelete);
-            Assert.AreEqual(17628, result.Data[5].Memory);
-            Assert.AreEqual(0, result.Data[5].MessageBytesPersisted);
-            Assert.AreEqual(100, result.Data[5].MessageBytesInRAM);
-            Assert.AreEqual(10, result.Data[5].MessageBytesPagedOut);
-            Assert.AreEqual(10000, result.Data[5].TotalBytesOfAllMessages);
-            Assert.AreEqual(30, result.Data[5].UnacknowledgedMessages);
-            Assert.AreEqual(50, result.Data[5].ReadyMessages);
-            Assert.AreEqual(50, result.Data[5].MessagesInRAM);
-            Assert.AreEqual(6700, result.Data[5].TotalMessages);
-            Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
-            Assert.AreEqual(77349645, result.Data[5].TotalReductions);
-            Assert.IsNotNull(result.Data[5].ReductionDetails);
-            Assert.IsNotNull(result.Data[5].BackingQueueStatus);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q1);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q2);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q3);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q4);
-            Assert.AreEqual(BackingQueueMode.Default, result.Data[5].BackingQueueStatus.Mode);
-            Assert.AreEqual(QueueState.Running, result.Data[5].State);
-            Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].MessageDetails?.Value);
-            Assert.AreEqual("consumer_queue", result.Data[5].Name);
-            Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
-            Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
-            Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.TotalMessageGets, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessageGetDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageGetDetails.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats.TotalMessagesAcknowledged, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessagesAcknowledgedDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesDelivered, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesPublished, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessagesPublishedDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesPublishedDetails?.Value, Is.EqualTo(1000.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesRedelivered, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessagesRedeliveredDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageDeliveryGets, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryGetDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageGetsWithoutAck, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].Consumers, Is.EqualTo(1));
+            Assert.That(result.Data[5].Durable, Is.True);
+            Assert.That(result.Data[5].Exclusive, Is.False);
+            Assert.That(result.Data[5].AutoDelete, Is.False);
+            Assert.That(result.Data[5].Memory, Is.EqualTo(17628));
+            Assert.That(result.Data[5].MessageBytesPersisted, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageBytesInRAM, Is.EqualTo(100));
+            Assert.That(result.Data[5].MessageBytesPagedOut, Is.EqualTo(10));
+            Assert.That(result.Data[5].TotalBytesOfAllMessages, Is.EqualTo(10000));
+            Assert.That(result.Data[5].UnacknowledgedMessages, Is.EqualTo(30));
+            Assert.That(result.Data[5].ReadyMessages, Is.EqualTo(50));
+            Assert.That(result.Data[5].MessagesInRAM, Is.EqualTo(50));
+            Assert.That(result.Data[5].TotalMessages, Is.EqualTo(6700));
+            Assert.That(result.Data[5].UnacknowledgedMessagesInRAM, Is.EqualTo(30000));
+            Assert.That(result.Data[5].TotalReductions, Is.EqualTo(77349645));
+            Assert.That(result.Data[5].ReductionDetails, Is.Not.Null);
+            Assert.That(result.Data[5].BackingQueueStatus, Is.Not.Null);
+            Assert.That(result.Data[5].BackingQueueStatus.Q1, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q2, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q3, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q4, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Mode, Is.EqualTo(BackingQueueMode.Default));
+            Assert.That(result.Data[5].State, Is.EqualTo(QueueState.Running));
+            Assert.That(result.Data[5].ReductionDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].UnacknowledgedMessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].ReadyMessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].Name, Is.EqualTo("consumer_queue"));
+            Assert.That(result.Data[5].Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[5].IdleSince, Is.EqualTo(DateTimeOffset.Parse("2019-11-09 11:57:45")));
+            Assert.That(result.Data[5].VirtualHost, Is.EqualTo("HareDu"));
         });
     }
 
@@ -94,65 +94,65 @@ public class QueueTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data[5].MessageStats);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGets);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetDetails.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats.TotalMessagesAcknowledged);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesAcknowledgedDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesDelivered);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessagesPublished);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesPublishedDetails);
-            Assert.AreEqual(1000.0M, result.Data[5].MessageStats?.MessagesPublishedDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessagesRedelivered);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesRedeliveredDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value);
-            Assert.AreEqual(50000, result.Data[5].MessageStats?.TotalMessageDeliveryGets);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageDeliveryGetDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value);
-            Assert.AreEqual(0, result.Data[5].MessageStats?.TotalMessageGetsWithoutAck);
-            Assert.IsNotNull(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails);
-            Assert.AreEqual(0.0M, result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value);
-            Assert.AreEqual(1, result.Data[5].Consumers);
-            Assert.IsTrue(result.Data[5].Durable);
-            Assert.IsFalse(result.Data[5].Exclusive);
-            Assert.IsFalse(result.Data[5].AutoDelete);
-            Assert.AreEqual(17628, result.Data[5].Memory);
-            Assert.AreEqual(0, result.Data[5].MessageBytesPersisted);
-            Assert.AreEqual(100, result.Data[5].MessageBytesInRAM);
-            Assert.AreEqual(10, result.Data[5].MessageBytesPagedOut);
-            Assert.AreEqual(10000, result.Data[5].TotalBytesOfAllMessages);
-            Assert.AreEqual(30, result.Data[5].UnacknowledgedMessages);
-            Assert.AreEqual(50, result.Data[5].ReadyMessages);
-            Assert.AreEqual(50, result.Data[5].MessagesInRAM);
-            Assert.AreEqual(6700, result.Data[5].TotalMessages);
-            Assert.AreEqual(30000, result.Data[5].UnacknowledgedMessagesInRAM);
-            Assert.AreEqual(77349645, result.Data[5].TotalReductions);
-            Assert.IsNotNull(result.Data[5].ReductionDetails);
-            Assert.IsNotNull(result.Data[5].BackingQueueStatus);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q1);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q2);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q3);
-            Assert.AreEqual(0, result.Data[5].BackingQueueStatus.Q4);
-            Assert.AreEqual(BackingQueueMode.Default, result.Data[5].BackingQueueStatus.Mode);
-            Assert.AreEqual(QueueState.Running, result.Data[5].State);
-            Assert.AreEqual(0.0M, result.Data[5].ReductionDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].UnacknowledgedMessageDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].ReadyMessageDetails?.Value);
-            Assert.AreEqual(0.0M, result.Data[5].MessageDetails?.Value);
-            Assert.AreEqual("consumer_queue", result.Data[5].Name);
-            Assert.AreEqual("rabbit@localhost", result.Data[5].Node);
-            Assert.AreEqual(DateTimeOffset.Parse("2019-11-09 11:57:45"), result.Data[5].IdleSince);
-            Assert.AreEqual("HareDu", result.Data[5].VirtualHost);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.TotalMessageGets, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessageGetDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageGetDetails.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats.TotalMessagesAcknowledged, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessagesAcknowledgedDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesAcknowledgedDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesDelivered, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesPublished, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessagesPublishedDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesPublishedDetails?.Value, Is.EqualTo(1000.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessagesRedelivered, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessagesRedeliveredDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesRedeliveredDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageDeliveryGets, Is.EqualTo(50000));
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryGetDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageDeliveryGetDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageDeliveredWithoutAck, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageStats?.TotalMessageGetsWithoutAck, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails, Is.Not.Null);
+            Assert.That(result.Data[5].MessageStats?.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].Consumers, Is.EqualTo(1));
+            Assert.That(result.Data[5].Durable, Is.True);
+            Assert.That(result.Data[5].Exclusive, Is.False);
+            Assert.That(result.Data[5].AutoDelete, Is.False);
+            Assert.That(result.Data[5].Memory, Is.EqualTo(17628));
+            Assert.That(result.Data[5].MessageBytesPersisted, Is.EqualTo(0));
+            Assert.That(result.Data[5].MessageBytesInRAM, Is.EqualTo(100));
+            Assert.That(result.Data[5].MessageBytesPagedOut, Is.EqualTo(10));
+            Assert.That(result.Data[5].TotalBytesOfAllMessages, Is.EqualTo(10000));
+            Assert.That(result.Data[5].UnacknowledgedMessages, Is.EqualTo(30));
+            Assert.That(result.Data[5].ReadyMessages, Is.EqualTo(50));
+            Assert.That(result.Data[5].MessagesInRAM, Is.EqualTo(50));
+            Assert.That(result.Data[5].TotalMessages, Is.EqualTo(6700));
+            Assert.That(result.Data[5].UnacknowledgedMessagesInRAM, Is.EqualTo(30000));
+            Assert.That(result.Data[5].TotalReductions, Is.EqualTo(77349645));
+            Assert.That(result.Data[5].ReductionDetails, Is.Not.Null);
+            Assert.That(result.Data[5].BackingQueueStatus, Is.Not.Null);
+            Assert.That(result.Data[5].BackingQueueStatus.Q1, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q2, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q3, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Q4, Is.EqualTo(0));
+            Assert.That(result.Data[5].BackingQueueStatus.Mode, Is.EqualTo(BackingQueueMode.Default));
+            Assert.That(result.Data[5].State, Is.EqualTo(QueueState.Running));
+            Assert.That(result.Data[5].ReductionDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].UnacknowledgedMessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].ReadyMessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].MessageDetails?.Value, Is.EqualTo(0.0M));
+            Assert.That(result.Data[5].Name, Is.EqualTo("consumer_queue"));
+            Assert.That(result.Data[5].Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[5].IdleSince, Is.EqualTo(DateTimeOffset.Parse("2019-11-09 11:57:45")));
+            Assert.That(result.Data[5].VirtualHost, Is.EqualTo("HareDu"));
         });
     }
 
@@ -176,16 +176,16 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -208,8 +208,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -232,16 +232,16 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -265,17 +265,16 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -298,17 +297,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -332,17 +331,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -365,17 +364,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -399,17 +398,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -432,17 +431,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -466,17 +465,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -499,17 +498,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -533,17 +532,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -566,17 +565,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
-            
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -600,17 +599,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
 
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -633,17 +632,17 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
 
-            Assert.AreEqual("1000", request.Arguments["x-expires"].ToString());
-            Assert.AreEqual("2000", request.Arguments["x-message-ttl"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
+            Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -667,15 +666,15 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
-                
-            Assert.AreEqual("980", request.Arguments["x-expires"].ToString());
-            Assert.IsTrue(request.Durable);
-            Assert.IsTrue(request.AutoDelete);
-            Assert.AreEqual("Node1", request.Node);
+
+            Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("980"));
+            Assert.That(request.Durable, Is.True);
+            Assert.That(request.AutoDelete, Is.True);
+            Assert.That(request.Node, Is.EqualTo("Node1"));
         });
     }
 
@@ -693,9 +692,9 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/queues/HareDu/Queue1?if-unused=true", result.DebugInfo.URL);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
         });
     }
 
@@ -712,9 +711,9 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/queues/HareDu/Queue1?if-unused=true", result.DebugInfo.URL);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
         });
     }
 
@@ -732,9 +731,9 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual("api/queues/HareDu/Queue1?if-unused=true&if-empty=true", result.DebugInfo.URL);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true&if-empty=true"));
         });
     }
 
@@ -752,8 +751,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -770,8 +769,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -789,8 +788,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -807,8 +806,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -826,8 +825,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -844,8 +843,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -863,8 +862,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -881,8 +880,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -900,8 +899,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -918,8 +917,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -937,8 +936,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -955,8 +954,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -974,8 +973,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -992,8 +991,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1006,7 +1005,7 @@ public class QueueTests :
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("Queue1", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -1017,7 +1016,7 @@ public class QueueTests :
             .GetService<IBrokerFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -1031,8 +1030,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1046,8 +1045,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1062,8 +1061,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1077,8 +1076,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1093,8 +1092,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1108,8 +1107,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1124,12 +1123,12 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
-                
-            Assert.AreEqual(QueueSyncAction.Sync, request.Action);
+
+            Assert.That(request.Action, Is.EqualTo(QueueSyncAction.Sync));
         });
     }
 
@@ -1143,12 +1142,12 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
-                
-            Assert.AreEqual(QueueSyncAction.Sync, request.Action);
+
+            Assert.That(request.Action, Is.EqualTo(QueueSyncAction.Sync));
         });
     }
 
@@ -1162,12 +1161,12 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
-                
-            Assert.AreEqual(QueueSyncAction.CancelSync, request.Action);
+
+            Assert.That(request.Action, Is.EqualTo(QueueSyncAction.CancelSync));
         });
     }
 
@@ -1182,8 +1181,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1197,8 +1196,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1213,8 +1212,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1228,8 +1227,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1244,8 +1243,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1259,8 +1258,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1319,8 +1318,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -1339,8 +1338,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.AreEqual(0, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
         });
     }
 
@@ -1359,8 +1358,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1378,8 +1377,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1398,8 +1397,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1417,8 +1416,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1437,8 +1436,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -1456,8 +1455,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -1476,8 +1475,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1495,8 +1494,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(1, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
 
@@ -1515,8 +1514,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1534,8 +1533,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
 
@@ -1554,8 +1553,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 
@@ -1573,8 +1572,8 @@ public class QueueTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.AreEqual(3, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
 }

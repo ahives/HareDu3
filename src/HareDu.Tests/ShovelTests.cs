@@ -24,16 +24,16 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("test-shovel", result.Data[0].Name);
-            Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual("rabbit@localhost", result.Data[0].Node);
-            Assert.AreEqual(ShovelType.Dynamic, result.Data[0].Type);
-            Assert.AreEqual(ShovelState.Starting, result.Data[0].State);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Name, Is.EqualTo("test-shovel"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
+            Assert.That(result.Data[0].Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[0].Type, Is.EqualTo(ShovelType.Dynamic));
+            Assert.That(result.Data[0].State, Is.EqualTo(ShovelState.Starting));
         });
     }
 
@@ -47,16 +47,16 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsTrue(result.HasData);
-            Assert.IsNotNull(result.Data);
-            Assert.AreEqual(1, result.Data.Count);
-            Assert.IsNotNull(result.Data[0]);
-            Assert.AreEqual("test-shovel", result.Data[0].Name);
-            Assert.AreEqual("TestHareDu", result.Data[0].VirtualHost);
-            Assert.AreEqual("rabbit@localhost", result.Data[0].Node);
-            Assert.AreEqual(ShovelType.Dynamic, result.Data[0].Type);
-            Assert.AreEqual(ShovelState.Starting, result.Data[0].State);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data, Is.Not.Null);
+            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data[0], Is.Not.Null);
+            Assert.That(result.Data[0].Name, Is.EqualTo("test-shovel"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
+            Assert.That(result.Data[0].Node, Is.EqualTo("rabbit@localhost"));
+            Assert.That(result.Data[0].Type, Is.EqualTo(ShovelType.Dynamic));
+            Assert.That(result.Data[0].State, Is.EqualTo(ShovelState.Starting));
         });
     }
 
@@ -80,23 +80,22 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-                
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+
             Console.WriteLine(result.DebugInfo.Request);
-                
+
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(AckMode.OnPublish, request.Value.AcknowledgeMode);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue1", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-                
+
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("amqp://user1@localhost"));
+
             Console.WriteLine(request.ToJsonString(Deserializer.Options));
         });
     }
@@ -119,19 +118,22 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue1", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("amqp://user1@localhost"));
+
+            Console.WriteLine(request.ToJsonString(Deserializer.Options));
         });
     }
 
@@ -158,22 +160,23 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue1", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.AreEqual("exchange1", request.Value.SourceExchange);
-            Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("exchange1"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
+            Assert.That(request.Value.DestinationExchange, Is.EqualTo("amqp://user1@localhost"));
         });
     }
 
@@ -199,22 +202,23 @@ public class ShovelTests :
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue1", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.AreEqual("exchange1", request.Value.SourceExchange);
-            Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("exchange1"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
+            Assert.That(request.Value.DestinationExchange, Is.EqualTo("amqp://user1@localhost"));
         });
     }
 
@@ -241,22 +245,23 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
-            Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("exchange1"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
+            Assert.That(request.Value.DestinationExchange, Is.EqualTo("amqp://user1@localhost"));
         });
     }
 
@@ -282,22 +287,23 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.That(request.Value.SourceQueue, Is.Empty.Or.Null);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("queue2", request.Value.DestinationQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.That(request.Value.SourceExchange, Is.Empty.Or.Null);
-            Assert.AreEqual("exchange2", request.Value.DestinationExchange);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("exchange1"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
+            Assert.That(request.Value.DestinationExchange, Is.EqualTo("amqp://user1@localhost"));
         });
     }
 
@@ -324,22 +330,23 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue2", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.AreEqual("exchange2", request.Value.SourceExchange);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
             Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);
             Assert.That(request.Value.DestinationExchange, Is.Empty.Or.Null);
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("exchange1"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
         });
     }
 
@@ -365,22 +372,23 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
-            Assert.AreEqual(2, result.DebugInfo.Errors.Count);
+            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.DebugInfo, Is.Not.Null);
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
-                
-            Assert.IsNotNull(request.Value);
-            Assert.AreEqual(1000, request.Value.SourcePrefetchCount);
-            Assert.AreEqual(ShovelProtocolType.Amqp091, request.Value.SourceProtocol);
-            Assert.AreEqual("queue2", request.Value.SourceQueue);
-            Assert.AreEqual("amqp://user1@localhost", request.Value.SourceUri);
-            Assert.AreEqual(DeleteShovelMode.QueueLength.Convert(), request.Value.SourceDeleteAfter.ToString());
-            Assert.AreEqual("amqp://user1@localhost", request.Value.DestinationUri);
-            Assert.AreEqual("exchange2", request.Value.SourceExchange);
-            Assert.That(request.Value.DestinationQueue, Is.Empty.Or.Null);
-            Assert.That(request.Value.DestinationExchange, Is.Empty.Or.Null);
+
+            Assert.That(request.Value, Is.Not.Null);
+            Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
+            Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
+            Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
+            Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
+            Assert.That(request.Value.DestinationUri, Is.EqualTo("amqp://user1@localhost"));
+            Assert.That(request.Value.SourceExchange, Is.EqualTo("exchange2"));
+            Assert.That(request.Value.DestinationExchange, Is.EqualTo("amqp://user1@localhost"));
         });
     }
 
@@ -395,8 +403,8 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 
@@ -410,8 +418,8 @@ public class ShovelTests :
             
         Assert.Multiple(() =>
         {
-            Assert.IsFalse(result.HasFaulted);
-            Assert.IsNotNull(result.DebugInfo);
+            Assert.That(result.HasFaulted,  Is.False);
+            Assert.That(result.DebugInfo, Is.Not.Null);
         });
     }
 }
