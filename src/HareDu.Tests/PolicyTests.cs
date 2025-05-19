@@ -153,7 +153,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -187,7 +187,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -222,7 +222,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -256,7 +256,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -292,7 +292,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -327,7 +327,7 @@ public class PolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -375,7 +375,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -390,7 +390,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -406,7 +406,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -421,7 +421,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -437,7 +437,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -452,7 +452,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -468,7 +468,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -483,7 +483,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -499,7 +499,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -514,7 +514,7 @@ public class PolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }

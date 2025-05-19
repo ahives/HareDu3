@@ -20,10 +20,10 @@ public class BindingTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasData);
-            Assert.That(result.Data.Count == 12);
-            Assert.That(result.HasFaulted);
-            Assert.That(result.Data != null);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data.Count, Is.EqualTo(12));
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
         });
     }
 
@@ -37,10 +37,10 @@ public class BindingTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasData);
-            Assert.That(result.Data.Count == 12);
-            Assert.That(!result.HasFaulted);
-            Assert.That(result.Data != null);
+            Assert.That(result.HasData, Is.True);
+            Assert.That(result.Data.Count, Is.EqualTo(12));
+            Assert.That(result.HasFaulted, Is.False);
+            Assert.That(result.Data, Is.Not.Null);
         });
     }
 }

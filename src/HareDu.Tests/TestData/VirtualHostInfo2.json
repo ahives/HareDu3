@@ -1,14 +1,82 @@
 {
-  "name": "QueueTestVirtulHost",
-  "description": "",
-  "tags": [],
+  "name": "HareDu1",
+  "description": "My test vhost.",
+  "tags": [
+    "accounts",
+    "production"
+  ],
   "default_queue_type": "undefined",
   "metadata": {
-    "description": "",
-    "tags": []
+    "description": "My test vhost.",
+    "tags": [
+      "accounts",
+      "production"
+    ]
   },
-  "tracing": false,
+  "tracing": true,
   "cluster_state": {
     "rabbit@8235120ee702": "running"
+  },
+  "messages_ready": 0,
+  "messages_ready_details": {
+    "rate": 0.0
+  },
+  "messages_unacknowledged": 0,
+  "messages_unacknowledged_details": {
+    "rate": 0.0
+  },
+  "messages": 0,
+  "messages_details": {
+    "rate": 0.0
+  },
+  "message_stats": {
+    "publish": 1,
+    "publish_details": {
+      "rate": 0.0
+    },
+    "confirm": 0,
+    "confirm_details": {
+      "rate": 0.0
+    },
+    "return_unroutable": 0,
+    "return_unroutable_details": {
+      "rate": 0.0
+    },
+    "drop_unroutable": 0,
+    "drop_unroutable_details": {
+      "rate": 0.0
+    },
+    "get": 0,
+    "get_details": {
+      "rate": 0.0
+    },
+    "get_no_ack": 1,
+    "get_no_ack_details": {
+      "rate": 0.0
+    },
+    "deliver": 0,
+    "deliver_details": {
+      "rate": 0.0
+    },
+    "deliver_no_ack": 0,
+    "deliver_no_ack_details": {
+      "rate": 0.0
+    },
+    "redeliver": 0,
+    "redeliver_details": {
+      "rate": 0.0
+    },
+    "ack": 0,
+    "ack_details": {
+      "rate": 0.0
+    },
+    "deliver_get": 1,
+    "deliver_get_details": {
+      "rate": 0.0
+    },
+    "get_empty": 0,
+    "get_empty_details": {
+      "rate": 0.0
+    }
   }
 }

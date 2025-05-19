@@ -389,7 +389,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }
@@ -404,7 +404,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }
@@ -420,7 +420,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }
@@ -435,7 +435,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }
@@ -451,7 +451,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }
@@ -466,7 +466,7 @@ public class NodeTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.False);
         });
     }

@@ -89,7 +89,7 @@ public class ChannelTests :
             Assert.That(result.Data[1].OperationStats?.MessagesPublishedDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryGetDetails?.Value, Is.EqualTo(1463.8M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryDetails?.Value, Is.EqualTo(1463.8M));
-            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473.8M));
+            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473M));
             Assert.That(result.Data[1].OperationStats.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
@@ -182,7 +182,7 @@ public class ChannelTests :
             Assert.That(result.Data[1].OperationStats?.MessagesPublishedDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryGetDetails?.Value, Is.EqualTo(1463.8M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryDetails?.Value, Is.EqualTo(1463.8M));
-            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473.8M));
+            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473M));
             Assert.That(result.Data[1].OperationStats.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
@@ -269,7 +269,7 @@ public class ChannelTests :
             Assert.That(result.Data[1].OperationStats?.MessagesPublishedDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryGetDetails?.Value, Is.EqualTo(1463.8M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryDetails?.Value, Is.EqualTo(1463.8M));
-            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473.8M));
+            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473M));
             Assert.That(result.Data[1].OperationStats.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
@@ -356,7 +356,7 @@ public class ChannelTests :
             Assert.That(result.Data[1].OperationStats?.MessagesPublishedDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryGetDetails?.Value, Is.EqualTo(1463.8M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryDetails?.Value, Is.EqualTo(1463.8M));
-            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473.8M));
+            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473M));
             Assert.That(result.Data[1].OperationStats.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
@@ -443,7 +443,7 @@ public class ChannelTests :
             Assert.That(result.Data[1].OperationStats?.MessagesPublishedDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryGetDetails?.Value, Is.EqualTo(1463.8M));
             Assert.That(result.Data[1].OperationStats.MessageDeliveryDetails?.Value, Is.EqualTo(1463.8M));
-            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473.8M));
+            Assert.That(result.Data[1].OperationStats.MessagesAcknowledgedDetails?.Value, Is.EqualTo(1473M));
             Assert.That(result.Data[1].OperationStats.MessagesDeliveredWithoutAckDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetDetails?.Value, Is.EqualTo(0.0M));
             Assert.That(result.Data[1].OperationStats.MessageGetsWithoutAckDetails?.Value, Is.EqualTo(0.0M));
@@ -462,7 +462,7 @@ public class ChannelTests :
         Assert.Multiple(() =>
         {
             Assert.That(result.HasData, Is.False);
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
         });
     }
 

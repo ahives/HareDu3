@@ -29,8 +29,7 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the exchange creation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled through the cancellation token.</exception>
-    Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified exchange on the target RabbitMQ virtual host.

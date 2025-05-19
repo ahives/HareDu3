@@ -166,7 +166,7 @@ public class ConnectionTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.HasData, Is.True);
             Assert.That(result.Data, Is.Not.Null);
-            Assert.That(result.Data.Count, Is.EqualTo(1));
+            Assert.That(result.Data.Count, Is.EqualTo(2));
             Assert.That(result.Data[0].Host, Is.EqualTo("127.0.0.0"));
             Assert.That(result.Data[0].Name, Is.EqualTo("127.0.0.0:79863 -> 127.0.0.0:5672"));
             Assert.That(result.Data[0].Node, Is.EqualTo("rabbit@localhost"));

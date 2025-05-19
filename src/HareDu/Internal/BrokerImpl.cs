@@ -40,7 +40,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(AlarmState.InEffect, result.DebugInfo),
-            FaultedResult => Panic.Result(AlarmState.NotInEffect, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(AlarmState.NotInEffect, result.DebugInfo),
             _ => Panic.Result(AlarmState.NotRecognized, new()
             {
                 URL = "api/health/checks/alarms",
@@ -63,7 +63,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(BrokerState.Alive, result.DebugInfo),
-            FaultedResult => Panic.Result(BrokerState.NotAlive, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(BrokerState.NotAlive, result.DebugInfo),
             _ => Panic.Result(BrokerState.NotRecognized, new()
             {
                 URL = "api/aliveness-test/{vhost}",
@@ -81,7 +81,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(VirtualHostState.Running, result.DebugInfo),
-            FaultedResult => Panic.Result(VirtualHostState.NotRunning, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(VirtualHostState.NotRunning, result.DebugInfo),
             _ => Panic.Result(VirtualHostState.NotRecognized, new()
             {
                 URL = "api/health/checks/virtual-hosts",
@@ -99,7 +99,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(NodeMirrorSyncState.WithSyncedMirrorsOnline, result.DebugInfo),
-            FaultedResult => Panic.Result(NodeMirrorSyncState.WithoutSyncedMirrorsOnline, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(NodeMirrorSyncState.WithoutSyncedMirrorsOnline, result.DebugInfo),
             _ => Panic.Result(NodeMirrorSyncState.NotRecognized, new()
             {
                 URL = "api/health/checks/node-is-mirror-sync-critical",
@@ -117,7 +117,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(NodeQuorumState.MinimumQuorum, result.DebugInfo),
-            FaultedResult => Panic.Result(NodeQuorumState.BelowMinimumQuorum, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(NodeQuorumState.BelowMinimumQuorum, result.DebugInfo),
             _ => Panic.Result(NodeQuorumState.NotRecognized, new()
             {
                 URL = "api/health/checks/node-is-quorum-critical",
@@ -138,7 +138,7 @@ class BrokerImpl :
         return result switch
         {
             SuccessfulResult => Successful.Result(ProtocolListenerState.Active, result.DebugInfo),
-            FaultedResult => Panic.Result(ProtocolListenerState.NotActive, result.DebugInfo),
+            UnsuccessfulResult => Unsuccessful.Result(ProtocolListenerState.NotActive, result.DebugInfo),
             _ => Panic.Result(ProtocolListenerState.NotRecognized, new()
             {
                 URL = "api/health/checks/protocol-listener/{protocol}",

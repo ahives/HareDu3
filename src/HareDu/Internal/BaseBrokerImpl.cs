@@ -30,7 +30,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Results<T>(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Unsuccessful.Results<T>(url, [GetError(response.StatusCode)], response: rawResponse)
                 : Successful.Results(url, rawResponse.ToObject<List<T>>().GetDataOrDefault(), response: rawResponse);
         }
         catch (MissingMethodException e)
@@ -66,7 +66,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result<T>(url, [GetError(response.StatusCode)], rawResponse)
+                ? Unsuccessful.Result<T>(url, [GetError(response.StatusCode)], rawResponse)
                 : Successful.Result(url, rawResponse.ToObject<T>(), null, rawResponse);
         }
         catch (MissingMethodException e)
@@ -102,7 +102,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], request: rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], request: rawResponse)
                 : Successful.Result(url, rawResponse);
         }
         catch (MissingMethodException e)
@@ -138,7 +138,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], response: rawResponse)
                 : Successful.Result(url, rawResponse);
         }
         catch (MissingMethodException e)
@@ -176,7 +176,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
                 : Successful.Result(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
@@ -213,7 +213,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], request, rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], request, rawResponse)
                 : Successful.Result(url, rawResponse, request);
         }
         catch (MissingMethodException e)
@@ -251,7 +251,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Unsuccessful.Result<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
                 : Successful.Result(url, rawResponse.ToObject<T>().GetDataOrDefault(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
@@ -289,7 +289,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
                 : Successful.Result(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
@@ -327,7 +327,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Results<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Unsuccessful.Results<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
                 : Successful.Results(url, rawResponse.ToObject<List<T>>().GetDataOrEmpty(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
@@ -363,7 +363,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Panic.Result(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], response: rawResponse)
                 : Successful.Result(url, rawResponse);
         }
         catch (MissingMethodException e)
