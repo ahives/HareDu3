@@ -34,8 +34,8 @@ public class SocketDescriptorThrottlingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -52,8 +52,8 @@ public class SocketDescriptorThrottlingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -70,8 +70,8 @@ public class SocketDescriptorThrottlingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -87,8 +87,8 @@ public class SocketDescriptorThrottlingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.NA, result.Status);
-            Assert.AreEqual(typeof(SocketDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.NA));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 }

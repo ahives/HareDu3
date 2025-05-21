@@ -80,14 +80,14 @@ public class ClusterScannerTests
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(7, result.Count);
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(RuntimeProcessLimitProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(SocketDescriptorThrottlingProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(NetworkPartitionProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(MemoryAlarmProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(DiskAlarmProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(AvailableCpuCoresProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(FileDescriptorThrottlingProbe).GetIdentifier()));
+            Assert.That(result.Count, Is.EqualTo(7));
+            Assert.That(result.Count(x => x.Id == typeof(RuntimeProcessLimitProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(SocketDescriptorThrottlingProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(NetworkPartitionProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(MemoryAlarmProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(DiskAlarmProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(AvailableCpuCoresProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(FileDescriptorThrottlingProbe).GetIdentifier()), Is.EqualTo(1));
         });
     }
 
@@ -99,6 +99,6 @@ public class ClusterScannerTests
         var result = new ClusterScanner(_probes)
             .Scan(snapshot);
 
-        Assert.IsEmpty(result);
+        Assert.That(result, Is.Empty);
     }
 }

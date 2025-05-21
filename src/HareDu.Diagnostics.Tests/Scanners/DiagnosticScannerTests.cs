@@ -57,8 +57,8 @@ public class DiagnosticScannerTests
 
         var result = _services.GetService<IScanner>()
             .Scan(snapshot);
-            
-        Assert.AreEqual(typeof(BrokerConnectivityScanner).GetIdentifier(), result.ScannerId);
+
+        Assert.That(result.ScannerId, Is.EqualTo(typeof(BrokerConnectivityScanner).GetIdentifier()));
     }
 
     [Test]
@@ -91,8 +91,8 @@ public class DiagnosticScannerTests
 
         var result = _services.GetService<IScanner>()
             .Scan(snapshot);
-            
-        Assert.AreEqual(typeof(ClusterScanner).GetIdentifier(), result.ScannerId);
+
+        Assert.That(result.ScannerId, Is.EqualTo(typeof(ClusterScanner).GetIdentifier()));
     }
 
     [Test]
@@ -136,8 +136,8 @@ public class DiagnosticScannerTests
 
         var result = _services.GetService<IScanner>()
             .Scan(snapshot);
-            
-        Assert.AreEqual(typeof(BrokerQueuesScanner).GetIdentifier(), result.ScannerId);
+
+        Assert.That(result.ScannerId, Is.EqualTo(typeof(BrokerQueuesScanner).GetIdentifier()));
     }
 
     [Test]
@@ -183,11 +183,11 @@ public class DiagnosticScannerTests
         IScanner result = new Scanner(factory);
 
         var report = result.Scan(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(typeof(NoOpScanner<EmptySnapshot>).GetIdentifier(), report.ScannerId);
-            Assert.AreEqual(DiagnosticCache.EmptyScannerResult, report);
+            Assert.That(report.ScannerId, Is.EqualTo(typeof(NoOpScanner<EmptySnapshot>).GetIdentifier()));
+            Assert.That(report, Is.EqualTo(DiagnosticCache.EmptyScannerResult));
         });
     }
 
@@ -197,11 +197,11 @@ public class DiagnosticScannerTests
         var factory = _services.GetService<IScannerFactory>();
 
         bool registered = factory.TryRegisterProbe(new FakeProbe());
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(registered);
-            Assert.AreEqual(typeof(FakeProbe).GetIdentifier(), factory.Probes[typeof(FakeProbe).FullName].Metadata.Id);
+            Assert.That(registered, Is.True);
+            Assert.That(factory.Probes[typeof(FakeProbe).FullName].Metadata.Id, Is.EqualTo(typeof(FakeProbe).GetIdentifier()));
         });
     }
 
@@ -214,11 +214,11 @@ public class DiagnosticScannerTests
 
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(registered);
-                
+            Assert.That(registered, Is.True);
+
             var scanner = (FakeDiagnosticScanner)factory.Scanners[typeof(FakeSnapshot).FullName];
-                
-            Assert.AreEqual(typeof(FakeDiagnosticScanner).GetIdentifier(), scanner.Metadata.Identifier);
+
+            Assert.That(scanner.Metadata.Identifier, Is.EqualTo(typeof(FakeDiagnosticScanner).GetIdentifier()));
         });
     }
 }

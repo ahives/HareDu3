@@ -86,13 +86,13 @@ public class BrokerConnectivityScannerTests
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(6, result.Count);
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(HighConnectionCreationRateProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(HighConnectionClosureRateProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(UnlimitedPrefetchCountProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(ChannelThrottlingProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(ChannelLimitReachedProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(BlockedConnectionProbe).GetIdentifier()));
+            Assert.That(result.Count, Is.EqualTo(6));
+            Assert.That(result.Count(x => x.Id == typeof(HighConnectionCreationRateProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(HighConnectionClosureRateProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(UnlimitedPrefetchCountProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(ChannelThrottlingProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(ChannelLimitReachedProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(BlockedConnectionProbe).GetIdentifier()), Is.EqualTo(1));
         });
     }
 
@@ -104,6 +104,6 @@ public class BrokerConnectivityScannerTests
         var result = new BrokerConnectivityScanner(_probes)
             .Scan(snapshot);
 
-        Assert.IsEmpty(result);
+        Assert.That(result, Is.Empty);
     }
 }

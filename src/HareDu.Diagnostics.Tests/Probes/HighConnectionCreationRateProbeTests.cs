@@ -35,8 +35,8 @@ public class HighConnectionCreationRateProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(HighConnectionCreationRateProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(HighConnectionCreationRateProbe).GetIdentifier()));
         });
     }
 
@@ -53,8 +53,8 @@ public class HighConnectionCreationRateProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(HighConnectionCreationRateProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(HighConnectionCreationRateProbe).GetIdentifier()));
         });
     }
 
@@ -71,8 +71,8 @@ public class HighConnectionCreationRateProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(HighConnectionCreationRateProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(HighConnectionCreationRateProbe).GetIdentifier()));
         });
     }
 
@@ -86,7 +86,7 @@ public class HighConnectionCreationRateProbeTests
 
         var result = probe.Execute(snapshot);
             
-        Assert.AreEqual(ProbeResultStatus.NA, result.Status);
+        Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.NA));
     }
 
     BrokerConnectivitySnapshot GetSnapshot(decimal connectionsCreatedRate, decimal connectionsClosedRate) =>

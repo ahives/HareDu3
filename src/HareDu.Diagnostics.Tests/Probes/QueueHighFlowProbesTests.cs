@@ -34,8 +34,8 @@ public class QueueHighFlowProbesTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(QueueHighFlowProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(QueueHighFlowProbe).GetIdentifier()));
         });
     }
 
@@ -52,8 +52,8 @@ public class QueueHighFlowProbesTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(QueueHighFlowProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(QueueHighFlowProbe).GetIdentifier()));
         });
     }
 
@@ -67,6 +67,6 @@ public class QueueHighFlowProbesTests
 
         var result = probe.Execute(snapshot);
             
-        Assert.AreEqual(ProbeResultStatus.NA, result.Status);
+        Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.NA));
     }
 }

@@ -31,11 +31,11 @@ public class FileDescriptorThrottlingProbeTests
         OperatingSystemSnapshot snapshot = new () {FileDescriptors = new () {Available = 100, Used = 90}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(FileDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(FileDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -45,15 +45,15 @@ public class FileDescriptorThrottlingProbeTests
         HareDuConfig config = new () {Diagnostics = new () {Probes = new () {FileDescriptorUsageThresholdCoefficient = 0.65M}}};
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new FileDescriptorThrottlingProbe(config.Diagnostics, knowledgeBaseProvider);
-            
+
         OperatingSystemSnapshot snapshot = new () {FileDescriptors = new () {Available = 100, Used = 100}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(FileDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(FileDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -63,15 +63,15 @@ public class FileDescriptorThrottlingProbeTests
         HareDuConfig config = new () {Diagnostics = new () {Probes = new () {FileDescriptorUsageThresholdCoefficient = 0.65M}}};
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new FileDescriptorThrottlingProbe(config.Diagnostics, knowledgeBaseProvider);
-            
+
         OperatingSystemSnapshot snapshot = new () {FileDescriptors = new () {Available = 100, Used = 60}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(FileDescriptorThrottlingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(FileDescriptorThrottlingProbe).GetIdentifier()));
         });
     }
 
@@ -80,11 +80,11 @@ public class FileDescriptorThrottlingProbeTests
     {
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new FileDescriptorThrottlingProbe(null, knowledgeBaseProvider);
-            
+
         OperatingSystemSnapshot snapshot = new () {FileDescriptors = new () {Available = 100, Used = 60}};
 
         var result = probe.Execute(snapshot);
-            
-        Assert.AreEqual(ProbeResultStatus.NA, result.Status);
+
+        Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.NA));
     }
 }

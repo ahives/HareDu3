@@ -96,15 +96,15 @@ public class BrokerQueuesScannerTests
 
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(8, result.Count);
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()));
-            Assert.AreEqual(1, result.Count(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()));
+            Assert.That(result.Count, Is.EqualTo(8));
+            Assert.That(result.Count(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()), Is.EqualTo(1));
+            Assert.That(result.Count(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()), Is.EqualTo(1));
         });
     }
 
@@ -116,6 +116,6 @@ public class BrokerQueuesScannerTests
         var result = new BrokerQueuesScanner(_probes)
             .Scan(snapshot);
 
-        Assert.IsEmpty(result);
+        Assert.That(result, Is.Empty);
     }
 }

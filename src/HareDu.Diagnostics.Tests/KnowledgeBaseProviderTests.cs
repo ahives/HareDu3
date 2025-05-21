@@ -33,11 +33,11 @@ public class KnowledgeBaseProviderTests
             
         Assert.Multiple(() =>
         {
-            Assert.IsTrue(found);
-            Assert.IsNotNull(article);
-            Assert.AreEqual(typeof(TestProbe).GetIdentifier(), article.Id);
-            Assert.AreEqual(reason, article.Reason);
-            Assert.AreEqual(ProbeResultStatus.Healthy, article.Status);
+            Assert.That(found, Is.True);
+            Assert.That(article, Is.Not.Null);
+            Assert.That(article.Id, Is.EqualTo(typeof(TestProbe).GetIdentifier()));
+            Assert.That(article.Reason, Is.EqualTo(reason));
+            Assert.That(article.Status, Is.EqualTo(ProbeResultStatus.Healthy));
         });
     }
 

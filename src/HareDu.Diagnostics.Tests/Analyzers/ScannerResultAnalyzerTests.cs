@@ -66,34 +66,34 @@ public class ScannerResultAnalyzerTests
             
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(summary);
-            Assert.AreEqual(2, summary.Count);
-            Assert.IsTrue(summary.Any(x => x.Id == "Queue"));
+            Assert.That(summary, Is.Not.Null);
+            Assert.That(summary.Count, Is.EqualTo(2));
+            Assert.That(summary.Any(x => x.Id == "Queue"), Is.True);
 
             var queueSummary = summary.SingleOrDefault(x => x.Id == "Queue");
-                
-            Assert.IsNotNull(queueSummary);
-            Assert.AreEqual(24, queueSummary.Healthy.Total);
-            Assert.AreEqual(42.86M, Decimal.Round(queueSummary.Healthy.Percentage, 2));
-            Assert.AreEqual(32, queueSummary.Unhealthy.Total);
-            Assert.AreEqual(57.14M, Decimal.Round(queueSummary.Unhealthy.Percentage, 2));
-            Assert.AreEqual(0, queueSummary.Warning.Total);
-            Assert.AreEqual(0, queueSummary.Warning.Percentage);
-            Assert.AreEqual(0, queueSummary.Inconclusive.Total);
-            Assert.AreEqual(0, queueSummary.Inconclusive.Percentage);
-            Assert.IsTrue(summary.Any(x => x.Id == "Exchange"));
+
+            Assert.That(queueSummary, Is.Not.Null);
+            Assert.That(queueSummary.Healthy.Total, Is.EqualTo(24));
+            Assert.That(Decimal.Round(queueSummary.Healthy.Percentage, 2), Is.EqualTo(42.86M));
+            Assert.That(queueSummary.Unhealthy.Total, Is.EqualTo(32));
+            Assert.That(Decimal.Round(queueSummary.Unhealthy.Percentage, 2), Is.EqualTo(57.14M));
+            Assert.That(queueSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(queueSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(queueSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(queueSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == "Exchange"), Is.True);
 
             var exchangeSummary = summary.SingleOrDefault(x => x.Id == "Exchange");
-                
-            Assert.IsNotNull(exchangeSummary);
-            Assert.AreEqual(0, exchangeSummary.Healthy.Total);
-            Assert.AreEqual(0, exchangeSummary.Healthy.Percentage);
-            Assert.AreEqual(1, exchangeSummary.Unhealthy.Total);
-            Assert.AreEqual(100, exchangeSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, exchangeSummary.Warning.Total);
-            Assert.AreEqual(0, exchangeSummary.Warning.Percentage);
-            Assert.AreEqual(0, exchangeSummary.Inconclusive.Total);
-            Assert.AreEqual(0, exchangeSummary.Inconclusive.Percentage);
+
+            Assert.That(exchangeSummary, Is.Not.Null);
+            Assert.That(exchangeSummary.Healthy.Total, Is.EqualTo(0));
+            Assert.That(exchangeSummary.Healthy.Percentage, Is.EqualTo(0));
+            Assert.That(exchangeSummary.Unhealthy.Total, Is.EqualTo(1));
+            Assert.That(exchangeSummary.Unhealthy.Percentage, Is.EqualTo(100));
+            Assert.That(exchangeSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(exchangeSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(exchangeSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(exchangeSummary.Inconclusive.Percentage, Is.EqualTo(0));
         });
     }
         
@@ -116,34 +116,34 @@ public class ScannerResultAnalyzerTests
             
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(summary);
-            Assert.AreEqual(2, summary.Count);
-            Assert.IsTrue(summary.Any(x => x.Id == "Cluster 1"));
-            Assert.IsTrue(summary.Any(x => x.Id == "Node0"));
+            Assert.That(summary, Is.Not.Null);
+            Assert.That(summary.Count, Is.EqualTo(2));
+            Assert.That(summary.Any(x => x.Id == "Cluster 1"), Is.True);
+            Assert.That(summary.Any(x => x.Id == "Node0"), Is.True);
 
             var nodeSummary = summary.SingleOrDefault(x => x.Id == "Node0");
-                
-            Assert.IsNotNull(nodeSummary);
-            Assert.AreEqual(24, nodeSummary.Healthy.Total);
-            Assert.AreEqual(42.86M, Decimal.Round(nodeSummary.Healthy.Percentage, 2));
-            Assert.AreEqual(32, nodeSummary.Unhealthy.Total);
-            Assert.AreEqual(57.14M, Decimal.Round(nodeSummary.Unhealthy.Percentage, 2));
-            Assert.AreEqual(0, nodeSummary.Warning.Total);
-            Assert.AreEqual(0, nodeSummary.Warning.Percentage);
-            Assert.AreEqual(0, nodeSummary.Inconclusive.Total);
-            Assert.AreEqual(0, nodeSummary.Inconclusive.Percentage);
+
+            Assert.That(nodeSummary, Is.Not.Null);
+            Assert.That(nodeSummary.Healthy.Total, Is.EqualTo(24));
+            Assert.That(Decimal.Round(nodeSummary.Healthy.Percentage, 2), Is.EqualTo(42.86M));
+            Assert.That(nodeSummary.Unhealthy.Total, Is.EqualTo(32));
+            Assert.That(Decimal.Round(nodeSummary.Unhealthy.Percentage, 2), Is.EqualTo(57.14M));
+            Assert.That(nodeSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(nodeSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(nodeSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(nodeSummary.Inconclusive.Percentage, Is.EqualTo(0));
 
             var clusterSummary = summary.SingleOrDefault(x => x.Id == "Cluster 1");
-                
-            Assert.IsNotNull(clusterSummary);
-            Assert.AreEqual(0, clusterSummary.Healthy.Total);
-            Assert.AreEqual(0, clusterSummary.Healthy.Percentage);
-            Assert.AreEqual(1, clusterSummary.Unhealthy.Total);
-            Assert.AreEqual(100, clusterSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, clusterSummary.Warning.Total);
-            Assert.AreEqual(0, clusterSummary.Warning.Percentage);
-            Assert.AreEqual(0, clusterSummary.Inconclusive.Total);
-            Assert.AreEqual(0, clusterSummary.Inconclusive.Percentage);
+
+            Assert.That(clusterSummary, Is.Not.Null);
+            Assert.That(clusterSummary.Healthy.Total, Is.EqualTo(0));
+            Assert.That(clusterSummary.Healthy.Percentage, Is.EqualTo(0));
+            Assert.That(clusterSummary.Unhealthy.Total, Is.EqualTo(1));
+            Assert.That(clusterSummary.Unhealthy.Percentage, Is.EqualTo(100));
+            Assert.That(clusterSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(clusterSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(clusterSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(clusterSummary.Inconclusive.Percentage, Is.EqualTo(0));
         });
     }
         
@@ -166,119 +166,112 @@ public class ScannerResultAnalyzerTests
 
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(summary);
-            Assert.AreEqual(8, summary.Count);
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()));
+            Assert.That(summary, Is.Not.Null);
+            Assert.That(summary.Count, Is.EqualTo(8));
+            Assert.That(summary.Any(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier()), Is.True);
 
             var unroutableSummary = summary.SingleOrDefault(x => x.Id == typeof(UnroutableMessageProbe).GetIdentifier());
-                
-            Assert.IsNotNull(unroutableSummary);
-            Assert.AreEqual(0, unroutableSummary.Healthy.Total);
-            Assert.AreEqual(0, unroutableSummary.Healthy.Percentage);
-            Assert.AreEqual(1, unroutableSummary.Unhealthy.Total);
-            Assert.AreEqual(100, unroutableSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, unroutableSummary.Warning.Total);
-            Assert.AreEqual(0, unroutableSummary.Warning.Percentage);
-            Assert.AreEqual(0, unroutableSummary.Inconclusive.Total);
-            Assert.AreEqual(0, unroutableSummary.Inconclusive.Percentage);
-                
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()));
-                
+
+            Assert.That(unroutableSummary, Is.Not.Null);
+            Assert.That(unroutableSummary.Healthy.Total, Is.EqualTo(0));
+            Assert.That(unroutableSummary.Healthy.Percentage, Is.EqualTo(0));
+            Assert.That(unroutableSummary.Unhealthy.Total, Is.EqualTo(1));
+            Assert.That(unroutableSummary.Unhealthy.Percentage, Is.EqualTo(100));
+            Assert.That(unroutableSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(unroutableSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(unroutableSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(unroutableSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(MessagePagingProbe).GetIdentifier()), Is.True);
+
             var memoryPagedOutSummary = summary.SingleOrDefault(x => x.Id == typeof(MessagePagingProbe).GetIdentifier());
-                
-            Assert.IsNotNull(memoryPagedOutSummary);
-            Assert.AreEqual(5, memoryPagedOutSummary.Healthy.Total);
-            Assert.AreEqual(62.5M, memoryPagedOutSummary.Healthy.Percentage);
-            Assert.AreEqual(3, memoryPagedOutSummary.Unhealthy.Total);
-            Assert.AreEqual(37.5M, memoryPagedOutSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, memoryPagedOutSummary.Warning.Total);
-            Assert.AreEqual(0, memoryPagedOutSummary.Warning.Percentage);
-            Assert.AreEqual(0, memoryPagedOutSummary.Inconclusive.Total);
-            Assert.AreEqual(0, memoryPagedOutSummary.Inconclusive.Percentage);
-                
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()));
-                
+
+            Assert.That(memoryPagedOutSummary, Is.Not.Null);
+            Assert.That(memoryPagedOutSummary.Healthy.Total, Is.EqualTo(5));
+            Assert.That(memoryPagedOutSummary.Healthy.Percentage, Is.EqualTo(62.5M));
+            Assert.That(memoryPagedOutSummary.Unhealthy.Total, Is.EqualTo(3));
+            Assert.That(memoryPagedOutSummary.Unhealthy.Percentage, Is.EqualTo(37.5M));
+            Assert.That(memoryPagedOutSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(memoryPagedOutSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(memoryPagedOutSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(memoryPagedOutSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier()), Is.True);
+
             var redeliveredMessagesSummary = summary.SingleOrDefault(x => x.Id == typeof(RedeliveredMessagesProbe).GetIdentifier());
 
-            Assert.IsNotNull(redeliveredMessagesSummary);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Healthy.Total);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Healthy.Percentage);
-            Assert.AreEqual(8, redeliveredMessagesSummary.Unhealthy.Total);
-            Assert.AreEqual(100, redeliveredMessagesSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Warning.Total);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Warning.Percentage);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Inconclusive.Total);
-            Assert.AreEqual(0, redeliveredMessagesSummary.Inconclusive.Percentage);
+            Assert.That(redeliveredMessagesSummary, Is.Not.Null);
+            Assert.That(redeliveredMessagesSummary.Healthy.Total, Is.EqualTo(0));
+            Assert.That(redeliveredMessagesSummary.Healthy.Percentage, Is.EqualTo(0));
+            Assert.That(redeliveredMessagesSummary.Unhealthy.Total, Is.EqualTo(8));
+            Assert.That(redeliveredMessagesSummary.Unhealthy.Percentage, Is.EqualTo(100));
+            Assert.That(redeliveredMessagesSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(redeliveredMessagesSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(redeliveredMessagesSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(redeliveredMessagesSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()), Is.True);
 
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier()));
-                
             var noFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueNoFlowProbe).GetIdentifier());
 
-            Assert.IsNotNull(noFlowQueueSummary);
-            Assert.AreEqual(3, noFlowQueueSummary.Healthy.Total);
-            Assert.AreEqual(37.5M, noFlowQueueSummary.Healthy.Percentage);
-            Assert.AreEqual(5, noFlowQueueSummary.Unhealthy.Total);
-            Assert.AreEqual(62.5M, noFlowQueueSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, noFlowQueueSummary.Warning.Total);
-            Assert.AreEqual(0, noFlowQueueSummary.Warning.Percentage);
-            Assert.AreEqual(0, noFlowQueueSummary.Inconclusive.Total);
-            Assert.AreEqual(0, noFlowQueueSummary.Inconclusive.Percentage);
-                
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()));
+            Assert.That(noFlowQueueSummary, Is.Not.Null);
+            Assert.That(noFlowQueueSummary.Healthy.Total, Is.EqualTo(3));
+            Assert.That(noFlowQueueSummary.Healthy.Percentage, Is.EqualTo(37.5M));
+            Assert.That(noFlowQueueSummary.Unhealthy.Total, Is.EqualTo(5));
+            Assert.That(noFlowQueueSummary.Unhealthy.Percentage, Is.EqualTo(62.5M));
+            Assert.That(noFlowQueueSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(noFlowQueueSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(noFlowQueueSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(noFlowQueueSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier()), Is.True);
 
             var queueGrowthSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueGrowthProbe).GetIdentifier());
 
-            Assert.IsNotNull(queueGrowthSummary);
-            Assert.AreEqual(8, queueGrowthSummary.Healthy.Total);
-            Assert.AreEqual(100, queueGrowthSummary.Healthy.Percentage);
-            Assert.AreEqual(0, queueGrowthSummary.Unhealthy.Total);
-            Assert.AreEqual(0, queueGrowthSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, queueGrowthSummary.Warning.Total);
-            Assert.AreEqual(0, queueGrowthSummary.Warning.Percentage);
-            Assert.AreEqual(0, queueGrowthSummary.Inconclusive.Total);
-            Assert.AreEqual(0, queueGrowthSummary.Inconclusive.Percentage);
+            Assert.That(queueGrowthSummary, Is.Not.Null);
+            Assert.That(queueGrowthSummary.Healthy.Total, Is.EqualTo(8));
+            Assert.That(queueGrowthSummary.Healthy.Percentage, Is.EqualTo(100));
+            Assert.That(queueGrowthSummary.Unhealthy.Total, Is.EqualTo(0));
+            Assert.That(queueGrowthSummary.Unhealthy.Percentage, Is.EqualTo(0));
+            Assert.That(queueGrowthSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(queueGrowthSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(queueGrowthSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(queueGrowthSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()), Is.True);
 
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier()));
-                
             var lowFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueLowFlowProbe).GetIdentifier());
 
-            Assert.IsNotNull(lowFlowQueueSummary);
-            Assert.AreEqual(1, lowFlowQueueSummary.Healthy.Total);
-            Assert.AreEqual(12.5M, lowFlowQueueSummary.Healthy.Percentage);
-            Assert.AreEqual(7, lowFlowQueueSummary.Unhealthy.Total);
-            Assert.AreEqual(87.5M, lowFlowQueueSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, lowFlowQueueSummary.Warning.Total);
-            Assert.AreEqual(0, lowFlowQueueSummary.Warning.Percentage);
-            Assert.AreEqual(0, lowFlowQueueSummary.Inconclusive.Total);
-            Assert.AreEqual(0, lowFlowQueueSummary.Inconclusive.Percentage);
-                
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()));
+            Assert.That(lowFlowQueueSummary, Is.Not.Null);
+            Assert.That(lowFlowQueueSummary.Healthy.Total, Is.EqualTo(1));
+            Assert.That(lowFlowQueueSummary.Healthy.Percentage, Is.EqualTo(12.5M));
+            Assert.That(lowFlowQueueSummary.Unhealthy.Total, Is.EqualTo(7));
+            Assert.That(lowFlowQueueSummary.Unhealthy.Percentage, Is.EqualTo(87.5M));
+            Assert.That(lowFlowQueueSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(lowFlowQueueSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(lowFlowQueueSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(lowFlowQueueSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier()), Is.True);
 
             var highFlowQueueSummary = summary.SingleOrDefault(x => x.Id == typeof(QueueHighFlowProbe).GetIdentifier());
 
-            Assert.IsNotNull(highFlowQueueSummary);
-            Assert.AreEqual(7, highFlowQueueSummary.Healthy.Total);
-            Assert.AreEqual(87.5M, highFlowQueueSummary.Healthy.Percentage);
-            Assert.AreEqual(1, highFlowQueueSummary.Unhealthy.Total);
-            Assert.AreEqual(12.5M, highFlowQueueSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, highFlowQueueSummary.Warning.Total);
-            Assert.AreEqual(0, highFlowQueueSummary.Warning.Percentage);
-            Assert.AreEqual(0, highFlowQueueSummary.Inconclusive.Total);
-            Assert.AreEqual(0, highFlowQueueSummary.Inconclusive.Percentage);
-                
-            Assert.IsTrue(summary.Any(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()));
+            Assert.That(highFlowQueueSummary, Is.Not.Null);
+            Assert.That(highFlowQueueSummary.Healthy.Total, Is.EqualTo(7));;
+            Assert.That(highFlowQueueSummary.Healthy.Percentage, Is.EqualTo(87.5M));
+            Assert.That(highFlowQueueSummary.Unhealthy.Total, Is.EqualTo(1));
+            Assert.That(highFlowQueueSummary.Unhealthy.Percentage, Is.EqualTo(12.5M));
+            Assert.That(highFlowQueueSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(highFlowQueueSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(highFlowQueueSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(highFlowQueueSummary.Inconclusive.Percentage, Is.EqualTo(0));
+            Assert.That(summary.Any(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier()), Is.True);
 
             var consumerUtilizationSummary = summary.SingleOrDefault(x => x.Id == typeof(ConsumerUtilizationProbe).GetIdentifier());
 
-            Assert.IsNotNull(consumerUtilizationSummary);
-            Assert.AreEqual(0, consumerUtilizationSummary.Healthy.Total);
-            Assert.AreEqual(0, consumerUtilizationSummary.Healthy.Percentage);
-            Assert.AreEqual(8, consumerUtilizationSummary.Unhealthy.Total);
-            Assert.AreEqual(100, consumerUtilizationSummary.Unhealthy.Percentage);
-            Assert.AreEqual(0, consumerUtilizationSummary.Warning.Total);
-            Assert.AreEqual(0, consumerUtilizationSummary.Warning.Percentage);
-            Assert.AreEqual(0, consumerUtilizationSummary.Inconclusive.Total);
-            Assert.AreEqual(0, consumerUtilizationSummary.Inconclusive.Percentage);
+            Assert.That(consumerUtilizationSummary, Is.Not.Null);
+            Assert.That(consumerUtilizationSummary.Healthy.Total, Is.EqualTo(0));
+            Assert.That(consumerUtilizationSummary.Healthy.Percentage, Is.EqualTo(0));
+            Assert.That(consumerUtilizationSummary.Unhealthy.Total, Is.EqualTo(8));
+            Assert.That(consumerUtilizationSummary.Unhealthy.Percentage, Is.EqualTo(100));
+            Assert.That(consumerUtilizationSummary.Warning.Total, Is.EqualTo(0));
+            Assert.That(consumerUtilizationSummary.Warning.Percentage, Is.EqualTo(0));
+            Assert.That(consumerUtilizationSummary.Inconclusive.Total, Is.EqualTo(0));
+            Assert.That(consumerUtilizationSummary.Inconclusive.Percentage, Is.EqualTo(0));
         });
     }
         

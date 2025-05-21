@@ -32,8 +32,8 @@ public class MessagePagingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(MessagePagingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(MessagePagingProbe).GetIdentifier()));
         });
     }
 
@@ -49,8 +49,8 @@ public class MessagePagingProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(MessagePagingProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(MessagePagingProbe).GetIdentifier()));
         });
     }
 }

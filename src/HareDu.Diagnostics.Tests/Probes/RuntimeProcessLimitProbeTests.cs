@@ -31,11 +31,11 @@ public class RuntimeProcessLimitProbeTests
         BrokerRuntimeSnapshot snapshot = new () {Processes = new () {Limit = 3, Used = 3, UsageRate = 3.2M}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(RuntimeProcessLimitProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(RuntimeProcessLimitProbe).GetIdentifier()));
         });
     }
 
@@ -49,11 +49,11 @@ public class RuntimeProcessLimitProbeTests
         BrokerRuntimeSnapshot snapshot = new () {Processes = new () {Limit = 3, Used = 4, UsageRate = 3.2M}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(RuntimeProcessLimitProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(RuntimeProcessLimitProbe).GetIdentifier()));
         });
     }
 
@@ -63,15 +63,15 @@ public class RuntimeProcessLimitProbeTests
         HareDuConfig config = new () {Diagnostics = new () {Probes = new () {RuntimeProcessUsageThresholdCoefficient = 0.65M}}};
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new RuntimeProcessLimitProbe(config.Diagnostics, knowledgeBaseProvider);
-            
+
         BrokerRuntimeSnapshot snapshot = new () {Processes = new () {Limit = 100, Used = 40, UsageRate = 3.2M}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(RuntimeProcessLimitProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(RuntimeProcessLimitProbe).GetIdentifier()));
         });
     }
 
@@ -81,15 +81,15 @@ public class RuntimeProcessLimitProbeTests
         HareDuConfig config = new () {Diagnostics = new () {Probes = new () {RuntimeProcessUsageThresholdCoefficient = 0.65M}}};
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new RuntimeProcessLimitProbe(config.Diagnostics, knowledgeBaseProvider);
-            
+
         BrokerRuntimeSnapshot snapshot = new () {Processes = new () {Limit = 4, Used = 3, UsageRate = 3.2M}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(RuntimeProcessLimitProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(RuntimeProcessLimitProbe).GetIdentifier()));
         });
     }
 
@@ -102,11 +102,11 @@ public class RuntimeProcessLimitProbeTests
         BrokerRuntimeSnapshot snapshot = new () {Processes = new () {Limit = 4, Used = 3, UsageRate = 3.2M}};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.NA, result.Status);
-            Assert.AreEqual(typeof(RuntimeProcessLimitProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.NA));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(RuntimeProcessLimitProbe).GetIdentifier()));
         });
     }
 }

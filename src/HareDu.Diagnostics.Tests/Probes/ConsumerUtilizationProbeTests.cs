@@ -34,8 +34,8 @@ public class ConsumerUtilizationProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(ConsumerUtilizationProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(ConsumerUtilizationProbe).GetIdentifier()));
         });
     }
 
@@ -52,8 +52,8 @@ public class ConsumerUtilizationProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(ConsumerUtilizationProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(ConsumerUtilizationProbe).GetIdentifier()));
         });
     }
 
@@ -70,8 +70,8 @@ public class ConsumerUtilizationProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(ConsumerUtilizationProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(ConsumerUtilizationProbe).GetIdentifier()));
         });
     }
 }

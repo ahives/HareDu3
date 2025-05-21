@@ -19,7 +19,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasData, Is.True);
@@ -56,7 +56,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Get("QueueTestVirtualHost1");
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasData, Is.True);
@@ -113,7 +113,7 @@ public class VirtualHostTests :
             {
                 x.WithTracingEnabled();
             });
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -296,7 +296,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, "HareDu5");
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -311,7 +311,7 @@ public class VirtualHostTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5");
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -327,7 +327,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("haredu_user", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -342,7 +342,7 @@ public class VirtualHostTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -358,7 +358,7 @@ public class VirtualHostTests :
             .GetService<IBrokerFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -373,7 +373,7 @@ public class VirtualHostTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -402,7 +402,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -429,7 +429,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -457,7 +457,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -484,7 +484,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -512,7 +512,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -539,7 +539,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>();
-            
+
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
             Assert.That(request.Read, Is.EqualTo(".*"));

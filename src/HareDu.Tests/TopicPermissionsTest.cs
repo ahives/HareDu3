@@ -18,7 +18,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
-            
+
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -29,7 +29,7 @@ public class TopicPermissionsTest :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .GetAllTopicPermissions(x => x.UsingCredentials("guest", "guest"));
-            
+
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -95,7 +95,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.EqualTo("E4"));
             Assert.That(request.Read, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -205,7 +205,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -232,7 +232,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -260,7 +260,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -287,7 +287,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -315,7 +315,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -342,7 +342,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -370,7 +370,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
@@ -397,7 +397,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
             TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>();
-                
+
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
@@ -411,7 +411,7 @@ public class TopicPermissionsTest :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu7");
-            
+
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -423,7 +423,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu7");
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -438,7 +438,7 @@ public class TopicPermissionsTest :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu7");
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -454,7 +454,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete("guest", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -469,7 +469,7 @@ public class TopicPermissionsTest :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -485,7 +485,7 @@ public class TopicPermissionsTest :
             .GetService<IBrokerFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -500,7 +500,7 @@ public class TopicPermissionsTest :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);

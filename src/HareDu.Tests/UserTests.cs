@@ -126,7 +126,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator,management"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -154,7 +154,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -181,7 +181,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -211,7 +211,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.EqualTo(passwordHash));
@@ -239,7 +239,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -250,7 +250,7 @@ public class UserTests :
     public async Task Verify_can_create_4()
     {
         string passwordHash = "gkgfjjhfjh".ComputePasswordHash();
-            
+
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
@@ -269,7 +269,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.EqualTo(passwordHash));
@@ -298,7 +298,7 @@ public class UserTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -327,7 +327,7 @@ public class UserTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -356,7 +356,7 @@ public class UserTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -385,7 +385,7 @@ public class UserTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -411,7 +411,7 @@ public class UserTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             UserRequest request = result.DebugInfo.Request.ToObject<UserRequest>();
-            
+
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
             Assert.That(request.PasswordHash, Is.Empty.Or.Null);
@@ -426,7 +426,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_user");
-            
+
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -437,7 +437,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteUser(x => x.UsingCredentials("guest", "guest"), "fake_user");
-            
+
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -449,7 +449,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -492,7 +492,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -507,7 +507,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteUser(x => x.UsingCredentials("guest", "guest"), string.Empty);
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -523,7 +523,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>());
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -538,7 +538,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>());
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -569,7 +569,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", string.Empty, null});
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -585,7 +585,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"  ", "fake_user1", null});
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -600,7 +600,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", "fake_user1", null});
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -616,7 +616,7 @@ public class UserTests :
             .GetService<IBrokerFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllPermissions();
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
@@ -639,7 +639,7 @@ public class UserTests :
             .BuildServiceProvider()
             .GetService<IBrokerFactory>()
             .GetAllUserPermissions(x => x.UsingCredentials("guest", "guest"));
-            
+
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);

@@ -29,11 +29,11 @@ public class AvailableCoresProbeTests
         NodeSnapshot snapshot = new () {AvailableCoresDetected = 0};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Unhealthy, result.Status);
-            Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(AvailableCpuCoresProbe).GetIdentifier()));
         });
     }
 
@@ -42,15 +42,15 @@ public class AvailableCoresProbeTests
     {
         var knowledgeBaseProvider = _services.GetService<IKnowledgeBaseProvider>();
         var probe = new AvailableCpuCoresProbe(knowledgeBaseProvider);
-            
+
         NodeSnapshot snapshot = new () {AvailableCoresDetected = 5};
 
         var result = probe.Execute(snapshot);
-            
+
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Healthy, result.Status);
-            Assert.AreEqual(typeof(AvailableCpuCoresProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(AvailableCpuCoresProbe).GetIdentifier()));
         });
     }
 }

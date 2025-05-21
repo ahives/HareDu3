@@ -32,8 +32,8 @@ public class UnlimitedPrefetchCountProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Warning, result.Status);
-            Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Warning));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(UnlimitedPrefetchCountProbe).GetIdentifier()));
         });
     }
 
@@ -49,8 +49,8 @@ public class UnlimitedPrefetchCountProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.AreEqual(ProbeResultStatus.Inconclusive, result.Status);
-            Assert.AreEqual(typeof(UnlimitedPrefetchCountProbe).GetIdentifier(), result.KB.Id);
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Inconclusive));
+            Assert.That(result.KB.Id, Is.EqualTo(typeof(UnlimitedPrefetchCountProbe).GetIdentifier()));
         });
     }
 }
