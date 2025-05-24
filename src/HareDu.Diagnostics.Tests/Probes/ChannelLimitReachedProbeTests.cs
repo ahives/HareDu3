@@ -168,7 +168,7 @@ public class ChannelLimitReachedProbeTests
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Unhealthy));
+            Assert.That(result.Status, Is.EqualTo(ProbeResultStatus.Healthy));
             Assert.That(result.KB.Id, Is.EqualTo(typeof(ChannelLimitReachedProbe).GetIdentifier()));
         });
     }

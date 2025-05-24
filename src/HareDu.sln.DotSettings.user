@@ -15,6 +15,9 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AKeyValuePair_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F1fe46d7855761ae9fde08d2bb7978cda13e5853695e85b3cc8d84e9cda231e_003FKeyValuePair_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ALazyInitializer_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F9ab1ff2a6d448218774f8ad2404ca7c77718ede738cb114e419956e4e816da54_003FLazyInitializer_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMessagePumpStrategy_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003Fcf8ca8027fe683a234592509257dd2437ee65ccb37e6eeb99e7bbdc391d47_003FMessagePumpStrategy_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMethodBaseInvoker_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd6b757e154dd7f8c23e0e785431c97a76e4b9c6bdae38b978238421dbab55d_003FMethodBaseInvoker_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ANullReferenceException_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F6cff73e54975e9cbaa1dcf8f5148358d92291660dd529044ef90b06aae7b58_003FNullReferenceException_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AServiceProviderServiceExtensions_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F621526284d3e4868b98948aff942206525763e57e194a27623b66c384466_003FServiceProviderServiceExtensions_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ASetUpTearDownCommand_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F069aeaf19b8db10fe8b3b14e21593865f19ecfccd5d29c95131ec93202f1_003FSetUpTearDownCommand_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ASetUpTearDownItem_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003Fa3a3d7c72b1c5f49f9197228ec3fa2783e1159bdc84fe21715e4cedebf90e_003FSetUpTearDownItem_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AString_002EManipulation_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F89c4224f79e6b275db5cce1623a97eec6e1bbd4755a617dd36d073d2347236a5_003FString_002EManipulation_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
@@ -29,18 +32,34 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUri_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003F_002E_002E_003F_002E_002E_003FLibrary_003FApplication_0020Support_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F34ca9f5cbb52bd5d55ca9ba8d71173f25c66265a73742ed8c26cce6836fddc66_003FUri_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:Int64 x:Key="/Default/Environment/Hierarchy/Build/BuildTool/MsbuildVersion/@EntryValue">4294967293</s:Int64>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/usr/local/share/dotnet/sdk/5.0.101/MSBuild.dll</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78cffe86_002Dcb7f_002D41d6_002D89ab_002Dd47ec82acaf3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="QueueTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.ServerTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.TopicPermissionsTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.UserTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.VirtualHostLimitsTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.VirtualHostTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.ShovelTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.GlobalParameterTests&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net7.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78cffe86_002Dcb7f_002D41d6_002D89ab_002Dd47ec82acaf3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="QueueTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Or&gt;
+    &lt;And&gt;
+      &lt;Or&gt;
+        &lt;TestAncestor&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.QueueTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.ServerTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.TopicPermissionsTest&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.UserTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.VirtualHostLimitsTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.VirtualHostTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.ShovelTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.GlobalParameterTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net7.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests&lt;/TestId&gt;
+          &lt;TestId&gt;NUnit3x::CA8507F9-9794-4E8C-8F31-BC0498AE6E6E::net9.0::HareDu.Snapshotting.Tests.ConnectionSnapshotTests.Verify_can_return_snapshot1&lt;/TestId&gt;
+        &lt;/TestAncestor&gt;
+        &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Snapshotting.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Snapshotting.Tests&amp;gt;" /&gt;
+        &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+      &lt;/Or&gt;
+      &lt;Not&gt;
+        &lt;And&gt;
+          &lt;Namespace&gt;HareDu.Diagnostics.Tests&lt;/Namespace&gt;
+          &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+        &lt;/And&gt;
+      &lt;/Not&gt;
+    &lt;/And&gt;
+    &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Diagnostics.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Diagnostics.Tests&amp;gt;" /&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c20ae268_002D1776_002D41d6_002Da49c_002Dd7cdb9da832f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
@@ -82,7 +101,7 @@
     &lt;/TestAncestor&gt;
   &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cf8ade2c_002Dd838_002D4e60_002Dad76_002D32322356d5cf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Verify_can_get_all_consumers_in_vhost" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cf8ade2c_002Dd838_002D4e60_002Dad76_002D32322356d5cf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Verify_can_get_all_consumers_in_vhost" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Or&gt;
     &lt;And&gt;
       &lt;TestAncestor&gt;
@@ -141,6 +160,8 @@
       &lt;TestId&gt;NUnit3x::3885D347-AC99-448A-9C32-759AFF04C1BD::net9.0::HareDu.Tests.ScopedParameterTests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net9.0::HareDu.Diagnostics.Tests.Analyzers.ScannerResultAnalyzerTests&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::77FCCD4C-22A5-4D34-8D24-A61F390A933F::net9.0::HareDu.Diagnostics.Tests.Probes.AvailableCoresProbeTests&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::A7313527-BF51-47DA-968C-C5A5BF2BFA18::net7.0::HareDu.Diagnostics.IntegrationTests.DiagnosticScannerTests.Test1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::A7313527-BF51-47DA-968C-C5A5BF2BFA18::net9.0::HareDu.Diagnostics.IntegrationTests.DiagnosticScannerTests.Test1&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;ProjectFolder&gt;77FCCD4C-22A5-4D34-8D24-A61F390A933F/d:Probes&lt;/ProjectFolder&gt;
   &lt;/Or&gt;

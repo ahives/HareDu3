@@ -1,6 +1,5 @@
 namespace HareDu.Diagnostics.Scanners;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
@@ -15,14 +14,10 @@ public class BrokerConnectivityScanner :
     IEnumerable<DiagnosticProbe> _channelProbes;
     IEnumerable<DiagnosticProbe> _connectivityProbes;
 
-    public ScannerMetadata Metadata => new()
-    {
-        Identifier = GetType().GetIdentifier()
-    };
+    public ScannerMetadata Metadata => new() {Identifier = GetType().GetIdentifier()};
 
-    public BrokerConnectivityScanner(IReadOnlyList<DiagnosticProbe> probes)
+    public BrokerConnectivityScanner(IReadOnlyList<DiagnosticProbe> probes) : base(probes)
     {
-        Configure(probes ?? throw new ArgumentNullException(nameof(probes)));
     }
 
     public IReadOnlyList<ProbeResult> Scan(BrokerConnectivitySnapshot snapshot)

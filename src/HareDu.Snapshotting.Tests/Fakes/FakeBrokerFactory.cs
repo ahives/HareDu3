@@ -1,8 +1,6 @@
 namespace HareDu.Snapshotting.Tests.Fakes;
 
 using System;
-using System.Collections.Generic;
-using Core.Configuration;
 using Core.Security;
 using Core.Testing;
 
@@ -10,58 +8,38 @@ public class FakeBrokerFactory :
     IBrokerFactory,
     HareDuTestingFake
 {
-    public HareDuConfig Config { get; }
+    readonly Broker _broker;
+    readonly Node _node;
+    readonly Connection _connection;
+    readonly Channel _channel;
+    readonly Queue _queue;
 
-    public bool IsRegistered(string key) => throw new System.NotImplementedException();
-        
-    public IReadOnlyDictionary<string, object> GetObjects() => throw new System.NotImplementedException();
-
-    public void CancelPendingRequest() => throw new System.NotImplementedException();
-
-    public bool TryRegisterAll() => throw new System.NotImplementedException();
+    public FakeBrokerFactory()
+    {
+        _broker = new FakeBrokerImpl();
+        _node = new FakeNodeImpl();
+        _connection = new FakeConnectionImpl();
+        _channel = new FakeChannelImpl();
+        _queue = new FakeQueueImpl();
+    }
 
     public T API<T>(Action<HareDuCredentialProvider> credentials) where T : BrokerAPI
     {
         if (typeof(T) == typeof(Broker))
-        {
-            Broker obj = new FakeBrokerImpl();
-
-            return (T) obj;
-        }
+            return (T) _broker;
 
         if (typeof(T) == typeof(Node))
-        {
-            Node obj = new FakeNodeImpl();
-
-            return (T) obj;
-        }
+            return (T) _node;
 
         if (typeof(T) == typeof(Connection))
-        {
-            Connection obj = new FakeConnectionImpl();
-
-            return (T) obj;
-        }
+            return (T) _connection;
 
         if (typeof(T) == typeof(Channel))
-        {
-            Channel obj = new FakeChannelImpl();
-
-            return (T) obj;
-        }
+            return (T) _channel;
 
         if (typeof(T) == typeof(Queue))
-        {
-            Queue obj = new FakeQueueImpl();
-
-            return (T) obj;
-        }
+            return (T) _queue;
 
         return default;
-    }
-
-    public void Init(HareDuCredentials credentials)
-    {
-        throw new System.NotImplementedException();
     }
 }

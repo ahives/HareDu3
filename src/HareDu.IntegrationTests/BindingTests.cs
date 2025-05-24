@@ -56,7 +56,7 @@ public class BindingTests
             .GetAll()
             .ScreenDump();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -67,7 +67,7 @@ public class BindingTests
             .GetAllBindings(x => x.UsingCredentials("guest", "guest"))
             .ScreenDump();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

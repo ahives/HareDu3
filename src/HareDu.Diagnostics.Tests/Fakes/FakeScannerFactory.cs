@@ -15,11 +15,13 @@ public class FakeScannerFactory :
     public bool TryGet<T>(out DiagnosticScanner<T> scanner)
         where T : Snapshot
     {
-        scanner = new NoOpScanner<T>();
+        scanner = new NoOpScanner<T>(DiagnosticCache.EmptyProbes);
         return false;
     }
 
-    public void RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers) => throw new NotImplementedException();
+    public void RegisterObservers(IReadOnlyList<IObserver<ProbeContext>> observers)
+    {
+    }
 
     public void RegisterObserver(IObserver<ProbeContext> observer) => throw new NotImplementedException();
 

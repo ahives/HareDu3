@@ -68,7 +68,7 @@ public class GlobalParameterTests
                 x.Add("arg2", "value2");
             });
              
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
         
@@ -79,7 +79,7 @@ public class GlobalParameterTests
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Fred");
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

@@ -75,7 +75,7 @@ public class PolicyTests
                 });
             });
             
-//            Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -97,7 +97,7 @@ public class PolicyTests
                 });
             });
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -108,7 +108,7 @@ public class PolicyTests
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

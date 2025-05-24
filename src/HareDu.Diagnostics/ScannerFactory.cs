@@ -49,7 +49,7 @@ public class ScannerFactory :
 
         if (!_scannerCache.ContainsKey(type.FullName))
         {
-            scanner = new NoOpScanner<T>();
+            scanner = new NoOpScanner<T>(DiagnosticCache.EmptyProbes);
             return false;
         }
 
@@ -125,7 +125,7 @@ public class ScannerFactory :
         bool registered = GetType()
             .Assembly
             .GetTypes()
-            .Where(x => typeof(DiagnosticScanner<>).IsAssignableFrom(x) && !x.IsGenericType)
+            .Where(x => x.InheritsFromInterface(typeof(DiagnosticScanner<>)) && x.IsDerivedFrom(typeof(BaseDiagnosticScanner)) && x != typeof(BaseDiagnosticScanner))
             .ToList()
             .GetTypeMap(GetScannerKey)
             .TryRegisterAll(_scannerCache, RegisterScannerInstance);

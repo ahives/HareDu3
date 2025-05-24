@@ -29,34 +29,34 @@ public class ConnectionSnapshotTests
         var result = await _services.GetService<ISnapshotFactory>()
             .Lens<BrokerConnectivitySnapshot>()
             .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Snapshot);
-            Assert.IsNotNull(result.Snapshot.Connections);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic?.Received);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.Channels);
-            Assert.AreEqual("3.7.18", result.Snapshot.BrokerVersion);
-            Assert.AreEqual("fake_cluster", result.Snapshot.ClusterName);
-            Assert.AreEqual("Connection 1", result.Snapshot.Connections[0]?.Identifier);
-            Assert.AreEqual(BrokerConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
-            Assert.AreEqual(982738, result.Snapshot.Connections[0]?.OpenChannelsLimit);
-            Assert.AreEqual("TestVirtualHost", result.Snapshot.Connections[0]?.VirtualHost);
-            Assert.AreEqual("Node 1", result.Snapshot.Connections[0]?.NodeIdentifier);
-            Assert.AreEqual(68721979894793, result.Snapshot.Connections[0]?.NetworkTraffic?.Received?.Total);
-            Assert.AreEqual(871998847, result.Snapshot.Connections[0]?.NetworkTraffic?.Sent?.Total);
-            Assert.AreEqual(627378937423, result.Snapshot.Connections[0]?.NetworkTraffic?.MaxFrameSize);
-            Assert.IsTrue(result.Snapshot.Connections[0]?.Channels.Any());
-            Assert.AreEqual("Channel 1", result.Snapshot.Connections[0]?.Channels[0]?.Identifier);
-            Assert.AreEqual(90, result.Snapshot.Connections[0]?.Channels[0]?.Consumers);
-            Assert.AreEqual(78, result.Snapshot.Connections[0]?.Channels[0]?.PrefetchCount);
-            Assert.AreEqual(7882003, result.Snapshot.Connections[0]?.Channels[0]?.UnacknowledgedMessages);
-            Assert.AreEqual(98237843, result.Snapshot.Connections[0]?.Channels[0]?.UncommittedAcknowledgements);
-            Assert.AreEqual(82930, result.Snapshot.Connections[0]?.Channels[0]?.UnconfirmedMessages);
-            Assert.AreEqual(383902, result.Snapshot.Connections[0]?.Channels[0]?.UncommittedMessages);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Snapshot, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Received, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.Channels, Is.Not.Null);
+            Assert.That(result.Snapshot.BrokerVersion, Is.EqualTo("3.7.18"));
+            Assert.That(result.Snapshot.ClusterName, Is.EqualTo("fake_cluster"));
+            Assert.That(result.Snapshot.Connections[0]?.Identifier, Is.EqualTo("Connection 1"));
+            Assert.That(result.Snapshot.Connections[0]?.State, Is.EqualTo(BrokerConnectionState.Blocked));
+            Assert.That(result.Snapshot.Connections[0]?.OpenChannelsLimit, Is.EqualTo(982738));
+            Assert.That(result.Snapshot.Connections[0]?.VirtualHost, Is.EqualTo("TestVirtualHost"));
+            Assert.That(result.Snapshot.Connections[0]?.NodeIdentifier, Is.EqualTo("Node 1"));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Received?.Total, Is.EqualTo(68721979894793));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent?.Total, Is.EqualTo(871998847));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.MaxFrameSize, Is.EqualTo(627378937423));
+            Assert.That(result.Snapshot.Connections[0]?.Channels.Any(), Is.True);
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.Identifier, Is.EqualTo("Channel 1"));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.Consumers, Is.EqualTo(90));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.PrefetchCount, Is.EqualTo(78));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UnacknowledgedMessages, Is.EqualTo(7882003));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UncommittedAcknowledgements, Is.EqualTo(98237843));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UnconfirmedMessages, Is.EqualTo(82930));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UncommittedMessages, Is.EqualTo(383902));
         });
     }
 
@@ -65,34 +65,34 @@ public class ConnectionSnapshotTests
     {
         var result = await _services.GetService<ISnapshotFactory>()
             .TakeConnectivitySnapshot(x => x.UsingCredentials("guest", "guest"));
-            
+
         Assert.Multiple(() =>
         {
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Snapshot);
-            Assert.IsNotNull(result.Snapshot.Connections);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic?.Received);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent);
-            Assert.IsNotNull(result.Snapshot.Connections[0]?.Channels);
-            Assert.AreEqual("3.7.18", result.Snapshot.BrokerVersion);
-            Assert.AreEqual("fake_cluster", result.Snapshot.ClusterName);
-            Assert.AreEqual("Connection 1", result.Snapshot.Connections[0]?.Identifier);
-            Assert.AreEqual(BrokerConnectionState.Blocked, result.Snapshot.Connections[0]?.State);
-            Assert.AreEqual(982738, result.Snapshot.Connections[0]?.OpenChannelsLimit);
-            Assert.AreEqual("TestVirtualHost", result.Snapshot.Connections[0]?.VirtualHost);
-            Assert.AreEqual("Node 1", result.Snapshot.Connections[0]?.NodeIdentifier);
-            Assert.AreEqual(68721979894793, result.Snapshot.Connections[0]?.NetworkTraffic?.Received?.Total);
-            Assert.AreEqual(871998847, result.Snapshot.Connections[0]?.NetworkTraffic?.Sent?.Total);
-            Assert.AreEqual(627378937423, result.Snapshot.Connections[0]?.NetworkTraffic?.MaxFrameSize);
-            Assert.IsTrue(result.Snapshot.Connections[0]?.Channels.Any());
-            Assert.AreEqual("Channel 1", result.Snapshot.Connections[0]?.Channels[0]?.Identifier);
-            Assert.AreEqual(90, result.Snapshot.Connections[0]?.Channels[0]?.Consumers);
-            Assert.AreEqual(78, result.Snapshot.Connections[0]?.Channels[0]?.PrefetchCount);
-            Assert.AreEqual(7882003, result.Snapshot.Connections[0]?.Channels[0]?.UnacknowledgedMessages);
-            Assert.AreEqual(98237843, result.Snapshot.Connections[0]?.Channels[0]?.UncommittedAcknowledgements);
-            Assert.AreEqual(82930, result.Snapshot.Connections[0]?.Channels[0]?.UnconfirmedMessages);
-            Assert.AreEqual(383902, result.Snapshot.Connections[0]?.Channels[0]?.UncommittedMessages);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Snapshot, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Received, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent, Is.Not.Null);
+            Assert.That(result.Snapshot.Connections[0]?.Channels, Is.Not.Null);
+            Assert.That(result.Snapshot.BrokerVersion, Is.EqualTo("3.7.18"));
+            Assert.That(result.Snapshot.ClusterName, Is.EqualTo("fake_cluster"));
+            Assert.That(result.Snapshot.Connections[0]?.Identifier, Is.EqualTo("Connection 1"));
+            Assert.That(result.Snapshot.Connections[0]?.State, Is.EqualTo(BrokerConnectionState.Blocked));
+            Assert.That(result.Snapshot.Connections[0]?.OpenChannelsLimit, Is.EqualTo(982738));
+            Assert.That(result.Snapshot.Connections[0]?.VirtualHost, Is.EqualTo("TestVirtualHost"));
+            Assert.That(result.Snapshot.Connections[0]?.NodeIdentifier, Is.EqualTo("Node 1"));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Received?.Total, Is.EqualTo(68721979894793));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.Sent?.Total, Is.EqualTo(871998847));
+            Assert.That(result.Snapshot.Connections[0]?.NetworkTraffic?.MaxFrameSize, Is.EqualTo(627378937423));
+            Assert.That(result.Snapshot.Connections[0]?.Channels.Any(), Is.True);
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.Identifier, Is.EqualTo("Channel 1"));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.Consumers, Is.EqualTo(90));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.PrefetchCount, Is.EqualTo(78));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UnacknowledgedMessages, Is.EqualTo(7882003));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UncommittedAcknowledgements, Is.EqualTo(98237843));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UnconfirmedMessages, Is.EqualTo(82930));
+            Assert.That(result.Snapshot.Connections[0]?.Channels[0]?.UncommittedMessages, Is.EqualTo(383902));
         });
     }
 }

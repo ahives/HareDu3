@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
-using Core.Security;
 using Lens;
 using Model;
 using HareDu.Snapshotting.Lens.Internal;
@@ -19,6 +18,8 @@ public sealed class SnapshotFactory :
     {
         _factory = factory;
         _cache = new Dictionary<string, object>();
+
+        RegisterAll();
     }
 
     public Lens<T> Lens<T>()
@@ -29,8 +30,7 @@ public sealed class SnapshotFactory :
         if (type.FullName != null && _cache.ContainsKey(type.FullName))
             return _cache[type.FullName] as Lens<T>;
 
-        bool registered = RegisterInstance(type, type.FullName);
-        return new NoOpLens<T>();
+        return RegisterInstance(type, type.FullName) ? _cache[type.FullName] as Lens<T> : new NoOpLens<T>();
     }
 
     public ISnapshotFactory Register<T>(Lens<T> lens)
@@ -40,13 +40,13 @@ public sealed class SnapshotFactory :
 
         if (type.FullName != null && _cache.ContainsKey(type.FullName))
             return this;
-            
+
         _cache.Add(type.FullName, lens);
 
         return this;
     }
 
-    private bool TryRegisterAll(HareDuCredentials credentials)
+    void RegisterAll()
     {
         var typeMap = GetTypeMap(GetType());
         bool registered = true;
@@ -56,11 +56,9 @@ public sealed class SnapshotFactory :
 
         if (!registered)
             _cache.Clear();
-
-        return registered;
     }
 
-    private bool RegisterInstance(Type type, string key)
+    bool RegisterInstance(Type type, string key)
     {
         try
         {
@@ -79,7 +77,7 @@ public sealed class SnapshotFactory :
         }
     }
 
-    private object CreateInstance(Type type)
+    object CreateInstance(Type type)
     {
         var instance = type.IsDerivedFrom(typeof(BaseLens<>))
             ? Activator.CreateInstance(type, _factory)
@@ -88,7 +86,7 @@ public sealed class SnapshotFactory :
         return instance;
     }
 
-    private IDictionary<string, Type> GetTypeMap(Type findType)
+    IDictionary<string, Type> GetTypeMap(Type findType)
     {
         var types = findType.Assembly.GetTypes();
         var interfaces = new Dictionary<string, Type>();

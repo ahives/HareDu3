@@ -137,7 +137,7 @@ public class ShovelTests
             .GetAll()
             .ScreenDump();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
         
@@ -148,7 +148,7 @@ public class ShovelTests
             .GetAllShovels(x => x.UsingCredentials("guest", "guest"))
             .ScreenDump();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 }

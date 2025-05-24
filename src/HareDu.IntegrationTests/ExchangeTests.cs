@@ -58,7 +58,7 @@ public class ExchangeTests
             .GetAll()
             .ScreenDump();
 
-        // result.HasFaulted.ShouldBeFalse();
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -81,7 +81,7 @@ public class ExchangeTests
             Console.WriteLine();
         }
             
-        // result.HasFaulted.ShouldBeFalse();
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -112,7 +112,7 @@ public class ExchangeTests
             .Where(x => x.Name == "amq.fanout")
             .ScreenDump();
 
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -132,7 +132,7 @@ public class ExchangeTests
                 // });
             });
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -143,7 +143,7 @@ public class ExchangeTests
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", "HareDu");
             
-//            Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 

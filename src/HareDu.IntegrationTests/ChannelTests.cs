@@ -56,7 +56,7 @@ public class ChannelTests
             .GetAll()
             .ScreenDump();
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 

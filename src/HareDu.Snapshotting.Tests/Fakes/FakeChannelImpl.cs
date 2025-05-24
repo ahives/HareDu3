@@ -12,7 +12,7 @@ public class FakeChannelImpl :
     Channel,
     HareDuTestingFake
 {
-    public async Task<Results<ChannelInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default)
     {
         var channel = new ChannelInfo
         {
@@ -37,8 +37,6 @@ public class FakeChannelImpl :
 
         return new SuccessfulResults<ChannelInfo>{Data = new List<ChannelInfo> {channel}, DebugInfo = null};
     }
-
-    public Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     public Task<Results<ChannelInfo>> GetByConnection(string connectionName, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 

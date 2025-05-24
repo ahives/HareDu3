@@ -57,7 +57,7 @@ public class QueueTests
                 // });
             });
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -72,7 +72,7 @@ public class QueueTests
             });
             
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class QueueTests
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue2", _vhost,_node);
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -104,7 +104,7 @@ public class QueueTests
                 });
             });
             
-        Assert.IsTrue(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.True);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -116,7 +116,7 @@ public class QueueTests
             .GetAll()
             .ScreenDump();
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -128,7 +128,7 @@ public class QueueTests
             .GetDetails()
             .ScreenDump();
 
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -139,7 +139,7 @@ public class QueueTests
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -153,7 +153,7 @@ public class QueueTests
                 x.WhenHasNoConsumers();
             });
 
-//            Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -164,7 +164,7 @@ public class QueueTests
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("order-state", "TestOrders");
             
-        // Assert.IsFalse(result.HasFaulted);
+        // Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -175,7 +175,7 @@ public class QueueTests
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 
@@ -185,7 +185,7 @@ public class QueueTests
         var result = await _services.GetService<IBrokerFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "", "HareDu");
             
-        Assert.IsFalse(result.HasFaulted);
+        Assert.That(result.HasFaulted, Is.False);
         Console.WriteLine(result.ToJsonString(Deserializer.Options));
     }
 

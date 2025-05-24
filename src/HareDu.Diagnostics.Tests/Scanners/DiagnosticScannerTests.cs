@@ -143,45 +143,10 @@ public class DiagnosticScannerTests
     [Test]
     public void Verify_does_not_throw_when_scanner_not_found()
     {
-        BrokerQueuesSnapshot snapshot = new ()
-        {
-            Churn = new() {NotRouted = new() {Total = 1}},
-            Queues = new List<QueueSnapshot>
-            {
-                new()
-                {
-                    Identifier = "FakeQueue1",
-                    VirtualHost = "FakeVirtualHost",
-                    Node = "FakeNode",
-                    Consumers = 2,
-                    ConsumerUtilization = 1.57M,
-                    IdleSince = new DateTimeOffset(2019, 8, 20, 8, 0, 55, TimeSpan.Zero),
-                    Memory = new()
-                    {
-                        RAM = new() {Target = 83, Total = 33, Unacknowledged = 62, Ready = 92},
-                        PagedOut = new() {Total = 3}
-                    },
-                    Messages = new()
-                    {
-                        Incoming = new() {Total = 768578, Rate = 3845.5M},
-                        Unacknowledged = new() {Total = 8293, Rate = 774.5M},
-                        Ready = new() {Total = 8381, Rate = 3433.5M},
-                        Gets = new() {Total = 934, Rate = 500.5M},
-                        GetsWithoutAck = new() {Total = 0, Rate = 0},
-                        Delivered = new() {Total = 7339, Rate = 948.5M},
-                        DeliveredWithoutAck = new() {Total = 34, Rate = 5.5M},
-                        DeliveredGets = new() {Total = 0, Rate = 0},
-                        Redelivered = new() {Total = 768578, Rate = 3845.5M},
-                        Acknowledged = new() {Total = 9238, Rate = 8934.5M},
-                        Aggregate = new() {Total = 823847, Rate = 9847.5M}
-                    }
-                }
-            }
-        };
-            
         IScannerFactory factory = new FakeScannerFactory();
         IScanner result = new Scanner(factory);
 
+        EmptySnapshot snapshot = new EmptySnapshot();
         var report = result.Scan(snapshot);
 
         Assert.Multiple(() =>

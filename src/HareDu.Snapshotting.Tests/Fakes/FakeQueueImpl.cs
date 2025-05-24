@@ -12,7 +12,8 @@ public class FakeQueueImpl :
     Queue,
     HareDuTestingFake
 {
-    public async Task<Results<QueueInfo>> GetAll(CancellationToken cancellationToken = default)
+    public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination,
+        CancellationToken cancellationToken = default)
     {
         var channel = new QueueInfo
         {
@@ -48,8 +49,6 @@ public class FakeQueueImpl :
 
         return new SuccessfulResults<QueueInfo>{Data = new List<QueueInfo> {channel}, DebugInfo = null};
     }
-
-    public Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     public Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default) => throw new NotImplementedException();
 

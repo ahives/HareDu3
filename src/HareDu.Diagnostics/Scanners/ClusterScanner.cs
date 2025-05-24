@@ -1,6 +1,5 @@
 namespace HareDu.Diagnostics.Scanners;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
@@ -8,6 +7,7 @@ using Probes;
 using Snapshotting.Model;
 
 public class ClusterScanner :
+    BaseDiagnosticScanner,
     DiagnosticScanner<ClusterSnapshot>
 {
     IReadOnlyList<DiagnosticProbe> _nodeProbes;
@@ -16,17 +16,13 @@ public class ClusterScanner :
     IReadOnlyList<DiagnosticProbe> _runtimeProbes;
     IReadOnlyList<DiagnosticProbe> _osProbes;
 
-    public ScannerMetadata Metadata => new()
-    {
-        Identifier = GetType().GetIdentifier()
-    };
+    public ScannerMetadata Metadata => new() {Identifier = GetType().GetIdentifier()};
 
-    public ClusterScanner(IReadOnlyList<DiagnosticProbe> probes)
+    public ClusterScanner(IReadOnlyList<DiagnosticProbe> probes) : base(probes)
     {
-        Configure(probes ?? throw new ArgumentNullException(nameof(probes)));
     }
 
-    public void Configure(IReadOnlyList<DiagnosticProbe> probes)
+    protected override void Configure(IReadOnlyList<DiagnosticProbe> probes)
     {
         _nodeProbes = probes
             .Where(x => x is not null && x.ComponentType == ComponentType.Node)
@@ -49,14 +45,14 @@ public class ClusterScanner :
     {
         if (snapshot is null)
             return DiagnosticCache.EmptyProbeResults;
-            
+
         var results = new List<ProbeResult>();
 
         for (int i = 0; i < snapshot.Nodes.Count; i++)
         {
             if (snapshot.Nodes[i] is null)
                 continue;
-                
+
             results.AddRange(_nodeProbes.Select(x => x.Execute(snapshot.Nodes[i])));
 
             if (snapshot.Nodes[i].Disk is not null)
