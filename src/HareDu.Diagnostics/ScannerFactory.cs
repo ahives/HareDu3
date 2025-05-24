@@ -4,8 +4,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Core.Configuration;
 using KnowledgeBase;
 using Probes;
@@ -14,6 +12,10 @@ using Scanners;
 using HareDu.Snapshotting.Model;
 using HareDu.Core.Extensions;
 
+/// <summary>
+/// A factory that provides functionality to manage and create diagnostic scanners
+/// and probes for the purpose of analyzing system snapshots and diagnostics contexts.
+/// </summary>
 public class ScannerFactory :
     IScannerFactory
 {
@@ -47,13 +49,13 @@ public class ScannerFactory :
     {
         Type type = typeof(T);
 
-        if (!_scannerCache.ContainsKey(type.FullName))
+        if (!_scannerCache.TryGetValue(type.FullName, out var value))
         {
             scanner = new NoOpScanner<T>(DiagnosticCache.EmptyProbes);
             return false;
         }
 
-        scanner = (DiagnosticScanner<T>) _scannerCache[type.FullName];
+        scanner = (DiagnosticScanner<T>) value;
         return true;
     }
 
@@ -76,15 +78,8 @@ public class ScannerFactory :
         if (observer is null)
             return;
 
-        Span<DiagnosticProbe> memoryFrames = CollectionsMarshal.AsSpan(_probeCache.Values.ToList());
-        ref var ptr = ref MemoryMarshal.GetReference(memoryFrames);
-
-        for (int i = 0; i < memoryFrames.Length; i++)
-        {
-            var probe = Unsafe.Add(ref ptr, i);
-
+        foreach (var probe in _probeCache.Values.ToList())
             _observers.Add(probe.Subscribe(observer));
-        }
     }
 
     public bool TryRegisterProbe<T>(T probe)
@@ -186,7 +181,7 @@ public class ScannerFactory :
             .GetMethod("Configure");
         
         if (method != null)
-            method.Invoke(scanner, new[] {_probeCache.Values});
+            method.Invoke(scanner, [_probeCache.Values]);
     }
 
     string GetProbeKey(Type type) => type?.FullName;
@@ -203,9 +198,6 @@ public class ScannerFactory :
             .GetInterfaces()
             .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(DiagnosticScanner<>));
 
-        if (genericType is null)
-            return null;
-
-        return genericType.GetGenericArguments()[0].FullName;
+        return genericType?.GetGenericArguments()[0].FullName;
     }
 }

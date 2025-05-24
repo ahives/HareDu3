@@ -39,10 +39,8 @@ public static class TypeExtensions
         {
             string key = function(type);
 
-            if (key is null || map.ContainsKey(key))
+            if (key is null || !map.TryAdd(key, type))
                 continue;
-
-            map.Add(key, type);
         }
 
         return map;

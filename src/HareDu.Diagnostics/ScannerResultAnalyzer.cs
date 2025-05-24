@@ -6,6 +6,10 @@ using System.Linq;
 using Core.Extensions;
 using MassTransit;
 
+/// <summary>
+/// Provides functionality to analyze scanner results and generate summaries or insights
+/// based on the provided analysis criteria.
+/// </summary>
 public class ScannerResultAnalyzer :
     IScannerResultAnalyzer,
     IObservable<AnalyzerContext>
@@ -92,8 +96,7 @@ public class ScannerResultAnalyzer :
         return Convert.ToDecimal(statusCount / totalCount * 100);
     }
 
-    IDictionary<string, List<ProbeResultStatus>> GetRollup(IReadOnlyList<ProbeResult> results,
-        Func<ProbeResult, string> filterBy)
+    IDictionary<string, List<ProbeResultStatus>> GetRollup(IReadOnlyList<ProbeResult> results, Func<ProbeResult, string> filterBy)
     {
         var rollup = new Dictionary<string, List<ProbeResultStatus>>();
 
