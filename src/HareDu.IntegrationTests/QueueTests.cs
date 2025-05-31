@@ -13,7 +13,7 @@ public class QueueTests
 {
     ServiceProvider _services;
     string _vhost = "QueueTestVirtulHost1";
-    string _node = "rabbit@8235120ee702";
+    string _node = "rabbit@8ae32c71831c";
         
     [OneTimeSetUp]
     public void Init()

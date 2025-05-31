@@ -113,7 +113,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
+            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -135,7 +135,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>();
+            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -155,7 +155,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted,  Is.True);
+            Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -178,7 +178,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted,  Is.True);
+            Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -202,7 +202,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -225,7 +225,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -249,7 +249,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -272,7 +272,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -296,7 +296,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -319,7 +319,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -343,7 +343,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -366,7 +366,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -390,7 +390,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -413,7 +413,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -437,7 +437,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -460,7 +460,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
@@ -484,9 +484,9 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>();
 
@@ -507,7 +507,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -531,7 +531,7 @@ public class ScopedParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -554,7 +554,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -578,7 +578,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -601,7 +601,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -625,7 +625,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
@@ -648,7 +648,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
@@ -695,7 +695,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -710,7 +710,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -726,7 +726,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -741,7 +741,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -757,7 +757,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -772,7 +772,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -788,7 +788,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -803,7 +803,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -819,7 +819,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -834,7 +834,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -850,7 +850,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }
@@ -865,7 +865,7 @@ public class ScopedParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
         });
     }

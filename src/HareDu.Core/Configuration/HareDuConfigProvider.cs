@@ -15,16 +15,12 @@ public class HareDuConfigProvider :
 {
     public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
     {
-        Defend.AgainstNullParams(configurator);
+        Throw.IfNull<HareDuConfigurator, HareDuConfigurationException>(configurator, "Invalid configuration.");
             
         var impl = new HareDuConfiguratorImpl();
         configurator(impl);
 
-        HareDuConfig config = impl.Settings.Value;
-
-        Defend.AgainstInvalidConfig(config);
-
-        return config;
+        return impl.Settings.Value;
     }
 
 

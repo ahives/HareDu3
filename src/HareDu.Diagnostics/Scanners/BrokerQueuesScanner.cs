@@ -23,9 +23,9 @@ public class BrokerQueuesScanner :
     {
         if (snapshot is null)
             return DiagnosticCache.EmptyProbeResults;
-            
+
         var results = new List<ProbeResult>(_exchangeProbes.Select(x => x.Execute(snapshot)));
-            
+
         for (int i = 0; i < snapshot.Queues.Count; i++)
         {
             if (snapshot.Queues[i] is not null)

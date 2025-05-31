@@ -22,25 +22,6 @@ public class ClusterScanner :
     {
     }
 
-    protected override void Configure(IReadOnlyList<DiagnosticProbe> probes)
-    {
-        _nodeProbes = probes
-            .Where(x => x is not null && x.ComponentType == ComponentType.Node)
-            .ToList();
-        _diskProbes = probes
-            .Where(x => x is not null && x.ComponentType == ComponentType.Disk)
-            .ToList();
-        _memoryProbes = probes
-            .Where(x => x is not null && x.ComponentType == ComponentType.Memory)
-            .ToList();
-        _runtimeProbes = probes
-            .Where(x => x is not null && x.ComponentType == ComponentType.Runtime)
-            .ToList();
-        _osProbes = probes
-            .Where(x => x is not null && x.ComponentType == ComponentType.OperatingSystem)
-            .ToList();
-    }
-
     public IReadOnlyList<ProbeResult> Scan(ClusterSnapshot snapshot)
     {
         if (snapshot is null)
@@ -69,5 +50,24 @@ public class ClusterScanner :
         }
 
         return results;
+    }
+
+    protected override void Configure(IReadOnlyList<DiagnosticProbe> probes)
+    {
+        _nodeProbes = probes
+            .Where(x => x is not null && x.ComponentType == ComponentType.Node)
+            .ToList();
+        _diskProbes = probes
+            .Where(x => x is not null && x.ComponentType == ComponentType.Disk)
+            .ToList();
+        _memoryProbes = probes
+            .Where(x => x is not null && x.ComponentType == ComponentType.Memory)
+            .ToList();
+        _runtimeProbes = probes
+            .Where(x => x is not null && x.ComponentType == ComponentType.Runtime)
+            .ToList();
+        _osProbes = probes
+            .Where(x => x is not null && x.ComponentType == ComponentType.OperatingSystem)
+            .ToList();
     }
 }

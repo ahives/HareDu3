@@ -11,13 +11,7 @@ public static class IdentifierGenerationExtensions
     /// </summary>
     /// <param name="type">The type object used to generate the unique identifier.</param>
     /// <returns>Returns a unique identifier as a string.</returns>
-    public static string GetIdentifier(this Type type)
-    {
-        using var algorithm = MD5.Create();
-        byte[] bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(type.FullName));
-                
-        return new Guid(bytes).ToString();
-    }
+    public static string GetIdentifier(this Type type) => type.FullName.GetIdentifier();
 
     /// <summary>
     /// Generates a unique guid identifier based on the input string.

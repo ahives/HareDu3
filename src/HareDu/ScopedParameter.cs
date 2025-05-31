@@ -30,8 +30,7 @@ public interface ScopedParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous operation result of type <see cref="HareDu.Core.Result"/>.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Create<T>(string name, T value, string component, string vhost,
-        CancellationToken cancellationToken = default);
+    Task<Result> Create<T>(string name, T value, string component, string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.

@@ -80,8 +80,7 @@ class BrokerQueuesLens :
         return this;
     }
 
-    public Lens<BrokerQueuesSnapshot> RegisterObservers(
-        IReadOnlyList<IObserver<SnapshotContext<BrokerQueuesSnapshot>>> observers)
+    public Lens<BrokerQueuesSnapshot> RegisterObservers(IReadOnlyList<IObserver<SnapshotContext<BrokerQueuesSnapshot>>> observers)
     {
         if (observers is null)
             return this;
@@ -120,33 +119,33 @@ class BrokerQueuesLens :
     QueueChurnMetrics GetQueueChurnMetrics(QueueInfo queueInfo) =>
         new()
         {
-            Incoming = new(){Total = queueInfo.MessageStats?.TotalMessagesPublished ?? 0, Rate = queueInfo.MessageStats.MessagesPublishedDetails?.Value ?? 0},
-            Aggregate = new(){Total = queueInfo.TotalMessages, Rate = queueInfo.MessageDetails?.Value ?? 0},
-            Gets = new(){Total = queueInfo.MessageStats?.TotalMessageGets ?? 0, Rate = queueInfo.MessageStats.MessageGetDetails?.Value ?? 0},
-            GetsWithoutAck = new(){Total = queueInfo.MessageStats?.TotalMessageGetsWithoutAck ?? 0, Rate = queueInfo.MessageStats.MessageGetsWithoutAckDetails?.Value ?? 0},
-            DeliveredGets = new(){Total = queueInfo.MessageStats?.TotalMessageDeliveryGets ?? 0, Rate = queueInfo.MessageStats.MessageDeliveryGetDetails?.Value ?? 0},
-            Delivered = new(){Total = queueInfo.MessageStats?.TotalMessagesDelivered ?? 0, Rate = queueInfo.MessageStats.MessageDeliveryDetails?.Value ?? 0},
-            DeliveredWithoutAck = new(){Total = queueInfo.MessageStats?.TotalMessageDeliveredWithoutAck ?? 0, Rate = queueInfo.MessageStats.MessagesDeliveredWithoutAckDetails?.Value ?? 0},
-            Redelivered = new(){Total = queueInfo.MessageStats?.TotalMessagesRedelivered ?? 0, Rate = queueInfo.MessageStats.MessagesRedeliveredDetails?.Value ?? 0},
-            Acknowledged = new(){Total = queueInfo.MessageStats?.TotalMessagesAcknowledged ?? 0, Rate = queueInfo.MessageStats.MessagesAcknowledgedDetails?.Value ?? 0},
-            Ready = new(){Total = queueInfo.ReadyMessages, Rate = queueInfo.ReadyMessageDetails?.Value ?? 0},
-            Unacknowledged = new(){Total = queueInfo.UnacknowledgedMessages, Rate = queueInfo.UnacknowledgedMessageDetails?.Value ?? 0}
+            Incoming = new(){Total = queueInfo.MessageStats?.TotalMessagesPublished ?? 0, Rate = queueInfo.MessageStats?.MessagesPublishedDetails?.Value ?? 0.0M},
+            Aggregate = new(){Total = queueInfo.TotalMessages, Rate = queueInfo.MessageDetails?.Value ?? 0.0M},
+            Gets = new(){Total = queueInfo.MessageStats?.TotalMessageGets ?? 0, Rate = queueInfo.MessageStats?.MessageGetDetails?.Value ?? 0.0M},
+            GetsWithoutAck = new(){Total = queueInfo.MessageStats?.TotalMessageGetsWithoutAck ?? 0, Rate = queueInfo.MessageStats?.MessageGetsWithoutAckDetails?.Value ?? 0.0M},
+            DeliveredGets = new(){Total = queueInfo.MessageStats?.TotalMessageDeliveryGets ?? 0, Rate = queueInfo.MessageStats?.MessageDeliveryGetDetails?.Value ?? 0.0M},
+            Delivered = new(){Total = queueInfo.MessageStats?.TotalMessagesDelivered ?? 0, Rate = queueInfo.MessageStats?.MessageDeliveryDetails?.Value ?? 0.0M},
+            DeliveredWithoutAck = new(){Total = queueInfo.MessageStats?.TotalMessageDeliveredWithoutAck ?? 0, Rate = queueInfo.MessageStats?.MessagesDeliveredWithoutAckDetails?.Value ?? 0.0M},
+            Redelivered = new(){Total = queueInfo.MessageStats?.TotalMessagesRedelivered ?? 0, Rate = queueInfo.MessageStats?.MessagesRedeliveredDetails?.Value ?? 0.0M},
+            Acknowledged = new(){Total = queueInfo.MessageStats?.TotalMessagesAcknowledged ?? 0, Rate = queueInfo.MessageStats?.MessagesAcknowledgedDetails?.Value ?? 0.0M},
+            Ready = new(){Total = queueInfo.ReadyMessages, Rate = queueInfo.ReadyMessageDetails?.Value ?? 0.0M},
+            Unacknowledged = new(){Total = queueInfo.UnacknowledgedMessages, Rate = queueInfo.UnacknowledgedMessageDetails?.Value ?? 0.0M}
         };
 
     BrokerQueueChurnMetrics GetQueueChurnMetrics(MessageStats messageStats, QueueStats queueStats) =>
         new()
         {
-            Incoming = new(){Total = messageStats.TotalMessagesPublished, Rate = messageStats.MessagesPublishedDetails?.Value ?? 0},
-            NotRouted = new(){Total = messageStats.TotalUnroutableMessages, Rate = messageStats.UnroutableMessagesDetails?.Value ?? 0},
-            Gets = new(){Total = messageStats.TotalMessageGets, Rate = messageStats.MessageGetDetails?.Value ?? 0},
-            GetsWithoutAck = new(){Total = messageStats.TotalMessageGetsWithoutAck, Rate = messageStats.MessageGetsWithoutAckDetails?.Value ?? 0},
-            DeliveredGets = new(){Total = messageStats.TotalMessageDeliveryGets, Rate = messageStats.MessageDeliveryGetDetails?.Value ?? 0},
-            Delivered = new(){Total = messageStats.TotalMessagesDelivered, Rate = messageStats.MessageDeliveryDetails?.Value ?? 0},
-            DeliveredWithoutAck = new(){Total = messageStats.TotalMessageDeliveredWithoutAck, Rate = messageStats.MessagesDeliveredWithoutAckDetails?.Value ?? 0},
-            Redelivered = new(){Total = messageStats.TotalMessagesRedelivered, Rate = messageStats.MessagesRedeliveredDetails?.Value ?? 0},
-            Acknowledged = new(){Total = messageStats.TotalMessagesAcknowledged, Rate = messageStats.MessagesAcknowledgedDetails?.Value ?? 0},
-            Broker = new(){Total = queueStats.TotalMessages, Rate = queueStats.MessageDetails?.Value ?? 0},
-            Ready = new(){Total = queueStats.TotalMessagesReadyForDelivery, Rate = queueStats.MessagesReadyForDeliveryDetails?.Value ?? 0},
-            Unacknowledged = new(){Total = queueStats.TotalUnacknowledgedDeliveredMessages, Rate = queueStats.UnacknowledgedDeliveredMessagesDetails?.Value ?? 0}
+            Incoming = new(){Total = messageStats.TotalMessagesPublished, Rate = messageStats.MessagesPublishedDetails?.Value ?? 0.0M},
+            NotRouted = new(){Total = messageStats.TotalUnroutableMessages, Rate = messageStats.UnroutableMessagesDetails?.Value ?? 0.0M},
+            Gets = new(){Total = messageStats.TotalMessageGets, Rate = messageStats.MessageGetDetails?.Value ?? 0.0M},
+            GetsWithoutAck = new(){Total = messageStats.TotalMessageGetsWithoutAck, Rate = messageStats.MessageGetsWithoutAckDetails?.Value ?? 0.0M},
+            DeliveredGets = new(){Total = messageStats.TotalMessageDeliveryGets, Rate = messageStats.MessageDeliveryGetDetails?.Value ?? 0.0M},
+            Delivered = new(){Total = messageStats.TotalMessagesDelivered, Rate = messageStats.MessageDeliveryDetails?.Value ?? 0.0M},
+            DeliveredWithoutAck = new(){Total = messageStats.TotalMessageDeliveredWithoutAck, Rate = messageStats.MessagesDeliveredWithoutAckDetails?.Value ?? 0.0M},
+            Redelivered = new(){Total = messageStats.TotalMessagesRedelivered, Rate = messageStats.MessagesRedeliveredDetails?.Value ?? 0.0M},
+            Acknowledged = new(){Total = messageStats.TotalMessagesAcknowledged, Rate = messageStats.MessagesAcknowledgedDetails?.Value ?? 0.0M},
+            Broker = new(){Total = queueStats.TotalMessages, Rate = queueStats.MessageDetails?.Value ?? 0.0M},
+            Ready = new(){Total = queueStats.TotalMessagesReadyForDelivery, Rate = queueStats.MessagesReadyForDeliveryDetails?.Value ?? 0.0M},
+            Unacknowledged = new(){Total = queueStats.TotalUnacknowledgedDeliveredMessages, Rate = queueStats.UnacknowledgedDeliveredMessagesDetails?.Value ?? 0.0M}
         };
 }

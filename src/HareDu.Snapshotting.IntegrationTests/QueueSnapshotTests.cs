@@ -1,5 +1,6 @@
 namespace HareDu.Snapshotting.IntegrationTests;
 
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
 using Model;
@@ -126,9 +127,9 @@ public class QueueSnapshotTests
     // }
 
     [Test]
-    public void Test7()
+    public async Task Test7()
     {
-        var result = _services.GetService<ISnapshotFactory>()
+        var result = await _services.GetService<ISnapshotFactory>()
             .Lens<BrokerQueuesSnapshot>()
             .RegisterObserver(new BrokerQueuesJsonExporter())
             .TakeSnapshot(x => x.UsingCredentials("guest", "guest"));;

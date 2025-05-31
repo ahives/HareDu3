@@ -70,7 +70,7 @@ public class GlobalParameterTests :
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_param",x =>
             {
-                x.Add("fake_value", "");
+                x.Add("fake_arg", "fake_value");
             });
 
         Assert.Multiple(() =>
@@ -81,7 +81,7 @@ public class GlobalParameterTests :
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString(), Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -94,7 +94,7 @@ public class GlobalParameterTests :
             .CreateGlobalParameter(x => x.UsingCredentials("guest", "guest"),
                 "fake_param", x =>
                 {
-                    x.Add("fake_value", "");
+                    x.Add("fake_arg", "fake_value");
                 });
 
         Assert.Multiple(() =>
@@ -105,7 +105,7 @@ public class GlobalParameterTests :
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString(), Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -148,19 +148,19 @@ public class GlobalParameterTests :
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, x =>
             {
-                x.Add("fake_value", "test");
+                x.Add("fake_arg", "fake_value");
             });
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
             Assert.That(request.Name, Is.EqualTo(string.Empty));
-            Assert.That(request.Value.ToString(), Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -178,9 +178,9 @@ public class GlobalParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
 
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
@@ -203,9 +203,9 @@ public class GlobalParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
@@ -227,9 +227,9 @@ public class GlobalParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
+            Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
             GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
 
@@ -272,7 +272,7 @@ public class GlobalParameterTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -287,7 +287,7 @@ public class GlobalParameterTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }

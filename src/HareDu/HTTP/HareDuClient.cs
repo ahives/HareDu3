@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Core;
 using Core.Configuration;
 using Core.Extensions;
 using Core.Security;
@@ -22,6 +23,8 @@ public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder)
 
     public HttpClient GetClient(Action<HareDuCredentialProvider> provider)
     {
+        Throw.IfBrokerConfigInvalid(config);
+
         var credentials = builder.Build(provider);
 
         string key = $"{credentials.Username}:{credentials.Password}".GetIdentifier();

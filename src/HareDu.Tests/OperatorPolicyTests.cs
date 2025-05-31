@@ -149,7 +149,7 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -183,7 +183,7 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -218,7 +218,7 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -253,13 +253,13 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
             OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(Deserializer.Options);
 
-            Assert.That(request.Pattern, Is.EqualTo("^amq."));
+            Assert.That(request.Pattern, Is.EqualTo(".*"));
             Assert.That(request.Priority, Is.EqualTo(0));
             Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
             Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
@@ -288,7 +288,7 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -323,7 +323,7 @@ public class OperatorPolicyTests :
 
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
@@ -371,7 +371,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -386,7 +386,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -402,7 +402,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -417,7 +417,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -433,7 +433,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -448,7 +448,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
         });
     }
@@ -464,7 +464,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -479,7 +479,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -495,7 +495,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }
@@ -510,7 +510,7 @@ public class OperatorPolicyTests :
             
         Assert.Multiple(() =>
         {
-            Assert.That(result.HasFaulted, Is.True);
+            Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
         });
     }

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 public static class TaskExtensions
 {
     /// <summary>
-    /// Retrieves the result of a task if the task is not null, not canceled, and not faulted. Otherwise, returns the default value of type T.
+    /// Retrieves the result of the given task synchronously, if the task is not null, not canceled, and not faulted.
     /// </summary>
-    /// <typeparam name="T">The type of the result produced by the task.</typeparam>
-    /// <param name="result">The task from which to retrieve the result.</param>
-    /// <returns>The result of the task if it has completed successfully; otherwise, the default value of type T.
+    /// <typeparam name="T">The type of the result the task contains.</typeparam>
+    /// <param name="result">The task whose result is to be retrieved.</param>
+    /// <returns>The result contained within the task, or the default value of type <typeparamref name="T"/> if the task is null, canceled, or faulted.</returns>
     public static T GetResult<T>(this Task<T> result)
         => result is not null && !result.IsCanceled && !result.IsFaulted
             ? result.GetAwaiter().GetResult()

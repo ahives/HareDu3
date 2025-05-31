@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Core.Configuration;
 using KnowledgeBase;
 using Probes;
@@ -96,11 +97,12 @@ public class ScannerFactory :
     }
 
     public bool TryRegisterScanner<T>(DiagnosticScanner<T> scanner)
-        where T : Snapshot =>
-        scanner is not null && _scannerCache.TryAdd(typeof(T).FullName, scanner);
+        where T : Snapshot => scanner is not null && _scannerCache.TryAdd(typeof(T).FullName, scanner);
 
     public bool TryRegisterAllProbes()
     {
+        Throw.IfConfigInvalid(_config);
+
         bool registered = GetType()
             .Assembly
             .GetTypes()
@@ -161,7 +163,7 @@ public class ScannerFactory :
         }
     }
 
-    protected virtual DiagnosticProbe CreateProbeInstance(Type type)
+    DiagnosticProbe CreateProbeInstance(Type type)
     {
         var instance = type.GetConstructors()[0].GetParameters()[0].ParameterType == typeof(DiagnosticsConfig)
                        && type.GetConstructors()[0].GetParameters()[1].ParameterType == typeof(IKnowledgeBaseProvider)
@@ -175,11 +177,11 @@ public class ScannerFactory :
     {
         if (!_scannerCache.TryGetValue(key, out var scanner))
             return;
-        
+
         var method = scanner
             .GetType()
             .GetMethod("Configure");
-        
+
         if (method != null)
             method.Invoke(scanner, [_probeCache.Values]);
     }

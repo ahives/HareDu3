@@ -13,14 +13,14 @@ public class HareDuCredentialBuilder :
 {
     public HareDuCredentials Build(Action<HareDuCredentialProvider> provider)
     {
-        Defend.AgainstNullParams(provider);
+        Throw.IfNull<HareDuCredentialProvider, HareDuSecurityException>(provider, "Invalid user credentials.");
 
         var impl = new HareDuCredentialProviderImpl();
         provider(impl);
 
         var credentials = impl.Credentials.Value;
 
-        Defend.AgainstInvalidCredentials(credentials);
+        Throw.IfCredentialsInvalid(credentials);
 
         return credentials;
     }
@@ -36,7 +36,8 @@ public class HareDuCredentialBuilder :
 
         public HareDuCredentialProviderImpl()
         {
-            Credentials = new Lazy<HareDuCredentials>(() => new HareDuCredentials{Username = _username, Password = _password}, LazyThreadSafetyMode.PublicationOnly);
+            Credentials = new Lazy<HareDuCredentials>(
+                () => new HareDuCredentials {Username = _username, Password = _password}, LazyThreadSafetyMode.PublicationOnly);
         }
 
         public void UsingCredentials(string username, string password)
