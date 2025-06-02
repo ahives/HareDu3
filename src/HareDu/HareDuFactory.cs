@@ -11,10 +11,10 @@ public class HareDuFactory
 
     protected bool TryGetInstance<T>(Type type, Type from, string key, T initializer, out object instance)
     {
-        Throw.IfNull<Type, HareDuBrokerInitException>(type, $"Failed to find implementation for interface {type}.");
-        Throw.IfNull<Type, HareDuBrokerInitException>(from, $"Failed to find implementation for interface {from}.");
-        Throw.IfNull<string, HareDuBrokerInitException>(key, $"Failed to find implementation for interface {type}.");
-        Throw.IfNull<T, HareDuBrokerInitException>(initializer, $"Failed to initialize HareDu API.");
+        Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
+        Throw.IfNull<Type, HareDuInitException>(from, $"Failed to find implementation for interface {from}.");
+        Throw.IfNull<string, HareDuInitException>(key, $"Failed to find implementation for interface {type}.");
+        Throw.IfNull<T, HareDuInitException>(initializer, $"Failed to initialize HareDu API.");
 
         if (Cache.TryGetValue(key, out instance))
             return true;

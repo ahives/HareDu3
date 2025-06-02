@@ -6,33 +6,35 @@ using System.Threading.Tasks;
 using Core;
 using Model;
 
+/// <summary>
+/// Provides a contract for managing operator policies on the message broker.
+/// </summary>
 public interface OperatorPolicy :
     BrokerAPI
 {
     /// <summary>
-    /// Returns all operator policies on the current RabbitMQ node.
+    /// Retrieves all operator policies on the broker.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A <see cref="ResultList{T}"/> of operator policies.</returns>
+    /// <returns>A <see cref="Results{OperatorPolicyInfo}"/> object containing the details of all operator policies on the broker.</returns>
     Task<Results<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates the specified operator policy on the target RabbitMQ virtual host.
+    /// Creates a new operator policy on the specified virtual host.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
-    /// <param name="configurator"></param>
+    /// <param name="name">The name of the operator policy to create.</param>
+    /// <param name="vhost">The virtual host where the operator policy will be created.</param>
+    /// <param name="configurator">The configuration details for the operator policy.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
-    Task<Result> Create(string name, string vhost, Action<OperatorPolicyConfigurator> configurator,
-        CancellationToken cancellationToken = default);
+    /// <returns>A <see cref="Result"/> object indicating the outcome of the operation.</returns>
+    Task<Result> Create(string name, string vhost, Action<OperatorPolicyConfigurator> configurator, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Deletes the specified operator policy on the target RabbitMQ virtual host.
+    /// Deletes the specified operator policy from the given virtual host.
     /// </summary>
-    /// <param name="name">Name of the operator policy.</param>
-    /// <param name="vhost">The virtual host for which the policy should be applied to.</param>
+    /// <param name="name">The name of the operator policy to delete.</param>
+    /// <param name="vhost">The virtual host from which the operator policy should be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns></returns>
+    /// <returns>A <see cref="Result"/> indicating the success or failure of the delete operation.</returns>
     Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default);
 }

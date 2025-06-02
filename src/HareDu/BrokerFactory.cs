@@ -31,24 +31,25 @@ public sealed class BrokerFactory :
     {
         Type type = typeof(T);
 
-        Throw.IfNull<Type, HareDuBrokerInitException>(type, $"Failed to find implementation for interface {type}.");
+        Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
 
         var typeMap = GetTypeMap(type);
+        string key = type.GetIdentifier();
 
-        Throw.IfNotFound<HareDuBrokerInitException>(typeMap.ContainsKey, type.FullName, $"Failed to find implementation for interface {type}.");
+        Throw.IfNotFound<HareDuInitException>(typeMap.ContainsKey, key, $"Failed to find implementation for interface {type}.");
 
         var client = _client.GetClient(credentials);
 
-        if (TryGetInstance(typeMap[type.FullName], typeof(BaseBrokerImpl), type.FullName, client, out var instance))
+        if (TryGetInstance(typeMap[key], typeof(BaseBrokerImpl), key, client, out var instance))
             return (T) instance;
 
-        throw new HareDuBrokerInitException($"Failed to find implementation for interface {type}.");
+        throw new HareDuInitException($"Failed to find implementation for interface {type}.");
     }
 
     IDictionary<string, Type> GetTypeMap(Type findType)
     {
         var types = findType.Assembly.GetTypes();
-        List<Type> interfaces = types
+        var interfaces = types
             .Where(x => typeof(BrokerAPI).IsAssignableFrom(x) && x.IsInterface)
             .ToList();
         var typeMap = new Dictionary<string, Type>();
@@ -60,11 +61,10 @@ public sealed class BrokerFactory :
             if (type is null)
                 continue;
 
-            string name = interfaces[i].FullName;
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(interfaces[i].FullName))
                 continue;
 
-            typeMap.Add(name, type);
+            typeMap.Add(interfaces[i].GetIdentifier(), type);
         }
 
         return typeMap;

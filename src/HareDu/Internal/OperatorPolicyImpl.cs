@@ -42,10 +42,10 @@ class OperatorPolicyImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new(){Reason = "The name of the operator policy is missing."});
+            errors.Add("The name of the operator policy is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
@@ -61,10 +61,10 @@ class OperatorPolicyImpl :
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new(){Reason = "The name of the operator policy is missing."});
+            errors.Add("The name of the operator policy is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/operator-policies/{vhost}/{name}", errors);
@@ -116,7 +116,7 @@ class OperatorPolicyImpl :
         public List<Error> Validate()
         {
             if (string.IsNullOrWhiteSpace(_pattern))
-                Errors.Add(new(){Reason = "The pattern is missing."});
+                Errors.Add("The pattern is missing.");
 
             return Errors;
         }
@@ -126,8 +126,6 @@ class OperatorPolicyImpl :
             OperatorPolicyArgumentConfigurator
         {
             readonly IDictionary<string, ArgumentValue<ulong>> _arguments;
-
-            List<Error> Errors { get; } = new();
 
             public Lazy<IDictionary<string, ulong>> Arguments { get; }
 
@@ -154,10 +152,12 @@ class OperatorPolicyImpl :
 
             public List<Error> Validate()
             {
-                if (_arguments is null || !_arguments.Any())
-                    Errors.Add(new(){Reason = "No arguments have been set."});
+                List<Error> errors = new();
 
-                return Errors;
+                if (_arguments is null || !_arguments.Any())
+                    errors.Add("No arguments have been set.");
+
+                return errors;
             }
             
             void SetArg(string arg, ulong value) =>

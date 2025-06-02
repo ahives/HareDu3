@@ -39,10 +39,10 @@ class PolicyImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new(){Reason = "The name of the policy is missing."});
+            errors.Add("The name of the policy is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/policies/{vhost}/{name}", errors, request.ToJsonString());
@@ -58,10 +58,10 @@ class PolicyImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new(){Reason = "The name of the policy is missing."});
+            errors.Add("The name of the policy is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/policies/{vhost}/{name}", errors);

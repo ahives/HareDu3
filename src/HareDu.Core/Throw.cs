@@ -1,7 +1,6 @@
 namespace HareDu.Core;
 
 using System;
-using System.Collections.Generic;
 using Configuration;
 using Security;
 

@@ -11,24 +11,24 @@ using System.Runtime.Serialization;
 /// or there are issues associated with the initialization process of a connection to the RabbitMQ broker.
 /// </remarks>
 /// <seealso cref="System.Exception" />
-public class HareDuBrokerInitException :
+public class HareDuInitException :
     Exception
 {
-    public HareDuBrokerInitException()
+    public HareDuInitException()
     {
     }
 
-    protected HareDuBrokerInitException(SerializationInfo info, StreamingContext context)
+    protected HareDuInitException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }
 
-    public HareDuBrokerInitException(string message)
+    public HareDuInitException(string message)
         : base(message)
     {
     }
 
-    public HareDuBrokerInitException(string message, Exception innerException)
+    public HareDuInitException(string message, Exception innerException)
         : base(message, innerException)
     {
     }

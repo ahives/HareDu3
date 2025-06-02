@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Extensions;
 using Extensions;
 using Model;
 
@@ -40,7 +41,7 @@ class GlobalParameterImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(parameter))
-            errors.Add(new(){Reason = "The name of the parameter is missing."});
+            errors.Add("The name of the parameter is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/global-parameters/{parameter}", errors, request.ToJsonString());

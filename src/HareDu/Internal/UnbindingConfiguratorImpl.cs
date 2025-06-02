@@ -2,6 +2,7 @@ namespace HareDu.Internal;
 
 using System.Collections.Generic;
 using Core;
+using Core.Extensions;
 
 internal class UnbindingConfiguratorImpl :
     UnbindingConfigurator
@@ -14,10 +15,10 @@ internal class UnbindingConfiguratorImpl :
     public List<Error> Validate()
     {
         if (string.IsNullOrWhiteSpace(SourceBinding))
-            Errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
+            Errors.Add("The name of the source binding (queue/exchange) is missing.");
 
         if (string.IsNullOrWhiteSpace(DestinationBinding))
-            Errors.Add(new(){Reason = "The name of the destination binding (queue/exchange) is missing."});
+            Errors.Add("The name of the destination binding (queue/exchange) is missing.");
 
         return Errors;
     }

@@ -30,28 +30,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Results<T>(url, [GetError(response.StatusCode)], response: rawResponse)
-                : Successful.Results(url, rawResponse.ToObject<List<T>>().GetDataOrDefault(), response: rawResponse);
+                ? Responses.Failed<T>(url, [GetError(response.StatusCode)], response: rawResponse)
+                : Responses.Succeeded(url, rawResponse.ToObject<List<T>>().GetDataOrDefault(), response: rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -66,28 +66,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result<T>(url, [GetError(response.StatusCode)], rawResponse)
-                : Successful.Result(url, rawResponse.ToObject<T>(), null, rawResponse);
+                ? Response.Failed<T>(url, [GetError(response.StatusCode)], rawResponse)
+                : Response.Succeeded(url, rawResponse.ToObject<T>(), null, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -102,28 +102,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], request: rawResponse)
-                : Successful.Result(url, rawResponse);
+                ? Response.Failed(url, [GetError(response.StatusCode)], request: rawResponse)
+                : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -138,28 +138,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], response: rawResponse)
-                : Successful.Result(url, rawResponse);
+                ? Response.Failed(url, [GetError(response.StatusCode)], response: rawResponse)
+                : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -176,28 +176,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
-                : Successful.Result(url, rawResponse, requestContent);
+                ? Response.Failed(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                : Response.Succeeded(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -213,28 +213,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], request, rawResponse)
-                : Successful.Result(url, rawResponse, request);
+                ? Response.Failed(url, [GetError(response.StatusCode)], request, rawResponse)
+                : Response.Succeeded(url, rawResponse, request);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)]);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -251,28 +251,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
-                : Successful.Result(url, rawResponse.ToObject<T>().GetDataOrDefault(), requestContent, rawResponse);
+                ? Response.Failed<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                : Response.Succeeded(url, rawResponse.ToObject<T>().GetDataOrDefault(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -289,28 +289,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], requestContent, rawResponse)
-                : Successful.Result(url, rawResponse, requestContent);
+                ? Response.Failed(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                : Response.Succeeded(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -327,28 +327,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Results<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
-                : Successful.Results(url, rawResponse.ToObject<List<T>>().GetDataOrEmpty(), requestContent, rawResponse);
+                ? Responses.Failed<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                : Responses.Succeeded(url, rawResponse.ToObject<List<T>>().GetDataOrEmpty(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Results<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Responses.Faulted<T>(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 
@@ -363,28 +363,28 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Unsuccessful.Result(url, [GetError(response.StatusCode)], response: rawResponse)
-                : Successful.Result(url, rawResponse);
+                ? Response.Failed(url, [GetError(response.StatusCode)], response: rawResponse)
+                : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(MissingMethodException)], rawResponse);
         }
         catch (HttpRequestException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(HttpRequestException)], rawResponse);
         }
         catch (JsonException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(JsonException)], rawResponse);
         }
         catch (TaskCanceledException e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(TaskCanceledException)], rawResponse);
         }
         catch (Exception e)
         {
-            return Faulted.Result(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
+            return Response.Faulted(url, e.Message, e.StackTrace, Errors[nameof(Exception)], rawResponse);
         }
     }
 }

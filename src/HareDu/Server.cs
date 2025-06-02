@@ -18,7 +18,7 @@ public interface Server :
     /// A token that can be used to signal the cancellation of the asynchronous operation.
     /// </param>
     /// <returns>
-    /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{ServerInfo}"/> object encapsulating the server information.
+    /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{T}"/> object encapsulating the server information.
     /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default);

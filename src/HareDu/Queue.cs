@@ -91,7 +91,7 @@ public interface Queue :
     /// <param name="exchange">The name of the exchange to bind the queue to.</param>
     /// <param name="configurator">Specifies the configuration options for the binding, such as arguments and binding key.</param>
     /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result{BindingInfo}"/> representing the created binding information.</returns>
+    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result{T}"/> representing the created binding information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator,
         CancellationToken cancellationToken = default);

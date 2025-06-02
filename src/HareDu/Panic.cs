@@ -3,7 +3,7 @@ namespace HareDu;
 using System.Collections.Generic;
 using Core;
 
-public static class Panic
+internal static class Panic
 {
     public static Result<T> Result<T>(T data, DebugInfo debugInfo) => new UnsuccessfulResult<T> {Data = data, DebugInfo = debugInfo};
 

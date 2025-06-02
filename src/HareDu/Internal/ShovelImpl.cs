@@ -37,17 +37,15 @@ class ShovelImpl :
         var impl = new ShovelConfiguratorImpl();
         configurator?.Invoke(impl);
 
-        var errors = new List<Error>();
+        var errors = impl.Validate();
         var request = impl.Request.Value;
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        errors.AddRange(impl.Validate());
-
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new (){Reason = "The name of the shovel is missing."});
+            errors.Add("The name of the shovel is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
@@ -63,10 +61,10 @@ class ShovelImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(name))
-            errors.Add(new (){Reason = "The name of the shovel is missing."});
+            errors.Add("The name of the shovel is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors);
@@ -198,33 +196,33 @@ class ShovelImpl :
             if (_sourceCalled)
             {
                 if (string.IsNullOrWhiteSpace(_sourceQueue) && string.IsNullOrWhiteSpace(_sourceExchangeName))
-                    Errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                    Errors.Add("Both source queue and exchange missing.");
                 
                 if (!string.IsNullOrWhiteSpace(_sourceQueue) && !string.IsNullOrWhiteSpace(_sourceExchangeName))
-                    Errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
+                    Errors.Add("Both source queue and exchange cannot be present.");
             }
             else
             {
-                Errors.Add(new(){Reason = "The name of the source protocol is missing."});
-                Errors.Add(new (){Reason = "Both source queue and exchange cannot be present."});
+                Errors.Add("The name of the source protocol is missing.");
+                Errors.Add("Both source queue and exchange cannot be present.");
             }
 
             if (_destinationCalled)
             {
                 if (string.IsNullOrWhiteSpace(_destinationQueue) && string.IsNullOrWhiteSpace(_destinationExchangeName))
-                    Errors.Add(new (){Reason = "Both source queue and exchange missing."});
+                    Errors.Add("Both source queue and exchange missing.");
                 
                 if (!string.IsNullOrWhiteSpace(_destinationQueue) && !string.IsNullOrWhiteSpace(_destinationExchangeName))
-                    Errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
+                    Errors.Add("Both destination queue and exchange cannot be present.");
             }
             else
             {
-                Errors.Add(new(){Reason = "The name of the destination protocol is missing."});
-                Errors.Add(new (){Reason = "Both destination queue and exchange cannot be present."});
+                Errors.Add("The name of the destination protocol is missing.");
+                Errors.Add("Both destination queue and exchange cannot be present.");
             }
                 
             if (string.IsNullOrWhiteSpace(_uri))
-                Errors.Add(new(){Reason = "The connection URI is missing."});
+                Errors.Add("The connection URI is missing.");
             
             return Errors;
         }

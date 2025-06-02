@@ -59,10 +59,10 @@ class UserImpl :
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new (){Reason = "The username is missing."});
+            errors.Add("The username is missing.");
 
         if (string.IsNullOrWhiteSpace(password) && string.IsNullOrWhiteSpace(passwordHash))
-            errors.Add(new() {Reason = "The password/hash is missing."});
+            errors.Add("The password/hash is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/users/{username}", errors, request.ToJsonString());
@@ -77,7 +77,7 @@ class UserImpl :
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new (){Reason = "The username is missing."});
+            errors.Add("The username is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/users/{username}", errors);
@@ -97,7 +97,7 @@ class UserImpl :
         for (int i = 0; i < usernames.Count; i++)
         {
             if (string.IsNullOrWhiteSpace(usernames[i]))
-                errors.Add(new() {Reason = $"The username at index {i} is missing."});
+                errors.Add($"The username at index {i} is missing.");
         }
 
         if (errors.Count > 0)
@@ -115,7 +115,7 @@ class UserImpl :
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new (){Reason = "The username is missing."});
+            errors.Add("The username is missing.");
 
         if (errors.Count > 0)
             return Panic.Results<UserLimitsInfo>("api/user-limits/{username}", errors);
@@ -143,7 +143,7 @@ class UserImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new (){Reason = "The username is missing."});
+            errors.Add("The username is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/user-limits/{username}/{limit}", errors);
@@ -159,7 +159,7 @@ class UserImpl :
         var errors = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new (){Reason = "The username is missing."});
+            errors.Add("The username is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/user-limits/{username}/{limit}", errors);

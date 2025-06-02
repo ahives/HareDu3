@@ -43,7 +43,7 @@ public static class NodeExtensions
     /// <param name="cancellationToken">A token used to cancel the operation if needed.</param>
     /// <returns>
     /// A task that represents the asynchronous operation.
-    /// The task result contains a <see cref="Result{NodeMemoryUsageInfo}"/> object providing memory usage details for the specified node.
+    /// The task result contains a <see cref="Result{T}"/> object providing memory usage details for the specified node.
     /// </returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>

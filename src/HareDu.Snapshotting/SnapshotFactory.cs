@@ -3,10 +3,16 @@ namespace HareDu.Snapshotting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
+using Core.Extensions;
 using Lens;
 using Model;
 using HareDu.Snapshotting.Lens.Internal;
 
+/// <summary>
+/// A factory class for creating and managing instances of snapshots and their corresponding lenses.
+/// Provides methods to retrieve or register a lens implementation for a specific snapshot type.
+/// </summary>
 public sealed class SnapshotFactory :
     HareDuFactory,
     ISnapshotFactory
@@ -25,7 +31,12 @@ public sealed class SnapshotFactory :
     {
         Type type = typeof(T);
 
-        return TryGetInstance(type, typeof(BaseLens<>), type.FullName, _factory, out var instance)
+        Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
+
+        var typeMap = GetTypeMap(GetType());
+        string key = type.GetIdentifier();
+
+        return TryGetInstance(typeMap[key], typeof(BaseLens<>), key, _factory, out var instance)
             ? instance as Lens<T>
             : new NoOpLens<T>();
     }
@@ -35,10 +46,12 @@ public sealed class SnapshotFactory :
     {
         Type type = typeof(T);
 
-        if (!string.IsNullOrWhiteSpace(type.FullName) && Cache.ContainsKey(type.FullName))
+        string key = type.GetIdentifier();
+
+        if (Cache.ContainsKey(key))
             return this;
 
-        Cache.TryAdd(type.FullName, lens);
+        Cache.TryAdd(key, lens);
 
         return this;
     }
@@ -65,7 +78,7 @@ public sealed class SnapshotFactory :
             if (!typeof(Snapshot).IsAssignableFrom(type))
                 continue;
 
-            interfaces.TryAdd(type.FullName, type);
+            interfaces.TryAdd(type.GetIdentifier(), type);
         }
 
         var typeMap = new Dictionary<string, Type>();

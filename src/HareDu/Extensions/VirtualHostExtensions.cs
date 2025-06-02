@@ -220,7 +220,7 @@ public static class VirtualHostExtensions
     /// <param name="credentials">The credentials used to authenticate and access the RabbitMQ server.</param>
     /// <param name="vhost">The name of the virtual host to retrieve information for.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the details of the specified virtual host as a <see cref="Result{VirtualHostInfo}"/> object.</returns>
+    /// <returns>A task containing the details of the specified virtual host as a <see cref="Result{T}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
@@ -298,7 +298,7 @@ public static class VirtualHostExtensions
     /// <param name="username">The name of the user whose permissions are being retrieved.</param>
     /// <param name="vhost">The name of the virtual host being queried for user permissions.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task containing the permissions for the user on the specified virtual host as a <see cref="Result{VirtualHostPermissionInfo}"/> object.</returns>
+    /// <returns>A task containing the permissions for the user on the specified virtual host as a <see cref="Result{T}"/> object.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>

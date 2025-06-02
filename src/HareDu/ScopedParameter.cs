@@ -15,7 +15,7 @@ public interface ScopedParameter :
     /// Returns all scoped parameters on the current RabbitMQ server.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
+    /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
 
@@ -39,7 +39,7 @@ public interface ScopedParameter :
     /// <param name="component">Name of the RabbitMQ component.</param>
     /// <param name="vhost">Name of the RabbitMQ virtual host.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
+    /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default);
 }

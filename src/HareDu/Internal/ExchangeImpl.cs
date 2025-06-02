@@ -42,10 +42,10 @@ class ExchangeImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add(new (){Reason = "The name of the exchange is missing."});
+            errors.Add("The name of the exchange is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
@@ -65,10 +65,10 @@ class ExchangeImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add(new (){Reason = "The name of the exchange is missing."});
+            errors.Add("The name of the exchange is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/exchanges/{vhost}/{exchange}", errors);
@@ -95,10 +95,10 @@ class ExchangeImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new(){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add(new(){Reason = "The name of the source binding (queue/exchange) is missing."});
+            errors.Add("The name of the source binding (queue/exchange) is missing.");
 
         if (errors.Count > 0)
             return Panic.Result<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
@@ -121,7 +121,7 @@ class ExchangeImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new() {Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});

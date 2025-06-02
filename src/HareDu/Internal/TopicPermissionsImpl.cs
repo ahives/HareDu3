@@ -41,10 +41,10 @@ class TopicPermissionsImpl :
         var errors = impl.Validate();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new(){Reason = "The username and/or password is missing."});
+            errors.Add("The username and/or password is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         var request = impl.Request.Value;
 
@@ -62,10 +62,10 @@ class TopicPermissionsImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(username))
-            errors.Add(new(){Reason = "The username and/or password is missing."});
+            errors.Add("The username and/or password is missing.");
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new (){Reason = "The name of the virtual host is missing."});
+            errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
             return Panic.Result("api/topic-permissions/{vhost}/{username}", errors);
@@ -107,7 +107,7 @@ class TopicPermissionsImpl :
             _writePattern = pattern;
 
             if (string.IsNullOrWhiteSpace(pattern))
-                Errors.Add(new() {Reason = "The write pattern is missing."});
+                Errors.Add("The write pattern is missing.");
         }
 
         public void UsingReadPattern(string pattern)
@@ -116,19 +116,19 @@ class TopicPermissionsImpl :
             _readPattern = pattern;
 
             if (string.IsNullOrWhiteSpace(_readPattern))
-                Errors.Add(new() {Reason = "The read pattern is missing."});
+                Errors.Add("The read pattern is missing.");
         }
 
         public List<Error> Validate()
         {
             if (!_usingWritePatternCalled)
-                Errors.Add(new() {Reason = "The write pattern is missing."});
+                Errors.Add("The write pattern is missing.");
 
             if (!_usingReadPatternCalled)
-                Errors.Add(new() {Reason = "The read pattern is missing."});
+                Errors.Add("The read pattern is missing.");
 
             if (string.IsNullOrWhiteSpace(_exchange))
-                Errors.Add(new(){Reason = "Then name of the exchange is missing."});
+                Errors.Add("Then name of the exchange is missing.");
 
             return Errors;
         }

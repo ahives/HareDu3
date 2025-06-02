@@ -17,7 +17,7 @@ public interface User :
     /// Returns information about all users on the current RabbitMQ server.
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{TResult}"/></returns>
+    /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<UserInfo>> GetAll(CancellationToken cancellationToken = default);
 
@@ -65,7 +65,7 @@ public interface User :
     /// </summary>
     /// <param name="username">RabbitMQ broker username.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>Asynchronous task of <see cref="HareDu.Core.Result{UserLimitsInfo}"/></returns>
+    /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default);
 

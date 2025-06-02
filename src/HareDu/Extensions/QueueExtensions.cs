@@ -162,7 +162,7 @@ public static class QueueExtensions
     /// <param name="exchange">The name of the exchange to bind to the queue.</param>
     /// <param name="configurator">The configuration action for setting up the queue binding parameters.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation and containing the results of type <see cref="Result{BindingInfo}"/>.</returns>
+    /// <returns>A task representing the asynchronous operation and containing the results of type <see cref="Result{T}"/>.</returns>
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>

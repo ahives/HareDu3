@@ -34,7 +34,7 @@ class ConnectionImpl :
             errors = impl.Validate();
 
             if (string.IsNullOrWhiteSpace(@params))
-                errors.Add(new() {Reason = "Pagination parameters are in valid."});
+                errors.Add("Pagination parameters are in valid.");
         }
 
         if (errors.Count > 0)
@@ -62,13 +62,13 @@ class ConnectionImpl :
             errors = impl.Validate();
 
             if (string.IsNullOrWhiteSpace(@params))
-                errors.Add(new() {Reason = "Pagination parameters are in valid."});
+                errors.Add("Pagination parameters are in valid.");
         }
 
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add(new() {Reason = "Name of the virtual host for which to return connection information is missing."});
+            errors.Add("Name of the virtual host for which to return connection information is missing.");
 
         if (errors.Count > 0)
             return Panic.Results<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);

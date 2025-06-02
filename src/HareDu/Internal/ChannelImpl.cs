@@ -34,7 +34,7 @@ class ChannelImpl :
             errors = impl.Validate();
 
             if (string.IsNullOrWhiteSpace(@params))
-                errors.Add(new() {Reason = "Pagination parameters are invalid."});
+                errors.Add("Pagination parameters are invalid.");
         }
 
         if (errors.Count > 0)
