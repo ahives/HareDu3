@@ -2,6 +2,8 @@ namespace HareDu;
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Core.Extensions;
 
@@ -9,25 +11,49 @@ public class HareDuFactory
 {
     protected readonly ConcurrentDictionary<string, object> Cache = new();
 
-    protected bool TryGetInstance<T>(Type type, Type from, string key, T initializer, out object instance)
+    protected virtual IDictionary<string, Type> GetImplMap(Type findType, Type from)
+    {
+        var types = findType.Assembly.GetTypes();
+        var interfaces = types
+            .Where(x => from.IsAssignableFrom(x) && x.IsInterface)
+            .ToList();
+        var typeMap = new Dictionary<string, Type>();
+
+        for (int i = 0; i < interfaces.Count; i++)
+        {
+            var type = types.Find(x => interfaces[i].IsAssignableFrom(x) && x is {IsInterface: false, IsAbstract: false});
+
+            if (type is null)
+                continue;
+
+            if (string.IsNullOrWhiteSpace(interfaces[i].FullName))
+                continue;
+
+            typeMap.Add(interfaces[i].GetIdentifier(), type);
+        }
+
+        return typeMap;
+    }
+
+    protected bool TryGetImpl<T>(Type type, Type from, string key, T initializer, out object impl)
     {
         Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
         Throw.IfNull<Type, HareDuInitException>(from, $"Failed to find implementation for interface {from}.");
         Throw.IfNull<string, HareDuInitException>(key, $"Failed to find implementation for interface {type}.");
         Throw.IfNull<T, HareDuInitException>(initializer, $"Failed to initialize HareDu API.");
 
-        if (Cache.TryGetValue(key, out instance))
+        if (Cache.TryGetValue(key, out impl))
             return true;
 
-        instance = CreateInstance(type, from, initializer);
+        impl = CreateInstance(type, from, initializer);
 
-        if (instance is null)
+        if (impl is null)
             return false;
 
-        if (Cache.TryAdd(key, instance))
-            return Cache.TryGetValue(key, out instance);
+        if (Cache.TryAdd(key, impl))
+            return Cache.TryGetValue(key, out impl);
 
-        instance = null;
+        impl = null;
 
         return false;
     }

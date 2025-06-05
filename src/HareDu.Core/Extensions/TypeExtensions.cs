@@ -91,4 +91,19 @@ public static class TypeExtensions
 
         return registered;
     }
+
+    /// <summary>
+    /// Determines whether any type in the array implements the specified interface.
+    /// </summary>
+    /// <param name="types">The array of types to check.</param>
+    /// <param name="findType">The interface type to look for.</param>
+    /// <returns>True if any type in the array implements the specified interface; otherwise, false.</returns>
+    public static bool ImplementsInterface(this Type[] types, Type findType)
+    {
+        for (int i = 0; i < types.Length; i++)
+            if (types[i] == findType)
+                return true;
+
+        return false;
+    }
 }

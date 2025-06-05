@@ -33,11 +33,11 @@ public sealed class SnapshotFactory :
 
         Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
 
-        var typeMap = GetTypeMap(GetType());
+        var implMap = GetImplMap(type, typeof(Snapshot));
         string key = type.GetIdentifier();
 
-        return TryGetInstance(typeMap[key], typeof(BaseLens<>), key, _factory, out var instance)
-            ? instance as Lens<T>
+        return TryGetImpl(implMap[key], typeof(BaseLens<>), key, _factory, out var impl)
+            ? impl as Lens<T>
             : new NoOpLens<T>();
     }
 
@@ -58,43 +58,38 @@ public sealed class SnapshotFactory :
 
     void RegisterAll()
     {
-        var typeMap = GetTypeMap(GetType());
+        var implMap = GetImplMap(GetType(), typeof(Snapshot));
         bool registered = true;
 
-        foreach (var type in typeMap)
-            registered = TryGetInstance(type.Value, typeof(BaseLens<>), type.Key, _factory, out _) & registered;
+        foreach (var type in implMap)
+            registered = TryGetImpl(type.Value, typeof(BaseLens<>), type.Key, _factory, out _) & registered;
 
         if (!registered)
             Cache.Clear();
     }
 
-    IDictionary<string, Type> GetTypeMap(Type findType)
+    protected override IDictionary<string, Type> GetImplMap(Type findType, Type from)
     {
         var types = findType.Assembly.GetTypes();
-        var interfaces = new Dictionary<string, Type>();
+        var interfaces = findType.Assembly
+            .GetTypes()
+            .Where(x => !x.IsInterface && x.InheritsFromInterface(from))
+            .ToList();
 
-        foreach (var type in types)
+        var implMap = new Dictionary<string, Type>();
+
+        for (int i = 0; i < interfaces.Count; i++)
         {
-            if (!typeof(Snapshot).IsAssignableFrom(type))
-                continue;
-
-            interfaces.TryAdd(type.GetIdentifier(), type);
-        }
-
-        var typeMap = new Dictionary<string, Type>();
-
-        foreach (var @interface in interfaces)
-        {
-            foreach (var type in types)
+            for (int j = 0; j < types.Length; j++)
             {
-                if (type.IsInterface)
+                if (types[j].IsInterface)
                     continue;
 
-                if (type.GetInterfaces().Any(x => x == Type.GetType($"{typeof(Lens<>).FullName}[{@interface.Key}]")))
-                    typeMap.Add(@interface.Key, type);
+                if (types[j].GetInterfaces().ImplementsInterface(Type.GetType($"{typeof(Lens<>).FullName}[{interfaces[i].FullName}]")))
+                    implMap.Add(interfaces[i].FullName.GetIdentifier(), types[j]);
             }
         }
 
-        return typeMap;
+        return implMap;
     }
 }

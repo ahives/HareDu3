@@ -40,7 +40,7 @@ class QueueImpl :
         }
 
         if (errors.Count > 0)
-            return Panic.Results<QueueInfo>("api/queues", errors);
+            return Responses.Panic<QueueInfo>("api/queues", errors);
 
         return await GetAllRequest<QueueInfo>(
                 string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", cancellationToken)
@@ -60,7 +60,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
+            return Response.Panic("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
 
         var impl = new QueueConfiguratorImpl(node);
         configurator(impl);
@@ -76,7 +76,7 @@ class QueueImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/queues/{vhost}/{name}", errors, request.ToJsonString());
+            return Response.Panic("api/queues/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -96,7 +96,7 @@ class QueueImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/queues/{vhost}/{name}", errors);
+            return Response.Panic("api/queues/{vhost}/{name}", errors);
         
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -124,7 +124,7 @@ class QueueImpl :
             errors.Add("The name of the queue is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
+            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
 
         return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", cancellationToken).ConfigureAwait(false);
     }
@@ -143,7 +143,7 @@ class QueueImpl :
             errors.Add("The name of the queue is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
+            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
             new QueueSyncRequest {Action = QueueSyncAction.Sync}, cancellationToken).ConfigureAwait(false);
@@ -163,7 +163,7 @@ class QueueImpl :
             errors.Add("The name of the queue is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
+            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
             new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, cancellationToken).ConfigureAwait(false);
@@ -174,7 +174,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding was defined."}]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding was defined."}]);
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -190,7 +190,7 @@ class QueueImpl :
             errors.Add("The name of the source binding (queue/exchange) is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
+            return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
 
         return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, cancellationToken)
             .ConfigureAwait(false);
@@ -201,7 +201,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator == null)
-            return Panic.Result("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding configuration was provided."}]);
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);
@@ -213,7 +213,7 @@ class QueueImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
+            return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
 
         return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
     }

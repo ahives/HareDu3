@@ -24,7 +24,7 @@ class UserImpl :
     public async Task<Results<UserInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-            
+
         return await GetAllRequest<UserInfo>("api/users", cancellationToken).ConfigureAwait(false);
     }
 
@@ -40,9 +40,9 @@ class UserImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
-            return Panic.Result("api/users/{username}", [new Error {Reason = "The tags are missing."}]);
-        
+        if (configurator is null)
+            return Response.Panic("api/users/{username}", [new Error {Reason = "The tags are missing."}]);
+
         var impl = new UserConfiguratorImpl();
         configurator(impl);
 
@@ -65,7 +65,7 @@ class UserImpl :
             errors.Add("The password/hash is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/users/{username}", errors, request.ToJsonString());
+            return Response.Panic("api/users/{username}", errors, request.ToJsonString());
 
         return await PutRequest($"api/users/{username}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -80,7 +80,7 @@ class UserImpl :
             errors.Add("The username is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/users/{username}", errors);
+            return Response.Panic("api/users/{username}", errors);
 
         return await DeleteRequest($"api/users/{username}", cancellationToken).ConfigureAwait(false);
     }
@@ -90,7 +90,7 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (usernames.IsEmpty())
-            return Panic.Result("api/users/bulk-delete", [new() {Reason = "Valid usernames is missing."}]);
+            return Response.Panic("api/users/bulk-delete", [new() {Reason = "Valid usernames is missing."}]);
 
         var errors = new List<Error>();
 
@@ -101,7 +101,7 @@ class UserImpl :
         }
 
         if (errors.Count > 0)
-            return Panic.Result("api/users/bulk-delete", errors);
+            return Response.Panic("api/users/bulk-delete", errors);
 
         BulkUserDeleteRequest request = new() {Users = usernames};
 
@@ -118,7 +118,7 @@ class UserImpl :
             errors.Add("The username is missing.");
 
         if (errors.Count > 0)
-            return Panic.Results<UserLimitsInfo>("api/user-limits/{username}", errors);
+            return Responses.Panic<UserLimitsInfo>("api/user-limits/{username}", errors);
 
         return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", cancellationToken).ConfigureAwait(false);
     }
@@ -135,7 +135,7 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
+            return Response.Panic("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
 
         var impl = new UserLimitConfiguratorImpl();
         configurator(impl);
@@ -146,7 +146,7 @@ class UserImpl :
             errors.Add("The username is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/user-limits/{username}/{limit}", errors);
+            return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
         return await PutRequest($"api/user-limits/{username}/{impl.Limit}",
             new UserLimitRequest {Value = impl.LimitValue}, cancellationToken).ConfigureAwait(false);
@@ -162,7 +162,7 @@ class UserImpl :
             errors.Add("The username is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/user-limits/{username}/{limit}", errors);
+            return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
         return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
     }

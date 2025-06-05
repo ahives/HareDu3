@@ -32,7 +32,7 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
+            return Response.Panic("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new GlobalParameterConfiguratorImpl(parameter);
         configurator(impl);
@@ -44,7 +44,7 @@ class GlobalParameterImpl :
             errors.Add("The name of the parameter is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/global-parameters/{parameter}", errors, request.ToJsonString());
+            return Response.Panic("api/global-parameters/{parameter}", errors, request.ToJsonString());
 
         return await PutRequest($"api/global-parameters/{parameter}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -54,7 +54,7 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(parameter))
-            return Panic.Result("api/global-parameters/{parameter}", [new (){Reason = "The name of the parameter is missing."}]);
+            return Response.Panic("api/global-parameters/{parameter}", [new (){Reason = "The name of the parameter is missing."}]);
 
         return await DeleteRequest($"api/global-parameters/{parameter}", cancellationToken).ConfigureAwait(false);
     }

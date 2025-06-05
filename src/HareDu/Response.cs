@@ -26,4 +26,16 @@ internal static class Response
 
     public static Result<T> Faulted<T>(string url, string message, string stackTrace, Error error, string response = null) =>
         new FaultedResult<T> {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
+
+    public static Result<T> Panic<T>(T data, DebugInfo debugInfo) => new UnsuccessfulResult<T> {Data = data, DebugInfo = debugInfo};
+
+    public static Result Panic(DebugInfo debugInfo) => new UnsuccessfulResult {DebugInfo = debugInfo};
+
+    public static Result<T> Panic<T>(DebugInfo debugInfo) => new UnsuccessfulResult<T> {DebugInfo = debugInfo};
+
+    public static Result<T> Panic<T>(string url, List<Error> errors, string request = null, string response = null) =>
+        new UnsuccessfulResult<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
+
+    public static Result Panic(string url, List<Error> errors, string request = null, string response = null) =>
+        new UnsuccessfulResult {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
 }

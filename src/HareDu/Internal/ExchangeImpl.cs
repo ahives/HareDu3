@@ -32,7 +32,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/exchanges/{vhost}/{exchange}", [new() {Reason = "No global parameters was defined."}]);
+            return Response.Panic("api/exchanges/{vhost}/{exchange}", [new() {Reason = "No global parameters was defined."}]);
 
         var impl = new ExchangeConfiguratorImpl();
         configurator(impl);
@@ -48,7 +48,7 @@ class ExchangeImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
+            return Response.Panic("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
 
         return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -71,7 +71,7 @@ class ExchangeImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/exchanges/{vhost}/{exchange}", errors);
+            return Response.Panic("api/exchanges/{vhost}/{exchange}", errors);
 
         string url = string.IsNullOrWhiteSpace(impl.Query.Value)
             ? $"api/exchanges/{sanitizedVHost}/{exchange}"
@@ -85,7 +85,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding was defined."}]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding was defined."}]);
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -101,7 +101,7 @@ class ExchangeImpl :
             errors.Add("The name of the source binding (queue/exchange) is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
+            return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
 
         return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, cancellationToken)
             .ConfigureAwait(false);
@@ -112,7 +112,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+            return Response.Panic("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding configuration was provided."}]);
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);
@@ -124,7 +124,7 @@ class ExchangeImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
+            return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
 
         return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
     }

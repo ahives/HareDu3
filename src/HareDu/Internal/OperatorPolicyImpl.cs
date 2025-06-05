@@ -32,7 +32,7 @@ class OperatorPolicyImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/operator-policies/{vhost}/{name}", [new() {Reason = "No operator policy was defined."}]);
+            return Response.Panic("api/operator-policies/{vhost}/{name}", [new() {Reason = "No operator policy was defined."}]);
 
         var impl = new OperatorPolicyConfiguratorImpl();
         configurator(impl);
@@ -48,7 +48,7 @@ class OperatorPolicyImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
+            return Response.Panic("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ class OperatorPolicyImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/operator-policies/{vhost}/{name}", errors);
+            return Response.Panic("api/operator-policies/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }

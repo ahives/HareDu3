@@ -38,7 +38,7 @@ class ChannelImpl :
         }
 
         if (errors.Count > 0)
-            return Panic.Results<ChannelInfo>("api/channels", errors);
+            return Responses.Panic<ChannelInfo>("api/channels", errors);
 
         return await GetAllRequest<ChannelInfo>(
                 string.IsNullOrWhiteSpace(@params) ? "api/channels" : $"api/channels?{@params}", cancellationToken)
@@ -50,7 +50,7 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(connectionName))
-            return Panic.Results<ChannelInfo>("api/connections/{name}/channels", [new(){Reason = "Name of the connection is missing."}]);
+            return Responses.Panic<ChannelInfo>("api/connections/{name}/channels", [new(){Reason = "Name of the connection is missing."}]);
 
         return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -62,7 +62,7 @@ class ChannelImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Panic.Results<ChannelInfo>("api/vhosts/{vhost}/channels", [new (){Reason = "The name of the virtual host is missing."}]);
+            return Responses.Panic<ChannelInfo>("api/vhosts/{vhost}/channels", [new (){Reason = "The name of the virtual host is missing."}]);
 
         return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -72,7 +72,7 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(name))
-            return Panic.Result<ChannelInfo>("api/channels/{name}", [new (){Reason = "The name of the virtual host is missing."}]);
+            return Response.Panic<ChannelInfo>("api/channels/{name}", [new (){Reason = "The name of the virtual host is missing."}]);
 
         return await GetRequest<ChannelInfo>($"/api/channels/{name}", cancellationToken).ConfigureAwait(false);
     }

@@ -27,7 +27,7 @@ class NodeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(node))
-            return Panic.Result<NodeMemoryUsageInfo>("api/nodes/{node}/memory", [new(){Reason = "Name of the node for which to return memory usage data is missing."}]);
+            return Response.Panic<NodeMemoryUsageInfo>("api/nodes/{node}/memory", [new(){Reason = "Name of the node for which to return memory usage data is missing."}]);
 
         return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", cancellationToken).ConfigureAwait(false);
     }

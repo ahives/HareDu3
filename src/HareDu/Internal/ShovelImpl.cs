@@ -32,7 +32,7 @@ class ShovelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Panic.Result("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
+            return Response.Panic("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
 
         var impl = new ShovelConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -48,7 +48,7 @@ class ShovelImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
+            return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
     }
@@ -67,7 +67,7 @@ class ShovelImpl :
             errors.Add("The name of the virtual host is missing.");
 
         if (errors.Count > 0)
-            return Panic.Result("api/parameters/shovel/{vhost}/{name}", errors);
+            return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
     }
