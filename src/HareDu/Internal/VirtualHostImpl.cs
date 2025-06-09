@@ -34,8 +34,7 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.", ErrorCriticality.Critical);
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<VirtualHostInfo>("/api/vhosts/{vhost}", errors);
@@ -50,8 +49,7 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         VirtualHostRequest request = null;
 
@@ -76,10 +74,8 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (sanitizedVHost == "2%f")
-            errors.Add("Cannot delete the default virtual host.");
-        else if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
+        errors.AddIfTrue(sanitizedVHost, x => x.Equals("2%f"), Errors.Create("Cannot delete the default virtual host."));
 
         if (errors.Count > 0)
             return Response.Panic("api/vhosts/{vhost}", errors);
@@ -94,11 +90,8 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(node))
-            errors.Add("RabbitMQ node is missing.");
+        errors.AddIfTrue(node, string.IsNullOrWhiteSpace, Errors.Create("RabbitMQ node is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("/api/vhosts/{vhost}/start/{node}", errors);
@@ -119,7 +112,7 @@ class VirtualHostImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/vhost-limits/{vhost}/{limit}", [new() {Reason = "The name of the virtual host is missing."}]);
+            return Response.Panic("api/vhost-limits/{vhost}/{limit}", [Errors.Create("The name of the virtual host is missing.")]);
 
         var impl = new VirtualHostLimitsConfiguratorImpl();
         configurator(impl);
@@ -127,8 +120,7 @@ class VirtualHostImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
@@ -145,8 +137,7 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/vhost-limits/{vhost}/{limit}", errors);
@@ -161,8 +152,7 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Responses.Panic<VirtualHostPermissionInfo>("api/vhosts/{vhost}/permissions", errors);
@@ -177,11 +167,8 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The name of the user is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<VirtualHostPermissionInfo>("api/permissions/vhost/user", errors);
@@ -196,8 +183,7 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Responses.Panic<VirtualHostTopicPermissionInfo>("api/vhosts/{vhost}/topic-permissions", errors);
@@ -219,11 +205,8 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username and/or password is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString());
@@ -238,11 +221,8 @@ class VirtualHostImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username and/or password is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/permissions/{vhost}/{username}", errors);
@@ -282,7 +262,7 @@ class VirtualHostImpl :
     class VirtualHostLimitsConfiguratorImpl :
         VirtualHostLimitsConfigurator
     {
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
         
         public string Limit { get; private set; }
         public ulong LimitValue { get; private set; }
@@ -292,8 +272,8 @@ class VirtualHostImpl :
             Limit = "max-connections";
             LimitValue = value;
 
-            if (value < 1)
-                Errors.Add("Max connection limit value is missing.");
+            InternalErrors.Clear();
+            InternalErrors.AddIfTrue(value, x => x < 1, Errors.Create("Max connection limit value is missing."));
         }
 
         public void SetMaxQueueLimit(ulong value)
@@ -301,16 +281,16 @@ class VirtualHostImpl :
             Limit = "max-queues";
             LimitValue = value;
 
-            if (value < 1)
-                Errors.Add("Max queue limit value is missing.");
+            InternalErrors.Clear();
+            InternalErrors.AddIfTrue(value, x => x < 1, Errors.Create("Max queue limit value is missing."));
         }
 
         public List<Error> Validate()
         {
-            if (string.IsNullOrWhiteSpace(Limit))
-                Errors.Add("No limits were defined.");
+            InternalErrors.Clear();
+            InternalErrors.AddIfTrue(Limit, string.IsNullOrWhiteSpace, Errors.Create("No limit was defined."));
 
-            return Errors;
+            return InternalErrors;
         }
     }
 

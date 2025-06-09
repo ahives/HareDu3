@@ -74,11 +74,11 @@ public sealed class SnapshotFactory :
         var interfaces = findType.Assembly
             .GetTypes()
             .Where(x => !x.IsInterface && x.InheritsFromInterface(from))
-            .ToList();
+            .ToArray();
 
         var implMap = new Dictionary<string, Type>();
 
-        for (int i = 0; i < interfaces.Count; i++)
+        for (int i = 0; i < interfaces.Length; i++)
         {
             for (int j = 0; j < types.Length; j++)
             {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Core;
+using Core.Extensions;
 using Extensions;
 using Model;
 
@@ -14,7 +15,7 @@ internal class BindingConfiguratorImpl :
     IDictionary<string, object> _arguments;
     string _bindingKeyString;
 
-    List<Error> Errors { get; } = new();
+    List<Error> InternalErrors { get; } = new();
 
     public string DestinationBinding { get; private set; }
     public Lazy<BindingRequest> Request { get; }
@@ -31,10 +32,9 @@ internal class BindingConfiguratorImpl :
 
     public List<Error> Validate()
     {
-        if (string.IsNullOrWhiteSpace(DestinationBinding))
-            Errors.Add(new(){Reason = "The name of the destination binding (queue/exchange) is missing."});
-            
-        return Errors;
+        InternalErrors.AddIfTrue(DestinationBinding, string.IsNullOrWhiteSpace, Errors.Create("The name of the destination binding (queue/exchange) is missing."));
+
+        return InternalErrors;
     }
 
     public void Destination(string destination) => DestinationBinding = destination;
@@ -48,7 +48,7 @@ internal class BindingConfiguratorImpl :
 
         _arguments = impl.Arguments.Value;
             
-        Errors.AddRange(impl.Validate());
+        InternalErrors.AddRange(impl.Validate());
     }
 
         
@@ -75,7 +75,7 @@ internal class BindingConfiguratorImpl :
         public void Add<T>(string arg, T value) =>
             _arguments.Add(arg.Trim(),
                 _arguments.ContainsKey(arg)
-                    ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                    ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set"))
                     : new ArgumentValue<object>(value));
     }
 }

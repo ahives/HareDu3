@@ -32,7 +32,7 @@ class OperatorPolicyImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/operator-policies/{vhost}/{name}", [new() {Reason = "No operator policy was defined."}]);
+            return Response.Panic("api/operator-policies/{vhost}/{name}", [Errors.Create("No operator policy was defined.")]);
 
         var impl = new OperatorPolicyConfiguratorImpl();
         configurator(impl);
@@ -41,11 +41,8 @@ class OperatorPolicyImpl :
         var request = impl.Request.Value;
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the operator policy is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
@@ -60,11 +57,8 @@ class OperatorPolicyImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the operator policy is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors);
@@ -81,7 +75,7 @@ class OperatorPolicyImpl :
         int _priority;
         OperatorPolicyAppliedTo _appliedTo;
 
-        List<Error> Errors { get; } = new();
+        List<Error> InteernalErrors { get; } = new();
 
         public Lazy<OperatorPolicyRequest> Request { get; }
 
@@ -104,7 +98,7 @@ class OperatorPolicyImpl :
 
             _arguments = impl.Arguments.Value;
             
-            Errors.AddRange(impl.Validate());
+            InteernalErrors.AddRange(impl.Validate());
         }
 
         public void Pattern(string pattern) => _pattern = pattern;
@@ -115,10 +109,9 @@ class OperatorPolicyImpl :
 
         public List<Error> Validate()
         {
-            if (string.IsNullOrWhiteSpace(_pattern))
-                Errors.Add("The pattern is missing.");
+            InteernalErrors.AddIfTrue(_pattern, string.IsNullOrWhiteSpace, Errors.Create("The pattern is missing."));
 
-            return Errors;
+            return InteernalErrors;
         }
 
 
@@ -154,8 +147,7 @@ class OperatorPolicyImpl :
             {
                 List<Error> errors = new();
 
-                if (_arguments is null || !_arguments.Any())
-                    errors.Add("No arguments have been set.");
+                errors.AddIfTrue(_arguments, x => x is null || !x.Any(), Errors.Create("No arguments have been set."));
 
                 return errors;
             }
@@ -163,7 +155,7 @@ class OperatorPolicyImpl :
             void SetArg(string arg, ulong value) =>
                 _arguments.Add(arg.Trim(),
                     _arguments.ContainsKey(arg)
-                        ? new ArgumentValue<ulong>(value, $"Argument '{arg}' has already been set")
+                        ? new ArgumentValue<ulong>(value, Errors.Create($"Argument '{arg}' has already been set"))
                         : new ArgumentValue<ulong>(value));
         }
     }

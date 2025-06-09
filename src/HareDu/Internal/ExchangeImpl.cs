@@ -32,7 +32,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/exchanges/{vhost}/{exchange}", [new() {Reason = "No global parameters was defined."}]);
+            return Response.Panic<BindingInfo>("api/exchanges/{vhost}/{exchange}", [Errors.Create("No global parameters was defined.")]);
 
         var impl = new ExchangeConfiguratorImpl();
         configurator(impl);
@@ -41,11 +41,8 @@ class ExchangeImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add("The name of the exchange is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
@@ -64,11 +61,8 @@ class ExchangeImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add("The name of the exchange is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/exchanges/{vhost}/{exchange}", errors);
@@ -85,7 +79,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding was defined."}]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [Errors.Create("No binding was defined.")]);
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -94,11 +88,8 @@ class ExchangeImpl :
         var errors = impl.Validate();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add("The name of the source binding (queue/exchange) is missing.");
+        errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
@@ -112,7 +103,7 @@ class ExchangeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/bindings/{vhost}/e/{exchange}/e/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/e/{destination}", [Errors.Create("No binding configuration was provided.")]);
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);
@@ -120,8 +111,7 @@ class ExchangeImpl :
         var errors = impl.Validate();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
@@ -211,7 +201,7 @@ class ExchangeImpl :
             void SetArg(string arg, object value) =>
                 Arguments.Add(arg.Trim(),
                     Arguments.ContainsKey(arg)
-                        ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set"))
                         : new ArgumentValue<object>(value));
         }
     }

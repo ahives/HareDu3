@@ -41,7 +41,7 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/users/{username}", [new Error {Reason = "The tags are missing."}]);
+            return Response.Panic("api/users/{username}", [Errors.Create("The tags are missing.")]);
 
         var impl = new UserConfiguratorImpl();
         configurator(impl);
@@ -58,11 +58,8 @@ class UserImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username is missing.");
-
-        if (string.IsNullOrWhiteSpace(password) && string.IsNullOrWhiteSpace(passwordHash))
-            errors.Add("The password/hash is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
+        errors.AddIfTrue(password, passwordHash, (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y), Errors.Create("The password/hash is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/users/{username}", errors, request.ToJsonString());
@@ -76,8 +73,7 @@ class UserImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/users/{username}", errors);
@@ -90,15 +86,12 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (usernames.IsEmpty())
-            return Response.Panic("api/users/bulk-delete", [new() {Reason = "Valid usernames is missing."}]);
+            return Response.Panic("api/users/bulk-delete", [Errors.Create("Valid usernames is missing.")]);
 
         var errors = new List<Error>();
 
         for (int i = 0; i < usernames.Count; i++)
-        {
-            if (string.IsNullOrWhiteSpace(usernames[i]))
-                errors.Add($"The username at index {i} is missing.");
-        }
+            errors.AddIfTrue(usernames[i], string.IsNullOrWhiteSpace, Errors.Create($"The username at index {i} is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/users/bulk-delete", errors);
@@ -114,8 +107,7 @@ class UserImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
         if (errors.Count > 0)
             return Responses.Panic<UserLimitsInfo>("api/user-limits/{username}", errors);
@@ -135,15 +127,14 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/user-limits/{username}/{limit}", [new() {Reason = "No user limit was defined."}]);
+            return Response.Panic("api/user-limits/{username}/{limit}", [Errors.Create("No user limit was defined.")]);
 
         var impl = new UserLimitConfiguratorImpl();
         configurator(impl);
 
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
@@ -158,8 +149,7 @@ class UserImpl :
 
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
@@ -178,7 +168,7 @@ class UserImpl :
     class UserLimitConfiguratorImpl :
         UserLimitConfigurator
     {
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
  
         public ulong LimitValue { get; private set; }
 
@@ -189,16 +179,14 @@ class UserImpl :
             Limit = limit.Convert();
             LimitValue = value;
 
-            if (value < 1)
-                Errors.Add(new (){Reason = "Max connection limit value is missing."});
+            InternalErrors.AddIfTrue(value, x => x > 1, Errors.Create("Max connection limit value is missing."));
         }
 
         public List<Error> Validate()
         {
-            if (string.IsNullOrWhiteSpace(Limit))
-                Errors.Add(new (){Reason = "No limits were defined."});
+            InternalErrors.AddIfTrue(Limit, string.IsNullOrWhiteSpace, Errors.Create("No limits were defined."));
 
-            return Errors;
+            return InternalErrors;
         }
     }
 

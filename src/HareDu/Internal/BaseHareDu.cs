@@ -13,12 +13,12 @@ using Core;
 internal class BaseHareDu
 {
     protected readonly HttpClient Client;
-    protected readonly IDictionary<string, Error> Errors;
+    protected readonly IDictionary<string, Error> InternalErrors;
 
     protected BaseHareDu(HttpClient client)
     {
         Client = client ?? throw new ArgumentNullException(nameof(client));
-        Errors = new Dictionary<string, Error>
+        InternalErrors = new Dictionary<string, Error>
         {
             {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
             {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},

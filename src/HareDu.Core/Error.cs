@@ -19,6 +19,17 @@ public record Error
     public ErrorCriticality Criticality { get; init; }
 
     /// <summary>
+    /// Specifies the category or classification of the error that occurred during the execution of a process or operation.
+    /// </summary>
+    public ErrorType Type { get; init; }
+
+    /// <summary>
+    /// Specifies the origin of the error, indicating whether it originated from an internal process
+    /// or an external source, providing context for diagnosing the issue.
+    /// </summary>
+    public ErrorSource Source { get; init; }
+
+    /// <summary>
     /// Represents the date and time at which the error or event occurred, expressed as a DateTimeOffset value.
     /// </summary>
     public DateTimeOffset Timestamp { get; init; }

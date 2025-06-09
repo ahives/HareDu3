@@ -35,8 +35,7 @@ class QueueImpl :
             @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(@params))
-                errors.Add("Pagination parameters are in valid.");
+            errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
         if (errors.Count > 0)
@@ -60,7 +59,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/queues/{vhost}/{name}", [new() {Reason = "No queue was defined."}]);
+            return Response.Panic("api/queues/{vhost}/{name}", [Errors.Create("No queue was defined.")]);
 
         var impl = new QueueConfiguratorImpl(node);
         configurator(impl);
@@ -69,11 +68,8 @@ class QueueImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the queue is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/queues/{vhost}/{name}", errors, request.ToJsonString());
@@ -89,18 +85,15 @@ class QueueImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the queue is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/queues/{vhost}/{name}", errors);
-        
+
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
-        
+
         string queryParams = impl.BuildQueryParams();
 
         string url = string.IsNullOrWhiteSpace(queryParams)
@@ -117,11 +110,8 @@ class QueueImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the queue is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
@@ -136,11 +126,8 @@ class QueueImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the queue is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
@@ -156,11 +143,8 @@ class QueueImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the queue is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
@@ -174,7 +158,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding was defined."}]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [Errors.Create("No binding was defined.")]);
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -183,11 +167,8 @@ class QueueImpl :
         var errors = impl.Validate();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(exchange))
-            errors.Add("The name of the source binding (queue/exchange) is missing.");
+        errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
@@ -200,8 +181,8 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (configurator == null)
-            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", [new() {Reason = "No binding configuration was provided."}]);
+        if (configurator is null)
+            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", [Errors.Create("No binding configuration was provided.")]);
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);
@@ -209,8 +190,7 @@ class QueueImpl :
         var errors = impl.Validate();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
@@ -232,7 +212,7 @@ class QueueImpl :
         public string BuildQueryParams()
         {
             List<string> param = new();
-            
+
             if (_hasNoConsumersCalled)
                 param.Add("if-unused=true");
 
@@ -264,7 +244,7 @@ class QueueImpl :
                     Arguments = _arguments.GetArgumentsOrEmpty()
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
-            
+
         public void IsDurable() => _durable = true;
 
         public void HasArguments(Action<QueueArgumentConfigurator> configurator)
@@ -307,11 +287,11 @@ class QueueImpl :
             void SetArg(string arg, object value, string errorMsg = null)
             {
                 string normalizedArg = arg.Trim();
-                    
+
                 if (Arguments.ContainsKey(normalizedArg))
-                    Arguments[normalizedArg] = new ArgumentValue<object>(value, errorMsg);
+                    Arguments[normalizedArg] = new ArgumentValue<object>(value, Errors.Create(errorMsg));
                 else
-                    Arguments.Add(normalizedArg, new ArgumentValue<object>(value, errorMsg));
+                    Arguments.Add(normalizedArg, new ArgumentValue<object>(value, Errors.Create(errorMsg)));
             }
         }
     }

@@ -38,11 +38,8 @@ class PolicyImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the policy is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the policy is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/policies/{vhost}/{name}", errors, request.ToJsonString());
@@ -57,11 +54,8 @@ class PolicyImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the policy is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the policy is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/policies/{vhost}/{name}", errors);
@@ -78,7 +72,7 @@ class PolicyImpl :
         int _priority;
         PolicyAppliedTo _appliedTo;
 
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
 
         public Lazy<PolicyRequest> Request { get; }
 
@@ -101,7 +95,7 @@ class PolicyImpl :
 
             _arguments = impl.Arguments.Value;
             
-            Errors.AddRange(impl.Validate());
+            InternalErrors.AddRange(impl.Validate());
         }
 
         public void Pattern(string pattern) => _pattern = pattern;
@@ -112,10 +106,9 @@ class PolicyImpl :
 
         public List<Error> Validate()
         {
-            if (string.IsNullOrWhiteSpace(_pattern))
-                Errors.Add(new(){Reason = "Pattern was not set."});
-
-            return Errors;
+            InternalErrors.AddIfTrue(_pattern, string.IsNullOrWhiteSpace, Errors.Create("Pattern was not set."));
+ 
+            return InternalErrors;
         }
 
 
@@ -126,37 +119,31 @@ class PolicyImpl :
 
             public Lazy<IDictionary<string, string>> Arguments { get; }
 
-            List<Error> Errors { get; } = new();
+            List<Error> InternalErrors { get; } = new();
 
             public PolicyArgumentConfiguratorImpl()
             {
                 _arguments = new Dictionary<string, ArgumentValue<object>>();
 
-                Arguments = new Lazy<IDictionary<string, string>>(() => _arguments.GetStringArguments(),
-                    LazyThreadSafetyMode.PublicationOnly);
+                Arguments = new Lazy<IDictionary<string, string>>(() => _arguments.GetStringArguments(), LazyThreadSafetyMode.PublicationOnly);
             }
 
             public List<Error> Validate()
             {
-                foreach (var argument in _arguments
-                             ?.Where(x => x.Value is null)
-                             .Select(x => x.Key)!)
-                    Errors.Add(new() {Reason = $"Argument '{argument}' has been set without a corresponding value."});
+                foreach (string argument in _arguments?.Where(x => x.Value is null).Select(x => x.Key)!)
+                    InternalErrors.Add(Errors.Create($"Argument '{argument}' has been set without a corresponding value."));
 
                 if (!_arguments.TryGetValue("ha-mode", out var haMode))
-                    return Errors;
+                    return InternalErrors;
 
                 string mode = haMode.Value.ToString().Trim();
-                if (_arguments != null && (mode.Convert() == HighAvailabilityModes.Exactly ||
-                                           mode.Convert() == HighAvailabilityModes.Nodes) &&
-                    !_arguments.ContainsKey("ha-params"))
-                    Errors.Add(new()
-                    {
-                        Reason =
-                            $"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"
-                    });
 
-                return Errors;
+                InternalErrors.AddIfTrue(IsHighlyAvailable, Errors.Create($"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"));
+
+                return InternalErrors;
+
+                bool IsHighlyAvailable() =>
+                    _arguments is not null && (mode.Convert() == HighAvailabilityModes.Exactly || mode.Convert() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params");
             }
 
             public void Set<T>(string arg, T value)
@@ -181,18 +168,15 @@ class PolicyImpl :
 
             public void SetExpiry(ulong milliseconds) => SetArg("expires", milliseconds);
 
-            public void SetFederationUpstreamSet(string value) =>
-                SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
+            public void SetFederationUpstreamSet(string value) => SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
 
-            public void SetFederationUpstream(string value) =>
-                SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
+            public void SetFederationUpstream(string value) => SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
 
             public void SetHighAvailabilityMode(HighAvailabilityModes mode) => SetArg("ha-mode", mode.Convert());
 
             public void SetHighAvailabilityParams(uint value) => SetArg("ha-params", value);
 
-            public void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode) =>
-                SetArg("ha-sync-mode", mode.Convert());
+            public void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode) => SetArg("ha-sync-mode", mode.Convert());
 
             public void SetMessageTimeToLive(ulong milliseconds) => SetArg("message-ttl", milliseconds);
 
@@ -210,25 +194,22 @@ class PolicyImpl :
 
             public void SetQueueMasterLocator(string key) => SetArg("queue-master-locator", key.Trim());
 
-            public void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode) =>
-                SetArg("ha-promote-on-shutdown", mode.Convert());
+            public void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode) => SetArg("ha-promote-on-shutdown", mode.Convert());
 
-            public void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode) =>
-                SetArg("ha-promote-on-failure", mode.Convert());
+            public void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode) => SetArg("ha-promote-on-failure", mode.Convert());
 
             public void SetDeliveryLimit(ulong limit) => SetArg("delivery-limit", limit);
 
             void SetArg(string arg, object value) =>
                 _arguments.Add(arg.Trim(),
                     _arguments.ContainsKey(arg)
-                        ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set"))
                         : new ArgumentValue<object>(value));
 
             void SetArgWithConflictingCheck(string arg, string targetArg, object value) =>
                 _arguments.Add(arg.Trim(),
                     _arguments.ContainsKey(arg) || arg == targetArg && _arguments.ContainsKey(targetArg)
-                        ? new ArgumentValue<object>(value,
-                            $"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'")
+                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'"))
                         : new ArgumentValue<object>(value));
 
             void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value) =>
@@ -236,8 +217,7 @@ class PolicyImpl :
                     _arguments.ContainsKey(arg)
                     || arg == conflictingArg && _arguments.ContainsKey(targetArg)
                     || arg == targetArg && _arguments.ContainsKey(conflictingArg)
-                        ? new ArgumentValue<object>(value,
-                            $"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'")
+                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'"))
                         : new ArgumentValue<object>(value));
         }
     }

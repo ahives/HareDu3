@@ -41,14 +41,9 @@ class ScopedParameterImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the parameter is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(component))
-            errors.Add("The component name is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
+        errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
@@ -63,14 +58,9 @@ class ScopedParameterImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the parameter is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
-
-        if (string.IsNullOrWhiteSpace(component))
-            errors.Add("The component name is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
+        errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors);

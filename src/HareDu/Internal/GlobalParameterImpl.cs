@@ -32,7 +32,7 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/global-parameters/{parameter}", [new() {Reason = "No global parameters was defined."}]);
+            return Response.Panic("api/global-parameters/{parameter}", [Errors.Create("No global parameters was defined.")]);
 
         var impl = new GlobalParameterConfiguratorImpl(parameter);
         configurator(impl);
@@ -40,8 +40,7 @@ class GlobalParameterImpl :
         var request = impl.Request.Value;
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(parameter))
-            errors.Add("The name of the parameter is missing.");
+        errors.AddIfTrue(parameter, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/global-parameters/{parameter}", errors, request.ToJsonString());
@@ -54,7 +53,7 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(parameter))
-            return Response.Panic("api/global-parameters/{parameter}", [new (){Reason = "The name of the parameter is missing."}]);
+            return Response.Panic("api/global-parameters/{parameter}", [Errors.Create("The name of the parameter is missing.")]);
 
         return await DeleteRequest($"api/global-parameters/{parameter}", cancellationToken).ConfigureAwait(false);
     }
@@ -66,7 +65,7 @@ class GlobalParameterImpl :
         IDictionary<string, ArgumentValue<object>> Arguments { get; } =
             new Dictionary<string, ArgumentValue<object>>();
 
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
 
         public Lazy<GlobalParameterRequest> Request { get; }
 
@@ -83,20 +82,20 @@ class GlobalParameterImpl :
         public void Add<T>(string arg, T value) =>
             Arguments.Add(arg.Trim(),
                 Arguments.ContainsKey(arg)
-                    ? new ArgumentValue<object>(value, $"Argument '{arg}' has already been set")
+                    ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set"))
                     : new ArgumentValue<object>(value));
 
         public List<Error> Validate()
         {
             if (Arguments != null)
             {
-                Errors.AddRange(Arguments
+                InternalErrors.AddRange(Arguments
                     .Select(x => x.Value?.Error)
                     .Where(error => error is not null)
                     .ToList());
             }
 
-            return Errors;
+            return InternalErrors;
         }
     }
 }

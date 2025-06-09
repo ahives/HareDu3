@@ -32,7 +32,7 @@ class TopicPermissionsImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/topic-permissions/{vhost}/{username}", [new() {Reason = "No topic permissions was defined."}]);
+            return Response.Panic("api/topic-permissions/{vhost}/{username}", [Errors.Create("No topic permissions was defined.")]);
 
         var impl = new TopicPermissionsConfiguratorImpl();
         configurator(impl);
@@ -40,11 +40,8 @@ class TopicPermissionsImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
         var errors = impl.Validate();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username and/or password is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username and/or password is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         var request = impl.Request.Value;
 
@@ -61,11 +58,8 @@ class TopicPermissionsImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(username))
-            errors.Add("The username and/or password is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username and/or password is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/topic-permissions/{vhost}/{username}", errors);
@@ -83,13 +77,13 @@ class TopicPermissionsImpl :
         bool _usingReadPatternCalled;
         string _exchange;
 
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
 
         public Lazy<TopicPermissionsRequest> Request { get; }
 
         public TopicPermissionsConfiguratorImpl()
         {
-            Errors = new List<Error>();
+            InternalErrors = new List<Error>();
             Request = new Lazy<TopicPermissionsRequest>(
                 () => new ()
                 {
@@ -106,8 +100,7 @@ class TopicPermissionsImpl :
             _usingWritePatternCalled = true;
             _writePattern = pattern;
 
-            if (string.IsNullOrWhiteSpace(pattern))
-                Errors.Add("The write pattern is missing.");
+            InternalErrors.AddIfTrue(pattern, string.IsNullOrWhiteSpace, Errors.Create("The write pattern is missing."));
         }
 
         public void UsingReadPattern(string pattern)
@@ -115,22 +108,20 @@ class TopicPermissionsImpl :
             _usingReadPatternCalled = true;
             _readPattern = pattern;
 
-            if (string.IsNullOrWhiteSpace(_readPattern))
-                Errors.Add("The read pattern is missing.");
+            InternalErrors.AddIfTrue(pattern, string.IsNullOrWhiteSpace, Errors.Create("The read pattern is missing."));
         }
 
         public List<Error> Validate()
         {
             if (!_usingWritePatternCalled)
-                Errors.Add("The write pattern is missing.");
+                InternalErrors.Add(Errors.Create("The write pattern is missing."));
 
             if (!_usingReadPatternCalled)
-                Errors.Add("The read pattern is missing.");
+                InternalErrors.Add(Errors.Create("The read pattern is missing."));
 
-            if (string.IsNullOrWhiteSpace(_exchange))
-                Errors.Add("Then name of the exchange is missing.");
+            InternalErrors.AddIfTrue(_exchange, string.IsNullOrWhiteSpace, Errors.Create("Then name of the exchange is missing."));
 
-            return Errors;
+            return InternalErrors;
         }
     }
 }

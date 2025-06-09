@@ -33,8 +33,7 @@ class ConnectionImpl :
             @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(@params))
-                errors.Add("Pagination parameters are in valid.");
+            errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
         if (errors.Count > 0)
@@ -61,14 +60,12 @@ class ConnectionImpl :
             @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(@params))
-                errors.Add("Pagination parameters are in valid.");
+            errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("Name of the virtual host for which to return connection information is missing.");
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Responses.Panic<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);
@@ -85,7 +82,7 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(name))
-            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/{name}", [new(){Reason = "Name of the connection to filter on is missing."}]);
+            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/{name}", [Errors.Create("Name of the connection to filter on is missing.")]);
 
         return await GetAllRequest<ConnectionInfo>($"/api/connections/{name}", cancellationToken).ConfigureAwait(false);
     }
@@ -95,7 +92,7 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(username))
-            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/username/{username}", [new(){Reason = "Name of the connection to filter on is missing."}]);
+            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/username/{username}", [Errors.Create("Name of the connection to filter on is missing.")]);
 
         return await GetAllRequest<ConnectionInfo>($"/api/connections/username/{username}", cancellationToken).ConfigureAwait(false);
     }
@@ -105,7 +102,7 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(connection))
-            return Response.Panic("api/connections/{connection}", [new (){Reason = "The name of the connection is missing."}]);
+            return Response.Panic("api/connections/{connection}", [Errors.Create("The name of the connection is missing.")]);
 
         return await DeleteRequest($"api/connections/{connection}", cancellationToken);
     }
@@ -115,7 +112,7 @@ class ConnectionImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(username))
-            return Response.Panic("api/connections/username/{username}", [new (){Reason = "The username associated with the connection is missing."}]);
+            return Response.Panic("api/connections/username/{username}", [Errors.Create("The username associated with the connection is missing.")]);
 
         return await DeleteRequest($"/api/connections/username/{username}", cancellationToken);
     }

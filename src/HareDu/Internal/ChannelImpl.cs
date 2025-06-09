@@ -33,8 +33,7 @@ class ChannelImpl :
             @params = impl.BuildPaginationParams();
             errors = impl.Validate();
 
-            if (string.IsNullOrWhiteSpace(@params))
-                errors.Add("Pagination parameters are invalid.");
+            errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
         if (errors.Count > 0)
@@ -50,7 +49,7 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(connectionName))
-            return Responses.Panic<ChannelInfo>("api/connections/{name}/channels", [new(){Reason = "Name of the connection is missing."}]);
+            return Responses.Panic<ChannelInfo>("api/connections/{name}/channels", [Errors.Create("Name of the connection is missing.")]);
 
         return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -62,7 +61,7 @@ class ChannelImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Responses.Panic<ChannelInfo>("api/vhosts/{vhost}/channels", [new (){Reason = "The name of the virtual host is missing."}]);
+            return Responses.Panic<ChannelInfo>("api/vhosts/{vhost}/channels", [Errors.Create("The name of the virtual host is missing.")]);
 
         return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", cancellationToken).ConfigureAwait(false);
     }
@@ -72,7 +71,7 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(name))
-            return Response.Panic<ChannelInfo>("api/channels/{name}", [new (){Reason = "The name of the virtual host is missing."}]);
+            return Response.Panic<ChannelInfo>("api/channels/{name}", [Errors.Create("The name of the virtual host is missing.")]);
 
         return await GetRequest<ChannelInfo>($"/api/channels/{name}", cancellationToken).ConfigureAwait(false);
     }

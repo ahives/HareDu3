@@ -1,6 +1,5 @@
 namespace HareDu.Internal;
 
-using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ class BrokerImpl :
             _ => Response.Panic(AlarmState.NotRecognized, new()
             {
                 URL = "api/health/checks/alarms",
-                Errors = [new() {Reason = "Not able to determine whether an alarm is in effect or not.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether an alarm is in effect or not.")]
             })
         };
     }
@@ -56,7 +55,7 @@ class BrokerImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Response.Panic<BrokerState>("api/aliveness-test/{vhost}", [new (){Reason = "The name of the virtual host is missing."}]);
+            return Response.Panic<BrokerState>("api/aliveness-test/{vhost}", [Errors.Create("The name of the virtual host is missing.")]);
 
         var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
 
@@ -67,7 +66,7 @@ class BrokerImpl :
             _ => Response.Panic(BrokerState.NotRecognized, new()
             {
                 URL = "api/aliveness-test/{vhost}",
-                Errors = [new() {Reason = "Not able to determine whether an alarm is in effect or not.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether an alarm is in effect or not.")]
             })
         };
     }
@@ -85,7 +84,7 @@ class BrokerImpl :
             _ => Response.Panic(VirtualHostState.NotRecognized, new()
             {
                 URL = "api/health/checks/virtual-hosts",
-                Errors = [new() {Reason = "Not able to determine whether all virtual hosts are running.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether all virtual hosts are running.")]
             })
         };
     }
@@ -103,7 +102,7 @@ class BrokerImpl :
             _ => Response.Panic(NodeMirrorSyncState.NotRecognized, new()
             {
                 URL = "api/health/checks/node-is-mirror-sync-critical",
-                Errors = [new() {Reason = "Not able to determine whether or not there are mirrored queues present without any mirrors online.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether or not there are mirrored queues present without any mirrors online.")]
             })
         };
     }
@@ -121,7 +120,7 @@ class BrokerImpl :
             _ => Response.Panic(NodeQuorumState.NotRecognized, new()
             {
                 URL = "api/health/checks/node-is-quorum-critical",
-                Errors = [new() {Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether or not quorum queues have a minimum online quorum.")]
             })
         };
     }
@@ -131,7 +130,7 @@ class BrokerImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (protocol is null || string.IsNullOrWhiteSpace(protocol.Value))
-            return Response.Panic<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [new() {Reason = "The protocol is missing.", Timestamp = DateTimeOffset.UtcNow}]);
+            return Response.Panic<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [Errors.Create("The protocol is missing.")]);
 
         var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", cancellationToken).ConfigureAwait(false);
 
@@ -142,7 +141,7 @@ class BrokerImpl :
             _ => Response.Panic(ProtocolListenerState.NotRecognized, new()
             {
                 URL = "api/health/checks/protocol-listener/{protocol}",
-                Errors = [new() {Reason = "Not able to determine whether or not quorum queues have a minimum online quorum.", Timestamp = DateTimeOffset.UtcNow}]
+                Errors = [Errors.Create("Not able to determine whether or not quorum queues have a minimum online quorum.")]
             })
         };
     }

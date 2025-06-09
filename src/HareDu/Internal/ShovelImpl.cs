@@ -41,11 +41,8 @@ class ShovelImpl :
         var request = impl.Request.Value;
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the shovel is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
@@ -60,11 +57,8 @@ class ShovelImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
-        if (string.IsNullOrWhiteSpace(name))
-            errors.Add("The name of the shovel is missing.");
-
-        if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            errors.Add("The name of the virtual host is missing.");
+        errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
+        errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.Count > 0)
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors);
@@ -94,7 +88,7 @@ class ShovelImpl :
         bool _destinationCalled;
         object _deleteShovelAfter;
 
-        List<Error> Errors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
 
         public Lazy<ShovelRequest> Request { get; }
 
@@ -195,36 +189,39 @@ class ShovelImpl :
         {
             if (_sourceCalled)
             {
-                if (string.IsNullOrWhiteSpace(_sourceQueue) && string.IsNullOrWhiteSpace(_sourceExchangeName))
-                    Errors.Add("Both source queue and exchange missing.");
+                InternalErrors.AddIfTrue(_sourceQueue, _sourceExchangeName,
+                    (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y),
+                    Errors.Create("Both source queue and exchange missing."));
                 
-                if (!string.IsNullOrWhiteSpace(_sourceQueue) && !string.IsNullOrWhiteSpace(_sourceExchangeName))
-                    Errors.Add("Both source queue and exchange cannot be present.");
+                InternalErrors.AddIfTrue(_sourceQueue, _sourceExchangeName,
+                    (x, y) => !string.IsNullOrWhiteSpace(x) && !string.IsNullOrWhiteSpace(y),
+                    Errors.Create("Both source queue and exchange cannot be present."));
             }
             else
             {
-                Errors.Add("The name of the source protocol is missing.");
-                Errors.Add("Both source queue and exchange cannot be present.");
+                InternalErrors.Add(Errors.Create("The name of the source protocol is missing."));
+                InternalErrors.Add(Errors.Create("Both source queue and exchange cannot be present."));
             }
 
             if (_destinationCalled)
             {
-                if (string.IsNullOrWhiteSpace(_destinationQueue) && string.IsNullOrWhiteSpace(_destinationExchangeName))
-                    Errors.Add("Both source queue and exchange missing.");
-                
-                if (!string.IsNullOrWhiteSpace(_destinationQueue) && !string.IsNullOrWhiteSpace(_destinationExchangeName))
-                    Errors.Add("Both destination queue and exchange cannot be present.");
+                InternalErrors.AddIfTrue(_destinationQueue, _destinationExchangeName,
+                    (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y),
+                    Errors.Create("Both source queue and exchange missing."));
+
+                InternalErrors.AddIfTrue(_destinationQueue, _destinationExchangeName,
+                    (x, y) => !string.IsNullOrWhiteSpace(x) && !string.IsNullOrWhiteSpace(y),
+                    Errors.Create("Both destination queue and exchange cannot be present."));
             }
             else
             {
-                Errors.Add("The name of the destination protocol is missing.");
-                Errors.Add("Both destination queue and exchange cannot be present.");
+                InternalErrors.Add(Errors.Create("The name of the destination protocol is missing."));
+                InternalErrors.Add(Errors.Create("Both destination queue and exchange cannot be present."));
             }
                 
-            if (string.IsNullOrWhiteSpace(_uri))
-                Errors.Add("The connection URI is missing.");
+            InternalErrors.AddIfTrue(_uri, string.IsNullOrWhiteSpace, Errors.Create("The connection URI is missing."));
             
-            return Errors;
+            return InternalErrors;
         }
 
 

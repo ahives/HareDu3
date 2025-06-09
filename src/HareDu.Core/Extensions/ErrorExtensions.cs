@@ -7,14 +7,45 @@ using System.Linq;
 public static class ErrorExtensions
 {
     /// <summary>
-    /// Adds a new error entry to the collection with the specified reason and criticality.
+    /// Adds the specified error to the collection if the provided condition evaluates to true for the given value.
     /// </summary>
-    /// <param name="errors">The list of errors to which the new error will be added.</param>
-    /// <param name="reason">The reason or message describing the error.</param>
-    /// <param name="criticality">The criticality level of the error. Defaults to "Critical" if not specified.</param>
-    public static void Add(this List<Error> errors, string reason, ErrorCriticality criticality = ErrorCriticality.Critical)
+    /// <param name="errors">The list of errors to which the error will be added if the condition is met.</param>
+    /// <param name="value">The value to be evaluated by the condition function.</param>
+    /// <param name="condition">The condition function that evaluates the supplied value. It should return true if the error needs to be added.</param>
+    /// <param name="error">The error to be added to the collection if the condition evaluates to true.</param>
+    /// <typeparam name="T">The type of the value being evaluated by the condition function.</typeparam>
+    public static void AddIfTrue<T>(this List<Error> errors, T value, Func<T, bool> condition, Error error)
     {
-        errors?.Add(new() {Reason = reason, Criticality = criticality, Timestamp = DateTimeOffset.UtcNow});
+        if (errors is not null && condition is not null && condition(value))
+            errors.Add(error);
+    }
+
+    /// <summary>
+    /// Adds an error to the collection if the specified condition evaluates to true
+    /// when comparing two values of the specified type.
+    /// </summary>
+    /// <param name="errors">The list of errors to which the new error will be added if the condition is met.</param>
+    /// <param name="value1">The first value to evaluate in the condition.</param>
+    /// <param name="value2">The second value to evaluate in the condition.</param>
+    /// <param name="condition">The condition that evaluates two values to determine whether the error should be added.</param>
+    /// <param name="error">The error to add to the collection if the condition is met.</param>
+    /// <typeparam name="T">The type of the values to be compared in the condition.</typeparam>
+    public static void AddIfTrue<T>(this List<Error> errors, T value1, T value2, Func<T, T, bool> condition, Error error)
+    {
+        if (errors is not null && condition is not null && condition(value1, value2))
+            errors.Add(error);
+    }
+
+    /// <summary>
+    /// Adds the specified error to the collection if the provided condition evaluates to true.
+    /// </summary>
+    /// <param name="errors">The list of errors to which the new error will be added if the condition is true.</param>
+    /// <param name="condition">The condition to evaluate. If true, the error will be added to the list.</param>
+    /// <param name="error">The error to add to the collection if the condition is satisfied.</param>
+    public static void AddIfTrue(this List<Error> errors, Func<bool> condition, Error error)
+    {
+        if (errors is not null && condition is not null && condition())
+            errors.Add(error);
     }
 
     /// <summary>
