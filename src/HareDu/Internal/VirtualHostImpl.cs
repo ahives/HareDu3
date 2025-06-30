@@ -36,7 +36,7 @@ class VirtualHostImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<VirtualHostInfo>("/api/vhosts/{vhost}", errors);
 
         return await GetRequest<VirtualHostInfo>($"/api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
@@ -61,7 +61,7 @@ class VirtualHostImpl :
             request = impl.Request.Value;
         }
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/vhosts/{vhost}", errors, request.ToJsonString());
 
         return await PutRequest($"api/vhosts/{sanitizedVHost}", request, cancellationToken).ConfigureAwait(false);
@@ -77,7 +77,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
         errors.AddIfTrue(sanitizedVHost, x => x.Equals("2%f"), Errors.Create("Cannot delete the default virtual host."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/vhosts/{vhost}", errors);
 
         return await DeleteRequest($"api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
@@ -93,7 +93,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(node, string.IsNullOrWhiteSpace, Errors.Create("RabbitMQ node is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("/api/vhosts/{vhost}/start/{node}", errors);
 
         return await PostEmptyRequest($"/api/vhosts/{sanitizedVHost}/start/{node}", cancellationToken).ConfigureAwait(false);
@@ -124,7 +124,7 @@ class VirtualHostImpl :
 
         var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString());
 
         return await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
@@ -139,7 +139,7 @@ class VirtualHostImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/vhost-limits/{vhost}/{limit}", errors);
 
         return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
@@ -154,7 +154,7 @@ class VirtualHostImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<VirtualHostPermissionInfo>("api/vhosts/{vhost}/permissions", errors);
 
         return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", cancellationToken).ConfigureAwait(false);
@@ -170,7 +170,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<VirtualHostPermissionInfo>("api/permissions/vhost/user", errors);
 
         return await GetRequest<VirtualHostPermissionInfo>($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
@@ -185,7 +185,7 @@ class VirtualHostImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<VirtualHostTopicPermissionInfo>("api/vhosts/{vhost}/topic-permissions", errors);
 
         return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", cancellationToken).ConfigureAwait(false);
@@ -200,7 +200,7 @@ class VirtualHostImpl :
             return Response.Panic("api/permissions/{vhost}/{username}", []);
 
         var impl = new UserPermissionsConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
@@ -208,7 +208,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString());
 
         return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", impl.Request.Value, cancellationToken).ConfigureAwait(false);
@@ -224,7 +224,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The name of the user is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/permissions/{vhost}/{username}", errors);
 
         return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);

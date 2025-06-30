@@ -38,7 +38,7 @@ class QueueImpl :
             errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<QueueInfo>("api/queues", errors);
 
         return await GetAllRequest<QueueInfo>(
@@ -71,7 +71,7 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/queues/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
@@ -88,7 +88,7 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/queues/{vhost}/{name}", errors);
 
         var impl = new QueueDeletionConfiguratorImpl();
@@ -129,7 +129,7 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
@@ -146,7 +146,7 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
@@ -170,7 +170,7 @@ class QueueImpl :
         errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
 
         return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, cancellationToken)
@@ -192,7 +192,7 @@ class QueueImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
 
         return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);

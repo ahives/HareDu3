@@ -21,5 +21,6 @@ public static class Errors
         };
 
     public static IReadOnlyList<Error> CreateList(string reason, ErrorSource source, ErrorType type) => [Create(reason, source, type)];
+
     public static Error Empty() => null;
 }

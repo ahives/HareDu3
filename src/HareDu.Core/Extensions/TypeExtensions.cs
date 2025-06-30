@@ -73,11 +73,10 @@ public static class TypeExtensions
     /// </summary>
     /// <param name="map">A dictionary containing type mappings where the key is a string representing the type and the value is the corresponding <see cref="Type"/>.</param>
     /// <param name="cache">The cache where the registrations will be stored.</param>
-    /// <param name="function">A function that performs the registration of a type given the type and its associated key.</param>
+    /// <param name="register">A function that performs the registration of a type given the type and its associated key.</param>
     /// <typeparam name="T">The type of the objects stored in the cache.</typeparam>
     /// <returns>True if all keys in the map were successfully registered; otherwise, false.</returns>
-    public static bool TryRegisterAll<T>(this IDictionary<string, Type> map, ConcurrentDictionary<string, T> cache,
-        Func<Type, string, bool> function)
+    public static bool TryRegisterAll<T>(this IDictionary<string, Type> map, ConcurrentDictionary<string, T> cache, Func<Type, string, bool> register)
     {
         bool registered = true;
 
@@ -86,7 +85,32 @@ public static class TypeExtensions
             if (cache.ContainsKey(key) || !map.TryGetValue(key, out Type type))
                 continue;
 
-            registered &= function(type, key);
+            registered &= register(type, key);
+        }
+
+        return registered;
+    }
+
+    /// <summary>
+    /// Attempts to register all types from the specified dictionary to the cache using the provided registration and instance creation functions.
+    /// </summary>
+    /// <param name="map">The dictionary containing type mappings with their corresponding keys.</param>
+    /// <param name="cache">The concurrent dictionary representing the cache where types will be registered.</param>
+    /// <param name="register">The function responsible for registering types into the cache.</param>
+    /// <param name="instance">The function responsible for creating an instance of the specified type.</param>
+    /// <typeparam name="T">The type of objects to be registered in the cache.</typeparam>
+    /// <returns>True if all types were successfully registered; otherwise, false.</returns>
+    public static bool TryRegisterAll<T>(this IDictionary<string, Type> map, ConcurrentDictionary<string, T> cache,
+        Func<Type, string, Func<Type, T>, Func<string, T, bool>, bool> register, Func<Type, T> instance)
+    {
+        bool registered = true;
+
+        foreach (var key in map.Keys.ToList())
+        {
+            if (cache.ContainsKey(key) || !map.TryGetValue(key, out Type type))
+                continue;
+
+            registered &= register(type, key, instance, cache.TryAdd);
         }
 
         return registered;

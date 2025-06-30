@@ -49,6 +49,13 @@ public static class ErrorExtensions
     }
 
     /// <summary>
+    /// Determines whether the specified list of errors contains any elements.
+    /// </summary>
+    /// <param name="errors">The list of errors to be checked for existence of elements.</param>
+    /// <returns>True if the list of errors contains one or more elements; otherwise, false.</returns>
+    public static bool HaveBeenFound(this List<Error> errors) => errors is not null && errors.Count > 0;
+
+    /// <summary>
     /// Retrieves a list of errors that have a criticality level of "Critical".
     /// </summary>
     /// <param name="errors">The collection of errors to filter.</param>

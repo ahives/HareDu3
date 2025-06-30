@@ -45,7 +45,7 @@ class ScopedParameterImpl :
         errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
@@ -62,7 +62,7 @@ class ScopedParameterImpl :
         errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);

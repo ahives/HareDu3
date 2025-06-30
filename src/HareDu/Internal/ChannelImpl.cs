@@ -36,7 +36,7 @@ class ChannelImpl :
             errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<ChannelInfo>("api/channels", errors);
 
         return await GetAllRequest<ChannelInfo>(

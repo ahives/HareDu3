@@ -46,13 +46,13 @@ class UserImpl :
         var impl = new UserConfiguratorImpl();
         configurator(impl);
 
-        string Normalize(string value) => string.IsNullOrWhiteSpace(value) ? null : value;
+        string pwd = string.IsNullOrWhiteSpace(password) ? null : password;
 
         UserRequest request =
             new ()
             {
-                Password = Normalize(password),
-                PasswordHash = !string.IsNullOrWhiteSpace(Normalize(password)) ? null : passwordHash,
+                Password = pwd,
+                PasswordHash = !string.IsNullOrWhiteSpace(pwd) ? null : passwordHash,
                 Tags = impl.Tags
             };
 
@@ -61,7 +61,7 @@ class UserImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
         errors.AddIfTrue(password, passwordHash, (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y), Errors.Create("The password/hash is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/users/{username}", errors, request.ToJsonString());
 
         return await PutRequest($"api/users/{username}", request, cancellationToken).ConfigureAwait(false);
@@ -75,7 +75,7 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/users/{username}", errors);
 
         return await DeleteRequest($"api/users/{username}", cancellationToken).ConfigureAwait(false);
@@ -91,9 +91,9 @@ class UserImpl :
         var errors = new List<Error>();
 
         for (int i = 0; i < usernames.Count; i++)
-            errors.AddIfTrue(usernames[i], string.IsNullOrWhiteSpace, Errors.Create($"The username at index {i} is missing."));
+            errors.AddIfTrue(usernames[i], string.IsNullOrWhiteSpace, Errors.Create($"Username[{i}] is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/users/bulk-delete", errors);
 
         BulkUserDeleteRequest request = new() {Users = usernames};
@@ -109,7 +109,7 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<UserLimitsInfo>("api/user-limits/{username}", errors);
 
         return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", cancellationToken).ConfigureAwait(false);
@@ -136,7 +136,7 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
         return await PutRequest($"api/user-limits/{username}/{impl.Limit}",
@@ -151,7 +151,7 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
         return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);

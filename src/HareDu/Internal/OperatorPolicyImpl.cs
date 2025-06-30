@@ -44,7 +44,7 @@ class OperatorPolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
@@ -60,7 +60,7 @@ class OperatorPolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);

@@ -50,7 +50,7 @@ public class ScannerFactory :
     {
         Type type = typeof(T);
 
-        if (!_scannerCache.TryGetValue(type.FullName, out var value))
+        if (string.IsNullOrWhiteSpace(type.FullName) || !_scannerCache.TryGetValue(type.FullName, out var value))
         {
             scanner = new NoOpScanner<T>(DiagnosticCache.EmptyProbes);
             return false;
@@ -101,7 +101,7 @@ public class ScannerFactory :
 
     public bool TryRegisterAllProbes()
     {
-        Throw.IfConfigInvalid(_config);
+        Config.IfInvalid(_config.Diagnostics);
 
         bool registered = GetType()
             .Assembly
@@ -109,7 +109,7 @@ public class ScannerFactory :
             .Where(x => typeof(DiagnosticProbe).IsAssignableFrom(x) && !x.IsInterface)
             .ToList()
             .GetTypeMap(GetProbeKey)
-            .TryRegisterAll(_probeCache, RegisterProbeInstance);
+            .TryRegisterAll(_probeCache, RegisterInstance, CreateProbeInstance);
 
         if (!registered)
             _probeCache.Clear();
@@ -125,7 +125,7 @@ public class ScannerFactory :
             .Where(x => x.InheritsFromInterface(typeof(DiagnosticScanner<>)) && x.IsDerivedFrom(typeof(BaseDiagnosticScanner)) && x != typeof(BaseDiagnosticScanner))
             .ToList()
             .GetTypeMap(GetScannerKey)
-            .TryRegisterAll(_scannerCache, RegisterScannerInstance);
+            .TryRegisterAll(_scannerCache, RegisterInstance, CreateScannerInstance);
 
         if (!registered)
             _scannerCache.Clear();
@@ -133,13 +133,13 @@ public class ScannerFactory :
         return registered;
     }
 
-    protected virtual bool RegisterScannerInstance(Type type, string key)
+    protected virtual bool RegisterInstance<T>(Type type, string key, Func<Type, T> createInstance, Func<string, T, bool> cache)
     {
         try
         {
-            var instance = CreateScannerInstance(type);
+            var instance = createInstance(type);
 
-            return instance is not null && _scannerCache.TryAdd(key, instance);
+            return instance is not null && cache(key, instance);
         }
         catch
         {
@@ -149,29 +149,11 @@ public class ScannerFactory :
 
     protected virtual object CreateScannerInstance(Type type) => Activator.CreateInstance(type, _probeCache.Values.ToList());
 
-    protected virtual bool RegisterProbeInstance(Type type, string key)
-    {
-        try
-        {
-            var instance = CreateProbeInstance(type);
-
-            return instance is not null && _probeCache.TryAdd(key, instance);
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    DiagnosticProbe CreateProbeInstance(Type type)
-    {
-        var instance = type.GetConstructors()[0].GetParameters()[0].ParameterType == typeof(DiagnosticsConfig)
-                       && type.GetConstructors()[0].GetParameters()[1].ParameterType == typeof(IKnowledgeBaseProvider)
+    DiagnosticProbe CreateProbeInstance(Type type) =>
+        type.GetConstructors()[0].GetParameters()[0].ParameterType == typeof(DiagnosticsConfig)
+        && type.GetConstructors()[0].GetParameters()[1].ParameterType == typeof(IKnowledgeBaseProvider)
             ? Activator.CreateInstance(type, _config.Diagnostics, _kb) as DiagnosticProbe
             : Activator.CreateInstance(type, _kb) as DiagnosticProbe;
-
-        return instance;
-    }
 
     void Configure(string key)
     {

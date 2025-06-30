@@ -91,7 +91,7 @@ class ExchangeImpl :
         errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
 
         return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, cancellationToken)
@@ -113,7 +113,7 @@ class ExchangeImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
 
         return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);

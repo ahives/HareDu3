@@ -1,8 +1,6 @@
 namespace HareDu.Core;
 
 using System;
-using Configuration;
-using Security;
 
 public static class Throw
 {
@@ -51,64 +49,4 @@ public static class Throw
         if (string.IsNullOrWhiteSpace(key) || contains is null || !contains(key))
             throw ((TException) Activator.CreateInstance(typeof(TException), message))!;
     }
-
-    /// <summary>
-    /// Validates the given credentials and ensures they are not null or contain empty values.
-    /// Throws a <see cref="HareDuSecurityException"/> if the credentials are invalid.
-    /// </summary>
-    /// <param name="credentials">The credentials to be validated.</param>
-    /// <exception cref="HareDuSecurityException">Thrown when the provided credentials are invalid.</exception>
-    public static void IfCredentialsInvalid(HareDuCredentials credentials)
-    {
-        if (credentials is not null && !string.IsNullOrWhiteSpace(credentials.Username) && !string.IsNullOrWhiteSpace(credentials.Password))
-            return;
-
-        throw new HareDuSecurityException("Invalid user credentials.");
-    }
-
-    /// <summary>
-    /// Validates the provided HareDu configuration and ensures it meets the required criteria for broker and diagnostics settings.
-    /// Throws a <see cref="HareDuConfigurationException"/> if the configuration is invalid.
-    /// </summary>
-    /// <param name="config">The HareDu configuration object to be validated.</param>
-    /// <exception cref="HareDuConfigurationException">Thrown when the provided HareDu configuration is invalid or incomplete.</exception>
-    public static void IfConfigInvalid(HareDuConfig config)
-    {
-        if (IsValid(config.Diagnostics))
-            return;
-
-        throw new HareDuConfigurationException("Invalid configuration.");
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="config"></param>
-    /// <exception cref="HareDuConfigurationException"></exception>
-    public static void IfBrokerConfigInvalid(HareDuConfig config)
-    {
-        if (IsValid(config.Broker))
-            return;
-
-        throw new HareDuConfigurationException("Invalid configuration.");
-    }
-
-    static bool IsValid(DiagnosticsConfig config) =>
-        config?.Probes != null 
-        && config.Probes.ConsumerUtilizationThreshold > 0 
-        && config.Probes.HighConnectionClosureRateThreshold > 0 
-        && config.Probes.HighConnectionCreationRateThreshold > 0 
-        && config.Probes.MessageRedeliveryThresholdCoefficient > 0 
-        && config.Probes.QueueHighFlowThreshold > 0 
-        && config.Probes.QueueLowFlowThreshold > 0 
-        && config.Probes.SocketUsageThresholdCoefficient > 0 
-        && config.Probes.FileDescriptorUsageThresholdCoefficient > 0 
-        && config.Probes.RuntimeProcessUsageThresholdCoefficient > 0;
-
-    static bool IsValid(BrokerConfig config)
-        => !string.IsNullOrWhiteSpace(config.Url) &&
-           config.Behavior is not null &&
-           config.Behavior.MaxConcurrentRequests >= 1 &&
-           config.Behavior.RequestReplenishmentInterval >= 1 &&
-           config.Behavior.RequestsPerReplenishment >= 1;
 }

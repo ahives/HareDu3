@@ -17,13 +17,14 @@ using Polly.Retry;
 /// Represents a client for interacting with the HareDu API.
 /// </summary>
 public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder) :
-    IHareDuClient
+    IHareDuClient,
+    IDisposable
 {
-    IDictionary<string, HttpClient> _cache = new Dictionary<string, HttpClient>();
+    readonly IDictionary<string, HttpClient> _cache = new Dictionary<string, HttpClient>();
 
     public HttpClient GetClient(Action<HareDuCredentialProvider> provider)
     {
-        Throw.IfBrokerConfigInvalid(config);
+        Config.IfInvalid(config.Broker);
 
         var credentials = builder.Build(provider);
 
@@ -50,11 +51,20 @@ public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder)
 
     public void CancelPendingRequests()
     {
-        if (_cache is null || _cache.Count == 0)
+        if (_cache is null || _cache.Count <= 0)
             return;
 
         foreach (var client in _cache.Values)
             client.CancelPendingRequests();
+    }
+
+    public void Dispose()
+    {
+        if (_cache is null || _cache.Count <= 0)
+            return;
+
+        foreach (var client in _cache.Values)
+            client.Dispose();
     }
 
     ResilienceHandler BuildResilienceHandler(HareDuCredentials credentials)

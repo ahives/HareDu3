@@ -45,7 +45,7 @@ class TopicPermissionsImpl :
 
         var request = impl.Request.Value;
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
 
         return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
@@ -61,7 +61,7 @@ class TopicPermissionsImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username and/or password is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/topic-permissions/{vhost}/{username}", errors);
 
         return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);

@@ -36,7 +36,7 @@ class ConnectionImpl :
             errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<ConnectionInfo>("api/queues", errors);
 
         string url = string.IsNullOrWhiteSpace(@params) ? "api/connections" : $"api/connections?{@params}";
@@ -67,7 +67,7 @@ class ConnectionImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Responses.Panic<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);
 
         string url = string.IsNullOrWhiteSpace(@params)

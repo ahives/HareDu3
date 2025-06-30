@@ -44,7 +44,7 @@ class ShovelImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
 
         return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
@@ -60,7 +60,7 @@ class ShovelImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
+        if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors);
 
         return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
