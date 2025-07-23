@@ -23,7 +23,7 @@ class ShovelImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<ShovelInfo>("api/shovels", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ShovelInfo>("api/shovels", RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost,
@@ -32,10 +32,10 @@ class ShovelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/parameters/shovel/{vhost}/{name}", [new() {Reason = "The shovel configurator is missing."}]);
+            return Response.Panic("api/parameters/shovel/{vhost}/{name}", Errors.Create(e => { e.Add("The shovel configurator is missing."); }));
 
         var impl = new ShovelConfiguratorImpl();
-        configurator?.Invoke(impl);
+        configurator(impl);
 
         var errors = impl.Validate();
         var request = impl.Request.Value;
@@ -47,7 +47,7 @@ class ShovelImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -63,7 +63,7 @@ class ShovelImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors);
 
-        return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
 

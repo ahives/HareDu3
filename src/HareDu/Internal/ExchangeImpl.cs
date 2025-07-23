@@ -24,7 +24,7 @@ class ExchangeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
             
-        return await GetAllRequest<ExchangeInfo>("api/exchanges", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ExchangeInfo>("api/exchanges", RequestType.Exchange, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -47,7 +47,7 @@ class ExchangeImpl :
         if (errors.Count > 0)
             return Response.Panic("api/exchanges/{vhost}/{exchange}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, RequestType.Exchange, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null,
@@ -71,7 +71,7 @@ class ExchangeImpl :
             ? $"api/exchanges/{sanitizedVHost}/{exchange}"
             : $"api/exchanges/{sanitizedVHost}/{exchange}?{impl.Query.Value}";
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest(url, RequestType.Exchange, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<BindingInfo>> BindToExchange(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -94,7 +94,7 @@ class ExchangeImpl :
         if (errors.HaveBeenFound())
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/e/{destination}", Request = request.ToJsonString(), Errors = errors});
 
-        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, cancellationToken)
+        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, RequestType.Exchange, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -116,7 +116,7 @@ class ExchangeImpl :
         if (errors.HaveBeenFound())
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", Errors = errors});
 
-        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/e/{impl.DestinationBinding}", RequestType.Exchange, cancellationToken).ConfigureAwait(false);
     }
 
 

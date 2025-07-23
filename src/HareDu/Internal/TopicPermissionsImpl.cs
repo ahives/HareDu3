@@ -23,7 +23,7 @@ class TopicPermissionsImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator,
@@ -48,7 +48,7 @@ class TopicPermissionsImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
@@ -64,7 +64,7 @@ class TopicPermissionsImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/topic-permissions/{vhost}/{username}", errors);
 
-        return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }
 
 

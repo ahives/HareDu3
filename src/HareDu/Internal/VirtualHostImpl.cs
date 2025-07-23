@@ -24,7 +24,7 @@ class VirtualHostImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<VirtualHostInfo>("api/vhosts", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostInfo>("api/vhosts", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<VirtualHostInfo>> Get(string vhost, CancellationToken cancellationToken = default)
@@ -39,7 +39,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic<VirtualHostInfo>("/api/vhosts/{vhost}", errors);
 
-        return await GetRequest<VirtualHostInfo>($"/api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<VirtualHostInfo>($"/api/vhosts/{sanitizedVHost}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string vhost, Action<VirtualHostConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -64,7 +64,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/vhosts/{vhost}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/vhosts/{sanitizedVHost}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/vhosts/{sanitizedVHost}", request, RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string vhost, CancellationToken cancellationToken = default)
@@ -80,7 +80,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/vhosts/{vhost}", errors);
 
-        return await DeleteRequest($"api/vhosts/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/vhosts/{sanitizedVHost}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Startup(string vhost, string node, CancellationToken cancellationToken = default)
@@ -96,18 +96,17 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("/api/vhosts/{vhost}/start/{node}", errors);
 
-        return await PostEmptyRequest($"/api/vhosts/{sanitizedVHost}/start/{node}", cancellationToken).ConfigureAwait(false);
+        return await PostEmptyRequest($"/api/vhosts/{sanitizedVHost}/start/{node}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<VirtualHostLimitsInfo>> GetAllLimits(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostLimitsInfo>("api/vhost-limits", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null,
-        CancellationToken cancellationToken = default)
+    public async Task<Result> DefineLimit(string vhost, Action<VirtualHostLimitsConfigurator> configurator = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -127,7 +126,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DeleteLimit(string vhost, VirtualHostLimit limit, CancellationToken cancellationToken = default)
@@ -142,7 +141,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/vhost-limits/{vhost}/{limit}", errors);
 
-        return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/vhost-limits/{sanitizedVHost}/{limit.Convert()}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<VirtualHostPermissionInfo>> GetAllPermissions(string vhost, CancellationToken cancellationToken = default)
@@ -157,7 +156,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Responses.Panic<VirtualHostPermissionInfo>("api/vhosts/{vhost}/permissions", errors);
 
-        return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostPermissionInfo>($"api/vhosts/{sanitizedVHost}/permissions", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<VirtualHostPermissionInfo>> GetUserPermissions(string vhost, string username, CancellationToken cancellationToken = default)
@@ -173,7 +172,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic<VirtualHostPermissionInfo>("api/permissions/vhost/user", errors);
 
-        return await GetRequest<VirtualHostPermissionInfo>($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<VirtualHostPermissionInfo>($"api/permissions/{sanitizedVHost}/{username}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions(string vhost, CancellationToken cancellationToken = default)
@@ -188,7 +187,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Responses.Panic<VirtualHostTopicPermissionInfo>("api/vhosts/{vhost}/topic-permissions", errors);
 
-        return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<VirtualHostTopicPermissionInfo>($"api/vhosts/{sanitizedVHost}/topic-permissions", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> ApplyPermissions(string username, string vhost,
@@ -211,7 +210,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString());
 
-        return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", impl.Request.Value, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/permissions/{sanitizedVHost}/{username}", impl.Request.Value, RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DeletePermissions(string username, string vhost, CancellationToken cancellationToken = default)
@@ -227,7 +226,7 @@ class VirtualHostImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/permissions/{vhost}/{username}", errors);
 
-        return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/permissions/{sanitizedVHost}/{username}", RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
     

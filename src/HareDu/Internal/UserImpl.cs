@@ -25,14 +25,14 @@ class UserImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<UserInfo>("api/users", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserInfo>("api/users", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<UserInfo>("api/users/without-permissions", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserInfo>("api/users/without-permissions", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string username, string password, string passwordHash = null,
@@ -64,7 +64,7 @@ class UserImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/users/{username}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/users/{username}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/users/{username}", request, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
@@ -78,7 +78,7 @@ class UserImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/users/{username}", errors);
 
-        return await DeleteRequest($"api/users/{username}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/users/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default)
@@ -98,7 +98,7 @@ class UserImpl :
 
         BulkUserDeleteRequest request = new() {Users = usernames};
 
-        return await PostRequest("api/users/bulk-delete", request, cancellationToken).ConfigureAwait(false);
+        return await PostRequest("api/users/bulk-delete", request, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default)
@@ -112,14 +112,14 @@ class UserImpl :
         if (errors.HaveBeenFound())
             return Responses.Panic<UserLimitsInfo>("api/user-limits/{username}", errors);
 
-        return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<UserLimitsInfo>("api/user-limits", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserLimitsInfo>("api/user-limits", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DefineLimit(string username, Action<UserLimitConfigurator> configurator = null, CancellationToken cancellationToken = default)
@@ -140,7 +140,7 @@ class UserImpl :
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
         return await PutRequest($"api/user-limits/{username}/{impl.Limit}",
-            new UserLimitRequest {Value = impl.LimitValue}, cancellationToken).ConfigureAwait(false);
+            new UserLimitRequest {Value = impl.LimitValue}, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default)
@@ -154,14 +154,14 @@ class UserImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/user-limits/{username}/{limit}", errors);
 
-        return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserPermissionsInfo>> GetAllPermissions(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<UserPermissionsInfo>("api/permissions", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<UserPermissionsInfo>("api/permissions", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     

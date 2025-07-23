@@ -19,7 +19,7 @@ internal class BaseBrokerImpl :
     {
     }
 
-    protected async Task<Results<T>> GetAllRequest<T>(string url, CancellationToken cancellationToken = default)
+    protected async Task<Results<T>> GetAllRequest<T>(string url, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -30,7 +30,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Responses.Failed<T>(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Responses.Failed<T>(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), response: rawResponse)
                 : Responses.Succeeded(url, rawResponse.ToObject<List<T>>().GetDataOrDefault(), response: rawResponse);
         }
         catch (MissingMethodException e)
@@ -55,7 +55,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result<T>> GetRequest<T>(string url, CancellationToken cancellationToken = default)
+    protected async Task<Result<T>> GetRequest<T>(string url, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -66,7 +66,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed<T>(url, [GetError(response.StatusCode)], rawResponse)
+                ? Response.Failed<T>(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), rawResponse)
                 : Response.Succeeded(url, rawResponse.ToObject<T>(), null, rawResponse);
         }
         catch (MissingMethodException e)
@@ -91,7 +91,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> GetRequest(string url, CancellationToken cancellationToken = default)
+    protected async Task<Result> GetRequest(string url, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -102,7 +102,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], request: rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), request: rawResponse)
                 : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)
@@ -127,7 +127,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> DeleteRequest(string url, CancellationToken cancellationToken = default)
+    protected async Task<Result> DeleteRequest(string url, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -138,7 +138,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), response: rawResponse)
                 : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)
@@ -163,7 +163,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> PutRequest<TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
+    protected async Task<Result> PutRequest<TRequest>(string url, TRequest request, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -176,7 +176,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), requestContent, rawResponse)
                 : Response.Succeeded(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
@@ -201,7 +201,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> PutRequest(string url, string request, CancellationToken cancellationToken = default)
+    protected async Task<Result> PutRequest(string url, string request, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -213,7 +213,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], request, rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), request, rawResponse)
                 : Response.Succeeded(url, rawResponse, request);
         }
         catch (MissingMethodException e)
@@ -238,7 +238,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result<T>> PostRequest<T, TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
+    protected async Task<Result<T>> PostRequest<T, TRequest>(string url, TRequest request, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -251,7 +251,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Response.Failed<T>(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), requestContent, rawResponse)
                 : Response.Succeeded(url, rawResponse.ToObject<T>().GetDataOrDefault(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
@@ -276,7 +276,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> PostRequest<TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
+    protected async Task<Result> PostRequest<TRequest>(string url, TRequest request, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -289,7 +289,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), requestContent, rawResponse)
                 : Response.Succeeded(url, rawResponse, requestContent);
         }
         catch (MissingMethodException e)
@@ -314,7 +314,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Results<T>> PostListRequest<T, TRequest>(string url, TRequest request, CancellationToken cancellationToken = default)
+    protected async Task<Results<T>> PostListRequest<T, TRequest>(string url, TRequest request, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -327,7 +327,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Responses.Failed<T>(url, [GetError(response.StatusCode)], requestContent, rawResponse)
+                ? Responses.Failed<T>(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), requestContent, rawResponse)
                 : Responses.Succeeded(url, rawResponse.ToObject<List<T>>().GetDataOrEmpty(), requestContent, rawResponse);
         }
         catch (MissingMethodException e)
@@ -352,7 +352,7 @@ internal class BaseBrokerImpl :
         }
     }
 
-    protected async Task<Result> PostEmptyRequest(string url, CancellationToken cancellationToken = default)
+    protected async Task<Result> PostEmptyRequest(string url, RequestType type, CancellationToken cancellationToken = default)
     {
         string rawResponse = null;
 
@@ -363,7 +363,7 @@ internal class BaseBrokerImpl :
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(url, [GetError(response.StatusCode)], response: rawResponse)
+                ? Response.Failed(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), response: rawResponse)
                 : Response.Succeeded(url, rawResponse);
         }
         catch (MissingMethodException e)

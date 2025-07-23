@@ -19,7 +19,7 @@ class NodeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<NodeInfo>("api/nodes", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<NodeInfo>("api/nodes", RequestType.Node, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default)
@@ -27,8 +27,9 @@ class NodeImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(node))
-            return Response.Panic<NodeMemoryUsageInfo>("api/nodes/{node}/memory", [new(){Reason = "Name of the node for which to return memory usage data is missing."}]);
+            return Response.Panic<NodeMemoryUsageInfo>("api/nodes/{node}/memory",
+                Errors.Create(e => { e.Add("Name of the node for which to return memory usage data is missing.", RequestType.Node); }));
 
-        return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", RequestType.Node, cancellationToken).ConfigureAwait(false);
     }
 }

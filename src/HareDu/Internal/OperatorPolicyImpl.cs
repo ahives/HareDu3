@@ -24,7 +24,7 @@ class OperatorPolicyImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<OperatorPolicyInfo>("api/operator-policies", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<OperatorPolicyInfo>("api/operator-policies", RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, Action<OperatorPolicyConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -47,7 +47,7 @@ class OperatorPolicyImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -63,7 +63,7 @@ class OperatorPolicyImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/operator-policies/{vhost}/{name}", errors);
 
-        return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 
 

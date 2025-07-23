@@ -22,7 +22,7 @@ class ScopedParameterImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<ScopedParameterInfo>("api/parameters", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ScopedParameterInfo>("api/parameters", RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create<T>(string name, T value, string component, string vhost, CancellationToken cancellationToken = default)
@@ -48,7 +48,7 @@ class ScopedParameterImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default)
@@ -65,6 +65,6 @@ class ScopedParameterImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors);
 
-        return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }
 }

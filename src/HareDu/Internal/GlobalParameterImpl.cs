@@ -24,7 +24,7 @@ class GlobalParameterImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<GlobalParameterInfo>("api/global-parameters", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<GlobalParameterInfo>("api/global-parameters", RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -45,7 +45,7 @@ class GlobalParameterImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/global-parameters/{parameter}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/global-parameters/{parameter}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/global-parameters/{parameter}", request, RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
@@ -53,9 +53,10 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(parameter))
-            return Response.Panic("api/global-parameters/{parameter}", [Errors.Create("The name of the parameter is missing.")]);
+            return Response.Panic("api/global-parameters/{parameter}",
+                Errors.Create(e => { e.Add("The name of the parameter is missing.", RequestType.GlobalParameter); }));
 
-        return await DeleteRequest($"api/global-parameters/{parameter}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/global-parameters/{parameter}", RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 
 

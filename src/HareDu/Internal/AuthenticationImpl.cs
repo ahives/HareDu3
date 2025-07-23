@@ -19,6 +19,6 @@ class AuthenticationImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
             
-        return await GetRequest<AuthenticationDetails>("api/auth", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<AuthenticationDetails>("api/auth", RequestType.Authentication, cancellationToken).ConfigureAwait(false);
     }
 }

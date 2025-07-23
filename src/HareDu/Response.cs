@@ -7,10 +7,10 @@ internal static class Response
 {
     public static Result<T> Failed<T>(T data, DebugInfo debugInfo) => new UnsuccessfulResult<T> {Data = data, DebugInfo = debugInfo};
 
-    public static Result Failed(string url, List<Error> errors, string request = null, string response = null) =>
+    public static Result Failed(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
         new UnsuccessfulResult {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
 
-    public static Result<T> Failed<T>(string url, List<Error> errors, string request = null, string response = null) =>
+    public static Result<T> Failed<T>(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
         new UnsuccessfulResult<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
 
     public static Result<T> Succeeded<T>(T data, DebugInfo debugInfo) => new SuccessfulResult<T> {Data = data, DebugInfo = debugInfo};
@@ -33,9 +33,9 @@ internal static class Response
 
     public static Result<T> Panic<T>(DebugInfo debugInfo) => new UnsuccessfulResult<T> {DebugInfo = debugInfo};
 
-    public static Result<T> Panic<T>(string url, List<Error> errors, string request = null, string response = null) =>
+    public static Result<T> Panic<T>(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
         new UnsuccessfulResult<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
 
-    public static Result Panic(string url, List<Error> errors, string request = null, string response = null) =>
+    public static Result Panic(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
         new UnsuccessfulResult {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
 }

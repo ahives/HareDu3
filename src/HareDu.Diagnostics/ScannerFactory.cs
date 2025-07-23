@@ -101,7 +101,7 @@ public class ScannerFactory :
 
     public bool TryRegisterAllProbes()
     {
-        Config.IfInvalid(_config.Diagnostics);
+        Throw.IfInvalid(_config.Diagnostics);
 
         bool registered = GetType()
             .Assembly

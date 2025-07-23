@@ -1,7 +1,7 @@
 namespace HareDu.HTTP;
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -20,11 +20,11 @@ public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder)
     IHareDuClient,
     IDisposable
 {
-    readonly IDictionary<string, HttpClient> _cache = new Dictionary<string, HttpClient>();
+    readonly ConcurrentDictionary<string, HttpClient> _cache = new();
 
     public HttpClient GetClient(Action<HareDuCredentialProvider> provider)
     {
-        Config.IfInvalid(config.Broker);
+        Throw.IfInvalid(config.Broker);
 
         var credentials = builder.Build(provider);
 
@@ -44,7 +44,7 @@ public class HareDuClient(HareDuConfig config, IHareDuCredentialBuilder builder)
         if (config.Broker.Timeout != TimeSpan.Zero)
             client.Timeout = config.Broker.Timeout;
 
-        _cache.Add(key, client);
+        _cache.TryAdd(key, client);
 
         return client;
     }

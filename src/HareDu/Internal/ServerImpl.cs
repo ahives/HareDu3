@@ -19,6 +19,6 @@ class ServerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetRequest<ServerInfo>("api/definitions", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<ServerInfo>("api/definitions", RequestType.WebServer, cancellationToken).ConfigureAwait(false);
     }
 }

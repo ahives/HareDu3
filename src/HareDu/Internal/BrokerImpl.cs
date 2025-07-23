@@ -20,21 +20,21 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetRequest<BrokerOverviewInfo>("api/overview", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<BrokerOverviewInfo>("api/overview", RequestType.Broker, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> RebalanceQueues(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await PostEmptyRequest("api/rebalance/queues", cancellationToken).ConfigureAwait(false);
+        return await PostEmptyRequest("api/rebalance/queues", RequestType.Broker, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await GetRequest("api/health/checks/alarms", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/alarms", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -57,7 +57,7 @@ class BrokerImpl :
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
             return Response.Panic<BrokerState>("api/aliveness-test/{vhost}", [Errors.Create("The name of the virtual host is missing.")]);
 
-        var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -75,7 +75,7 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await GetRequest("api/health/checks/virtual-hosts", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/virtual-hosts", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -93,7 +93,7 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await GetRequest("api/health/checks/node-is-mirror-sync-critical", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/node-is-mirror-sync-critical", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -111,7 +111,7 @@ class BrokerImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = await GetRequest("api/health/checks/node-is-quorum-critical", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest("api/health/checks/node-is-quorum-critical", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {
@@ -132,7 +132,7 @@ class BrokerImpl :
         if (protocol is null || string.IsNullOrWhiteSpace(protocol.Value))
             return Response.Panic<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [Errors.Create("The protocol is missing.")]);
 
-        var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", cancellationToken).ConfigureAwait(false);
+        var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
         return result switch
         {

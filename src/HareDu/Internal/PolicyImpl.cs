@@ -24,7 +24,7 @@ class PolicyImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<PolicyInfo>("api/policies", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<PolicyInfo>("api/policies", RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -44,7 +44,7 @@ class PolicyImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/policies/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -60,7 +60,7 @@ class PolicyImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/policies/{vhost}/{name}", errors);
 
-        return await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 
 

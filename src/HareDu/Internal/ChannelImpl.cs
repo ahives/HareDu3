@@ -40,7 +40,7 @@ class ChannelImpl :
             return Responses.Panic<ChannelInfo>("api/channels", errors);
 
         return await GetAllRequest<ChannelInfo>(
-                string.IsNullOrWhiteSpace(@params) ? "api/channels" : $"api/channels?{@params}", cancellationToken)
+                string.IsNullOrWhiteSpace(@params) ? "api/channels" : $"api/channels?{@params}", RequestType.Channel, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -51,7 +51,7 @@ class ChannelImpl :
         if (string.IsNullOrWhiteSpace(connectionName))
             return Responses.Panic<ChannelInfo>("api/connections/{name}/channels", [Errors.Create("Name of the connection is missing.")]);
 
-        return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ChannelInfo>($"/api/connections/{connectionName}/channels", RequestType.Channel, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<ChannelInfo>> GetByVirtualHost(string vhost, CancellationToken cancellationToken = default)
@@ -61,9 +61,9 @@ class ChannelImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Responses.Panic<ChannelInfo>("api/vhosts/{vhost}/channels", [Errors.Create("The name of the virtual host is missing.")]);
+            return Responses.Panic<ChannelInfo>("api/vhosts/{vhost}/channels", Errors.Create(e => {e.Add("The name of the virtual host is missing.", RequestType.Channel);}));
 
-        return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<ChannelInfo>($"/api/vhosts/{sanitizedVHost}/channels", RequestType.Channel, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<ChannelInfo>> GetByName(string name, CancellationToken cancellationToken = default)
@@ -71,8 +71,8 @@ class ChannelImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (string.IsNullOrWhiteSpace(name))
-            return Response.Panic<ChannelInfo>("api/channels/{name}", [Errors.Create("The name of the virtual host is missing.")]);
+            return Response.Panic<ChannelInfo>("api/channels/{name}", Errors.Create(e => {e.Add("The name of the virtual host is missing.", RequestType.Channel);}));
 
-        return await GetRequest<ChannelInfo>($"/api/channels/{name}", cancellationToken).ConfigureAwait(false);
+        return await GetRequest<ChannelInfo>($"/api/channels/{name}", RequestType.Channel, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -19,6 +19,6 @@ class BindingImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
             
-        return await GetAllRequest<BindingInfo>("api/bindings", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<BindingInfo>("api/bindings", RequestType.Binding, cancellationToken).ConfigureAwait(false);
     }
 }

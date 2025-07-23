@@ -20,7 +20,7 @@ public class HareDuCredentialBuilder :
 
         var credentials = impl.Credentials.Value;
 
-        Config.IfInvalid(credentials);
+        Throw.IfInvalid(credentials);
 
         return credentials;
     }

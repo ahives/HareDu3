@@ -42,7 +42,7 @@ class QueueImpl :
             return Responses.Panic<QueueInfo>("api/queues", errors);
 
         return await GetAllRequest<QueueInfo>(
-                string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", cancellationToken)
+                string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", RequestType.Queue, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -50,7 +50,7 @@ class QueueImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await GetAllRequest<QueueDetailInfo>("api/queues/detailed", cancellationToken).ConfigureAwait(false);
+        return await GetAllRequest<QueueDetailInfo>("api/queues/detailed", RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,
@@ -74,7 +74,7 @@ class QueueImpl :
         if (errors.HaveBeenFound())
             return Response.Panic("api/queues/{vhost}/{name}", errors, request.ToJsonString());
 
-        return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, cancellationToken).ConfigureAwait(false);
+        return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null,
@@ -100,7 +100,7 @@ class QueueImpl :
             ? $"api/queues/{sanitizedVHost}/{name}"
             : $"api/queues/{sanitizedVHost}/{name}?{queryParams}";
 
-        return await DeleteRequest(url, cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest(url, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default)
@@ -116,7 +116,7 @@ class QueueImpl :
         if (errors.Count > 0)
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
 
-        return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default)
@@ -133,7 +133,7 @@ class QueueImpl :
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
-            new QueueSyncRequest {Action = QueueSyncAction.Sync}, cancellationToken).ConfigureAwait(false);
+            new QueueSyncRequest {Action = QueueSyncAction.Sync}, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default)
@@ -150,7 +150,7 @@ class QueueImpl :
             return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
 
         return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
-            new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, cancellationToken).ConfigureAwait(false);
+            new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -158,7 +158,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", [Errors.Create("No binding was defined.")]);
+            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", Errors.Create(e => {e.Add("No binding was defined.", RequestType.Queue);}));
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -173,7 +173,7 @@ class QueueImpl :
         if (errors.HaveBeenFound())
             return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
 
-        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, cancellationToken)
+        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, RequestType.Queue, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -195,7 +195,7 @@ class QueueImpl :
         if (errors.HaveBeenFound())
             return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
 
-        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", cancellationToken).ConfigureAwait(false);
+        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
 
