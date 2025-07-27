@@ -59,7 +59,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/queues/{vhost}/{name}", [Errors.Create("No queue was defined.")]);
+            return Response.Panic("api/queues/{vhost}/{name}", Errors.Create(e => { e.Add("No queue was defined."); }));
 
         var impl = new QueueConfiguratorImpl(node);
         configurator(impl);
@@ -182,7 +182,7 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", [Errors.Create("No binding configuration was provided.")]);
+            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", Errors.Create(e => { e.Add("No binding configuration was provided."); }));
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);

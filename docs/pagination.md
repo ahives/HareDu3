@@ -13,25 +13,25 @@ Below is the ```PaginationConfigurator``` interface that is responsible for pagi
 ```c#
 x =>
     {
-        x.Name("127.0.0.0:72368 -> 127.0.0.0:5672");
+        x.Name("test");
         x.Page(1);
-        x.PageSize(2);
+        x.PageSize(100);
         x.UseRegex(false);
     }
 ```
 
-Example outuput URL: http://localhost:15672/api/queues/my-vhost?page=1&page_size=100&name=&use_regex=false&pagination=true
+Example outuput URL: http://localhost:15672/api/queues/my-vhost?page=1&page_size=100&name=test&use_regex=false&pagination=true
 
 The other way to get connection information is to call the extension methods off of ```IBrokerFactory``` like so...
 
 ```c#
 var result = await services.GetService<IBrokerFactory>()
-    .API<Channel>()
+    .API<Queue>(x => x.UsingCredentials("guest", "guest"))
     .GetAll(x =>
     {
-        x.Name("127.0.0.0:72368 -> 127.0.0.0:5672");
+        x.Name("test");
         x.Page(1);
-        x.PageSize(2);
+        x.PageSize(100);
         x.UseRegex(false);
     });
 ```
