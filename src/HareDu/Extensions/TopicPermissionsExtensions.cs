@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -20,8 +21,11 @@ public static class TopicPermissionsExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<TopicPermissionsInfo>> GetAllTopicPermissions(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<TopicPermissionsInfo>> GetAllTopicPermissions(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -44,9 +48,14 @@ public static class TopicPermissionsExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> CreateTopicPermission(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string username, string vhost,
-        Action<TopicPermissionsConfigurator> configurator, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> CreateTopicPermission(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string username,
+        [NotNull] string vhost,
+        [NotNull] Action<TopicPermissionsConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -68,8 +77,13 @@ public static class TopicPermissionsExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteTopicPermission(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string username, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> DeleteTopicPermission(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string username,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

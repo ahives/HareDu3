@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the results of all exchanges.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ExchangeInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an exchange on the RabbitMQ broker.
@@ -29,7 +31,12 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the exchange creation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled through the cancellation token.</exception>
-    Task<Result> Create(string exchange, string vhost, Action<ExchangeConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string exchange,
+        [NotNull] string vhost,
+        [NotNull] Action<ExchangeConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified exchange on the target RabbitMQ virtual host.
@@ -40,7 +47,12 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Result indicating the success or failure of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string exchange, string vhost, Action<ExchangeDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete(
+        [NotNull] string exchange,
+        [NotNull] string vhost,
+        [NotNull] Action<ExchangeDeletionConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Binds an exchange to another exchange within the specified RabbitMQ virtual host.
@@ -51,7 +63,12 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Returns the result of the binding operation, including binding information if successful.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<BindingInfo>> BindToExchange(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<BindingInfo>> BindToExchange(
+        [NotNull] string vhost,
+        [NotNull] string exchange,
+        [NotNull] Action<BindingConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unbinds a binding between an exchange and another resource in the specified RabbitMQ virtual host.
@@ -61,5 +78,6 @@ public interface Exchange :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result indicating the success or failure of the unbind operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    [return: NotNull]
     Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
 }

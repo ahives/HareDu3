@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -21,8 +22,12 @@ public static class ChannelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ChannelInfo>> GetAllChannels(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ChannelInfo>> GetAllChannels(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [AllowNull] Action<PaginationConfigurator> pagination = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -43,8 +48,12 @@ public static class ChannelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ChannelInfo>> GetChannelsByConnection(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string connectionName, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ChannelInfo>> GetChannelsByConnection(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string connectionName,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -65,8 +74,12 @@ public static class ChannelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -87,8 +100,12 @@ public static class ChannelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result<ChannelInfo>> GetChannelByName(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result<ChannelInfo>> GetChannelByName(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

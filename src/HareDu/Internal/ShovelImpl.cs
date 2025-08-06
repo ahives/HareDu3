@@ -26,13 +26,17 @@ class ShovelImpl :
         return await GetAllRequest<ShovelInfo>("api/shovels", RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string name, string vhost,
-        Action<ShovelConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result> Create(
+        string name,
+        string vhost,
+        Action<ShovelConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/parameters/shovel/{vhost}/{name}", Errors.Create(e => { e.Add("The shovel configurator is missing."); }));
+            return Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}",
+                Errors.Create(e => { e.Add("The shovel configurator is missing."); })));
 
         var impl = new ShovelConfiguratorImpl();
         configurator(impl);
@@ -44,10 +48,9 @@ class ShovelImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, RequestType.Shovel, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString()))
+            : await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -60,10 +63,9 @@ class ShovelImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the shovel is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/parameters/shovel/{vhost}/{name}", errors);
-
-        return await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", RequestType.Shovel, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors))
+            : await DeleteRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -71,8 +73,8 @@ class ShovelImpl :
         ShovelConfigurator
     {
         string _uri;
-        ShovelProtocolType _destinationProtocol;
-        ShovelProtocolType _sourceProtocol;
+        ShovelProtocol _destinationProtocol;
+        ShovelProtocol _sourceProtocol;
         AckMode _acknowledgeMode;
         string _destinationQueue;
         string _sourceQueue;
@@ -94,6 +96,9 @@ class ShovelImpl :
 
         public ShovelConfiguratorImpl()
         {
+            _sourceProtocol = ShovelProtocol.Amqp091;
+            _destinationProtocol = ShovelProtocol.Amqp091;
+
             Request = new Lazy<ShovelRequest>(
                 () => new()
                 {
@@ -125,19 +130,34 @@ class ShovelImpl :
 
         public void AcknowledgementMode(AckMode mode) => _acknowledgeMode = mode;
 
-        public void Source(string queue, Action<ShovelSourceConfigurator> configurator)
+        public void Source(string queue, ShovelProtocol protocol, Action<ShovelSourceConfigurator> configurator = null)
         {
             _sourceCalled = true;
                 
             var impl = new ShovelSourceConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            _sourceProtocol = impl.ShovelProtocol;
+            _sourceProtocol = protocol;
             _sourceQueue = queue;
             _sourceExchangeName = impl.ExchangeName;
             _sourceExchangeRoutingKey = impl.ExchangeRoutingKey;
             _sourcePrefetchCount = impl.PrefetchCount;
             _deleteShovelAfter = impl.DeleteAfterShovel;
+        }
+
+        public void Destination(string queue, ShovelProtocol protocol, Action<ShovelDestinationConfigurator> configurator = null)
+        {
+            _destinationCalled = true;
+                
+            var impl = new ShovelDestinationConfiguratorImpl();
+            configurator?.Invoke(impl);
+
+            _destinationProtocol = protocol;
+            _destinationQueue = queue;
+            _destinationExchangeName = impl.ExchangeName;
+            _destinationExchangeRoutingKey = impl.ExchangeRoutingKey;
+            _destinationAddForwardHeaders = impl.AddHeaders;
+            _destinationAddTimestampHeader = impl.AddTimestampHeader;
         }
 
         public void Destination(string queue, Action<ShovelDestinationConfigurator> configurator)
@@ -228,7 +248,6 @@ class ShovelImpl :
         class ShovelSourceConfiguratorImpl :
             ShovelSourceConfigurator
         {
-            public ShovelProtocolType ShovelProtocol { get; private set; }
             public string ExchangeName { get; private set; }
             public string ExchangeRoutingKey { get; private set; }
             public ulong PrefetchCount { get; private set; }
@@ -236,11 +255,8 @@ class ShovelImpl :
 
             public ShovelSourceConfiguratorImpl()
             {
-                ShovelProtocol = ShovelProtocolType.Amqp091;
                 PrefetchCount = 1000;
             }
-
-            public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
                 
             public void DeleteAfter(DeleteShovelMode mode) => DeleteAfterShovel = mode.Convert();
 
@@ -263,18 +279,11 @@ class ShovelImpl :
         class ShovelDestinationConfiguratorImpl :
             ShovelDestinationConfigurator
         {
-            public ShovelProtocolType ShovelProtocol { get; private set; }
+            public ShovelProtocol ShovelProtocol { get; private set; }
             public string ExchangeName { get; private set; }
             public string ExchangeRoutingKey { get; private set; }
             public bool AddHeaders { get; private set; }
             public bool AddTimestampHeader { get; private set; }
-
-            public ShovelDestinationConfiguratorImpl()
-            {
-                ShovelProtocol = ShovelProtocolType.Amqp091;
-            }
-
-            public void Protocol(ShovelProtocolType protocol) => ShovelProtocol = protocol;
 
             public void Exchange(string exchange, string routingKey = null)
             {

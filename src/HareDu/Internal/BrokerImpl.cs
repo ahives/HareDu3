@@ -40,11 +40,9 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(AlarmState.InEffect, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(AlarmState.NotInEffect, result.DebugInfo),
-            _ => Response.Panic(AlarmState.NotRecognized, new()
-            {
-                URL = "api/health/checks/alarms",
-                Errors = [Errors.Create("Not able to determine whether an alarm is in effect or not.")]
-            })
+            _ => Response.Panic(AlarmState.NotRecognized,
+                Debug.Info("api/health/checks/alarms",
+                    Errors.Create(e => {e.Add("Not able to determine whether an alarm is in effect or not.");})))
         };
     }
 
@@ -55,7 +53,8 @@ class BrokerImpl :
         string sanitizedVHost = vhost.ToSanitizedName();
 
         if (string.IsNullOrWhiteSpace(sanitizedVHost))
-            return Response.Panic<BrokerState>("api/aliveness-test/{vhost}", [Errors.Create("The name of the virtual host is missing.")]);
+            return Response.Panic<BrokerState>(Debug.Info("api/aliveness-test/{vhost}",
+                Errors.Create(e => { e.Add("The name of the virtual host is missing."); })));
 
         var result = await GetRequest($"api/aliveness-test/{sanitizedVHost}", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
@@ -63,11 +62,8 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(BrokerState.Alive, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(BrokerState.NotAlive, result.DebugInfo),
-            _ => Response.Panic(BrokerState.NotRecognized, new()
-            {
-                URL = "api/aliveness-test/{vhost}",
-                Errors = [Errors.Create("Not able to determine whether an alarm is in effect or not.")]
-            })
+            _ => Response.Panic(BrokerState.NotRecognized, Debug.Info("api/aliveness-test/{vhost}",
+                    Errors.Create(e => {e.Add("Not able to determine whether an alarm is in effect or not.");})))
         };
     }
 
@@ -81,11 +77,8 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(VirtualHostState.Running, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(VirtualHostState.NotRunning, result.DebugInfo),
-            _ => Response.Panic(VirtualHostState.NotRecognized, new()
-            {
-                URL = "api/health/checks/virtual-hosts",
-                Errors = [Errors.Create("Not able to determine whether all virtual hosts are running.")]
-            })
+            _ => Response.Panic(VirtualHostState.NotRecognized, Debug.Info("api/health/checks/virtual-hosts",
+                    Errors.Create(e => {e.Add("Not able to determine whether all virtual hosts are running.");})))
         };
     }
 
@@ -99,11 +92,8 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(NodeMirrorSyncState.WithSyncedMirrorsOnline, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(NodeMirrorSyncState.WithoutSyncedMirrorsOnline, result.DebugInfo),
-            _ => Response.Panic(NodeMirrorSyncState.NotRecognized, new()
-            {
-                URL = "api/health/checks/node-is-mirror-sync-critical",
-                Errors = [Errors.Create("Not able to determine whether or not there are mirrored queues present without any mirrors online.")]
-            })
+            _ => Response.Panic(NodeMirrorSyncState.NotRecognized, Debug.Info("api/health/checks/node-is-mirror-sync-critical",
+                    Errors.Create(e => {e.Add("Not able to determine whether or not there are mirrored queues present without any mirrors online.");})))
         };
     }
 
@@ -117,11 +107,8 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(NodeQuorumState.MinimumQuorum, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(NodeQuorumState.BelowMinimumQuorum, result.DebugInfo),
-            _ => Response.Panic(NodeQuorumState.NotRecognized, new()
-            {
-                URL = "api/health/checks/node-is-quorum-critical",
-                Errors = [Errors.Create("Not able to determine whether or not quorum queues have a minimum online quorum.")]
-            })
+            _ => Response.Panic(NodeQuorumState.NotRecognized, Debug.Info("api/health/checks/node-is-quorum-critical",
+                    Errors.Create(e => {e.Add("Not able to determine whether or not quorum queues have a minimum online quorum.");})))
         };
     }
 
@@ -130,7 +117,8 @@ class BrokerImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (protocol is null || string.IsNullOrWhiteSpace(protocol.Value))
-            return Response.Panic<ProtocolListenerState>("api/health/checks/protocol-listener/{protocol}", [Errors.Create("The protocol is missing.")]);
+            return Response.Panic<ProtocolListenerState>(Debug.Info("api/health/checks/protocol-listener/{protocol}",
+                Errors.Create(e => { e.Add("The protocol is missing."); })));
 
         var result = await GetRequest($"api/health/checks/protocol-listener/{protocol.Value}", RequestType.Broker, cancellationToken).ConfigureAwait(false);
 
@@ -138,11 +126,8 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(ProtocolListenerState.Active, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(ProtocolListenerState.NotActive, result.DebugInfo),
-            _ => Response.Panic(ProtocolListenerState.NotRecognized, new()
-            {
-                URL = "api/health/checks/protocol-listener/{protocol}",
-                Errors = [Errors.Create("Not able to determine whether or not quorum queues have a minimum online quorum.")]
-            })
+            _ => Response.Panic(ProtocolListenerState.NotRecognized, Debug.Info("api/health/checks/protocol-listener/{protocol}",
+                    Errors.Create(e => {e.Add("Not able to determine whether or not quorum queues have a minimum online quorum.");})))
         };
     }
 }

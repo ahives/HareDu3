@@ -12,7 +12,7 @@ public record DebugInfo
     /// <summary>
     /// Gets the URL associated with the operation or request that was executed.
     /// </summary>
-    public string URL { get; init; }
+    public string Url { get; init; }
 
     /// <summary>
     /// Represents the raw request data associated with the operation or request.
@@ -20,10 +20,9 @@ public record DebugInfo
     public string Request { get; init; }
 
     /// <summary>
-    /// Gets the exception message providing details about the nature of the error
-    /// that occurred during the execution of an operation or process.
+    /// Gets the message or exception detail associated with the debugging information.
     /// </summary>
-    public string Exception { get; init; }
+    public string Message { get; init; }
 
     /// <summary>
     /// Gets the stack trace information associated with the exception or error that occurred during an operation.

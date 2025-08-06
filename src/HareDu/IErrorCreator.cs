@@ -1,11 +1,12 @@
-namespace HareDu.Core;
+namespace HareDu;
 
 using System.Net;
+using Core;
 
 /// <summary>
 /// Defines methods for creating and adding error details within an implementation.
 /// </summary>
-public interface IErrorCreator
+internal interface IErrorCreator
 {
     /// <summary>
     /// Adds an error to the collection with the specified details.

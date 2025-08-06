@@ -38,12 +38,10 @@ class QueueImpl :
             errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
-        if (errors.HaveBeenFound())
-            return Responses.Panic<QueueInfo>("api/queues", errors);
-
-        return await GetAllRequest<QueueInfo>(
-                string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", RequestType.Queue, cancellationToken)
-            .ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Responses.Panic<QueueInfo>(Debug.Info("api/queues", errors))
+            : await GetAllRequest<QueueInfo>(string.IsNullOrWhiteSpace(@params) ? "api/queues" : $"api/queues?{@params}", RequestType.Queue, cancellationToken)
+                .ConfigureAwait(false);
     }
 
     public async Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default)
@@ -53,13 +51,17 @@ class QueueImpl :
         return await GetAllRequest<QueueDetailInfo>("api/queues/detailed", RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator = null,
+    public async Task<Result> Create(
+        string name,
+        string vhost,
+        string node,
+        Action<QueueConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/queues/{vhost}/{name}", Errors.Create(e => { e.Add("No queue was defined."); }));
+            return Response.Panic(Debug.Info("api/queues/{vhost}/{name}", Errors.Create(e => { e.Add("No queue was defined."); })));
 
         var impl = new QueueConfiguratorImpl(node);
         configurator(impl);
@@ -71,13 +73,15 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/queues/{vhost}/{name}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, RequestType.Queue, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors, request:request.ToJsonString()))
+            : await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null,
+    public async Task<Result> Delete(
+        string name,
+        string vhost,
+        Action<QueueDeletionConfigurator> configurator = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -89,7 +93,7 @@ class QueueImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         if (errors.HaveBeenFound())
-            return Response.Panic("api/queues/{vhost}/{name}", errors);
+            return Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors));
 
         var impl = new QueueDeletionConfiguratorImpl();
         configurator?.Invoke(impl);
@@ -113,10 +117,9 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.Count > 0)
-            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/contents", errors);
-
-        return await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", RequestType.Queue, cancellationToken).ConfigureAwait(false);
+        return errors.Count > 0
+            ? Response.Panic<QueueInfo>(Debug.Info("api/queues/{vhost}/{name}/contents", errors))
+            : await DeleteRequest($"api/queues/{sanitizedVHost}/{name}/contents", RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default)
@@ -129,11 +132,11 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
-
-        return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
-            new QueueSyncRequest {Action = QueueSyncAction.Sync}, RequestType.Queue, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic<QueueInfo>(Debug.Info("api/queues/{vhost}/{name}/actions", errors))
+            : await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
+                    new QueueSyncRequest {Action = QueueSyncAction.Sync}, RequestType.Queue, cancellationToken)
+                .ConfigureAwait(false);
     }
 
     public async Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default)
@@ -146,19 +149,24 @@ class QueueImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the queue is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic<QueueInfo>("api/queues/{vhost}/{name}/actions", errors);
-
-        return await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
-            new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, RequestType.Queue, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic<QueueInfo>(Debug.Info("api/queues/{vhost}/{name}/actions", errors))
+            : await PostRequest($"api/queues/{sanitizedVHost}/{name}/actions",
+                    new QueueSyncRequest {Action = QueueSyncAction.CancelSync}, RequestType.Queue, cancellationToken)
+                .ConfigureAwait(false);
     }
 
-    public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    public async Task<Result<BindingInfo>> BindToQueue(
+        string vhost,
+        string exchange,
+        Action<BindingConfigurator> configurator,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic<BindingInfo>("api/bindings/{vhost}/e/{exchange}/q/{destination}", Errors.Create(e => {e.Add("No binding was defined.", RequestType.Queue);}));
+            return Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}",
+                Errors.Create(e => {e.Add("No binding was defined.", RequestType.Queue);})));
 
         var impl = new BindingConfiguratorImpl();
         configurator(impl);
@@ -170,11 +178,11 @@ class QueueImpl :
         errors.AddIfTrue(exchange, string.IsNullOrWhiteSpace, Errors.Create("The name of the source binding (queue/exchange) is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic<BindingInfo>(new() {URL = "api/bindings/{vhost}/e/{exchange}/q/{destination}", Request = request.ToJsonString(), Errors = errors});
-
-        return await PostRequest<BindingInfo, BindingRequest>($"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, RequestType.Queue, cancellationToken)
-            .ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}", errors, request: request.ToJsonString()))
+            : await PostRequest<BindingInfo, BindingRequest>(
+                    $"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, RequestType.Queue, cancellationToken)
+                .ConfigureAwait(false);
     }
 
     public async Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
@@ -182,7 +190,8 @@ class QueueImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/bindings/{vhost}/e/{exchange}/q/{destination}", Errors.Create(e => { e.Add("No binding configuration was provided."); }));
+            return Response.Panic(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}",
+                Errors.Create(e => { e.Add("No binding configuration was provided."); })));
 
         var impl = new UnbindingConfiguratorImpl();
         configurator(impl);
@@ -192,10 +201,10 @@ class QueueImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic(new() {URL = $"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", Errors = errors});
-
-        return await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", RequestType.Queue, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", errors))
+            : await DeleteRequest($"api/bindings/{sanitizedVHost}/e/{impl.SourceBinding}/q/{impl.DestinationBinding}", RequestType.Queue, cancellationToken)
+                .ConfigureAwait(false);
     }
 
 

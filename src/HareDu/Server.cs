@@ -1,5 +1,6 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -21,5 +22,6 @@ public interface Server :
     /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{T}"/> object encapsulating the server information.
     /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<ServerInfo>> Get([NotNull] CancellationToken cancellationToken = default);
 }

@@ -2,6 +2,7 @@ namespace HareDu.Extensions;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,9 +27,14 @@ public static class ShovelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> CreateShovel(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        Action<ShovelConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> CreateShovel(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] Action<ShovelConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -50,8 +56,13 @@ public static class ShovelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteShovel(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> DeleteShovel(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -72,8 +83,12 @@ public static class ShovelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<IReadOnlyList<Result>> DeleteAllShovels(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<IReadOnlyList<Result>> DeleteAllShovels(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -115,8 +130,11 @@ public static class ShovelExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ShovelInfo>> GetAllShovels(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ShovelInfo>> GetAllShovels(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

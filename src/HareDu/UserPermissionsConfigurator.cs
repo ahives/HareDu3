@@ -1,22 +1,27 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
+
+/// <summary>
+/// Configures user permissions for a specific virtual host in the RabbitMQ broker.
+/// </summary>
 public interface UserPermissionsConfigurator
 {
     /// <summary>
-    /// Specify the pattern of what users to configure the permissions for.
+    /// Defines the configuration pattern for the user on a specific virtual host in the RabbitMQ broker.
     /// </summary>
-    /// <param name="pattern"></param>
-    void UsingConfigurePattern(string pattern);
+    /// <param name="pattern">The regular expression pattern specifying configuration permissions for the user.</param>
+    void UsingConfigurePattern([AllowNull] string pattern);
 
     /// <summary>
-    /// Specify the pattern of what types of writes are allowable for this permission.
+    /// Sets the write permissions pattern for the user on a specific virtual host in the RabbitMQ broker.
     /// </summary>
-    /// <param name="pattern"></param>
-    void UsingWritePattern(string pattern);
+    /// <param name="pattern">The regular expression pattern defining write permissions for the user.</param>
+    void UsingWritePattern([AllowNull] string pattern);
 
     /// <summary>
-    /// Specify the pattern of what types of reads are allowable for this permission.
+    /// Sets the read permissions pattern for the user on a specific virtual host in the RabbitMQ broker.
     /// </summary>
-    /// <param name="pattern"></param>
-    void UsingReadPattern(string pattern);
+    /// <param name="pattern">The regular expression pattern defining read permissions for the user.</param>
+    void UsingReadPattern([AllowNull] string pattern);
 }

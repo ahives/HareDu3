@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -17,7 +18,8 @@ public interface OperatorPolicy :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="Results{OperatorPolicyInfo}"/> object containing the details of all operator policies on the broker.</returns>
-    Task<Results<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<OperatorPolicyInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new operator policy on the specified virtual host.
@@ -27,7 +29,12 @@ public interface OperatorPolicy :
     /// <param name="configurator">The configuration details for the operator policy.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="Result"/> object indicating the outcome of the operation.</returns>
-    Task<Result> Create(string name, string vhost, Action<OperatorPolicyConfigurator> configurator, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] Action<OperatorPolicyConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified operator policy from the given virtual host.
@@ -36,5 +43,6 @@ public interface OperatorPolicy :
     /// <param name="vhost">The virtual host from which the operator policy should be deleted.</param>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="Result"/> indicating the success or failure of the delete operation.</returns>
-    Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
 }

@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -20,8 +21,11 @@ public static class OperatorPolicyExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -44,10 +48,14 @@ public static class OperatorPolicyExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> CreateOperatorPolicy(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        Action<OperatorPolicyConfigurator> configurator,
-        CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> CreateOperatorPolicy(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] Action<OperatorPolicyConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -69,8 +77,12 @@ public static class OperatorPolicyExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteOperatorPolicy(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string policy, string vhost,
+    [return: NotNull]
+    public static async Task<Result> DeleteOperatorPolicy(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string policy,
+        [NotNull] string vhost,
         CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);

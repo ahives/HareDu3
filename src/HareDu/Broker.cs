@@ -1,5 +1,6 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the broker overview information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<BrokerOverviewInfo>> GetOverview(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<BrokerOverviewInfo>> GetOverview([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initiates the rebalancing of all queues across the RabbitMQ cluster.
@@ -26,7 +28,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result indicating the success or failure of the rebalancing operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> RebalanceQueues(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> RebalanceQueues([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether alarms are currently in effect on the RabbitMQ broker.
@@ -34,7 +37,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation before completion.</param>
     /// <returns>A result indicating the current state of alarms on the broker.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<AlarmState>> IsAlarmsInEffect([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether a RabbitMQ broker is alive and responsive for the specified virtual host.
@@ -43,7 +47,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the broker state (Alive, NotAlive, or NotRecognized).</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<BrokerState>> IsBrokerAlive([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks the runtime status of all virtual hosts configured in the RabbitMQ broker.
@@ -51,7 +56,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the current runtime state of the virtual hosts.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<VirtualHostState>> IsVirtualHostsRunning([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines if the RabbitMQ node is in a critical state due to unsynchronized mirrored queues.
@@ -59,7 +65,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the synchronization state of the mirrored queues on the node.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks whether the state of node quorum is critical in the RabbitMQ cluster.
@@ -67,7 +74,8 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the state of node quorum.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<NodeQuorumState>> IsNodeQuorumCritical([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Determines whether the specified protocol has an active listener on the RabbitMQ broker.
@@ -76,5 +84,6 @@ public interface Broker :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing the active listener state of the specified protocol.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<ProtocolListenerState>> IsProtocolActiveListener([NotNull] Protocol protocol, [NotNull] CancellationToken cancellationToken = default);
 }

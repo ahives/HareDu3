@@ -57,7 +57,7 @@ public class ShovelTests
             .Create("test-shovel3", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
                 });
@@ -74,7 +74,7 @@ public class ShovelTests
             .CreateShovel(x => x.UsingCredentials("guest", "guest"),"test-shovel2", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
                 });
@@ -91,7 +91,7 @@ public class ShovelTests
             .CreateShovel(x => x.UsingCredentials("guest", "guest"),"test-shovel6", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.DeleteAfter(5);
                 });

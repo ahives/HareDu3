@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -21,8 +22,12 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<QueueInfo>> GetAllQueues(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<QueueInfo>> GetAllQueues(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [AllowNull] Action<PaginationConfigurator> pagination = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -46,9 +51,15 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> CreateQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost, string node,
-        Action<QueueConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> CreateQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] string node,
+        [AllowNull] Action<QueueConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -70,8 +81,13 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> EmptyQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> EmptyQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -94,9 +110,14 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost,
-        Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> DeleteQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [AllowNull] Action<QueueDeletionConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -118,8 +139,13 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> SyncQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> SyncQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -141,8 +167,13 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> CancelQueueSync(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, string vhost, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> CancelQueueSync(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -165,9 +196,14 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result<BindingInfo>> BindToQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, string exchange,
-        Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result<BindingInfo>> BindToQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] string exchange,
+        [NotNull] Action<BindingConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -189,8 +225,13 @@ public static class QueueExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> UnbindFromQueue(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> UnbindFromQueue(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] Action<UnbindingConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

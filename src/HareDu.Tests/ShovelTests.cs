@@ -70,7 +70,7 @@ public class ShovelTests :
             {
                 x.Uri("amqp://user1@localhost");
                 x.AcknowledgementMode(AckMode.OnPublish);
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
                 });
@@ -88,7 +88,7 @@ public class ShovelTests :
 
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -108,7 +108,7 @@ public class ShovelTests :
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
                 });
@@ -125,7 +125,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -146,7 +146,7 @@ public class ShovelTests :
             .Create("test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange("exchange1", null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -168,7 +168,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -188,7 +188,7 @@ public class ShovelTests :
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue1", c =>
+                x.Source("queue1", ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange("exchange1", null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -210,7 +210,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -231,7 +231,7 @@ public class ShovelTests :
             .Create("test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source(string.Empty, c =>
+                x.Source(string.Empty, ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange(string.Empty, null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -253,7 +253,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -273,7 +273,7 @@ public class ShovelTests :
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source(string.Empty, c =>
+                x.Source(string.Empty, ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange(string.Empty, null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -295,7 +295,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -316,7 +316,7 @@ public class ShovelTests :
             .Create("test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue2", c =>
+                x.Source("queue2", ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange("exchange2", null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -338,7 +338,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));
@@ -358,7 +358,7 @@ public class ShovelTests :
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
-                x.Source("queue2", c =>
+                x.Source("queue2", ShovelProtocol.Amqp091, c =>
                 {
                     c.Exchange("exchange2", null);
                     c.DeleteAfter(DeleteShovelMode.QueueLength);
@@ -380,7 +380,7 @@ public class ShovelTests :
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(AckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
-            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocolType.Amqp091));
+            Assert.That(request.Value.SourceProtocol, Is.EqualTo(ShovelProtocol.Amqp091));
             Assert.That(request.Value.SourceQueue, Is.EqualTo("queue1"));
             Assert.That(request.Value.SourceUri, Is.EqualTo("amqp://user1@localhost"));
             Assert.That(request.Value.SourceDeleteAfter.ToString(), Is.EqualTo(DeleteShovelMode.QueueLength.Convert()));

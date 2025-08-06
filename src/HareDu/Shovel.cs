@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -21,6 +22,7 @@ public interface Shovel :
     /// An asynchronous task that returns the collection of shovels, along with the operation's result status.
     /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+    [return: NotNull]
     Task<Results<ShovelInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -34,8 +36,12 @@ public interface Shovel :
     /// An asynchronous task that returns the operation's result, which contains information about any faults encountered during the operation.
     /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request during the operation.</exception>
-    Task<Result> Create(string name, string vhost, Action<ShovelConfigurator> configurator,
-        CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] Action<ShovelConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified dynamic shovel configured in the RabbitMQ broker.
@@ -47,5 +53,6 @@ public interface Shovel :
     /// An asynchronous task that returns the result of the delete operation, including its status.
     /// </returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled.</exception>
-    Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
 }

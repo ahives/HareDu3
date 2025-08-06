@@ -36,15 +36,15 @@ class ConnectionImpl :
             errors.AddIfTrue(@params, string.IsNullOrWhiteSpace, Errors.Create("Pagination parameters are in valid."));
         }
 
-        if (errors.HaveBeenFound())
-            return Responses.Panic<ConnectionInfo>("api/queues", errors);
-
-        string url = string.IsNullOrWhiteSpace(@params) ? "api/connections" : $"api/connections?{@params}";
-
-        return await GetAllRequest<ConnectionInfo>(url, RequestType.Connection, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/queues", errors))
+            : await GetAllRequest<ConnectionInfo>(
+                string.IsNullOrWhiteSpace(@params) ? "api/connections" : $"api/connections?{@params}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null,
+    public async Task<Results<ConnectionInfo>> GetByVirtualHost(
+        string vhost,
+        Action<PaginationConfigurator> pagination = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -67,56 +67,52 @@ class ConnectionImpl :
 
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Responses.Panic<ConnectionInfo>("api/vhosts/{vhost}/connections", errors);
-
-        string url = string.IsNullOrWhiteSpace(@params)
-            ? $"api/vhosts/{sanitizedVHost}/connections"
-            : $"api/vhosts/{sanitizedVHost}/connections?{@params}";
-
-        return await GetAllRequest<ConnectionInfo>(url, RequestType.Connection, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/vhosts/{vhost}/connections", errors))
+            : await GetAllRequest<ConnectionInfo>(
+                string.IsNullOrWhiteSpace(@params)
+                    ? $"api/vhosts/{sanitizedVHost}/connections"
+                    : $"api/vhosts/{sanitizedVHost}/connections?{@params}",
+                RequestType.Connection, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(name))
-            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/{name}",
-                Errors.Create(e => { e.Add("Name of the connection to filter on is missing.", RequestType.Connection); }));
-
-        return await GetAllRequest<ConnectionInfo>($"/api/connections/{name}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
+        return string.IsNullOrWhiteSpace(name)
+            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/vhosts/connections/{name}",
+                Errors.Create(e => { e.Add("Name of the connection to filter on is missing.", RequestType.Connection); })))
+            : await GetAllRequest<ConnectionInfo>($"/api/connections/{name}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(username))
-            return Responses.Panic<ConnectionInfo>("api/vhosts/connections/username/{username}",
-                Errors.Create(e => { e.Add("Name of the connection to filter on is missing.", RequestType.Connection); }));
-
-        return await GetAllRequest<ConnectionInfo>($"/api/connections/username/{username}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
+        return string.IsNullOrWhiteSpace(username)
+            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/vhosts/connections/username/{username}",
+                Errors.Create(e => { e.Add("Name of the connection to filter on is missing.", RequestType.Connection); })))
+            : await GetAllRequest<ConnectionInfo>($"/api/connections/username/{username}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(connection))
-            return Response.Panic("api/connections/{connection}", Errors.Create(e => {e.Add("The name of the connection is missing.", RequestType.Connection);}));
-
-        return await DeleteRequest($"api/connections/{connection}", RequestType.Connection, cancellationToken);
+        return string.IsNullOrWhiteSpace(connection)
+            ? Response.Panic(Debug.Info("api/connections/{connection}",
+                Errors.Create(e => { e.Add("The name of the connection is missing.", RequestType.Connection); })))
+            : await DeleteRequest($"api/connections/{connection}", RequestType.Connection, cancellationToken);
     }
 
     public async Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(username))
-            return Response.Panic("api/connections/username/{username}",
-                Errors.Create(e => { e.Add("The username associated with the connection is missing.", RequestType.Connection); }));
-
-        return await DeleteRequest($"/api/connections/username/{username}", RequestType.Connection, cancellationToken);
+        return string.IsNullOrWhiteSpace(username)
+            ? Response.Panic(Debug.Info("api/connections/username/{username}",
+                Errors.Create(e => { e.Add("The username associated with the connection is missing.", RequestType.Connection); })))
+            : await DeleteRequest($"/api/connections/username/{username}", RequestType.Connection, cancellationToken);
     }
 }

@@ -694,7 +694,7 @@ public class QueueTests :
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
         });
     }
 
@@ -713,7 +713,7 @@ public class QueueTests :
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true"));
         });
     }
 
@@ -733,7 +733,7 @@ public class QueueTests :
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true&if-empty=true"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/queues/HareDu/Queue1?if-unused=true&if-empty=true"));
         });
     }
 

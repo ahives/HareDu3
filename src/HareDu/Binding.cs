@@ -1,5 +1,6 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -13,5 +14,6 @@ public interface Binding :
     /// </summary>
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
-    Task<Results<BindingInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<BindingInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 }

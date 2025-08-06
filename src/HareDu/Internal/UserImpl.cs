@@ -35,13 +35,17 @@ class UserImpl :
         return await GetAllRequest<UserInfo>("api/users/without-permissions", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string username, string password, string passwordHash = null,
-        Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default)
+    public async Task<Result> Create(
+        string username,
+        string password,
+        string passwordHash = null,
+        Action<UserConfigurator> configurator = null,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/users/{username}", [Errors.Create("The tags are missing.")]);
+            return Response.Panic(Debug.Info("api/users/{username}", Errors.Create(e => { e.Add("The tags are missing."); })));
 
         var impl = new UserConfiguratorImpl();
         configurator(impl);
@@ -61,10 +65,9 @@ class UserImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
         errors.AddIfTrue(password, passwordHash, (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y), Errors.Create("The password/hash is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/users/{username}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/users/{username}", request, RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/users/{username}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/users/{username}", request, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, CancellationToken cancellationToken = default)
@@ -75,10 +78,9 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/users/{username}", errors);
-
-        return await DeleteRequest($"api/users/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/users/{username}", errors))
+            : await DeleteRequest($"api/users/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default)
@@ -86,19 +88,16 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (usernames.IsEmpty())
-            return Response.Panic("api/users/bulk-delete", [Errors.Create("Valid usernames is missing.")]);
+            return Response.Panic(Debug.Info("api/users/bulk-delete", Errors.Create(e => e.Add("Valid usernames is missing."))));
 
         var errors = new List<Error>();
 
         for (int i = 0; i < usernames.Count; i++)
             errors.AddIfTrue(usernames[i], string.IsNullOrWhiteSpace, Errors.Create($"Username[{i}] is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/users/bulk-delete", errors);
-
-        BulkUserDeleteRequest request = new() {Users = usernames};
-
-        return await PostRequest("api/users/bulk-delete", request, RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/users/bulk-delete", errors))
+            : await PostRequest("api/users/bulk-delete", new BulkUserDeleteRequest {Users = usernames}, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default)
@@ -109,10 +108,9 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.HaveBeenFound())
-            return Responses.Panic<UserLimitsInfo>("api/user-limits/{username}", errors);
-
-        return await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Responses.Panic<UserLimitsInfo>(Debug.Info("api/user-limits/{username}", errors))
+            : await GetAllRequest<UserLimitsInfo>($"api/user-limits/{username}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default)
@@ -127,7 +125,7 @@ class UserImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/user-limits/{username}/{limit}", [Errors.Create("No user limit was defined.")]);
+            return Response.Panic(Debug.Info("api/user-limits/{username}/{limit}", Errors.Create(e => { e.Add("No user limit was defined."); })));
 
         var impl = new UserLimitConfiguratorImpl();
         configurator(impl);
@@ -136,11 +134,10 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/user-limits/{username}/{limit}", errors);
-
-        return await PutRequest($"api/user-limits/{username}/{impl.Limit}",
-            new UserLimitRequest {Value = impl.LimitValue}, RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/user-limits/{username}/{limit}", errors))
+            : await PutRequest($"api/user-limits/{username}/{impl.Limit}", new UserLimitRequest {Value = impl.LimitValue}, RequestType.User, cancellationToken)
+                .ConfigureAwait(false);
     }
 
     public async Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default)
@@ -151,10 +148,9 @@ class UserImpl :
 
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/user-limits/{username}/{limit}", errors);
-
-        return await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", RequestType.User, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/user-limits/{username}/{limit}", errors))
+            : await DeleteRequest($"api/user-limits/{username}/{limit.Convert()}", RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Results<UserPermissionsInfo>> GetAllPermissions(CancellationToken cancellationToken = default)

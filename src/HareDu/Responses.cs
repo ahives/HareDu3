@@ -5,15 +5,11 @@ using Core;
 
 internal static class Responses
 {
-    public static Results<T> Failed<T>(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
-        new UnsuccessfulResults<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
+    public static Results<T> Failed<T>(DebugInfo debugInfo) => new UnsuccessfulResults<T> {DebugInfo = debugInfo};
 
-    public static Results<T> Succeeded<T>(string url, IReadOnlyList<T> data, string request = null, string response = null) =>
-        new SuccessfulResults<T> {Data = data, DebugInfo = new() {URL = url, Request = request, Response = response, Errors = new List<Error>()}};
+    public static Results<T> Succeeded<T>(IReadOnlyList<T> data, DebugInfo debugInfo) => new SuccessfulResults<T> {Data = data, DebugInfo = debugInfo};
 
-    public static Results<T> Faulted<T>(string url, string message, string stackTrace, Error error, string response = null) =>
-        new FaultedResults<T> {DebugInfo = new() {URL = url, Response = response, Exception = message, StackTrace = stackTrace, Errors = new List<Error> {error}}};
+    public static Results<T> Faulted<T>(DebugInfo debugInfo) => new FaultedResults<T> {DebugInfo = debugInfo};
 
-    public static Results<T> Panic<T>(string url, IReadOnlyList<Error> errors, string request = null, string response = null) =>
-        new UnsuccessfulResults<T> {DebugInfo = new() {URL = url, Request = request, Response = response, Errors = errors}};
+    public static Results<T> Panic<T>(DebugInfo debugInfo) => new UnsuccessfulResults<T> {DebugInfo = debugInfo};
 }

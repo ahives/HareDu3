@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface TopicPermissions :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the list of all topic permissions.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<TopicPermissionsInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new set of topic permissions for a specified user on a particular virtual host.
@@ -29,8 +31,12 @@ public interface TopicPermissions :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the creation process.</returns>
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled via the cancellation token.</exception>
-    Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator,
-        CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string username,
+        [NotNull] string vhost,
+        [NotNull] Action<TopicPermissionsConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific user's topic permissions on the specified virtual host.
@@ -40,5 +46,6 @@ public interface TopicPermissions :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation, containing the result of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string username, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
 }

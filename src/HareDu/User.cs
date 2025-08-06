@@ -2,6 +2,7 @@ namespace HareDu;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -19,7 +20,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<UserInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<UserInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all users on the current RabbitMQ server excluding their permissions.
@@ -27,7 +29,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Results{T}"/> containing the user information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<UserInfo>> GetAllWithoutPermissions(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<UserInfo>> GetAllWithoutPermissions([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new user on the RabbitMQ server with the specified parameters.
@@ -39,8 +42,13 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task of <see cref="HareDu.Core.Result"/> representing the result of the user creation operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Create(string username, string password, string passwordHash = null,
-        Action<UserConfigurator> configurator = null, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string username,
+        [NotNull] string password,
+        [AllowNull] string passwordHash = null,
+        [AllowNull] Action<UserConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user from the RabbitMQ server.
@@ -49,7 +57,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task of <see cref="HareDu.Core.Result"/> representing the result of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string username, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes multiple users from the RabbitMQ server.
@@ -58,7 +67,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Result"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> BulkDelete(IList<string> usernames, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> BulkDelete([NotNull] IList<string> usernames, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about user limits for the specified RabbitMQ user.
@@ -67,7 +77,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<UserLimitsInfo>> GetLimitsByUser(string username, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<UserLimitsInfo>> GetLimitsByUser([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about all defined user limits on the current RabbitMQ server.
@@ -75,7 +86,8 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task containing <see cref="HareDu.Core.Results{T}"/> with a collection of <see cref="HareDu.Model.UserLimitsInfo"/>.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<UserLimitsInfo>> GetAllUserLimits(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<UserLimitsInfo>> GetAllUserLimits([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines a limit for a specific user on the RabbitMQ server.
@@ -85,8 +97,11 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task of <see cref="HareDu.Core.Result"/> containing the result of the limit definition operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> DefineLimit(string username, Action<UserLimitConfigurator> configurator = null,
-        CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> DefineLimit(
+        [NotNull] string username,
+        [AllowNull] Action<UserLimitConfigurator> configurator = null,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified limit for a given user on the RabbitMQ server.
@@ -96,7 +111,11 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the deletion operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result"/> indicating the operation's success or failure.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> DeleteLimit(string username, UserLimit limit, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> DeleteLimit(
+        [NotNull] string username,
+        [NotNull] UserLimit limit,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about all permissions assigned to RabbitMQ users.
@@ -104,5 +123,6 @@ public interface User :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="HareDu.Core.Results{HareDu.Model.UserPermissionsInfo}"/> containing user permission details.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<UserPermissionsInfo>> GetAllPermissions(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<UserPermissionsInfo>> GetAllPermissions([NotNull] CancellationToken cancellationToken = default);
 }

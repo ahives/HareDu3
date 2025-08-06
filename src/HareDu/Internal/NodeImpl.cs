@@ -26,10 +26,9 @@ class NodeImpl :
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(node))
-            return Response.Panic<NodeMemoryUsageInfo>("api/nodes/{node}/memory",
-                Errors.Create(e => { e.Add("Name of the node for which to return memory usage data is missing.", RequestType.Node); }));
-
-        return await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", RequestType.Node, cancellationToken).ConfigureAwait(false);
+        return string.IsNullOrWhiteSpace(node)
+            ? Response.Panic<NodeMemoryUsageInfo>(Debug.Info("api/nodes/{node}/memory",
+                    Errors.Create(e => { e.Add("Name of the node for which to return memory usage data is missing.", RequestType.Node); })))
+            : await GetRequest<NodeMemoryUsageInfo>($"api/nodes/{node}/memory", RequestType.Node, cancellationToken).ConfigureAwait(false);
     }
 }

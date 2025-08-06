@@ -41,10 +41,9 @@ class PolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/policies/{vhost}/{name}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, RequestType.Policy, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/policies/{vhost}/{name}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -57,10 +56,9 @@ class PolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/policies/{vhost}/{name}", errors);
-
-        return await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", RequestType.Policy, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/policies/{vhost}/{name}", errors))
+            : await DeleteRequest($"api/policies/{sanitizedVHost}/{name}", RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 
 

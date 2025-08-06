@@ -32,7 +32,8 @@ class OperatorPolicyImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/operator-policies/{vhost}/{name}", [Errors.Create("No operator policy was defined.")]);
+            return Response.Panic(Debug.Info("api/operator-policies/{vhost}/{name}",
+                Errors.Create(e => { e.Add("No operator policy was defined."); })));
 
         var impl = new OperatorPolicyConfiguratorImpl();
         configurator(impl);
@@ -44,10 +45,9 @@ class OperatorPolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/operator-policies/{vhost}/{name}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/operator-policies/{vhost}/{name}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default)
@@ -60,10 +60,9 @@ class OperatorPolicyImpl :
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the operator policy is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/operator-policies/{vhost}/{name}", errors);
-
-        return await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/operator-policies/{vhost}/{name}", errors))
+            : await DeleteRequest($"api/operator-policies/{sanitizedVHost}/{name}", RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 
 

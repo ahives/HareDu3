@@ -1,5 +1,6 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface Node :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Results containing a collection of node information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<NodeInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves memory usage information for a specific node in the RabbitMQ cluster.
@@ -27,5 +29,6 @@ public interface Node :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result containing detailed memory usage information of the specified node.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage([NotNull] string node, [NotNull] CancellationToken cancellationToken = default);
 }

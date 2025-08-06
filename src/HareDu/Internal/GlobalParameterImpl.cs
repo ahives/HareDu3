@@ -32,7 +32,8 @@ class GlobalParameterImpl :
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/global-parameters/{parameter}", [Errors.Create("No global parameters was defined.")]);
+            return Response.Panic(Debug.Info("api/global-parameters/{parameter}",
+                Errors.Create(e => { e.Add("No global parameters was defined."); })));
 
         var impl = new GlobalParameterConfiguratorImpl(parameter);
         configurator(impl);
@@ -42,21 +43,20 @@ class GlobalParameterImpl :
 
         errors.AddIfTrue(parameter, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/global-parameters/{parameter}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/global-parameters/{parameter}", request, RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/global-parameters/{parameter}", request, RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string parameter, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(parameter))
-            return Response.Panic("api/global-parameters/{parameter}",
-                Errors.Create(e => { e.Add("The name of the parameter is missing.", RequestType.GlobalParameter); }));
-
-        return await DeleteRequest($"api/global-parameters/{parameter}", RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
+        return string.IsNullOrWhiteSpace(parameter)
+            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}",
+                Errors.Create(e => { e.Add("The name of the parameter is missing.", RequestType.GlobalParameter); })))
+            : await DeleteRequest($"api/global-parameters/{parameter}", RequestType.GlobalParameter, cancellationToken)
+                .ConfigureAwait(false);
     }
 
 

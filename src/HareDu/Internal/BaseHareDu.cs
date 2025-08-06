@@ -7,23 +7,22 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Core;
 
 internal class BaseHareDu
 {
     protected readonly HttpClient Client;
-    protected readonly IDictionary<string, Error> InternalErrors;
+    protected readonly IDictionary<string, string> ErrorReasons;
 
     protected BaseHareDu(HttpClient client)
     {
         Client = client ?? throw new ArgumentNullException(nameof(client));
-        InternalErrors = new Dictionary<string, Error>
+        ErrorReasons = new Dictionary<string, string>
         {
-            {nameof(MissingMethodException), new() {Reason = "Could not properly handle '.' and/or '/' characters in URL."}},
-            {nameof(HttpRequestException), new() {Reason = "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."}},
-            {nameof(JsonException), new() {Reason = "The JSON is invalid or T is not compatible with the JSON."}},
-            {nameof(Exception), new() {Reason = "Something went bad in BaseBrokerObject.GetAll method."}},
-            {nameof(TaskCanceledException), new() {Reason = "Request failed due to timeout."}}
+            {nameof(MissingMethodException), "Could not properly handle '.' and/or '/' characters in URL."},
+            {nameof(HttpRequestException), "Request failed due to network connectivity, DNS failure, server certificate validation, or timeout."},
+            {nameof(JsonException), "The JSON is invalid or T is not compatible with the JSON."},
+            {nameof(Exception), "Something went bad in BaseBrokerObject.GetAll method."},
+            {nameof(TaskCanceledException), "Request failed due to timeout."}
         };
     }
 

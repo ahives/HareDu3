@@ -1,5 +1,7 @@
 namespace HareDu;
 
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -17,7 +19,8 @@ public interface ScopedParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ScopedParameterInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scoped parameter on the RabbitMQ server with the specified properties.
@@ -30,7 +33,13 @@ public interface ScopedParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous operation result of type <see cref="HareDu.Core.Result"/>.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Create<T>(string name, T value, string component, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create<T>(
+        [NotNull] string name,
+        [NotNull] T value,
+        [NotNull] string component,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
@@ -41,5 +50,10 @@ public interface ScopedParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete(
+        [NotNull] string name,
+        [NotNull] string component,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default);
 }

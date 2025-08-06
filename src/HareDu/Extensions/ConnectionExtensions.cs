@@ -1,6 +1,7 @@
 namespace HareDu.Extensions;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Diagnostics;
@@ -21,8 +22,12 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ConnectionInfo>> GetAllConnections(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ConnectionInfo>> GetAllConnections(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] Action<PaginationConfigurator> pagination = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -44,8 +49,13 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] Action<PaginationConfigurator> pagination = null,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -67,8 +77,12 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ConnectionInfo>> GetConnectionsByName(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string name, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ConnectionInfo>> GetConnectionsByName(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string name,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -89,8 +103,12 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<ConnectionInfo>> GetConnectionsByUser(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string username, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Results<ConnectionInfo>> GetConnectionsByUser(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string username,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -111,8 +129,12 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteConnection(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string connection, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> DeleteConnection(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string connection,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -133,8 +155,12 @@ public static class ConnectionExtensions
     /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Result> DeleteConnectionByUser(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string username, CancellationToken cancellationToken = default)
+    [return: NotNull]
+    public static async Task<Result> DeleteConnectionByUser(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string username,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

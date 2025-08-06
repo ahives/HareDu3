@@ -1,5 +1,7 @@
 namespace HareDu;
 
+using System.Diagnostics.CodeAnalysis;
+
 /// <summary>
 /// Provides methods to configure arguments for an exchange in a messaging system.
 /// </summary>
@@ -11,5 +13,5 @@ public interface ExchangeArgumentConfigurator
     /// <param name="arg">The name of the argument to add.</param>
     /// <param name="value">The value associated with the argument.</param>
     /// <typeparam name="T">The type of the argument value.</typeparam>
-    void Add<T>(string arg, T value);
+    void Add<T>([NotNull] string arg, [NotNull] T value);
 }

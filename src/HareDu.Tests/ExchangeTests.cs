@@ -95,7 +95,7 @@ public class ExchangeTests :
             Assert.That(request.Internal, Is.True);
             Assert.That(request.Arguments.Count, Is.EqualTo(1));
             Assert.That(request.AutoDelete, Is.False);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
             Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Direct));
             Assert.That(request.Arguments["fake_arg"].ToString(), Is.EqualTo("8238b"));
         });
@@ -129,7 +129,7 @@ public class ExchangeTests :
             Assert.That(request.Internal, Is.True);
             Assert.That(request.Arguments.Count, Is.EqualTo(1));
             Assert.That(request.AutoDelete, Is.False);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
             Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Fanout));
             Assert.That(request.Arguments["fake_arg"].ToString(), Is.EqualTo("8238b"));
         });
@@ -160,7 +160,7 @@ public class ExchangeTests :
             Assert.That(request.Internal, Is.True);
             Assert.That(request.Arguments, Is.Null);
             Assert.That(request.AutoDelete, Is.False);
-            Assert.That(result.DebugInfo.URL, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
+            Assert.That(result.DebugInfo.Url, Is.EqualTo("api/exchanges/HareDu/fake_exchange"));
             Assert.That(request.RoutingType, Is.EqualTo(RoutingType.Fanout));
         });
     }

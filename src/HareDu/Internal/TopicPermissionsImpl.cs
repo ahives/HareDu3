@@ -26,13 +26,17 @@ class TopicPermissionsImpl :
         return await GetAllRequest<TopicPermissionsInfo>("api/topic-permissions", RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<Result> Create(string username, string vhost, Action<TopicPermissionsConfigurator> configurator,
+    public async Task<Result> Create(
+        string username,
+        string vhost,
+        Action<TopicPermissionsConfigurator> configurator,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         if (configurator is null)
-            return Response.Panic("api/topic-permissions/{vhost}/{username}", [Errors.Create("No topic permissions was defined.")]);
+            return Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}",
+                Errors.Create(e => { e.Add("No topic permissions was defined."); })));
 
         var impl = new TopicPermissionsConfiguratorImpl();
         configurator(impl);
@@ -45,10 +49,10 @@ class TopicPermissionsImpl :
 
         var request = impl.Request.Value;
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/topic-permissions/{vhost}/{username}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request, RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request,
+                RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string username, string vhost, CancellationToken cancellationToken = default)
@@ -61,10 +65,10 @@ class TopicPermissionsImpl :
         errors.AddIfTrue(username, string.IsNullOrWhiteSpace, Errors.Create("The username and/or password is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/topic-permissions/{vhost}/{username}", errors);
-
-        return await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors))
+            : await DeleteRequest($"api/topic-permissions/{sanitizedVHost}/{username}", RequestType.TopicPermissions,
+                cancellationToken).ConfigureAwait(false);
     }
 
 

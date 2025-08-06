@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface Policy :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<PolicyInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<PolicyInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new policy on the specified RabbitMQ virtual host.
@@ -29,7 +31,12 @@ public interface Policy :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task containing the result of the policy creation operation.</returns>
     /// <exception cref="OperationCanceledException">Thrown if the thread has a cancellation request.</exception>
-    Task<Result> Create(string name, string vhost, Action<PolicyConfigurator> configurator, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string name,
+        [NotNull] string vhost,
+        [NotNull] Action<PolicyConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified policy from the provided virtual host.
@@ -39,5 +46,6 @@ public interface Policy :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result"/> indicating the success or failure of the operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string name, string vhost, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
 }

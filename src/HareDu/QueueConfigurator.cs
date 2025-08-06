@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Provides configuration options for creating or modifying a queue in RabbitMQ.
@@ -16,7 +17,7 @@ public interface QueueConfigurator
     /// Specify arguments for the queue.
     /// </summary>
     /// <param name="configurator">Pre-defined arguments applied to the definition of the queue.</param>
-    void HasArguments(Action<QueueArgumentConfigurator> configurator);
+    void HasArguments([NotNull] Action<QueueArgumentConfigurator> configurator);
 
     /// <summary>
     /// Specify whether the queue is deleted when there are no consumers.

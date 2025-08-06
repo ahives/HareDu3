@@ -1,10 +1,11 @@
-namespace HareDu.Core;
+namespace HareDu;
 
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Core;
 
-public static class Errors
+internal static class Errors
 {
     /// <summary>
     /// Creates and returns a new <see cref="Error"/> instance with the specified parameters.

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 public record ShovelRequestParams
 {
     [JsonPropertyName("src-protocol")]
-    public ShovelProtocolType SourceProtocol { get; init; }
+    public ShovelProtocol SourceProtocol { get; init; }
         
     [JsonPropertyName("src-uri")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -16,7 +16,7 @@ public record ShovelRequestParams
     public string SourceQueue { get; init; }
 
     [JsonPropertyName("dest-protocol")]
-    public ShovelProtocolType DestinationProtocol { get; init; }
+    public ShovelProtocol DestinationProtocol { get; init; }
         
     [JsonPropertyName("dest-uri")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

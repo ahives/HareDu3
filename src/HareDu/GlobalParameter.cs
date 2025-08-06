@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -18,7 +19,8 @@ public interface GlobalParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<GlobalParameterInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a global parameter on the RabbitMQ node with the specified name and configuration.
@@ -28,7 +30,11 @@ public interface GlobalParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>An asynchronous task of <see cref="Result"/> indicating the status of the operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Create(string parameter, Action<GlobalParameterConfigurator> configurator, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Create(
+        [NotNull] string parameter,
+        [NotNull] Action<GlobalParameterConfigurator> configurator,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified global parameter from the RabbitMQ node.
@@ -37,5 +43,6 @@ public interface GlobalParameter :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task that represents the asynchronous operation and contains the result of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled.</exception>
-    Task<Result> Delete(string parameter, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string parameter, [NotNull] CancellationToken cancellationToken = default);
 }

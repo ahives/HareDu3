@@ -41,14 +41,22 @@ class ScopedParameterImpl :
         var errors = new List<Error>();
         string sanitizedVHost = vhost.ToSanitizedName();
 
+        errors.AddIfTrue(value, IsValueNull, Errors.Create("The name of the parameter is missing."));
         errors.AddIfTrue(name, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
         errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors, request.ToJsonString());
-
-        return await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request, RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
+        bool IsValueNull<T>(T obj) =>
+            obj switch
+            {
+                string str => string.IsNullOrWhiteSpace(str),
+                _ => obj is null
+            };
+        
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: request.ToJsonString()))
+            : await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request,
+                RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<Result> Delete(string name, string component, string vhost, CancellationToken cancellationToken = default)
@@ -62,9 +70,9 @@ class ScopedParameterImpl :
         errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        if (errors.HaveBeenFound())
-            return Response.Panic("api/parameters/{component}/{vhost}/{name}", errors);
-
-        return await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
+        return errors.HaveBeenFound()
+            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors))
+            : await DeleteRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", RequestType.ScopeParameter,
+                cancellationToken).ConfigureAwait(false);
     }
 }

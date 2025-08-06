@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
@@ -19,7 +20,8 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the ongoing operation.</param>
     /// <returns>A task representing the asynchronous operation, containing the results of connection information.</returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled via the provided cancellation token.</exception>
-    Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ConnectionInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all connections associated with the specified virtual host.
@@ -29,7 +31,11 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task representing the asynchronous operation, containing the results of connections information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ConnectionInfo>> GetByVirtualHost(
+        [NotNull] string vhost,
+        [AllowNull] Action<PaginationConfigurator> pagination = null,
+        [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves connection information for a specific connection by its name.
@@ -38,7 +44,8 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>Returns a collection of connection details matching the specified name.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ConnectionInfo>> GetByName([NotNull] string name, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all connections associated with the specified username.
@@ -47,7 +54,8 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A task representing the asynchronous operation, containing the results of the connections associated with the specified username.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Results<ConnectionInfo>> GetByUser([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an active connection on the current RabbitMQ node.
@@ -56,7 +64,8 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result object indicating the success or failure of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> Delete(string connection, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> Delete([NotNull] string connection, [NotNull] CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all connections associated with the specified user on the current RabbitMQ node.
@@ -65,5 +74,6 @@ public interface Connection :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A result indicating the success or failure of the deletion operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default);
+    [return: NotNull]
+    Task<Result> DeleteByUser([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
 }
