@@ -3,6 +3,8 @@ namespace HareDu.Tests;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core;
+using Core.Extensions;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -53,7 +55,7 @@ public class GlobalParameterTests :
             Assert.That(result.Data.Count, Is.EqualTo(5));
             Assert.That(result.Data[3].Name, Is.EqualTo("fake_param1"));
 
-            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>();
+            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(Deserializer.Options);
 
             Assert.That(value.Count, Is.EqualTo(2));
             Assert.That(value["arg1"].ToString(), Is.EqualTo("value1"));
@@ -78,10 +80,10 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(Deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -102,10 +104,10 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(Deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -127,7 +129,7 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
             Assert.That(request.Value
@@ -157,10 +159,10 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.EqualTo(string.Empty));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>()["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(Deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -182,7 +184,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
             Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
@@ -207,7 +209,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.Empty.Or.Null);
             Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
@@ -231,7 +233,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>();
+            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(Deserializer.Options);
 
             Assert.That(request.Name, Is.Empty.Or.Null);
             Assert.That(request.Value, Is.Null);

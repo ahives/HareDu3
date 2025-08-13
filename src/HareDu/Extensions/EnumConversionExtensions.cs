@@ -5,22 +5,6 @@ using System;
 public static class EnumConversionExtensions
 {
     /// <summary>
-    /// Converts the specified <see cref="DeleteShovelMode"/> enumeration value to its string equivalent.
-    /// </summary>
-    /// <param name="mode">The <see cref="DeleteShovelMode"/> value to convert.</param>
-    /// <returns>A string representation of the specified <see cref="DeleteShovelMode"/> value.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown if the value of <paramref name="mode"/> is not a defined <see cref="DeleteShovelMode"/>.
-    /// </exception>
-    public static string Convert(this DeleteShovelMode mode) =>
-        mode switch
-        {
-            DeleteShovelMode.Never => "never",
-            DeleteShovelMode.QueueLength => "queue-length",
-            _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
-        };
-
-    /// <summary>
     /// Converts the specified <see cref="HighAvailabilityModes"/> enumeration value to its string equivalent.
     /// </summary>
     /// <param name="mode">The <see cref="HighAvailabilityModes"/> value to convert.</param>

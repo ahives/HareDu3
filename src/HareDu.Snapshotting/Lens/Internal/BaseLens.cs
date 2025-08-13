@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Core;
 using Model;
 
 public abstract class BaseLens<T> :

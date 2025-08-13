@@ -11,13 +11,14 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
+using Serialization;
 
 class UserImpl :
     BaseBrokerImpl,
     User
 {
     public UserImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -66,7 +67,7 @@ class UserImpl :
         errors.AddIfTrue(password, passwordHash, (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y), Errors.Create("The password/hash is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/users/{username}", errors, request: request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/users/{username}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/users/{username}", request, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 

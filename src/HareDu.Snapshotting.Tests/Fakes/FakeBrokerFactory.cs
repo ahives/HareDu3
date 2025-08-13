@@ -1,6 +1,7 @@
 namespace HareDu.Snapshotting.Tests.Fakes;
 
 using System;
+using Core;
 using Core.Security;
 using Core.Testing;
 

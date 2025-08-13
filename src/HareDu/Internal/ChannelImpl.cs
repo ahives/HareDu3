@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Model;
+using Serialization;
 
 class ChannelImpl :
     BaseBrokerImpl,
     Channel
 {
     public ChannelImpl(HttpClient client) :
-        base(client)
+        base(client, Deserializer.Options)
     {
     }
 

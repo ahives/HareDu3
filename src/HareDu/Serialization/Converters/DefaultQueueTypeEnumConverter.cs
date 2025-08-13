@@ -13,6 +13,9 @@ public class DefaultQueueTypeEnumConverter :
         return reader.GetString() switch
         {
             "undefined" => DefaultQueueType.Undefined,
+            "classic" => DefaultQueueType.Classic,
+            "quorum" => DefaultQueueType.Quorum,
+            "stream" => DefaultQueueType.Stream,
             _ => throw new JsonException()
         };
     }
@@ -23,6 +26,18 @@ public class DefaultQueueTypeEnumConverter :
         {
             case DefaultQueueType.Undefined:
                 writer.WriteStringValue("undefined");
+                break;
+
+            case DefaultQueueType.Classic:
+                writer.WriteStringValue("classic");
+                break;
+
+            case DefaultQueueType.Quorum:
+                writer.WriteStringValue("quorum");
+                break;
+
+            case DefaultQueueType.Stream:
+                writer.WriteStringValue("stream");
                 break;
 
             default:

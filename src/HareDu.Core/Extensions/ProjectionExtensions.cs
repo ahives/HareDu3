@@ -89,7 +89,7 @@ public static class ProjectionExtensions
         Func<Result<IReadOnlyList<T>>, IReadOnlyList<T>> projector)
     {
         if (source is null || !source.HasData || projector is null)
-            return Array.Empty<T>();
+            return [];
 
         return source.HasData ? projector(source) : Array.Empty<T>();
     }
@@ -103,7 +103,5 @@ public static class ProjectionExtensions
     /// <typeparam name="U">The type of the object to project from.</typeparam>
     /// <returns>The projected object of type T if the input object is not null; otherwise, the default value of type T.</returns>
     public static T Select<T, U>(this U obj, Func<U, T> projection)
-        => obj is null
-            ? default
-            : projection(obj);
+        => obj is null ? default : projection(obj);
 }

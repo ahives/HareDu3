@@ -10,13 +10,14 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
+using Serialization;
 
 class PolicyImpl :
     BaseBrokerImpl,
     Policy
 {
     public PolicyImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -42,7 +43,7 @@ class PolicyImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/policies/{vhost}/{name}", errors, request: request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/policies/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/policies/{sanitizedVHost}/{name}", request, RequestType.Policy, cancellationToken).ConfigureAwait(false);
     }
 

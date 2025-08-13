@@ -10,13 +10,14 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
+using Serialization;
 
 class GlobalParameterImpl :
     BaseBrokerImpl,
     GlobalParameter
 {
     public GlobalParameterImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -44,7 +45,7 @@ class GlobalParameterImpl :
         errors.AddIfTrue(parameter, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}", errors, request: request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/global-parameters/{parameter}", request, RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 

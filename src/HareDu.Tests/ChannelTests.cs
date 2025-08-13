@@ -1,6 +1,7 @@
 namespace HareDu.Tests;
 
 using System.Threading.Tasks;
+using Core;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;

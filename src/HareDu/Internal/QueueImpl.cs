@@ -10,13 +10,14 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
+using Serialization;
 
 class QueueImpl :
     BaseBrokerImpl,
     Queue
 {
     public QueueImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -74,7 +75,7 @@ class QueueImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors, request:request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
@@ -179,7 +180,7 @@ class QueueImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}", errors, request: request.ToJsonString()))
+            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PostRequest<BindingInfo, BindingRequest>(
                     $"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, RequestType.Queue, cancellationToken)
                 .ConfigureAwait(false);

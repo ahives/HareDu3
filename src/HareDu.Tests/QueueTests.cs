@@ -2,10 +2,13 @@ namespace HareDu.Tests;
 
 using System;
 using System.Threading.Tasks;
+using Core;
+using Core.Extensions;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
 using NUnit.Framework;
+using Serialization;
 
 [TestFixture]
 public class QueueTests :
@@ -179,7 +182,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -235,7 +238,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -268,7 +271,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -301,7 +304,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -335,7 +338,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -368,7 +371,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -402,7 +405,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -435,7 +438,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -469,7 +472,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -502,7 +505,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -536,7 +539,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -569,7 +572,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -603,7 +606,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -636,7 +639,7 @@ public class QueueTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("1000"));
             Assert.That(request.Arguments["x-message-ttl"].ToString(), Is.EqualTo("2000"));
@@ -669,7 +672,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>();
+            QueueRequest request = result.DebugInfo.Request.ToObject<QueueRequest>(Deserializer.Options);
 
             Assert.That(request.Arguments["x-expires"].ToString(), Is.EqualTo("980"));
             Assert.That(request.Durable, Is.True);
@@ -1126,7 +1129,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
+            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
 
             Assert.That(request.Action, Is.EqualTo(QueueSyncAction.Sync));
         });
@@ -1145,7 +1148,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
+            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
 
             Assert.That(request.Action, Is.EqualTo(QueueSyncAction.Sync));
         });
@@ -1164,7 +1167,7 @@ public class QueueTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>();
+            QueueSyncRequest request = result.DebugInfo.Request.ToObject<QueueSyncRequest>(Deserializer.Options);
 
             Assert.That(request.Action, Is.EqualTo(QueueSyncAction.CancelSync));
         });

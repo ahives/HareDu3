@@ -2,9 +2,10 @@
 
 using System.IO;
 using System.Net;
+using Core;
 using Core.Configuration;
+using Core.HTTP;
 using Core.Security;
-using HTTP;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 

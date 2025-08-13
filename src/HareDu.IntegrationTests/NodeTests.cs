@@ -1,7 +1,7 @@
 namespace HareDu.IntegrationTests;
 
-using System;
 using System.Threading.Tasks;
+using Core;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;

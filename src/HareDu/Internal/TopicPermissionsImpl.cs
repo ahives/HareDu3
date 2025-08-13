@@ -7,15 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Extensions;
 using Model;
+using Serialization;
 
 class TopicPermissionsImpl :
     BaseBrokerImpl,
     TopicPermissions
 {
     public TopicPermissionsImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -50,7 +50,7 @@ class TopicPermissionsImpl :
         var request = impl.Request.Value;
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors, request: request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request,
                 RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }

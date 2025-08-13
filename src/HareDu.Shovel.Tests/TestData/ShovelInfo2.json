@@ -1,0 +1,16 @@
+{
+  "value": {
+    "ack-mode": "on-confirm",
+    "dest-protocol": "amqp091",
+    "dest-queue": "queue2",
+    "dest-uri": "amqp://user1@localhost",
+    "src-delete-after": "queue-length",
+    "src-prefetch-count": 1000,
+    "src-protocol": "amqp091",
+    "src-queue": "queue1",
+    "src-uri": "amqp://user1@localhost"
+  },
+  "vhost": "TestVirtualHost1",
+  "component": "shovel",
+  "name": "test-shovel1"
+}

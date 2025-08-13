@@ -3,7 +3,7 @@
     <PropertyGroup>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <LangVersion>default</LangVersion>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,8 +16,8 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.5" />
-      <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.5.0" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.8.0" />
     </ItemGroup>
 
 </Project>

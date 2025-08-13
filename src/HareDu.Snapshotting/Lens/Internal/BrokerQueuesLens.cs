@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core;
 using Core.Security;
 using MassTransit;
 using HareDu.Core.Extensions;

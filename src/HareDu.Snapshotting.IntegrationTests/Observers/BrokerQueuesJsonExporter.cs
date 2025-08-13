@@ -2,7 +2,7 @@ namespace HareDu.Snapshotting.IntegrationTests.Observers;
 
 using System;
 using System.IO;
-using HareDu.Extensions;
+using Core.Extensions;
 using Model;
 using Serialization;
 

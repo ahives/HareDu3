@@ -6,15 +6,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Extensions;
 using Model;
+using Serialization;
 
 class ScopedParameterImpl :
     BaseBrokerImpl,
     ScopedParameter
 {
     public ScopedParameterImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -54,7 +54,7 @@ class ScopedParameterImpl :
             };
         
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request,
                 RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }

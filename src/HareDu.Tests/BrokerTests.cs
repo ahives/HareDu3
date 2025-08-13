@@ -2,6 +2,7 @@ namespace HareDu.Tests;
 
 using System.Net;
 using System.Threading.Tasks;
+using Core;
 using Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;

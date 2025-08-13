@@ -307,24 +307,6 @@ public static class BrokerAdminDebuggingExtensions
 
         return result;
     }
-        
-    public static Task<Results<ShovelInfo>> ScreenDump(this Task<Results<ShovelInfo>> result)
-    {
-        var results = result.Result.Select(x => x.Data);
-
-        foreach (var item in results)
-        {
-            Console.WriteLine($"Name: {item.Name}");
-            Console.WriteLine($"Node: {item.Node}");
-            Console.WriteLine($"Timestamp: {item.Timestamp}");
-            Console.WriteLine($"Type: {item.Type}");
-            Console.WriteLine($"Virtual Host: {item.VirtualHost}");
-            Console.WriteLine($"State: {item.State}");
-            Console.WriteLine();
-        }
-
-        return result;
-    }
 
     public static Task<Results<QueueInfo>> ScreenDump(this Task<Results<QueueInfo>> result)
     {

@@ -10,13 +10,14 @@ using Core;
 using Core.Extensions;
 using Extensions;
 using Model;
+using Serialization;
 
 class VirtualHostImpl :
     BaseBrokerImpl,
     VirtualHost
 {
     public VirtualHostImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 
@@ -61,7 +62,7 @@ class VirtualHostImpl :
         }
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/vhosts/{vhost}", errors, request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/vhosts/{vhost}", errors, request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/vhosts/{sanitizedVHost}", request, RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
@@ -121,7 +122,7 @@ class VirtualHostImpl :
         var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, RequestType.VirtualHost,
                 cancellationToken).ConfigureAwait(false);
     }
@@ -204,7 +205,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString()))
+            ? Response.Panic(Debug.Info("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/permissions/{sanitizedVHost}/{username}", impl.Request.Value,
                 RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }

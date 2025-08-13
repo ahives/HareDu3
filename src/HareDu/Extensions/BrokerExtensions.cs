@@ -70,8 +70,10 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<AlarmState>> IsAlarmsInEffect(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    public static async Task<Result<AlarmState>> IsAlarmsInEffect(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

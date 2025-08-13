@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Model;
+using Serialization;
 
 class ConsumerImpl :
     BaseBrokerImpl,
     Consumer
 {
     public ConsumerImpl(HttpClient client)
-        : base(client)
+        : base(client, Deserializer.Options)
     {
     }
 

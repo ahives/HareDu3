@@ -2,10 +2,13 @@ namespace HareDu.Tests;
 
 using System;
 using System.Threading.Tasks;
+using Core;
+using Core.Extensions;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
 using NUnit.Framework;
+using Serialization;
 
 [TestFixture]
 public class ExchangeTests :
@@ -82,14 +85,14 @@ public class ExchangeTests :
                 });
             });
             
-        Console.WriteLine(result.ToJsonString());
+        Console.WriteLine(result.ToJsonString(Deserializer.Options));
             
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
+            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(Deserializer.Options);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -123,7 +126,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
+            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(Deserializer.Options);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -154,7 +157,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>();
+            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(Deserializer.Options);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);

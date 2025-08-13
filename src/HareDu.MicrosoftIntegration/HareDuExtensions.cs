@@ -1,11 +1,13 @@
 namespace HareDu.MicrosoftIntegration;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using Core;
 using Core.Configuration;
+using Core.HTTP;
 using Core.Security;
 using Diagnostics;
 using Diagnostics.KnowledgeBase;
-using HTTP;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Snapshotting;
@@ -19,8 +21,10 @@ public static class HareDuExtensions
     /// <param name="settingsFile">The name of the configuration file containing HareDu settings. The default is "appsettings.json".</param>
     /// <param name="configSection">The name of the configuration section in the settings file. The default is "HareDuConfig".</param>
     /// <returns>The updated IServiceCollection with HareDu services registered.</returns>
-    public static IServiceCollection AddHareDu(this IServiceCollection services,
-        string settingsFile = "appsettings.json", string configSection = "HareDuConfig")
+    public static IServiceCollection AddHareDu(
+        [NotNull] this IServiceCollection services,
+        [NotNull] string settingsFile = "appsettings.json",
+        [NotNull] string configSection = "HareDuConfig")
     {
         var config = new HareDuConfig();
 
@@ -49,7 +53,9 @@ public static class HareDuExtensions
     /// <param name="services">The IServiceCollection to which the HareDu services will be added.</param>
     /// <param name="configurator">An action to configure the HareDu settings.</param>
     /// <returns>The IServiceCollection with HareDu services registered.</returns>
-    public static IServiceCollection AddHareDu(this IServiceCollection services, Action<HareDuConfigurator> configurator)
+    public static IServiceCollection AddHareDu(
+        [NotNull] this IServiceCollection services,
+        [NotNull] Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
             ? ConfigCache.Default
