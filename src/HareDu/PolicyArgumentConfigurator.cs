@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Provides functionality to configure various policy arguments for a RabbitMQ policy.
@@ -37,7 +38,7 @@ public interface PolicyArgumentConfigurator
     /// Configures the high availability mode for the policy.
     /// </summary>
     /// <param name="mode">The high availability mode to be applied to the policy.</param>
-    void SetHighAvailabilityMode([NotNull] HighAvailabilityModes mode);
+    void SetHighAvailabilityMode([NotNull] HighAvailabilityMode mode);
 
     /// <summary>
     /// Sets the high availability parameter to the specified value. This is used to configure the number of nodes for high availability in policies.

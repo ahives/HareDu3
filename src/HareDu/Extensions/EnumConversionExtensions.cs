@@ -1,23 +1,24 @@
 namespace HareDu.Extensions;
 
 using System;
+using Model;
 
 public static class EnumConversionExtensions
 {
     /// <summary>
-    /// Converts the specified <see cref="HighAvailabilityModes"/> enumeration value to its string equivalent.
+    /// Converts the specified <see cref="HighAvailabilityMode"/> enumeration value to its string equivalent.
     /// </summary>
-    /// <param name="mode">The <see cref="HighAvailabilityModes"/> value to convert.</param>
-    /// <returns>A string representation of the specified <see cref="HighAvailabilityModes"/> value.</returns>
+    /// <param name="mode">The <see cref="HighAvailabilityMode"/> value to convert.</param>
+    /// <returns>A string representation of the specified <see cref="HighAvailabilityMode"/> value.</returns>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown if the value of <paramref name="mode"/> is not a defined <see cref="HighAvailabilityModes"/>.
+    /// Thrown if the value of <paramref name="mode"/> is not a defined <see cref="HighAvailabilityMode"/>.
     /// </exception>
-    public static string Convert(this HighAvailabilityModes mode) =>
+    public static string Convert(this HighAvailabilityMode mode) =>
         mode switch
         {
-            HighAvailabilityModes.All => "all",
-            HighAvailabilityModes.Exactly => "exactly",
-            HighAvailabilityModes.Nodes => "nodes",
+            HighAvailabilityMode.All => "all",
+            HighAvailabilityMode.Exactly => "exactly",
+            HighAvailabilityMode.Nodes => "nodes",
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
         };
 
@@ -29,12 +30,12 @@ public static class EnumConversionExtensions
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown if the value of <paramref name="mode"/> is not a defined <see cref="HighAvailabilitySyncMode"/>.
     /// </exception>
-    public static HighAvailabilityModes Convert(this string mode) =>
+    public static HighAvailabilityMode Convert(this string mode) =>
         mode.ToLower() switch
         {
-            "all" => HighAvailabilityModes.All,
-            "exactly" => HighAvailabilityModes.Exactly,
-            "nodes" => HighAvailabilityModes.Nodes,
+            "all" => HighAvailabilityMode.All,
+            "exactly" => HighAvailabilityMode.Exactly,
+            "nodes" => HighAvailabilityMode.Nodes,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
         };
 

@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Specifies the various routing types that can be used for an exchange in a messaging system.

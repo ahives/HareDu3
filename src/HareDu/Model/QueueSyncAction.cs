@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Represents the action that can be taken to manage the synchronization of a queue's messages

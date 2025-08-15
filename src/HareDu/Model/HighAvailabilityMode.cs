@@ -1,9 +1,9 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Defines the high availability modes used in configuring RabbitMQ policies.
 /// </summary>
-public enum HighAvailabilityModes
+public enum HighAvailabilityMode
 {
     /// <summary>
     /// Represents a high availability mode where all nodes in the cluster are involved.

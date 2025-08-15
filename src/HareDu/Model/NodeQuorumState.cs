@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Represents the state of node quorum within a RabbitMQ cluster.

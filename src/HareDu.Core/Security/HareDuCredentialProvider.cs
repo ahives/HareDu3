@@ -1,5 +1,7 @@
 namespace HareDu.Core.Security;
 
+using System.Diagnostics.CodeAnalysis;
+
 /// <summary>
 /// Represents a provider that supplies credentials for connecting to a RabbitMQ server.
 /// </summary>
@@ -10,5 +12,5 @@ public interface HareDuCredentialProvider
     /// </summary>
     /// <param name="username">The username for authentication.</param>
     /// <param name="password">The password for authentication.</param>
-    void UsingCredentials(string username, string password);
+    void UsingCredentials([NotNull] string username, [NotNull] string password);
 }

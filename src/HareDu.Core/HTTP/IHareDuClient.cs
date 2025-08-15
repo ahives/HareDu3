@@ -1,6 +1,7 @@
 namespace HareDu.Core.HTTP;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Security;
 
@@ -16,7 +17,8 @@ public interface IHareDuClient
     /// <param name="provider">An action specifying the <see cref="HareDuCredentialProvider"/> to configure the credentials for authentication with the broker.</param>
     /// <returns>An instance of <see cref="HttpClient"/> configured to communicate with the broker.</returns>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    HttpClient GetClient(Action<HareDuCredentialProvider> provider);
+    [return: NotNull]
+    HttpClient GetClient([NotNull] Action<HareDuCredentialProvider> provider);
 
     /// <summary>
     /// Cancels all pending requests for all <see cref="HttpClient"/> instances managed by the current client.

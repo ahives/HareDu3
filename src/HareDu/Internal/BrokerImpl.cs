@@ -41,8 +41,7 @@ class BrokerImpl :
         {
             SuccessfulResult => Response.Succeeded(AlarmState.InEffect, result.DebugInfo),
             UnsuccessfulResult => Response.Failed(AlarmState.NotInEffect, result.DebugInfo),
-            _ => Response.Panic(AlarmState.NotRecognized,
-                Debug.Info("api/health/checks/alarms",
+            _ => Response.Panic(AlarmState.NotRecognized, Debug.Info("api/health/checks/alarms",
                     Errors.Create(e => {e.Add("Not able to determine whether an alarm is in effect or not.");})))
         };
     }

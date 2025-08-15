@@ -7,6 +7,7 @@ using Core.Extensions;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
+using Model;
 using NUnit.Framework;
 using Serialization;
 
@@ -71,7 +72,7 @@ public class PolicyTests
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.Exactly);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.Exactly);
                     arg.SetHighAvailabilityParams(5);
                     arg.SetExpiry(1000);
                 });
@@ -93,7 +94,7 @@ public class PolicyTests
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });

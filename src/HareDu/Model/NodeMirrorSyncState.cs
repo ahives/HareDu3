@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Defines the synchronization state of mirrored queues on a RabbitMQ node.

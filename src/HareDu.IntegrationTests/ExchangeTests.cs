@@ -7,6 +7,7 @@ using Core.Extensions;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
+using Model;
 using NUnit.Framework;
 using Serialization;
 

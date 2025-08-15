@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Defines the possible states of a RabbitMQ broker in relation to its health and availability.

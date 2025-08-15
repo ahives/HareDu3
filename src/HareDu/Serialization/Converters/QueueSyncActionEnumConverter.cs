@@ -3,6 +3,7 @@ namespace HareDu.Serialization.Converters;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Model;
 
 public class QueueSyncActionEnumConverter :
     JsonConverter<QueueSyncAction>

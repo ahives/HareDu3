@@ -8,15 +8,16 @@ using Model;
 public interface ShovelConfigurator
 {
     /// <summary>
-    /// The connection URI of the RabbitMQ broker.
+    /// Specifies the URI of the RabbitMQ broker the shovel will connect to.
     /// </summary>
-    /// <param name="uri"></param>
+    /// <param name="uri">The URI string that identifies the RabbitMQ broker.</param>
     void Uri(string uri);
 
     /// <summary>
-    /// The duration to wait before reconnecting to the brokers after being disconnected at either end.
+    /// Specifies the delay, in seconds, before the shovel will attempt to reconnect
+    /// after a disconnection occurs.
     /// </summary>
-    /// <param name="delayInSeconds"></param>
+    /// <param name="delayInSeconds">The number of seconds to wait before reconnecting. The value must be greater than or equal to 1.</param>
     void ReconnectDelay(int delayInSeconds);
 
     /// <summary>

@@ -2,6 +2,7 @@ namespace HareDu;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Provides methods to configure an exchange in a messaging system.

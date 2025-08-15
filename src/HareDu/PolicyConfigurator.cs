@@ -2,6 +2,7 @@ namespace HareDu;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Represents a configuration interface for defining policies in a message broker.

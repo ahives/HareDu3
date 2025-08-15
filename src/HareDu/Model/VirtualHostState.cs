@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Represents the different states of a virtual host within the RabbitMQ broker.

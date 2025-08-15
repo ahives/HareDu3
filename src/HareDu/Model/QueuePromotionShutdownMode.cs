@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Model;
 
 /// <summary>
 /// Defines the behavior for queue promotion to master during a shutdown operation.

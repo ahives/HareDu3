@@ -80,7 +80,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -113,7 +113,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -147,7 +147,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                     arg.SetFederationUpstreamSet("all");
                 });
@@ -182,7 +182,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -217,7 +217,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -251,7 +251,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -286,7 +286,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });
@@ -321,7 +321,7 @@ public class PolicyTests :
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityModes.All);
+                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });

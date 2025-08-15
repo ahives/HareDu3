@@ -142,7 +142,7 @@ class PolicyImpl :
                 return InternalErrors;
 
                 bool IsHighlyAvailable() =>
-                    _arguments is not null && (mode.Convert() == HighAvailabilityModes.Exactly || mode.Convert() == HighAvailabilityModes.Nodes) && !_arguments.ContainsKey("ha-params");
+                    _arguments is not null && (mode.Convert() == HighAvailabilityMode.Exactly || mode.Convert() == HighAvailabilityMode.Nodes) && !_arguments.ContainsKey("ha-params");
             }
 
             public void Set<T>(string arg, T value)
@@ -171,7 +171,7 @@ class PolicyImpl :
 
             public void SetFederationUpstream(string value) => SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
 
-            public void SetHighAvailabilityMode(HighAvailabilityModes mode) => SetArg("ha-mode", mode.Convert());
+            public void SetHighAvailabilityMode(HighAvailabilityMode mode) => SetArg("ha-mode", mode.Convert());
 
             public void SetHighAvailabilityParams(uint value) => SetArg("ha-params", value);
 

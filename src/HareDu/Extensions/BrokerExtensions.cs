@@ -95,8 +95,11 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<BrokerState>> IsBrokerAlive(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, string vhost, CancellationToken cancellationToken = default)
+    public static async Task<Result<BrokerState>> IsBrokerAlive(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] string vhost,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -117,8 +120,10 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -139,8 +144,10 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -161,8 +168,10 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, CancellationToken cancellationToken = default)
+    public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 
@@ -184,8 +193,10 @@ public static class BrokerExtensions
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
-    public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(this IBrokerFactory factory,
-        Action<HareDuCredentialProvider> credentials, Protocol protocol, CancellationToken cancellationToken = default)
+    public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(
+        [NotNull] this IBrokerFactory factory,
+        [NotNull] Action<HareDuCredentialProvider> credentials,
+        [NotNull] Protocol protocol, CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(factory);
 

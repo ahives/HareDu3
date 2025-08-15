@@ -7,6 +7,7 @@ using Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Extensions;
+using Model;
 
 [TestFixture]
 public class BrokerTests :
