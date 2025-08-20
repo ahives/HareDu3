@@ -26,15 +26,15 @@ public class AckModeEnumConverter :
             case AckMode.OnConfirm:
                 writer.WriteStringValue("on-confirm");
                 break;
-                
+
             case AckMode.OnPublish:
                 writer.WriteStringValue("on-publish");
                 break;
-                
+
             case AckMode.NoAck:
                 writer.WriteStringValue("no-ack");
                 break;
-                
+
             default:
                 throw new JsonException();
         }

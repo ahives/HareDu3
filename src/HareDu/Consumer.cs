@@ -18,7 +18,7 @@ public interface Consumer :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     [return: NotNull]
-    Task<Results<ConsumerInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ConsumerInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns all consumers on the current RabbitMQ node within the virtual host.
@@ -27,5 +27,5 @@ public interface Consumer :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns></returns>
     [return: NotNull]
-    Task<Results<ConsumerInfo>> GetByVirtualHost([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ConsumerInfo>> GetByVirtualHost([NotNull] string vhost, CancellationToken cancellationToken = default);
 }

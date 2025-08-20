@@ -25,6 +25,12 @@ public class DiagnosticScannerTests
     }
 
     [Test]
+    public void Test()
+    {
+        TestKnowledgeBaseProvider test = new();
+    }
+
+    [Test]
     public async Task Test1()
     {
         var scanner = _services.GetService<IScanner>();

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Core.Configuration;
 using Core.Extensions;
 using KnowledgeBase;
+using Model;
 using Snapshotting.Model;
 
 public class HighConnectionCreationRateProbe :

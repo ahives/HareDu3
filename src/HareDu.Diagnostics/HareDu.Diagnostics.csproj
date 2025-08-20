@@ -7,12 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="NewId" Version="3.0.3" />
+      <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
+      <ProjectReference Include="..\HareDu.Snapshotting\HareDu.Snapshotting.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
-      <ProjectReference Include="..\HareDu.Snapshotting\HareDu.Snapshotting.csproj" />
+      <None Remove="Articles\kb.json" />
+      <Content Include="Articles\kb.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -15,6 +16,12 @@ using Serialization;
 public class PolicyTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public PolicyTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
 
     [OneTimeSetUp]
     public void Init()
@@ -79,7 +86,7 @@ public class PolicyTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -101,7 +108,7 @@ public class PolicyTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -112,6 +119,6 @@ public class PolicyTests
             .Delete("P4", "HareDu");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 }

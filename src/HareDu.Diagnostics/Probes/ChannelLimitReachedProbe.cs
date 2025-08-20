@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Core.Extensions;
 using KnowledgeBase;
+using Model;
 using Snapshotting.Model;
 
 public class ChannelLimitReachedProbe :

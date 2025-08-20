@@ -14,7 +14,7 @@ class ScopedParameterImpl :
     ScopedParameter
 {
     public ScopedParameterImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

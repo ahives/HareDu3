@@ -6,6 +6,7 @@ using Diagnostics.Probes;
 using KnowledgeBase;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
+using Model;
 using NUnit.Framework;
 
 [TestFixture]

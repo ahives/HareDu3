@@ -1,4 +1,4 @@
-namespace HareDu;
+namespace HareDu.Internal;
 
 using System.Collections.Generic;
 using System.Text;

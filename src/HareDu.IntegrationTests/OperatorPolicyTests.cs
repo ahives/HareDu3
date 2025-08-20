@@ -4,9 +4,11 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
+using Model;
 using NUnit.Framework;
 using Serialization;
 
@@ -14,6 +16,12 @@ using Serialization;
 public class OperatorPolicyTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public OperatorPolicyTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
 
     [OneTimeSetUp]
     public void Init()
@@ -79,7 +87,7 @@ public class OperatorPolicyTests
                 });
             });
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -89,6 +97,6 @@ public class OperatorPolicyTests
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test6", "TestHareDu");
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 }

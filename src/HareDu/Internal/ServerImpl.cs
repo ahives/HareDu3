@@ -12,7 +12,7 @@ class ServerImpl :
     Server
 {
     public ServerImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

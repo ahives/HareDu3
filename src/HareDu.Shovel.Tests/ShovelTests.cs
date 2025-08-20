@@ -2,7 +2,9 @@ namespace HareDu.Shovel.Tests;
 
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
+using HareDu.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
 using Serialization;
@@ -11,6 +13,13 @@ using Serialization;
 public class ShovelTests :
     HareDuTesting
 {
+    readonly IHareDuDeserializer _deserializer;
+
+    public ShovelTests()
+    {
+        _deserializer = new ShovelDeserializer();
+    }
+
     [Test]
     public async Task Verify_able_to_get_all_dynamic_shovels1()
     {
@@ -77,7 +86,7 @@ public class ShovelTests :
 
             Console.WriteLine(result.DebugInfo.Request);
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
             Assert.That(request.Value.SourcePrefetchCount, Is.EqualTo(1000));
@@ -88,7 +97,7 @@ public class ShovelTests :
             Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
             Assert.That(request.Value.DestinationUri, Is.EqualTo("amqp://user1@localhost"));
 
-            Console.WriteLine(request.ToJsonString(Deserializer.Options));
+            Console.WriteLine(request.ToJsonString(_deserializer.Options));
         });
     }
 
@@ -113,7 +122,7 @@ public class ShovelTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -125,7 +134,7 @@ public class ShovelTests :
             Assert.That(request.Value.DestinationQueue, Is.EqualTo("queue2"));
             Assert.That(request.Value.DestinationUri, Is.EqualTo("amqp://user1@localhost"));
 
-            Console.WriteLine(request.ToJsonString(Deserializer.Options));
+            Console.WriteLine(request.ToJsonString(_deserializer.Options));
         });
     }
 
@@ -156,7 +165,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -198,7 +207,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -241,7 +250,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -283,7 +292,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -326,7 +335,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));
@@ -368,7 +377,7 @@ public class ShovelTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(Deserializer.Options);
+            ShovelRequest request = result.DebugInfo.Request.ToObject<ShovelRequest>(_deserializer.Options);
 
             Assert.That(request.Value, Is.Not.Null);
             Assert.That(request.Value.AcknowledgeMode, Is.EqualTo(ShovelAckMode.OnPublish));

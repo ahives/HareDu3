@@ -17,7 +17,7 @@ class VirtualHostImpl :
     VirtualHost
 {
     public VirtualHostImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

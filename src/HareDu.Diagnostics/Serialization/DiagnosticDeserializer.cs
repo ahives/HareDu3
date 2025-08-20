@@ -1,13 +1,15 @@
-namespace HareDu.Serialization;
+namespace HareDu.Diagnostics.Serialization;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Converters;
+using Core.Serialization;
 using Core.Serialization.Converters;
 
-public static class Deserializer
+public class DiagnosticDeserializer :
+    BaseHareDuDeserializer
 {
-    public static JsonSerializerOptions Options =>
+    public override JsonSerializerOptions Options =>
         new()
         {
             WriteIndented = true,
@@ -18,8 +20,7 @@ public static class Deserializer
                 new CustomLongConverter(),
                 new CustomULongConverter(),
                 new CustomStringConverter(),
-                new AckModeEnumConverter(),
-                new DefaultQueueTypeEnumConverter(),
+                new ProbeResultStatusEnumConverter(),
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             }
         };

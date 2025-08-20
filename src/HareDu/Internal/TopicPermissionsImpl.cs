@@ -15,7 +15,7 @@ class TopicPermissionsImpl :
     TopicPermissions
 {
     public TopicPermissionsImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

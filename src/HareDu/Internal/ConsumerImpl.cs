@@ -13,7 +13,7 @@ class ConsumerImpl :
     Consumer
 {
     public ConsumerImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

@@ -19,7 +19,7 @@ public interface OperatorPolicy :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="Results{OperatorPolicyInfo}"/> object containing the details of all operator policies on the broker.</returns>
     [return: NotNull]
-    Task<Results<OperatorPolicyInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<OperatorPolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new operator policy on the specified virtual host.
@@ -34,7 +34,7 @@ public interface OperatorPolicy :
         [NotNull] string name,
         [NotNull] string vhost,
         [NotNull] Action<OperatorPolicyConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified operator policy from the given virtual host.
@@ -44,5 +44,5 @@ public interface OperatorPolicy :
     /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
     /// <returns>A <see cref="Result"/> indicating the success or failure of the delete operation.</returns>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, CancellationToken cancellationToken = default);
 }

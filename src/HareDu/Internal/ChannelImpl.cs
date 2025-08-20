@@ -15,7 +15,7 @@ class ChannelImpl :
     Channel
 {
     public ChannelImpl(HttpClient client) :
-        base(client, Deserializer.Options)
+        base(client, new BrokerDeserializer())
     {
     }
 

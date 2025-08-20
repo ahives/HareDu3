@@ -11,7 +11,7 @@ class ShovelImpl :
     Shovel
 {
     public ShovelImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new ShovelDeserializer())
     {
     }
 
@@ -59,7 +59,7 @@ class ShovelImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString(Options)))
+            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString(Deserializer.Options)))
             : await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 
@@ -295,7 +295,7 @@ class ShovelImpl :
             public bool AddHeaders { get; private set; }
             public bool AddTimestampHeader { get; private set; }
 
-            public void Exchange(string exchange, string routingKey = null)
+            public void Exchange(string exchange, string? routingKey = null)
             {
                 ExchangeName = exchange;
 

@@ -11,10 +11,10 @@ public class InconsistentObjectDataConverter :
     public override SocketOptions? Read(ref Utf8JsonReader reader, Type typeToConvert,
         JsonSerializerOptions options)
     {
-        var value = JsonDocument.ParseValue(ref reader);
-
         if (reader.TokenType == JsonTokenType.EndArray)
             return default;
+
+        var value = JsonDocument.ParseValue(ref reader);
 
         var text = value.RootElement.GetRawText();
 

@@ -20,7 +20,7 @@ public interface GlobalParameter :
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<GlobalParameterInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<GlobalParameterInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a global parameter on the RabbitMQ node with the specified name and configuration.
@@ -34,7 +34,7 @@ public interface GlobalParameter :
     Task<Result> Create(
         [NotNull] string parameter,
         [NotNull] Action<GlobalParameterConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified global parameter from the RabbitMQ node.
@@ -44,5 +44,5 @@ public interface GlobalParameter :
     /// <returns>A task that represents the asynchronous operation and contains the result of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the operation is canceled.</exception>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string parameter, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string parameter, CancellationToken cancellationToken = default);
 }

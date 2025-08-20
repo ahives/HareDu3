@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -14,6 +15,12 @@ using Serialization;
 public class ConnectionTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public ConnectionTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
 
     [OneTimeSetUp]
     public void Init()
@@ -74,6 +81,6 @@ public class ConnectionTests
         var result = await _services.GetService<IBrokerFactory>()
             .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "127.0.0.1:56601 -> 127.0.0.1:5672");
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 }

@@ -6,8 +6,8 @@ using Core.Configuration;
 using Core.Extensions;
 using Diagnostics.Probes;
 using Diagnostics.Scanners;
+using HareDu.Model;
 using KnowledgeBase;
-using Model;
 using NUnit.Framework;
 using Snapshotting.Model;
 

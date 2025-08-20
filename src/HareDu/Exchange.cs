@@ -20,7 +20,7 @@ public interface Exchange :
     /// <returns>A task that represents the asynchronous operation, containing the results of all exchanges.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ExchangeInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ExchangeInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an exchange on the RabbitMQ broker.
@@ -36,7 +36,7 @@ public interface Exchange :
         [NotNull] string exchange,
         [NotNull] string vhost,
         [NotNull] Action<ExchangeConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified exchange on the target RabbitMQ virtual host.
@@ -52,7 +52,7 @@ public interface Exchange :
         [NotNull] string exchange,
         [NotNull] string vhost,
         [NotNull] Action<ExchangeDeletionConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Binds an exchange to another exchange within the specified RabbitMQ virtual host.
@@ -68,7 +68,7 @@ public interface Exchange :
         [NotNull] string vhost,
         [NotNull] string exchange,
         [NotNull] Action<BindingConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unbinds a binding between an exchange and another resource in the specified RabbitMQ virtual host.
@@ -79,5 +79,5 @@ public interface Exchange :
     /// <returns>A result indicating the success or failure of the unbind operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
+    Task<Result> Unbind([NotNull] string vhost, [NotNull] Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
 }

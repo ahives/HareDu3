@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Core.Extensions;
 using Diagnostics.Scanners;
 using Fakes;
+using HareDu.Model;
 using Model;
 using MicrosoftIntegration;
 using Snapshotting.Model;

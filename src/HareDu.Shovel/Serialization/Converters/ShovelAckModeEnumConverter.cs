@@ -1,4 +1,4 @@
-namespace HareDu.Shovel.Serialization;
+namespace HareDu.Shovel.Serialization.Converters;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;

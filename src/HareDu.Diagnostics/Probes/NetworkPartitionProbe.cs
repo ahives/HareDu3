@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
 using KnowledgeBase;
+using Model;
 using Snapshotting.Model;
 
 public class NetworkPartitionProbe :

@@ -21,7 +21,7 @@ public interface Queue :
     /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{QueueInfo}"/> representing the queues.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<QueueInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<QueueInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves detailed information for all queues available on the RabbitMQ broker.
@@ -30,7 +30,7 @@ public interface Queue :
     /// <returns>A task that represents the asynchronous operation and contains the results of type <see cref="Results{QueueDetailInfo}"/> representing the detailed information for the queues.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<QueueDetailInfo>> GetDetails([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new queue on the RabbitMQ broker.
@@ -48,7 +48,7 @@ public interface Queue :
         [NotNull] string vhost,
         [NotNull] string node,
         [AllowNull] Action<QueueConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific queue on the RabbitMQ broker.
@@ -64,7 +64,7 @@ public interface Queue :
         [NotNull] string name,
         [NotNull] string vhost,
         [AllowNull] Action<QueueDeletionConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes all messages from a specified queue in a RabbitMQ virtual host.
@@ -75,7 +75,7 @@ public interface Queue :
     /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result"/> representing the outcome of the operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Empty([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Empty([NotNull] string name, [NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Synchronizes the state of a specific queue on the RabbitMQ broker.
@@ -86,7 +86,7 @@ public interface Queue :
     /// <returns>A task that represents the asynchronous operation and contains a <see cref="Result"/> indicating the outcome of the synchronization process.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Sync([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Sync([NotNull] string name, [NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels synchronization of the specified queue in the given virtual host.
@@ -97,7 +97,7 @@ public interface Queue :
     /// <returns>A task that represents the result of the operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> CancelSync([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> CancelSync([NotNull] string name, [NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Binds a queue to a specified exchange within a virtual host on the RabbitMQ broker.
@@ -106,14 +106,16 @@ public interface Queue :
     /// <param name="exchange">The name of the exchange to bind the queue to.</param>
     /// <param name="configurator">Specifies the configuration options for the binding, such as arguments and binding key.</param>
     /// <param name="cancellationToken">Token used to propagate notifications that the operation should be canceled.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the result of type <see cref="Result{T}"/> representing the created binding information.</returns>
+    /// <returns>
+    /// A task that represents the asynchronous operation and contains the result of type <see cref="Result{T}"/> representing the created binding information.
+    /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
     Task<Result<BindingInfo>> BindToQueue(
         [NotNull] string vhost,
         [NotNull] string exchange,
         [NotNull] Action<BindingConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a binding between queues in the specified virtual host.
@@ -124,5 +126,5 @@ public interface Queue :
     /// <returns>A task that represents the asynchronous operation, containing the result of the unbinding operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Unbind([NotNull] string vhost, [NotNull] Action<UnbindingConfigurator> configurator, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Unbind([NotNull] string vhost, [NotNull] Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default);
 }

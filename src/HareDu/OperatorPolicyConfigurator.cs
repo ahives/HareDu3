@@ -2,6 +2,7 @@ namespace HareDu;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Provides methods for configuring an operator policy in RabbitMQ.

@@ -20,7 +20,7 @@ public interface Node :
     /// <returns>Results containing a collection of node information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<NodeInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves memory usage information for a specific node in the RabbitMQ cluster.
@@ -30,5 +30,5 @@ public interface Node :
     /// <returns>A result containing detailed memory usage information of the specified node.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage([NotNull] string node, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage([NotNull] string node, CancellationToken cancellationToken = default);
 }

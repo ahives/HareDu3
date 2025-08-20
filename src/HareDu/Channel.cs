@@ -21,7 +21,7 @@ public interface Channel :
     /// <returns>All channels on the current RabbitMQ node as a result set.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ChannelInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ChannelInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all channels associated with the specified connection.
@@ -31,7 +31,7 @@ public interface Channel :
     /// <returns>A result set containing information about the channels associated with the specified connection.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ChannelInfo>> GetByConnection([NotNull] string connectionName, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ChannelInfo>> GetByConnection([NotNull] string connectionName, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all channels associated with a specific virtual host.
@@ -41,7 +41,7 @@ public interface Channel :
     /// <returns>A result set containing all channels associated with the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ChannelInfo>> GetByVirtualHost([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ChannelInfo>> GetByVirtualHost([NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves details of a specific RabbitMQ channel based on its name.
@@ -51,5 +51,5 @@ public interface Channel :
     /// <returns>A result containing the details of the specified RabbitMQ channel.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result<ChannelInfo>> GetByName([NotNull] string name, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result<ChannelInfo>> GetByName([NotNull] string name, CancellationToken cancellationToken = default);
 }

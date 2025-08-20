@@ -1,6 +1,7 @@
 namespace HareDu;
 
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Represents the configuration of resource limits for a specific RabbitMQ user.

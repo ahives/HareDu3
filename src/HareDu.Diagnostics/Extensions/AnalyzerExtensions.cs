@@ -2,20 +2,22 @@ namespace HareDu.Diagnostics.Extensions;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 public static class AnalyzerExtensions
 {
     /// <summary>
-    /// Given a <see cref="ScannerResult"/>, will aggregate and calculate the percentage per status of the result of diagnostic probes executing on
-    /// a particular component. If the analyzer is null, will return an empty summary.
+    /// Analyzes the provided scanner result using the given analyzer and applies a filter to the probe results.
     /// </summary>
-    /// <param name="report"></param>
-    /// <param name="analyzer"></param>
-    /// <param name="aggregationKey"></param>
-    /// <returns></returns>
-    public static IReadOnlyList<AnalyzerSummary> Analyze(this ScannerResult report, IScannerResultAnalyzer analyzer,
-        Func<ProbeResult, string> aggregationKey)
+    /// <param name="report">The scanner result to be analyzed.</param>
+    /// <param name="analyzer">The analyzer responsible for analyzing the scanner result.</param>
+    /// <param name="filter">A function to filter the probe results.</param>
+    /// <returns>A read-only list of analysis summaries produced by the analyzer.</returns>
+    public static IReadOnlyList<AnalyzerSummary> Analyze(
+        [NotNull] this ScannerResult report,
+        [NotNull] IScannerResultAnalyzer analyzer,
+        [NotNull] Func<ProbeResult, string> filter)
         => analyzer is not null
-            ? analyzer.Analyze(report, aggregationKey)
+            ? analyzer.Analyze(report, filter)
             : DiagnosticCache.EmptyAnalyzerSummary;
 }

@@ -22,7 +22,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the list of virtual hosts and related information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<VirtualHostInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves information about a specific RabbitMQ virtual host from the broker.
@@ -32,7 +32,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the virtual host details and related information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result<VirtualHostInfo>> Get([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result<VirtualHostInfo>> Get([NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a RabbitMQ virtual host on the broker.
@@ -46,7 +46,7 @@ public interface VirtualHost :
     Task<Result> Create(
         [NotNull] string vhost,
         [AllowNull] Action<VirtualHostConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified RabbitMQ virtual host from the broker.
@@ -56,7 +56,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the operation result information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a RabbitMQ virtual host on the specified node.
@@ -70,7 +70,7 @@ public interface VirtualHost :
     Task<Result> Startup(
         [NotNull] string vhost,
         [NotNull] string node,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all configured limits for all RabbitMQ virtual hosts from the broker.
@@ -79,7 +79,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the list of virtual host limits and related information.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<VirtualHostLimitsInfo>> GetAllLimits([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostLimitsInfo>> GetAllLimits(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Defines resource limits for the specified virtual host.
@@ -93,7 +93,7 @@ public interface VirtualHost :
     Task<Result> DefineLimit(
         [NotNull] string vhost,
         [AllowNull] Action<VirtualHostLimitsConfigurator> configurator = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified limit configured for the given virtual host.
@@ -106,8 +106,8 @@ public interface VirtualHost :
     [return: NotNull]
     Task<Result> DeleteLimit(
         [NotNull] string vhost,
-        [NotNull] VirtualHostLimit limit,
-        [NotNull] CancellationToken cancellationToken = default);
+        VirtualHostLimit limit,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the list of permissions for a specific virtual host.
@@ -117,7 +117,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the list of permissions and related information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<VirtualHostPermissionInfo>> GetAllPermissions([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostPermissionInfo>> GetAllPermissions([NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves a user's permissions for a specific RabbitMQ virtual host.
@@ -131,7 +131,7 @@ public interface VirtualHost :
     Task<Result<VirtualHostPermissionInfo>> GetUserPermissions(
         [NotNull] string vhost,
         [NotNull] string username,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all topic permissions for a specified virtual host.
@@ -141,7 +141,7 @@ public interface VirtualHost :
     /// <returns>A task representing the asynchronous operation. The task result contains the list of topic permission information for the specified virtual host.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions([NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<VirtualHostTopicPermissionInfo>> GetTopicPermissions([NotNull] string vhost, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Applies permissions for a specified user to a virtual host.
@@ -157,7 +157,7 @@ public interface VirtualHost :
         [NotNull] string username,
         [NotNull] string vhost,
         [NotNull] Action<UserPermissionsConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the permissions for the specified user on the specified virtual host (vhost).
@@ -171,5 +171,5 @@ public interface VirtualHost :
     Task<Result> DeletePermissions(
         [NotNull] string username,
         [NotNull] string vhost,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 }

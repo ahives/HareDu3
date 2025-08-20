@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics;
 
 using System.Collections.Generic;
 using KnowledgeBase;
+using Model;
 
 public static class Probe
 {

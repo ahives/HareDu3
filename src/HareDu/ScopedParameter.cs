@@ -20,7 +20,7 @@ public interface ScopedParameter :
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ScopedParameterInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ScopedParameterInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a scoped parameter on the RabbitMQ server with the specified properties.
@@ -39,7 +39,7 @@ public interface ScopedParameter :
         [NotNull] T value,
         [NotNull] string component,
         [NotNull] string vhost,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the specified scoped parameter for a particular RabbitMQ component and virtual host on the current server.
@@ -55,5 +55,5 @@ public interface ScopedParameter :
         [NotNull] string name,
         [NotNull] string component,
         [NotNull] string vhost,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 }

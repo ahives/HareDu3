@@ -18,5 +18,5 @@ public interface Authentication :
     /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
     /// <returns>A task representing the asynchronous operation, containing the result of authentication details.</returns>
     [return: NotNull]
-    Task<Result<AuthenticationDetails>> GetDetails([NotNull] CancellationToken cancellationToken = default);
+    Task<Result<AuthenticationDetails>> GetDetails(CancellationToken cancellationToken = default);
 }

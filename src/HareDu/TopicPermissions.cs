@@ -20,7 +20,7 @@ public interface TopicPermissions :
     /// <returns>A task that represents the asynchronous operation, containing the list of all topic permissions.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<TopicPermissionsInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<TopicPermissionsInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new set of topic permissions for a specified user on a particular virtual host.
@@ -36,7 +36,7 @@ public interface TopicPermissions :
         [NotNull] string username,
         [NotNull] string vhost,
         [NotNull] Action<TopicPermissionsConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specific user's topic permissions on the specified virtual host.
@@ -47,5 +47,5 @@ public interface TopicPermissions :
     /// <returns>A task that represents the asynchronous operation, containing the result of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string username, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string username, [NotNull] string vhost, CancellationToken cancellationToken = default);
 }

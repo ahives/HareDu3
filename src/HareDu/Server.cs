@@ -23,5 +23,5 @@ public interface Server :
     /// </returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result<ServerInfo>> Get([NotNull] CancellationToken cancellationToken = default);
+    Task<Result<ServerInfo>> Get(CancellationToken cancellationToken = default);
 }

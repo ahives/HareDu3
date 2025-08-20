@@ -15,7 +15,7 @@ class ConnectionImpl :
     Connection
 {
     public ConnectionImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 
@@ -38,7 +38,7 @@ class ConnectionImpl :
         }
 
         return errors.HaveBeenFound()
-            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/queues", errors))
+            ? Responses.Panic<ConnectionInfo>(Debug.Info("api/connections", errors))
             : await GetAllRequest<ConnectionInfo>(
                 string.IsNullOrWhiteSpace(@params) ? "api/connections" : $"api/connections?{@params}", RequestType.Connection, cancellationToken).ConfigureAwait(false);
     }

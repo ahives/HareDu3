@@ -13,7 +13,7 @@ public interface ExchangeConfigurator
     /// Specifies the routing type of the exchange.
     /// </summary>
     /// <param name="routingType">The routing type to be applied to the exchange.</param>
-    void WithRoutingType([NotNull] RoutingType routingType);
+    void WithRoutingType(RoutingType routingType);
 
     /// <summary>
     /// Specify that the exchange is durable.

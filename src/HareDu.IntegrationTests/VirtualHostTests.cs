@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -14,6 +15,13 @@ using Serialization;
 public class VirtualHostTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public VirtualHostTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
+
 
     [OneTimeSetUp]
     public void Init()
@@ -102,7 +110,7 @@ public class VirtualHostTests
                 });
             });
 
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -112,7 +120,7 @@ public class VirtualHostTests
             .API<VirtualHost>(z => z.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -122,7 +130,7 @@ public class VirtualHostTests
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("", "");
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -136,7 +144,7 @@ public class VirtualHostTests
                 x.SetMaxConnectionLimit(1000);
             });
         
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]

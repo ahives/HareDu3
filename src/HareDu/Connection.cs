@@ -21,7 +21,7 @@ public interface Connection :
     /// <returns>A task representing the asynchronous operation, containing the results of connection information.</returns>
     /// <exception cref="OperationCanceledException">Thrown if the operation is canceled via the provided cancellation token.</exception>
     [return: NotNull]
-    Task<Results<ConnectionInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ConnectionInfo>> GetAll([AllowNull] Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all connections associated with the specified virtual host.
@@ -35,7 +35,7 @@ public interface Connection :
     Task<Results<ConnectionInfo>> GetByVirtualHost(
         [NotNull] string vhost,
         [AllowNull] Action<PaginationConfigurator> pagination = null,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves connection information for a specific connection by its name.
@@ -45,7 +45,7 @@ public interface Connection :
     /// <returns>Returns a collection of connection details matching the specified name.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ConnectionInfo>> GetByName([NotNull] string name, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ConnectionInfo>> GetByName([NotNull] string name, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves all connections associated with the specified username.
@@ -55,7 +55,7 @@ public interface Connection :
     /// <returns>A task representing the asynchronous operation, containing the results of the connections associated with the specified username.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<ConnectionInfo>> GetByUser([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
+    Task<Results<ConnectionInfo>> GetByUser([NotNull] string username, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an active connection on the current RabbitMQ node.
@@ -65,7 +65,7 @@ public interface Connection :
     /// <returns>A result object indicating the success or failure of the delete operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string connection, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string connection, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all connections associated with the specified user on the current RabbitMQ node.
@@ -75,5 +75,5 @@ public interface Connection :
     /// <returns>A result indicating the success or failure of the deletion operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> DeleteByUser([NotNull] string username, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> DeleteByUser([NotNull] string username, CancellationToken cancellationToken = default);
 }

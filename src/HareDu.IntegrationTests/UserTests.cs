@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -16,6 +17,13 @@ using Serialization;
 public class UserTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public UserTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
+
 
     [OneTimeSetUp]
     public void Init()
@@ -83,7 +91,7 @@ public class UserTests
                 });
             });
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -100,7 +108,7 @@ public class UserTests
         var result = await _services.GetService<IBrokerFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string> {"username1", "username2", "username3"});
             
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -119,7 +127,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllUserLimits();
 
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -129,7 +137,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetLimitsByUser("test");
 
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -142,6 +150,6 @@ public class UserTests
                 x.SetLimit(UserLimit.MaxChannels, 50);
             });
 
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 }

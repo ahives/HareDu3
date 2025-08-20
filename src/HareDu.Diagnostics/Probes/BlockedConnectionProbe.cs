@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics.Probes;
 
 using System.Collections.Generic;
 using Core.Extensions;
+using HareDu.Model;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -36,18 +37,18 @@ public class BlockedConnectionProbe :
         {
             new () {PropertyName = "State", PropertyValue = data.State.ToString()}
         };
-            
+
         if (data.State == BrokerConnectionState.Blocked)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
+
             result = Probe.Unhealthy(data.NodeIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
+
             result = Probe.Healthy(data.NodeIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }

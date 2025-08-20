@@ -6,6 +6,7 @@ using Core.Extensions;
 using Diagnostics.Probes;
 using KnowledgeBase;
 using Microsoft.Extensions.DependencyInjection;
+using Model;
 using NUnit.Framework;
 using Snapshotting.Model;
 

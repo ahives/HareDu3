@@ -12,7 +12,7 @@ class BindingImpl :
     Binding
 {
     public BindingImpl(HttpClient client)
-        : base(client, Deserializer.Options)
+        : base(client, new BrokerDeserializer())
     {
     }
 

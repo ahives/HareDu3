@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics.Tests.Probes;
 
 using Core.Extensions;
 using Diagnostics.Probes;
+using HareDu.Model;
 using KnowledgeBase;
 using Microsoft.Extensions.DependencyInjection;
 using Model;

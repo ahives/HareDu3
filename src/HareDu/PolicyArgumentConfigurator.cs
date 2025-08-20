@@ -20,7 +20,7 @@ public interface PolicyArgumentConfigurator
     /// Sets the expiry duration of the policy in milliseconds.
     /// </summary>
     /// <param name="milliseconds">The duration in milliseconds after which the resource will expire.</param>
-    void SetExpiry([NotNull] ulong milliseconds);
+    void SetExpiry(ulong milliseconds);
 
     /// <summary>
     /// Configures the federation upstream set argument for a RabbitMQ policy with the specified value.
@@ -38,37 +38,37 @@ public interface PolicyArgumentConfigurator
     /// Configures the high availability mode for the policy.
     /// </summary>
     /// <param name="mode">The high availability mode to be applied to the policy.</param>
-    void SetHighAvailabilityMode([NotNull] HighAvailabilityMode mode);
+    void SetHighAvailabilityMode(HighAvailabilityMode mode);
 
     /// <summary>
     /// Sets the high availability parameter to the specified value. This is used to configure the number of nodes for high availability in policies.
     /// </summary>
     /// <param name="value">The number of nodes or specific high availability parameter to be assigned.</param>
-    void SetHighAvailabilityParams([NotNull] uint value);
+    void SetHighAvailabilityParams(uint value);
 
     /// <summary>
     /// Sets the synchronization mode for high availability.
     /// </summary>
     /// <param name="mode">The synchronization mode to be set, defining whether it is manual or automatic.</param>
-    void SetHighAvailabilitySyncMode([NotNull] HighAvailabilitySyncMode mode);
+    void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode);
 
     /// <summary>
     /// Sets the time-to-live for messages in the queue, in milliseconds.
     /// </summary>
     /// <param name="milliseconds">The duration in milliseconds after which messages in the queue will expire and be removed.</param>
-    void SetMessageTimeToLive([NotNull] ulong milliseconds);
+    void SetMessageTimeToLive(ulong milliseconds);
 
     /// <summary>
     /// Sets the maximum message size in bytes for the policy.
     /// </summary>
     /// <param name="value">The maximum size in bytes that a message can have before it is rejected or discarded.</param>
-    void SetMessageMaxSizeInBytes([NotNull] ulong value);
+    void SetMessageMaxSizeInBytes(ulong value);
 
     /// <summary>
     /// Sets the maximum size of a message for the policy.
     /// </summary>
     /// <param name="value">The maximum size of a message in bytes.</param>
-    void SetMessageMaxSize([NotNull] ulong value);
+    void SetMessageMaxSize(ulong value);
 
     /// <summary>
     /// Sets the dead letter exchange argument for the policy with the specified value.
@@ -86,7 +86,7 @@ public interface PolicyArgumentConfigurator
     /// Sets the mode of the queue to define its behavior and storage characteristics.
     /// </summary>
     /// <param name="mode">The mode to set for the queue, specifying its attributes such as storage strategy.</param>
-    void SetQueueMode([NotNull] QueueMode mode);
+    void SetQueueMode(QueueMode mode);
 
     /// <summary>
     /// Sets the alternate exchange argument for a RabbitMQ policy with the specified value.
@@ -104,17 +104,17 @@ public interface PolicyArgumentConfigurator
     /// Configures the queue promotion behavior during a shutdown operation.
     /// </summary>
     /// <param name="mode">Specifies the desired promotion mode for the queue during shutdown.</param>
-    void SetQueuePromotionOnShutdown([NotNull] QueuePromotionShutdownMode mode);
+    void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode);
 
     /// <summary>
     /// Configures the queue promotion behavior when a failure occurs, using the specified mode.
     /// </summary>
     /// <param name="mode">The promotion failure behavior mode to set. This determines how the system handles promotion failures.</param>
-    void SetQueuePromotionOnFailure([NotNull] QueuePromotionFailureMode mode);
+    void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode);
 
     /// <summary>
     /// Sets the delivery limit argument on the policy with the provided value.
     /// </summary>
     /// <param name="limit">The maximum number of deliveries allowed for a message before it is dropped or dead-lettered.</param>
-    void SetDeliveryLimit([NotNull] ulong limit);
+    void SetDeliveryLimit(ulong limit);
 }

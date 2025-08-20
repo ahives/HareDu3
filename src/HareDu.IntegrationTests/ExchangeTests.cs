@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MicrosoftIntegration;
@@ -15,6 +16,12 @@ using Serialization;
 public class ExchangeTests
 {
     ServiceProvider _services;
+    readonly IHareDuDeserializer _deserializer;
+
+    public ExchangeTests()
+    {
+        _deserializer = new BrokerDeserializer();
+    }
 
     [OneTimeSetUp]
     public void Init()
@@ -60,7 +67,7 @@ public class ExchangeTests
             .ScreenDump();
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -83,7 +90,7 @@ public class ExchangeTests
         }
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     // [Test]
@@ -99,7 +106,7 @@ public class ExchangeTests
     //         .ScreenDump();
     //
     //     // result.HasFaulted.ShouldBeFalse();
-    //     Console.WriteLine(result.ToJsonString(Deserializer.Options));
+    //     Console.WriteLine(result.ToJsonString(_deserializer.Options));
     // }
 
     [Test]
@@ -114,7 +121,7 @@ public class ExchangeTests
             .ScreenDump();
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -134,7 +141,7 @@ public class ExchangeTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]
@@ -145,7 +152,7 @@ public class ExchangeTests
             .Delete("E3", "HareDu");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(Deserializer.Options));
+        Console.WriteLine(result.ToJsonString(_deserializer.Options));
     }
 
     [Test]

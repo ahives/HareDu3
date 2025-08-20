@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
 using MassTransit;
+using Model;
 
 /// <summary>
 /// Provides functionality to analyze scanner results and generate summaries or insights
@@ -23,9 +24,9 @@ public class ScannerResultAnalyzer :
         _disposableObservers = new List<IDisposable>();
     }
 
-    public IReadOnlyList<AnalyzerSummary> Analyze(ScannerResult report, Func<ProbeResult, string> filterBy)
+    public IReadOnlyList<AnalyzerSummary> Analyze(ScannerResult report, Func<ProbeResult, string> filter)
     {
-        var rollup = GetRollup(report.Results, filterBy);
+        var rollup = GetRollup(report.Results, filter);
 
         var summary = (from result in rollup
                 let healthy =

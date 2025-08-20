@@ -3,6 +3,7 @@ namespace HareDu.Diagnostics.Probes;
 using System.Collections.Generic;
 using Core.Extensions;
 using KnowledgeBase;
+using Model;
 using Snapshotting.Model;
 
 public class AvailableCpuCoresProbe :
@@ -38,7 +39,7 @@ public class AvailableCpuCoresProbe :
         if (data.AvailableCoresDetected <= 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
+
             result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }

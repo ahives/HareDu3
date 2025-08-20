@@ -20,7 +20,7 @@ public interface Policy :
     /// <returns>Asynchronous task of <see cref="Result{T}"/></returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Results<PolicyInfo>> GetAll([NotNull] CancellationToken cancellationToken = default);
+    Task<Results<PolicyInfo>> GetAll(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new policy on the specified RabbitMQ virtual host.
@@ -36,7 +36,7 @@ public interface Policy :
         [NotNull] string name,
         [NotNull] string vhost,
         [NotNull] Action<PolicyConfigurator> configurator,
-        [NotNull] CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a specified policy from the provided virtual host.
@@ -47,5 +47,5 @@ public interface Policy :
     /// <returns>Asynchronous task of <see cref="Result"/> indicating the success or failure of the operation.</returns>
     /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
     [return: NotNull]
-    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, [NotNull] CancellationToken cancellationToken = default);
+    Task<Result> Delete([NotNull] string name, [NotNull] string vhost, CancellationToken cancellationToken = default);
 }

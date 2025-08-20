@@ -11,13 +11,13 @@ public interface PaginationConfigurator
     /// Sets the page number for pagination.
     /// </summary>
     /// <param name="number">The page number to be set.</param>
-    void Page([NotNull] int number);
+    void Page(int number);
 
     /// <summary>
     /// Sets the page size for pagination.
     /// </summary>
     /// <param name="size">The number of items per page to be set.</param>
-    void PageSize([NotNull] int size);
+    void PageSize(int size);
 
     /// <summary>
     /// Sets the name filter for the pagination query.
@@ -29,5 +29,5 @@ public interface PaginationConfigurator
     /// Enables or disables the use of regular expressions for the query.
     /// </summary>
     /// <param name="use">A boolean value indicating whether to use regular expressions.</param>
-    void UseRegex([NotNull] bool use);
+    void UseRegex(bool use);
 }

@@ -15,7 +15,7 @@ internal class BindingConfiguratorImpl :
     IDictionary<string, object> _arguments;
     string _bindingKeyString;
 
-    List<Error> InternalErrors { get; } = new();
+    List<Error> ValidationErrors { get; } = new();
 
     public string DestinationBinding { get; private set; }
     public Lazy<BindingRequest> Request { get; }
@@ -32,9 +32,9 @@ internal class BindingConfiguratorImpl :
 
     public List<Error> Validate()
     {
-        InternalErrors.AddIfTrue(DestinationBinding, string.IsNullOrWhiteSpace, Errors.Create("The name of the destination binding (queue/exchange) is missing."));
+        ValidationErrors.AddIfTrue(DestinationBinding, string.IsNullOrWhiteSpace, Errors.Create("The name of the destination binding (queue/exchange) is missing."));
 
-        return InternalErrors;
+        return ValidationErrors;
     }
 
     public void Destination(string destination) => DestinationBinding = destination;
@@ -48,7 +48,7 @@ internal class BindingConfiguratorImpl :
 
         _arguments = impl.Arguments.Value;
             
-        InternalErrors.AddRange(impl.Validate());
+        ValidationErrors.AddRange(impl.Validate());
     }
 
         
