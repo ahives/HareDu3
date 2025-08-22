@@ -1,9 +1,8 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 using System;
 using System.Collections.Generic;
 using KnowledgeBase;
-using Model;
 
 /// <summary>
 /// Represents the result of executing a diagnostic probe in the system.

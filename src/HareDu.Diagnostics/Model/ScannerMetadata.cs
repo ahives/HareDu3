@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 /// <summary>
 /// Represents metadata for a diagnostic scanner, providing identification information

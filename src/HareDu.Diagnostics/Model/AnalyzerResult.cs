@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 /// <summary>
 /// Represents the result of an analysis, containing the total count of results and the corresponding percentage.

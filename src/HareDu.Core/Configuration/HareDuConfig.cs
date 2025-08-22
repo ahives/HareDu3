@@ -6,6 +6,11 @@ namespace HareDu.Core.Configuration;
 public record HareDuConfig
 {
     /// <summary>
+    /// Gets the configuration settings for the knowledge base, including file location and path information.
+    /// </summary>
+    public KnowledgeBaseConfig KB { get; init; }
+
+    /// <summary>
     /// Gets the configuration settings for the broker connection.
     /// </summary>
     public BrokerConfig Broker { get; init; }

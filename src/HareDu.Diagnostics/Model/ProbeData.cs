@@ -1,5 +1,8 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
+/// <summary>
+/// Represents diagnostic probe data with specific property details.
+/// </summary>
 public record ProbeData
 {
     /// <summary>

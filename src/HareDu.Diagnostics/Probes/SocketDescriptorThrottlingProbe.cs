@@ -3,7 +3,6 @@ namespace HareDu.Diagnostics.Probes;
 using System;
 using System.Collections.Generic;
 using Core.Configuration;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -17,7 +16,7 @@ public class SocketDescriptorThrottlingProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Socket Descriptor Throttling Probe",
             Description = "Checks network to see if the number of sockets currently in use is less than or equal to the number available."
         };
@@ -36,13 +35,13 @@ public class SocketDescriptorThrottlingProbe :
     protected override ProbeResult GetProbeReadout(NodeSnapshot data)
     {
         ProbeResult result;
-        
+
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
+
             result = Probe.NotAvailable(data?.ClusterIdentifier, data?.Identifier, Metadata,
-                ComponentType, Array.Empty<ProbeData>(), article);
+                ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -50,7 +49,7 @@ public class SocketDescriptorThrottlingProbe :
         }
 
         ulong warningThreshold = ComputeThreshold(data.OS.SocketDescriptors.Available);
-            
+
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "OS.Sockets.Available", PropertyValue = data.OS.SocketDescriptors.Available.ToString()},
@@ -61,21 +60,21 @@ public class SocketDescriptorThrottlingProbe :
         if (data.OS.SocketDescriptors.Used < warningThreshold && warningThreshold < data.OS.SocketDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
+
             result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else if (data.OS.SocketDescriptors.Used == data.OS.SocketDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
+
             result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
+
             result = Probe.Warning(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }

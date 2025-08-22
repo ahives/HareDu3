@@ -16,7 +16,7 @@ public class HareDuConfigProvider :
     public HareDuConfig Configure(Action<HareDuConfigurator> configurator)
     {
         Throw.IfNull<HareDuConfigurator, HareDuConfigurationException>(configurator, "Invalid configuration.");
-            
+
         var impl = new HareDuConfiguratorImpl();
         configurator(impl);
 
@@ -29,38 +29,55 @@ public class HareDuConfigProvider :
     {
         DiagnosticsConfig _diagnosticsSettings;
         BrokerConfig _brokerConfig;
+        KnowledgeBaseConfig _kbConfig;
 
         public Lazy<HareDuConfig> Settings { get; }
 
         public HareDuConfiguratorImpl()
         {
-            Settings = new Lazy<HareDuConfig>(() => new HareDuConfig{Broker = _brokerConfig, Diagnostics = _diagnosticsSettings}, LazyThreadSafetyMode.PublicationOnly);
+            Settings = new Lazy<HareDuConfig>(
+                () => new HareDuConfig {KB = _kbConfig, Broker = _brokerConfig, Diagnostics = _diagnosticsSettings},
+                LazyThreadSafetyMode.PublicationOnly);
+        }
+
+        public void KnowledgeBase(Action<KnowledgeBaseConfigurator> configurator)
+        {
+            var impl = new KnowledgeBaseConfiguratorImpl();
+            configurator?.Invoke(impl);
+
+            _kbConfig = impl.Settings;
         }
 
         public void Diagnostics(Action<DiagnosticsConfigurator> configurator)
         {
-            // if (configurator is null)
-            //     _diagnosticsSettings = ConfigCache.Default.Diagnostics;
-
             var impl = new DiagnosticsConfiguratorImpl();
             configurator?.Invoke(impl);
 
             _diagnosticsSettings = impl.Settings.Value;
-
-            // _diagnosticsSettings = Validate(config) ? config : ConfigCache.Default.Diagnostics;
         }
 
         public void Broker(Action<BrokerConfigurator> configurator)
         {
-            // if (configurator is null)
-            //     _brokerConfig = ConfigCache.Default.Broker;
-
             var impl = new BrokerConfiguratorImpl();
             configurator?.Invoke(impl);
 
             _brokerConfig = impl.Settings.Value;
+        }
 
-            // _brokerConfig = Validate(config) ? config : ConfigCache.Default.Broker;
+
+        class KnowledgeBaseConfiguratorImpl :
+            KnowledgeBaseConfigurator
+        {
+            public KnowledgeBaseConfig Settings;
+
+            public void File(string name, string path)
+            {
+                Settings = new KnowledgeBaseConfig
+                {
+                    File = name,
+                    Path = path
+                };
+            }
         }
 
 

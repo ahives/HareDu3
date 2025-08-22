@@ -12,6 +12,7 @@ using Extensions;
 using Scanners;
 using HareDu.Snapshotting.Model;
 using HareDu.Core.Extensions;
+using Model;
 
 /// <summary>
 /// A factory that provides functionality to manage and create diagnostic scanners

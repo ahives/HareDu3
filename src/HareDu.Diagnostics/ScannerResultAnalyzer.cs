@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
-using MassTransit;
 using Model;
 
 /// <summary>
@@ -86,7 +85,7 @@ public class ScannerResultAnalyzer :
     void NotifyObservers(List<AnalyzerSummary> result)
     {
         foreach (var observer in _observers)
-            observer.OnNext(new() {Id = NewId.NextGuid(), Summary = result, Timestamp = DateTimeOffset.Now});
+            observer.OnNext(new() {Id = Guid.CreateVersion7(DateTimeOffset.UtcNow), Summary = result, Timestamp = DateTimeOffset.UtcNow});
     }
 
     decimal CalcPercentage(List<ProbeResultStatus> results, ProbeResultStatus status)

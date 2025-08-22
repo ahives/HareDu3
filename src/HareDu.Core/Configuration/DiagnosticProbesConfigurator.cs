@@ -1,5 +1,8 @@
 namespace HareDu.Core.Configuration;
 
+/// <summary>
+/// Defines methods for configuring diagnostic probes for the RabbitMQ broker.
+/// </summary>
 public interface DiagnosticProbesConfigurator
 {
     /// <summary>

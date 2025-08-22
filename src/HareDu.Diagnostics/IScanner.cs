@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics;
 
 using System;
 using HareDu.Snapshotting.Model;
+using Model;
 
 /// <summary>
 /// Provides functionality to execute diagnostic sensors on system snapshots and process the results.

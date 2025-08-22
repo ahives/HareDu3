@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Probes;
 using Scanners;
 using HareDu.Snapshotting.Model;
+using Model;
 
 /// <summary>
 /// Represents a factory for managing and providing access to diagnostic scanners and probes.

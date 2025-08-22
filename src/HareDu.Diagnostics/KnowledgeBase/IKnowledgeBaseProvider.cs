@@ -40,4 +40,10 @@ public interface IKnowledgeBaseProvider
     /// <typeparam name="T">The type of the diagnostic probe associated with the knowledge base article.</typeparam>
     void Add<T>(ProbeResultStatus status, string reason, string remediation)
         where T : DiagnosticProbe;
+
+    /// <summary>
+    /// Loads knowledge base articles from the specified file into the provider.
+    /// </summary>
+    /// <param name="file">The path to the file containing the knowledge base articles in JSON format.</param>
+    void Load(string file);
 }

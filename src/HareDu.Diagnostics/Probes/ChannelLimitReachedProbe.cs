@@ -2,7 +2,6 @@ namespace HareDu.Diagnostics.Probes;
 
 using System;
 using System.Collections.Generic;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -14,7 +13,7 @@ public class ChannelLimitReachedProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Channel Limit Reached Probe",
             Description = "Measures actual number of channels to the defined limit on connection"
         };

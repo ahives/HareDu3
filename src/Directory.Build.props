@@ -4,9 +4,9 @@
     <!-- These properties will be shared for all projects -->
     <PropertyGroup>
         <Title>HareDu</Title>
-        <Version>3.1.4</Version>
-        <FileVersion>3.1.4.0</FileVersion>
-        <InformationalVersion>3.1.4.0</InformationalVersion>
+        <Version>4.0.0</Version>
+        <FileVersion>4.0.0.0</FileVersion>
+        <InformationalVersion>4.0.0.0</InformationalVersion>
         <Product>HareDu</Product>
         <Description>HareDu is a fluent .NET library for managing and monitoring RabbitMQ clusters.</Description>
         <PackageProjectUrl>https://github.com/ahives/HareDu3</PackageProjectUrl>
@@ -15,7 +15,7 @@
         <PackageTags>RabbitMQ</PackageTags>
         <Authors>Albert L. Hives</Authors>
         <RepositoryType>git</RepositoryType>
-        <Copyright>Copyright 2013-2021 Albert L. Hives</Copyright>
+        <Copyright>Copyright 2013-2025 Albert L. Hives</Copyright>
         <WarningLevel>4</WarningLevel>
         <NoWarn>1587,1591,1998,3008,3001</NoWarn>
     </PropertyGroup>

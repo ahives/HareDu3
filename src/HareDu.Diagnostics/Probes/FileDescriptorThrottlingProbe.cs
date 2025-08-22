@@ -3,7 +3,6 @@ namespace HareDu.Diagnostics.Probes;
 using System;
 using System.Collections.Generic;
 using Core.Configuration;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -17,7 +16,7 @@ public class FileDescriptorThrottlingProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "File Descriptor Throttling Probe",
             Description = ""
         };
@@ -42,7 +41,7 @@ public class FileDescriptorThrottlingProbe :
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
             result = Probe.NotAvailable(data?.NodeIdentifier, data?.ProcessId, Metadata,
-                ComponentType, Array.Empty<ProbeData>(), article);
+                ComponentType, [], article);
 
             NotifyObservers(result);
 

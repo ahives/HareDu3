@@ -8,6 +8,12 @@ using System;
 public interface HareDuConfigurator
 {
     /// <summary>
+    /// Configures settings specific to the knowledge base for providing resources or documentation references.
+    /// </summary>
+    /// <param name="configurator">An action that provides the configuration of knowledge base settings, such as file locations and paths.</param>
+    void KnowledgeBase(Action<KnowledgeBaseConfigurator> configurator);
+
+    /// <summary>
     /// Configures diagnostic settings for monitoring and analyzing system health.
     /// </summary>
     /// <param name="configurator">An action that provides the configuration of diagnostic probes and related settings.</param>

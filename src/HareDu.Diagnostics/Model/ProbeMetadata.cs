@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 /// <summary>
 /// Represents metadata information associated with a diagnostic probe.

@@ -27,7 +27,7 @@ public class DiagnosticScannerTests
     [Test]
     public void Test()
     {
-        TestKnowledgeBaseProvider test = new();
+        Console.WriteLine(Guid.CreateVersion7(DateTimeOffset.UtcNow));
     }
 
     [Test]

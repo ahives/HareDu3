@@ -3,6 +3,7 @@ namespace HareDu.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 /// <summary>
 /// Provides functionality to analyze the results of scanner probes and produce aggregated insights

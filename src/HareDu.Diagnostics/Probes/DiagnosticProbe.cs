@@ -1,6 +1,7 @@
 namespace HareDu.Diagnostics.Probes;
 
 using System;
+using Model;
 
 /// <summary>
 /// Defines the contract for a diagnostic probe that can analyze various snapshots of provided data

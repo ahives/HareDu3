@@ -3,15 +3,15 @@ namespace HareDu.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MassTransit;
 using Scanners;
 using HareDu.Snapshotting.Model;
+using Model;
 
 public class Scanner :
     IScanner
 {
     readonly IScannerFactory _factory;
-    List<IObserver<ProbeContext>> _subscribers;
+    readonly List<IObserver<ProbeContext>> _subscribers;
 
     public Scanner(IScannerFactory factory)
     {
@@ -31,7 +31,7 @@ public class Scanner :
 
         return new()
         {
-            Id = NewId.NextGuid(),
+            Id = Guid.CreateVersion7(DateTimeOffset.UtcNow),
             ScannerId = scanner.Metadata.Identifier,
             Results = results,
             Timestamp = DateTimeOffset.Now

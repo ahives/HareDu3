@@ -1,9 +1,7 @@
 namespace HareDu.Diagnostics.Probes;
 
-using System;
 using System.Collections.Generic;
 using Core.Configuration;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -17,7 +15,7 @@ public class HighConnectionCreationRateProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "High Connection Creation Rate Probe",
             Description = ""
         };
@@ -42,7 +40,7 @@ public class HighConnectionCreationRateProbe :
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
             result = Probe.NotAvailable(null, null, Metadata,
-                ComponentType, Array.Empty<ProbeData>(), article);
+                ComponentType, [], article);
 
             NotifyObservers(result);
 

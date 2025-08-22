@@ -1,7 +1,6 @@
 namespace HareDu.Diagnostics.Probes;
 
 using System.Collections.Generic;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -13,7 +12,7 @@ public class ChannelThrottlingProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Channel Throttling Probe",
             Description = "Monitors connections to the RabbitMQ broker to determine whether channels are being throttled."
         };

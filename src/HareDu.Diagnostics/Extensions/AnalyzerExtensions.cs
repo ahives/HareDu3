@@ -3,6 +3,7 @@ namespace HareDu.Diagnostics.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Model;
 
 public static class AnalyzerExtensions
 {

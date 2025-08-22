@@ -94,6 +94,20 @@ public static class Throw
         throw new HareDuConfigurationException("Invalid configuration.");
     }
 
+    /// <summary>
+    /// Validates the provided knowledge base configuration and determines if it is invalid.
+    /// Throws an exception if the configuration does not meet the required criteria.
+    /// </summary>
+    /// <param name="config">The knowledge base configuration to validate.</param>
+    /// <exception cref="HareDuConfigurationException">Thrown when the provided configuration is invalid.</exception>
+    public static void IfInvalid(KnowledgeBaseConfig config)
+    {
+        if (IsValid(config))
+            return;
+
+        throw new HareDuConfigurationException("Invalid configuration.");
+    }
+
     static bool IsValid(DiagnosticsConfig config) =>
         config?.Probes is
         {
@@ -110,4 +124,7 @@ public static class Throw
 
     static bool IsValid(BrokerConfig config)
         => !string.IsNullOrWhiteSpace(config.Url) && config.Behavior is {MaxConcurrentRequests: >= 1, RequestReplenishmentInterval: >= 1, RequestsPerReplenishment: >= 1};
+
+    static bool IsValid(KnowledgeBaseConfig config)
+        => !string.IsNullOrWhiteSpace(config.File) && !string.IsNullOrWhiteSpace(config.Path);
 }

@@ -64,7 +64,7 @@ class ClusterLens :
                 .ToList()
         };
             
-        string identifier = NewId.Next().ToString();
+        string identifier = Guid.CreateVersion7(DateTimeOffset.UtcNow).ToString();
 
         SaveSnapshot(identifier, snapshot);
         NotifyObservers(identifier, snapshot);

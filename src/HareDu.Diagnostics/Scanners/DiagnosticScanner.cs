@@ -2,6 +2,7 @@ namespace HareDu.Diagnostics.Scanners;
 
 using System.Collections.Generic;
 using HareDu.Snapshotting.Model;
+using Model;
 
 /// <summary>
 /// Represents a diagnostic scanner interface that defines the contract for scanning diagnostic probes against a specific snapshot type.

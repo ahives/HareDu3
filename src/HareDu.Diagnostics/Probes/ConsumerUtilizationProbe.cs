@@ -1,9 +1,7 @@
 namespace HareDu.Diagnostics.Probes;
 
-using System;
 using System.Collections.Generic;
 using Core.Configuration;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -17,7 +15,7 @@ public class ConsumerUtilizationProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Consumer Utilization Probe",
             Description = ""
         };
@@ -42,7 +40,7 @@ public class ConsumerUtilizationProbe :
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
             
             result = Probe.NotAvailable(data?.Node, data?.Identifier, Metadata,
-                ComponentType, Array.Empty<ProbeData>(), article);
+                ComponentType, [], article);
 
             NotifyObservers(result);
 

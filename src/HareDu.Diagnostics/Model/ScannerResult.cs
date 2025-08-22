@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 using System;
 using System.Collections.Generic;

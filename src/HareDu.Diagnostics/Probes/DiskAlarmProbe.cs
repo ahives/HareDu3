@@ -1,7 +1,6 @@
 namespace HareDu.Diagnostics.Probes;
 
 using System.Collections.Generic;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -13,7 +12,7 @@ public class DiskAlarmProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Disk Alarm Probe",
             Description = ""
         };

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Core.Extensions;
 using Probes;
 using HareDu.Snapshotting.Model;
+using Model;
 
 public class NoOpScanner<T> :
     BaseDiagnosticScanner,

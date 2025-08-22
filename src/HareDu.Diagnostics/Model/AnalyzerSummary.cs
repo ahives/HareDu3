@@ -1,4 +1,4 @@
-namespace HareDu.Diagnostics;
+namespace HareDu.Diagnostics.Model;
 
 /// <summary>
 /// Represents a summary of analysis results performed by an analyzer, including the categorized states of Healthy, Unhealthy, Warning, and Inconclusive.

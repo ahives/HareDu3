@@ -1,10 +1,19 @@
 namespace HareDu.Core.Configuration;
 
+/// <summary>
+/// Represents the default configuration settings for HareDu, providing initial values for knowledge base,
+/// diagnostics, and broker-specific configuration properties.
+/// </summary>
 public record DefaultHareDuConfig :
     HareDuConfig
 {
     public DefaultHareDuConfig()
     {
+        KB = new KnowledgeBaseConfig
+        {
+            Path = "Articles",
+            File = "kb.json"
+        };
         Diagnostics = new DiagnosticsConfig()
         {
             Probes = new ProbesConfig()

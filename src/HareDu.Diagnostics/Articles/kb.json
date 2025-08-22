@@ -1,0 +1,299 @@
+[
+  {
+    "id": "HareDu.Diagnostics.Probes.MessagePagingProbe",
+    "status": "unhealthy",
+    "reason": "Broker is nearing RAM high watermark and has paged messages to disk to prevent publishers from being blocked.",
+    "remediation": "Increase the amount of RAM available to the broker and configure the broker with the new watermark value."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.MessagePagingProbe",
+    "status": "healthy",
+    "reason": "RAM used by broker is less than high watermark."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueNoFlowProbe",
+    "status": "unhealthy",
+    "reason": "There are no messages being published to the specified queue."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueNoFlowProbe",
+    "status": "healthy",
+    "reason": "One or more messages have being published to the specified queue."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueHighFlowProbe",
+    "status": "unhealthy",
+    "reason": "Messages being published to broker exceeds the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueHighFlowProbe",
+    "status": "healthy",
+    "reason": "Messages being published does not exceed the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueHighFlowProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueLowFlowProbe",
+    "status": "unhealthy",
+    "reason": "Messages being published to broker is less or equal to the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueLowFlowProbe",
+    "status": "healthy",
+    "reason": "Messages being published to broker is greater than specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueLowFlowProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.UnroutableMessageProbe",
+    "status": "unhealthy",
+    "reason": "Some messages were published to an exchange but there is no queue bound to the exchange.",
+    "remediation": "Bind an appropriate queue to the exchange or stop publishing to the exchange."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.UnroutableMessageProbe",
+    "status": "healthy",
+    "reason": "No exchanges were published to that is not bound to a corresponding queue."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ConsumerUtilizationProbe",
+    "status": "warning",
+    "reason": "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
+    "remediation": "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ConsumerUtilizationProbe",
+    "status": "unhealthy",
+    "reason": "The queue is not able to push messages to consumers efficiently due to network congestion and/or the prefetch limit on the consumer being set too low.",
+    "remediation": "Check your network connection between the consumer and RabbitMQ node and/or readjust the prefetch limit."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ConsumerUtilizationProbe",
+    "status": "healthy",
+    "reason": "The queue is able to efficiently push messages to consumers as fast as possible without delay."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.BlockedConnectionProbe",
+    "status": "unhealthy",
+    "reason": "The connection is blocked meaning that an application has published but is now prevented from consuming. This is not the case with consume only connections."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.BlockedConnectionProbe",
+    "status": "healthy",
+    "reason": "Client applications are able to publish and/or consume on this connection."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.FileDescriptorThrottlingProbe",
+    "status": "unhealthy",
+    "reason": "The max limit of available file descriptors that are in use has been reached. This will prevent applications from being able to open more connections to the broker and the RabbitMQ node from opening any files in support of current transactions.",
+    "remediation": "Increase the max number of allowed file handles (see https://www.rabbitmq.com/networking.html#open-file-handle-limit)."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.FileDescriptorThrottlingProbe",
+    "status": "warning",
+    "reason": "Used file descriptors are less than the amount available but greater than the calculated threshold.",
+    "remediation": "Increase the max number of allowed file handles (see https://www.rabbitmq.com/networking.html#open-file-handle-limit)."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.FileDescriptorThrottlingProbe",
+    "status": "healthy",
+    "reason": "The number of file handles currently in use is below the max number allowed."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.FileDescriptorThrottlingProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.AvailableCpuCoresProbe",
+    "status": "unhealthy",
+    "reason": "Could not detect any CPU cores or none are available to the RabbitMQ broker.",
+    "remediation": "Add more CPU cores to the RabbitMQ node."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.AvailableCpuCoresProbe",
+    "status": "healthy",
+    "reason": "Detected at least 1 CPU core available to the RabbitMQ broker."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.NetworkPartitionProbe",
+    "status": "unhealthy",
+    "reason": "Network partitions detected between one or more nodes.",
+    "remediation": "Please consult the RabbitMQ documentation (https://www.rabbitmq.com/partitions.html) on which strategy best fits your scenario."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.NetworkPartitionProbe",
+    "status": "healthy",
+    "reason": "No network partitions were detected between nodes."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RuntimeProcessLimitProbe",
+    "status": "unhealthy",
+    "reason": "The number of Erlang runtime processes in use is greater than or equal to the max number available."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RuntimeProcessLimitProbe",
+    "status": "healthy",
+    "reason": "The number of Erlang runtime processes in use is less than the max number available."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RuntimeProcessLimitProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.MemoryAlarmProbe",
+    "status": "unhealthy",
+    "reason": "The threshold was reached for how much RAM can be used by the RabbitMQ Broker.",
+    "remediation": "Do one or a combination of the following: 1) Increase the threshold of available RAM by changing either the vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative broker configuration values. 2) Spawn more consumers so that messages are not held in RAM for long periods. 3) Increase the cluster hardware specification by adding more RAM."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.MemoryAlarmProbe",
+    "status": "healthy",
+    "reason": "The amount of RAM used is less than the current threshold (i.e. vm_memory_high_watermark.absolute or vm_memory_high_watermark.relative)."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.DiskAlarmProbe",
+    "status": "unhealthy",
+    "reason": "The node has reached the threshold for usable disk space.",
+    "remediation": "Increase message consumption throughput by spawning more consumers and/or increase disk size to keep up with incoming demand."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.DiskAlarmProbe",
+    "status": "healthy",
+    "reason": "The node is under the allowable threshold for usable disk space."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.SocketDescriptorThrottlingProbe",
+    "status": "warning",
+    "reason": "The number of network sockets being used is greater than the calculated high watermark but less than max number available."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.SocketDescriptorThrottlingProbe",
+    "status": "unhealthy",
+    "reason": "The number of network sockets being used is equal to the max number available."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.SocketDescriptorThrottlingProbe",
+    "status": "inconclusive",
+    "reason": "Either the sensor was not configured correctly or there was no data captured to analyze.",
+    "remediation": "Check the sensor configuration and the resultant snapshot data."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.SocketDescriptorThrottlingProbe",
+    "status": "healthy",
+    "reason": "The number of network sockets used is less than the calculated high watermark."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RedeliveredMessagesProbe",
+    "status": "warning",
+    "reason": "The number of redelivered messages is less than or equal to the number of incoming messages and greater than or equal to the number of incoming messages multiplied a configurable coefficient."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RedeliveredMessagesProbe",
+    "status": "unhealthy",
+    "reason": "The number of redelivered messages is less than or equal to the number of incoming messages."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RedeliveredMessagesProbe",
+    "status": "healthy"
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.RedeliveredMessagesProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueGrowthProbe",
+    "status": "warning",
+    "reason": "Messages are being published to the queue at a higher rate than are being consumed and acknowledged by consumers.",
+    "remediation": "Adjust application settings to spawn more consumers."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.QueueGrowthProbe",
+    "status": "healthy",
+    "reason": "Messages are being consumed and acknowledged at a higher rate than are being published to the queue."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ChannelLimitReachedProbe",
+    "status": "unhealthy",
+    "reason": "Number of channels on connection exceeds the defined limit.",
+    "remediation": "Adjust application settings to reduce the number of connections to the RabbitMQ broker."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ChannelLimitReachedProbe",
+    "status": "healthy",
+    "reason": "Number of channels on connection is less than defined limit."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ChannelThrottlingProbe",
+    "status": "unhealthy",
+    "reason": "Unacknowledged messages on channel exceeds prefetch count causing the RabbitMQ broker to stop delivering messages to consumers.",
+    "remediation": "Acknowledged messages must be greater than or equal to the result of subtracting the number of unacknowledged messages from the prefetch count plus 1. Temporarily increase the number of consumers or prefetch count."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.ChannelThrottlingProbe",
+    "status": "healthy",
+    "reason": "Unacknowledged messages on channel is less than prefetch count."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionClosureRateProbe",
+    "status": "warning",
+    "reason": "The rate at which connections to the broker are closed is greater than the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionClosureRateProbe",
+    "status": "healthy",
+    "reason": "The rate at which connections to the broker are being closed is less than the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionClosureRateProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionCreationRateProbe",
+    "status": "warning",
+    "reason": "The rate at which connections to the broker are created is greater than or equal to the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionCreationRateProbe",
+    "status": "healthy",
+    "reason": "The rate at which connections to the broker are created is less than the specified threshold."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.HighConnectionCreationRateProbe",
+    "status": "na",
+    "reason": "Configuration is missing.",
+    "remediation": "Either programatically configure the API using the DI extension method or via a JSON file."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.UnlimitedPrefetchCountProbe",
+    "status": "warning",
+    "reason": "Prefetch count of 0 means unlimited prefetch count, which can translate into high CPU utilization.",
+    "remediation": "Set a prefetch count above zero based on how many consumer cores available."
+  },
+  {
+    "id": "HareDu.Diagnostics.Probes.UnlimitedPrefetchCountProbe",
+    "status": "inconclusive",
+    "reason": "Unable to determine whether prefetch count has an inappropriate value."
+  }
+]

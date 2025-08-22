@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Diagnostics.Probes;
 using Diagnostics.Scanners;
 using HareDu.Snapshotting.Model;
+using Model;
 
 public class FakeScannerFactory :
     IScannerFactory

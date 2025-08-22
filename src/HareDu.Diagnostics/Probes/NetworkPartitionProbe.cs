@@ -2,7 +2,6 @@ namespace HareDu.Diagnostics.Probes;
 
 using System.Collections.Generic;
 using System.Linq;
-using Core.Extensions;
 using KnowledgeBase;
 using Model;
 using Snapshotting.Model;
@@ -14,7 +13,7 @@ public class NetworkPartitionProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Network Partition Probe",
             Description = ""
         };

@@ -3,6 +3,7 @@ namespace HareDu.Diagnostics.Tests.Fakes;
 using System;
 using Core.Extensions;
 using Diagnostics.Probes;
+using Model;
 
 public class FakeProbe :
     DiagnosticProbe

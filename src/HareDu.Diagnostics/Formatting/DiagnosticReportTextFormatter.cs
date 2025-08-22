@@ -1,6 +1,7 @@
 namespace HareDu.Diagnostics.Formatting;
 
 using System.Text;
+using Model;
 
 public class DiagnosticReportTextFormatter :
     IDiagnosticReportFormatter

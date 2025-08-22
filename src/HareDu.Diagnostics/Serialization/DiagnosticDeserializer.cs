@@ -6,6 +6,10 @@ using Converters;
 using Core.Serialization;
 using Core.Serialization.Converters;
 
+/// <summary>
+/// The DiagnosticDeserializer class is responsible for defining JSON serialization settings specifically tailored
+/// for deserializing objects and transforming them into a specific diagnostic context.
+/// </summary>
 public class DiagnosticDeserializer :
     BaseHareDuDeserializer
 {

@@ -1,7 +1,6 @@
 namespace HareDu.Diagnostics.Probes;
 
 using System.Collections.Generic;
-using Core.Extensions;
 using HareDu.Model;
 using KnowledgeBase;
 using Model;
@@ -14,7 +13,7 @@ public class BlockedConnectionProbe :
     public override ProbeMetadata Metadata =>
         new()
         {
-            Id = GetType().GetIdentifier(),
+            Id = GetType().FullName,
             Name = "Blocked Connection Probe",
             Description = ""
         };
