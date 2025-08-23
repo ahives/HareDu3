@@ -38,9 +38,7 @@ public class HighConnectionCreationRateProbe :
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(null, null, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(null, null, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -56,16 +54,12 @@ public class HighConnectionCreationRateProbe :
         if (data.ConnectionsCreated.Rate >= _config.Probes.HighConnectionCreationRateThreshold)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(null, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(null, null, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(null, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(null, null, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

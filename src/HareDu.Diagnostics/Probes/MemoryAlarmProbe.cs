@@ -37,24 +37,20 @@ public class MemoryAlarmProbe :
             new () {PropertyName = "Memory.Limit", PropertyValue = data.Limit.ToString()},
             new () {PropertyName = "Memory.Used", PropertyValue = data.Used.ToString()}
         };
-            
+
         if (data.AlarmInEffect)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.NodeIdentifier, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.NodeIdentifier, null, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.NodeIdentifier, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.NodeIdentifier, null, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-        
+
         HasExecuted = true;
 
         return result;

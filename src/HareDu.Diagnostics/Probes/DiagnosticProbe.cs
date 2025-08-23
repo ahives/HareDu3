@@ -29,11 +29,6 @@ public interface DiagnosticProbe :
     ProbeCategory Category { get; }
 
     /// <summary>
-    /// 
-    /// </summary>
-    // bool HasExecuted { get; set; }
-
-    /// <summary>
     /// Executes the diagnostic operation using the provided snapshot and returns the result of the probe.
     /// </summary>
     /// <typeparam name="T">The type of the snapshot used for the diagnostic operation.</typeparam>

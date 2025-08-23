@@ -39,9 +39,7 @@ public class RuntimeProcessLimitProbe :
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(null, null, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(null, null, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -60,23 +58,17 @@ public class RuntimeProcessLimitProbe :
         if (data.Processes.Used >= data.Processes.Limit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else if (data.Processes.Used >= threshold && threshold < data.Processes.Limit)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Warning(data.ClusterIdentifier, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(data.ClusterIdentifier, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

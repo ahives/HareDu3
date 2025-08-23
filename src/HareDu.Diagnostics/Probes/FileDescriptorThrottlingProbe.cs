@@ -39,9 +39,7 @@ public class FileDescriptorThrottlingProbe :
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(data?.NodeIdentifier, data?.ProcessId, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(data?.NodeIdentifier, data?.ProcessId, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -61,23 +59,17 @@ public class FileDescriptorThrottlingProbe :
         if (data.FileDescriptors.Used < threshold && threshold < data.FileDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.NodeIdentifier, data.ProcessId, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.NodeIdentifier, data.ProcessId, Metadata, ComponentType, probeData, article);
         }
         else if (data.FileDescriptors.Used == data.FileDescriptors.Available)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.NodeIdentifier, data.ProcessId, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.NodeIdentifier, data.ProcessId, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(data.NodeIdentifier, data.ProcessId, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(data.NodeIdentifier, data.ProcessId, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

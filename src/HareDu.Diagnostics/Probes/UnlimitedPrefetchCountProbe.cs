@@ -44,8 +44,7 @@ public class UnlimitedPrefetchCountProbe :
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Inconclusive, out var article);
-            result = Probe.Inconclusive(data.ConnectionIdentifier, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Inconclusive(data.ConnectionIdentifier, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

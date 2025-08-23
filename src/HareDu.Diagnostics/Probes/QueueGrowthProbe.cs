@@ -40,16 +40,12 @@ public class QueueGrowthProbe :
         if (data.Messages.Incoming.Rate > data.Messages.Acknowledged.Rate)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

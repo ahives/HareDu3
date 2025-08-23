@@ -25,27 +25,27 @@ public class BrokerConnectivityScanner :
     {
         if (snapshot is null)
             return DiagnosticCache.EmptyProbeResults;
-        
+
         var results = new List<ProbeResult>(_connectivityProbes.Select(x => x.Execute(snapshot)));
 
         if (snapshot.Connections is null)
             return results;
-        
+
         for (int i = 0; i < snapshot.Connections.Count; i++)
         {
             if (snapshot.Connections[i] is null)
                 continue;
-            
+
             results.AddRange(_connectionProbes.Select(x => x.Execute(snapshot.Connections[i])));
 
             if (snapshot.Connections[i].Channels is null)
                 continue;
-            
+
             for (int j = 0; j < snapshot.Connections[i].Channels.Count; j++)
             {
                 if (snapshot.Connections[i].Channels[j] is null)
                     continue;
-                    
+
                 results.AddRange(_channelProbes.Select(x => x.Execute(snapshot.Connections[i].Channels[j])));
             }
         }

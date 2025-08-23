@@ -35,39 +35,8 @@ public static class HareDuExtensions
 
         configuration.Bind(configSection, config);
 
-        services.AddSingleton(config);
-
-        // var kb = new KnowledgeBaseProvider();
-        // string path = Path.Combine(Directory.GetCurrentDirectory(), config.KB.Path, config.KB.File);
-        //
-        // kb.Load(path);
-        //
-        // services.AddSingleton<IKnowledgeBaseProvider>(kb);
-
-        services.AddSingleton<IHareDuClient, HareDuClient>();
-        services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
-        services.AddSingleton<IBrokerFactory, BrokerFactory>();
-        // services.AddSingleton<IScanner, Scanner>();
-        // services.AddSingleton<IScannerFactory, ScannerFactory>();
-        // services.AddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        // services.AddSingleton<ISnapshotFactory, SnapshotFactory>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddHareDuWithDiagnostics(
-        [NotNull] this IServiceCollection services,
-        [NotNull] string settingsFile = "appsettings.json",
-        [NotNull] string configSection = "HareDuConfig")
-    {
-        var config = new HareDuConfig();
-
-        IConfiguration configuration = new ConfigurationBuilder()
-            .AddJsonFile(settingsFile, false)
-            .Build();
-
-        configuration.Bind(configSection, config);
-
+        Throw.IfInvalid(config.Broker);
+        Throw.IfInvalid(config.Diagnostics);
         Throw.IfInvalid(config.KB);
 
         services.AddSingleton(config);
@@ -106,6 +75,10 @@ public static class HareDuExtensions
                 .Configure(configurator);
 
         services.AddSingleton(config);
+
+        Throw.IfInvalid(config.Broker);
+        Throw.IfInvalid(config.Diagnostics);
+        Throw.IfInvalid(config.KB);
 
         var kb = new KnowledgeBaseProvider();
         string path = Path.Combine(Directory.GetCurrentDirectory(), config.KB.Path, config.KB.File);

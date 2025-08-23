@@ -40,14 +40,12 @@ public class BlockedConnectionProbe :
         if (data.State == BrokerConnectionState.Blocked)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-
             result = Probe.Unhealthy(data.NodeIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-
             result = Probe.Healthy(data.NodeIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }

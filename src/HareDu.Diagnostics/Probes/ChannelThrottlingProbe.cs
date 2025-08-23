@@ -40,20 +40,18 @@ public class ChannelThrottlingProbe :
         if (data.UnacknowledgedMessages > data.PrefetchCount)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
             result = Probe.Unhealthy(data.ConnectionIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
             result = Probe.Healthy(data.ConnectionIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-        
+
         HasExecuted = true;
 
         return result;

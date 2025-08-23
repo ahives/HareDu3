@@ -2,6 +2,7 @@ namespace HareDu.AutofacIntegration;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Autofac;
 using Core;
 using Core.Configuration;
@@ -26,19 +27,27 @@ public static class HareDuExtensions
         [NotNull] string settingsFile = "appsettings.json",
         [NotNull] string configSection = "HareDuConfig")
     {
-        builder.Register(x =>
-            {
-                HareDuConfig config = new HareDuConfig();
+        HareDuConfig config = new HareDuConfig();
 
-                IConfiguration configuration = new ConfigurationBuilder()
-                    .AddJsonFile(settingsFile, false)
-                    .Build();
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddJsonFile(settingsFile, false)
+            .Build();
 
-                configuration.Bind(configSection, config);
+        configuration.Bind(configSection, config);
 
-                return config;
-            })
+        Throw.IfInvalid(config.Broker);
+        Throw.IfInvalid(config.Diagnostics);
+        Throw.IfInvalid(config.KB);
+
+        builder.Register(_ => config)
             .SingleInstance();
+
+        var kb = new KnowledgeBaseProvider();
+        string path = Path.Combine(Directory.GetCurrentDirectory(), config.KB.Path, config.KB.File);
+
+        kb.Load(path);
+
+        builder.Register(_ => kb).As<IKnowledgeBaseProvider>().SingleInstance();
 
         builder.RegisterType<HareDuCredentialBuilder>()
             .As<IHareDuCredentialBuilder>()
@@ -54,10 +63,6 @@ public static class HareDuExtensions
 
         builder.RegisterType<Scanner>()
             .As<IScanner>()
-            .SingleInstance();
-
-        builder.RegisterType<KnowledgeBaseProvider>()
-            .As<IKnowledgeBaseProvider>()
             .SingleInstance();
 
         builder.RegisterType<ScannerFactory>()
@@ -85,16 +90,24 @@ public static class HareDuExtensions
         [NotNull] this ContainerBuilder builder,
         [NotNull] Action<HareDuConfigurator> configurator)
     {
-        builder.Register(x =>
-            {
-                HareDuConfig config = configurator is null
-                    ? ConfigCache.Default
-                    : new HareDuConfigProvider()
-                        .Configure(configurator);
+        HareDuConfig config = configurator is null
+            ? ConfigCache.Default
+            : new HareDuConfigProvider()
+                .Configure(configurator);
 
-                return config;
-            })
+        Throw.IfInvalid(config.Broker);
+        Throw.IfInvalid(config.Diagnostics);
+        Throw.IfInvalid(config.KB);
+
+        builder.Register(_ => config)
             .SingleInstance();
+
+        var kb = new KnowledgeBaseProvider();
+        string path = Path.Combine(Directory.GetCurrentDirectory(), config.KB.Path, config.KB.File);
+
+        kb.Load(path);
+
+        builder.Register(_ => kb).As<IKnowledgeBaseProvider>().SingleInstance();
 
         builder.RegisterType<HareDuCredentialBuilder>()
             .As<IHareDuCredentialBuilder>()
@@ -110,10 +123,6 @@ public static class HareDuExtensions
 
         builder.RegisterType<Scanner>()
             .As<IScanner>()
-            .SingleInstance();
-
-        builder.RegisterType<KnowledgeBaseProvider>()
-            .As<IKnowledgeBaseProvider>()
             .SingleInstance();
 
         builder.RegisterType<ScannerFactory>()

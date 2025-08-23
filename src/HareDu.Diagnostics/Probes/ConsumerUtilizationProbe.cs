@@ -38,9 +38,7 @@ public class ConsumerUtilizationProbe :
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(data?.Node, data?.Identifier, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(data?.Node, data?.Identifier, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -52,34 +50,28 @@ public class ConsumerUtilizationProbe :
             new () {PropertyName = "ConsumerUtilization", PropertyValue = data.ConsumerUtilization.ToString()},
             new () {PropertyName = "ConsumerUtilizationThreshold", PropertyValue = _config.Probes.ConsumerUtilizationThreshold.ToString()}
         };
-            
+
         if (data.ConsumerUtilization >= _config.Probes.ConsumerUtilizationThreshold
             && data.ConsumerUtilization < 1.0M
             && _config.Probes.ConsumerUtilizationThreshold <= 1.0M)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else if (data.ConsumerUtilization < _config.Probes.ConsumerUtilizationThreshold
                  && _config.Probes.ConsumerUtilizationThreshold <= 1.0M)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-        
+
         HasExecuted = true;
 
         return result;

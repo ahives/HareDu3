@@ -35,20 +35,16 @@ public class MessagePagingProbe :
         };
 
         ProbeResult result;
-        
+
         if (data.Memory.PagedOut.Total > 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

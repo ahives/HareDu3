@@ -37,9 +37,7 @@ public class HighConnectionClosureRateProbe :
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(null, null, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(null, null, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
@@ -55,16 +53,12 @@ public class HighConnectionClosureRateProbe :
         if (data.ConnectionsClosed.Rate >= _config.Probes.HighConnectionClosureRateThreshold)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(null, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(null, null, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(null, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(null, null, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

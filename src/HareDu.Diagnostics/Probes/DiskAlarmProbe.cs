@@ -41,20 +41,16 @@ public class DiskAlarmProbe :
         if (data.AlarmInEffect)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.NodeIdentifier, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.NodeIdentifier, null, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.NodeIdentifier, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.NodeIdentifier, null, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
-        
+
         HasExecuted = true;
 
         return result;

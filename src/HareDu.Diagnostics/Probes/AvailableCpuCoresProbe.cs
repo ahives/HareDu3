@@ -38,14 +38,12 @@ public class AvailableCpuCoresProbe :
         if (data.AvailableCoresDetected <= 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-
             result = Probe.Unhealthy(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-
             result = Probe.Healthy(data.ClusterIdentifier, data.Identifier, Metadata,
                 ComponentType, probeData, article);
         }

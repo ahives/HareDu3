@@ -39,14 +39,12 @@ public class UnroutableMessageProbe :
         if (data.Churn.NotRouted.Total > 0)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            result = Probe.Unhealthy(data.ClusterName, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.ClusterName, null, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            result = Probe.Healthy(data.ClusterName, null, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.ClusterName, null, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);

@@ -35,21 +35,19 @@ public class RedeliveredMessagesProbe :
     protected override ProbeResult GetProbeReadout(QueueSnapshot data)
     {
         ProbeResult result;
-        
+
         if (_config?.Probes is null)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.NA, out var article);
-            
-            result = Probe.NotAvailable(data.Node, data.Identifier, Metadata,
-                ComponentType, [], article);
+            result = Probe.NotAvailable(data.Node, data.Identifier, Metadata, ComponentType, [], article);
 
             NotifyObservers(result);
 
             return result;
         }
-            
+
         ulong warningThreshold = ComputeThreshold(data.Messages.Incoming.Total);
-            
+
         var probeData = new List<ProbeData>
         {
             new () {PropertyName = "Messages.Incoming.Total", PropertyValue = data.Messages.Incoming.Total.ToString()},
@@ -63,23 +61,17 @@ public class RedeliveredMessagesProbe :
             && warningThreshold < data.Messages.Incoming.Total)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Warning, out var article);
-            
-            result = Probe.Warning(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Warning(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else if (data.Messages.Redelivered.Total >= data.Messages.Incoming.Total)
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Unhealthy, out var article);
-            
-            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Unhealthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
         else
         {
             _kb.TryGet(Metadata.Id, ProbeResultStatus.Healthy, out var article);
-            
-            result = Probe.Healthy(data.Node, data.Identifier, Metadata,
-                ComponentType, probeData, article);
+            result = Probe.Healthy(data.Node, data.Identifier, Metadata, ComponentType, probeData, article);
         }
 
         NotifyObservers(result);
