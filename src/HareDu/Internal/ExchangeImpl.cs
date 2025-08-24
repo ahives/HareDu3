@@ -51,7 +51,7 @@ class ExchangeImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/exchanges/{vhost}/{exchange}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/exchanges/{vhost}/{exchange}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/exchanges/{sanitizedVHost}/{exchange}", request, RequestType.Exchange, cancellationToken).ConfigureAwait(false);
     }
 
@@ -108,7 +108,7 @@ class ExchangeImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/e/{destination}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/e/{destination}", errors, request: Deserializer.ToJsonString(request)))
             : await PostRequest<BindingInfo, BindingRequest>(
                     $"api/bindings/{sanitizedVHost}/e/{exchange}/e/{impl.DestinationBinding}", request, RequestType.Exchange, cancellationToken)
                 .ConfigureAwait(false);

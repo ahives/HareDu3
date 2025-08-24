@@ -81,6 +81,6 @@ public class ConnectionTests
         var result = await _services.GetService<IBrokerFactory>()
             .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "127.0.0.1:56601 -> 127.0.0.1:5672");
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

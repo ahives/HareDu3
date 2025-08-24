@@ -75,7 +75,7 @@ class QueueImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/queues/{vhost}/{name}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/queues/{sanitizedVHost}/{name}", request, RequestType.Queue, cancellationToken).ConfigureAwait(false);
     }
 
@@ -180,7 +180,7 @@ class QueueImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic<BindingInfo>(Debug.Info("api/bindings/{vhost}/e/{exchange}/q/{destination}", errors, request: Deserializer.ToJsonString(request)))
             : await PostRequest<BindingInfo, BindingRequest>(
                     $"api/bindings/{sanitizedVHost}/e/{exchange}/q/{impl.DestinationBinding}", request, RequestType.Queue, cancellationToken)
                 .ConfigureAwait(false);

@@ -32,7 +32,7 @@ public class GlobalParameterTests :
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
         // Assert.Multiple(() =>
         // {
         //     Assert.IsFalse(result.HasFaulted);
@@ -63,7 +63,7 @@ public class GlobalParameterTests :
             Assert.That(result.Data.Count, Is.EqualTo(5));
             Assert.That(result.Data[3].Name, Is.EqualTo("fake_param1"));
 
-            var value = result.Data[3].Value.ToString().ToObject<IDictionary<string, object>>(_deserializer.Options);
+            var value = _deserializer.ToObject<IDictionary<string, object>>(result.Data[3].Value.ToString());
 
             Assert.That(value.Count, Is.EqualTo(2));
             Assert.That(value["arg1"].ToString(), Is.EqualTo("value1"));
@@ -88,10 +88,10 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(_deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(_deserializer.ToObject<IDictionary<string, string>>(request.Value.ToString())["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -112,10 +112,10 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(_deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(_deserializer.ToObject<IDictionary<string, string>>(request.Value.ToString())["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -137,15 +137,13 @@ public class GlobalParameterTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
-            Assert.That(request.Value
-                .ToString()
-                .ToObject<IDictionary<string, object>>(_deserializer.Options)["arg1"].ToString(), Is.EqualTo("value1"));
-            Assert.That(request.Value
-                .ToString()
-                .ToObject<IDictionary<string, object>>(_deserializer.Options)["arg2"].ToString(), Is.EqualTo("5"));
+            Assert.That(_deserializer.ToObject<IDictionary<string, string>>(request.Value
+                .ToString())["arg1"].ToString(), Is.EqualTo("value1"));
+            Assert.That(_deserializer.ToObject<IDictionary<string, string>>(request.Value
+                .ToString())["arg2"].ToString(), Is.EqualTo("5"));
         });
     }
 
@@ -167,10 +165,10 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.EqualTo(string.Empty));
-            Assert.That(request.Value.ToString().ToObject<IDictionary<string, string>>(_deserializer.Options)["fake_arg"], Is.EqualTo("fake_value"));
+            Assert.That(_deserializer.ToObject<IDictionary<string, string>>(request.Value.ToString())["fake_arg"], Is.EqualTo("fake_value"));
         });
     }
         
@@ -192,7 +190,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.EqualTo("fake_param"));
             Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
@@ -217,7 +215,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.Empty.Or.Null);
             Assert.That(request.Value.Cast<string>(), Is.Empty.Or.Null);
@@ -241,7 +239,7 @@ public class GlobalParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            GlobalParameterRequest request = result.DebugInfo.Request.ToObject<GlobalParameterRequest>(_deserializer.Options);
+            GlobalParameterRequest request = _deserializer.ToObject<GlobalParameterRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Name, Is.Empty.Or.Null);
             Assert.That(request.Value, Is.Null);

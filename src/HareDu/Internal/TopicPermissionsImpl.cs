@@ -50,7 +50,7 @@ class TopicPermissionsImpl :
         var request = impl.Request.Value;
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/topic-permissions/{vhost}/{username}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/topic-permissions/{sanitizedVHost}/{username}", request,
                 RequestType.TopicPermissions, cancellationToken).ConfigureAwait(false);
     }

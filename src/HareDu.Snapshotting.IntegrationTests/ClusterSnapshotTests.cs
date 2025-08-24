@@ -39,7 +39,7 @@ public class ClusterSnapshotTests
             .RegisterObserver(new DefaultClusterSnapshotConsoleLogger());
         var result = await lens.TakeSnapshot(x => x.UsingCredentials("guest", "guest"));
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
 //            var snapshot = resource.Snapshots[0].Select(x => x.Data);
 //            Console.WriteLine($"Cluster: {snapshot.ClusterName}");
     }

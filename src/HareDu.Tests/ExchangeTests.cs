@@ -93,14 +93,14 @@ public class ExchangeTests :
                 });
             });
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
             
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(_deserializer.Options);
+            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -134,7 +134,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(_deserializer.Options);
+            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -165,7 +165,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = result.DebugInfo.Request.ToObject<ExchangeRequest>(_deserializer.Options);
+            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);

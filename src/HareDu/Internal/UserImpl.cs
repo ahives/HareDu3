@@ -67,7 +67,7 @@ class UserImpl :
         errors.AddIfTrue(password, passwordHash, (x, y) => string.IsNullOrWhiteSpace(x) && string.IsNullOrWhiteSpace(y), Errors.Create("The password/hash is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/users/{username}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/users/{username}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/users/{username}", request, RequestType.User, cancellationToken).ConfigureAwait(false);
     }
 

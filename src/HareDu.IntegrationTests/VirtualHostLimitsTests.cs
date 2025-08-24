@@ -101,7 +101,7 @@ public class VirtualHostLimitsTests
                 x.SetMaxConnectionLimit(1000);
             });
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -111,6 +111,6 @@ public class VirtualHostLimitsTests
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit("HareDu3", VirtualHostLimit.MaxConnections);
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

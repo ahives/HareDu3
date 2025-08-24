@@ -24,6 +24,14 @@ public interface IHareDuDeserializer
     string ToJsonString<T>(T obj, JsonSerializerOptions options);
 
     /// <summary>
+    /// Serializes the specified object into a JSON string representation using the default serialization options.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to serialize.</typeparam>
+    /// <param name="obj">The object to serialize into a JSON string.</param>
+    /// <returns>A JSON string representation of the object, or an empty string if the object is null.</returns>
+    string ToJsonString<T>(T obj);
+
+    /// <summary>
     /// Converts the provided JSON string into an object of the specified type using the given serialization options.
     /// </summary>
     /// <typeparam name="T">The type of the object to which the JSON string is deserialized.</typeparam>
@@ -31,4 +39,15 @@ public interface IHareDuDeserializer
     /// <param name="options">The JSON serialization options used to customize the deserialization process.</param>
     /// <returns>The object of type T obtained by deserializing the JSON string, or the default value if the input string is null or whitespace.</returns>
     T ToObject<T>(string value, JsonSerializerOptions options);
+
+    /// <summary>
+    /// Deserializes the specified JSON string into an object of the specified type.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to deserialize into.</typeparam>
+    /// <param name="value">The JSON string to deserialize.</param>
+    /// <returns>
+    /// An object of type <typeparamref name="T"/> that represents the deserialized data, or the default
+    /// value of <typeparamref name="T"/> if the input string is null or whitespace.
+    /// </returns>
+    T ToObject<T>(string value);
 }

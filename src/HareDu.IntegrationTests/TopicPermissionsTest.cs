@@ -22,7 +22,6 @@ public class TopicPermissionsTest
         _deserializer = new BrokerDeserializer();
     }
 
-
     [OneTimeSetUp]
     public void Init()
     {
@@ -66,7 +65,7 @@ public class TopicPermissionsTest
             .GetAll()
             .ScreenDump();
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
         
     [Test]
@@ -100,7 +99,7 @@ public class TopicPermissionsTest
                 x.UsingWritePattern(".*");
             });
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -110,6 +109,6 @@ public class TopicPermissionsTest
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete("guest", "HareDu7");
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

@@ -86,7 +86,7 @@ public class PolicyTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -108,7 +108,7 @@ public class PolicyTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -119,6 +119,6 @@ public class PolicyTests
             .Delete("P4", "HareDu");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

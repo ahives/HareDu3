@@ -59,7 +59,7 @@ class ShovelImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors, request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/parameters/shovel/{vhost}/{name}", errors, Deserializer.ToJsonString(request)))
             : await PutRequest($"api/parameters/shovel/{sanitizedVHost}/{name}", request, RequestType.Shovel, cancellationToken).ConfigureAwait(false);
     }
 

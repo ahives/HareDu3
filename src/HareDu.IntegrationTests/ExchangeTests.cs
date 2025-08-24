@@ -29,6 +29,10 @@ public class ExchangeTests
         _services = new ServiceCollection()
             .AddHareDu(x =>
             {
+                x.KnowledgeBase(k =>
+                {
+                    k.File("kb.json", "Articles");
+                });
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
@@ -67,7 +71,7 @@ public class ExchangeTests
             .ScreenDump();
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -90,7 +94,7 @@ public class ExchangeTests
         }
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     // [Test]
@@ -121,7 +125,7 @@ public class ExchangeTests
             .ScreenDump();
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -141,7 +145,7 @@ public class ExchangeTests
             });
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -152,7 +156,7 @@ public class ExchangeTests
             .Delete("E3", "HareDu");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]

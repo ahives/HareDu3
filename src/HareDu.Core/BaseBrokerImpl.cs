@@ -32,7 +32,7 @@ public class BaseBrokerImpl :
 
             return !response.IsSuccessStatusCode
                 ? Responses.Failed<T>(Debug.Info(url, Errors.Create(e => {e.Add(response.StatusCode, type);}), response: rawResponse))
-                : Responses.Succeeded(rawResponse.ToObject<List<T>>(Deserializer.Options).GetDataOrDefault(), Debug.Info(url, [], response: rawResponse));
+                : Responses.Succeeded(Deserializer.ToObject<List<T>>(rawResponse).GetDataOrDefault(), Debug.Info(url, [], response: rawResponse));
         }
         catch (MissingMethodException e)
         {
@@ -73,7 +73,7 @@ public class BaseBrokerImpl :
 
             return !response.IsSuccessStatusCode
                 ? Response.Failed<T>(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), response: rawResponse))
-                : Response.Succeeded(rawResponse.ToObject<T>(Deserializer.Options), Debug.Info(url, [], response: rawResponse));
+                : Response.Succeeded(Deserializer.ToObject<T>(rawResponse), Debug.Info(url, [], response: rawResponse));
         }
         catch (MissingMethodException e)
         {
@@ -190,7 +190,7 @@ public class BaseBrokerImpl :
 
         try
         {
-            string requestContent = request.ToJsonString(Deserializer.Options);
+            string requestContent = Deserializer.ToJsonString(request);
             var content = GetRequestContent(requestContent);
             var response = await Client.PutAsync(url, content, cancellationToken).ConfigureAwait(false);
 
@@ -275,7 +275,7 @@ public class BaseBrokerImpl :
 
         try
         {
-            string requestContent = request.ToJsonString(Deserializer.Options);
+            string requestContent = Deserializer.ToJsonString(request);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
@@ -283,7 +283,7 @@ public class BaseBrokerImpl :
 
             return !response.IsSuccessStatusCode
                 ? Response.Failed<T>(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: requestContent, response: rawResponse))
-                : Response.Succeeded(rawResponse.ToObject<T>(Deserializer.Options).GetDataOrDefault(), Debug.Info(url, [], request: requestContent, response: rawResponse));
+                : Response.Succeeded(Deserializer.ToObject<T>(rawResponse).GetDataOrDefault(), Debug.Info(url, [], request: requestContent, response: rawResponse));
         }
         catch (MissingMethodException e)
         {
@@ -318,7 +318,7 @@ public class BaseBrokerImpl :
 
         try
         {
-            string requestContent = request.ToJsonString(Deserializer.Options);
+            string requestContent = Deserializer.ToJsonString(request);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
@@ -361,7 +361,7 @@ public class BaseBrokerImpl :
 
         try
         {
-            string requestContent = request.ToJsonString(Deserializer.Options);
+            string requestContent = Deserializer.ToJsonString(request);
             var content = GetRequestContent(requestContent);
             var response = await Client.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
 
@@ -369,7 +369,7 @@ public class BaseBrokerImpl :
 
             return !response.IsSuccessStatusCode
                 ? Responses.Failed<T>(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: requestContent, response: rawResponse))
-                : Responses.Succeeded(rawResponse.ToObject<List<T>>(Deserializer.Options).GetDataOrDefault(), Debug.Info(url, [], response: rawResponse));
+                : Responses.Succeeded(Deserializer.ToObject<List<T>>(rawResponse).GetDataOrDefault(), Debug.Info(url, [], response: rawResponse));
         }
         catch (MissingMethodException e)
         {

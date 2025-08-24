@@ -24,7 +24,6 @@ public class UserTests
         _deserializer = new BrokerDeserializer();
     }
 
-
     [OneTimeSetUp]
     public void Init()
     {
@@ -91,7 +90,7 @@ public class UserTests
                 });
             });
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -108,7 +107,7 @@ public class UserTests
         var result = await _services.GetService<IBrokerFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string> {"username1", "username2", "username3"});
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -127,7 +126,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllUserLimits();
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -137,7 +136,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetLimitsByUser("test");
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -150,6 +149,6 @@ public class UserTests
                 x.SetLimit(UserLimit.MaxChannels, 50);
             });
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

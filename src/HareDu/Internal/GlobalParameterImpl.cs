@@ -45,7 +45,7 @@ class GlobalParameterImpl :
         errors.AddIfTrue(parameter, string.IsNullOrWhiteSpace, Errors.Create("The name of the parameter is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/global-parameters/{parameter}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/global-parameters/{parameter}", request, RequestType.GlobalParameter, cancellationToken).ConfigureAwait(false);
     }
 

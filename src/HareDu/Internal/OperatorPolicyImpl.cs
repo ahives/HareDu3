@@ -47,7 +47,7 @@ class OperatorPolicyImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/operator-policies/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/operator-policies/{vhost}/{name}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/operator-policies/{sanitizedVHost}/{name}", request, RequestType.OperatorPolicy, cancellationToken).ConfigureAwait(false);
     }
 

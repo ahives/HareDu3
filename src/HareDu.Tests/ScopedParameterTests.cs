@@ -78,7 +78,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>(_deserializer.Options);
+            ScopedParameterRequest<long> request = _deserializer.ToObject<ScopedParameterRequest<long>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -100,7 +100,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<long> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<long>>(_deserializer.Options);
+            ScopedParameterRequest<long> request = _deserializer.ToObject<ScopedParameterRequest<long>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -123,7 +123,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -145,7 +145,7 @@ public class ScopedParameterTests :
             Assert.That(result.HasFaulted,  Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -169,7 +169,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -192,7 +192,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -216,7 +216,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -239,7 +239,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -263,7 +263,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -286,7 +286,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -310,7 +310,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -333,7 +333,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -357,7 +357,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -380,7 +380,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -404,7 +404,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -427,7 +427,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -451,7 +451,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -474,7 +474,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.EqualTo("fake_component"));
             Assert.That(request.ParameterName, Is.EqualTo("fake_parameter"));
@@ -498,7 +498,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -521,7 +521,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -545,7 +545,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -568,7 +568,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.ParameterName, Is.Empty.Or.Null);
@@ -592,7 +592,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -615,7 +615,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
 
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -639,7 +639,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
             
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);
@@ -662,7 +662,7 @@ public class ScopedParameterTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
-            ScopedParameterRequest<string> request = result.DebugInfo.Request.ToObject<ScopedParameterRequest<string>>(_deserializer.Options);
+            ScopedParameterRequest<string> request = _deserializer.ToObject<ScopedParameterRequest<string>>(result.DebugInfo.Request);
             
             Assert.That(request.Component, Is.Empty.Or.Null);
             Assert.That(request.VirtualHost, Is.Empty.Or.Null);

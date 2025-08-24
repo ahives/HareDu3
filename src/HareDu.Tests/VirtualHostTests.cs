@@ -130,7 +130,7 @@ public class VirtualHostTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(_deserializer.Options);
+            VirtualHostRequest request = _deserializer.ToObject<VirtualHostRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tracing, Is.True);
         });
@@ -152,7 +152,7 @@ public class VirtualHostTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostRequest request = result.DebugInfo.Request.ToObject<VirtualHostRequest>(_deserializer.Options);
+            VirtualHostRequest request = _deserializer.ToObject<VirtualHostRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tracing, Is.True);
         });
@@ -412,7 +412,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -439,7 +439,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(0));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -467,7 +467,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -494,7 +494,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -522,7 +522,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -549,7 +549,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -577,7 +577,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));
@@ -604,7 +604,7 @@ public class VirtualHostTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserPermissionsRequest request = result.DebugInfo.Request.ToObject<UserPermissionsRequest>(_deserializer.Options);
+            UserPermissionsRequest request = _deserializer.ToObject<UserPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Configure, Is.EqualTo(".*"));
             Assert.That(request.Write, Is.EqualTo(".*"));

@@ -16,7 +16,7 @@ public class QueueTests
 {
     ServiceProvider _services;
     string _vhost = "QueueTestVirtulHost1";
-    string _node = "rabbit@b91edc210b0d";
+    string _node = "rabbit@7c619192ad6b";
     readonly IHareDuDeserializer _deserializer;
 
     public QueueTests()
@@ -67,7 +67,7 @@ public class QueueTests
             });
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class QueueTests
                 x.IsDurable();
             });
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
         Assert.That(result.HasFaulted, Is.False);
     }
 
@@ -92,7 +92,7 @@ public class QueueTests
             .Create("TestQueue2", _vhost,_node);
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -114,7 +114,7 @@ public class QueueTests
             });
             
         Assert.That(result.HasFaulted, Is.True);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -126,7 +126,7 @@ public class QueueTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -138,7 +138,7 @@ public class QueueTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -149,7 +149,7 @@ public class QueueTests
             .GetAll();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -163,7 +163,7 @@ public class QueueTests
             });
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -174,7 +174,7 @@ public class QueueTests
             .Sync("order-state", "TestOrders");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -185,7 +185,7 @@ public class QueueTests
             .Empty("", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -195,7 +195,7 @@ public class QueueTests
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]

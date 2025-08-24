@@ -87,7 +87,7 @@ public class OperatorPolicyTests
                 });
             });
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -97,6 +97,6 @@ public class OperatorPolicyTests
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test6", "TestHareDu");
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

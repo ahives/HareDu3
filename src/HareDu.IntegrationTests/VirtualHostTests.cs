@@ -22,7 +22,6 @@ public class VirtualHostTests
         _deserializer = new BrokerDeserializer();
     }
 
-
     [OneTimeSetUp]
     public void Init()
     {
@@ -110,7 +109,7 @@ public class VirtualHostTests
                 });
             });
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -120,7 +119,7 @@ public class VirtualHostTests
             .API<VirtualHost>(z => z.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -130,7 +129,7 @@ public class VirtualHostTests
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("", "");
             
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -144,7 +143,7 @@ public class VirtualHostTests
                 x.SetMaxConnectionLimit(1000);
             });
         
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]

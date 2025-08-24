@@ -94,7 +94,7 @@ public class OperatorPolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -127,7 +127,7 @@ public class OperatorPolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -162,7 +162,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -196,7 +196,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -231,7 +231,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -266,7 +266,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo(".*"));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -301,7 +301,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -336,7 +336,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = result.DebugInfo.Request.ToObject<OperatorPolicyRequest>(_deserializer.Options);
+            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));

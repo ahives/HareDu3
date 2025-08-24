@@ -66,7 +66,7 @@ public class BindingTests
             .ScreenDump();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -77,6 +77,6 @@ public class BindingTests
             .ScreenDump();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(result.ToJsonString(_deserializer.Options));
+        Console.WriteLine(_deserializer.ToJsonString(result));
     }
 }

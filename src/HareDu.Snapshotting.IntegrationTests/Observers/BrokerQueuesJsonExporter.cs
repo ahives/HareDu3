@@ -30,7 +30,7 @@ public class BrokerQueuesJsonExporter :
             var directory = Directory.CreateDirectory(path);
                 
             if (directory.Exists)
-                File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", value.ToJsonString(_deserializer.Options));
+                File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", _deserializer.ToJsonString(value));
         }
     }
 }

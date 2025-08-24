@@ -62,7 +62,7 @@ class VirtualHostImpl :
         }
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/vhosts/{vhost}", errors, request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/vhosts/{vhost}", errors, Deserializer.ToJsonString(request)))
             : await PutRequest($"api/vhosts/{sanitizedVHost}", request, RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }
 
@@ -122,7 +122,7 @@ class VirtualHostImpl :
         var request = new VirtualHostLimitsRequest{Value = impl.LimitValue};
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/vhost-limits/{vhost}/{limit}", errors, request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/vhost-limits/{vhost}/{limit}", errors, Deserializer.ToJsonString(request)))
             : await PutRequest($"api/vhost-limits/{sanitizedVHost}/{impl.Limit}", request, RequestType.VirtualHost,
                 cancellationToken).ConfigureAwait(false);
     }
@@ -205,7 +205,7 @@ class VirtualHostImpl :
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/permissions/{vhost}/{username}", errors, impl.Request.Value.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/permissions/{vhost}/{username}", errors, Deserializer.ToJsonString(impl.Request.Value)))
             : await PutRequest($"api/permissions/{sanitizedVHost}/{username}", impl.Request.Value,
                 RequestType.VirtualHost, cancellationToken).ConfigureAwait(false);
     }

@@ -54,7 +54,7 @@ class ScopedParameterImpl :
             };
         
         return errors.HaveBeenFound()
-            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: request.ToJsonString(Deserializer.Options)))
+            ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request,
                 RequestType.ScopeParameter, cancellationToken).ConfigureAwait(false);
     }

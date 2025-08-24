@@ -68,6 +68,7 @@ public static class Errors
                 HttpStatusCode.ServiceUnavailable => "RabbitMQ server temporarily not able to handle request (503) due to overload or maintenance.",
                 HttpStatusCode.Unauthorized => "Unauthorized access to RabbitMQ server resource (401) due to missing credentials or invalid credentials.",
                 HttpStatusCode.TooManyRequests => "Calls to HareDu API exceeded the allowable maximum of requests to the RabbitMQ server (429).",
+                HttpStatusCode.NotFound => "RabbitMQ server resource not found (404).",
                 _ => null
             };
             

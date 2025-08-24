@@ -105,7 +105,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.EqualTo("E4"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -132,7 +132,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.EqualTo("E4"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -160,7 +160,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.EqualTo("E4"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -187,7 +187,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.EqualTo("E4"));
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -215,7 +215,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -242,7 +242,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.EqualTo(".*"));
@@ -270,7 +270,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
@@ -297,7 +297,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
@@ -325,7 +325,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
@@ -352,7 +352,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(4));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Write, Is.Empty.Or.Null);
@@ -380,7 +380,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
@@ -407,7 +407,7 @@ public class TopicPermissionsTest :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(5));
 
-            TopicPermissionsRequest request = result.DebugInfo.Request.ToObject<TopicPermissionsRequest>(_deserializer.Options);
+            TopicPermissionsRequest request = _deserializer.ToObject<TopicPermissionsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Exchange, Is.Empty.Or.Null);
             Assert.That(request.Read, Is.Empty.Or.Null);
