@@ -34,6 +34,12 @@ public class BrokerDeserializer :
                 new CustomULongConverter(),
                 new CustomStringConverter(),
                 new AckModeEnumConverter(),
+                new PolicyAppliedToConverter(),
+                new OperatorPolicyAppliedToConverter(),
+                new QueueOverflowBehaviorConverter(),
+                new QueueLeaderLocatorConverter(),
+                new DeadLetterQueueStrategyConverter(),
+                new QueueModeConverter(),
                 new DefaultQueueTypeEnumConverter(),
                 new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
             }

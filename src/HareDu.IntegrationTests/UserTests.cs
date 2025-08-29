@@ -30,6 +30,10 @@ public class UserTests
         _services = new ServiceCollection()
             .AddHareDu(x =>
             {
+                x.KnowledgeBase(k =>
+                {
+                    k.File("kb.json", "Articles");
+                });
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
@@ -67,7 +71,7 @@ public class UserTests
             .GetAll()
             .ScreenDump();
     }
-        
+
     [Test]
     public async Task Verify_can_get_all_users_without_permissions()
     {
@@ -76,7 +80,7 @@ public class UserTests
             .GetAllWithoutPermissions()
             .ScreenDump();
     }
-        
+
     [Test]
     public async Task Verify_can_create()
     {

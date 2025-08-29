@@ -1,23 +1,31 @@
 [
   {
-    "vhost": "HareDu",
-    "name": "P1",
-    "pattern": "!@#@",
-    "apply-to": "all",
+    "vhost": "vhost1",
+    "name": "test2",
+    "pattern": ".",
+    "apply-to": "queues",
     "definition": {
-      "ha-mode": "exactly",
-      "ha-params": 2,
-      "ha-sync-mode": "automatic"
+      "consumer-timeout": 65,
+      "dead-letter-exchange": "test",
+      "dead-letter-routing-key": ".*",
+      "dead-letter-strategy": "at-least-once",
+      "delivery-limit": 3,
+      "expires": 1,
+      "max-length": 1,
+      "max-length-bytes": 3,
+      "message-ttl": 32,
+      "overflow": "drop-head",
+      "queue-leader-locator": "balanced"
     },
-    "priority": 0
+    "priority": 1
   },
   {
-    "vhost": "HareDu",
-    "name": "P2",
-    "pattern": "^amq.",
+    "vhost": "/",
+    "name": "adsada",
+    "pattern": ".",
     "apply-to": "all",
     "definition": {
-      "ha-mode": "all"
+      "queue-master-locator": "client-local"
     },
     "priority": 0
   }

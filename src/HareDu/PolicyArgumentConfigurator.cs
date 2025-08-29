@@ -9,14 +9,6 @@ using Model;
 public interface PolicyArgumentConfigurator
 {
     /// <summary>
-    /// Sets the specified argument on the policy with the provided value.
-    /// </summary>
-    /// <param name="arg">The name of the policy argument to be set.</param>
-    /// <param name="value">The value to assign to the specified argument.</param>
-    /// <typeparam name="T">The type of the value being assigned to the argument.</typeparam>
-    void Set<T>([NotNull] string arg, [NotNull] T value);
-
-    /// <summary>
     /// Sets the expiry duration of the policy in milliseconds.
     /// </summary>
     /// <param name="milliseconds">The duration in milliseconds after which the resource will expire.</param>
@@ -33,24 +25,6 @@ public interface PolicyArgumentConfigurator
     /// </summary>
     /// <param name="value">The name of the federation-upstream to be set.</param>
     void SetFederationUpstream([NotNull] string value);
-
-    /// <summary>
-    /// Configures the high availability mode for the policy.
-    /// </summary>
-    /// <param name="mode">The high availability mode to be applied to the policy.</param>
-    void SetHighAvailabilityMode(HighAvailabilityMode mode);
-
-    /// <summary>
-    /// Sets the high availability parameter to the specified value. This is used to configure the number of nodes for high availability in policies.
-    /// </summary>
-    /// <param name="value">The number of nodes or specific high availability parameter to be assigned.</param>
-    void SetHighAvailabilityParams(uint value);
-
-    /// <summary>
-    /// Sets the synchronization mode for high availability.
-    /// </summary>
-    /// <param name="mode">The synchronization mode to be set, defining whether it is manual or automatic.</param>
-    void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode);
 
     /// <summary>
     /// Sets the time-to-live for messages in the queue, in milliseconds.
@@ -73,8 +47,8 @@ public interface PolicyArgumentConfigurator
     /// <summary>
     /// Sets the dead letter exchange argument for the policy with the specified value.
     /// </summary>
-    /// <param name="value">The name of the exchange to be used as the dead letter exchange.</param>
-    void SetDeadLetterExchange([NotNull] string value);
+    /// <param name="name">The name of the exchange to be used as the dead letter exchange.</param>
+    void SetDeadLetterExchangeName([NotNull] string name);
 
     /// <summary>
     /// Sets the dead letter routing key argument for a RabbitMQ policy with the specified value.
@@ -97,24 +71,43 @@ public interface PolicyArgumentConfigurator
     /// <summary>
     /// Sets the queue master locator policy argument with the specified key.
     /// </summary>
-    /// <param name="key">The key identifying the queue master locator to be assigned as the argument.</param>
-    void SetQueueMasterLocator([NotNull] string key);
-
-    /// <summary>
-    /// Configures the queue promotion behavior during a shutdown operation.
-    /// </summary>
-    /// <param name="mode">Specifies the desired promotion mode for the queue during shutdown.</param>
-    void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode);
-
-    /// <summary>
-    /// Configures the queue promotion behavior when a failure occurs, using the specified mode.
-    /// </summary>
-    /// <param name="mode">The promotion failure behavior mode to set. This determines how the system handles promotion failures.</param>
-    void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode);
+    /// <param name="locator">The key identifying the queue master locator to be assigned as the argument.</param>
+    void SetQueueMasterLocator([NotNull] string locator);
 
     /// <summary>
     /// Sets the delivery limit argument on the policy with the provided value.
     /// </summary>
     /// <param name="limit">The maximum number of deliveries allowed for a message before it is dropped or dead-lettered.</param>
-    void SetDeliveryLimit(ulong limit);
+    void SetDeliveryLimit(uint limit);
+
+    /// <summary>
+    /// Configures the queue overflow behavior for a RabbitMQ policy.
+    /// </summary>
+    /// <param name="behavior">The behavior to apply when the queue exceeds its maximum capacity.</param>
+    void SetQueueOverflowBehavior(QueueOverflowBehavior behavior);
+
+    /// <summary>
+    /// Sets the queue leader locator strategy for determining the leader of the RabbitMQ queue.
+    /// </summary>
+    /// <param name="locator">The strategy to be used for locating the queue leader.</param>
+    void SetQueueLeaderLocator(QueueLeaderLocator locator);
+
+    /// <summary>
+    /// Sets the consumer timeout duration in milliseconds.
+    /// </summary>
+    /// <param name="timeout">The duration in milliseconds after which the consumer will time out.</param>
+    void SetConsumerTimeout(uint timeout);
+
+    /// <summary>
+    /// Configures the strategy for routing messages to a dead-letter queue during the dead-lettering process.
+    /// </summary>
+    /// <param name="strategy">The strategy to use for routing messages, indicating how messages should be handled when dead-lettered.</param>
+    void SetDeadLetterQueueStrategy(DeadLetterQueueStrategy strategy);
+
+    /// <summary>
+    /// Sets the maximum age for a message in the queue.
+    /// </summary>
+    /// <param name="duration">The value representing the duration of the maximum age.</param>
+    /// <param name="units">The unit of time (e.g., seconds, minutes, hours) for the specified duration.</param>
+    void SetMaxAge(uint duration, TimeUnit units);
 }

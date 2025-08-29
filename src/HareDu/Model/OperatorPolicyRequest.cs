@@ -16,13 +16,8 @@ public record OperatorPolicyRequest
     [JsonPropertyName("pattern")]
     public string Pattern { get; init; }
 
-    /// <summary>
-    /// Represents a collection of optional key-value pairs used to define specific behavior for an operator policy.
-    /// These arguments customize various aspects of the policy's functionality, where the key
-    /// is a string, and the value is an unsigned long integer.
-    /// </summary>
     [JsonPropertyName("definition")]
-    public IDictionary<string, ulong> Arguments { get; init; }
+    public OperatorPolicyDefinition Definition { get; init; }
 
     /// <summary>
     /// Defines the priority level for the operator policy.

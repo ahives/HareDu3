@@ -1,6 +1,5 @@
 namespace HareDu.Model;
 
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -30,13 +29,14 @@ public record PolicyInfo
     /// Specifies the type of RabbitMQ entities (e.g., queues, exchanges, or all) to which the policy is applied.
     /// </summary>
     [JsonPropertyName("apply-to")]
-    public string AppliedTo { get; init; }
+    public PolicyAppliedTo AppliedTo { get; init; }
 
     /// <summary>
-    /// Represents a collection of key-value pairs defining the parameters of the policy in RabbitMQ.
+    /// Represents the definition of a RabbitMQ policy, including various parameters such as delivery limits,
+    /// dead lettering strategies, message TTL, and other queue-specific configurations.
     /// </summary>
     [JsonPropertyName("definition")]
-    public IDictionary<string, string> Definition { get; init; }
+    public PolicyDefinition Definition { get; init; }
 
     /// <summary>
     /// Represents the priority level assigned to the policy.

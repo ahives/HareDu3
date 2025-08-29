@@ -29,6 +29,10 @@ public class PolicyTests
         _services = new ServiceCollection()
             .AddHareDu(x =>
             {
+                x.KnowledgeBase(k =>
+                {
+                    k.File("kb.json", "Articles");
+                });
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
@@ -79,8 +83,6 @@ public class PolicyTests
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.Exactly);
-                    arg.SetHighAvailabilityParams(5);
                     arg.SetExpiry(1000);
                 });
             });
@@ -97,11 +99,10 @@ public class PolicyTests
             .Create("P4", "HareDu", x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });

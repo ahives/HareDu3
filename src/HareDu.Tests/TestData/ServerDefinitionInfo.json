@@ -1,73 +1,98 @@
 {
-  "rabbit_version": "3.7.15",
+  "rabbit_version": "4.1.3",
+  "rabbitmq_version": "4.1.3",
+  "product_name": "RabbitMQ",
+  "product_version": "4.1.3",
+  "rabbitmq_definition_format": "cluster",
+  "original_cluster_name": "rabbit@7c619192ad6b",
+  "explanation": "Definitions of cluster 'rabbit@7c619192ad6b'",
   "users": [
     {
       "name": "guest",
-      "password_hash": "EeJtW+FJi3yTLMxKFAfXEiNDJB97tHbplPlYM7v4T0pNqMlx",
+      "password_hash": "1hG7MvtBIssQbmvJTM8GcsBir4gD4DAwfclB1k/Tkdq5Kgpb",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": "administrator"
+      "tags": [
+        "administrator"
+      ],
+      "limits": {}
     },
     {
-      "name": "testuser3",
-      "password_hash": "OasGMUAvOCqt8tFnTAZfvxiVsPAaSCMGHFThOvDXjc/exlxB",
+      "name": "username3",
+      "password_hash": "Yn8NcPR0xqD8Y6qp0HatY5nJgOzHJnfRdoTpLnQ4USqdWevW",
       "hashing_algorithm": "rabbit_password_hashing_sha256",
-      "tags": ""
+      "tags": [
+        "impersonator",
+        "policymaker"
+      ],
+      "limits": {}
     }
   ],
   "vhosts": [
     {
-      "name": "HareDu2"
+      "name": "HareDu1",
+      "description": "My test vhost.",
+      "metadata": {
+        "description": "My test vhost.",
+        "tags": [
+          "accounts",
+          "production"
+        ],
+        "default_queue_type": "classic"
+      },
+      "tags": [
+        "accounts",
+        "production"
+      ]
     },
     {
-      "name": "HareDu7"
+      "name": "test-vhost",
+      "description": "",
+      "metadata": {
+        "description": "",
+        "tags": [
+          "test"
+        ],
+        "default_queue_type": "classic"
+      },
+      "tags": [
+        "test"
+      ]
     },
     {
-      "name": "HareDu4"
+      "name": "QueueTestVirtulHost1",
+      "description": "",
+      "metadata": {
+        "description": "",
+        "tags": [],
+        "default_queue_type": "classic"
+      },
+      "tags": []
     },
     {
-      "name": "/"
+      "name": "/",
+      "description": "Default virtual host",
+      "metadata": {
+        "description": "Default virtual host",
+        "tags": [],
+        "default_queue_type": "classic"
+      },
+      "tags": []
     },
     {
-      "name": "HareDu"
-    },
-    {
-      "name": "HareDu3"
-    },
-    {
-      "name": "TestVirtualHost"
-    },
-    {
-      "name": "HareDu5"
-    },
-    {
-      "name": "HareDu6"
+      "name": "vhost",
+      "description": "",
+      "metadata": {
+        "description": "",
+        "tags": [],
+        "default_queue_type": "classic"
+      },
+      "tags": []
     }
   ],
   "permissions": [
     {
       "user": "guest",
-      "vhost": "HareDu7",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "guest",
-      "vhost": "HareDu2",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "guest",
-      "vhost": "TestVirtualHost",
-      "configure": ".*",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "guest",
-      "vhost": "HareDu3",
+      "vhost": "QueueTestVirtulHost1",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
@@ -80,22 +105,29 @@
       "read": ".*"
     },
     {
-      "user": "guest",
-      "vhost": "HareDu",
+      "user": "username3",
+      "vhost": "QueueTestVirtulHost1",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     },
     {
       "user": "guest",
-      "vhost": "HareDu6",
+      "vhost": "HareDu1",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
     },
     {
       "user": "guest",
-      "vhost": "HareDu4",
+      "vhost": "vhost",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "guest",
+      "vhost": "test-vhost",
       "configure": ".*",
       "write": ".*",
       "read": ".*"
@@ -103,22 +135,8 @@
   ],
   "topic_permissions": [
     {
-      "user": "guest",
-      "vhost": "HareDu",
-      "exchange": "E4",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "guest",
-      "vhost": "HareDu",
-      "exchange": "E5",
-      "write": ".*",
-      "read": ".*"
-    },
-    {
-      "user": "guest",
-      "vhost": "HareDu7",
+      "user": "username3",
+      "vhost": "QueueTestVirtulHost1",
       "exchange": "",
       "write": ".*",
       "read": ".*"
@@ -127,216 +145,184 @@
   "parameters": [
     {
       "value": {
-        "max-queues": 87
+        "pattern": ".*",
+        "definition": {
+          "max-length": 90
+        },
+        "priority": 0,
+        "apply-to": "queues"
       },
-      "vhost": "HareDu6",
-      "component": "vhost-limits",
-      "name": "limits"
+      "vhost": "/",
+      "component": "operator_policy",
+      "name": "test2"
     },
     {
       "value": {
-        "max-connections": 13
+        "pattern": ".",
+        "definition": {
+          "delivery-limit": 20,
+          "expires": 1,
+          "max-in-memory-bytes": 34,
+          "max-in-memory-length": 32,
+          "max-length": 2,
+          "max-length-bytes": 33,
+          "message-ttl": 1,
+          "overflow": "reject-publish",
+          "target-group-size": 2
+        },
+        "priority": 0,
+        "apply-to": "queues"
       },
-      "vhost": "HareDu3",
-      "component": "vhost-limits",
-      "name": "limits"
+      "vhost": "/",
+      "component": "operator_policy",
+      "name": "mnb"
     },
     {
       "value": {
-        "max-connections": 10,
-        "max-queues": 10
+        "pattern": ".",
+        "definition": {
+          "max-length-bytes": 42
+        },
+        "priority": 0,
+        "apply-to": "streams"
       },
-      "vhost": "HareDu",
-      "component": "vhost-limits",
-      "name": "limits"
+      "vhost": "/",
+      "component": "operator_policy",
+      "name": "klcz"
+    },
+    {
+      "value": {
+        "pattern": "",
+        "definition": {
+          "expires": 2,
+          "max-length": 3,
+          "max-length-bytes": 1,
+          "message-ttl": 6,
+          "overflow": "reject-publish"
+        },
+        "priority": 0,
+        "apply-to": "queues"
+      },
+      "vhost": "/",
+      "component": "operator_policy",
+      "name": "egg"
     }
   ],
   "global_parameters": [
     {
       "name": "fake_param2",
-      "value": "fake_value"
-    },
-    {
-      "name": "fake_param1",
       "value": {
         "arg1": "value1",
         "arg2": "value2"
       }
     },
     {
-      "name": "fake_param",
-      "value": {
-        "arg1": "value1",
-        "arg2": "value2"
-      }
+      "name": "cluster_tags",
+      "value": []
     },
     {
-      "name": "cluster_name",
-      "value": "rabbit@Alberts-MacBook-Pro"
-    },
-    {
-      "name": "fake",
-      "value": "cool"
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-DFOXgDa08AeRhlV3jsHefg"
     }
   ],
   "policies": [
     {
-      "vhost": "HareDu",
-      "name": "P2",
-      "pattern": "^amq.",
-      "apply-to": "all",
+      "vhost": "TestVhost1",
+      "name": "test5",
+      "pattern": ".",
+      "apply-to": "quorum_queues",
       "definition": {
-        "ha-mode": "all"
+        "delivery-limit": 32
+      },
+      "priority": 1
+    },
+    {
+      "vhost": "/",
+      "name": "rwr",
+      "pattern": ".",
+      "apply-to": "exchanges",
+      "definition": {
+        "alternate-exchange": "queue"
       },
       "priority": 0
     },
     {
-      "vhost": "HareDu",
-      "name": "P1",
-      "pattern": "something",
+      "vhost": "/",
+      "name": "isa",
+      "pattern": ".",
+      "apply-to": "streams",
+      "definition": {
+        "max-age": "1h",
+        "stream-filter-size-bytes": 57
+      },
+      "priority": 0
+    },
+    {
+      "vhost": "/",
+      "name": "test2",
+      "pattern": ".",
+      "apply-to": "queues",
+      "definition": {
+        "consumer-timeout": 65,
+        "dead-letter-exchange": "test",
+        "dead-letter-routing-key": ".*",
+        "dead-letter-strategy": "at-least-once",
+        "delivery-limit": 0,
+        "expires": 1,
+        "max-length": 1,
+        "max-length-bytes": 3,
+        "message-ttl": 32,
+        "overflow": "drop-head",
+        "queue-leader-locator": "balanced"
+      },
+      "priority": 0
+    },
+    {
+      "vhost": "/",
+      "name": "test1",
+      "pattern": ".*",
       "apply-to": "all",
       "definition": {
-        "ha-mode": "exactly",
-        "ha-params": 2,
-        "ha-sync-mode": "automatic"
+        "max-length": 89
+      },
+      "priority": 0
+    },
+    {
+      "vhost": "/",
+      "name": "test4",
+      "pattern": "",
+      "apply-to": "classic_queues",
+      "definition": {
+        "max-length": 95
       },
       "priority": 0
     }
   ],
   "queues": [
     {
-      "name": "input_queue",
-      "vhost": "/",
+      "name": "TestQueue1",
+      "vhost": "QueueTestVirtulHost1",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "consumer_queue",
-      "vhost": "HareDu",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "Queue1",
-      "vhost": "HareDu",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "Queue2",
-      "vhost": "HareDu",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
-    },
-    {
-      "name": "TestQueue",
-      "vhost": "HareDu",
-      "durable": true,
-      "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-queue-type": "classic"
+      }
     }
   ],
   "exchanges": [
     {
-      "name": "MassTransit:Fault",
-      "vhost": "/",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "input_queue",
-      "vhost": "/",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Common:FakeMessage",
-      "vhost": "/",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Test1",
-      "vhost": "HareDu",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "consumer_queue",
-      "vhost": "HareDu",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "integration_testing",
-      "vhost": "HareDu",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "E2",
-      "vhost": "HareDu",
+      "name": "test-exchange1",
+      "vhost": "test-vhost",
       "type": "direct",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {
-        "alternate-exchange": "exchange"
-      }
-    },
-    {
-      "name": "HareDu.IntegrationTesting.Core:FakeMessage",
-      "vhost": "HareDu",
-      "type": "fanout",
-      "durable": true,
+      "durable": false,
       "auto_delete": false,
       "internal": false,
       "arguments": {}
     },
     {
-      "name": "HareDu.IntegrationTesting.Core:FakeMessage",
-      "vhost": "TestVirtualHost",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "TestQueue",
-      "vhost": "TestVirtualHost",
-      "type": "fanout",
-      "durable": true,
-      "auto_delete": false,
-      "internal": false,
-      "arguments": {}
-    },
-    {
-      "name": "Common:FakeMessage",
-      "vhost": "TestVirtualHost",
-      "type": "fanout",
+      "name": "x",
+      "vhost": "QueueTestVirtulHost1",
+      "type": "direct",
       "durable": true,
       "auto_delete": false,
       "internal": false,
@@ -345,69 +331,10 @@
   ],
   "bindings": [
     {
-      "source": "input_queue",
-      "vhost": "/",
-      "destination": "input_queue",
+      "source": "x",
+      "vhost": "QueueTestVirtulHost1",
+      "destination": "TestQueue1",
       "destination_type": "queue",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "HareDu.IntegrationTesting.Core:FakeMessage",
-      "vhost": "HareDu",
-      "destination": "consumer_queue",
-      "destination_type": "exchange",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "HareDu.IntegrationTesting.Core:FakeMessage",
-      "vhost": "HareDu",
-      "destination": "integration_testing",
-      "destination_type": "exchange",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "Test1",
-      "vhost": "HareDu",
-      "destination": "Queue1",
-      "destination_type": "queue",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "Test1",
-      "vhost": "HareDu",
-      "destination": "Queue1",
-      "destination_type": "queue",
-      "routing_key": "x=y",
-      "arguments": {
-        "A": "B",
-        "X": "Y"
-      }
-    },
-    {
-      "source": "consumer_queue",
-      "vhost": "HareDu",
-      "destination": "consumer_queue",
-      "destination_type": "queue",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "Common:FakeMessage",
-      "vhost": "TestVirtualHost",
-      "destination": "TestQueue",
-      "destination_type": "exchange",
-      "routing_key": "",
-      "arguments": {}
-    },
-    {
-      "source": "HareDu.IntegrationTesting.Core:FakeMessage",
-      "vhost": "TestVirtualHost",
-      "destination": "TestQueue",
-      "destination_type": "exchange",
       "routing_key": "",
       "arguments": {}
     }

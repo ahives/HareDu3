@@ -35,14 +35,22 @@ public class OperatorPolicyTests :
             Assert.That(result.HasData, Is.True);
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.Data, Is.Not.Null);
-            Assert.That(result.Data.Count, Is.EqualTo(1));
-            Assert.That(result.Data[0].Name, Is.EqualTo("test"));
-            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
-            Assert.That(result.Data[0].Pattern, Is.EqualTo(".*"));
-            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
-            Assert.That(result.Data[0].Definition, Is.Not.Null);
-            Assert.That(result.Data[0].Definition["max-length"], Is.EqualTo(100));
-            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
+            Assert.That(result.Data.Count, Is.EqualTo(6));
+            Assert.That(result.Data[4].Name, Is.EqualTo("test1"));
+            Assert.That(result.Data[4].VirtualHost, Is.EqualTo("vhost1"));
+            Assert.That(result.Data[4].Pattern, Is.EqualTo(".*"));
+            Assert.That(result.Data[4].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
+            Assert.That(result.Data[4].Definition, Is.Not.Null);
+            Assert.That(result.Data[4].Definition.DeliveryLimit, Is.EqualTo(20));
+            Assert.That(result.Data[4].Definition.AutoExpire, Is.EqualTo(1));
+            Assert.That(result.Data[4].Definition.MaxInMemoryBytes, Is.EqualTo(34));
+            Assert.That(result.Data[4].Definition.MaxInMemoryLength, Is.EqualTo(32));
+            Assert.That(result.Data[4].Definition.MaxLength, Is.EqualTo(2));
+            Assert.That(result.Data[4].Definition.MaxLengthBytes, Is.EqualTo(33));
+            Assert.That(result.Data[4].Definition.MessageTimeToLive, Is.EqualTo(1));
+            Assert.That(result.Data[4].Definition.OverflowBehavior, Is.EqualTo(QueueOverflowBehavior.RejectPublish));;
+            Assert.That(result.Data[4].Definition.TargetGroupSize, Is.EqualTo(2));
+            Assert.That(result.Data[4].Priority, Is.EqualTo(2));
         });
     }
 
@@ -59,14 +67,22 @@ public class OperatorPolicyTests :
             Assert.That(result.HasData, Is.True);
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.Data, Is.Not.Null);
-            Assert.That(result.Data.Count, Is.EqualTo(1));
-            Assert.That(result.Data[0].Name, Is.EqualTo("test"));
-            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("TestHareDu"));
-            Assert.That(result.Data[0].Pattern, Is.EqualTo(".*"));
-            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
-            Assert.That(result.Data[0].Definition, Is.Not.Null);
-            Assert.That(result.Data[0].Definition["max-length"], Is.EqualTo(100));
-            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
+            Assert.That(result.Data.Count, Is.EqualTo(6));
+            Assert.That(result.Data[4].Name, Is.EqualTo("test1"));
+            Assert.That(result.Data[4].VirtualHost, Is.EqualTo("vhost1"));
+            Assert.That(result.Data[4].Pattern, Is.EqualTo(".*"));
+            Assert.That(result.Data[4].AppliedTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
+            Assert.That(result.Data[4].Definition, Is.Not.Null);
+            Assert.That(result.Data[4].Definition.DeliveryLimit, Is.EqualTo(20));
+            Assert.That(result.Data[4].Definition.AutoExpire, Is.EqualTo(1));
+            Assert.That(result.Data[4].Definition.MaxInMemoryBytes, Is.EqualTo(34));
+            Assert.That(result.Data[4].Definition.MaxInMemoryLength, Is.EqualTo(32));
+            Assert.That(result.Data[4].Definition.MaxLength, Is.EqualTo(2));
+            Assert.That(result.Data[4].Definition.MaxLengthBytes, Is.EqualTo(33));
+            Assert.That(result.Data[4].Definition.MessageTimeToLive, Is.EqualTo(1));
+            Assert.That(result.Data[4].Definition.OverflowBehavior, Is.EqualTo(QueueOverflowBehavior.RejectPublish));;
+            Assert.That(result.Data[4].Definition.TargetGroupSize, Is.EqualTo(2));
+            Assert.That(result.Data[4].Priority, Is.EqualTo(2));
         });
     }
         
@@ -98,8 +114,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -131,8 +147,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -166,8 +182,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -200,8 +216,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -235,8 +251,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -270,8 +286,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo(".*"));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -305,8 +321,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }
@@ -340,8 +356,8 @@ public class OperatorPolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["delivery-limit"], Is.EqualTo(5));
-            Assert.That(request.Arguments["expires"], Is.EqualTo(1000));
+            Assert.That(request.Definition.DeliveryLimit, Is.EqualTo(5));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
             Assert.That(request.ApplyTo, Is.EqualTo(OperatorPolicyAppliedTo.Queues));
         });
     }

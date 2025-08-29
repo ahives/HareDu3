@@ -70,12 +70,12 @@ class OperatorPolicyImpl :
     class OperatorPolicyConfiguratorImpl :
         OperatorPolicyConfigurator
     {
-        IDictionary<string, ulong> _arguments;
         string _pattern;
         int _priority;
         OperatorPolicyAppliedTo _appliedTo;
+        OperatorPolicyDefinition _definition;
 
-        List<Error> InteernalErrors { get; } = new();
+        List<Error> InternalErrors { get; } = new();
 
         public Lazy<OperatorPolicyRequest> Request { get; }
 
@@ -87,7 +87,7 @@ class OperatorPolicyImpl :
                     Pattern = _pattern,
                     Priority = _priority,
                     ApplyTo = _appliedTo,
-                    Arguments = _arguments
+                    Definition = _definition
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
 
@@ -96,9 +96,9 @@ class OperatorPolicyImpl :
             var impl = new OperatorPolicyArgumentConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            _arguments = impl.Arguments.Value;
+            _definition = impl.Definition.Value;
             
-            InteernalErrors.AddRange(impl.Validate());
+            InternalErrors.AddRange(impl.Validate());
         }
 
         public void Pattern(string pattern) => _pattern = pattern;
@@ -109,54 +109,115 @@ class OperatorPolicyImpl :
 
         public List<Error> Validate()
         {
-            InteernalErrors.AddIfTrue(_pattern, string.IsNullOrWhiteSpace, Errors.Create("The pattern is missing."));
+            InternalErrors.AddIfTrue(_pattern, string.IsNullOrWhiteSpace, Errors.Create("The pattern is missing."));
 
-            return InteernalErrors;
+            return InternalErrors;
         }
 
 
         class OperatorPolicyArgumentConfiguratorImpl :
             OperatorPolicyArgumentConfigurator
         {
-            readonly IDictionary<string, ArgumentValue<ulong>> _arguments;
+            ulong _autoExpire;
+            ulong _messageTimeToLive;
+            ulong _maxLengthBytes;
+            ulong _maxLength;
+            uint _deliveryLimit;
+            QueueOverflowBehavior _overflowBehavior;
+            ulong _maxInMemoryBytes;
+            ulong _maxInMemoryLength;
+            uint _targetGroupSize;
 
-            public Lazy<IDictionary<string, ulong>> Arguments { get; }
+            public Lazy<OperatorPolicyDefinition> Definition { get; }
+
+            List<Error> InternalErrors { get; } = new();
 
             public OperatorPolicyArgumentConfiguratorImpl()
             {
-                _arguments = new Dictionary<string, ArgumentValue<ulong>>();
-
-                Arguments = new Lazy<IDictionary<string, ulong>>(() => _arguments.GetArgumentsOrNull(), LazyThreadSafetyMode.PublicationOnly);
+                Definition = new Lazy<OperatorPolicyDefinition>(() => new OperatorPolicyDefinition
+                {
+                    OverflowBehavior = _overflowBehavior,
+                    AutoExpire = _autoExpire,
+                    DeliveryLimit = _deliveryLimit,
+                    MaxLength = _maxLength,
+                    MaxLengthBytes = _maxLengthBytes,
+                    MessageTimeToLive = _messageTimeToLive,
+                    MaxInMemoryBytes = _maxInMemoryBytes,
+                    MaxInMemoryLength = _maxInMemoryLength,
+                    TargetGroupSize = _targetGroupSize
+                }, LazyThreadSafetyMode.PublicationOnly);
             }
-
-            public void SetExpiry(ulong milliseconds) => SetArg("expires", milliseconds);
-                
-            public void SetMaxInMemoryBytes(ulong bytes) => SetArg("max-in-memory-bytes", bytes);
-
-            public void SetMaxInMemoryLength(ulong messages) => SetArg("max-in-memory-length", messages);
-
-            public void SetDeliveryLimit(ulong limit) => SetArg("delivery-limit", limit);
-
-            public void SetMessageTimeToLive(ulong milliseconds) => SetArg("message-ttl", milliseconds);
-
-            public void SetMessageMaxSizeInBytes(ulong value) => SetArg("max-length-bytes", value);
-
-            public void SetMessageMaxSize(ulong value) => SetArg("max-length", value);
 
             public List<Error> Validate()
             {
-                List<Error> errors = new();
-
-                errors.AddIfTrue(_arguments, x => x is null || !x.Any(), Errors.Create("No arguments have been set."));
-
-                return errors;
+                return InternalErrors;
             }
-            
-            void SetArg(string arg, ulong value) =>
-                _arguments.Add(arg.Trim(),
-                    _arguments.ContainsKey(arg)
-                        ? new ArgumentValue<ulong>(value, Errors.Create($"Argument '{arg}' has already been set"))
-                        : new ArgumentValue<ulong>(value));
+
+            public void SetExpiry(ulong milliseconds)
+            {
+                _autoExpire = milliseconds;
+
+                InternalErrors.AddIfTrue(milliseconds, x => x < 1,
+                    Errors.Create("Argument 'expires' has been set without an appropriate value."));
+            }
+
+            public void SetMaxInMemoryBytes(ulong bytes)
+            {
+                _maxInMemoryBytes = bytes;
+
+                InternalErrors.AddIfTrue(bytes, x => x < 1,
+                    Errors.Create("Argument 'max-in-memory-bytes' has been set without an appropriate value."));
+            }
+
+            public void SetMaxInMemoryLength(ulong messages)
+            {
+                _maxInMemoryLength = messages;
+
+                InternalErrors.AddIfTrue(messages, x => x < 1,
+                    Errors.Create("Argument 'max-in-memory-length' has been set without an appropriate value."));
+            }
+
+            public void SetMessageTimeToLive(ulong milliseconds)
+            {
+                _messageTimeToLive = milliseconds;
+
+                InternalErrors.AddIfTrue(milliseconds, x => x < 1,
+                    Errors.Create("Argument 'message-ttl' has been set without an appropriate value."));
+            }
+
+            public void SetMessageMaxSizeInBytes(ulong value)
+            {
+                _maxLengthBytes = value;
+
+                InternalErrors.AddIfTrue(value, x => x < 1,
+                    Errors.Create("Argument 'max-length-bytes' has been set without an appropriate value."));
+            }
+
+            public void SetMessageMaxSize(ulong value)
+            {
+                _maxLength = value;
+
+                InternalErrors.AddIfTrue(value, x => x < 1,
+                    Errors.Create("Argument 'max-length' has been set without an appropriate value."));
+            }
+
+            public void SetDeliveryLimit(uint limit)
+            {
+                _deliveryLimit = limit;
+
+                InternalErrors.AddIfTrue(limit, x => x < 1,
+                    Errors.Create("Argument 'delivery-limit' has been set without an appropriate value."));
+            }
+
+            public void SetQueueOverflowBehavior(QueueOverflowBehavior behavior) => _overflowBehavior = behavior;
+
+            public void SetTargetGroupSize(uint size)
+            {
+                _targetGroupSize = size;
+
+                InternalErrors.AddIfTrue(size, x => x < 1,
+                    Errors.Create("Argument 'target-group-size' has been set without an appropriate value."));
+            }
         }
     }
 }

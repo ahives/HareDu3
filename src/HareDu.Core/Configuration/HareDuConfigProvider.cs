@@ -163,7 +163,7 @@ public class HareDuConfigProvider :
             public DiagnosticProbesConfiguratorImpl()
             {
                 Settings = new Lazy<ProbesConfig>(
-                    () => new ProbesConfig()
+                    () => new ProbesConfig
                     {
                         HighConnectionClosureRateThreshold = _highClosureRateWarningThreshold,
                         HighConnectionCreationRateThreshold = _highCreationRateWarningThreshold,

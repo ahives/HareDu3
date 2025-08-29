@@ -8,17 +8,14 @@ using Model;
 public class InconsistentObjectDataConverter :
     JsonConverter<SocketOptions>
 {
-    public override SocketOptions? Read(ref Utf8JsonReader reader, Type typeToConvert,
-        JsonSerializerOptions options)
+    public override SocketOptions Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType == JsonTokenType.EndArray)
-            return default;
-
         var value = JsonDocument.ParseValue(ref reader);
+        string text = value.RootElement.GetRawText();
 
-        var text = value.RootElement.GetRawText();
-
-        return JsonSerializer.Deserialize<SocketOptions>(text, options);
+        return reader.TokenType is JsonTokenType.EndArray
+            ? null
+            : JsonSerializer.Deserialize<SocketOptions>(text, options);
     }
 
     public override void Write(Utf8JsonWriter writer, SocketOptions value, JsonSerializerOptions options)

@@ -66,10 +66,10 @@ class PolicyImpl :
     class PolicyConfiguratorImpl :
         PolicyConfigurator
     {
-        IDictionary<string, string> _arguments;
         string _pattern;
         int _priority;
         PolicyAppliedTo _appliedTo;
+        PolicyDefinition _definition;
 
         List<Error> InternalErrors { get; } = new();
 
@@ -83,7 +83,7 @@ class PolicyImpl :
                     Pattern = _pattern,
                     Priority = _priority,
                     ApplyTo = _appliedTo,
-                    Arguments = _arguments
+                    Definition = _definition
                 }, LazyThreadSafetyMode.PublicationOnly);
         }
 
@@ -92,7 +92,7 @@ class PolicyImpl :
             var impl = new PolicyArgumentConfiguratorImpl();
             configurator?.Invoke(impl);
 
-            _arguments = impl.Arguments.Value;
+            _definition = impl.Definition.Value;
             
             InternalErrors.AddRange(impl.Validate());
         }
@@ -105,6 +105,13 @@ class PolicyImpl :
 
         public List<Error> Validate()
         {
+            if (_definition is not null)
+            {
+                InternalErrors.AddIfTrue(_definition.OverflowBehavior,
+                    x => _appliedTo == PolicyAppliedTo.QuorumQueues && x is QueueOverflowBehavior.RejectPublishDeadLetter,
+                    Errors.Create("Quorum queues do not support the 'reject-publish-dlx' overflow behavior."));
+            }
+ 
             InternalErrors.AddIfTrue(_pattern, string.IsNullOrWhiteSpace, Errors.Create("Pattern was not set."));
  
             return InternalErrors;
@@ -114,110 +121,168 @@ class PolicyImpl :
         class PolicyArgumentConfiguratorImpl :
             PolicyArgumentConfigurator
         {
-            readonly IDictionary<string, ArgumentValue<object>> _arguments;
+            ulong _autoExpire;
+            string _federationUpstreamSet;
+            string _federationUpstream;
+            ulong _messageTimeToLive;
+            string _alternateExchange;
+            ulong _maxLengthBytes;
+            ulong _maxLength;
+            string _deadLetterExchangeName;
+            string _deadLetterRoutingKey;
+            QueueMode _queueMode;
+            string _queueMasterLocator;
+            uint _deliveryLimit;
+            QueueOverflowBehavior _overflowBehavior;
+            QueueLeaderLocator _queueLeaderLocator;
+            uint _consumerTimeout;
+            DeadLetterQueueStrategy _deadLetterQueueStrategy;
+            string _maxAge;
 
-            public Lazy<IDictionary<string, string>> Arguments { get; }
+            public Lazy<PolicyDefinition> Definition { get; }
 
             List<Error> InternalErrors { get; } = new();
 
             public PolicyArgumentConfiguratorImpl()
             {
-                _arguments = new Dictionary<string, ArgumentValue<object>>();
-
-                Arguments = new Lazy<IDictionary<string, string>>(() => _arguments.GetStringArguments(), LazyThreadSafetyMode.PublicationOnly);
+                Definition = new Lazy<PolicyDefinition>(() => new PolicyDefinition
+                {
+                    DeadLetterExchangeName = _deadLetterExchangeName,
+                    DeadLetterQueueStrategy = _deadLetterQueueStrategy,
+                    OverflowBehavior = _overflowBehavior,
+                    QueueLeaderLocator = _queueLeaderLocator,
+                    AutoExpire = _autoExpire,
+                    MaxAge = _maxAge,
+                    ConsumerTimeout = _consumerTimeout,
+                    DeadLetterRoutingKey = _deadLetterRoutingKey,
+                    DeliveryLimit = _deliveryLimit,
+                    MaxLength = _maxLength,
+                    MaxLengthBytes = _maxLengthBytes,
+                    MessageTimeToLive = _messageTimeToLive,
+                    FederationUpstream = _federationUpstream,
+                    FederationUpstreamSet = _federationUpstreamSet,
+                    QueueMode = _queueMode,
+                    AlternateExchange = _alternateExchange,
+                    QueueMasterLocator = _queueMasterLocator
+                }, LazyThreadSafetyMode.PublicationOnly);
             }
 
             public List<Error> Validate()
             {
-                foreach (string argument in _arguments?.Where(x => x.Value is null).Select(x => x.Key)!)
-                    InternalErrors.Add(Errors.Create($"Argument '{argument}' has been set without a corresponding value."));
-
-                if (!_arguments.TryGetValue("ha-mode", out var haMode))
-                    return InternalErrors;
-
-                string mode = haMode.Value.ToString().Trim();
-
-                InternalErrors.AddIfTrue(IsHighlyAvailable, Errors.Create($"Argument 'ha-mode' has been set to {mode}, which means that argument 'ha-params' has to also be set"));
-
                 return InternalErrors;
-
-                bool IsHighlyAvailable() =>
-                    _arguments is not null && (mode.Convert() == HighAvailabilityMode.Exactly || mode.Convert() == HighAvailabilityMode.Nodes) && !_arguments.ContainsKey("ha-params");
             }
 
-            public void Set<T>(string arg, T value)
+            public void SetExpiry(ulong milliseconds)
             {
-                SetArgWithConflictingCheck(arg, "federation-upstream", "federation-upstream-set", value);
-                SetArgWithConflictingCheck(arg, "ha-mode", value);
-                SetArgWithConflictingCheck(arg, "ha-sync-mode", value);
-                SetArgWithConflictingCheck(arg, "ha-params", value);
-                SetArgWithConflictingCheck(arg, "expires", value);
-                SetArgWithConflictingCheck(arg, "message-ttl", value);
-                SetArgWithConflictingCheck(arg, "max-length-bytes", value);
-                SetArgWithConflictingCheck(arg, "max-length", value);
-                SetArgWithConflictingCheck(arg, "dead-letter-exchange", value);
-                SetArgWithConflictingCheck(arg, "dead-letter-routing-key", value);
-                SetArgWithConflictingCheck(arg, "queue-mode", value);
-                SetArgWithConflictingCheck(arg, "alternate-exchange", value);
-                SetArgWithConflictingCheck(arg, "queue-master-locator", value);
-                SetArgWithConflictingCheck(arg, "ha-promote-on-shutdown", value);
-                SetArgWithConflictingCheck(arg, "ha-promote-on-failure", value);
-                SetArgWithConflictingCheck(arg, "delivery-limit", value);
+                _autoExpire = milliseconds;
+
+                InternalErrors.AddIfTrue(milliseconds, x => x < 1,
+                    Errors.Create("Argument 'expires' has been set without an appropriate value."));
             }
 
-            public void SetExpiry(ulong milliseconds) => SetArg("expires", milliseconds);
+            public void SetFederationUpstreamSet(string value)
+            {
+                _federationUpstreamSet = value.Trim();
 
-            public void SetFederationUpstreamSet(string value) => SetArgWithConflictingCheck("federation-upstream-set", "federation-upstream", value.Trim());
+                InternalErrors.AddIfTrue(value, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'federation-upstream-set' has been set without a corresponding value."));
+            }
 
-            public void SetFederationUpstream(string value) => SetArgWithConflictingCheck("federation-upstream", "federation-upstream-set", value.Trim());
+            public void SetFederationUpstream(string value)
+            {
+                _federationUpstream = value.Trim();
 
-            public void SetHighAvailabilityMode(HighAvailabilityMode mode) => SetArg("ha-mode", mode.Convert());
+                InternalErrors.AddIfTrue(value, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'federation-upstream' has been set without a corresponding value."));
+            }
 
-            public void SetHighAvailabilityParams(uint value) => SetArg("ha-params", value);
+            public void SetMessageTimeToLive(ulong milliseconds)
+            {
+                _messageTimeToLive = milliseconds;
 
-            public void SetHighAvailabilitySyncMode(HighAvailabilitySyncMode mode) => SetArg("ha-sync-mode", mode.Convert());
+                InternalErrors.AddIfTrue(milliseconds, x => x < 1,
+                    Errors.Create("Argument 'message-ttl' has been set without an appropriate value."));
+            }
 
-            public void SetMessageTimeToLive(ulong milliseconds) => SetArg("message-ttl", milliseconds);
+            public void SetMessageMaxSizeInBytes(ulong value)
+            {
+                _maxLengthBytes = value;
 
-            public void SetMessageMaxSizeInBytes(ulong value) => SetArg("max-length-bytes", value.ToString());
+                InternalErrors.AddIfTrue(value, x => x < 1,
+                    Errors.Create("Argument 'max-length-bytes' has been set without an appropriate value."));
+            }
 
-            public void SetMessageMaxSize(ulong value) => SetArg("max-length", value);
+            public void SetMessageMaxSize(ulong value)
+            {
+                _maxLength = value;
 
-            public void SetDeadLetterExchange(string value) => SetArg("dead-letter-exchange", value.Trim());
+                InternalErrors.AddIfTrue(value, x => x < 1,
+                    Errors.Create("Argument 'max-length' has been set without an appropriate value."));
+            }
 
-            public void SetDeadLetterRoutingKey(string value) => SetArg("dead-letter-routing-key", value.Trim());
+            public void SetDeadLetterExchangeName(string name)
+            {
+                _deadLetterExchangeName = name.Trim();
 
-            public void SetQueueMode(QueueMode mode) => SetArg("queue-mode", mode.Convert());
+                InternalErrors.AddIfTrue(name, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'dead-letter-exchange' has been set without a corresponding value."));
+            }
 
-            public void SetAlternateExchange(string value) => SetArg("alternate-exchange", value.Trim());
+            public void SetDeadLetterRoutingKey(string value)
+            {
+                _deadLetterRoutingKey = value.Trim();
 
-            public void SetQueueMasterLocator(string key) => SetArg("queue-master-locator", key.Trim());
+                InternalErrors.AddIfTrue(value, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'dead-letter-routing-key' has been set without a corresponding value."));
+            }
 
-            public void SetQueuePromotionOnShutdown(QueuePromotionShutdownMode mode) => SetArg("ha-promote-on-shutdown", mode.Convert());
+            public void SetQueueMode(QueueMode mode) => _queueMode = mode;
 
-            public void SetQueuePromotionOnFailure(QueuePromotionFailureMode mode) => SetArg("ha-promote-on-failure", mode.Convert());
+            public void SetAlternateExchange(string value)
+            {
+                _alternateExchange = value.Trim();
 
-            public void SetDeliveryLimit(ulong limit) => SetArg("delivery-limit", limit);
+                InternalErrors.AddIfTrue(value, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'alternate-exchange' has been set without a corresponding value."));
+            }
 
-            void SetArg(string arg, object value) =>
-                _arguments.Add(arg.Trim(),
-                    _arguments.ContainsKey(arg)
-                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set"))
-                        : new ArgumentValue<object>(value));
+            public void SetQueueMasterLocator(string locator)
+            {
+                _queueMasterLocator = locator.Trim();
 
-            void SetArgWithConflictingCheck(string arg, string targetArg, object value) =>
-                _arguments.Add(arg.Trim(),
-                    _arguments.ContainsKey(arg) || arg == targetArg && _arguments.ContainsKey(targetArg)
-                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{arg}' has already been set or would conflict with argument '{targetArg}'"))
-                        : new ArgumentValue<object>(value));
+                InternalErrors.AddIfTrue(locator, string.IsNullOrWhiteSpace,
+                    Errors.Create("Argument 'queue-leader-locator' has been set without a corresponding value."));
+            }
 
-            void SetArgWithConflictingCheck(string arg, string targetArg, string conflictingArg, object value) =>
-                _arguments.Add(arg.Trim(),
-                    _arguments.ContainsKey(arg)
-                    || arg == conflictingArg && _arguments.ContainsKey(targetArg)
-                    || arg == targetArg && _arguments.ContainsKey(conflictingArg)
-                        ? new ArgumentValue<object>(value, Errors.Create($"Argument '{conflictingArg}' has already been set or would conflict with argument '{arg}'"))
-                        : new ArgumentValue<object>(value));
+            public void SetDeliveryLimit(uint limit)
+            {
+                _deliveryLimit = limit;
+
+                InternalErrors.AddIfTrue(limit, x => x < 1,
+                    Errors.Create("Argument 'delivery-limit' has been set without an appropriate value."));
+            }
+
+            public void SetQueueOverflowBehavior(QueueOverflowBehavior behavior) => _overflowBehavior = behavior;
+
+            public void SetQueueLeaderLocator(QueueLeaderLocator locator) => _queueLeaderLocator = locator;
+
+            public void SetConsumerTimeout(uint timeout)
+            {
+                _consumerTimeout = timeout;
+
+                InternalErrors.AddIfTrue(timeout, x => x < 1,
+                    Errors.Create("Argument 'consumer-timeout' has been set without an appropriate value."));
+            }
+
+            public void SetDeadLetterQueueStrategy(DeadLetterQueueStrategy strategy) => _deadLetterQueueStrategy = strategy;
+
+            public void SetMaxAge(uint duration, TimeUnit units)
+            {
+                _maxAge = $"{duration}{units.Convert()}";
+
+                InternalErrors.AddIfTrue(duration, x => x < 1,
+                    Errors.Create("Argument 'max-age' has been set without an appropriate value."));
+            }
         }
     }
 }

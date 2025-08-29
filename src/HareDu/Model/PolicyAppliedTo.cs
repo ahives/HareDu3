@@ -6,18 +6,27 @@ namespace HareDu.Model;
 public enum PolicyAppliedTo
 {
     /// <summary>
-    /// Represents the application of a policy to all types of broker objects,
-    /// including both exchanges and queues.
+    /// Specifies that the operator policy should be applied to queues.
     /// </summary>
-    All,
+    Queues,
 
     /// <summary>
-    /// Represents the application of a policy specifically to exchanges within the broker.
+    /// Specifies that the operator policy should be applied to classic queues.
     /// </summary>
-    Exchanges,
+    ClassicQueues,
 
     /// <summary>
-    /// Represents the application of a policy specifically to queues within the broker.
+    /// Specifies that the operator policy should be applied to quorum queues.
     /// </summary>
-    Queues
+    QuorumQueues,
+
+    /// <summary>
+    /// Specifies that the operator policy should be applied to streams.
+    /// </summary>
+    Streams,
+
+    /// <summary>
+    /// Specifies that the operator policy should be applied to both queues and exchanges.
+    /// </summary>
+    QueuesAndExchanges
 }

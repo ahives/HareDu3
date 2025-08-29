@@ -1,5 +1,6 @@
 namespace HareDu.Model;
 
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -49,5 +50,5 @@ public record UserInfo
     /// such as "administrator", "monitoring", or custom roles.
     /// </remarks>
     [JsonPropertyName("tags")]
-    public string Tags { get; init; }
+    public IList<string> Tags { get; init; }
 }

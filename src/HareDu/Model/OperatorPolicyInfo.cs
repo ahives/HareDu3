@@ -1,6 +1,5 @@
 namespace HareDu.Model;
 
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
@@ -36,13 +35,9 @@ public record OperatorPolicyInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public OperatorPolicyAppliedTo AppliedTo { get; init; }
 
-    /// <summary>
-    /// Represents a collection of key-value pairs defining specific parameters or rules
-    /// associated with the operator policy.
-    /// </summary>
     [JsonPropertyName("definition")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public IDictionary<string, ulong> Definition { get; init; }
+    public OperatorPolicyDefinition Definition { get; init; }
 
     /// <summary>
     /// Represents the priority level assigned to the operator policy, which determines the order of policy execution.

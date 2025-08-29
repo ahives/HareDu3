@@ -16,13 +16,8 @@ public record PolicyRequest
     [JsonPropertyName("pattern")]
     public string Pattern { get; init; }
 
-    /// <summary>
-    /// Represents a collection of key-value pairs that define additional parameters
-    /// or settings applied to a RabbitMQ policy. The keys and values typically specify
-    /// custom arguments or configuration options used by the RabbitMQ server.
-    /// </summary>
     [JsonPropertyName("definition")]
-    public IDictionary<string, string> Arguments { get; init; }
+    public PolicyDefinition Definition { get; init; }
 
     /// <summary>
     /// Specifies the priority of the RabbitMQ policy.

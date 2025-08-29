@@ -1,5 +1,7 @@
 namespace HareDu;
 
+using Model;
+
 /// <summary>
 /// Provides a configuration interface for setting various arguments on an operator policy.
 /// </summary>
@@ -45,5 +47,18 @@ public interface OperatorPolicyArgumentConfigurator
     /// Set 'delivery-limit' argument on the operator policy.
     /// </summary>
     /// <param name="limit">The maximum number of times a message may be delivered.</param>
-    void SetDeliveryLimit(ulong limit);
+    void SetDeliveryLimit(uint limit);
+
+    /// <summary>
+    /// Set 'overflow-behavior' argument on the operator policy to specify the queue's behavior
+    /// when it exceeds its capacity.
+    /// </summary>
+    /// <param name="behavior">The overflow behavior to be applied to the queue.</param>
+    void SetQueueOverflowBehavior(QueueOverflowBehavior behavior);
+
+    /// <summary>
+    /// Set 'target-group-size' argument on the operator policy.
+    /// </summary>
+    /// <param name="size">The target size of the group.</param>
+    void SetTargetGroupSize(uint size);
 }

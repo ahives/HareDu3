@@ -2,7 +2,6 @@ namespace HareDu.Tests;
 
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,15 +35,23 @@ public class PolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.Data, Is.Not.Null);
             Assert.That(result.Data.Count, Is.EqualTo(2));
-            Assert.That(result.Data[0].Name, Is.EqualTo("P1"));
-            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu"));
-            Assert.That(result.Data[0].Pattern, Is.EqualTo("!@#@"));
-            Assert.That(result.Data[0].AppliedTo, Is.EqualTo("all"));
+            Assert.That(result.Data[0].Name, Is.EqualTo("test2"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("vhost1"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo("."));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(PolicyAppliedTo.Queues));
             Assert.That(result.Data[0].Definition, Is.Not.Null);
-            Assert.That(result.Data[0].Definition["ha-mode"], Is.EqualTo("exactly"));
-            Assert.That(result.Data[0].Definition["ha-sync-mode"], Is.EqualTo("automatic"));
-            Assert.That(result.Data[0].Definition["ha-params"], Is.EqualTo("2"));
-            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
+            Assert.That(result.Data[0].Definition.DeliveryLimit, Is.EqualTo(3));
+            Assert.That(result.Data[0].Definition.ConsumerTimeout, Is.EqualTo(65));
+            Assert.That(result.Data[0].Definition.DeadLetterExchangeName, Is.EqualTo("test"));
+            Assert.That(result.Data[0].Definition.DeadLetterRoutingKey, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Definition.DeadLetterQueueStrategy, Is.EqualTo(DeadLetterQueueStrategy.AtLeastOnce));
+            Assert.That(result.Data[0].Definition.AutoExpire, Is.EqualTo(1));
+            Assert.That(result.Data[0].Definition.MaxLength, Is.EqualTo(1));
+            Assert.That(result.Data[0].Definition.MaxLengthBytes, Is.EqualTo(3));
+            Assert.That(result.Data[0].Definition.MessageTimeToLive, Is.EqualTo(32));
+            Assert.That(result.Data[0].Definition.OverflowBehavior, Is.EqualTo(QueueOverflowBehavior.DropHead));
+            Assert.That(result.Data[0].Definition.QueueLeaderLocator, Is.EqualTo(QueueLeaderLocator.Balanced));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(1));
         });
     }
         
@@ -62,15 +69,23 @@ public class PolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.Data, Is.Not.Null);
             Assert.That(result.Data.Count, Is.EqualTo(2));
-            Assert.That(result.Data[0].Name, Is.EqualTo("P1"));
-            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("HareDu"));
-            Assert.That(result.Data[0].Pattern, Is.EqualTo("!@#@"));
-            Assert.That(result.Data[0].AppliedTo, Is.EqualTo("all"));
+            Assert.That(result.Data[0].Name, Is.EqualTo("test2"));
+            Assert.That(result.Data[0].VirtualHost, Is.EqualTo("vhost1"));
+            Assert.That(result.Data[0].Pattern, Is.EqualTo("."));
+            Assert.That(result.Data[0].AppliedTo, Is.EqualTo(PolicyAppliedTo.Queues));
             Assert.That(result.Data[0].Definition, Is.Not.Null);
-            Assert.That(result.Data[0].Definition["ha-mode"], Is.EqualTo("exactly"));
-            Assert.That(result.Data[0].Definition["ha-sync-mode"], Is.EqualTo("automatic"));
-            Assert.That(result.Data[0].Definition["ha-params"], Is.EqualTo("2"));
-            Assert.That(result.Data[0].Priority, Is.EqualTo(0));
+            Assert.That(result.Data[0].Definition.DeliveryLimit, Is.EqualTo(3));
+            Assert.That(result.Data[0].Definition.ConsumerTimeout, Is.EqualTo(65));
+            Assert.That(result.Data[0].Definition.DeadLetterExchangeName, Is.EqualTo("test"));
+            Assert.That(result.Data[0].Definition.DeadLetterRoutingKey, Is.EqualTo(".*"));
+            Assert.That(result.Data[0].Definition.DeadLetterQueueStrategy, Is.EqualTo(DeadLetterQueueStrategy.AtLeastOnce));
+            Assert.That(result.Data[0].Definition.AutoExpire, Is.EqualTo(1));
+            Assert.That(result.Data[0].Definition.MaxLength, Is.EqualTo(1));
+            Assert.That(result.Data[0].Definition.MaxLengthBytes, Is.EqualTo(3));
+            Assert.That(result.Data[0].Definition.MessageTimeToLive, Is.EqualTo(32));
+            Assert.That(result.Data[0].Definition.OverflowBehavior, Is.EqualTo(QueueOverflowBehavior.DropHead));
+            Assert.That(result.Data[0].Definition.QueueLeaderLocator, Is.EqualTo(QueueLeaderLocator.Balanced));
+            Assert.That(result.Data[0].Priority, Is.EqualTo(1));
         });
     }
         
@@ -84,11 +99,10 @@ public class PolicyTests :
             .Create("P5", "HareDu", x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -102,9 +116,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
         
@@ -117,11 +130,10 @@ public class PolicyTests :
             .CreatePolicy(x => x.UsingCredentials("guest", "guest"), "P5", "HareDu", x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -135,9 +147,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -151,11 +162,10 @@ public class PolicyTests :
             .Create(string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                     arg.SetFederationUpstreamSet("all");
                 });
@@ -171,9 +181,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -186,11 +195,10 @@ public class PolicyTests :
             .CreatePolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -205,9 +213,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -221,11 +228,10 @@ public class PolicyTests :
             .Create(string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -240,9 +246,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -255,11 +260,10 @@ public class PolicyTests :
             .CreatePolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetExpiry(1000);
                 });
             });
@@ -274,9 +278,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -290,11 +293,10 @@ public class PolicyTests :
             .Create(string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });
@@ -310,9 +312,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
@@ -325,11 +326,10 @@ public class PolicyTests :
             .CreatePolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
-                x.ApplyTo(PolicyAppliedTo.All);
+                x.ApplyTo(PolicyAppliedTo.QueuesAndExchanges);
                 x.Priority(0);
                 x.Definition(arg =>
                 {
-                    arg.SetHighAvailabilityMode(HighAvailabilityMode.All);
                     arg.SetFederationUpstreamSet("all");
                     arg.SetExpiry(1000);
                 });
@@ -345,9 +345,8 @@ public class PolicyTests :
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
-            Assert.That(request.Arguments["ha-mode"], Is.EqualTo("all"));
-            Assert.That(request.Arguments["expires"], Is.EqualTo("1000"));
-            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.All));
+            Assert.That(request.Definition.AutoExpire, Is.EqualTo(1000));
+            Assert.That(request.ApplyTo, Is.EqualTo(PolicyAppliedTo.QueuesAndExchanges));
         });
     }
 
