@@ -353,7 +353,7 @@ public static class ServerAdminDebuggingExtensions
             .GetResult()
             .Select(x => x.Data);
 
-        Console.WriteLine($"RabbitMqVersion: {results.RabbitMqVersion}");
+        Console.WriteLine($"RabbitMqVersion: {results.RabbitVersion}");
 
         Console.WriteLine("Bindings");
         foreach (var binding in results.Bindings)
@@ -447,7 +447,7 @@ public static class ServerAdminDebuggingExtensions
         foreach (var virtualHost in results.VirtualHosts)
         {
             Console.WriteLine($"\tName: {virtualHost.Name}");
-            Console.WriteLine($"\tTracing: {virtualHost.Tracing}");
+            // Console.WriteLine($"\tTracing: {virtualHost.Tracing}");
             Console.WriteLine("\t-------------------");
         }
 

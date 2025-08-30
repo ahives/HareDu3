@@ -19,4 +19,10 @@ public record VirtualHostMetadata
     /// </summary>
     [JsonPropertyName("tags")]
     public List<string> Tags { get; init; }
+
+    /// <summary>
+    /// Indicates the default type of queue associated with the virtual host.
+    /// </summary>
+    [JsonPropertyName("default_queue_type")]
+    public DefaultQueueType DefaultQueueType { get; init; }
 }

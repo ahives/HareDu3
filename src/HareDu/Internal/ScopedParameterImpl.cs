@@ -46,7 +46,7 @@ class ScopedParameterImpl :
         errors.AddIfTrue(component, string.IsNullOrWhiteSpace, Errors.Create("The component name is missing."));
         errors.AddIfTrue(sanitizedVHost, string.IsNullOrWhiteSpace, Errors.Create("The name of the virtual host is missing."));
 
-        bool IsValueNull<T>(T obj) =>
+        bool IsValueNull<U>(U obj) =>
             obj switch
             {
                 string str => string.IsNullOrWhiteSpace(str),

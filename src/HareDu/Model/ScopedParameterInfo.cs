@@ -37,5 +37,5 @@ public record ScopedParameterInfo
     /// The value is represented as a dictionary where the keys are strings and values are objects.
     /// </summary>
     [JsonPropertyName("value")]
-    public IDictionary<string, object> Value { get; init; }
+    public ScopedParameterValue Value { get; init; }
 }

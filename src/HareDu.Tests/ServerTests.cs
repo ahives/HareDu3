@@ -34,7 +34,7 @@ public class ServerTests :
             Assert.That(result.Data.VirtualHosts.Count, Is.EqualTo(9));
             Assert.That(result.Data.GlobalParameters.Count, Is.EqualTo(5));
             Assert.That(result.Data.TopicPermissions.Count, Is.EqualTo(3));
-            Assert.That(result.Data.RabbitMqVersion, Is.EqualTo("3.7.15"));
+            Assert.That(result.Data.RabbitVersion, Is.EqualTo("3.7.15"));
         });
     }
 
@@ -61,7 +61,7 @@ public class ServerTests :
             Assert.That(result.Data.VirtualHosts.Count, Is.EqualTo(9));
             Assert.That(result.Data.GlobalParameters.Count, Is.EqualTo(5));
             Assert.That(result.Data.TopicPermissions.Count, Is.EqualTo(3));
-            Assert.That(result.Data.RabbitMqVersion, Is.EqualTo("3.7.15"));
+            Assert.That(result.Data.RabbitVersion, Is.EqualTo("3.7.15"));
         });
     }
 }

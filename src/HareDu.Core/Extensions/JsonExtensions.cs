@@ -21,4 +21,11 @@ public static class JsonExtensions
             ? default
             : JsonSerializer.Deserialize<T>(rawResponse, options);
     }
+    
+    public static T ToObject<T>(this string text, JsonSerializerOptions options)
+    {
+        return string.IsNullOrWhiteSpace(text)
+            ? default
+            : JsonSerializer.Deserialize<T>(text, options);
+    }
 }

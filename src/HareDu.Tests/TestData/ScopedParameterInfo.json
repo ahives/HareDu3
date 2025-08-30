@@ -1,27 +1,106 @@
 [
   {
     "value": {
-      "max-connections": 10,
-      "max-queues": "value"
+      "pattern": ".",
+      "definition": {
+        "expires": 2,
+        "max-in-memory-bytes": 87,
+        "max-length": 1,
+        "max-length-bytes": 59,
+        "message-ttl": 34,
+        "overflow": "drop-head",
+        "target-group-size": 23
+      },
+      "priority": 0,
+      "apply-to": "queues"
     },
-    "vhost": "HareDu",
-    "component": "vhost-limits",
-    "name": "limits"
+    "vhost": "/",
+    "component": "operator_policy",
+    "name": "bam"
   },
   {
     "value": {
-      "max-connections": 13
+      "pattern": "",
+      "definition": {
+        "expires": 2,
+        "max-length": 3,
+        "max-length-bytes": 1,
+        "message-ttl": 6,
+        "overflow": "reject-publish"
+      },
+      "priority": 0,
+      "apply-to": "queues"
     },
-    "vhost": "HareDu3",
-    "component": "vhost-limits",
-    "name": "limits"
+    "vhost": "/",
+    "component": "operator_policy",
+    "name": "egg"
   },
   {
     "value": {
-      "max-queues": 87
+      "pattern": ".",
+      "definition": {
+        "delivery-limit": 76,
+        "expires": 54,
+        "max-in-memory-bytes": 98,
+        "max-in-memory-length": 545,
+        "max-length": 54,
+        "max-length-bytes": 23,
+        "message-ttl": 23,
+        "overflow": "drop-head",
+        "target-group-size": 23
+      },
+      "priority": 0,
+      "apply-to": "queues"
     },
-    "vhost": "HareDu6",
-    "component": "vhost-limits",
-    "name": "limits"
+    "vhost": "/",
+    "component": "operator_policy",
+    "name": "ghj"
+  },
+  {
+    "value": {
+      "pattern": ".",
+      "definition": {
+        "max-length-bytes": 42
+      },
+      "priority": 0,
+      "apply-to": "streams"
+    },
+    "vhost": "/",
+    "component": "operator_policy",
+    "name": "klcz"
+  },
+  {
+    "value": {
+      "pattern": ".",
+      "definition": {
+        "delivery-limit": 20,
+        "expires": 1,
+        "max-in-memory-bytes": 34,
+        "max-in-memory-length": 32,
+        "max-length": 2,
+        "max-length-bytes": 33,
+        "message-ttl": 1,
+        "overflow": "reject-publish",
+        "target-group-size": 2
+      },
+      "priority": 0,
+      "apply-to": "queues"
+    },
+    "vhost": "test1",
+    "component": "operator_policy",
+    "name": "mnb"
+  },
+  {
+    "value": {
+      "pattern": ".*",
+      "definition": {
+        "max-length": 90
+      },
+      "priority": 0,
+      "apply-to": "queues"
+    },
+    "vhost": "/",
+    "component": "operator_policy",
+    "name": "test2"
   }
 ]

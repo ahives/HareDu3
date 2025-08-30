@@ -190,8 +190,8 @@ public static class BrokerAdminDebuggingExtensions
             Console.WriteLine($"Name: {item.Name}");
             Console.WriteLine($"Component: {item.Component}");
 
-            foreach (var pair in item.Value)
-                Console.WriteLine($"\tKey: {pair.Key}, Value: {pair.Value}");
+            // foreach (var pair in item.Value)
+            //     Console.WriteLine($"\tKey: {pair.Key}, Value: {pair.Value}");
 
             Console.WriteLine($"Virtual Host: {item.VirtualHost}");
             Console.WriteLine("****************************************************");

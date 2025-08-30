@@ -15,7 +15,61 @@ public record ServerInfo
     /// Represents the `rabbit_version` field in the server information.
     /// </remarks>
     [JsonPropertyName("rabbit_version")]
+    public string RabbitVersion { get; init; }
+
+    /// <summary>
+    /// Gets the version of the RabbitMQ software.
+    /// </summary>
+    /// <remarks>
+    /// Corresponds to the `rabbitmq_version` field in the server information.
+    /// </remarks>
+    [JsonPropertyName("rabbitmq_version")]
     public string RabbitMqVersion { get; init; }
+
+    /// <summary>
+    /// Gets the name of the product to which the RabbitMQ server belongs.
+    /// </summary>
+    /// <remarks>
+    /// Corresponds to the `product_name` field in the server information.
+    /// </remarks>
+    [JsonPropertyName("product_name")]
+    public string ProductName { get; init; }
+
+    /// <summary>
+    /// Gets the version of the product in use.
+    /// </summary>
+    /// <remarks>
+    /// Represents the `product_version` field in the server information.
+    /// </remarks>
+    [JsonPropertyName("product_version")]
+    public string ProductVersion { get; init; }
+
+    /// <summary>
+    /// Gets the RabbitMQ definition format version.
+    /// </summary>
+    /// <remarks>
+    /// Represents the `rabbitmq_definition_format` field in the server information.
+    /// </remarks>
+    [JsonPropertyName("rabbitmq_definition_format")]
+    public string RabbitMqDefinitionFormat { get; init; }
+
+    /// <summary>
+    /// Gets the original name of the RabbitMQ cluster.
+    /// </summary>
+    /// <remarks>
+    /// Represents the `original_cluster_name` field in the server information.
+    /// </remarks>
+    [JsonPropertyName("original_cluster_name")]
+    public string OriginalClusterName { get; init; }
+
+    /// <summary>
+    /// Provides a detailed explanation or description associated with the server information.
+    /// </summary>
+    /// <remarks>
+    /// Represents the `explanation` field in the server's detailed information response.
+    /// </remarks>
+    [JsonPropertyName("explanation")]
+    public string Explanation { get; init; }
 
     /// <summary>
     /// Gets the collection of users in the RabbitMQ server.
@@ -33,7 +87,7 @@ public record ServerInfo
     /// Represents the `vhosts` field in the server information, which contains details about each virtual host.
     /// </remarks>
     [JsonPropertyName("vhosts")]
-    public IList<VirtualHostInfo> VirtualHosts { get; init; }
+    public IList<VirtualHostOverviewInfo> VirtualHosts { get; init; }
 
     /// <summary>
     /// Gets the collection of user permissions configured within the RabbitMQ server.

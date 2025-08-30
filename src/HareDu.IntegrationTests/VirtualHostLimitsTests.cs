@@ -29,6 +29,10 @@ public class VirtualHostLimitsTests
         _services = new ServiceCollection()
             .AddHareDu(x =>
             {
+                x.KnowledgeBase(k =>
+                {
+                    k.File("kb.json", "Articles");
+                });
                 x.Broker(b =>
                 {
                     b.ConnectTo("http://localhost:15672");
