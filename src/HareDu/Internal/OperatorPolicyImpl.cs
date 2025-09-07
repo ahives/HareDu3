@@ -2,22 +2,21 @@ namespace HareDu.Internal;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Extensions;
+using Core.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class OperatorPolicyImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     OperatorPolicy
 {
-    public OperatorPolicyImpl(HttpClient client) :
-        base(client, new BrokerDeserializer())
+    public OperatorPolicyImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer) :
+        base(client, deserializer)
     {
     }
         

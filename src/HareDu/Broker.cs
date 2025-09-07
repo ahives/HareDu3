@@ -11,7 +11,7 @@ using Model;
 /// and performing related operations, such as queue rebalancing or checking the status of alarms.
 /// </summary>
 public interface Broker :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves an overview of the current RabbitMQ broker, including general system information.

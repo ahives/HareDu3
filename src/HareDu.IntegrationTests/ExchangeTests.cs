@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Serialization;
@@ -65,7 +65,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -77,7 +77,7 @@ public class ExchangeTests
     [Test]
     public async Task Should_be_able_to_get_all_exchanges_2()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -116,7 +116,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_filter_exchanges()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -131,7 +131,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_create_exchange()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create("HareDuExchange2", "TestHareDu", x =>
             {
@@ -151,7 +151,7 @@ public class ExchangeTests
     [Test]
     public async Task Verify_can_delete_exchange()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", "HareDu");
             
@@ -164,7 +164,7 @@ public class ExchangeTests
     {
         string exchange = "test-exchange1";;
         string vhost = "test-vhost";
-        var result0 = _services.GetService<IBrokerFactory>()
+        var result0 = _services.GetService<IHareDuFactory>()
             .CreateVirtualHost(x => x.UsingCredentials("guest", "guest"), vhost, x =>
             {
                 x.Tags(t =>
@@ -172,7 +172,7 @@ public class ExchangeTests
                     t.Add("test");
                 });
             });
-        var result1 = _services.GetService<IBrokerFactory>()
+        var result1 = _services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(exchange, vhost, x =>
             {
@@ -180,13 +180,13 @@ public class ExchangeTests
             });
         string node = "rabbit@6089ab1a7b81";
         string queue = "test-queue1";
-        var result2 = _services.GetService<IBrokerFactory>()
+        var result2 = _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(queue, vhost, node, x =>
             {
                 x.IsDurable();
             });
-        var result3 = _services.GetService<IBrokerFactory>()
+        var result3 = _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .BindToQueue(vhost, exchange, x =>
             {

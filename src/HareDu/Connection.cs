@@ -11,7 +11,7 @@ using Model;
 /// Represents operations that can be performed on broker connections.
 /// </summary>
 public interface Connection :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all connections from the broker, with optional pagination configuration.

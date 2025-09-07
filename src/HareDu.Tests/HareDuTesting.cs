@@ -20,7 +20,7 @@ public class HareDuTesting
         services.AddSingleton(ConfigCache.Default);
         services.AddSingleton<IHareDuClient>(x => new FakeHareDuClient(data, statusCode));
         services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
-        services.AddSingleton<IBrokerFactory, BrokerFactory>();
+        services.AddSingleton<IHareDuFactory, HareDuFactory>();
         services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
 
         return services;
@@ -32,7 +32,7 @@ public class HareDuTesting
 
         services.AddSingleton<IHareDuClient>(x => new FakeHareDuClient(string.Empty, statusCode));
         services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
-        services.AddSingleton<IBrokerFactory, BrokerFactory>();
+        services.AddSingleton<IHareDuFactory, HareDuFactory>();
         services.AddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
 
         return services;

@@ -24,7 +24,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ConnectionInfo>> GetAllConnections(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] Action<PaginationConfigurator> pagination = null,
         [NotNull] CancellationToken cancellationToken = default)
@@ -51,7 +51,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ConnectionInfo>> GetConnectionsByVirtualHost(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string vhost,
         [NotNull] Action<PaginationConfigurator> pagination = null,
@@ -79,7 +79,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ConnectionInfo>> GetConnectionsByName(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string name,
         [NotNull] CancellationToken cancellationToken = default)
@@ -105,7 +105,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ConnectionInfo>> GetConnectionsByUser(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] CancellationToken cancellationToken = default)
@@ -131,7 +131,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteConnection(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string connection,
         [NotNull] CancellationToken cancellationToken = default)
@@ -157,7 +157,7 @@ public static class ConnectionExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteConnectionByUser(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] CancellationToken cancellationToken = default)

@@ -11,7 +11,7 @@ using Model;
 /// Represents operations that can be performed on RabbitMQ channels.
 /// </summary>
 public interface Channel :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all channels on the current RabbitMQ node with the ability to configure pagination.

@@ -1,5 +1,5 @@
 namespace HareDu.Core;
 
-public interface BrokerAPI
+public interface HareDuAPI
 {
 }

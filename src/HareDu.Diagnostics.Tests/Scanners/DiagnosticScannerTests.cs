@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using Core.Extensions;
+using DependencyInjection;
 using Diagnostics.Scanners;
 using Fakes;
 using HareDu.Model;
 using Model;
-using MicrosoftIntegration;
 using Snapshotting.Model;
 
 [TestFixture]
@@ -21,7 +21,7 @@ public class DiagnosticScannerTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddHareDu()
+            .AddHareDuDiagnostics()
             .BuildServiceProvider();
     }
 

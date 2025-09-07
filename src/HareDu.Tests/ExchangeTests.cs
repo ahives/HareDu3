@@ -27,7 +27,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder("TestData/ExchangeInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -54,7 +54,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder("TestData/ExchangeInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllExchanges(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
@@ -80,7 +80,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_exchange", "HareDu", x =>
             {
@@ -117,7 +117,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateExchange(x => x.UsingCredentials("guest", "guest"), "fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -151,7 +151,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateExchange(x => x.UsingCredentials("guest", "guest"), "fake_exchange", "HareDu", x =>
             {
                 x.IsDurable();
@@ -181,7 +181,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", x =>
             {
@@ -207,7 +207,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", x =>
             {
@@ -233,7 +233,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_exchange", string.Empty, x =>
             {
@@ -259,7 +259,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", "HareDu", x =>
             {
@@ -274,7 +274,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteExchange(x => x.UsingCredentials("guest", "guest"), "E3", "HareDu", x =>
             {
                 x.WhenUnused();
@@ -288,7 +288,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -307,7 +307,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", string.Empty, x =>
             {
@@ -326,7 +326,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete("E3", string.Empty, x =>
             {
@@ -345,7 +345,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -364,7 +364,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -384,7 +384,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -404,7 +404,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -424,7 +424,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
@@ -443,7 +443,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -463,7 +463,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -482,7 +482,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
@@ -502,7 +502,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);
@@ -521,7 +521,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -541,7 +541,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
@@ -560,7 +560,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -580,7 +580,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -599,7 +599,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
@@ -619,7 +619,7 @@ public class ExchangeTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);

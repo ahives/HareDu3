@@ -15,7 +15,7 @@ public class ConsumerTests :
     {
         var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -47,7 +47,7 @@ public class ConsumerTests :
     {
         var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetByVirtualHost("TestVirtualHost1");
 
@@ -79,7 +79,7 @@ public class ConsumerTests :
     {
         var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetByVirtualHost(string.Empty);
 
@@ -96,7 +96,7 @@ public class ConsumerTests :
     {
         var result = await GetContainerBuilder("TestData/ConsumerInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllConsumers(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>

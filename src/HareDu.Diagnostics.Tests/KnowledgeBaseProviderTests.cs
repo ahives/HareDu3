@@ -2,10 +2,10 @@ namespace HareDu.Diagnostics.Tests;
 
 using System;
 using Core.Extensions;
+using DependencyInjection;
 using Diagnostics.Probes;
 using KnowledgeBase;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 
@@ -18,7 +18,7 @@ public class KnowledgeBaseProviderTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddHareDu()
+            .AddHareDuDiagnostics()
             .BuildServiceProvider();
     }
 

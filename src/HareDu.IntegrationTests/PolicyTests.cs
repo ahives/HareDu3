@@ -3,11 +3,10 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Serialization;
@@ -65,7 +64,7 @@ public class PolicyTests
     [Test]
     public async Task Should_be_able_to_get_all_policies()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -74,7 +73,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_can_create_policy()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create("policy1", "TestHareDu", x =>
             {
@@ -94,7 +93,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_cannot_create_policy()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Create("P4", "HareDu", x =>
             {
@@ -115,7 +114,7 @@ public class PolicyTests
     [Test]
     public async Task Verify_can_delete_policy()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Policy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             

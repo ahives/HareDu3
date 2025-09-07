@@ -11,7 +11,7 @@ using Model;
 /// Represents a contract for managing topic permissions within a RabbitMQ broker.
 /// </summary>
 public interface TopicPermissions :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all topic permissions configured on the RabbitMQ broker.

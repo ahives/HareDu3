@@ -4,15 +4,16 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class AuthenticationImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     Authentication
 {
-    public AuthenticationImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+    public AuthenticationImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
+        : base(client, deserializer)
     {
     }
 

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Extensions;
+using DependencyInjection;
 using Diagnostics.Probes;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Snapshotting.Model;
 
@@ -20,7 +20,7 @@ public class ScannerResultAnalyzerTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddHareDu()
+            .AddHareDuDiagnostics()
             .BuildServiceProvider();
     }
 

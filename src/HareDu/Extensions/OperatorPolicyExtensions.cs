@@ -23,7 +23,7 @@ public static class OperatorPolicyExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<OperatorPolicyInfo>> GetAllOperatorPolicies(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -50,7 +50,7 @@ public static class OperatorPolicyExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> CreateOperatorPolicy(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string name,
         [NotNull] string vhost,
@@ -79,7 +79,7 @@ public static class OperatorPolicyExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteOperatorPolicy(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string policy,
         [NotNull] string vhost,

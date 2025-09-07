@@ -20,7 +20,7 @@ public class HareDuPerformanceTesting
 
         string data = File.ReadAllText($"{Environment.CurrentDirectory}/{file}");
 
-        services.AddHttpClient<BrokerFactory>(client =>
+        services.AddHttpClient<HareDuFactory>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:15672/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -41,7 +41,7 @@ public class HareDuPerformanceTesting
     {
         var services = new ServiceCollection();
 
-        services.AddHttpClient<BrokerFactory>(client =>
+        services.AddHttpClient<HareDuFactory>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:15672/");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

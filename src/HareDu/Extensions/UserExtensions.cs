@@ -24,7 +24,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<UserInfo>> GetAllUsers(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -48,7 +48,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<UserInfo>> GetAllUsersWithoutPermissions(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -76,7 +76,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> CreateUser(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] string password,
@@ -105,7 +105,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteUser(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] CancellationToken cancellationToken = default)
@@ -131,7 +131,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteUsers(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] IList<string> usernames,
         [NotNull] CancellationToken cancellationToken = default)
@@ -156,7 +156,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<UserLimitsInfo>> GetAllUserLimits(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -181,7 +181,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<UserLimitsInfo>> GetUserLimitsByUser(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] CancellationToken cancellationToken = default)
@@ -208,7 +208,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DefineUserLimit(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [AllowNull] Action<UserLimitConfigurator> configurator = null,
@@ -236,7 +236,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteUserLimit(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string username,
         [NotNull] UserLimit limit,
@@ -262,7 +262,7 @@ public static class UserExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<UserPermissionsInfo>> GetAllUserPermissions(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {

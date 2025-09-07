@@ -3,9 +3,9 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -55,7 +55,7 @@ public class ScopedParameterTests
     [Test]
     public async Task Should_be_able_to_get_all_scoped_parameters()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -64,7 +64,7 @@ public class ScopedParameterTests
     [Test]
     public async Task Verify_can_create()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create<string>("test", "me", "federation", "HareDu");
             
@@ -75,7 +75,7 @@ public class ScopedParameterTests
     [Test]
     public async Task Verify_can_delete()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<ScopedParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("", "federation", "HareDu");
     }

@@ -21,7 +21,7 @@ class BrokerQueuesLens :
 
     public ISnapshotHistory<BrokerQueuesSnapshot> History => _timeline.Value;
 
-    public BrokerQueuesLens(IBrokerFactory factory)
+    public BrokerQueuesLens(IHareDuFactory factory)
         : base(factory)
     {
         _observers = new List<IDisposable>();

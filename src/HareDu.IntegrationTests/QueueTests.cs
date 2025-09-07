@@ -3,11 +3,10 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Serialization;
 
@@ -35,7 +34,7 @@ public class QueueTests
     [SetUp]
     public async Task SetUp()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(_vhost);
     }
@@ -51,7 +50,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_create_queue()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue1", _vhost, _node, x =>
             {
@@ -73,7 +72,7 @@ public class QueueTests
     [Test]
     public async Task Verify_issue_2_fix()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("Issue2", "/", _node, x =>
             {
@@ -87,7 +86,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_create_queue_without_configurator()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue2", _vhost,_node);
             
@@ -98,7 +97,7 @@ public class QueueTests
     [Test]
     public async Task Verify_cannot_create_queue()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu",null, x =>
             {
@@ -120,7 +119,7 @@ public class QueueTests
     [Test]
     public async Task Should_be_able_to_get_all_queues()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -132,7 +131,7 @@ public class QueueTests
     [Test]
     public async Task Should_be_able_to_get_details_all_queues()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetDetails()
             .ScreenDump();
@@ -144,7 +143,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_get_all_json()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
             
@@ -155,7 +154,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_delete_queue()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("TestQueue10", "HareDu",x =>
             {
@@ -169,7 +168,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_sync_queue()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("order-state", "TestOrders");
             
@@ -180,7 +179,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_sync_queue1()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("", "HareDu");
             
@@ -191,7 +190,7 @@ public class QueueTests
     [Test]
     public async Task Verify_can_empty_queue2()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
@@ -205,22 +204,22 @@ public class QueueTests
         string queue = "queue";
         string exchange = "exchange";
         var result1 = await _services
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(vhost);
         var result2 = await _services
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(queue, vhost, "rabbit@6089ab1a7b81", x =>
             {
                 x.IsDurable();
             });
         var result3 = await _services
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(exchange, vhost);
         var result = await _services
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .BindToQueue(vhost, exchange, x =>
             {

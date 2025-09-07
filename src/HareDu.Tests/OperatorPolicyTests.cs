@@ -26,7 +26,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder("TestData/OperatorPolicyInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -59,7 +59,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder("TestData/OperatorPolicyInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllOperatorPolicies(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -91,7 +91,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create("policy1", "HareDu", x =>
             {
@@ -125,7 +125,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "policy1", "HareDu", x =>
             {
                 x.Pattern("^amq.");
@@ -158,7 +158,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -193,7 +193,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateOperatorPolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Pattern("^amq.");
@@ -227,7 +227,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -262,7 +262,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateOperatorPolicy(x => x.UsingCredentials("guest", "guest"),
                 string.Empty, string.Empty, x =>
                 {
@@ -297,7 +297,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -332,7 +332,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateOperatorPolicy(x => x.UsingCredentials("guest", "guest"),
                 string.Empty, string.Empty, x =>
                 {
@@ -367,7 +367,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", "HareDu");
             
@@ -379,7 +379,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "P4", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
@@ -390,7 +390,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu");
             
@@ -406,7 +406,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -421,7 +421,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder()
             .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await services.GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", string.Empty);
             
@@ -437,7 +437,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "P4", string.Empty);
             
         Assert.Multiple(() =>
@@ -452,7 +452,7 @@ public class OperatorPolicyTests :
     {
         var services = GetContainerBuilder()
             .BuildServiceProvider();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await services.GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty);
             
@@ -468,7 +468,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -483,7 +483,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu");
             
@@ -499,7 +499,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -514,7 +514,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("P4", string.Empty);
             
@@ -530,7 +530,7 @@ public class OperatorPolicyTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteOperatorPolicy(x => x.UsingCredentials("guest", "guest"), "P4", string.Empty);
             
         Assert.Multiple(() =>

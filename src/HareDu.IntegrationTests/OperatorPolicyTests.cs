@@ -3,11 +3,10 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Serialization;
@@ -65,7 +64,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Should_be_able_to_get_all_policies()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -74,7 +73,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Verify_can_create_operator_policy()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Create("test7", "TestHareDu", x =>
             {
@@ -97,7 +96,7 @@ public class OperatorPolicyTests
     [Test]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test6", "TestHareDu");
             

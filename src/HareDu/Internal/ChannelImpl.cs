@@ -7,15 +7,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class ChannelImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     Channel
 {
-    public ChannelImpl(HttpClient client) :
-        base(client, new BrokerDeserializer())
+    public ChannelImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer) :
+        base(client, deserializer)
     {
     }
 

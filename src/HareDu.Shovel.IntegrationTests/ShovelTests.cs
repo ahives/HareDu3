@@ -1,11 +1,11 @@
 namespace HareDu.Shovel.IntegrationTests;
 
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
+using HareDu.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using Serialization;
 using Testing;
@@ -29,6 +29,7 @@ public class ShovelTests
     {
         _services = new ServiceCollection()
             .AddHareDu()
+            .AddHareDuShovel()
             .BuildServiceProvider();
     }
 
@@ -41,7 +42,7 @@ public class ShovelTests
     [SetUp]
     public async Task TestSetUp()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(_vhost);
     }
@@ -57,7 +58,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel1()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel3", _vhost, x =>
             {
@@ -75,7 +76,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel2()
     {
-        Result result = await _services.GetService<IBrokerFactory>()
+        Result result = await _services.GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"),"test-shovel2", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -92,7 +93,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_create_dynamic_shovel3()
     {
-        Result result = await _services.GetService<IBrokerFactory>()
+        Result result = await _services.GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"),"test-shovel6", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -109,7 +110,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_shovel1()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test-shovel2","TestHareDu");
 
@@ -119,7 +120,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_shovel2()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .DeleteShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel2","TestHareDu");
 
         Console.WriteLine(_deserializer.ToJsonString(result));
@@ -128,7 +129,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_delete_all_shovels()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .DeleteAllShovels(x => x.UsingCredentials("guest", "guest"),"TestHareDu");
 
         Console.WriteLine(_deserializer.ToJsonString(result));
@@ -137,7 +138,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels1()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll(_vhost)
             .ScreenDump();
@@ -149,7 +150,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels2()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .GetAllShovels(x => x.UsingCredentials("guest", "guest"), _vhost)
             .ScreenDump();
 
@@ -160,7 +161,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels3()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -172,7 +173,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_all_shovels4()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .GetAllShovels(x => x.UsingCredentials("guest", "guest"))
             .ScreenDump();
 
@@ -183,7 +184,7 @@ public class ShovelTests
     [Test]
     public async Task Verify_can_get_shovels1()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Get(_shovelName, _vhost)
             .ScreenDump();

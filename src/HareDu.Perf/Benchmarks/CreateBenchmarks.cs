@@ -12,13 +12,13 @@ using Model;
 public class CreateBenchmarks :
     HareDuPerformanceTesting
 {
-    readonly IBrokerFactory _service;
+    readonly IHareDuFactory _service;
 
     public CreateBenchmarks()
     {
         var services = GetContainerBuilder().BuildServiceProvider();
             
-        _service = services.GetService<IBrokerFactory>();
+        _service = services.GetService<IHareDuFactory>();
     }
 
     [Benchmark]
@@ -27,7 +27,7 @@ public class CreateBenchmarks :
         var services = GetContainerBuilder()
             .BuildServiceProvider();
         var provider = services.GetService<IHareDuCredentialBuilder>();
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {

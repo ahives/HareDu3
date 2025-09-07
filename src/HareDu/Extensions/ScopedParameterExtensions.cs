@@ -23,7 +23,7 @@ public static class ScopedParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ScopedParameterInfo>> GetAllScopedParameters(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -52,7 +52,7 @@ public static class ScopedParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> CreateScopeParameter<T>(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string parameter,
         [NotNull] T value,
@@ -83,7 +83,7 @@ public static class ScopedParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteScopedParameter(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string parameter,
         [NotNull] string component,

@@ -11,7 +11,7 @@ using Model;
 /// Provides a contract for managing operator policies on the message broker.
 /// </summary>
 public interface OperatorPolicy :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all operator policies on the broker.

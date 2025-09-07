@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Serialization;
@@ -65,7 +65,7 @@ public class VirtualHostLimitsTests
     [Test]
     public async Task Verify_can_get_all_limits()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAllLimits()
             .ScreenDump();
@@ -74,7 +74,7 @@ public class VirtualHostLimitsTests
     [Test]
     public void Verify_can_get_limits_of_specified_vhost()
     {
-        var result = _services.GetService<IBrokerFactory>()
+        var result = _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAllLimits()
             .Where(x => x.VirtualHost == "HareDu");
@@ -97,7 +97,7 @@ public class VirtualHostLimitsTests
     [Test]
     public async Task Verify_can_define_limits()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("HareDu5", x =>
             {
@@ -111,7 +111,7 @@ public class VirtualHostLimitsTests
     [Test]
     public async Task Verify_can_delete_limits()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit("HareDu3", VirtualHostLimit.MaxConnections);
 

@@ -31,7 +31,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostLimitsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAllLimits();
 
@@ -53,7 +53,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostLimitsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllVirtualHostLimits(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -74,7 +74,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("HareDu5", x =>
             {
@@ -94,7 +94,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), "HareDu5", x =>
             {
                 x.SetMaxQueueLimit(1);
@@ -113,7 +113,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("HareDu5", x =>
             {
@@ -137,7 +137,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), "HareDu5", x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -160,7 +160,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("HareDu5", x =>
             {
@@ -184,7 +184,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), "HareDu5", x =>
             {
                 x.SetMaxConnectionLimit(0);
@@ -207,7 +207,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit(string.Empty, x =>
             {
@@ -232,7 +232,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
@@ -256,7 +256,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit(string.Empty, x =>
             {
@@ -281,7 +281,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -305,7 +305,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit(string.Empty, x =>
             {
@@ -330,7 +330,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.SetMaxQueueLimit(100);
@@ -354,7 +354,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit(string.Empty, x =>
             {
@@ -379,7 +379,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DefineVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.SetMaxQueueLimit(0);
@@ -403,7 +403,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit("HareDu", VirtualHostLimit.MaxConnections);
 
@@ -419,7 +419,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), "HareDu", VirtualHostLimit.MaxQueues);
 
         Assert.Multiple(() =>
@@ -434,7 +434,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit(string.Empty, VirtualHostLimit.MaxQueues);
 
@@ -450,7 +450,7 @@ public class VirtualHostLimitsTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostLimit(x => x.UsingCredentials("guest", "guest"), string.Empty, VirtualHostLimit.MaxConnections);
 
         Assert.Multiple(() =>

@@ -23,7 +23,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<BrokerOverviewInfo>> GetBrokerOverview(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -47,7 +47,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> RebalanceQueues(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -71,7 +71,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<AlarmState>> IsAlarmsInEffect(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -96,7 +96,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<BrokerState>> IsBrokerAlive(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string vhost,
         [NotNull] CancellationToken cancellationToken = default)
@@ -121,7 +121,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<VirtualHostState>> IsVirtualHostsRunning(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -145,7 +145,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -169,7 +169,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<NodeQuorumState>> IsNodeQuorumCritical(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -194,7 +194,7 @@ public static class BrokerExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<ProtocolListenerState>> IsProtocolActiveListener(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] Protocol protocol, CancellationToken cancellationToken = default)
     {

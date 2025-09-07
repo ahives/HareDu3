@@ -23,7 +23,7 @@ public static class GlobalParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<GlobalParameterInfo>> GetAllGlobalParameters(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {
@@ -49,7 +49,7 @@ public static class GlobalParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> CreateGlobalParameter(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string parameter,
         [NotNull] Action<GlobalParameterConfigurator> configurator,
@@ -76,7 +76,7 @@ public static class GlobalParameterExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteGlobalParameter(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string parameter,
         [NotNull] CancellationToken cancellationToken = default)

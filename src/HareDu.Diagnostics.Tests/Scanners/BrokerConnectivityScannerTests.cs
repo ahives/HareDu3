@@ -19,7 +19,6 @@ public class BrokerConnectivityScannerTests
     [OneTimeSetUp]
     public void Init()
     {
-        var knowledgeBaseProvider = new KnowledgeBaseProvider();
         HareDuConfig config = new()
         {
             Diagnostics = new()
@@ -38,6 +37,7 @@ public class BrokerConnectivityScannerTests
                 }
             }
         };
+        var knowledgeBaseProvider = new KnowledgeBaseProvider(config);
             
         _probes = new List<DiagnosticProbe>
         {

@@ -2,16 +2,17 @@ namespace HareDu.Shovel.Internal;
 
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class ShovelImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     Shovel
 {
-    public ShovelImpl(HttpClient client)
-        : base(client, new ShovelDeserializer())
+    public ShovelImpl(HttpClient client, [FromKeyedServices("shovel")] IHareDuDeserializer deserializer)
+        : base(client, deserializer)
     {
     }
 

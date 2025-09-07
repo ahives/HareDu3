@@ -3,11 +3,10 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Serialization;
 
@@ -64,7 +63,7 @@ public class ChannelTests
     [Test, Explicit]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Channel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -76,7 +75,7 @@ public class ChannelTests
     [Test]
     public async Task Should_be_able_to_get_all_channels()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Channel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();

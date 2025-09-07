@@ -5,8 +5,8 @@ using Core;
 using Core.Security;
 using Core.Testing;
 
-public class FakeBrokerFactory :
-    IBrokerFactory,
+public class FakeHareDuFactory :
+    IHareDuFactory,
     HareDuTestingFake
 {
     readonly Broker _broker;
@@ -15,7 +15,7 @@ public class FakeBrokerFactory :
     readonly Channel _channel;
     readonly Queue _queue;
 
-    public FakeBrokerFactory()
+    public FakeHareDuFactory()
     {
         _broker = new FakeBrokerImpl();
         _node = new FakeNodeImpl();
@@ -24,7 +24,7 @@ public class FakeBrokerFactory :
         _queue = new FakeQueueImpl();
     }
 
-    public T API<T>(Action<HareDuCredentialProvider> credentials) where T : BrokerAPI
+    public T API<T>(Action<HareDuCredentialProvider> credentials) where T : HareDuAPI
     {
         if (typeof(T) == typeof(Broker))
             return (T) _broker;

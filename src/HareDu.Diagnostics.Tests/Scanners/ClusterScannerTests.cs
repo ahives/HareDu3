@@ -18,7 +18,6 @@ public class ClusterScannerTests
     [OneTimeSetUp]
     public void Init()
     {
-        var knowledgeBaseProvider = new KnowledgeBaseProvider();
         HareDuConfig config = new () {Diagnostics = new ()
         {
             Probes = new ()
@@ -34,7 +33,8 @@ public class ClusterScannerTests
                 ConsumerUtilizationThreshold = 0.50M
             }
         }};
-            
+        var knowledgeBaseProvider = new KnowledgeBaseProvider(config);
+
         _probes = new List<DiagnosticProbe>
         {
             new RuntimeProcessLimitProbe(config.Diagnostics, knowledgeBaseProvider),

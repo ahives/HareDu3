@@ -1,68 +1,50 @@
 namespace HareDu.Core;
 
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+using CommunityToolkit.Diagnostics;
 using Extensions;
+using HTTP;
+using Security;
+using Serialization;
 
-public class HareDuFactory
+/// <summary>
+/// Represents a factory that provides APIs to interact with the broker.
+/// </summary>
+public sealed class HareDuFactory :
+    BaseHareDuFactory,
+    IHareDuFactory
 {
-    protected readonly ConcurrentDictionary<string, object> Cache = new();
+    readonly IHareDuClient _client;
+    private readonly IHareDuDeserializer _deserializer;
 
-    protected virtual IDictionary<string, Type> GetImplMap(Type findType, Type from)
+    public HareDuFactory(IHareDuClient client, IHareDuDeserializer deserializer)
     {
-        var types = findType.Assembly.GetTypes();
-        var interfaces = types
-            .Where(x => from.IsAssignableFrom(x) && x.IsInterface)
-            .ToList();
-        var typeMap = new Dictionary<string, Type>();
+        Guard.IsNotNull(client);
 
-        for (int i = 0; i < interfaces.Count; i++)
-        {
-            var type = types.Find(x => interfaces[i].IsAssignableFrom(x) && x is {IsInterface: false, IsAbstract: false});
-
-            if (type is null)
-                continue;
-
-            if (string.IsNullOrWhiteSpace(interfaces[i].FullName))
-                continue;
-
-            typeMap.Add(interfaces[i].GetIdentifier(), type);
-        }
-
-        return typeMap;
+        _client = client;
+        _deserializer = deserializer;
     }
 
-    protected bool TryGetImpl<T>(Type type, Type from, string key, T initializer, out object impl)
+    public T API<T>(Action<HareDuCredentialProvider> credentials)
+        where T : HareDuAPI
     {
+        Type type = typeof(T);
+
         Throw.IfNull<Type, HareDuInitException>(type, $"Failed to find implementation for interface {type}.");
-        Throw.IfNull<Type, HareDuInitException>(from, $"Failed to find implementation for interface {from}.");
-        Throw.IfNull<string, HareDuInitException>(key, $"Failed to find implementation for interface {type}.");
-        Throw.IfNull<T, HareDuInitException>(initializer, $"Failed to initialize HareDu API.");
 
-        if (Cache.TryGetValue(key, out impl))
-            return true;
+        var implMap = GetImplMap(type, typeof(HareDuAPI));
+        string key = type.GetIdentifier();
 
-        impl = CreateInstance(type, from, initializer);
+        Throw.IfNotFound<HareDuInitException>(implMap.ContainsKey, key, $"Failed to find implementation for interface {type}.");
 
-        if (impl is null)
-            return false;
+        var client = _client.GetClient(credentials);
+        (bool success, object impl) = TryGetImpl(implMap[key], typeof(BaseHareDuImpl), key, client, _deserializer);
 
-        if (Cache.TryAdd(key, impl))
-            return Cache.TryGetValue(key, out impl);
+        if (success)
+            return (T) impl;
+        // if (TryGetImpl(implMap[key], typeof(BaseBrokerImpl), key, client, out var impl))
+        //     return (T) impl;
 
-        impl = null;
-
-        return false;
-    }
-
-    object CreateInstance<T>(Type type, Type from, T initializer)
-    {
-        var instance = type.IsDerivedFrom(from)
-            ? Activator.CreateInstance(type, initializer)
-            : Activator.CreateInstance(type);
-
-        return instance;
+        throw new HareDuInitException($"Failed to find implementation for interface {type}.");
     }
 }

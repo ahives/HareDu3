@@ -2,9 +2,9 @@ namespace HareDu.IntegrationTests;
 
 using System.Threading.Tasks;
 using Core;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -54,7 +54,7 @@ public class NodeTests
     [Test]
     public async Task Should_be_able_to_get_all_nodes()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -63,7 +63,7 @@ public class NodeTests
     [Test]
     public async Task Should_be_able_to_get_all_memory_usage()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Node>(x => x.UsingCredentials("guest", "guest"))
             .GetMemoryUsage("rabbit@localhost")
             .ScreenDump();

@@ -1,8 +1,9 @@
 namespace HareDu.Snapshotting.IntegrationTests;
 
 using System.Threading.Tasks;
+using DependencyInjection;
+using HareDu.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Observers;
@@ -17,6 +18,7 @@ public class ConnectionSnapshotTests
     {
         _services = new ServiceCollection()
             .AddHareDu()
+            .AddHareDuSnapshotting()
             .BuildServiceProvider();
     }
 

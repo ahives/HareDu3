@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HareDu.Diagnostics\HareDu.Diagnostics.csproj" />
-      <ProjectReference Include="..\HareDu.MicrosoftIntegration\HareDu.MicrosoftIntegration.csproj" />
     </ItemGroup>
 
     <ItemGroup>

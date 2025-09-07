@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using Core.Configuration;
 using Model;
 using Probes;
 using Serialization;
@@ -14,11 +15,13 @@ using Serialization;
 public class KnowledgeBaseProvider :
     IKnowledgeBaseProvider
 {
+    readonly HareDuConfig _config;
     readonly List<KnowledgeBaseArticle> _articles;
     bool _loaded;
 
-    public KnowledgeBaseProvider()
+    public KnowledgeBaseProvider(HareDuConfig config)
     {
+        _config = config;
         _articles = new List<KnowledgeBaseArticle>();
     }
 
@@ -68,15 +71,17 @@ public class KnowledgeBaseProvider :
         _articles.Add(new KnowledgeBaseArticle{Id = typeof(T).FullName, Status = status, Reason = reason, Remediation = remediation});
     }
 
-    public void Load(string file)
+    public void Load()
     {
         if (_loaded)
             return;
 
-        if (!File.Exists(file))
-            throw new HareDuFileNotFoundException($"The file '{file}' does not exist.");
+        string path = Path.Combine(Directory.GetCurrentDirectory(), _config.KB.Path, _config.KB.File);
 
-        string data = File.ReadAllText(file);
+        if (!File.Exists(path))
+            throw new HareDuFileNotFoundException($"The file '{path}' does not exist.");
+
+        string data = File.ReadAllText(path);
         var deserializer = new DiagnosticDeserializer();
         var articles = JsonSerializer.Deserialize<List<KnowledgeBaseArticle>>(data, deserializer.Options);
 

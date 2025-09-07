@@ -10,14 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 public class GetAllChannelBenchmarks :
     HareDuPerformanceTesting
 {
-    readonly IBrokerFactory _service;
+    readonly IHareDuFactory _service;
 
     public GetAllChannelBenchmarks()
     {
         var services = GetContainerBuilder("Benchmarks/TestData/ChannelInfo.json")
             .BuildServiceProvider();
             
-        _service = services.GetService<IBrokerFactory>();
+        _service = services.GetService<IHareDuFactory>();
     }
 
     [Benchmark]

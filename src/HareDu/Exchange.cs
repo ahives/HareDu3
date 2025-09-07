@@ -11,7 +11,7 @@ using Model;
 /// Represents an abstraction to perform operations on RabbitMQ exchanges via the API.
 /// </summary>
 public interface Exchange :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all exchanges from the RabbitMQ broker.

@@ -11,7 +11,7 @@ using Model;
 /// An interface for managing scoped parameters on a RabbitMQ server, providing functionality for retrieval, creation, and deletion.
 /// </summary>
 public interface ScopedParameter :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Returns all scoped parameters on the current RabbitMQ server.

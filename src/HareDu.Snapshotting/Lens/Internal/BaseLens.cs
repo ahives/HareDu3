@@ -9,13 +9,13 @@ public abstract class BaseLens<T> :
     IObservable<SnapshotContext<T>>
     where T : Snapshot
 {
-    protected readonly IBrokerFactory _factory;
+    protected readonly IHareDuFactory _factory;
     protected readonly Lazy<SnapshotHistory<T>> _timeline;
     protected readonly IDictionary<string, SnapshotResult<T>> _snapshots;
     
     readonly List<IObserver<SnapshotContext<T>>> _observers;
 
-    protected BaseLens(IBrokerFactory factory)
+    protected BaseLens(IHareDuFactory factory)
     {
         _factory = factory;
         _observers = new List<IObserver<SnapshotContext<T>>>();

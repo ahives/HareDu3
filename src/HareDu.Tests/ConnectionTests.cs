@@ -17,7 +17,7 @@ public class ConnectionTests :
     {
         var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -88,7 +88,7 @@ public class ConnectionTests :
     {
         var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllConnections(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>
@@ -158,7 +158,7 @@ public class ConnectionTests :
     {
         var result = await GetContainerBuilder("TestData/ConnectionInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Connection>(x => x.UsingCredentials("guest", "guest"))
             .GetByName("127.0.0.0:79863 -> 127.0.0.0:5672");
             

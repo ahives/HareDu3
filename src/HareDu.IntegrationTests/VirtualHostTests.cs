@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Serialization;
 
@@ -64,7 +64,7 @@ public class VirtualHostTests
     [Test]
     public async Task Should_be_able_to_get_all_vhosts()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -73,7 +73,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_GetAll_HasResult_works()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -83,7 +83,7 @@ public class VirtualHostTests
     [Test]
     public void Verify_filtered_GetAll_works()
     {
-        var result = _services.GetService<IBrokerFactory>()
+        var result = _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .Where(x => x.Name == "HareDu");
@@ -100,7 +100,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_create_vhost()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create("HareDu1",x =>
             {
@@ -119,7 +119,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_delete_vhost()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(z => z.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
@@ -129,7 +129,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_start_vhost()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("", "");
             
@@ -139,7 +139,7 @@ public class VirtualHostTests
     [Test]
     public void Verify()
     {
-        var result = _services.GetService<IBrokerFactory>()
+        var result = _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DefineLimit("QueueTestVirtulHost", x =>
             {
@@ -153,7 +153,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_delete_user_permissions()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("", "HareDu5");
     }
@@ -161,7 +161,7 @@ public class VirtualHostTests
     [Test]
     public async Task Verify_can_create_user_permissions()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("test", "HareDu1", x =>
             {

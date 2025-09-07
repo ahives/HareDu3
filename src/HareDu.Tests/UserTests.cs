@@ -27,7 +27,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserInfo1.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -50,7 +50,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserInfo1.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllUsers(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -72,7 +72,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserInfo2.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllWithoutPermissions();
 
@@ -95,7 +95,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserInfo2.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllUsersWithoutPermissions(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -117,7 +117,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
@@ -149,7 +149,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
@@ -177,7 +177,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateUser(x => x.UsingCredentials("guest", "guest"), "testuser3", "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(), x =>
             {
                 x.WithTags(t =>
@@ -206,7 +206,7 @@ public class UserTests :
             
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, passwordHash, configurator:x =>
             {
@@ -234,7 +234,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", "testuserpwd3", configurator:x =>
             {
@@ -264,7 +264,7 @@ public class UserTests :
 
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, passwordHash, x =>
             {
@@ -292,7 +292,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "testuserpwd3", "gkgfjjhfjh".ComputePasswordHash(),x =>
             {
@@ -321,7 +321,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, string.Empty, x =>
             {
@@ -350,7 +350,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create("testuser3", string.Empty, string.Empty,x =>
             {
@@ -379,7 +379,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, string.Empty, x =>
             {
@@ -408,7 +408,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, configurator: x => x.WithTags(t =>
             {
@@ -434,7 +434,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete("fake_user");
 
@@ -446,7 +446,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUser(x => x.UsingCredentials("guest", "guest"), "fake_user");
 
         Assert.That(result.HasFaulted, Is.False);
@@ -457,7 +457,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"fake_user1", "fake_user2", "fake_user3"});
 
@@ -479,7 +479,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"fake_user1", "fake_user2", "fake_user3"});
 
         Assert.Multiple(() =>
@@ -500,7 +500,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
 
@@ -516,7 +516,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUser(x => x.UsingCredentials("guest", "guest"), string.Empty);
 
         Assert.Multiple(() =>
@@ -531,7 +531,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>());
 
@@ -547,7 +547,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>());
 
         Assert.Multiple(() =>
@@ -562,7 +562,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"  ", string.Empty, null});
 
@@ -578,7 +578,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", string.Empty, null});
 
         Assert.Multiple(() =>
@@ -593,7 +593,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .BulkDelete(new List<string>{"  ", "fake_user1", null});
 
@@ -609,7 +609,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string>{"  ", "fake_user1", null});
 
         Assert.Multiple(() =>
@@ -624,7 +624,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserPermissionsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllPermissions();
 
@@ -648,7 +648,7 @@ public class UserTests :
     {
         var result = await GetContainerBuilder("TestData/UserPermissionsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllUserPermissions(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>

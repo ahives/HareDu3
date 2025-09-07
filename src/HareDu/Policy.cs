@@ -11,7 +11,7 @@ using Model;
 /// Represents operations for managing policies in RabbitMQ.
 /// </summary>
 public interface Policy :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Returns all policies on the current RabbitMQ node.

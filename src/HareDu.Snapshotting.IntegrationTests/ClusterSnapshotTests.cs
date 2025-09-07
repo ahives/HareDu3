@@ -2,10 +2,10 @@ namespace HareDu.Snapshotting.IntegrationTests;
 
 using System;
 using System.Threading.Tasks;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
+using HareDu.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using Model;
 using NUnit.Framework;
 using Observers;
@@ -28,6 +28,7 @@ public class ClusterSnapshotTests
     {
         _services = new ServiceCollection()
             .AddHareDu()
+            .AddHareDuSnapshotting()
             .BuildServiceProvider();
     }
 

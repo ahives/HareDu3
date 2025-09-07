@@ -3,11 +3,10 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
 using Core.Serialization;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Serialization;
 
@@ -64,7 +63,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Should_be_able_to_get_all_global_parameters()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();
@@ -73,7 +72,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Verify_can_create_parameter()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .Create("fake_param2", x =>
             {
@@ -88,7 +87,7 @@ public class GlobalParameterTests
     [Test]
     public async Task Verify_can_delete_parameter()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<GlobalParameter>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Fred");
             

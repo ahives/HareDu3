@@ -2,13 +2,12 @@ namespace HareDu.Diagnostics.IntegrationTests;
 
 using System;
 using System.Threading.Tasks;
-using Core.Configuration;
+using DependencyInjection;
 using Formatting;
-using KnowledgeBase;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 using Snapshotting;
+using Snapshotting.DependencyInjection;
 using Snapshotting.Model;
 
 [TestFixture]
@@ -20,7 +19,8 @@ public class DiagnosticScannerTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddHareDu()
+            .AddHareDuSnapshotting()
+            .AddHareDuDiagnostics()
             .BuildServiceProvider();
     }
 

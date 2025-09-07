@@ -10,7 +10,7 @@ using Model;
 /// Represents the contract for interacting with the RabbitMQ server to retrieve information about its configuration and resources.
 /// </summary>
 public interface Server :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves information about the RabbitMQ server, including details on users, virtual hosts, permissions, policies, parameters, queues, exchanges, bindings, and more.

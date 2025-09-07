@@ -11,7 +11,7 @@ using Model;
 /// Provides functionality for managing global parameters in RabbitMQ.
 /// </summary>
 public interface GlobalParameter :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Returns all global parameters on the current RabbitMQ node.

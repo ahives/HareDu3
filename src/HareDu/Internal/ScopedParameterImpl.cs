@@ -6,15 +6,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class ScopedParameterImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     ScopedParameter
 {
-    public ScopedParameterImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+    public ScopedParameterImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
+        : base(client, deserializer)
     {
     }
 
@@ -52,7 +53,7 @@ class ScopedParameterImpl :
                 string str => string.IsNullOrWhiteSpace(str),
                 _ => obj is null
             };
-        
+
         return errors.HaveBeenFound()
             ? Response.Panic(Debug.Info("api/parameters/{component}/{vhost}/{name}", errors, request: Deserializer.ToJsonString(request)))
             : await PutRequest($"api/parameters/{component}/{sanitizedVHost}/{name}", request,

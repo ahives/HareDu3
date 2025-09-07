@@ -13,7 +13,7 @@ using Model;
 /// allowing for resource isolation and segregation within the broker.
 /// </summary>
 public interface VirtualHost :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all RabbitMQ virtual hosts from the broker.

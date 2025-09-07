@@ -8,16 +8,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
+using Core.Serialization;
 using Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class ExchangeImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     Exchange
 {
-    public ExchangeImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+    public ExchangeImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
+        : base(client, deserializer)
     {
     }
 

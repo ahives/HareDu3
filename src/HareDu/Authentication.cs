@@ -10,7 +10,7 @@ using Model;
 /// Represents an interface for interacting with authentication configurations on the broker.
 /// </summary>
 public interface Authentication :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves the details of authentication configuration from the broker.

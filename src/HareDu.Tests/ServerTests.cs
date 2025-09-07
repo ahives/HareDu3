@@ -15,7 +15,7 @@ public class ServerTests :
     {
         var result = await GetContainerBuilder("TestData/ServerDefinitionInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Server>(x => x.UsingCredentials("guest", "guest"))
             .Get();
             
@@ -43,7 +43,7 @@ public class ServerTests :
     {
         var result = await GetContainerBuilder("TestData/ServerDefinitionInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetServerInformation(x => x.UsingCredentials("guest", "guest"));
             
         Assert.Multiple(() =>

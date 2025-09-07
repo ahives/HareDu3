@@ -2,9 +2,9 @@ namespace HareDu.IntegrationTests;
 
 using System.Threading.Tasks;
 using Core;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -50,7 +50,7 @@ public class ConsumerTests
     [Test, Explicit]
     public async Task Should_be_able_to_get_all_consumers()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Consumer>(x => x.UsingCredentials("guest", "guest"))
             .GetAll()
             .ScreenDump();

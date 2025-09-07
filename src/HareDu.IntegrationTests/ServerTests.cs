@@ -2,9 +2,9 @@ namespace HareDu.IntegrationTests;
 
 using System.Threading.Tasks;
 using Core;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -54,7 +54,7 @@ public class ServerTests
     [Test]
     public async Task Should_be_able_to_get_all_definitions()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Server>(x => x.UsingCredentials("guest", "guest"))
             .Get()
             .ScreenDump();

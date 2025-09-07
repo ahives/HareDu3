@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HareDu.Diagnostics\HareDu.Diagnostics.csproj" />
-      <ProjectReference Include="..\HareDu.MicrosoftIntegration\HareDu.MicrosoftIntegration.csproj" />
       <ProjectReference Include="..\HareDu.Snapshotting\HareDu.Snapshotting.csproj" />
       <ProjectReference Include="..\HareDu\HareDu.csproj" />
     </ItemGroup>

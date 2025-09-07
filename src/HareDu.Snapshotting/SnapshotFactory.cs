@@ -14,12 +14,12 @@ using HareDu.Snapshotting.Lens.Internal;
 /// Provides methods to retrieve or register a lens implementation for a specific snapshot type.
 /// </summary>
 public sealed class SnapshotFactory :
-    HareDuFactory,
+    BaseHareDuFactory,
     ISnapshotFactory
 {
-    readonly IBrokerFactory _factory;
+    readonly IHareDuFactory _factory;
 
-    public SnapshotFactory(IBrokerFactory factory)
+    public SnapshotFactory(IHareDuFactory factory)
     {
         _factory = factory;
 

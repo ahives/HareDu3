@@ -26,7 +26,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HareDu.Core\HareDu.Core.csproj" />
-      <ProjectReference Include="..\HareDu.MicrosoftIntegration\HareDu.MicrosoftIntegration.csproj" />
       <ProjectReference Include="..\HareDu.Shovel\HareDu.Shovel.csproj" />
     </ItemGroup>
 

@@ -27,7 +27,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -64,7 +64,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo2.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Get("QueueTestVirtualHost1");
 
@@ -82,7 +82,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllVirtualHosts(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -118,7 +118,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create("HareDu7",x =>
             {
@@ -141,7 +141,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateVirtualHost(x => x.UsingCredentials("guest", "guest"), "HareDu7",x =>
             {
                 x.WithTracingEnabled();
@@ -163,7 +163,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete("HareDu7");
 
@@ -175,7 +175,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHost(x => x.UsingCredentials("guest", "guest"), "HareDu7");
 
         Assert.That(result.HasFaulted, Is.False);
@@ -186,7 +186,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty);
 
@@ -202,7 +202,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("FakeVirtualHost", "FakeNode");
 
@@ -214,7 +214,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .StartupVirtualHost(x => x.UsingCredentials("guest", "guest"), "FakeVirtualHost", "FakeNode");
 
         Assert.That(result.HasFaulted, Is.False);
@@ -225,7 +225,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup(string.Empty, "FakeNode");
 
@@ -241,7 +241,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder("TestData/VirtualHostInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup("FakeVirtualHost", string.Empty);
 
@@ -257,7 +257,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Startup(string.Empty, string.Empty);
 
@@ -273,7 +273,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("haredu_user", "HareDu5");
 
@@ -289,7 +289,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5");
 
         Assert.Multiple(() =>
@@ -304,7 +304,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, "HareDu5");
 
@@ -320,7 +320,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5");
 
         Assert.Multiple(() =>
@@ -335,7 +335,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions("haredu_user", string.Empty);
 
@@ -351,7 +351,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty);
 
         Assert.Multiple(() =>
@@ -366,7 +366,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeletePermissions(string.Empty, string.Empty);
 
@@ -382,7 +382,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
 
         Assert.Multiple(() =>
@@ -397,7 +397,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("haredu_user", "HareDu5", x =>
             {
@@ -425,7 +425,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -452,7 +452,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions(string.Empty, "HareDu5", x =>
             {
@@ -480,7 +480,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu5", x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -507,7 +507,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions("haredu_user", string.Empty, x =>
             {
@@ -535,7 +535,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "haredu_user", string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -562,7 +562,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .ApplyPermissions(string.Empty, string.Empty, x =>
             {
@@ -590,7 +590,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .ApplyVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.UsingConfigurePattern(".*");
@@ -617,7 +617,7 @@ public class VirtualHostTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetVirtualHostUserPermissions(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu1");
 
         Assert.Multiple(() =>

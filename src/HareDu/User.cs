@@ -12,7 +12,7 @@ using Model;
 /// Represents operations for managing RabbitMQ users including retrieval, creation, deletion, and configuration of limits and permissions.
 /// </summary>
 public interface User :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Returns information about all users on the current RabbitMQ server.

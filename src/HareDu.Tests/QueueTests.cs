@@ -27,7 +27,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder("TestData/QueueInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -100,7 +100,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder("TestData/QueueInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllQueues(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>
@@ -172,7 +172,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -205,7 +205,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -229,7 +229,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), "TestQueue31", "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -261,7 +261,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -294,7 +294,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -327,7 +327,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", "Node1", x =>
             {
@@ -361,7 +361,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -394,7 +394,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", string.Empty, "Node1", x =>
             {
@@ -428,7 +428,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), "TestQueue31", string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -461,7 +461,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty,"HareDu", "Node1", x =>
             {
@@ -495,7 +495,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), string.Empty,"HareDu", "Node1", x =>
             {
                 x.IsDurable();
@@ -528,7 +528,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -562,7 +562,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -595,7 +595,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, "Node1", x =>
             {
@@ -629,7 +629,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, "Node1", x =>
             {
                 x.IsDurable();
@@ -662,7 +662,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create("TestQueue31", "HareDu", "Node1", x =>
             {
@@ -694,7 +694,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", "HareDu",x =>
             {
@@ -714,7 +714,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu",x =>
             {
                 x.WhenHasNoConsumers();
@@ -733,7 +733,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu",x =>
             {
                 x.WhenHasNoConsumers();
@@ -753,7 +753,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -772,7 +772,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu", x =>
             {
                 x.WhenHasNoConsumers();
@@ -790,7 +790,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu", x =>
             {
@@ -809,7 +809,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu", x =>
             {
                 x.WhenHasNoConsumers();
@@ -827,7 +827,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -846,7 +846,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -864,7 +864,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -883,7 +883,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -901,7 +901,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete("Queue1", string.Empty, x =>
             {
@@ -920,7 +920,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -938,7 +938,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -957,7 +957,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -975,7 +975,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty, x =>
             {
@@ -994,7 +994,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.WhenHasNoConsumers();
@@ -1012,7 +1012,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("Queue1", "HareDu");
             
@@ -1024,7 +1024,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
@@ -1035,7 +1035,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty(string.Empty, "HareDu");
             
@@ -1051,7 +1051,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -1066,7 +1066,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty("Queue1", string.Empty);
             
@@ -1082,7 +1082,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", string.Empty);
             
         Assert.Multiple(() =>
@@ -1097,7 +1097,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Empty(string.Empty, string.Empty);
             
@@ -1113,7 +1113,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -1128,7 +1128,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("Queue1", "HareDu");
             
@@ -1148,7 +1148,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .SyncQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu");
             
         Assert.Multiple(() =>
@@ -1167,7 +1167,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CancelQueueSync(x => x.UsingCredentials("guest", "guest"), "Queue1", "HareDu");
             
         Assert.Multiple(() =>
@@ -1186,7 +1186,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync(string.Empty, "HareDu");
             
@@ -1202,7 +1202,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .SyncQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu");
             
         Assert.Multiple(() =>
@@ -1217,7 +1217,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync("Queue1", string.Empty);
             
@@ -1233,7 +1233,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .SyncQueue(x => x.UsingCredentials("guest", "guest"), "Queue1", string.Empty);
             
         Assert.Multiple(() =>
@@ -1248,7 +1248,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Sync(string.Empty, string.Empty);
             
@@ -1264,7 +1264,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .SyncQueue(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
             
         Assert.Multiple(() =>
@@ -1281,20 +1281,20 @@ public class QueueTests :
         string vhost = "vhost";
         string queue = "queue";
         var result1 = services
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .Create(vhost);
-        var result2 = await services.GetService<IBrokerFactory>()
+        var result2 = await services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Create(queue, vhost, "rabbit@6089ab1a7b81", x =>
             {
                 x.IsDurable();
             });
         string exchange = "exchange";
-        var result3 = await services.GetService<IBrokerFactory>()
+        var result3 = await services.GetService<IHareDuFactory>()
             .API<Exchange>(x => x.UsingCredentials("guest", "guest"))
             .Create(exchange, vhost);
-        var result = await services.GetService<IBrokerFactory>()
+        var result = await services.GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .BindToQueue("HareDu", exchange, x =>
             {
@@ -1319,7 +1319,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1339,7 +1339,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1359,7 +1359,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1379,7 +1379,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
@@ -1398,7 +1398,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1418,7 +1418,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -1437,7 +1437,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
@@ -1457,7 +1457,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);
@@ -1476,7 +1476,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1496,7 +1496,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source("E2");
@@ -1515,7 +1515,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind("HareDu", x =>
             {
@@ -1535,7 +1535,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), "HareDu", x =>
             {
                 x.Source(string.Empty);
@@ -1554,7 +1554,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Queue>(x => x.UsingCredentials("guest", "guest"))
             .Unbind(string.Empty, x =>
             {
@@ -1574,7 +1574,7 @@ public class QueueTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .UnbindFromExchange(x => x.UsingCredentials("guest", "guest"), string.Empty, x =>
             {
                 x.Source(string.Empty);

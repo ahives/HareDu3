@@ -42,8 +42,10 @@ public interface IKnowledgeBaseProvider
         where T : DiagnosticProbe;
 
     /// <summary>
-    /// Loads knowledge base articles from the specified file into the provider.
+    /// Loads and initializes the knowledge base articles from the specified configuration file.
     /// </summary>
-    /// <param name="file">The path to the file containing the knowledge base articles in JSON format.</param>
-    void Load(string file);
+    /// <exception cref="HareDuFileNotFoundException">
+    /// Thrown when the specified knowledge base file does not exist.
+    /// </exception>
+    void Load();
 }

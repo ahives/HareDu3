@@ -24,7 +24,7 @@ public static class ChannelExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ChannelInfo>> GetAllChannels(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [AllowNull] Action<PaginationConfigurator> pagination = null,
         [NotNull] CancellationToken cancellationToken = default)
@@ -50,7 +50,7 @@ public static class ChannelExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ChannelInfo>> GetChannelsByConnection(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string connectionName,
         [NotNull] CancellationToken cancellationToken = default)
@@ -76,7 +76,7 @@ public static class ChannelExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string vhost,
         [NotNull] CancellationToken cancellationToken = default)
@@ -102,7 +102,7 @@ public static class ChannelExtensions
     /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result<ChannelInfo>> GetChannelByName(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string name,
         [NotNull] CancellationToken cancellationToken = default)

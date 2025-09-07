@@ -10,7 +10,7 @@ using Model;
 /// Represents a component that provides access to RabbitMQ consumer data.
 /// </summary>
 public interface Consumer :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Returns all consumers on the current RabbitMQ node.

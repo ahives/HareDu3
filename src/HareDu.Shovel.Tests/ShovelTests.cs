@@ -1,10 +1,8 @@
 namespace HareDu.Shovel.Tests;
 
 using Core;
-using Core.Extensions;
 using Core.Serialization;
 using Extensions;
-using HareDu.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
 using Serialization;
@@ -25,7 +23,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder("TestData/ShovelInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .GetAll("test_vhost");
 
@@ -46,7 +44,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder("TestData/ShovelInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllShovels(x => x.UsingCredentials("guest", "guest"), "test_vhost");
 
         Assert.Multiple(() =>
@@ -66,7 +64,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -106,7 +104,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -143,7 +141,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -186,7 +184,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -228,7 +226,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -271,7 +269,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -313,7 +311,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Create("test-shovel1", "TestHareDu", x =>
             {
@@ -356,7 +354,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel1", "TestHareDu", x =>
             {
                 x.Uri("amqp://user1@localhost");
@@ -398,7 +396,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test-shovel2","TestHareDu");
             
@@ -414,7 +412,7 @@ public class ShovelTests :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel2","TestHareDu");
             
         Assert.Multiple(() =>

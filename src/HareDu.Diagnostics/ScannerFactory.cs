@@ -39,6 +39,7 @@ public class ScannerFactory :
         _probeCache = new ConcurrentDictionary<string, DiagnosticProbe>();
         _observers = new List<IDisposable>();
 
+        _kb.Load();
         if (!TryRegisterAllProbes())
             throw new HareDuDiagnosticsException("Could not register diagnostic probes.");
 

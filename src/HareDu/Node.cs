@@ -11,7 +11,7 @@ using Model;
 /// Allows retrieval of information on nodes and their respective memory usage.
 /// </summary>
 public interface Node :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves information for all nodes in the RabbitMQ cluster.

@@ -15,7 +15,7 @@ public class BindingTests :
     {
         var result = await GetContainerBuilder("TestData/BindingInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<Binding>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -33,7 +33,7 @@ public class BindingTests :
     {
         var result = await GetContainerBuilder("TestData/BindingInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllBindings(x => x.UsingCredentials("guest", "guest"));
 
         Assert.Multiple(() =>

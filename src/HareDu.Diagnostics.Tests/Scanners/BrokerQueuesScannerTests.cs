@@ -19,7 +19,6 @@ public class BrokerQueuesScannerTests
     [OneTimeSetUp]
     public void Init()
     {
-        var knowledgeBaseProvider = new KnowledgeBaseProvider();
         HareDuConfig config = new()
         {
             Diagnostics = new()
@@ -38,7 +37,8 @@ public class BrokerQueuesScannerTests
                 }
             }
         };
-            
+        var knowledgeBaseProvider = new KnowledgeBaseProvider(config);
+
         _probes = new List<DiagnosticProbe>
         {
             new QueueGrowthProbe(knowledgeBaseProvider),

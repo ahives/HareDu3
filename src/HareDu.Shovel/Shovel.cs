@@ -8,7 +8,7 @@ using Model;
 /// Provides operations to retrieve, create, and delete dynamic shovels.
 /// </summary>
 public interface Shovel :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves all the dynamic shovels configured in the RabbitMQ broker.

@@ -4,15 +4,16 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Model;
-using Serialization;
 
 class BindingImpl :
-    BaseBrokerImpl,
+    BaseHareDuImpl,
     Binding
 {
-    public BindingImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+    public BindingImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
+        : base(client, deserializer)
     {
     }
 

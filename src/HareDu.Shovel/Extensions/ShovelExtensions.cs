@@ -24,7 +24,7 @@ public static class ShovelExtensions
     /// <exception cref="HareDu.Core.Security.HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> CreateShovel(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string name,
         [NotNull] string vhost,
@@ -53,7 +53,7 @@ public static class ShovelExtensions
     /// <exception cref="HareDu.Core.Security.HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Result> DeleteShovel(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string name,
         [NotNull] string vhost,
@@ -80,7 +80,7 @@ public static class ShovelExtensions
     /// <exception cref="HareDu.Core.Security.HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<IReadOnlyList<Result>> DeleteAllShovels(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string vhost,
         [NotNull] CancellationToken cancellationToken = default)
@@ -127,7 +127,7 @@ public static class ShovelExtensions
     /// <exception cref="HareDu.Core.Security.HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ShovelInfo>> GetAllShovels(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] string vhost,
         [NotNull] CancellationToken cancellationToken = default)
@@ -152,7 +152,7 @@ public static class ShovelExtensions
     /// <exception cref="HareDu.Core.Security.HareDuSecurityException">Throws if the user credentials are not valid.</exception>
     [return: NotNull]
     public static async Task<Results<ShovelInfo>> GetAllShovels(
-        [NotNull] this IBrokerFactory factory,
+        [NotNull] this IHareDuFactory factory,
         [NotNull] Action<HareDuCredentialProvider> credentials,
         [NotNull] CancellationToken cancellationToken = default)
     {

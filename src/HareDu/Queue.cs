@@ -11,7 +11,7 @@ using Model;
 /// Provides methods for managing and interacting with message queues in a message broker.
 /// </summary>
 public interface Queue :
-    BrokerAPI
+    HareDuAPI
 {
     /// <summary>
     /// Retrieves information about all queues available on the RabbitMQ broker.

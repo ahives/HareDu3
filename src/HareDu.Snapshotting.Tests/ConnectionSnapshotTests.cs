@@ -19,7 +19,7 @@ public class ConnectionSnapshotTests
     public void Init()
     {
         _services = new ServiceCollection()
-            .AddSingleton<IBrokerFactory, FakeBrokerFactory>()
+            .AddSingleton<IHareDuFactory, FakeHareDuFactory>()
             .AddSingleton<ISnapshotFactory, SnapshotFactory>()
             .BuildServiceProvider();
     }

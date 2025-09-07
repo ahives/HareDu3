@@ -2,9 +2,9 @@ namespace HareDu.IntegrationTests;
 
 using System.Threading.Tasks;
 using Core;
+using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using MicrosoftIntegration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -50,7 +50,7 @@ public class BrokerTests
     [Test, Explicit]
     public async Task Test()
     {
-        var result = await _services.GetService<IBrokerFactory>()
+        var result = await _services.GetService<IHareDuFactory>()
             .API<Broker>(x => x.UsingCredentials("guest", "guest"))
             .GetOverview()
             .ScreenDump();

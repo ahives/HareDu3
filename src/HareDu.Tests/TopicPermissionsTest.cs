@@ -26,7 +26,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder("TestData/TopicPermissionsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .GetAll();
 
@@ -38,7 +38,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder("TestData/TopicPermissionsInfo.json")
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .GetAllTopicPermissions(x => x.UsingCredentials("guest", "guest"));
 
         Assert.That(result.HasFaulted, Is.False);
@@ -49,7 +49,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create("guest", "HareDu", x =>
             {
@@ -70,7 +70,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu", x =>
             {
                 x.Exchange("E4");
@@ -90,7 +90,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, "HareDu", x =>
             {
@@ -118,7 +118,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu", x =>
             {
                 x.Exchange("E4");
@@ -145,7 +145,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create("guest", string.Empty, x =>
             {
@@ -173,7 +173,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", string.Empty, x =>
             {
                 x.Exchange("E4");
@@ -200,7 +200,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -228,7 +228,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -255,7 +255,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -283,7 +283,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -310,7 +310,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -338,7 +338,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -365,7 +365,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Create(string.Empty, string.Empty, x =>
             {
@@ -393,7 +393,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .CreateTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty, x =>
             {
                 x.Exchange(string.Empty);
@@ -420,7 +420,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", "HareDu7");
 
         Assert.That(result.HasFaulted, Is.False);
@@ -431,7 +431,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, "HareDu7");
 
@@ -447,7 +447,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, "HareDu7");
 
         Assert.Multiple(() =>
@@ -462,7 +462,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete("guest", string.Empty);
 
@@ -478,7 +478,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), "guest", string.Empty);
 
         Assert.Multiple(() =>
@@ -493,7 +493,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete(string.Empty, string.Empty);
 
@@ -509,7 +509,7 @@ public class TopicPermissionsTest :
     {
         var result = await GetContainerBuilder()
             .BuildServiceProvider()
-            .GetService<IBrokerFactory>()
+            .GetService<IHareDuFactory>()
             .DeleteTopicPermission(x => x.UsingCredentials("guest", "guest"), string.Empty, string.Empty);
 
         Assert.Multiple(() =>
