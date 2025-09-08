@@ -17,13 +17,9 @@ public static class DependencyInjectionExtensions
     /// Registers HareDu diagnostics services into the specified IServiceCollection instance.
     /// </summary>
     /// <param name="services">The IServiceCollection instance where services are registered.</param>
-    /// <param name="settingsFile">The name of the settings file (e.g., "appsettings.json") used for configuration. Defaults to "appsettings.json" if not provided.</param>
-    /// <param name="configSection">The configuration section in the settings file to bind to HareDuConfig. Defaults to "HareDuConfig" if not provided.</param>
+    /// <param name="settingsFile">The JSON configuration file name used for binding HareDu settings. Defaults to "appsettings.json" if not specified.</param>
     /// <returns>The updated IServiceCollection instance for chaining additional service registrations.</returns>
-    public static IServiceCollection AddHareDuDiagnostics(
-        [NotNull] this IServiceCollection services,
-        [NotNull] string settingsFile = "appsettings.json",
-        [NotNull] string configSection = "HareDuConfig")
+    public static IServiceCollection AddHareDuDiagnostics([NotNull] this IServiceCollection services, [NotNull] string settingsFile = "appsettings.json")
     {
         var config = new HareDuConfig();
 
@@ -31,7 +27,7 @@ public static class DependencyInjectionExtensions
             .AddJsonFile(settingsFile, false)
             .Build();
 
-        configuration.Bind(configSection, config);
+        configuration.Bind("HareDu", config);
 
         Throw.IfInvalid(config.Broker);
         Throw.IfInvalid(config.Diagnostics);
@@ -54,9 +50,7 @@ public static class DependencyInjectionExtensions
     /// <param name="services">The IServiceCollection instance where services are registered.</param>
     /// <param name="configurator">The configuration action to set up the HareDuConfigurator, which provides configuration for HareDu services.</param>
     /// <returns>The updated IServiceCollection instance for chaining additional service registrations.</returns>
-    public static IServiceCollection AddHareDuDiagnostics(
-        [NotNull] this IServiceCollection services,
-        [NotNull] Action<HareDuConfigurator> configurator)
+    public static IServiceCollection AddHareDuDiagnostics([NotNull] this IServiceCollection services, [NotNull] Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
             ? ConfigCache.Default

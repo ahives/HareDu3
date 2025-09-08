@@ -15,16 +15,13 @@ using Serialization;
 public static class DependencyInjectionExtensions
 {
     /// <summary>
-    /// Registers HareDu services and configurations into the specified IServiceCollection instance.
+    /// Adds HareDu services and configuration to the specified IServiceCollection instance
+    /// using the provided settings file.
     /// </summary>
-    /// <param name="services">The IServiceCollection instance to which the HareDu services will be registered.</param>
-    /// <param name="settingsFile">The name of the configuration file containing HareDu settings. Defaults to "appsettings.json".</param>
-    /// <param name="configSection">The configuration section name where HareDu settings are defined. Defaults to "HareDuConfig".</param>
-    /// <returns>The updated IServiceCollection instance with HareDu services and configurations added.</returns>
-    public static IServiceCollection AddHareDu(
-        [NotNull] this IServiceCollection services,
-        [NotNull] string settingsFile = "appsettings.json",
-        [NotNull] string configSection = "HareDuConfig")
+    /// <param name="services">The IServiceCollection instance to which the HareDu services will be added.</param>
+    /// <param name="settingsFile">The path to the settings file containing HareDu configuration. Defaults to "appsettings.json".</param>
+    /// <returns>The updated IServiceCollection instance with HareDu services and configuration registered.</returns>
+    public static IServiceCollection AddHareDu([NotNull] this IServiceCollection services, [NotNull] string settingsFile = "appsettings.json")
     {
         var config = new HareDuConfig();
 
@@ -32,7 +29,7 @@ public static class DependencyInjectionExtensions
             .AddJsonFile(settingsFile, false)
             .Build();
 
-        configuration.Bind(configSection, config);
+        configuration.Bind("HareDu", config);
 
         Throw.IfInvalid(config.Broker);
         Throw.IfInvalid(config.Diagnostics);
@@ -54,9 +51,7 @@ public static class DependencyInjectionExtensions
     /// <param name="services">The IServiceCollection instance to which the HareDu services will be registered.</param>
     /// <param name="configurator">The action used to configure HareDu settings.</param>
     /// <returns>The updated IServiceCollection instance with HareDu services and configurations added.</returns>
-    public static IServiceCollection AddHareDu(
-        [NotNull] this IServiceCollection services,
-        [NotNull] Action<HareDuConfigurator> configurator)
+    public static IServiceCollection AddHareDu([NotNull] this IServiceCollection services, [NotNull] Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
             ? ConfigCache.Default

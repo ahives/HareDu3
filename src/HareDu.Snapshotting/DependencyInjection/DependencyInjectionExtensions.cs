@@ -18,13 +18,11 @@ public static class DependencyInjectionExtensions
     /// Registers HareDu snapshotting components and related dependencies into the service collection.
     /// </summary>
     /// <param name="services">The dependency injection container where services will be registered.</param>
-    /// <param name="settingsFile">The name of the settings file containing HareDu configuration values. Default is "appsettings.json".</param>
-    /// <param name="configSection">The section in the configuration file that contains HareDu settings. Default is "HareDuConfig".</param>
-    /// <returns>The updated service collection, enabling method chaining.</returns>
-    public static IServiceCollection AddHareDuSnapshotting(
-        [NotNull] this IServiceCollection services,
-        [NotNull] string settingsFile = "appsettings.json",
-        [NotNull] string configSection = "HareDuConfig")
+    /// <param name="settingsFile">
+    /// The path to the configuration file containing HareDu settings. Defaults to "appsettings.json" if not provided.
+    /// </param>
+    /// <returns>The updated service collection, allowing method chaining.</returns>
+    public static IServiceCollection AddHareDuSnapshotting([NotNull] this IServiceCollection services, [NotNull] string settingsFile = "appsettings.json")
     {
         var config = new HareDuConfig();
 
@@ -32,7 +30,7 @@ public static class DependencyInjectionExtensions
             .AddJsonFile(settingsFile, false)
             .Build();
 
-        configuration.Bind(configSection, config);
+        configuration.Bind("HareDu", config);
 
         Throw.IfInvalid(config.Broker);
         Throw.IfInvalid(config.Diagnostics);
@@ -56,9 +54,7 @@ public static class DependencyInjectionExtensions
     /// A delegate to configure HareDu settings, allowing customization of broker, diagnostics, and knowledge base configurations.
     /// </param>
     /// <returns>The updated service collection, enabling method chaining.</returns>
-    public static IServiceCollection AddHareDuSnapshotting(
-        [NotNull] this IServiceCollection services,
-        [NotNull] Action<HareDuConfigurator> configurator)
+    public static IServiceCollection AddHareDuSnapshotting([NotNull] this IServiceCollection services, [NotNull] Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
             ? ConfigCache.Default

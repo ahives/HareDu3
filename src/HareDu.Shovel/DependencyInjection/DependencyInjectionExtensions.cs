@@ -15,16 +15,12 @@ public static class DependencyInjectionExtensions
 {
     /// <summary>
     /// Registers the HareDu Shovel services into the provided IServiceCollection. This method configures the required dependencies
-    /// for interacting with HareDu Shovel functionality using the specified settings file and configuration section.
+    /// for interacting with the HareDu Shovel functionality.
     /// </summary>
-    /// <param name="services">The service collection into which HareDu Shovel services will be registered.</param>
-    /// <param name="settingsFile">The name of the settings file containing the configuration for HareDu. Defaults to "appsettings.json".</param>
-    /// <param name="configSection">The configuration section within the settings file where the HareDu configuration is located. Defaults to "HareDuConfig".</param>
+    /// <param name="services">The service collection into which the HareDu Shovel services will be registered.</param>
+    /// <param name="settingsFile">The configuration settings file (e.g., appsettings.json) containing HareDu configurations.</param>
     /// <returns>An IServiceCollection instance with the HareDu Shovel services registered.</returns>
-    public static IServiceCollection AddHareDuShovel(
-        [NotNull] this IServiceCollection services,
-        [NotNull] string settingsFile = "appsettings.json",
-        [NotNull] string configSection = "HareDuConfig")
+    public static IServiceCollection AddHareDuShovel([NotNull] this IServiceCollection services, [NotNull] string settingsFile = "appsettings.json")
     {
         var config = new HareDuConfig();
 
@@ -32,7 +28,7 @@ public static class DependencyInjectionExtensions
             .AddJsonFile(settingsFile, false)
             .Build();
 
-        configuration.Bind(configSection, config);
+        configuration.Bind("HareDu", config);
 
         Throw.IfInvalid(config.Broker);
         Throw.IfInvalid(config.Diagnostics);
@@ -54,9 +50,7 @@ public static class DependencyInjectionExtensions
     /// <param name="services">The service collection into which HareDu Shovel services will be registered.</param>
     /// <param name="configurator">An action to configure the HareDu options.</param>
     /// <returns>An IServiceCollection instance with the HareDu Shovel services registered.</returns>
-    public static IServiceCollection AddHareDuShovel(
-        [NotNull] this IServiceCollection services,
-        [NotNull] Action<HareDuConfigurator> configurator)
+    public static IServiceCollection AddHareDuShovel([NotNull] this IServiceCollection services, [NotNull] Action<HareDuConfigurator> configurator)
     {
         HareDuConfig config = configurator is null
             ? ConfigCache.Default
