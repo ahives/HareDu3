@@ -15,10 +15,10 @@ public class BaseHareDuImpl
 {
     protected readonly HttpClient Client;
     protected readonly IDictionary<string, string> ErrorReasons;
-    protected readonly IHareDuDeserializer Deserializer;
+
+    public IHareDuDeserializer Deserializer { get; }
 
     public BaseHareDuImpl(HttpClient client, IHareDuDeserializer deserializer)
-        // : base(client)
     {
         Client = client ?? throw new ArgumentNullException(nameof(client));
         ErrorReasons = new Dictionary<string, string>
@@ -60,27 +60,32 @@ public class BaseHareDuImpl
         catch (MissingMethodException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message:e.Message, stackTrace: e.StackTrace, response:rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -101,27 +106,32 @@ public class BaseHareDuImpl
         catch (MissingMethodException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message:e.Message, stackTrace:e.StackTrace, response:rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -142,27 +152,32 @@ public class BaseHareDuImpl
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message:e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -183,27 +198,32 @@ public class BaseHareDuImpl
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace:e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -220,33 +240,39 @@ public class BaseHareDuImpl
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), requestContent, rawResponse))
+                ? Response.Failed(Debug.Info(url, Errors.Create(err => { err.Add(response.StatusCode, type); }),
+                    requestContent, rawResponse))
                 : Response.Succeeded(Debug.Info(url, [], request: requestContent, response: rawResponse));
         }
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -262,33 +288,39 @@ public class BaseHareDuImpl
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: request, response: rawResponse))
+                ? Response.Failed(Debug.Info(url, Errors.Create(err => { err.Add(response.StatusCode, type); }),
+                    request: request, response: rawResponse))
                 : Response.Succeeded(Debug.Info(url, [], request: request, response: rawResponse));
         }
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -305,33 +337,40 @@ public class BaseHareDuImpl
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed<T>(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: requestContent, response: rawResponse))
-                : Response.Succeeded(Deserializer.ToObject<T>(rawResponse).GetDataOrDefault(), Debug.Info(url, [], request: requestContent, response: rawResponse));
+                ? Response.Failed<T>(Debug.Info(url, Errors.Create(err => { err.Add(response.StatusCode, type); }),
+                    request: requestContent, response: rawResponse))
+                : Response.Succeeded(Deserializer.ToObject<T>(rawResponse).GetDataOrDefault(),
+                    Debug.Info(url, [], request: requestContent, response: rawResponse));
         }
         catch (MissingMethodException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -348,33 +387,39 @@ public class BaseHareDuImpl
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Response.Failed(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: requestContent, response: rawResponse))
+                ? Response.Failed(Debug.Info(url, Errors.Create(err => { err.Add(response.StatusCode, type); }),
+                    request: requestContent, response: rawResponse))
                 : Response.Succeeded(Debug.Info(url, [], request: requestContent, response: rawResponse));
         }
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -391,33 +436,40 @@ public class BaseHareDuImpl
             rawResponse = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
             return !response.IsSuccessStatusCode
-                ? Responses.Failed<T>(Debug.Info(url, Errors.Create(err => {err.Add(response.StatusCode, type);}), request: requestContent, response: rawResponse))
-                : Responses.Succeeded(Deserializer.ToObject<List<T>>(rawResponse).GetDataOrDefault(), Debug.Info(url, [], response: rawResponse));
+                ? Responses.Failed<T>(Debug.Info(url, Errors.Create(err => { err.Add(response.StatusCode, type); }),
+                    request: requestContent, response: rawResponse))
+                : Responses.Succeeded(Deserializer.ToObject<List<T>>(rawResponse).GetDataOrDefault(),
+                    Debug.Info(url, [], response: rawResponse));
         }
         catch (MissingMethodException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message:e.Message, stackTrace:e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Responses.Faulted<T>(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 
@@ -438,27 +490,32 @@ public class BaseHareDuImpl
         catch (MissingMethodException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(MissingMethodException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(MissingMethodException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (HttpRequestException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(HttpRequestException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(HttpRequestException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (JsonException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(JsonException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(JsonException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (TaskCanceledException e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(TaskCanceledException)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(TaskCanceledException)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
         catch (Exception e)
         {
             return Response.Faulted(Debug.Info(url,
-                Errors.Create(err => {err.Add(ErrorReasons[nameof(Exception)]);}), message: e.Message, stackTrace: e.StackTrace, response: rawResponse));
+                Errors.Create(err => { err.Add(ErrorReasons[nameof(Exception)]); }), message: e.Message,
+                stackTrace: e.StackTrace, response: rawResponse));
         }
     }
 }

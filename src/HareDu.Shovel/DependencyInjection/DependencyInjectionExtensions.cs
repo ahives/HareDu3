@@ -5,11 +5,9 @@ using Core;
 using Core.Configuration;
 using Core.HTTP;
 using Core.Security;
-using Core.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Serialization;
 
 public static class DependencyInjectionExtensions
 {
@@ -37,7 +35,6 @@ public static class DependencyInjectionExtensions
         services.TryAddSingleton(config);
         services.TryAddSingleton<IHareDuClient, HareDuClient>();
         services.TryAddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
-        services.TryAddSingleton<IHareDuDeserializer, ShovelDeserializer>();
         services.TryAddSingleton<IHareDuFactory, HareDuFactory>();
 
         return services;
@@ -66,7 +63,6 @@ public static class DependencyInjectionExtensions
         services.TryAddSingleton(config);
         services.TryAddSingleton<IHareDuClient, HareDuClient>();
         services.TryAddSingleton<IHareDuCredentialBuilder, HareDuCredentialBuilder>();
-        services.TryAddSingleton<IHareDuDeserializer, ShovelDeserializer>();
         services.TryAddSingleton<IHareDuFactory, HareDuFactory>();
 
         return services;

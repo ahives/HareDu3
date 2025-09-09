@@ -8,17 +8,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
 using Extensions;
-using Microsoft.Extensions.DependencyInjection;
 using Model;
+using Serialization;
 
 class VirtualHostImpl :
     BaseHareDuImpl,
     VirtualHost
 {
-    public VirtualHostImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
-        : base(client, deserializer)
+    public VirtualHostImpl(HttpClient client)
+        : base(client, new BrokerDeserializer())
     {
     }
 

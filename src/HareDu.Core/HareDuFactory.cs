@@ -1,11 +1,9 @@
 namespace HareDu.Core;
 
 using System;
-using CommunityToolkit.Diagnostics;
 using Extensions;
 using HTTP;
 using Security;
-using Serialization;
 
 /// <summary>
 /// Represents a factory that provides APIs to interact with the broker.
@@ -15,14 +13,12 @@ public sealed class HareDuFactory :
     IHareDuFactory
 {
     readonly IHareDuClient _client;
-    private readonly IHareDuDeserializer _deserializer;
 
-    public HareDuFactory(IHareDuClient client, IHareDuDeserializer deserializer)
+    public HareDuFactory(IHareDuClient client)
     {
-        Guard.IsNotNull(client);
-
+        Throw.IfNull<HareDuInitException>(client, "Failed to initialize HareDu API.");
+ 
         _client = client;
-        _deserializer = deserializer;
     }
 
     public T API<T>(Action<HareDuCredentialProvider> credentials)
@@ -38,12 +34,10 @@ public sealed class HareDuFactory :
         Throw.IfNotFound<HareDuInitException>(implMap.ContainsKey, key, $"Failed to find implementation for interface {type}.");
 
         var client = _client.GetClient(credentials);
-        (bool success, object impl) = TryGetImpl(implMap[key], typeof(BaseHareDuImpl), key, client, _deserializer);
+        (bool success, object impl) = TryGetImpl(implMap[key], typeof(BaseHareDuImpl), key, client);
 
         if (success)
             return (T) impl;
-        // if (TryGetImpl(implMap[key], typeof(BaseBrokerImpl), key, client, out var impl))
-        //     return (T) impl;
 
         throw new HareDuInitException($"Failed to find implementation for interface {type}.");
     }

@@ -7,16 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Model;
+using Serialization;
 
 class TopicPermissionsImpl :
     BaseHareDuImpl,
     TopicPermissions
 {
-    public TopicPermissionsImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
-        : base(client, deserializer)
+    public TopicPermissionsImpl(HttpClient client)
+        : base(client, new BrokerDeserializer())
     {
     }
 

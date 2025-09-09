@@ -6,16 +6,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Model;
+using Serialization;
 
 class ScopedParameterImpl :
     BaseHareDuImpl,
     ScopedParameter
 {
-    public ScopedParameterImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
-        : base(client, deserializer)
+    public ScopedParameterImpl(HttpClient client)
+        : base(client, new BrokerDeserializer())
     {
     }
 

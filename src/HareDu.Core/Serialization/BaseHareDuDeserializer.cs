@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Converters;
 
-public class BaseHareDuDeserializer :
+public abstract class BaseHareDuDeserializer :
     IHareDuDeserializer
 {
     public virtual JsonSerializerOptions Options =>

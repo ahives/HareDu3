@@ -7,16 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Model;
+using Serialization;
 
 class ConnectionImpl :
     BaseHareDuImpl,
     Connection
 {
-    public ConnectionImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer)
-        : base(client, deserializer)
+    public ConnectionImpl(HttpClient client)
+        : base(client, new BrokerDeserializer())
     {
     }
 

@@ -7,16 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
-using Microsoft.Extensions.DependencyInjection;
 using Model;
+using Serialization;
 
 class OperatorPolicyImpl :
     BaseHareDuImpl,
     OperatorPolicy
 {
-    public OperatorPolicyImpl(HttpClient client, [FromKeyedServices("broker")] IHareDuDeserializer deserializer) :
-        base(client, deserializer)
+    public OperatorPolicyImpl(HttpClient client) :
+        base(client, new BrokerDeserializer())
     {
     }
         
