@@ -3,7 +3,6 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,12 +13,6 @@ using Serialization;
 public class BindingTests
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public BindingTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -69,7 +62,7 @@ public class BindingTests
             .ScreenDump();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -80,6 +73,6 @@ public class BindingTests
             .ScreenDump();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

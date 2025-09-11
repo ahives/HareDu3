@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
 using Core.Testing;
 using HareDu.Model;
 
@@ -12,6 +13,8 @@ public class FakeChannelImpl :
     Channel,
     HareDuTestingFake
 {
+    public IHareDuDeserializer Deserializer { get; }
+
     public async Task<Results<ChannelInfo>> GetAll(Action<PaginationConfigurator> pagination, CancellationToken cancellationToken = default)
     {
         var channel = new ChannelInfo

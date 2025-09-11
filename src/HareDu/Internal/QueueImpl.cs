@@ -17,7 +17,7 @@ class QueueImpl :
     Queue
 {
     public QueueImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

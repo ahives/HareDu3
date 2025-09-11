@@ -2,21 +2,12 @@ namespace HareDu.Snapshotting.IntegrationTests.Observers;
 
 using System;
 using System.IO;
-using Core.Extensions;
-using Core.Serialization;
 using Model;
 using Serialization;
 
 public class BrokerQueuesJsonExporter :
     IObserver<SnapshotContext<BrokerQueuesSnapshot>>
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public BrokerQueuesJsonExporter()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     public void OnCompleted() => throw new NotImplementedException();
 
     public void OnError(Exception error) => throw new NotImplementedException();
@@ -30,7 +21,7 @@ public class BrokerQueuesJsonExporter :
             var directory = Directory.CreateDirectory(path);
                 
             if (directory.Exists)
-                File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", _deserializer.ToJsonString(value));
+                File.WriteAllText($"{path}/snapshot_{value.Identifier}.json", BrokerDeserializer.Instance.ToJsonString(value));
         }
     }
 }

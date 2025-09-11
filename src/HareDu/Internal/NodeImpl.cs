@@ -12,7 +12,7 @@ class NodeImpl :
     Node
 {
     public NodeImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

@@ -4,17 +4,19 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
 using Core.Testing;
 using HareDu.Model;
-using Internal;
 
 public class FakeBrokerImpl :
     Broker,
     HareDuTestingFake
 {
+    public IHareDuDeserializer Deserializer { get; }
+
     public async Task<Result<BrokerOverviewInfo>> GetOverview(CancellationToken cancellationToken = default)
     {
-        var data = new BrokerOverviewInfo()
+        var data = new BrokerOverviewInfo
         {
             RabbitMqVersion = "3.7.18",
             ErlangVersion = "22.1",
@@ -59,28 +61,9 @@ public class FakeBrokerImpl :
 
     public async Task<Result> RebalanceQueues(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
     public Task<Result<AlarmState>> IsAlarmsInEffect(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
-    public Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(CancellationToken cancellationToken = default)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<Result<BrokerState>> IsBrokerAlive(string vhost, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<VirtualHostState>> IsVirtualHostsRunning(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<NodeMirrorSyncState>> IsNodeMirrorSyncCritical(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<NodeQuorumState>> IsNodeQuorumCritical(CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
+    public Task<Result<ProtocolListenerState>> IsProtocolActiveListener(Protocol protocol, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

@@ -3,7 +3,6 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +15,6 @@ public class QueueTests
     ServiceProvider _services;
     string _vhost = "QueueTestVirtulHost1";
     string _node = "rabbit@7c619192ad6b";
-    readonly IHareDuDeserializer _deserializer;
-
-    public QueueTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -50,8 +43,9 @@ public class QueueTests
     [Test]
     public async Task Verify_can_create_queue()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Create("TestQueue1", _vhost, _node, x =>
             {
                 x.IsDurable();
@@ -66,39 +60,42 @@ public class QueueTests
             });
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_issue_2_fix()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Create("Issue2", "/", _node, x =>
             {
                 x.IsDurable();
             });
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
         Assert.That(result.HasFaulted, Is.False);
     }
 
     [Test]
     public async Task Verify_can_create_queue_without_configurator()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Create("TestQueue2", _vhost,_node);
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_cannot_create_queue()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Create("TestQueue31", "HareDu",null, x =>
             {
                 x.IsDurable();
@@ -113,78 +110,84 @@ public class QueueTests
             });
             
         Assert.That(result.HasFaulted, Is.True);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Should_be_able_to_get_all_queues()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .GetAll()
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Should_be_able_to_get_details_all_queues()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .GetDetails()
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_can_get_all_json()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .GetAll();
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_can_delete_queue()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Delete("TestQueue10", "HareDu",x =>
             {
                 x.WhenHasNoConsumers();
             });
 
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_can_sync_queue()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Sync("order-state", "TestOrders");
             
         // Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
     public async Task Verify_can_sync_queue1()
     {
-        var result = await _services.GetService<IHareDuFactory>()
-            .API<Queue>(x => x.UsingCredentials("guest", "guest"))
+        var api = _services.GetService<IHareDuFactory>()
+            .API<Queue>(x => x.UsingCredentials("guest", "guest"));
+        var result = await api
             .Empty("", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(api.Deserializer.ToJsonString(result));
     }
 
     [Test]
@@ -194,7 +197,7 @@ public class QueueTests
             .EmptyQueue(x => x.UsingCredentials("guest", "guest"), "", "HareDu");
             
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]

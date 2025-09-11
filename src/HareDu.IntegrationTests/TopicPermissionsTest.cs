@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +14,6 @@ using Serialization;
 public class TopicPermissionsTest
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public TopicPermissionsTest()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -69,7 +62,7 @@ public class TopicPermissionsTest
             .GetAll()
             .ScreenDump();
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
         
     [Test]
@@ -103,7 +96,7 @@ public class TopicPermissionsTest
                 x.UsingWritePattern(".*");
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -113,6 +106,6 @@ public class TopicPermissionsTest
             .API<TopicPermissions>(x => x.UsingCredentials("guest", "guest"))
             .Delete("guest", "HareDu7");
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

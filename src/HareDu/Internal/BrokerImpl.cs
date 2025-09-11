@@ -13,7 +13,7 @@ class BrokerImpl :
     Broker
 {
     public BrokerImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

@@ -2,7 +2,6 @@ namespace HareDu.Tests;
 
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -13,13 +12,6 @@ using Serialization;
 public class PolicyTests :
     HareDuTesting
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public PolicyTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     [Test]
     public async Task Should_be_able_to_get_all_policies1()
     {
@@ -112,7 +104,7 @@ public class PolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -143,7 +135,7 @@ public class PolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -177,7 +169,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -209,7 +201,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -242,7 +234,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -274,7 +266,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -308,7 +300,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -341,7 +333,7 @@ public class PolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            PolicyRequest request = _deserializer.ToObject<PolicyRequest>(result.DebugInfo.Request);
+            PolicyRequest request = BrokerDeserializer.Instance.ToObject<PolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));

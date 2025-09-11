@@ -2,8 +2,6 @@ namespace HareDu.Tests;
 
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
-using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -14,13 +12,6 @@ using Serialization;
 public class OperatorPolicyTests :
     HareDuTesting
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public OperatorPolicyTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     [Test]
     public async Task Should_be_able_to_get_all_policies1()
     {
@@ -110,7 +101,7 @@ public class OperatorPolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -143,7 +134,7 @@ public class OperatorPolicyTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -178,7 +169,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -212,7 +203,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -247,7 +238,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -282,7 +273,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo(".*"));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -317,7 +308,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));
@@ -352,7 +343,7 @@ public class OperatorPolicyTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            OperatorPolicyRequest request = _deserializer.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
+            OperatorPolicyRequest request = BrokerDeserializer.Instance.ToObject<OperatorPolicyRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Pattern, Is.EqualTo("^amq."));
             Assert.That(request.Priority, Is.EqualTo(0));

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
 using Core.Testing;
 using HareDu.Model;
 
@@ -12,6 +13,8 @@ public class FakeConnectionImpl :
     Connection,
     HareDuTestingFake
 {
+    public IHareDuDeserializer Deserializer { get; }
+
     public async Task<Results<ConnectionInfo>> GetAll(Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default)
     {
         var connection1 = new ConnectionInfo
@@ -64,12 +67,8 @@ public class FakeConnectionImpl :
     }
 
     public Task<Results<ConnectionInfo>> GetByVirtualHost(string vhost, Action<PaginationConfigurator> pagination = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public Task<Results<ConnectionInfo>> GetByName(string name, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public Task<Results<ConnectionInfo>> GetByUser(string username, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result> Delete(string connection, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public Task<Result> DeleteByUser(string username, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

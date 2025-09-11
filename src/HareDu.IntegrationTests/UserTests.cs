@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +15,6 @@ using Serialization;
 public class UserTests
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public UserTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -93,7 +86,7 @@ public class UserTests
                 });
             });
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -110,7 +103,7 @@ public class UserTests
         var result = await _services.GetService<IHareDuFactory>()
             .DeleteUsers(x => x.UsingCredentials("guest", "guest"), new List<string> {"username1", "username2", "username3"});
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -129,7 +122,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetAllUserLimits();
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -139,7 +132,7 @@ public class UserTests
             .API<User>(x => x.UsingCredentials("guest", "guest"))
             .GetLimitsByUser("test");
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -152,6 +145,6 @@ public class UserTests
                 x.SetLimit(UserLimit.MaxChannels, 50);
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

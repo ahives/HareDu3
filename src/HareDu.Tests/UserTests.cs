@@ -3,8 +3,6 @@ namespace HareDu.Tests;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
-using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -15,13 +13,6 @@ using Serialization;
 public class UserTests :
     HareDuTesting
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public UserTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     [Test]
     public async Task Verify_can_get_all_users1()
     {
@@ -136,7 +127,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator,management"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
@@ -164,7 +155,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
@@ -191,7 +182,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
@@ -221,7 +212,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -249,7 +240,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
@@ -279,7 +270,7 @@ public class UserTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -308,7 +299,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.EqualTo("testuserpwd3"));
@@ -337,7 +328,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -366,7 +357,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -395,7 +386,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -421,7 +412,7 @@ public class UserTests :
             Assert.That(result.DebugInfo, Is.Not.Null);
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
 
-            UserRequest request = _deserializer.ToObject<UserRequest>(result.DebugInfo.Request);
+            UserRequest request = BrokerDeserializer.Instance.ToObject<UserRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Tags, Is.EqualTo("administrator"));
             Assert.That(request.Password, Is.Empty.Or.Null);
@@ -465,7 +456,7 @@ public class UserTests :
         {
             Assert.That(result.HasFaulted, Is.False);
 
-            BulkUserDeleteRequest request = _deserializer.ToObject<BulkUserDeleteRequest>(result.DebugInfo.Request);
+            BulkUserDeleteRequest request = BrokerDeserializer.Instance.ToObject<BulkUserDeleteRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Users, Is.Not.Null);
             Assert.That(request.Users[0], Is.EqualTo("fake_user1"));;
@@ -486,7 +477,7 @@ public class UserTests :
         {
             Assert.That(result.HasFaulted, Is.False);
 
-            BulkUserDeleteRequest request = _deserializer.ToObject<BulkUserDeleteRequest>(result.DebugInfo.Request);
+            BulkUserDeleteRequest request = BrokerDeserializer.Instance.ToObject<BulkUserDeleteRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Users, Is.Not.Null);
             Assert.That(request.Users[0], Is.EqualTo("fake_user1"));;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
 using Core.Testing;
 using HareDu.Model;
 
@@ -12,6 +13,8 @@ public class FakeNodeImpl :
     Node,
     HareDuTestingFake
 {
+    public IHareDuDeserializer Deserializer { get; }
+
     public async Task<Results<NodeInfo>> GetAll(CancellationToken cancellationToken = default)
     {
         var node1 = new NodeInfo
@@ -40,6 +43,7 @@ public class FakeNodeImpl :
             TotalIOBytesRead = 78738764,
             TotalIOBytesWritten = 728364283
         };
+
         var node2 = new NodeInfo
         {
             Partitions = GetPartitions().ToList(),
@@ -69,8 +73,6 @@ public class FakeNodeImpl :
 
         return new SuccessfulResults<NodeInfo>{Data = new List<NodeInfo> {node1, node2}, DebugInfo = null};
     }
-
-    public async Task<Result<NodeHealthInfo>> GetHealth(string node = null, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
 
     public async Task<Result<NodeMemoryUsageInfo>> GetMemoryUsage(string node, CancellationToken cancellationToken = default) => throw new System.NotImplementedException();
 

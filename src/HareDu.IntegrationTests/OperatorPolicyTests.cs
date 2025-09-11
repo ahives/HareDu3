@@ -3,7 +3,6 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,12 +14,6 @@ using Serialization;
 public class OperatorPolicyTests
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public OperatorPolicyTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -90,7 +83,7 @@ public class OperatorPolicyTests
                 });
             });
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -100,6 +93,6 @@ public class OperatorPolicyTests
             .API<OperatorPolicy>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test6", "TestHareDu");
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

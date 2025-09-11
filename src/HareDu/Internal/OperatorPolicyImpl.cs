@@ -15,7 +15,7 @@ class OperatorPolicyImpl :
     OperatorPolicy
 {
     public OperatorPolicyImpl(HttpClient client) :
-        base(client, new BrokerDeserializer())
+        base(client, BrokerDeserializer.Instance)
     {
     }
         

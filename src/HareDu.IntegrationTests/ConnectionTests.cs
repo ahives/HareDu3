@@ -3,7 +3,6 @@ namespace HareDu.IntegrationTests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,12 +13,6 @@ using Serialization;
 public class ConnectionTests
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public ConnectionTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -84,6 +77,6 @@ public class ConnectionTests
         var result = await _services.GetService<IHareDuFactory>()
             .DeleteConnection(x => x.UsingCredentials("guest", "guest"), "127.0.0.1:56601 -> 127.0.0.1:5672");
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

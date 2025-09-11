@@ -9,12 +9,6 @@ using System.Text.Json;
 public interface IHareDuDeserializer
 {
     /// <summary>
-    /// Represents the serialization options used by the deserializer to configure how
-    /// objects are serialized to JSON and deserialized from JSON.
-    /// </summary>
-    JsonSerializerOptions Options { get; }
-
-    /// <summary>
     /// Serializes the specified object into a JSON string representation using the provided serialization options.
     /// </summary>
     /// <typeparam name="T">The type of the object to serialize.</typeparam>

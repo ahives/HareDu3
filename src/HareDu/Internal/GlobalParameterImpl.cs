@@ -17,7 +17,7 @@ class GlobalParameterImpl :
     GlobalParameter
 {
     public GlobalParameterImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

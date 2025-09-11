@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Extensions;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +15,6 @@ using Serialization;
 public class VirtualHostLimitsTests
 {
     ServiceProvider _services;
-    readonly IHareDuDeserializer _deserializer;
-
-    public VirtualHostLimitsTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -105,7 +98,7 @@ public class VirtualHostLimitsTests
                 x.SetMaxConnectionLimit(1000);
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -115,6 +108,6 @@ public class VirtualHostLimitsTests
             .API<VirtualHost>(x => x.UsingCredentials("guest", "guest"))
             .DeleteLimit("HareDu3", VirtualHostLimit.MaxConnections);
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
     }
 }

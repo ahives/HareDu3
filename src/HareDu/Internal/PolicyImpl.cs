@@ -16,7 +16,7 @@ class PolicyImpl :
     Policy
 {
     public PolicyImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

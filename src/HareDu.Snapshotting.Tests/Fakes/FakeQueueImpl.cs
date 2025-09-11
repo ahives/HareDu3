@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Core;
+using Core.Serialization;
 using Core.Testing;
 using HareDu.Model;
 
@@ -12,6 +13,8 @@ public class FakeQueueImpl :
     Queue,
     HareDuTestingFake
 {
+    public IHareDuDeserializer Deserializer { get; }
+
     public async Task<Results<QueueInfo>> GetAll(Action<PaginationConfigurator> pagination,
         CancellationToken cancellationToken = default)
     {
@@ -51,18 +54,11 @@ public class FakeQueueImpl :
     }
 
     public Task<Results<QueueDetailInfo>> GetDetails(CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result> Create(string name, string vhost, string node, Action<QueueConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result> Delete(string name, string vhost, Action<QueueDeletionConfigurator> configurator = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result> Empty(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public Task<Result> Sync(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public Task<Result> CancelSync(string name, string vhost, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result<BindingInfo>> BindToQueue(string vhost, string exchange, Action<BindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-
     public async Task<Result> Unbind(string vhost, Action<UnbindingConfigurator> configurator, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 }

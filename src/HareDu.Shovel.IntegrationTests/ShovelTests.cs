@@ -1,7 +1,6 @@
 namespace HareDu.Shovel.IntegrationTests;
 
 using Core;
-using Core.Serialization;
 using DependencyInjection;
 using Extensions;
 using HareDu.DependencyInjection;
@@ -17,12 +16,6 @@ public class ShovelTests
     string _shovelName = "test-shovel1";
     string _vhost = "TestVirtualHost1";
     string _node = "rabbit@b91edc210b0d";
-    readonly IHareDuDeserializer _deserializer;
-
-    public ShovelTests()
-    {
-        _deserializer = new ShovelDeserializer();
-    }
 
     [OneTimeSetUp]
     public void Init()
@@ -70,7 +63,7 @@ public class ShovelTests
                 x.Destination("queue2");
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -87,7 +80,7 @@ public class ShovelTests
                 x.Destination("queue2");
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -104,7 +97,7 @@ public class ShovelTests
                 x.Destination("queue2");
             });
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -114,7 +107,7 @@ public class ShovelTests
             .API<Shovel>(x => x.UsingCredentials("guest", "guest"))
             .Delete("test-shovel2","TestHareDu");
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -123,7 +116,7 @@ public class ShovelTests
         var result = await _services.GetService<IHareDuFactory>()
             .DeleteShovel(x => x.UsingCredentials("guest", "guest"), "test-shovel2","TestHareDu");
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -132,7 +125,7 @@ public class ShovelTests
         var result = await _services.GetService<IHareDuFactory>()
             .DeleteAllShovels(x => x.UsingCredentials("guest", "guest"),"TestHareDu");
 
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -144,7 +137,7 @@ public class ShovelTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
         
     [Test]
@@ -155,7 +148,7 @@ public class ShovelTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -167,7 +160,7 @@ public class ShovelTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -178,7 +171,7 @@ public class ShovelTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 
     [Test]
@@ -190,6 +183,6 @@ public class ShovelTests
             .ScreenDump();
 
         Assert.That(result.HasFaulted, Is.False);
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(ShovelDeserializer.Instance.ToJsonString(result));
     }
 }

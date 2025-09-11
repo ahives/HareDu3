@@ -3,8 +3,6 @@ namespace HareDu.Tests;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
-using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -15,13 +13,6 @@ using Serialization;
 public class ExchangeTests :
     HareDuTesting
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public ExchangeTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     [Test]
     public async Task Should_be_able_to_get_all_exchanges1()
     {
@@ -93,14 +84,14 @@ public class ExchangeTests :
                 });
             });
             
-        Console.WriteLine(_deserializer.ToJsonString(result));
+        Console.WriteLine(BrokerDeserializer.Instance.ToJsonString(result));
             
         Assert.Multiple(() =>
         {
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
+            ExchangeRequest request = BrokerDeserializer.Instance.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -134,7 +125,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
+            ExchangeRequest request = BrokerDeserializer.Instance.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);
@@ -165,7 +156,7 @@ public class ExchangeTests :
             Assert.That(result.HasFaulted, Is.False);
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            ExchangeRequest request = _deserializer.ToObject<ExchangeRequest>(result.DebugInfo.Request);
+            ExchangeRequest request = BrokerDeserializer.Instance.ToObject<ExchangeRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Durable, Is.True);
             Assert.That(request.Internal, Is.True);

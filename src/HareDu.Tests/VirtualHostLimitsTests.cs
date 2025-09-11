@@ -2,8 +2,6 @@ namespace HareDu.Tests;
 
 using System.Threading.Tasks;
 using Core;
-using Core.Extensions;
-using Core.Serialization;
 using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Model;
@@ -14,13 +12,6 @@ using Serialization;
 public class VirtualHostLimitsTests :
     HareDuTesting
 {
-    readonly IHareDuDeserializer _deserializer;
-
-    public VirtualHostLimitsTests()
-    {
-        _deserializer = new BrokerDeserializer();
-    }
-
     [OneTimeSetUp]
     public void Setup()
     {
@@ -126,7 +117,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -149,7 +140,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -173,7 +164,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -196,7 +187,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -221,7 +212,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(1000));
         });
@@ -245,7 +236,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(1));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(1000));
         });
@@ -270,7 +261,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(1000));
         });
@@ -294,7 +285,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(1000));
         });
@@ -319,7 +310,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -343,7 +334,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(2));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -368,7 +359,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });
@@ -392,7 +383,7 @@ public class VirtualHostLimitsTests :
             Assert.That(result.DebugInfo.Errors.Count, Is.EqualTo(3));
             Assert.That(result.DebugInfo, Is.Not.Null);
 
-            VirtualHostLimitsRequest request = _deserializer.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
+            VirtualHostLimitsRequest request = BrokerDeserializer.Instance.ToObject<VirtualHostLimitsRequest>(result.DebugInfo.Request);
 
             Assert.That(request.Value, Is.EqualTo(0));
         });

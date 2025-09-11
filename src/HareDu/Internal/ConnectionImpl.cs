@@ -15,7 +15,7 @@ class ConnectionImpl :
     Connection
 {
     public ConnectionImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

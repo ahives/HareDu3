@@ -11,7 +11,7 @@ class ShovelImpl :
     Shovel
 {
     public ShovelImpl(HttpClient client)
-        : base(client, new ShovelDeserializer())
+        : base(client, ShovelDeserializer.Instance)
     {
     }
 

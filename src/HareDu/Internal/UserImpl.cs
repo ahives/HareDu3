@@ -18,7 +18,7 @@ class UserImpl :
     User
 {
     public UserImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

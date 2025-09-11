@@ -12,7 +12,7 @@ class AuthenticationImpl :
     Authentication
 {
     public AuthenticationImpl(HttpClient client)
-        : base(client, new BrokerDeserializer())
+        : base(client, BrokerDeserializer.Instance)
     {
     }
 

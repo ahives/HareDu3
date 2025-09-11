@@ -2,6 +2,7 @@ namespace HareDu.Serialization;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Converters;
 using Core.Serialization;
 using Core.Serialization.Converters;
@@ -22,26 +23,48 @@ using Core.Serialization.Converters;
 public class BrokerDeserializer :
     BaseHareDuDeserializer
 {
-    public override JsonSerializerOptions Options =>
-        new()
+    static readonly Lock _lock = new();
+    static BrokerDeserializer _instance;
+
+    public static IHareDuDeserializer Instance
+    {
+        get
         {
-            WriteIndented = true,
-            Converters =
+            if (_instance is not null)
+                return _instance;
+
+            lock (_lock)
             {
-                new CustomDecimalConverter(),
-                new CustomDateTimeConverter(),
-                new CustomLongConverter(),
-                new CustomULongConverter(),
-                new CustomStringConverter(),
-                new AckModeEnumConverter(),
-                new PolicyAppliedToConverter(),
-                new OperatorPolicyAppliedToConverter(),
-                new QueueOverflowBehaviorConverter(),
-                new QueueLeaderLocatorConverter(),
-                new DeadLetterQueueStrategyConverter(),
-                new QueueModeConverter(),
-                new DefaultQueueTypeEnumConverter(),
-                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                _instance = new BrokerDeserializer();
             }
-        };
+
+            return _instance;
+        }
+    }
+    
+    BrokerDeserializer()
+    {
+        Options =
+            new()
+            {
+                WriteIndented = true,
+                Converters =
+                {
+                    new CustomDecimalConverter(),
+                    new CustomDateTimeConverter(),
+                    new CustomLongConverter(),
+                    new CustomULongConverter(),
+                    new CustomStringConverter(),
+                    new AckModeEnumConverter(),
+                    new PolicyAppliedToConverter(),
+                    new OperatorPolicyAppliedToConverter(),
+                    new QueueOverflowBehaviorConverter(),
+                    new QueueLeaderLocatorConverter(),
+                    new DeadLetterQueueStrategyConverter(),
+                    new QueueModeConverter(),
+                    new DefaultQueueTypeEnumConverter(),
+                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+                }
+            };
+    }
 }

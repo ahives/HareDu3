@@ -3,7 +3,6 @@ namespace HareDu.Diagnostics.KnowledgeBase;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using Core.Configuration;
 using Model;
 using Probes;
@@ -82,8 +81,7 @@ public class KnowledgeBaseProvider :
             throw new HareDuFileNotFoundException($"The file '{path}' does not exist.");
 
         string data = File.ReadAllText(path);
-        var deserializer = new DiagnosticDeserializer();
-        var articles = JsonSerializer.Deserialize<List<KnowledgeBaseArticle>>(data, deserializer.Options);
+        var articles = DiagnosticDeserializer.Instance.ToObject<List<KnowledgeBaseArticle>>(data);
 
         _articles.AddRange(articles);
         _loaded = true;
