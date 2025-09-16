@@ -41,7 +41,7 @@ public class BrokerDeserializer :
             return _instance;
         }
     }
-    
+
     BrokerDeserializer()
     {
         Options =

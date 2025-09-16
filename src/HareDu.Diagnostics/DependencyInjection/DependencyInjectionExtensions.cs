@@ -39,7 +39,7 @@ public static class DependencyInjectionExtensions
         services.TryAddSingleton<IScanner, Scanner>();
         services.TryAddSingleton<IScannerFactory, ScannerFactory>();
         services.TryAddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.TryAddSingleton<IDiagnosticReportFormatter, DiagnosticReportTextFormatter>();
+        services.TryAddKeyedSingleton<IDiagnosticReportFormatter, DiagnosticReportTextFormatter>("text-formatter");
 
         return services;
     }
@@ -69,7 +69,7 @@ public static class DependencyInjectionExtensions
         services.TryAddSingleton<IScanner, Scanner>();
         services.TryAddSingleton<IScannerFactory, ScannerFactory>();
         services.TryAddSingleton<IScannerResultAnalyzer, ScannerResultAnalyzer>();
-        services.TryAddSingleton<IDiagnosticReportFormatter, DiagnosticReportTextFormatter>();
+        services.TryAddKeyedSingleton<IDiagnosticReportFormatter, DiagnosticReportTextFormatter>("text-formatter");
 
         return services;
     }

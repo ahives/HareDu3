@@ -13,9 +13,8 @@ public class DiagnosticReportTextFormatter :
         builder.AppendLine($"Report Identifier: {report.Id.ToString()}");
         builder.AppendLine($"Timestamp: {report.Timestamp.ToString()}");
         builder.AppendLine();
-
         builder.AppendLine("Results");
-            
+
         foreach (var result in report.Results)
             FormatProbeResult(result, builder);
 
@@ -31,12 +30,12 @@ public class DiagnosticReportTextFormatter :
         builder.AppendLine($"\tProbe Name: {result.Name}");
         builder.AppendLine($"\tStatus: {result.Status.ToString()}");
         builder.AppendLine("\tProbe Data");
-            
+
         foreach (var data in result.Data)
         {
             if (data is null)
                 continue;
-                
+
             builder.AppendLine($"\t\t{data.PropertyName} => {data.PropertyValue}");
         }
 

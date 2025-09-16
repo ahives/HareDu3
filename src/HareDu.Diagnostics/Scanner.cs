@@ -34,7 +34,7 @@ public class Scanner :
             Id = Guid.CreateVersion7(DateTimeOffset.UtcNow),
             ScannerId = scanner.Metadata.Identifier,
             Results = results,
-            Timestamp = DateTimeOffset.Now
+            Timestamp = DateTimeOffset.UtcNow
         };
     }
 

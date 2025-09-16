@@ -32,7 +32,7 @@ public class DiagnosticDeserializer :
             return _instance;
         }
     }
-    
+
     DiagnosticDeserializer()
     {
         Options =

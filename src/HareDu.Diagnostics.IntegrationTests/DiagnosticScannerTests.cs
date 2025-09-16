@@ -40,8 +40,7 @@ public class DiagnosticScannerTests
         var result = await lens.TakeSnapshot(x => x.UsingCredentials("guest", "guest"));;
             
         var report = scanner.Scan(result.Snapshot);
-
-        var formatter = _services.GetService<IDiagnosticReportFormatter>();
+        var formatter = _services.GetKeyedService<IDiagnosticReportFormatter>("text-formatter");
             
         string formattedReport = formatter.Format(report);
              

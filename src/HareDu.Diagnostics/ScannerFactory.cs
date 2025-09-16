@@ -40,6 +40,7 @@ public class ScannerFactory :
         _observers = new List<IDisposable>();
 
         _kb.Load();
+
         if (!TryRegisterAllProbes())
             throw new HareDuDiagnosticsException("Could not register diagnostic probes.");
 

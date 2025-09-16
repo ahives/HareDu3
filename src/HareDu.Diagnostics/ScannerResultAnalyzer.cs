@@ -85,7 +85,7 @@ public class ScannerResultAnalyzer :
     void NotifyObservers(List<AnalyzerSummary> result)
     {
         foreach (var observer in _observers)
-            observer.OnNext(new() {Id = Guid.CreateVersion7(DateTimeOffset.UtcNow), Summary = result, Timestamp = DateTimeOffset.UtcNow});
+            observer.OnNext(Analyzer.Context(result));
     }
 
     decimal CalcPercentage(List<ProbeResultStatus> results, ProbeResultStatus status)

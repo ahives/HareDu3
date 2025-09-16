@@ -103,6 +103,8 @@
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.VirtualHostTests.Verify_GetAll_HasResult_works&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::FB586288-61C5-4F40-8EFF-23A307164DB4::net9.0::HareDu.IntegrationTests.ExchangeTests.Verify_can_create_exchange&lt;/TestId&gt;
       &lt;TestId&gt;NUnit3x::A7313527-BF51-47DA-968C-C5A5BF2BFA18::net9.0::HareDu.Diagnostics.IntegrationTests.DiagnosticScannerTests.Test3&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::A7313527-BF51-47DA-968C-C5A5BF2BFA18::net9.0::HareDu.Diagnostics.IntegrationTests.DiagnosticScannerTests.Test1&lt;/TestId&gt;
+      &lt;TestId&gt;NUnit3x::A5658385-5312-4562-9BA1-87D613DB57EE::net9.0::HareDu.Shovel.IntegrationTests.ShovelTests.Verify_can_get_all_shovels4&lt;/TestId&gt;
     &lt;/TestAncestor&gt;
     &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.Tests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Unit&amp;gt;\&amp;lt;HareDu.Tests&amp;gt;" /&gt;
     &lt;Project Location="/Users/ahives/Documents/git/HareDu3/src/HareDu.IntegrationTests" Presentation="&amp;lt;Testing&amp;gt;\&amp;lt;Integration&amp;gt;\&amp;lt;HareDu.IntegrationTests&amp;gt;" /&gt;
