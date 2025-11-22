@@ -12,106 +12,105 @@ using Model;
 public static class ChannelExtensions
 {
     /// <summary>
-    /// Retrieves all channel information across the RabbitMQ broker.
+    /// Provides extension methods for retrieving consumer information from the RabbitMQ broker via the HareDu library.
     /// </summary>
-    /// <param name="factory">The API factory that provides access to RabbitMQ broker operations.</param>
-    /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
-    /// <param name="pagination">Optional configuration for pagination of channel results.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
-    /// <returns>A task representing the asynchronous operation, containing a collection of channel information.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Results<ChannelInfo>> GetAllChannels(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [AllowNull] Action<PaginationConfigurator> pagination = null,
-        [NotNull] CancellationToken cancellationToken = default)
+    /// <param name="factory">The broker factory that provides access to the RabbitMQ API.</param>
+    extension([NotNull] IHareDuFactory factory)
     {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves all channel information across the RabbitMQ broker.
+        /// </summary>
+        /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
+        /// <param name="pagination">Optional configuration for pagination of channel results.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
+        /// <returns>A task representing the asynchronous operation, containing a collection of channel information.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Results<ChannelInfo>> GetAllChannels(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [AllowNull] Action<PaginationConfigurator> pagination = null,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Channel>(credentials)
-            .GetAll(pagination, cancellationToken)
-            .ConfigureAwait(false);
-    }
+            return await factory
+                .API<Channel>(credentials)
+                .GetAll(pagination, cancellationToken)
+                .ConfigureAwait(false);
+        }
 
-    /// <summary>
-    /// Retrieves all channel information associated with a specific connection in the RabbitMQ broker.
-    /// </summary>
-    /// <param name="factory">The API factory that provides access to RabbitMQ broker operations.</param>
-    /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
-    /// <param name="connectionName">The name of the connection for which the channel information will be retrieved.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
-    /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified connection.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Results<ChannelInfo>> GetChannelsByConnection(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] string connectionName,
-        [NotNull] CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves all channel information associated with a specific connection in the RabbitMQ broker.
+        /// </summary>
+        /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
+        /// <param name="connectionName">The name of the connection for which the channel information will be retrieved.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
+        /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified connection.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Results<ChannelInfo>> GetChannelsByConnection(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] string connectionName,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Channel>(credentials)
-            .GetByConnection(connectionName, cancellationToken)
-            .ConfigureAwait(false);
-    }
+            return await factory
+                .API<Channel>(credentials)
+                .GetByConnection(connectionName, cancellationToken)
+                .ConfigureAwait(false);
+        }
 
-    /// <summary>
-    /// Retrieves all channel information for a specific virtual host from the RabbitMQ broker.
-    /// </summary>
-    /// <param name="factory">The API factory that provides access to RabbitMQ broker operations.</param>
-    /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
-    /// <param name="vhost">The name of the virtual host for which channel information is to be retrieved.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
-    /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified virtual host.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] string vhost,
-        [NotNull] CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves all channel information for a specific virtual host from the RabbitMQ broker.
+        /// </summary>
+        /// <param name="credentials">The credentials required to authenticate with the RabbitMQ API.</param>
+        /// <param name="vhost">The name of the virtual host for which channel information is to be retrieved.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
+        /// <returns>A task representing the asynchronous operation, containing a collection of channel information for the specified virtual host.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Results<ChannelInfo>> GetChannelsByVirtualHost(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] string vhost,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Channel>(credentials)
-            .GetByVirtualHost(vhost, cancellationToken)
-            .ConfigureAwait(false);
-    }
+            return await factory
+                .API<Channel>(credentials)
+                .GetByVirtualHost(vhost, cancellationToken)
+                .ConfigureAwait(false);
+        }
 
-    /// <summary>
-    /// Retrieves information about a specific channel by its name.
-    /// </summary>
-    /// <param name="factory">The API factory that provides access to RabbitMQ broker operations.</param>
-    /// <param name="credentials">Action to configure the credentials for authentication with the RabbitMQ broker.</param>
-    /// <param name="name">The name of the channel to retrieve information for.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the result of the channel information.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Result<ChannelInfo>> GetChannelByName(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] string name,
-        [NotNull] CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves information about a specific channel by its name.
+        /// </summary>
+        /// <param name="credentials">Action to configure the credentials for authentication with the RabbitMQ broker.</param>
+        /// <param name="name">The name of the channel to retrieve information for.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running asynchronously.</param>
+        /// <returns>A task that represents the asynchronous operation, containing the result of the channel information.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Result<ChannelInfo>> GetChannelByName(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] string name,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Channel>(credentials)
-            .GetByName(name, cancellationToken)
-            .ConfigureAwait(false);
+            return await factory
+                .API<Channel>(credentials)
+                .GetByName(name, cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 }

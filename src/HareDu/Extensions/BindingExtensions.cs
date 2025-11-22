@@ -12,26 +12,31 @@ using Model;
 public static class BindingExtensions
 {
     /// <summary>
-    /// Retrieves all bindings from the broker asynchronously.
+    /// Provides extension methods for retrieving consumer information from the RabbitMQ broker via the HareDu library.
     /// </summary>
-    /// <param name="factory">The factory interface for interacting with the broker APIs.</param>
-    /// <param name="credentials">An action to configure credentials for the broker connection.</param>
-    /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
-    /// <returns>A task representing the asynchronous operation, containing the results of the bindings information.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    public static async Task<Results<BindingInfo>> GetAllBindings(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] CancellationToken cancellationToken = default)
+    /// <param name="factory">The broker factory that provides access to the RabbitMQ API.</param>
+    extension([NotNull] IHareDuFactory factory)
     {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves all bindings from the broker asynchronously.
+        /// </summary>
+        /// <param name="credentials">An action to configure credentials for the broker connection.</param>
+        /// <param name="cancellationToken">A token to observe while waiting for the task to complete.</param>
+        /// <returns>A task representing the asynchronous operation, containing the results of the bindings information.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        public async Task<Results<BindingInfo>> GetAllBindings(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Binding>(credentials)
-            .GetAll(cancellationToken)
-            .ConfigureAwait(false);
+            return await factory
+                .API<Binding>(credentials)
+                .GetAll(cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 }
 

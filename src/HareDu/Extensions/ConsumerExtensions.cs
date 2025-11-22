@@ -12,52 +12,55 @@ using Model;
 public static class ConsumerExtensions
 {
     /// <summary>
-    /// Retrieves information about all consumers on the RabbitMQ node.
+    /// Provides extension methods for retrieving consumer information from the RabbitMQ broker via the HareDu library.
     /// </summary>
-    /// <param name="factory">The factory instance used to access the RabbitMQ broker functionalities.</param>
-    /// <param name="credentials">The credentials provider action to authenticate access to RabbitMQ resources.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation, containing the result of consumer information from the RabbitMQ node.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Results<ConsumerInfo>> GetAllConsumers(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] CancellationToken cancellationToken = default)
+    /// <param name="factory">The broker factory that provides access to the RabbitMQ API.</param>
+    extension([NotNull] IHareDuFactory factory)
     {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves information about all consumers on the RabbitMQ node.
+        /// </summary>
+        /// <param name="credentials">The credentials provider action to authenticate access to RabbitMQ resources.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns>A task representing the asynchronous operation, containing the result of consumer information from the RabbitMQ node.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Results<ConsumerInfo>> GetAllConsumers(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Consumer>(credentials)
-            .GetAll(cancellationToken)
-            .ConfigureAwait(false);
-    }
+            return await factory
+                .API<Consumer>(credentials)
+                .GetAll(cancellationToken)
+                .ConfigureAwait(false);
+        }
 
-    /// <summary>
-    /// Retrieves information about all consumers within a specific virtual host on the RabbitMQ node.
-    /// </summary>
-    /// <param name="factory">The factory instance used to access RabbitMQ broker functionalities.</param>
-    /// <param name="credentials">The credential provider action to authenticate access to RabbitMQ resources.</param>
-    /// <param name="vhost">The name of the virtual host whose consumer information is to be retrieved.</param>
-    /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
-    /// <returns>A task representing the asynchronous operation, containing the result of consumer information specific to the provided virtual host.</returns>
-    /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
-    /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
-    /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
-    [return: NotNull]
-    public static async Task<Results<ConsumerInfo>> GetConsumersByVirtualHost(
-        [NotNull] this IHareDuFactory factory,
-        [NotNull] Action<HareDuCredentialProvider> credentials,
-        [NotNull] string vhost,
-        [NotNull] CancellationToken cancellationToken = default)
-    {
-        Guard.IsNotNull(factory);
+        /// <summary>
+        /// Retrieves information about all consumers within a specific virtual host on the RabbitMQ node.
+        /// </summary>
+        /// <param name="credentials">The credential provider action to authenticate access to RabbitMQ resources.</param>
+        /// <param name="vhost">The name of the virtual host whose consumer information is to be retrieved.</param>
+        /// <param name="cancellationToken">Token used to cancel the operation running on the current thread.</param>
+        /// <returns>A task representing the asynchronous operation, containing the result of consumer information specific to the provided virtual host.</returns>
+        /// <exception cref="ArgumentNullException">Throws if IBrokerFactory is null.</exception>
+        /// <exception cref="OperationCanceledException">Throws if the thread has a cancellation request.</exception>
+        /// <exception cref="HareDuSecurityException">Throws if the user credentials are not valid.</exception>
+        [return: NotNull]
+        public async Task<Results<ConsumerInfo>> GetConsumersByVirtualHost(
+            [NotNull] Action<HareDuCredentialProvider> credentials,
+            [NotNull] string vhost,
+            [NotNull] CancellationToken cancellationToken = default)
+        {
+            Guard.IsNotNull(factory);
 
-        return await factory
-            .API<Consumer>(credentials)
-            .GetByVirtualHost(vhost, cancellationToken)
-            .ConfigureAwait(false);
+            return await factory
+                .API<Consumer>(credentials)
+                .GetByVirtualHost(vhost, cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 }
